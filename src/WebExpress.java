@@ -15,7 +15,7 @@ public class WebExpress extends CommonRail
 
     protected ServerSocket AES2_server_socket;
 
-    protected ArrayList<MessageQueue> message_queue = new ArrayList<>(5000);
+    protected MessageQueue message_queue = new MessageQueue(5000);
 
     protected TelnetCommunicator telnet_communicator = new TelnetCommunicator();
 
@@ -56,11 +56,11 @@ public class WebExpress extends CommonRail
         {
             for(;;)
             {
-                ArrayList<MessageQueue> message_queue = this.web_express.message_queue;
+                MessageQueue message_queue = this.web_express.message_queue;
 
-                for(int i=0; i<message_queue.size(); i++)
+                for(int i=0; i<message_queue.messages.size(); i++)
                 {
-                    MessageQueue message = message_queue.get(i);
+                    MessageQueue.Message message = message_queue.messages.get(i);
 
                     try
                     {
@@ -85,12 +85,21 @@ public class WebExpress extends CommonRail
                     {
                         BufferedReader reader = this.web_express.telnet_communicator.reader;
 
+                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(message.socket.getOutputStream()));
+
                         String line = null;
 
                         while((line=reader.readLine())!=null)
                         {
+                            if(CommonRail.CommonUtils.socketIsConnected(message.socket))
+                            {
+                                writer.write(line);
 
+                                writer.flush();
+                            }
                         }
+
+                        writer.close();
                     }
                     catch (Exception e)
                     {
@@ -103,18 +112,28 @@ public class WebExpress extends CommonRail
 
     public static class MessageQueue
     {
-        public MessageQueue()
-        {
+        protected ArrayList<Message> messages;
 
+        public MessageQueue(Integer size)
+        {
+            this.messages = new ArrayList<>();
         }
 
-        protected Socket socket;
+        public void add(Message message)
+        {
+            this.messages.add(message);
+        }
 
-        protected Date time_stamp;
+        public static class Message
+        {
+            protected Socket socket;
 
-        protected StringBuffer message_buffer = new StringBuffer();
+            protected Date time_stamp;
 
-        protected InetAddress internet_address;
+            protected StringBuffer message_buffer = new StringBuffer();
+
+            protected InetAddress internet_address;
+        }
     }
 
     public void install_network_hooks()
@@ -139,13 +158,13 @@ public class WebExpress extends CommonRail
             {
                 Socket socket = this.WebExpress_server_socket.accept();
 
-                MessageQueue message_queue = new MessageQueue();
+                MessageQueue.Message message = new MessageQueue.Message();
 
-                message_queue.socket = socket;
+                message.socket = socket;
 
-                message_queue.internet_address = socket.getInetAddress();
+                message.internet_address = socket.getInetAddress();
 
-                message_queue.time_stamp = new Date(System.currentTimeMillis());
+                message.time_stamp = new Date(System.currentTimeMillis());
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -158,9 +177,9 @@ public class WebExpress extends CommonRail
                     buffer.append(line);
                 }
 
-                message_queue.message_buffer = buffer;
+                message.message_buffer = buffer;
 
-                this.message_queue.add(message_queue);
+                this.message_queue.add(message);
 
                 Thread.sleep(100);
             }

@@ -1,3 +1,5 @@
+import java.net.Socket;
+
 public class CommonRail
 {
     protected void _long(final String orgasm, WebExpress web_express, Integer not_less_than)
@@ -27,6 +29,23 @@ public class CommonRail
                 }
 
                 break;
+        }
+    }
+
+    public static class CommonUtils
+    {
+        public static Boolean socketIsConnected(Socket socket)
+        {
+            try
+            {
+                socket.getOutputStream().write("".getBytes());
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 
