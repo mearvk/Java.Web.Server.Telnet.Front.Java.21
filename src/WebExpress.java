@@ -11,7 +11,7 @@ public class WebExpress extends CommonRail
 
     protected Integer AES2_listener_port = 5512;
 
-    protected ServerSocket server_socket;
+    protected ServerSocket WebExpress_server_socket;
 
     protected ServerSocket AES2_server_socket;
 
@@ -80,6 +80,22 @@ public class WebExpress extends CommonRail
                     {
                         throw new RuntimeException(e);
                     }
+
+                    try
+                    {
+                        BufferedReader reader = this.web_express.telnet_communicator.reader;
+
+                        String line = null;
+
+                        while((line=reader.readLine())!=null)
+                        {
+
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace(System.err);
+                    }
                 }
             }
         }
@@ -105,7 +121,7 @@ public class WebExpress extends CommonRail
     {
         try
         {
-            this.server_socket = new ServerSocket(this.WebExpress_listener_port);
+            this.WebExpress_server_socket = new ServerSocket(this.WebExpress_listener_port);
 
             this.AES2_server_socket = new ServerSocket(this.AES2_listener_port);
         }
@@ -121,7 +137,7 @@ public class WebExpress extends CommonRail
         {
             for(;;)
             {
-                Socket socket = this.server_socket.accept();
+                Socket socket = this.WebExpress_server_socket.accept();
 
                 MessageQueue message_queue = new MessageQueue();
 
