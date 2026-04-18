@@ -4,10 +4,10 @@ public class Main
     {
         WebExpress web_express = new WebExpress();
 
-        web_express.install();
+        web_express.install_network_hooks();
 
-        web_express.listen();
+        web_express.install_remote_connections();
 
-        web_express.local();
+        web_express.install_local_connections();
     }
 }

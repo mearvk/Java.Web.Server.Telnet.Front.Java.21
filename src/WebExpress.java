@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,7 +7,7 @@ import java.util.Date;
 
 public class WebExpress extends CommonRail
 {
-    protected Integer listener_port = 49152;
+    protected Integer WebExpress_listener_port = 49152;
 
     protected Integer AES2_listener_port = 5512;
 
@@ -22,7 +19,7 @@ public class WebExpress extends CommonRail
 
     protected TelnetCommunicator telnet_communicator = new TelnetCommunicator();
 
-    protected MessageQueueSorter sorter = new MessageQueueSorter();
+    protected MessageQueueSorter sorter = new MessageQueueSorter(this);
 
     public WebExpress()
     {
@@ -47,15 +44,44 @@ public class WebExpress extends CommonRail
 
     public static class MessageQueueSorter extends Thread
     {
-        public MessageQueueSorter()
-        {
+        protected WebExpress web_express;
 
+        public MessageQueueSorter(WebExpress web_express)
+        {
+            this.web_express = web_express;
         }
 
         @Override
         public void run()
         {
+            for(;;)
+            {
+                ArrayList<MessageQueue> message_queue = this.web_express.message_queue;
 
+                for(int i=0; i<message_queue.size(); i++)
+                {
+                    MessageQueue message = message_queue.get(i);
+
+                    try
+                    {
+                        BufferedWriter writer = this.web_express.telnet_communicator.writer;
+
+                        writer.write("[MESSAGE]: "+message.message_buffer);
+
+                        writer.write("[DATE]: "+message.time_stamp);
+
+                        writer.write("[IP ADDRESS]: "+message.internet_address);
+
+                        writer.write("[SOCKET]: "+message.socket);
+
+                        writer.flush();
+                    }
+                    catch (IOException e)
+                    {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         }
     }
 
@@ -75,11 +101,11 @@ public class WebExpress extends CommonRail
         protected InetAddress internet_address;
     }
 
-    public void install()
+    public void install_network_hooks()
     {
         try
         {
-            this.server_socket = new ServerSocket(this.listener_port);
+            this.server_socket = new ServerSocket(this.WebExpress_listener_port);
 
             this.AES2_server_socket = new ServerSocket(this.AES2_listener_port);
         }
@@ -89,7 +115,7 @@ public class WebExpress extends CommonRail
         }
     }
 
-    public void listen()
+    public void install_remote_connections()
     {
         try
         {
@@ -129,7 +155,7 @@ public class WebExpress extends CommonRail
         }
     }
 
-    public void local()
+    public void install_local_connections()
     {
         try
         {
