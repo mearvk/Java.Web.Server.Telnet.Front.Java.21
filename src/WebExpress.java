@@ -79,6 +79,11 @@ public class WebExpress extends CommonRail
         return this.message_queue;
     }
 
+    public synchronized Integer getSize()
+    {
+        return this.message_queue.messages.size();
+    }
+
     public static class TelnetCommunicator
     {
         public TelnetCommunicator()
