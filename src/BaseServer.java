@@ -1,11 +1,9 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.SocketException;
 import java.util.ArrayList;
 
 public abstract class BaseServer extends Thread
@@ -22,7 +20,7 @@ public abstract class BaseServer extends Thread
 
     public Boolean running = true;
 
-    public ArrayList<Connections> connections = new ArrayList<>();
+    public ArrayList<Connection> connections = new ArrayList<>();
 
     public BaseServer(String host, Integer port)
     {
@@ -103,9 +101,9 @@ public abstract class BaseServer extends Thread
         {
             while(running)
             {
-                Connections connection;
+                Connection connection;
 
-                connection = new Connections(this);
+                connection = new Connection(this);
 
                 connection.socket = this.server_socket.accept();
 
@@ -149,7 +147,7 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.thread = new PublicListener(connection);
+                    connection.thread = new PublicListener();
 
                     connection.thread.start();
                 }
@@ -167,13 +165,9 @@ public abstract class BaseServer extends Thread
                 this.connections.add(connection);
             }
         }
-        catch(SocketException se)
+        catch(Exception se)
         {
             se.printStackTrace(System.err);
-        }
-        catch(IOException ioe)
-        {
-            ioe.printStackTrace(System.err);
         }
     }
 }

@@ -3,19 +3,19 @@ import java.util.Queue;
 
 public class Inputqueue
 {
-    public Queue<Connections> queue = new LinkedList<>();
+    public Queue<Connection> queue = new LinkedList<>();
 
-    public void add(Connections connection)
+    public void add(Connection connection)
     {
         this.queue.add(connection);
     }
 
-    public void remove(Connections connection)
+    public void remove(Connection connection)
     {
         this.queue.remove(connection);
     }
 
-    public Connections peek()
+    public Connection peek()
     {
         return this.queue.peek();
     }

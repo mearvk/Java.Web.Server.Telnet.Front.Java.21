@@ -1,16 +1,15 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.Socket;
 import java.util.Date;
 
 public class PublicListener extends Thread
 {
     protected WebExpress web_express;
 
-    protected Connections network_context;
-
-    public PublicListener(Connections network_context)
+    public PublicListener()
     {
-        this.network_context = network_context;
+
     }
 
     public PublicListener(WebExpress web_express)
@@ -23,9 +22,9 @@ public class PublicListener extends Thread
     {
         try
         {
-            for(int i=0; i<network_context.)
+            for(;;)
             {
-                //Socket socket = this.web_express.web_express_server_socket.accept();
+                Socket socket = this.web_express.web_express_server_socket.accept();
 
                 System.out.println("WebExpress >> new connection ["+socket.toString()+"].");
 
