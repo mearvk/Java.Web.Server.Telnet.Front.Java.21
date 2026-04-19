@@ -16,7 +16,7 @@ import java.util.List;
 
 public class WebExpress extends CommonRail
 {
-    protected final String TELNET_PROXY_SERVER = "telnet localhost 80";
+    protected final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};
 
     protected final Integer WEB_EXPRESS_SERVER_SOCKET = 49152;
 
@@ -301,7 +301,7 @@ public class WebExpress extends CommonRail
     {
         try
         {
-            this.telnet_communicator.process_builder.command("telnet", "localhost", "80");
+            this.telnet_communicator.process_builder.command(TELNET_PROXY_SERVER_ARGS);
 
             this.telnet_communicator.process = this.telnet_communicator.process_builder.start();
 
