@@ -144,7 +144,7 @@ public class WebExpress extends CommonRail
                         buffer.append(line);
                     }
 
-                    message.message_buffer = buffer;
+                    message.message_buffer = new StringBuffer(buffer);
 
                     this.web_express.addMessage(message);
 
