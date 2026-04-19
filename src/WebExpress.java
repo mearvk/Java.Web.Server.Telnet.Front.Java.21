@@ -195,7 +195,7 @@ public class WebExpress extends CommonRail
                     {
                         this.web_express.current_connections.remove(message.socket);
 
-                        System.out.println("WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
+                        System.out.println("WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size())+"].");
 
                         break;
                     }
