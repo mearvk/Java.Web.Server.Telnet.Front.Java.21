@@ -6,13 +6,7 @@
  */
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 public class WebExpress extends BaseServer
 {
@@ -22,19 +16,9 @@ public class WebExpress extends BaseServer
 
     protected static final Integer AES2_EXPRESS_SERVER_SOCKET = 5512;
 
-    protected ServerSocket web_express_server_socket;
-
-    protected ServerSocket aes2_server_socket;
-
-    protected MessageQueue message_queue = new MessageQueue(5000);
-
     protected TelnetCommunicator telnet_communicator;
 
     protected MessageQueueSorter message_queue_sorter;
-
-    protected CurrentConnections current_connections = new CurrentConnections();
-
-    protected PublicListener public_socket_listener;
 
     public WebExpress()
     {
@@ -48,30 +32,7 @@ public class WebExpress extends BaseServer
 
         this.message_queue_sorter = new MessageQueueSorter(this);
 
-        this.public_socket_listener = new PublicListener(this);
-
-        this.public_socket_listener.start();
-
         this.message_queue_sorter.start();
-    }
-
-    public synchronized void addMessage(MessageQueue.Message message)
-    {
-        System.out.println("WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
-
-        this.message_queue.add(message);
-
-        System.out.println("WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
-    }
-
-    public synchronized MessageQueue getMessageQueue()
-    {
-        return this.message_queue;
-    }
-
-    public synchronized Integer getMessageQueueSize()
-    {
-        return this.message_queue.messages.size();
     }
 
     public static class TelnetCommunicator
@@ -141,7 +102,7 @@ public class WebExpress extends BaseServer
                     }
                     catch (NullPointerException npe)
                     {
-                        this.web_express.current_connections.remove(message.socket);
+                        //this.web_express.current_connections.remove(message.socket);
 
                         System.out.println("WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size())+"].");
 
@@ -172,7 +133,7 @@ public class WebExpress extends BaseServer
                             }
                             else
                             {
-                                this.web_express.current_connections.remove(message.socket);
+                                //this.web_express.current_connections.remove(message.socket);
 
                                 System.out.println("WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
 
@@ -197,35 +158,6 @@ public class WebExpress extends BaseServer
                     e.printStackTrace(System.err);
                 }
             }
-        }
-    }
-
-    public static class MessageQueue
-    {
-        protected List<Message> messages;
-
-        public MessageQueue(Integer size)
-        {
-            this.messages = Collections.synchronizedList(messages = new ArrayList<>());
-        }
-
-        public void add(Message message)
-        {
-            synchronized (this)
-            {
-                this.messages.add(message);
-            }
-        }
-
-        public static class Message
-        {
-            protected Socket socket;
-
-            protected Date time_stamp;
-
-            protected StringBuffer message_buffer = new StringBuffer();
-
-            protected InetAddress internet_address;
         }
     }
 

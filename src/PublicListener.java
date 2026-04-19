@@ -5,16 +5,16 @@ import java.util.Date;
 
 public class PublicListener extends Thread
 {
-    protected WebExpress web_express;
+    protected BaseServer base_server;
 
     public PublicListener()
     {
 
     }
 
-    public PublicListener(WebExpress web_express)
+    public PublicListener(BaseServer base_server)
     {
-        this.web_express = web_express;
+        this.base_server = base_server;
     }
 
     @Override
@@ -24,13 +24,11 @@ public class PublicListener extends Thread
         {
             for(;;)
             {
-                Socket socket = this.web_express.web_express_server_socket.accept();
+                Socket socket = this.base_server.web_express_server_socket.accept();
 
                 System.out.println("WebExpress >> new connection ["+socket.toString()+"].");
 
-                System.out.println("WebExpress >> new connection count ["+(this.web_express.current_connections.size()+1)+"].");
-
-                this.web_express.current_connections.add(socket);
+                System.out.println("WebExpress >> new connection count ["+(this.base_server.current_connections.size()+1)+"].");
 
                 WebExpress.MessageQueue.Message message = new WebExpress.MessageQueue.Message();
 
@@ -55,7 +53,7 @@ public class PublicListener extends Thread
 
                 message.message_buffer = new StringBuffer(buffer);
 
-                this.web_express.addMessage(message);
+                this.base_server.addMessage(message);
 
                 Thread.sleep(100);
             }
