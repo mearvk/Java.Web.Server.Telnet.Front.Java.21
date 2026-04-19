@@ -62,6 +62,11 @@ public class WebExpress extends CommonRail
         this.message_queue_sorter.start();
     }
 
+    public MessageQueue getMessageQueue()
+    {
+        return this.message_queue;
+    }
+
     public static class TelnetCommunicator
     {
         public TelnetCommunicator()
@@ -153,7 +158,7 @@ public class WebExpress extends CommonRail
 
             for(;;)
             {
-                MessageQueue message_queue = this.web_express.message_queue;
+                MessageQueue message_queue = this.web_express.getMessageQueue();
 
                 System.out.println("WebExpress::MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
 
