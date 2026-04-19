@@ -9,7 +9,10 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class WebExpress extends CommonRail
@@ -32,7 +35,7 @@ public class WebExpress extends CommonRail
 
     protected CurrentConnections current_connections = new CurrentConnections();
 
-    protected PublicSocketListener public_socket_lister;
+    protected PublicSocketListener public_socket_listener;
 
     public WebExpress()
     {
@@ -55,9 +58,9 @@ public class WebExpress extends CommonRail
 
         this.message_queue_sorter = new MessageQueueSorter(this);
 
-        this.public_socket_lister = new PublicSocketListener(this);
+        this.public_socket_listener = new PublicSocketListener(this);
 
-        this.public_socket_lister.start();
+        this.public_socket_listener.start();
 
         this.message_queue_sorter.start();
     }
@@ -259,11 +262,11 @@ public class WebExpress extends CommonRail
 
     public static class MessageQueue
     {
-        protected CopyOnWriteArrayList<Message> messages;
+        protected List<Message> messages;
 
         public MessageQueue(Integer size)
         {
-            this.messages = new CopyOnWriteArrayList<>();
+            this.messages = Collections.synchronizedList(messages = new ArrayList<>());
         }
 
         public void add(Message message)
