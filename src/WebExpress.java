@@ -226,7 +226,7 @@ public class WebExpress extends CommonRail
 
                 try
                 {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 }
                 catch (Exception e)
                 {
@@ -315,7 +315,7 @@ public class WebExpress extends CommonRail
 
                 this.message_queue.add(message);
 
-                Thread.sleep(100);
+                Thread.sleep(1000);
             }
         }
         catch (Exception e)
