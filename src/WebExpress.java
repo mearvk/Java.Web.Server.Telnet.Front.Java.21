@@ -147,7 +147,7 @@ public class WebExpress extends CommonRail
 
                     try
                     {
-                        if(Utils.socketIsConnected(message.socket))
+                        if(SocketUtils.isSocketConnected(message.socket))
                         {
                             BufferedWriter writer = this.web_express.telnet_communicator.writer;
 
@@ -189,7 +189,7 @@ public class WebExpress extends CommonRail
 
                         while((line=reader.readLine())!=null)
                         {
-                            if(Utils.socketIsConnected(message.socket))
+                            if(SocketUtils.isSocketConnected(message.socket))
                             {
                                 System.out.println("MessageQueueSorter >> replying with Proxy message ["+line+"].");
 

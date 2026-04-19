@@ -37,9 +37,9 @@ public class CommonRail
         }
     }
 
-    public static class Utils
+    public static class SocketUtils
     {
-        public static Boolean socketIsConnected(Socket socket)
+        public static Boolean isSocketConnected(Socket socket)
         {
             try
             {
