@@ -80,8 +80,6 @@ public class WebExpress extends BaseServer
                 e.printStackTrace(System.err);
             }
         }
-
-
     }
 
     public static class MessageQueueSorter extends Thread
