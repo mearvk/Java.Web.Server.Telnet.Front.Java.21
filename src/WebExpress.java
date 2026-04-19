@@ -25,6 +25,8 @@ public class WebExpress extends CommonRail
 
     protected CurrentConnections current_connections = new CurrentConnections();
 
+    protected PublicSocketListener public_socket_lister;
+
     public WebExpress()
     {
         System.out.println("WebExpress >> starts ["+new Date()+"].");
@@ -35,6 +37,10 @@ public class WebExpress extends CommonRail
 
         this.message_queue_sorter = new MessageQueueSorter(this);
 
+        this.public_socket_lister = new PublicSocketListener(this);
+
+        this.public_socket_lister.start();
+
         this.message_queue_sorter.start();
     }
 
@@ -42,7 +48,7 @@ public class WebExpress extends CommonRail
     {
         public TelnetCommunicator()
         {
-            System.out.println("WebExpress::TelnetCommunicator >> starts ["+new Date()+"].");
+            System.out.println("WebExpress::Telnet::Communicator >> starts ["+new Date()+"].");
         }
 
         protected ProcessBuilder process_builder = new ProcessBuilder();
@@ -52,6 +58,65 @@ public class WebExpress extends CommonRail
         protected BufferedWriter writer;
 
         protected BufferedReader reader;
+    }
+
+    public static class PublicSocketListener extends Thread
+    {
+        protected WebExpress web_express;
+
+        public PublicSocketListener(WebExpress web_express)
+        {
+            this.web_express = web_express;
+        }
+
+        @Override
+        public void run()
+        {
+            try
+            {
+                for(;;)
+                {
+                    Socket socket = this.web_express.web_express_server_socket.accept();
+
+                    System.out.println("WebExpress >> new connection ["+socket.toString()+"].");
+
+                    System.out.println("WebExpress >> new connection stored; new count ["+(this.web_express.current_connections.size()+1)+"].");
+
+                    this.web_express.current_connections.add(socket);
+
+                    MessageQueue.Message message = new MessageQueue.Message();
+
+                    message.socket = socket;
+
+                    message.internet_address = socket.getInetAddress();
+
+                    message.time_stamp = new Date(System.currentTimeMillis());
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                    StringBuffer buffer = new StringBuffer();
+
+                    String line = null;
+
+                    while ((line=reader.readLine())!=null)
+                    {
+                        System.out.println("WebExpress::Public::Socket >> reading in input for Telnet Proxy ["+line+"].");
+
+                        buffer.append(line);
+                    }
+
+                    message.message_buffer = buffer;
+
+                    this.web_express.message_queue.add(message);
+
+                    Thread.sleep(100);
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.err);
+            }
+        }
     }
 
     public static class MessageQueueSorter extends Thread
@@ -82,25 +147,25 @@ public class WebExpress extends CommonRail
 
                     try
                     {
-                        if(CommonRail.CommonUtils.socketIsConnected(message.socket))
+                        if(Utils.socketIsConnected(message.socket))
                         {
                             BufferedWriter writer = this.web_express.telnet_communicator.writer;
 
-                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [MESSAGE]: " + message.message_buffer + "].");
+                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [Message]: " + message.message_buffer + "].");
 
-                            writer.write("[MESSAGE]: " + message.message_buffer);
+                            writer.write("[Message]: " + message.message_buffer);
 
-                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [DATE]: " + message.time_stamp + "].");
+                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [Date]: " + message.time_stamp + "].");
 
-                            writer.write("[DATE]: " + message.time_stamp);
+                            writer.write("[Date]: " + message.time_stamp);
 
-                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [IP ADDRESS]: " + message.internet_address + "].");
+                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [IP Address]: " + message.internet_address + "].");
 
-                            writer.write("[IP ADDRESS]: " + message.internet_address);
+                            writer.write("[IP Address]: " + message.internet_address);
 
-                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [SOCKET]: " + message.socket + "].");
+                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [Socket]: " + message.socket + "].");
 
-                            writer.write("[SOCKET]: " + message.socket);
+                            writer.write("[Socket]: " + message.socket);
 
                             writer.flush();
                         }
@@ -124,7 +189,7 @@ public class WebExpress extends CommonRail
 
                         while((line=reader.readLine())!=null)
                         {
-                            if(CommonRail.CommonUtils.socketIsConnected(message.socket))
+                            if(Utils.socketIsConnected(message.socket))
                             {
                                 System.out.println("MessageQueueSorter >> replying with Proxy message ["+line+"].");
 

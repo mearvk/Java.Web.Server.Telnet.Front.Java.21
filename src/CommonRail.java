@@ -1,5 +1,4 @@
 import java.net.Socket;
-import java.util.Date;
 
 public class CommonRail
 {
@@ -38,7 +37,7 @@ public class CommonRail
         }
     }
 
-    public static class CommonUtils
+    public static class Utils
     {
         public static Boolean socketIsConnected(Socket socket)
         {
