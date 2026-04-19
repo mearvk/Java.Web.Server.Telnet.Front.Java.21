@@ -70,7 +70,7 @@ public class WebExpress extends CommonRail
 
         this.message_queue.add(message);
 
-        System.out.println("WebExpress::Telnet::Communicator >> starts ["+this.getMessageQueueSize()+"].");
+        System.out.println("WebExpress::addMessage >> size after ["+this.getMessageQueueSize()+"].");
     }
 
     public synchronized MessageQueue getMessageQueue()
