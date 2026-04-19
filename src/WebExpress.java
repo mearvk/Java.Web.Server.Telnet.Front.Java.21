@@ -2,8 +2,8 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class WebExpress extends CommonRail
 {
@@ -70,13 +70,13 @@ public class WebExpress extends CommonRail
             {
                 MessageQueue message_queue = this.web_express.message_queue;
 
-                System.out.println("WebExpress::MessageQueueSorter >> reports messaage queue has size of ["+message_queue.messages.size()+"].");
+                System.out.println("WebExpress::MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
 
                 for(int i=0; i<message_queue.messages.size(); i++)
                 {
                     System.out.println("WebExpress::MessageQueueSorter >> received message.");
 
-                    MessageQueue.Message message = message_queue.messages.get(i);
+                    MessageQueue.Message message = message_queue.messages.remove(i);
 
                     try
                     {
@@ -102,6 +102,10 @@ public class WebExpress extends CommonRail
 
                             writer.flush();
                         }
+                    }
+                    catch (NullPointerException npe)
+                    {
+                        break;
                     }
                     catch (IOException e)
                     {
@@ -150,11 +154,11 @@ public class WebExpress extends CommonRail
 
     public static class MessageQueue
     {
-        protected ArrayList<Message> messages;
+        protected CopyOnWriteArrayList<Message> messages;
 
         public MessageQueue(Integer size)
         {
-            this.messages = new ArrayList<>();
+            this.messages = new CopyOnWriteArrayList<>();
         }
 
         public void add(Message message)
@@ -214,7 +218,7 @@ public class WebExpress extends CommonRail
 
                 for(;(line=reader.readLine())!=null;)
                 {
-                    System.out.println("WebExpress::PublicSocket >> reading in input for Proxy ["+line+"].");
+                    System.out.println("WebExpress::PublicSocket >> reading in input for Telnet Proxy ["+line+"].");
 
                     buffer.append(line);
                 }
