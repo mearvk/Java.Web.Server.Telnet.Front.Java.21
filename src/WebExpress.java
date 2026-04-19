@@ -279,7 +279,7 @@ public class WebExpress extends CommonRail
 
         public void add(Message message)
         {
-            synchronized (this.messages)
+            synchronized (this)
             {
                 this.messages.add(message);
             }
