@@ -1,13 +1,13 @@
 import java.net.Socket;
 
-public class CommonRail
+public class CommonRails
 {
-    public CommonRail()
+    public CommonRails()
     {
 
     }
 
-    protected void _long(final String orgasm, WebExpress web_express, Integer not_less_than)
+    protected static void _long(final String orgasm, WebExpress web_express, Integer not_less_than)
     {
         try
         {
@@ -24,7 +24,7 @@ public class CommonRail
 
                 try
                 {
-                    TelnetCallOnComplete call_on_complete = new TelnetCallOnComplete(this, web_express);
+                    TelnetCallOnComplete call_on_complete = new TelnetCallOnComplete(web_express);
 
                     call_on_complete.run();
                 }
@@ -44,26 +44,36 @@ public class CommonRail
             try
             {
                 socket.getOutputStream().write("".getBytes());
-
-                return true;
             }
             catch (Exception e)
             {
                 return false;
             }
+
+            return true;
+        }
+
+        public static Boolean isSocketClosed(Socket socket)
+        {
+            try
+            {
+                socket.getOutputStream().write("".getBytes());
+            }
+            catch(Exception e)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 
     public static class TelnetCallOnComplete implements Runnable
     {
-        protected CommonRail common_rail;
-
         protected WebExpress web_express;
 
-        public TelnetCallOnComplete(CommonRail common_rail, WebExpress web_express)
+        public TelnetCallOnComplete(WebExpress web_express)
         {
-            this.common_rail = common_rail;
-
             this.web_express = web_express;
         }
 
