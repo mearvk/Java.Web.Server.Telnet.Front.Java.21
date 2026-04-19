@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class WebExpress extends CommonRail
 {
+    protected final String telnet_proxy_server = "telnet tacobell.phd 80";
+
     protected Integer WebExpress_listener_port = 49152;
 
     protected Integer AES2_listener_port = 5512;
@@ -19,11 +21,11 @@ public class WebExpress extends CommonRail
 
     protected TelnetCommunicator telnet_communicator = new TelnetCommunicator();
 
-    protected MessageQueueSorter sorter = new MessageQueueSorter(this);
+    protected MessageQueueSorter message_queue_sorter = new MessageQueueSorter(this);
 
     public WebExpress()
     {
-
+        this.message_queue_sorter.start();
     }
 
     public static class TelnetCommunicator
@@ -48,6 +50,8 @@ public class WebExpress extends CommonRail
 
         public MessageQueueSorter(WebExpress web_express)
         {
+            System.out.println("MessageQueueSorter >> starts.");
+
             this.web_express = web_express;
         }
 
@@ -60,17 +64,27 @@ public class WebExpress extends CommonRail
 
                 for(int i=0; i<message_queue.messages.size(); i++)
                 {
+                    System.out.println("MessageQueueSorter >> received message.");
+
                     MessageQueue.Message message = message_queue.messages.get(i);
 
                     try
                     {
                         BufferedWriter writer = this.web_express.telnet_communicator.writer;
 
+                        System.out.println("MessageQueueSorter >> sending to Telnet message [MESSAGE]: "+message.message_buffer+"].");
+
                         writer.write("[MESSAGE]: "+message.message_buffer);
+
+                        System.out.println("MessageQueueSorter >> sending to Telnet message [DATE]: "+message.time_stamp+"].");
 
                         writer.write("[DATE]: "+message.time_stamp);
 
+                        System.out.println("MessageQueueSorter >> sending to Telnet message [IP ADDRESS]: "+message.internet_address+"].");
+
                         writer.write("[IP ADDRESS]: "+message.internet_address);
+
+                        System.out.println("MessageQueueSorter >> sending to Telnet message [SOCKET]: "+message.socket+"].");
 
                         writer.write("[SOCKET]: "+message.socket);
 
@@ -93,6 +107,8 @@ public class WebExpress extends CommonRail
                         {
                             if(CommonRail.CommonUtils.socketIsConnected(message.socket))
                             {
+                                System.out.println("MessageQueueSorter >> replying with Proxy message ["+line+"].");
+
                                 writer.write(line);
 
                                 writer.flush();
@@ -105,6 +121,15 @@ public class WebExpress extends CommonRail
                     {
                         e.printStackTrace(System.err);
                     }
+                }
+
+                try
+                {
+                    Thread.sleep(100);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace(System.err);
                 }
             }
         }
@@ -158,6 +183,8 @@ public class WebExpress extends CommonRail
             {
                 Socket socket = this.WebExpress_server_socket.accept();
 
+                System.out.println("WebExpress >> new connection ["+socket.toString()+"].");
+
                 MessageQueue.Message message = new MessageQueue.Message();
 
                 message.socket = socket;
@@ -174,6 +201,8 @@ public class WebExpress extends CommonRail
 
                 for(;(line=reader.readLine())!=null;)
                 {
+                    System.out.println("WebExpress >> reading in input for Proxy ["+line+"].");
+
                     buffer.append(line);
                 }
 
@@ -194,7 +223,7 @@ public class WebExpress extends CommonRail
     {
         try
         {
-            this.telnet_communicator.process_builder.command("telnet localhost 80");
+            this.telnet_communicator.process_builder.command(telnet_proxy_server);
 
             this.telnet_communicator.process = this.telnet_communicator.process_builder.start();
 
