@@ -65,12 +65,12 @@ public class WebExpress extends CommonRail
         this.message_queue_sorter.start();
     }
 
-    public void addMessage(MessageQueue.Message message)
+    public synchronized void addMessage(MessageQueue.Message message)
     {
         this.message_queue.add(message);
     }
 
-    public MessageQueue getMessageQueue()
+    public synchronized MessageQueue getMessageQueue()
     {
         return this.message_queue;
     }
