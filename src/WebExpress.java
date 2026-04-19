@@ -66,11 +66,11 @@ public class WebExpress extends CommonRail
 
     public synchronized void addMessage(MessageQueue.Message message)
     {
-        System.out.println("WebExpress::addMessage >> size before ["+this.getMessageQueueSize()+"].");
+        System.out.println("WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
 
         this.message_queue.add(message);
 
-        System.out.println("WebExpress::addMessage >> size after ["+this.getMessageQueueSize()+"].");
+        System.out.println("WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
     }
 
     public synchronized MessageQueue getMessageQueue()
