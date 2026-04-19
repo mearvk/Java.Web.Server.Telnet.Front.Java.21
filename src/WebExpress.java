@@ -44,23 +44,6 @@ public class WebExpress extends BaseServer
 
         System.out.println("WebExpress::CommonRail >> starts ["+new Date()+"].");
 
-        try
-        {
-            this.web_express_server_socket = new ServerSocket(WEB_EXPRESS_SERVER_SOCKET);
-
-            this.aes2_server_socket = new ServerSocket(AES2_EXPRESS_SERVER_SOCKET);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace(System.err);
-
-            return;
-        }
-        finally
-        {
-            System.out.println("WebExpress::ServerSocket >> server created on port ["+this.port+"]");
-        }
-
         this.telnet_communicator = new TelnetCommunicator();
 
         this.message_queue_sorter = new MessageQueueSorter(this);
