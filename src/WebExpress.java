@@ -10,11 +10,13 @@ import java.util.Date;
 
 public class WebExpress extends BaseServer
 {
-    protected final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};
+    protected static final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};
 
     protected static final Integer WEB_EXPRESS_SERVER_SOCKET = 49152;
 
     protected static final Integer AES2_EXPRESS_SERVER_SOCKET = 5512;
+
+    protected TelnetInstaller telnet_installer;
 
     protected TelnetCommunicator telnet_communicator;
 
@@ -29,6 +31,8 @@ public class WebExpress extends BaseServer
         System.out.println("WebExpress::CommonRail >> starts ["+new Date()+"].");
 
         this.telnet_communicator = new TelnetCommunicator();
+
+        this.telnet_installer = new TelnetInstaller(this);
 
         this.message_queue_sorter = new MessageQueueSorter(this);
 
@@ -49,6 +53,35 @@ public class WebExpress extends BaseServer
         protected BufferedWriter writer;
 
         protected BufferedReader reader;
+    }
+
+    public static class TelnetInstaller
+    {
+        protected WebExpress web_express;
+
+        public TelnetInstaller(WebExpress web_express)
+        {
+            this.web_express = web_express;
+
+            try
+            {
+                this.web_express.telnet_communicator.process_builder.command(TELNET_PROXY_SERVER_ARGS);
+
+                this.web_express.telnet_communicator.process = this.web_express.telnet_communicator.process_builder.start();
+
+                this.web_express.telnet_communicator.reader = new BufferedReader(new InputStreamReader(this.web_express.telnet_communicator.process.getInputStream()));
+
+                this.web_express.telnet_communicator.writer = new BufferedWriter(new OutputStreamWriter(this.web_express.telnet_communicator.process.getOutputStream()));
+
+                CommonRails._long("TelnetCommunicator::Close::Hook", web_express,1000);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.err);
+            }
+        }
+
+
     }
 
     public static class MessageQueueSorter extends Thread
@@ -158,26 +191,6 @@ public class WebExpress extends BaseServer
                     e.printStackTrace(System.err);
                 }
             }
-        }
-    }
-
-    public void install_telnet_network()
-    {
-        try
-        {
-            this.telnet_communicator.process_builder.command(TELNET_PROXY_SERVER_ARGS);
-
-            this.telnet_communicator.process = this.telnet_communicator.process_builder.start();
-
-            this.telnet_communicator.reader = new BufferedReader(new InputStreamReader(this.telnet_communicator.process.getInputStream()));
-
-            this.telnet_communicator.writer = new BufferedWriter(new OutputStreamWriter(this.telnet_communicator.process.getOutputStream()));
-
-            CommonRails._long("TelnetCommunicator::Close::Hook", this,1000);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace(System.err);
         }
     }
 }
