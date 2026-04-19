@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class WebExpress extends CommonRail
 {
@@ -67,11 +66,11 @@ public class WebExpress extends CommonRail
 
     public synchronized void addMessage(MessageQueue.Message message)
     {
-        System.out.println("WebExpress::addMessage >> size before ["+this.message_queue.messages.size()+"].");
+        System.out.println("WebExpress::addMessage >> size before ["+this.getMessageQueueSize()+"].");
 
         this.message_queue.add(message);
 
-        System.out.println("WebExpress::Telnet::Communicator >> starts ["+this.message_queue.messages.size()+"].");
+        System.out.println("WebExpress::Telnet::Communicator >> starts ["+this.getMessageQueueSize()+"].");
     }
 
     public synchronized MessageQueue getMessageQueue()
@@ -79,7 +78,7 @@ public class WebExpress extends CommonRail
         return this.message_queue;
     }
 
-    public synchronized Integer getSize()
+    public synchronized Integer getMessageQueueSize()
     {
         return this.message_queue.messages.size();
     }
