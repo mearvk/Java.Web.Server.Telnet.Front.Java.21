@@ -80,7 +80,7 @@ public class WebExpress extends CommonRail
 
                     System.out.println("WebExpress >> new connection ["+socket.toString()+"].");
 
-                    System.out.println("WebExpress >> new connection stored; new count ["+(this.web_express.current_connections.size()+1)+"].");
+                    System.out.println("WebExpress >> new connection count ["+(this.web_express.current_connections.size()+1)+"].");
 
                     this.web_express.current_connections.add(socket);
 
