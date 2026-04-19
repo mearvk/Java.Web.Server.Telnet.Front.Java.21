@@ -25,6 +25,8 @@ public class WebExpress extends CommonRail
 
     public WebExpress()
     {
+        System.out.println("WebExpress >> starts ["+new Date()+"].");
+
         this.message_queue_sorter.start();
     }
 
@@ -32,7 +34,7 @@ public class WebExpress extends CommonRail
     {
         public TelnetCommunicator()
         {
-
+            System.out.println("WebExpress::TelnetCommunicator >> starts ["+new Date()+"].");
         }
 
         protected ProcessBuilder process_builder = new ProcessBuilder();
@@ -50,45 +52,48 @@ public class WebExpress extends CommonRail
 
         public MessageQueueSorter(WebExpress web_express)
         {
-            System.out.println("MessageQueueSorter >> starts.");
-
             this.web_express = web_express;
         }
 
         @Override
         public void run()
         {
+            System.out.println("WebExpress::MessageQueueSorter >> starts ["+new Date()+"].");
+
             for(;;)
             {
                 MessageQueue message_queue = this.web_express.message_queue;
 
                 for(int i=0; i<message_queue.messages.size(); i++)
                 {
-                    System.out.println("MessageQueueSorter >> received message.");
+                    System.out.println("WebExpress::MessageQueueSorter >> received message.");
 
                     MessageQueue.Message message = message_queue.messages.get(i);
 
                     try
                     {
-                        BufferedWriter writer = this.web_express.telnet_communicator.writer;
+                        if(CommonRail.CommonUtils.socketIsConnected(message.socket))
+                        {
+                            BufferedWriter writer = this.web_express.telnet_communicator.writer;
 
-                        System.out.println("MessageQueueSorter >> sending to Telnet message [MESSAGE]: "+message.message_buffer+"].");
+                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [MESSAGE]: " + message.message_buffer + "].");
 
-                        writer.write("[MESSAGE]: "+message.message_buffer);
+                            writer.write("[MESSAGE]: " + message.message_buffer);
 
-                        System.out.println("MessageQueueSorter >> sending to Telnet message [DATE]: "+message.time_stamp+"].");
+                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [DATE]: " + message.time_stamp + "].");
 
-                        writer.write("[DATE]: "+message.time_stamp);
+                            writer.write("[DATE]: " + message.time_stamp);
 
-                        System.out.println("MessageQueueSorter >> sending to Telnet message [IP ADDRESS]: "+message.internet_address+"].");
+                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [IP ADDRESS]: " + message.internet_address + "].");
 
-                        writer.write("[IP ADDRESS]: "+message.internet_address);
+                            writer.write("[IP ADDRESS]: " + message.internet_address);
 
-                        System.out.println("MessageQueueSorter >> sending to Telnet message [SOCKET]: "+message.socket+"].");
+                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [SOCKET]: " + message.socket + "].");
 
-                        writer.write("[SOCKET]: "+message.socket);
+                            writer.write("[SOCKET]: " + message.socket);
 
-                        writer.flush();
+                            writer.flush();
+                        }
                     }
                     catch (IOException e)
                     {
