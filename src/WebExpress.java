@@ -271,7 +271,10 @@ public class WebExpress extends CommonRail
 
         public void add(Message message)
         {
-            this.messages.add(message);
+            synchronized (this.messages)
+            {
+                this.messages.add(message);
+            }
         }
 
         public static class Message
@@ -323,7 +326,7 @@ public class WebExpress extends CommonRail
 
                 message.message_buffer = buffer;
 
-                this.message_queue.add(message);
+                this.addMessage(message);
 
                 Thread.sleep(1000);
             }
