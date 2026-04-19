@@ -222,7 +222,7 @@ public class WebExpress extends CommonRail
 
                 String line = null;
 
-                for(;(line=reader.readLine())!=null;)
+                while ((line=reader.readLine())!=null)
                 {
                     System.out.println("WebExpress::PublicSocket >> reading in input for Telnet Proxy ["+line+"].");
 
