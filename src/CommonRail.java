@@ -5,7 +5,7 @@ public class CommonRail
 {
     public CommonRail()
     {
-        System.out.println("WebExpress::CommonRail >> starts ["+new Date()+"].");
+
     }
 
     protected void _long(final String orgasm, WebExpress web_express, Integer not_less_than)

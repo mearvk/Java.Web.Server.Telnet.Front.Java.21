@@ -19,13 +19,19 @@ public class WebExpress extends CommonRail
 
     protected MessageQueue message_queue = new MessageQueue(5000);
 
-    protected TelnetCommunicator telnet_communicator = new TelnetCommunicator();
+    protected TelnetCommunicator telnet_communicator;
 
-    protected MessageQueueSorter message_queue_sorter = new MessageQueueSorter(this);
+    protected MessageQueueSorter message_queue_sorter;
 
     public WebExpress()
     {
         System.out.println("WebExpress >> starts ["+new Date()+"].");
+
+        System.out.println("WebExpress::CommonRail >> starts ["+new Date()+"].");
+
+        this.telnet_communicator = new TelnetCommunicator();
+
+        this.message_queue_sorter = new MessageQueueSorter(this);
 
         this.message_queue_sorter.start();
     }
