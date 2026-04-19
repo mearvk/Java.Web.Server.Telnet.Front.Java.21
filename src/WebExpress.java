@@ -62,6 +62,11 @@ public class WebExpress extends CommonRail
         this.message_queue_sorter.start();
     }
 
+    public void addMessage(MessageQueue.Message message)
+    {
+        this.message_queue.add(message);
+    }
+
     public MessageQueue getMessageQueue()
     {
         return this.message_queue;
@@ -130,7 +135,7 @@ public class WebExpress extends CommonRail
 
                     message.message_buffer = buffer;
 
-                    this.web_express.message_queue.add(message);
+                    this.web_express.addMessage(message);
 
                     Thread.sleep(100);
                 }
@@ -288,7 +293,7 @@ public class WebExpress extends CommonRail
 
                 System.out.println("WebExpress >> new connection ["+socket.toString()+"].");
 
-                System.out.println("WebExpress >> new connection stored; new count ["+(this.current_connections.size()+1)+"].");
+                System.out.println("WebExpress >> new connection stored; new connection count ["+(this.current_connections.size()+1)+"].");
 
                 this.current_connections.add(socket);
 
