@@ -301,7 +301,7 @@ public class WebExpress extends CommonRail
     {
         try
         {
-            this.telnet_communicator.process_builder.command(TELNET_PROXY_SERVER);
+            this.telnet_communicator.process_builder.command("telnet", "localhost", "80");
 
             this.telnet_communicator.process = this.telnet_communicator.process_builder.start();
 
