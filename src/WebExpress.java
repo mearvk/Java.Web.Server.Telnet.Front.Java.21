@@ -70,6 +70,8 @@ public class WebExpress extends CommonRail
             {
                 MessageQueue message_queue = this.web_express.message_queue;
 
+                System.out.println("WebExpress::MessageQueueSorter >> reports messaage queue has size of ["+message_queue.messages.size()+"].");
+
                 for(int i=0; i<message_queue.messages.size(); i++)
                 {
                     System.out.println("WebExpress::MessageQueueSorter >> received message.");
@@ -212,7 +214,7 @@ public class WebExpress extends CommonRail
 
                 for(;(line=reader.readLine())!=null;)
                 {
-                    System.out.println("WebExpress >> reading in input for Proxy ["+line+"].");
+                    System.out.println("WebExpress::PublicSocket >> reading in input for Proxy ["+line+"].");
 
                     buffer.append(line);
                 }
