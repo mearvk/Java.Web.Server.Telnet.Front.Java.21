@@ -16,7 +16,7 @@ import java.util.List;
 
 public class WebExpress extends CommonRail
 {
-    protected final String TELNET_PROXY_SERVER = "telnet tacobell.phd 80";
+    protected final String TELNET_PROXY_SERVER = "telnet localhost 80";
 
     protected final Integer WEB_EXPRESS_SERVER_SOCKET = 49152;
 
@@ -297,55 +297,7 @@ public class WebExpress extends CommonRail
         }
     }
 
-    public void install_remote_connections()
-    {
-        try
-        {
-            for(;;)
-            {
-                Socket socket = this.web_express_server_socket.accept();
-
-                System.out.println("WebExpress >> new connection ["+socket.toString()+"].");
-
-                System.out.println("WebExpress >> new connection stored; new connection count ["+(this.current_connections.size()+1)+"].");
-
-                this.current_connections.add(socket);
-
-                MessageQueue.Message message = new MessageQueue.Message();
-
-                message.socket = socket;
-
-                message.internet_address = socket.getInetAddress();
-
-                message.time_stamp = new Date(System.currentTimeMillis());
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                StringBuffer buffer = new StringBuffer();
-
-                String line = null;
-
-                while ((line=reader.readLine())!=null)
-                {
-                    System.out.println("WebExpress::Public::Socket >> reading in input for Telnet Proxy ["+line+"].");
-
-                    buffer.append(line);
-                }
-
-                message.message_buffer = buffer;
-
-                this.addMessage(message);
-
-                Thread.sleep(1000);
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace(System.err);
-        }
-    }
-
-    public void install_local_connections()
+    public void install_telnet_network()
     {
         try
         {
