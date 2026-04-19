@@ -9,19 +9,21 @@ public class WebExpress extends CommonRail
 {
     protected final String telnet_proxy_server = "telnet tacobell.phd 80";
 
-    protected Integer WebExpress_listener_port = 49152;
+    protected Integer web_express_listener_port = 49152;
 
-    protected Integer AES2_listener_port = 5512;
+    protected Integer aes2_listener_port = 5512;
 
-    protected ServerSocket WebExpress_server_socket;
+    protected ServerSocket web_express_server_socket;
 
-    protected ServerSocket AES2_server_socket;
+    protected ServerSocket aes2_server_socket;
 
     protected MessageQueue message_queue = new MessageQueue(5000);
 
     protected TelnetCommunicator telnet_communicator;
 
     protected MessageQueueSorter message_queue_sorter;
+
+    protected CurrentConnections current_connections = new CurrentConnections();
 
     public WebExpress()
     {
@@ -182,9 +184,9 @@ public class WebExpress extends CommonRail
     {
         try
         {
-            this.WebExpress_server_socket = new ServerSocket(this.WebExpress_listener_port);
+            this.web_express_server_socket = new ServerSocket(this.web_express_listener_port);
 
-            this.AES2_server_socket = new ServerSocket(this.AES2_listener_port);
+            this.aes2_server_socket = new ServerSocket(this.aes2_listener_port);
         }
         catch (Exception e)
         {
@@ -198,9 +200,13 @@ public class WebExpress extends CommonRail
         {
             for(;;)
             {
-                Socket socket = this.WebExpress_server_socket.accept();
+                Socket socket = this.web_express_server_socket.accept();
 
                 System.out.println("WebExpress >> new connection ["+socket.toString()+"].");
+
+                System.out.println("WebExpress >> new connection stored; new count ["+(this.current_connections.size()+1)+"].");
+
+                this.current_connections.add(socket);
 
                 MessageQueue.Message message = new MessageQueue.Message();
 
