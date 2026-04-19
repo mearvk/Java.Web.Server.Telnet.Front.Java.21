@@ -6,6 +6,15 @@ import java.net.Socket;
 
 public class Connections
 {
+    public BaseServer server;
+    public volatile Socket socket;
+    public InputStream inputstream;
+    public OutputStream outputstream;
+    public String remote_address = null;
+    public BufferedReader reader = null;
+    public BufferedWriter writer = null;
+    public PublicListener thread;
+
     public Connections()
     {
 
@@ -16,46 +25,5 @@ public class Connections
         if(server==null) throw new SecurityException("//bodi/connect");
 
         this.server = server;
-    }
-
-    public BaseServer server;
-    public volatile Socket socket;
-    public InputStream inputstream;
-    public OutputStream outputstream;
-    public String remote_address = null;
-    public BufferedReader reader = null;
-    public BufferedWriter writer = null;
-    public PublicListener thread;
-
-    public Boolean issocketclosed()
-    {
-        try
-        {
-            this.writer.write("");
-        }
-        catch(Exception e)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Boolean issocketconnected()
-    {
-        try
-        {
-            this.writer.write("");
-        }
-        catch(Exception e)
-        {
-            return false;
-        }
-
-        return true;
     }
 }

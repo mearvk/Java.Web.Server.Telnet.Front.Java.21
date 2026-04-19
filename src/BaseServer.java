@@ -18,7 +18,7 @@ public abstract class BaseServer extends Thread
 
     public Integer port;
 
-    public ServerSocket serversocket;
+    public ServerSocket server_socket;
 
     public Boolean running = true;
 
@@ -47,7 +47,7 @@ public abstract class BaseServer extends Thread
 
         try
         {
-            this.serversocket = new ServerSocket(this.port, 4096, this.address);
+            this.server_socket = new ServerSocket(this.port, 4096, this.address);
         }
         catch(Exception e)
         {
@@ -82,7 +82,7 @@ public abstract class BaseServer extends Thread
 
         try
         {
-            this.serversocket = new ServerSocket(this.port, 4096, this.address);
+            this.server_socket = new ServerSocket(this.port, 4096, this.address);
         }
         catch(Exception e)
         {
@@ -107,7 +107,7 @@ public abstract class BaseServer extends Thread
 
                 connection = new Connections(this);
 
-                connection.socket = this.serversocket.accept();
+                connection.socket = this.server_socket.accept();
 
                 connection.remote_address = connection.socket.getRemoteSocketAddress().toString();
 

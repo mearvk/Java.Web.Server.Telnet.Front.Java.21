@@ -23,7 +23,7 @@ public class PublicListener extends Thread
     {
         try
         {
-            for(;;)
+            for(int i=0; i<network_context.)
             {
                 //Socket socket = this.web_express.web_express_server_socket.accept();
 
