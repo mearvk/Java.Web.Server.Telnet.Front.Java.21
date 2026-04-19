@@ -22,7 +22,7 @@ public abstract class BaseServer extends Thread
 
     public Boolean running = true;
 
-    public ArrayList<NetworkContext> connections = new ArrayList<>();
+    public ArrayList<Connections> connections = new ArrayList<>();
 
     public BaseServer(String host, Integer port)
     {
@@ -103,9 +103,9 @@ public abstract class BaseServer extends Thread
         {
             while(running)
             {
-                NetworkContext connection;
+                Connections connection;
 
-                connection = new NetworkContext(this);
+                connection = new Connections(this);
 
                 connection.socket = this.serversocket.accept();
 

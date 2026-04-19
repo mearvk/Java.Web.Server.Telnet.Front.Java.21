@@ -4,14 +4,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-public class NetworkContext
+public class Connections
 {
-    public NetworkContext()
+    public Connections()
     {
 
     }
 
-    public NetworkContext(BaseServer server)
+    public Connections(BaseServer server)
     {
         if(server==null) throw new SecurityException("//bodi/connect");
 
