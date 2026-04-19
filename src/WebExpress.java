@@ -1,3 +1,10 @@
+/**
+ * @author Max Rupplin
+ * @date April 18 2507-2671
+ *
+ * @us.governor Caesar Bernini
+ */
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
