@@ -40,6 +40,17 @@ public class WebExpress extends CommonRail
 
         System.out.println("WebExpress::CommonRail >> starts ["+new Date()+"].");
 
+        try
+        {
+            this.web_express_server_socket = new ServerSocket(this.WEB_EXPRESS_SERVER_SOCKET);
+
+            this.aes2_server_socket = new ServerSocket(this.AES2_EXPRESS_SERVER_SOCKET);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace(System.err);
+        }
+
         this.telnet_communicator = new TelnetCommunicator();
 
         this.message_queue_sorter = new MessageQueueSorter(this);
@@ -259,20 +270,6 @@ public class WebExpress extends CommonRail
             protected StringBuffer message_buffer = new StringBuffer();
 
             protected InetAddress internet_address;
-        }
-    }
-
-    public void install_network_hooks()
-    {
-        try
-        {
-            this.web_express_server_socket = new ServerSocket(this.WEB_EXPRESS_SERVER_SOCKET);
-
-            this.aes2_server_socket = new ServerSocket(this.AES2_EXPRESS_SERVER_SOCKET);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace(System.err);
         }
     }
 
