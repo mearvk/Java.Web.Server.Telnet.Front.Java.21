@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Inputqueue
+public class InputQueue
 {
     public Queue<Connection> queue = new LinkedList<>();
 
