@@ -9,9 +9,9 @@ public class WebExpress extends CommonRail
 {
     protected final String telnet_proxy_server = "telnet tacobell.phd 80";
 
-    protected Integer web_express_listener_port = 49152;
+    protected final Integer WEB_EXPRESS_SERVER_SOCKET = 49152;
 
-    protected Integer aes2_listener_port = 5512;
+    protected final Integer AES2_EXPRESS_SERVER_SOCKET = 5512;
 
     protected ServerSocket web_express_server_socket;
 
@@ -184,9 +184,9 @@ public class WebExpress extends CommonRail
     {
         try
         {
-            this.web_express_server_socket = new ServerSocket(this.web_express_listener_port);
+            this.web_express_server_socket = new ServerSocket(this.WEB_EXPRESS_SERVER_SOCKET);
 
-            this.aes2_server_socket = new ServerSocket(this.aes2_listener_port);
+            this.aes2_server_socket = new ServerSocket(this.AES2_EXPRESS_SERVER_SOCKET);
         }
         catch (Exception e)
         {
