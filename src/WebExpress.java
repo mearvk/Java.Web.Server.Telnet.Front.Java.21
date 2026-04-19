@@ -170,8 +170,6 @@ public class WebExpress extends CommonRail
 
                             writer.write("[IP Address]: " + message.internet_address);
 
-                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [Socket]: " + message.socket + "].");
-
                             writer.write("[Socket]: " + message.socket);
 
                             writer.flush();
@@ -179,6 +177,10 @@ public class WebExpress extends CommonRail
                     }
                     catch (NullPointerException npe)
                     {
+                        this.web_express.current_connections.remove(message.socket);
+
+                        System.out.println("WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
+
                         break;
                     }
                     catch (IOException e)
