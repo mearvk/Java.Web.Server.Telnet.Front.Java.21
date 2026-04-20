@@ -15,6 +15,8 @@ public class ConnectionPoller extends Thread
 
     public ConnectionPoller(BaseServer base_server, String host, Integer port)
     {
+        this.base_server = base_server;
+
         this.host = host;
 
         this.port = port;
