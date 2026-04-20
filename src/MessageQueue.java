@@ -18,12 +18,9 @@ public class MessageQueue
         this.messages = Collections.synchronizedList(messages = new ArrayList<>(5000));
     }
 
-    public void add(Message message)
+    public synchronized void add(Message message)
     {
-        synchronized (this)
-        {
-            this.messages.add(message);
-        }
+        this.messages.add(message);
     }
 
     public static class Message
