@@ -30,10 +30,6 @@ public abstract class BaseServer extends Thread
 
     protected MessageQueue message_queue = new MessageQueue(this);
 
-    protected ServerSocket web_express_server_socket;
-
-    protected ServerSocket aes2_server_socket;
-
     public BaseServer(String host, Integer port)
     {
         if(host==null || port==null) throw new SecurityException("//bodi/connect");
@@ -219,7 +215,7 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.thread = new PublicListener();
+                    connection.thread = new PublicListener(this.host, this.port);
 
                     connection.thread.start();
                 }

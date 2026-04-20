@@ -12,36 +12,39 @@ public class WebExpress extends BaseServer
 {
     protected static final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};
 
-    protected static final Integer WEB_EXPRESS_SERVER_SOCKET = 49152;
-
-    protected static final Integer AES2_EXPRESS_SERVER_SOCKET = 5512;
-
     protected TelnetInstaller telnet_installer;
 
-    protected TelnetCommunicator telnet_communicator;
+    protected TelnetCommunicationProxy telnet_communicator;
 
     protected MessageQueueSorter message_queue_sorter;
 
-    public WebExpress()
+    public WebExpress(final String host, final Integer port, final Boolean telnet_proxy)
     {
-        super("localhost", WEB_EXPRESS_SERVER_SOCKET);
+        super(host, port);
 
-        System.out.println("WebExpress >> starts ["+new Date()+"].");
+        if(telnet_proxy)
+        {
+            System.out.println("WebExpress >> starts ["+new Date()+"] ["+host+":"+port+"] [Telnet Proxy Enabled]");
+
+            this.telnet_installer = new TelnetInstaller(this);
+
+            this.telnet_communicator = new TelnetCommunicationProxy();
+        }
+        else
+        {
+            System.out.println("WebExpress >> starts ["+new Date()+"] ["+host +":"+port+"]");
+        }
 
         System.out.println("WebExpress::CommonRail >> starts ["+new Date()+"].");
-
-        this.telnet_communicator = new TelnetCommunicator();
-
-        this.telnet_installer = new TelnetInstaller(this);
 
         this.message_queue_sorter = new MessageQueueSorter(this);
 
         this.message_queue_sorter.start();
     }
 
-    public static class TelnetCommunicator
+    public static class TelnetCommunicationProxy
     {
-        public TelnetCommunicator()
+        public TelnetCommunicationProxy()
         {
             System.out.println("WebExpress::Telnet::Communicator >> starts ["+new Date()+"].");
         }
@@ -61,10 +64,12 @@ public class WebExpress extends BaseServer
 
         public TelnetInstaller(WebExpress web_express)
         {
-            this.web_express = web_express;
+            System.out.println("WebExpress::Telnet::Installer >> starts ["+new Date()+"].");
 
             try
             {
+                this.web_express = web_express;
+
                 this.web_express.telnet_communicator.process_builder.command(TELNET_PROXY_SERVER_ARGS);
 
                 this.web_express.telnet_communicator.process = this.web_express.telnet_communicator.process_builder.start();
@@ -125,6 +130,8 @@ public class WebExpress extends BaseServer
                             System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [IP Address]: " + message.internet_address + "].");
 
                             writer.write("[IP Address]: " + message.internet_address);
+
+                            System.out.println("WebExpress::MessageQueueSorter >> sending to Telnet message [Socket]: " + message.internet_address + "].");
 
                             writer.write("[Socket]: " + message.socket);
 
