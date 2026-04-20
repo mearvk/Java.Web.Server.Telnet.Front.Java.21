@@ -4,11 +4,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 public abstract class BaseServer extends Thread
 {
@@ -65,10 +60,6 @@ public abstract class BaseServer extends Thread
         {
             System.out.println("ServerSocket created on port "+this.port);
         }
-
-        this.public_socket_listener = new PublicListener(this);
-
-        this.public_socket_listener.start();
     }
 
     public BaseServer(Integer port)
@@ -104,46 +95,11 @@ public abstract class BaseServer extends Thread
         {
             System.out.println("WebExpress::BaseServer >> server created on port ["+this.port+"].");
         }
-
-        this.public_socket_listener = new PublicListener(this);
-
-        this.public_socket_listener.start();
     }
 
-    public static class MessageQueue
-    {
-        protected List<Message> messages;
 
-        protected BaseServer base_server;
 
-        public MessageQueue(BaseServer base_server)
-        {
-            this.base_server = base_server;
-
-            this.messages = Collections.synchronizedList(messages = new ArrayList<>(5000));
-        }
-
-        public void add(Message message)
-        {
-            synchronized (this)
-            {
-                this.messages.add(message);
-            }
-        }
-
-        public static class Message
-        {
-            protected Socket socket;
-
-            protected Date time_stamp;
-
-            protected StringBuffer message_buffer = new StringBuffer();
-
-            protected InetAddress internet_address;
-        }
-    }
-
-    public synchronized void addMessage(WebExpress.MessageQueue.Message message)
+    public synchronized void addMessage(MessageQueue.Message message)
     {
         System.out.println("WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
 
@@ -152,7 +108,7 @@ public abstract class BaseServer extends Thread
         System.out.println("WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
     }
 
-    public synchronized WebExpress.MessageQueue getMessageQueue()
+    public synchronized MessageQueue getMessageQueue()
     {
         return this.message_queue;
     }

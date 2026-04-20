@@ -1,16 +1,11 @@
-/**
- * @author Max Rupplin
- * @date April 18 2507-2671
- *
- * @us.governor Caesar Bernini
- */
-
 import java.io.*;
 import java.util.Date;
 
 public class WebExpress extends BaseServer
 {
     protected static final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};
+
+    protected static final Boolean TELNET_PROXY = Boolean.FALSE;
 
     protected TelnetInstaller telnet_installer;
 
@@ -22,69 +17,24 @@ public class WebExpress extends BaseServer
     {
         super(host, port);
 
-        if(telnet_proxy)
+        if (telnet_proxy)
         {
-            System.out.println("WebExpress >> starts ["+new Date()+"] ["+host+":"+port+"] [Telnet Proxy Enabled]");
+            System.out.println("WebExpress >> starts [" + new Date() + "] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
 
             this.telnet_installer = new TelnetInstaller(this);
 
-            this.telnet_communicator = new TelnetCommunicationProxy();
+            this.telnet_communicator = new TelnetCommunicationProxy(this);
         }
         else
         {
-            System.out.println("WebExpress >> starts ["+new Date()+"] ["+host +":"+port+"]");
+            System.out.println("WebExpress >> starts [" + new Date() + "] [" + host + ":" + port + "]");
         }
 
-        System.out.println("WebExpress::CommonRail >> starts ["+new Date()+"].");
+        System.out.println("WebExpress::CommonRail >> starts [" + new Date() + "].");
 
         this.message_queue_sorter = new MessageQueueSorter(this);
 
         this.message_queue_sorter.start();
-    }
-
-    public static class TelnetCommunicationProxy
-    {
-        public TelnetCommunicationProxy()
-        {
-            System.out.println("WebExpress::Telnet::Communicator >> starts ["+new Date()+"].");
-        }
-
-        protected ProcessBuilder process_builder = new ProcessBuilder();
-
-        protected Process process;
-
-        protected BufferedWriter writer;
-
-        protected BufferedReader reader;
-    }
-
-    public static class TelnetInstaller
-    {
-        protected WebExpress web_express;
-
-        public TelnetInstaller(WebExpress web_express)
-        {
-            System.out.println("WebExpress::Telnet::Installer >> starts ["+new Date()+"].");
-
-            try
-            {
-                this.web_express = web_express;
-
-                this.web_express.telnet_communicator.process_builder.command(TELNET_PROXY_SERVER_ARGS);
-
-                this.web_express.telnet_communicator.process = this.web_express.telnet_communicator.process_builder.start();
-
-                this.web_express.telnet_communicator.reader = new BufferedReader(new InputStreamReader(this.web_express.telnet_communicator.process.getInputStream()));
-
-                this.web_express.telnet_communicator.writer = new BufferedWriter(new OutputStreamWriter(this.web_express.telnet_communicator.process.getOutputStream()));
-
-                CommonRails._long("TelnetCommunicator::Close::Hook", web_express,1000);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace(System.err);
-            }
-        }
     }
 
     public static class MessageQueueSorter extends Thread

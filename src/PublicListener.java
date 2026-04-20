@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
@@ -19,6 +20,15 @@ public class PublicListener extends Thread
         this.host = host;
 
         this.port = port;
+
+        try
+        {
+            this.server_socket = new ServerSocket(port, 4096, InetAddress.getByName(host));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace(System.err);
+        }
     }
 
     public PublicListener(BaseServer base_server)
@@ -48,7 +58,7 @@ public class PublicListener extends Thread
 
                 System.out.println("WebExpress >> new connection count ["+(this.base_server.current_connections.size()+1)+"].");
 
-                WebExpress.MessageQueue.Message message = new WebExpress.MessageQueue.Message();
+                MessageQueue.Message message = new MessageQueue.Message();
 
                 message.socket = socket;
 
