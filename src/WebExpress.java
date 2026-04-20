@@ -6,6 +6,12 @@ public class WebExpress extends BaseServer
 
     protected static final Boolean TELNET_PROXY = Boolean.FALSE;
 
+    protected static final String PROTOCOL = "telnet";
+
+    protected static final String REMOTE_SITE = "tacobell.phd";
+
+    protected static final String REMOTE_PORT = "80";
+
     protected TelnetInstaller telnet_installer;
 
     protected TelnetCommunicationProxy telnet_communicator;

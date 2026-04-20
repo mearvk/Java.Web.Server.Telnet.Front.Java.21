@@ -16,7 +16,7 @@ public class TelnetCommunicationProxy
 
     public TelnetCommunicationProxy(WebExpress web_express)
     {
-        System.out.println("WebExpress::Telnet::Communicator >> starts ["+new Date()+"].");
+        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Telnet::Communicator >> starts ["+new Date()+"].");
 
         this.web_express = web_express;
 

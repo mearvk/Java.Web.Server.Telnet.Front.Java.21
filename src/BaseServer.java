@@ -58,7 +58,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            System.out.println("BaseServer::ServerSocket >> created on port ["+this.port+"]");
+            System.out.println("[Object ID: "+this.hashCode()+"] BaseServer::ServerSocket >> created on port ["+this.port+"]");
         }
     }
 
@@ -93,7 +93,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            System.out.println("WebExpress::BaseServer >> server created on port ["+this.port+"].");
+            System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::BaseServer >> server created on port ["+this.port+"].");
         }
     }
 
@@ -114,7 +114,7 @@ public abstract class BaseServer extends Thread
 
                 connection.server = this;
 
-                System.out.println("WebExpress::BaseServer >> new remote connection established ["+connection.remote_address+"].");
+                System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::BaseServer >> new remote connection established ["+connection.remote_address+"].");
 
                 try
                 {
@@ -130,7 +130,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    System.out.println("WebExpress::BaseServer >> related input reader established.");
+                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::BaseServer >> related input reader established.");
                 }
 
                 try
@@ -147,7 +147,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    System.out.println("WebExpress::BaseServer >> related output writer established.");
+                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::BaseServer >> related output writer established.");
                 }
 
                 try
@@ -164,7 +164,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    System.out.println("WebExpress::BaseServer >> related I/O listener thread established.");
+                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::BaseServer >> related I/O listener thread established.");
                 }
 
                 this.current_connections.add(connection);

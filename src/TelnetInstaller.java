@@ -18,7 +18,7 @@ public class TelnetInstaller
 
     public TelnetInstaller(WebExpress web_express)
     {
-        System.out.println("WebExpress::Telnet::Installer >> starts [" + new Date() + "].");
+        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Telnet::Installer >> starts [" + new Date() + "].");
 
         try
         {
