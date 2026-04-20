@@ -11,5 +11,9 @@ public class Main
         WebExpress web_express = new WebExpress("localhost", WEB_EXPRESS_SERVER_SOCKET, true);
 
         WebExpress aes_express = new WebExpress("localhost", AES2_EXPRESS_SERVER_SOCKET, false);
+
+        web_express.start();
+
+        aes_express.start();
     }
 }
