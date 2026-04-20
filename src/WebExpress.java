@@ -27,7 +27,7 @@ public class WebExpress extends BaseServer
         }
         else
         {
-            System.out.println("WebExpress >> starts [" + new Date() + "] [" + host + ":" + port + "]");
+            System.out.println("WebExpress::Main >> starts [" + new Date() + "] [" + host + ":" + port + "]");
         }
 
         System.out.println("WebExpress::CommonRail >> starts [" + new Date() + "].");

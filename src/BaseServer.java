@@ -58,7 +58,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            System.out.println("BaseServer::ServerSocket >> created on port "+this.port);
+            System.out.println("BaseServer::ServerSocket >> created on port ["+this.port+"]");
         }
     }
 
