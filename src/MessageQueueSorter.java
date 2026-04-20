@@ -57,7 +57,7 @@ public class MessageQueueSorter extends Thread
                 }
                 catch (NullPointerException npe)
                 {
-                    //this.web_express.current_connections.remove(message.socket);
+                    this.web_express.current_connections.remove(message.socket);
 
                     System.out.println("WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size())+"].");
 
@@ -65,7 +65,7 @@ public class MessageQueueSorter extends Thread
                 }
                 catch (IOException e)
                 {
-                    throw new RuntimeException(e);
+                    System.out.println("WebExpress::MessageQueueSorter >> socket connection closed [Socket]: " + message.internet_address + "].");
                 }
 
                 try
@@ -88,7 +88,7 @@ public class MessageQueueSorter extends Thread
                         }
                         else
                         {
-                            //this.web_express.current_connections.remove(message.socket);
+                            this.web_express.current_connections.remove(message.socket);
 
                             System.out.println("WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
 

@@ -30,6 +30,21 @@ public class CurrentConnections
         this.current_connections.add(connection);
     }
 
+    public void remove(Socket socket)
+    {
+        for(int i=0; i<this.current_connections.size(); i++)
+        {
+            Socket _socket = this.current_connections.get(i).socket;
+
+            if(_socket==socket)
+            {
+                Connection connection = this.current_connections.get(i);
+
+                this.current_connections.remove(connection);
+            }
+        }
+    }
+
     public void remove(Connection connection)
     {
         this.current_connections.remove(connection);
