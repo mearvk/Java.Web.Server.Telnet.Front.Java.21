@@ -40,9 +40,9 @@ public class ConnectionPoller extends Thread
 
                 Integer size = current_connections.size();
 
-                System.out.println("WebExpress >> new connection ["+connection.socket.toString()+"].");
+                System.out.println("WebExpress::ConnectionPoller >> new connection from ["+connection.socket.toString()+"].");
 
-                System.out.println("WebExpress >> new connection count ["+(size+1)+"].");
+                System.out.println("WebExpress::ConnectionPoller >> new connection count ["+size+"].");
 
                 MessageQueue.Message message = new MessageQueue.Message();
 
