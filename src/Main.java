@@ -1,3 +1,9 @@
+/**
+ * @author Max Rupplin
+ *
+ * @date April 19 2026
+ * @us.governor Caesar Bernini
+ */
 public class Main
 {
     protected String hash = "0xDA717018470E213F";
