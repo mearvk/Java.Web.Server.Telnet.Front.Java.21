@@ -21,18 +21,18 @@ public class CurrentConnections
 
     public BufferedWriter writer = null;
 
-    public PublicListener thread;
+    public ConnectionPoller thread;
 
-    ArrayList<Socket> current_connections = new ArrayList<>();
+    ArrayList<Connection> current_connections = new ArrayList<Connection>();
 
     public void add(Connection connection)
     {
-        this.current_connections.add(socket);
+        this.current_connections.add(connection);
     }
 
     public void remove(Connection connection)
     {
-        this.current_connections.remove(socket);
+        this.current_connections.remove(connection);
     }
 
     public Integer size()

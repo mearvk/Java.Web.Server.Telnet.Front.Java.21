@@ -20,7 +20,7 @@ public class Connection
 
     public BufferedWriter writer = null;
 
-    public PublicListener thread;
+    public ConnectionPoller thread;
 
     public Connection()
     {

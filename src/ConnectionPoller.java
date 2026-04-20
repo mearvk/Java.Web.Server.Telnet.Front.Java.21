@@ -1,11 +1,9 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Date;
 
-public class PublicListener extends Thread
+public class ConnectionPoller extends Thread
 {
     protected BaseServer base_server;
 
@@ -15,14 +13,14 @@ public class PublicListener extends Thread
 
     protected Integer port;
 
-    public PublicListener(BaseServer base_server, String host, Integer port)
+    public ConnectionPoller(BaseServer base_server, String host, Integer port)
     {
         this.host = host;
 
         this.port = port;
     }
 
-    public PublicListener(BaseServer base_server)
+    public ConnectionPoller(BaseServer base_server)
     {
         this.base_server = base_server;
     }
@@ -32,23 +30,27 @@ public class PublicListener extends Thread
     {
         try
         {
-            for(;;)
+            CurrentConnections current_connections = this.base_server.current_connections;
+
+            for(int i=0; i<current_connections.size(); i++)
             {
-                Socket socket = this.server_socket.accept();
+                Connection connection = current_connections.current_connections.get(i);
 
-                System.out.println("WebExpress >> new connection ["+socket.toString()+"].");
+                Integer size = current_connections.size();
 
-                System.out.println("WebExpress >> new connection count ["+(this.base_server.current_connections.size()+1)+"].");
+                System.out.println("WebExpress >> new connection ["+connection.socket.toString()+"].");
+
+                System.out.println("WebExpress >> new connection count ["+(size+1)+"].");
 
                 MessageQueue.Message message = new MessageQueue.Message();
 
-                message.socket = socket;
+                message.socket = connection.socket;
 
-                message.internet_address = socket.getInetAddress();
+                message.internet_address = connection.socket.getInetAddress();
 
                 message.time_stamp = new Date(System.currentTimeMillis());
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.socket.getInputStream()));
 
                 StringBuffer buffer = new StringBuffer();
 
@@ -63,7 +65,7 @@ public class PublicListener extends Thread
 
                 message.message_buffer = new StringBuffer(buffer);
 
-                this.base_server.addMessage(message);
+                this.base_server.message_queue.add(message);
 
                 Thread.sleep(100);
             }

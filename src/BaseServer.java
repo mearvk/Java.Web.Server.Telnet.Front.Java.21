@@ -21,7 +21,7 @@ public abstract class BaseServer extends Thread
 
     protected CurrentConnections current_connections = new CurrentConnections();
 
-    protected PublicListener public_socket_listener;
+    protected ConnectionPoller public_socket_listener;
 
     protected MessageQueue message_queue = new MessageQueue(this);
 
@@ -97,24 +97,7 @@ public abstract class BaseServer extends Thread
         }
     }
 
-    public synchronized void addMessage(MessageQueue.Message message)
-    {
-        System.out.println("WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
 
-        this.message_queue.add(message);
-
-        System.out.println("WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
-    }
-
-    public synchronized MessageQueue getMessageQueue()
-    {
-        return this.message_queue;
-    }
-
-    public synchronized Integer getMessageQueueSize()
-    {
-        return this.message_queue.messages.size();
-    }
 
     @Override
     public void run()
@@ -169,7 +152,7 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.thread = new PublicListener(this, this.host, this.port);
+                    connection.thread = new ConnectionPoller(this, this.host, this.port);
 
                     connection.thread.start();
                 }
