@@ -1,3 +1,7 @@
+package telnet;
+
+import server.WebExpress;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -6,7 +10,7 @@ import java.util.Date;
 
 public class TelnetInstaller
 {
-    protected WebExpress web_express;
+    public WebExpress web_express;
 
     protected ProcessBuilder process_builder = new ProcessBuilder();
 
@@ -18,7 +22,7 @@ public class TelnetInstaller
 
     public TelnetInstaller(WebExpress web_express)
     {
-        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Telnet::Installer >> starts [" + new Date() + "].");
+        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::Telnet::Installer >> starts [" + new Date() + "].");
 
         try
         {
@@ -32,7 +36,7 @@ public class TelnetInstaller
 
             this.writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 
-            //CommonRails._long("TelnetCommunicator::Close::Hook", this.web_express, 1000);
+            //commons.CommonRails._long("TelnetCommunicator::Close::Hook", this.web_express, 1000);
         }
         catch (Exception e)
         {

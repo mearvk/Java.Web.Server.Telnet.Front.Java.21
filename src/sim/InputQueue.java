@@ -1,3 +1,7 @@
+package sim;
+
+import connections.Connection;
+
 import java.util.LinkedList;
 import java.util.Queue;
 

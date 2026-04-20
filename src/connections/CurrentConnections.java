@@ -1,3 +1,7 @@
+package connections;
+
+import server.BaseServer;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;

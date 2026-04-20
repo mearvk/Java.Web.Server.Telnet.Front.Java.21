@@ -1,3 +1,7 @@
+package message;
+
+import server.BaseServer;
+
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -25,12 +29,12 @@ public class MessageQueue
 
     public static class Message
     {
-        protected Socket socket;
+        public Socket socket;
 
-        protected Date time_stamp;
+        public Date time_stamp;
 
-        protected StringBuffer message_buffer = new StringBuffer();
+        public StringBuffer message_buffer = new StringBuffer();
 
-        protected InetAddress internet_address;
+        public InetAddress internet_address;
     }
 }

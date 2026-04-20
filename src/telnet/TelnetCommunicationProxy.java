@@ -1,3 +1,8 @@
+package telnet;
+
+import server.WebExpress;
+import sim.stochastic;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Writer;
@@ -9,17 +14,17 @@ public class TelnetCommunicationProxy
 
     protected ProcessBuilder process_builder = new ProcessBuilder();
 
-    protected Process process;
+    public Process process;
 
-    protected BufferedWriter writer;
+    public BufferedWriter writer;
 
-    protected BufferedReader reader;
+    public BufferedReader reader;
 
     protected TelnetProxyCommunicator telnet_proxy_communicator;
 
     public TelnetCommunicationProxy(WebExpress web_express)
     {
-        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Telnet::Communicator >> starts ["+new Date()+"].");
+        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::Telnet::Communicator >> starts ["+new Date()+"].");
 
         this.web_express = web_express;
 
