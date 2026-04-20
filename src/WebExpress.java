@@ -19,7 +19,7 @@ public class WebExpress extends BaseServer
 
         if (telnet_proxy)
         {
-            System.out.println("WebExpress::Main >> starts ["+this.hashCode()+"] [" + new Date() + "] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
+            System.out.println("WebExpress::Main >> starts [Object ID: "+this.hashCode()+"] [" + new Date() + "] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
 
             this.telnet_installer = new TelnetInstaller(this);
 
@@ -27,7 +27,7 @@ public class WebExpress extends BaseServer
         }
         else
         {
-            System.out.println("WebExpress::Main >> starts ["+this.hashCode()+"] [" + new Date() + "] [" + host + ":" + port + "]");
+            System.out.println("WebExpress::Main >> starts [Object ID: "+this.hashCode()+"] [" + new Date() + "] [" + host + ":" + port + "]");
         }
 
         System.out.println("WebExpress::CommonRail >> starts [" + new Date() + "].");
