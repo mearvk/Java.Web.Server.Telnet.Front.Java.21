@@ -17,7 +17,9 @@ public class stochastic
         }
         catch (Exception e)
         {
-            new LongSummaryStatistics().accept(_asm);
+            final LongSummaryStatistics long_summary_stats = new LongSummaryStatistics();
+
+            long_summary_stats.accept(_asm);
         }
         finally
         {
