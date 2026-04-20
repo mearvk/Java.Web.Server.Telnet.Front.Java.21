@@ -9,6 +9,8 @@ public abstract class BaseServer extends Thread
 {
     public Integer hash = 0x008808FF;
 
+    protected WebExpress reference = WebExpress.reference;
+
     public String host = "localhost";
 
     public InetAddress address;
@@ -21,7 +23,10 @@ public abstract class BaseServer extends Thread
 
     protected CurrentConnections current_connections = new CurrentConnections();
 
-    protected MessageQueue message_queue = new MessageQueue(this);
+    public BaseServer()
+    {
+
+    }
 
     public BaseServer(String host, Integer port)
     {
@@ -150,7 +155,7 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.thread = new ConnectionPoller(this, this.host, this.port);
+                    connection.thread = new ConnectionPoller(WebExpress.reference,this, this.host, this.port);
 
                     connection.thread.start();
                 }

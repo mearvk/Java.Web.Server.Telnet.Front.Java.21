@@ -2,6 +2,8 @@ import java.util.Date;
 
 public class WebExpress extends BaseServer
 {
+    protected static WebExpress reference = new WebExpress();
+
     protected static final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};
 
     protected static final Boolean TELNET_PROXY = Boolean.FALSE;
@@ -14,9 +16,16 @@ public class WebExpress extends BaseServer
 
     protected TelnetInstaller telnet_installer;
 
-    protected TelnetCommunicationProxy telnet_communicator;
+    protected TelnetCommunicationProxy telnet_communication_proxy;
 
     protected MessageQueueSorter message_queue_sorter;
+
+    protected MessageQueue message_queue = new MessageQueue(this);
+
+    public WebExpress()
+    {
+        WebExpress.reference = this;
+    }
 
     public WebExpress(final String host, final Integer port, final Boolean telnet_proxy)
     {
@@ -28,7 +37,7 @@ public class WebExpress extends BaseServer
 
             this.telnet_installer = new TelnetInstaller(this);
 
-            this.telnet_communicator = new TelnetCommunicationProxy(this);
+            this.telnet_communication_proxy = new TelnetCommunicationProxy(this);
         }
         else
         {
@@ -40,5 +49,7 @@ public class WebExpress extends BaseServer
         this.message_queue_sorter = new MessageQueueSorter(this);
 
         this.message_queue_sorter.start();
+
+        WebExpress.reference = this;
     }
 }

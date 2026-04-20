@@ -7,14 +7,18 @@ public class ConnectionPoller extends Thread
 {
     protected BaseServer base_server;
 
+    protected WebExpress web_express;
+
     protected ServerSocket server_socket;
 
     protected String host;
 
     protected Integer port;
 
-    public ConnectionPoller(BaseServer base_server, String host, Integer port)
+    public ConnectionPoller(WebExpress web_express, BaseServer base_server, String host, Integer port)
     {
+        this.web_express = web_express;
+
         this.base_server = base_server;
 
         this.host = host;
@@ -22,8 +26,10 @@ public class ConnectionPoller extends Thread
         this.port = port;
     }
 
-    public ConnectionPoller(BaseServer base_server)
+    public ConnectionPoller(WebExpress web_express, BaseServer base_server)
     {
+        this.web_express = web_express;
+
         this.base_server = base_server;
     }
 
@@ -67,7 +73,7 @@ public class ConnectionPoller extends Thread
 
                 message.message_buffer = new StringBuffer(buffer);
 
-                this.base_server.message_queue.add(message);
+                this.web_express.message_queue.add(message);
 
                 Thread.sleep(100);
             }

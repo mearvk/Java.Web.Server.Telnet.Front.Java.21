@@ -82,7 +82,7 @@ public class CommonRails
         {
             try
             {
-                int return_value = this.web_express.telnet_communicator.process.waitFor();
+                int return_value = this.web_express.telnet_communication_proxy.process.waitFor();
             }
             catch (Exception e)
             {

@@ -1,3 +1,5 @@
+import java.util.Date;
+
 /**
  * @author Max Rupplin
  *
@@ -12,8 +14,12 @@ public class Main
 
     protected static final Integer AES2_EXPRESS_SERVER_SOCKET = 5512;
 
-    public static void main(String...args)
+    public Main()
     {
+        WebExpress.reference = null;
+
+        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Main >> starts ["+ new Date() +"]");
+
         WebExpress web_express = new WebExpress("localhost", WEB_EXPRESS_SERVER_SOCKET, true);
 
         WebExpress aes_express = new WebExpress("localhost", AES2_EXPRESS_SERVER_SOCKET, false);
@@ -21,5 +27,10 @@ public class Main
         web_express.start();
 
         aes_express.start();
+    }
+
+    public static void main(String...args)
+    {
+        Main main = new Main();
     }
 }

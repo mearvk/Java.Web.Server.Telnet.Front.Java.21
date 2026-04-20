@@ -34,7 +34,7 @@ public class MessageQueueSorter extends Thread
                 {
                     if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                     {
-                        BufferedWriter writer = this.web_express.telnet_communicator.writer;
+                        BufferedWriter writer = this.web_express.telnet_communication_proxy.writer;
 
                         System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::MessageQueueSorter >> sending to Telnet message [Message]: " + message.message_buffer + "].");
 
@@ -70,7 +70,7 @@ public class MessageQueueSorter extends Thread
 
                 try
                 {
-                    BufferedReader reader = this.web_express.telnet_communicator.reader;
+                    BufferedReader reader = this.web_express.telnet_communication_proxy.reader;
 
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(message.socket.getOutputStream()));
 
