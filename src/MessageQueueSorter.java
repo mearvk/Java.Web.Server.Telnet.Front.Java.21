@@ -80,7 +80,7 @@ public class MessageQueueSorter extends Thread
                     {
                         if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                         {
-                            System.out.println("MessageQueueSorter >> replying with Proxy message ["+line+"].");
+                            System.out.println("WebExpress::MessageQueueSorter >> replying with Proxy message ["+line+"].");
 
                             writer.write(line);
 
@@ -90,7 +90,7 @@ public class MessageQueueSorter extends Thread
                         {
                             this.web_express.current_connections.remove(message.socket);
 
-                            System.out.println("WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
+                            System.out.println("WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
 
                             break;
                         }
