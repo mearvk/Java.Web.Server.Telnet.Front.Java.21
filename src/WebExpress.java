@@ -19,7 +19,7 @@ public class WebExpress extends BaseServer
 
         if (telnet_proxy)
         {
-            System.out.println("WebExpress >> starts [" + new Date() + "] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
+            System.out.println("WebExpress::Main >> starts [" + new Date() + "] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
 
             this.telnet_installer = new TelnetInstaller(this);
 
@@ -55,10 +55,10 @@ public class WebExpress extends BaseServer
             {
                 MessageQueue message_queue = this.web_express.getMessageQueue();
 
-                System.out.println("WebExpress::MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
-
                 for(int i=0; i<message_queue.messages.size(); i++)
                 {
+                    System.out.println("WebExpress::MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
+
                     System.out.println("WebExpress::MessageQueueSorter >> received message.");
 
                     MessageQueue.Message message = message_queue.messages.remove(i);

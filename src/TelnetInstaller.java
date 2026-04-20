@@ -32,7 +32,7 @@ public class TelnetInstaller
 
             this.writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 
-            CommonRails._long("TelnetCommunicator::Close::Hook", web_express, 1000);
+            //CommonRails._long("TelnetCommunicator::Close::Hook", this.web_express, 1000);
         }
         catch (Exception e)
         {
