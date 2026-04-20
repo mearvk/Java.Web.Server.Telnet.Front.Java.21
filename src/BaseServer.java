@@ -97,8 +97,6 @@ public abstract class BaseServer extends Thread
         }
     }
 
-
-
     @Override
     public void run()
     {
@@ -116,7 +114,7 @@ public abstract class BaseServer extends Thread
 
                 connection.server = this;
 
-                System.out.println("WebExpress::BaseServer >> new remote connection established.");
+                System.out.println("WebExpress::BaseServer >> new remote connection established ["+connection.remote_address+"].");
 
                 try
                 {
