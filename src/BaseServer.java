@@ -21,8 +21,6 @@ public abstract class BaseServer extends Thread
 
     protected CurrentConnections current_connections = new CurrentConnections();
 
-    protected ConnectionPoller public_socket_listener;
-
     protected MessageQueue message_queue = new MessageQueue(this);
 
     public BaseServer(String host, Integer port)
