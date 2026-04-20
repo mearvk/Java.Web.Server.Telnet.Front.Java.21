@@ -97,8 +97,6 @@ public abstract class BaseServer extends Thread
         }
     }
 
-
-
     public synchronized void addMessage(MessageQueue.Message message)
     {
         System.out.println("WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
@@ -171,7 +169,7 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.thread = new PublicListener(this.host, this.port);
+                    connection.thread = new PublicListener(this, this.host, this.port);
 
                     connection.thread.start();
                 }

@@ -37,6 +37,7 @@ public class WebExpress extends BaseServer
         this.message_queue_sorter.start();
     }
 
+    public static class Connection
     public static class MessageQueueSorter extends Thread
     {
         protected WebExpress web_express;

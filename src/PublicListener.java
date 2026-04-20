@@ -15,34 +15,16 @@ public class PublicListener extends Thread
 
     protected Integer port;
 
-    public PublicListener(String host, Integer port)
+    public PublicListener(BaseServer base_server, String host, Integer port)
     {
         this.host = host;
 
         this.port = port;
-
-        try
-        {
-            this.server_socket = new ServerSocket(port, 4096, InetAddress.getByName(host));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace(System.err);
-        }
     }
 
     public PublicListener(BaseServer base_server)
     {
         this.base_server = base_server;
-
-        try
-        {
-            this.server_socket = new ServerSocket(this.base_server.port, 4096, this.base_server.address);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace(System.err);
-        }
     }
 
     @Override
