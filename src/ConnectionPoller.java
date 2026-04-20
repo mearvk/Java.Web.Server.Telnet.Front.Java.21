@@ -60,7 +60,7 @@ public class ConnectionPoller extends Thread
 
                 while ((line=reader.readLine())!=null)
                 {
-                    System.out.println("WebExpress::Public::Socket >> reading in input for Telnet Proxy ["+line+"].");
+                    System.out.println("WebExpress::ConnectionPoller >> reading in input for Telnet Proxy ["+line+"].");
 
                     buffer.append(line);
                 }
