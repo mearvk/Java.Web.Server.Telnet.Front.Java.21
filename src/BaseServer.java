@@ -114,6 +114,8 @@ public abstract class BaseServer extends Thread
 
                 connection.remote_address = connection.socket.getRemoteSocketAddress().toString();
 
+                connection.server = this;
+
                 System.out.println("WebExpress::BaseServer >> new remote connection established.");
 
                 try
