@@ -20,7 +20,7 @@ public class Main
     {
         WebExpress.reference = null;
 
-        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::Main >> starts ["+ new Date() +"]");
+        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Main >> starts ["+ new Date() +"]");
 
         WebExpress web_express = new WebExpress("localhost", WEB_EXPRESS_SERVER_SOCKET, true);
 
