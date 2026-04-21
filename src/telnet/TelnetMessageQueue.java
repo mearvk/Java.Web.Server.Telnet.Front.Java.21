@@ -34,6 +34,21 @@ public class TelnetMessageQueue
         this.messages.add(message);
     }
 
+    public synchronized void remove(Message message)
+    {
+        this.messages.add(message);
+    }
+
+    public synchronized void sleep(Message message)
+    {
+        this.messages.add(message);
+    }
+
+    public synchronized void delete(Message message)
+    {
+        this.messages = null;
+    }
+
     public static class Message
     {
         protected Integer port;

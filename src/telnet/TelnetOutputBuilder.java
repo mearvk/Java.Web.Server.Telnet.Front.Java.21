@@ -14,6 +14,9 @@ public class TelnetOutputBuilder extends Thread
     @Override
     public void run()
     {
+        for(;;)
+        {
 
+        }
     }
 }

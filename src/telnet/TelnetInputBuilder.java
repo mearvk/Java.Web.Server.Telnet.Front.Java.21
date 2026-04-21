@@ -1,9 +1,5 @@
 package telnet;
 
-import message.MessageQueue;
-
-import java.net.Socket;
-
 public class TelnetInputBuilder extends Thread
 {
     protected TelnetCommunicationProxy telnet_proxy_communicator;
@@ -22,7 +18,10 @@ public class TelnetInputBuilder extends Thread
     @Override
     public void run()
     {
+        for(;;)
+        {
 
+        }
     }
 
     public void setBuffer(StringBuffer buffer)
