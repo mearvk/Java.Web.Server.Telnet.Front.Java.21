@@ -1,5 +1,6 @@
 package telnet;
 
+import commons.CommonRails;
 import server.WebExpress;
 import sim.stochastic;
 
@@ -66,31 +67,37 @@ public class TelnetCommunicationProxy
         @Override
         public void run()
         {
-            StringBuffer buffer = new StringBuffer();
-
             for(;;)
             {
+                StringBuffer buffer;
+
                 try
                 {
                     TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
 
-                    String line = this.telnet_communication_proxy.reader.readLine();
+                    final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
+
+                    String line = proxy.reader.readLine();
 
                     if(line!=null)
                     {
                         message.message_buffer.append(line);
 
-                        while ( (line=this.telnet_communication_proxy.reader.readLine()) !=null)
+                        while ( (line=proxy.reader.readLine()) !=null)
                         {
                             message.message_buffer.append(line);
                         }
 
-                        this.telnet_communication_proxy.input_builder.telnet_message_queue.add(message);
+                        proxy.input_builder.telnet_message_queue.add(message);
                     }
                 }
                 catch (Exception e)
                 {
                     e.printStackTrace(System.err);
+                }
+                finally
+                {
+                    buffer = null;
                 }
 
                 try
@@ -114,6 +121,10 @@ public class TelnetCommunicationProxy
                 catch (Exception e)
                 {
                     e.printStackTrace(System.err);
+                }
+                finally
+                {
+                    CommonRails.SocketUtils.isSocketConnected(null);
                 }
             }
         }
