@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.Socket;
 import java.util.Date;
 
 public class TelnetInstaller
@@ -15,6 +16,8 @@ public class TelnetInstaller
     protected ProcessBuilder process_builder = new ProcessBuilder();
 
     protected Process process;
+
+    protected Socket socket;
 
     protected BufferedWriter writer;
 

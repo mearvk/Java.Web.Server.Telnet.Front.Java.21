@@ -5,7 +5,8 @@ import sim.stochastic;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.Writer;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.Date;
 
 public class TelnetCommunicationProxy
@@ -16,11 +17,17 @@ public class TelnetCommunicationProxy
 
     public Process process;
 
+    public Socket socket;
+
     public BufferedWriter writer;
 
     public BufferedReader reader;
 
     protected TelnetProxyCommunicator telnet_proxy_communicator;
+
+    protected TelnetOutputBuilder output_builder;
+
+    protected TelnetInputBuilder input_builder;
 
     public TelnetCommunicationProxy(WebExpress web_express)
     {
@@ -37,6 +44,14 @@ public class TelnetCommunicationProxy
         this.reader = this.web_express.telnet_installer.reader;
 
         this.telnet_proxy_communicator = this.web_express.telnet_communication_proxy.telnet_proxy_communicator;
+
+        this.output_builder = new TelnetOutputBuilder(this);
+
+        this.input_builder = new TelnetInputBuilder(this);
+
+        this.output_builder.start();
+
+        this.input_builder.start();
     }
 
     public static class TelnetProxyCommunicator extends Thread
@@ -57,46 +72,46 @@ public class TelnetCommunicationProxy
             {
                 try
                 {
-                    String input_line = this.telnet_communication_proxy.reader.readLine();
+                    String line = this.telnet_communication_proxy.reader.readLine();
 
-                    if(input_line==null)
+                    if(line!=null)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        for(;((input_line=this.telnet_communication_proxy.reader.readLine())!=null);)
+                        buffer.append(line);
+
+                        for(;((line=this.telnet_communication_proxy.reader.readLine())!=null);)
                         {
-                            if(input_line==null)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                buffer.append(input_line);
-                            }
+                            buffer.append(line);
                         }
+
+                        this.telnet_communication_proxy.input_builder.setBuffer(buffer);
                     }
                 }
                 catch (Exception e)
                 {
-                    System.out.println("[Object ID: "+this.hashCode()+"] TelnetProxyCommunicator::SocketListener::Input >> exception ["+e.getMessage()+"]");
+                    e.printStackTrace(System.err);
                 }
 
                 try
                 {
-                    Writer writer = this.telnet_communication_proxy.writer;
+                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
 
-                    for(;;)
-                    {
-                        writer.write(buffer.toString());
+                    message.port = Integer.valueOf(WebExpress.REMOTE_PORT);
 
-                        writer.flush();
-                    }
+                    message.protocol = WebExpress.PROTOCOL;
+
+                    message.socket = null;
+
+                    message.message_buffer = buffer;
+
+                    message.time_stamp = new Date();
+
+                    message.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
+
+                    this.telnet_communication_proxy.output_builder.telnet_message_queue.add(message);
                 }
                 catch (Exception e)
                 {
-                    System.out.println("[Object ID: "+this.hashCode()+"] TelnetProxyCommunicator::SocketListener::Input >> exception ["+e.getMessage()+"]");
+                    e.printStackTrace(System.err);
                 }
             }
         }
