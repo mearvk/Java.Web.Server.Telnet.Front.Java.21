@@ -18,7 +18,7 @@ public class TelnetOutputBuilder extends Thread
         {
             TelnetMessageQueue queue = this.telnet_message_queue;
 
-            for(int i=0; i<queue.size(); i++)
+            for(int i=0; queue!=null && i<queue.size(); i++)
             {
                 try
                 {

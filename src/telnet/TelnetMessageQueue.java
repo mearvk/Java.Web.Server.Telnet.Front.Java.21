@@ -20,6 +20,8 @@ public class TelnetMessageQueue
     public TelnetMessageQueue(Integer size)
     {
         this.size = size;
+
+        this.messages = Collections.synchronizedList(messages = new ArrayList<>(this.size));
     }
 
     public TelnetMessageQueue(BaseServer base_server)

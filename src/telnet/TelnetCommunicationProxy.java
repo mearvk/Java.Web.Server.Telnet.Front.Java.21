@@ -44,7 +44,7 @@ public class TelnetCommunicationProxy
 
         this.reader = this.web_express.telnet_installer.reader;
 
-        this.telnet_proxy_communicator = this.web_express.telnet_communication_proxy.telnet_proxy_communicator;
+        this.telnet_proxy_communicator = new TelnetProxyCommunicator(this);
 
         this.output_builder = new TelnetOutputBuilder(this);
 
