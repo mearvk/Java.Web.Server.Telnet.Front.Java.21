@@ -72,18 +72,20 @@ public class TelnetCommunicationProxy
             {
                 try
                 {
+                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
+
                     String line = this.telnet_communication_proxy.reader.readLine();
 
                     if(line!=null)
                     {
-                        buffer.append(line);
+                        message.message_buffer.append(line);
 
-                        for(;((line=this.telnet_communication_proxy.reader.readLine())!=null);)
+                        while ( (line=this.telnet_communication_proxy.reader.readLine()) !=null)
                         {
-                            buffer.append(line);
+                            message.message_buffer.append(line);
                         }
 
-                        this.telnet_communication_proxy.input_builder.setBuffer(buffer);
+                        this.telnet_communication_proxy.input_builder.telnet_message_queue.add(message);
                     }
                 }
                 catch (Exception e)
