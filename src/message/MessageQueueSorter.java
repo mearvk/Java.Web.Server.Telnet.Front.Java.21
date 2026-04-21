@@ -21,7 +21,7 @@ public class MessageQueueSorter extends Thread
     @Override
     public void run()
     {
-        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> starts ["+new Date()+"].");
+        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> starts ["+new Date()+"].");
 
         for(;;)
         {
@@ -29,9 +29,9 @@ public class MessageQueueSorter extends Thread
 
             for(int i=0; i<message_queue.messages.size(); i++)
             {
-                System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
+                System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
 
-                System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> received message ["+message_queue.messages.get(i)+"].");
+                System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> received message ["+message_queue.messages.get(i)+"].");
 
                 MessageQueue.Message message = message_queue.messages.remove(i);
 
@@ -41,19 +41,19 @@ public class MessageQueueSorter extends Thread
                     {
                         BufferedWriter writer = this.web_express.telnet_communication_proxy.writer;
 
-                        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> sending to Telnet message [Message]: " + message.message_buffer + "].");
+                        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [Message]: " + message.message_buffer + "].");
 
                         writer.write("[Message]: " + message.message_buffer);
 
-                        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> sending to Telnet message [Date]: " + message.time_stamp + "].");
+                        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [Date]: " + message.time_stamp + "].");
 
                         writer.write("[Date]: " + message.time_stamp);
 
-                        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> sending to Telnet message [IP Address]: " + message.internet_address + "].");
+                        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [IP Address]: " + message.internet_address + "].");
 
                         writer.write("[IP Address]: " + message.internet_address);
 
-                        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> sending to Telnet message [Socket]: " + message.internet_address + "].");
+                        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [Socket]: " + message.internet_address + "].");
 
                         writer.write("[Socket]: " + message.socket);
 
@@ -64,13 +64,13 @@ public class MessageQueueSorter extends Thread
                 {
                     this.web_express.current_connections.remove(message.socket);
 
-                    System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size())+"].");
+                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size())+"].");
 
                     break;
                 }
                 catch (IOException e)
                 {
-                    System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> socket connection closed [Socket]: " + message.internet_address + "].");
+                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> socket connection closed [Socket]: " + message.internet_address + "].");
                 }
 
                 try
@@ -85,7 +85,7 @@ public class MessageQueueSorter extends Thread
                     {
                         if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                         {
-                            System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> received from active Telnet session ["+ WebExpress.REMOTE_SITE+":"+ WebExpress.REMOTE_PORT+"] message ["+line+"].");
+                            System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> received from active Telnet session ["+ WebExpress.REMOTE_SITE+":"+ WebExpress.REMOTE_PORT+"] message ["+line+"].");
 
                             writer.write(line);
 
@@ -95,7 +95,7 @@ public class MessageQueueSorter extends Thread
                         {
                             this.web_express.current_connections.remove(message.socket);
 
-                            System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::message.MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
+                            System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
 
                             break;
                         }
@@ -122,11 +122,11 @@ public class MessageQueueSorter extends Thread
 
     public synchronized void addMessage(MessageQueue.Message message)
     {
-        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
+        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
 
         this.web_express.message_queue.add(message);
 
-        System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
+        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
     }
 
     public synchronized MessageQueue getMessageQueue()

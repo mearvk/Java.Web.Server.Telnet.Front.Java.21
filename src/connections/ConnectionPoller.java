@@ -52,9 +52,9 @@ public class ConnectionPoller extends Thread
 
                 Integer size = current_connections.size();
 
-                System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::connections.ConnectionPoller >> new connection from ["+connection.socket.toString()+"].");
+                System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> new connection from ["+connection.socket.toString()+"].");
 
-                System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::connections.ConnectionPoller >> new connection count ["+size+"].");
+                System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> new connection count ["+size+"].");
 
                 MessageQueue.Message message = new MessageQueue.Message();
 
@@ -72,7 +72,7 @@ public class ConnectionPoller extends Thread
 
                 while ((line=reader.readLine())!=null)
                 {
-                    System.out.println("[Object ID: "+this.hashCode()+"] server.WebExpress::connections.ConnectionPoller >> reading in input for Telnet Proxy ["+line+"].");
+                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> reading in input for Telnet Proxy ["+line+"].");
 
                     buffer.append(line);
                 }
