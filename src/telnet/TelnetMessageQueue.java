@@ -44,6 +44,11 @@ public class TelnetMessageQueue
         this.messages.add(message);
     }
 
+    public synchronized Integer size()
+    {
+        return this.messages.size();
+    }
+
     public synchronized void delete(Message message)
     {
         this.messages = null;
