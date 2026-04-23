@@ -1,5 +1,5 @@
 #!/bin/bash
 #1
-split -n 4 ibm-sdk-8.zip ibm-sdk-8_
+split -n 18 graalvm-jdk-25.0.3_linux-x64_bin.tar.gz graal-sdk-25_
 
-cat ibm-sdk-8_* > ibm-sdk-8.zip
+cat graal-sdk-25_* > graal-sdk-25.zip
