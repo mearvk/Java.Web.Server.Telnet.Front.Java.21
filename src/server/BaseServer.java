@@ -124,7 +124,7 @@ public abstract class BaseServer extends Thread
 
                 connection.server = this;
 
-                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> new remote connection established [remote/ephemeral: "+connection.remote_address+" : local: "+this.port+"].");
+                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> new remote connection established [remote-ephemeral: "+connection.remote_address+" : local: "+this.port+"].");
 
                 try
                 {
