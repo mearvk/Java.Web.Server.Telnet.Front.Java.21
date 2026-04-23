@@ -72,7 +72,7 @@ public class ConnectionPoller extends Thread
 
                 while ((line=reader.readLine())!=null)
                 {
-                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> reading in input for Telnet Proxy ["+line+"].");
+                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy ["+line+"].");
 
                     buffer.append(line);
                 }
