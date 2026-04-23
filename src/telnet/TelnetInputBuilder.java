@@ -1,5 +1,7 @@
 package telnet;
 
+import commons.CommonRails;
+
 public class TelnetInputBuilder extends Thread
 {
     protected TelnetCommunicationProxy telnet_communication_proxy;
@@ -32,7 +34,7 @@ public class TelnetInputBuilder extends Thread
 
                     proxy.writer.write(message);
 
-                    System.out.println("[Object ID: "+this.hashCode()+"] TelnetOutputBuilder::Output >> sending message ["+message+"]");
+                    CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: "+this.hashCode()+"] TelnetOutputBuilder::Output >> sending message ["+message+"]");
 
                     proxy.writer.flush();
                 }

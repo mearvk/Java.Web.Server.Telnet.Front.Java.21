@@ -1,5 +1,6 @@
 package connections;
 
+import commons.CommonRails;
 import message.MessageQueue;
 import server.BaseServer;
 import server.WebExpress;
@@ -52,9 +53,9 @@ public class ConnectionPoller extends Thread
 
                 Integer size = current_connections.size();
 
-                System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> new connection from ["+connection.socket.toString()+"].");
+                CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> new connection from ["+connection.socket.toString()+"].");
 
-                System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> new connection count ["+size+"].");
+                CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> new connection count ["+size+"].");
 
                 MessageQueue.Message message = new MessageQueue.Message();
 
@@ -72,7 +73,7 @@ public class ConnectionPoller extends Thread
 
                 while ((line=reader.readLine())!=null)
                 {
-                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy ["+line+"].");
+                    CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy ["+line+"].");
 
                     buffer.append(line);
                 }
