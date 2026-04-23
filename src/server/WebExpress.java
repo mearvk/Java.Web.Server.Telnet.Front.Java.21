@@ -52,7 +52,7 @@ public class WebExpress extends BaseServer
             CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: *] WebExpress::Main >> starts [Object ID: "+this.hashCode()+"] [" + new Date() + "] [" + host + ":" + port + "]");
         }
 
-        CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: *] WebExpress::CommonRail >> starts ["+ new Date() +"].");
+        CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: *] WebExpress::CommonRails >> starts ["+ new Date() +"].");
 
         this.message_queue_sorter = new MessageQueueSorter(this);
 
