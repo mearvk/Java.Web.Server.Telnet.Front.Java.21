@@ -53,9 +53,9 @@ public class ConnectionPoller extends Thread
 
                 Integer size = current_connections.size();
 
-                CommonRails.printSystemComponent(this.hashCode(), "[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> new connection from ["+connection.socket.toString()+"].");
+                CommonRails.printSystemComponent(this.hashCode(), "[Object ID: "+this.hashCode()+"] WebExpress::ConnectionPoller >> new connection from ["+connection.socket.toString()+"].");
 
-                CommonRails.printSystemComponent(this.hashCode(), "[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> new connection count ["+size+"].");
+                CommonRails.printSystemComponent(this.hashCode(), "[Object ID: "+this.hashCode()+"] WebExpress::ConnectionPoller >> new connection count ["+size+"].");
 
                 MessageQueue.Message message = new MessageQueue.Message();
 
