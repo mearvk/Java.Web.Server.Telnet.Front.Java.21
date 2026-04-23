@@ -1,4 +1,4 @@
-package message;
+package messaging;
 
 import commons.CommonRails;
 import server.WebExpress;
@@ -21,7 +21,7 @@ public class MessageQueueSorter extends Thread
     @Override
     public void run()
     {
-        CommonRails.printSystemComponent(this.hashCode(), "*", "WebExpress::MessageQueueSorter >> starts ["+new Date()+"].");
+        CommonRails.printSystemComponent(this.hashCode(), "*", "WebExpress::MessageQueueSorter >> starts.");
 
         for(;;)
         {

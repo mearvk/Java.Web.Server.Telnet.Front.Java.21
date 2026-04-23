@@ -140,7 +140,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::server.BaseServer >> related input reader established.");
+                    CommonRails.printSystemComponent(this.hashCode(),"*","WebExpress::server.BaseServer >> related input reader established.");
                 }
 
                 try
@@ -157,7 +157,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::server.BaseServer >> related output writer established.");
+                    CommonRails.printSystemComponent(this.hashCode(),"", "WebExpress::server.BaseServer >> related output writer established.");
                 }
 
                 try
@@ -174,7 +174,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::BaseServer >> related I/O listener thread established.");
+                    CommonRails.printSystemComponent(this.hashCode(),"", "WebExpress::BaseServer >> related I/O listener thread established.");
                 }
 
                 this.current_connections.add(connection);

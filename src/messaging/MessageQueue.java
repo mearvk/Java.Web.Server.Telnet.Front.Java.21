@@ -1,4 +1,4 @@
-package message;
+package messaging;
 
 import server.BaseServer;
 

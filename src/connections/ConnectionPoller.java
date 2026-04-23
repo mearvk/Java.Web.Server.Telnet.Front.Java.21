@@ -1,7 +1,7 @@
 package connections;
 
 import commons.CommonRails;
-import message.MessageQueue;
+import messaging.MessageQueue;
 import server.BaseServer;
 import server.WebExpress;
 
