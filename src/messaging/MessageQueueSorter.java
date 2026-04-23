@@ -64,13 +64,13 @@ public class MessageQueueSorter extends Thread
                 {
                     this.web_express.current_connections.remove(message.socket);
 
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size())+"].");
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size())+"].");
 
                     break;
                 }
                 catch (IOException e)
                 {
-                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::message.MessageQueueSorter >> socket connection closed [Socket]: " + message.internet_address + "].");
+                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> socket connection closed [Socket]: " + message.internet_address + "].");
                 }
 
                 try
