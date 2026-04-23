@@ -3,6 +3,7 @@ package commons;
 import server.WebExpress;
 
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CommonRails
@@ -16,9 +17,11 @@ public class CommonRails
     {
         String compliant_hashcode = String.format("%010d", hashcode);
 
-        String object_id = "[Object ID: "+compliant_hashcode+"] >>";
+        String object_id = "[Object ID: "+compliant_hashcode+"]";
 
-        String date = "\n\t[Date: "+new Date().toString()+"]";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String date = "[Date: "+formatter.format(new Date())+"]";
 
         String reference = object_id + " " + date + " " + line;
 
