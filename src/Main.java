@@ -21,7 +21,7 @@ public class Main
     {
         WebExpress.reference = null;
 
-        CommonRails.printSystemComponent(this.hashCode(),"*","WebExpress::Main >> starts.");
+        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Main >> starts.");
 
         WebExpress web_express = new WebExpress("localhost", WEB_EXPRESS_SERVER_SOCKET, true);
 

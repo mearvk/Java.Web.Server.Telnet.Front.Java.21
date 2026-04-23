@@ -34,7 +34,7 @@ public class TelnetInputBuilder extends Thread
 
                     proxy.writer.write(message);
 
-                    CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: "+this.hashCode()+"] TelnetOutputBuilder::Output >> sending message ["+message+"]");
+                    CommonRails.printSystemComponent(this.hashCode(), "[Object ID: "+this.hashCode()+"] TelnetOutputBuilder::Output >> sending message ["+message+"]");
 
                     proxy.writer.flush();
                 }

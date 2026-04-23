@@ -13,7 +13,7 @@ public class CommonRails
 
     }
 
-    public static void printSystemComponent(Integer hashcode, String symbol, String line)
+    public static void printSystemComponent(Integer hashcode, String line)
     {
         String compliant_hashcode = String.format("%010d", hashcode);
 
