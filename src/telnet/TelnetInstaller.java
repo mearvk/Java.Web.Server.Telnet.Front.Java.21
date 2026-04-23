@@ -26,7 +26,7 @@ public class TelnetInstaller
 
     public TelnetInstaller(WebExpress web_express)
     {
-        CommonRails.printSystemComponent(this.hashCode(),"*","[Object ID: *] WebExpress::Telnet::Installer >> starts [" + new Date() + "].");
+        CommonRails.printSystemComponent(this.hashCode(),"*","WebExpress::Telnet::Installer >> starts [" + new Date() + "].");
 
         try
         {

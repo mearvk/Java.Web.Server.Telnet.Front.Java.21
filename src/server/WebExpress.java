@@ -41,7 +41,7 @@ public class WebExpress extends BaseServer
 
         if (telnet_proxy)
         {
-            CommonRails.printSystemComponent(this.hashCode(),"*","[Object ID: *] WebExpress::Main >> starts [" + new Date() + "] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
+            CommonRails.printSystemComponent(this.hashCode(),"*","WebExpress::Main >> starts [" + new Date() + "] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
 
             this.telnet_installer = new TelnetInstaller(this);
 
@@ -49,10 +49,10 @@ public class WebExpress extends BaseServer
         }
         else
         {
-            CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: *] WebExpress::Main >> starts [Object ID: "+this.hashCode()+"] [" + new Date() + "] [" + host + ":" + port + "]");
+            CommonRails.printSystemComponent(this.hashCode(),"*", "WebExpress::Main >> starts [Object ID: "+this.hashCode()+"] [" + new Date() + "] [" + host + ":" + port + "]");
         }
 
-        CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: *] WebExpress::CommonRails >> starts ["+ new Date() +"].");
+        CommonRails.printSystemComponent(this.hashCode(),"*", "WebExpress::CommonRails >> starts ["+ new Date() +"].");
 
         this.message_queue_sorter = new MessageQueueSorter(this);
 

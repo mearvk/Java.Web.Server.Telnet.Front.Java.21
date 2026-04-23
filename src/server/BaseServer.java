@@ -68,7 +68,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            CommonRails.printSystemComponent(this.hashCode(), "*","[Object ID: *] BaseServer::ServerSocket >> created on port ["+this.port+"]");
+            CommonRails.printSystemComponent(this.hashCode(), "*","BaseServer::ServerSocket >> created on port ["+this.port+"]");
         }
     }
 
@@ -103,7 +103,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            CommonRails.printSystemComponent(this.hashCode(), "*", "[Object ID: *] WebExpress::server.BaseServer >> server created on port ["+this.port+"].");
+            CommonRails.printSystemComponent(this.hashCode(), "*", "WebExpress::server.BaseServer >> server created on port ["+this.port+"].");
         }
     }
 
@@ -124,7 +124,7 @@ public abstract class BaseServer extends Thread
 
                 connection.server = this;
 
-                CommonRails.printSystemComponent(this.hashCode(), "*", "[Object ID: *] WebExpress::server.BaseServer >> new remote connection established ["+connection.remote_address+"].");
+                CommonRails.printSystemComponent(this.hashCode(), "*", "WebExpress::server.BaseServer >> new remote connection established ["+connection.remote_address+"].");
 
                 try
                 {
