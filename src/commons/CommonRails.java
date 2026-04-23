@@ -11,6 +11,15 @@ public class CommonRails
 
     }
 
+    public static void printSystemComponent(Integer hashcode, String symbol, String line)
+    {
+        String compliant_hashcode = String.format("%010d", hashcode);
+
+        String reference = line.replace(symbol, compliant_hashcode);
+
+        System.out.println(reference);
+    }
+
     protected static void _long(final String orgasm, WebExpress web_express, Integer not_less_than)
     {
         try

@@ -1,11 +1,11 @@
 package server;
 
+import commons.CommonRails;
 import message.MessageQueue;
 import message.MessageQueueSorter;
 import telnet.TelnetCommunicationProxy;
 import telnet.TelnetInstaller;
 
-import java.net.Socket;
 import java.util.Date;
 
 public class WebExpress extends BaseServer
@@ -41,7 +41,7 @@ public class WebExpress extends BaseServer
 
         if (telnet_proxy)
         {
-            System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Main >> starts [" + new Date() + "] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
+            CommonRails.printSystemComponent(this.hashCode(),"*","[Object ID: *] WebExpress::Main >> starts [" + new Date() + "] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
 
             this.telnet_installer = new TelnetInstaller(this);
 
@@ -49,10 +49,10 @@ public class WebExpress extends BaseServer
         }
         else
         {
-            System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Main >> starts [Object ID: "+this.hashCode()+"] [" + new Date() + "] [" + host + ":" + port + "]");
+            CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: *] WebExpress::Main >> starts [Object ID: "+this.hashCode()+"] [" + new Date() + "] [" + host + ":" + port + "]");
         }
 
-        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::CommonRail >> starts [" + new Date() + "].");
+        CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: *] WebExpress::CommonRail >> starts [\" + new Date() + \"].");
 
         this.message_queue_sorter = new MessageQueueSorter(this);
 

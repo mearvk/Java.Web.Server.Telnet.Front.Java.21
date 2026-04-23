@@ -1,3 +1,4 @@
+import commons.CommonRails;
 import server.WebExpress;
 
 import java.util.Date;
@@ -20,7 +21,7 @@ public class Main
     {
         WebExpress.reference = null;
 
-        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Main >> starts ["+ new Date() +"]");
+        CommonRails.printSystemComponent(this.hashCode(),"*","[Object ID: *] WebExpress::Main >> starts ["+ new Date() +"]");
 
         WebExpress web_express = new WebExpress("localhost", WEB_EXPRESS_SERVER_SOCKET, true);
 

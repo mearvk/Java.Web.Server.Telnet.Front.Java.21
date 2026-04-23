@@ -21,7 +21,7 @@ public class MessageQueueSorter extends Thread
     @Override
     public void run()
     {
-        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> starts ["+new Date()+"].");
+        CommonRails.printSystemComponent(this.hashCode(), "*", "[Object ID: *] WebExpress::message.MessageQueueSorter >> starts ["+new Date()+"].");
 
         for(;;)
         {
@@ -29,9 +29,9 @@ public class MessageQueueSorter extends Thread
 
             for(int i=0; i<message_queue.messages.size(); i++)
             {
-                System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
+                CommonRails.printSystemComponent(this.hashCode(), "*", "[Object ID: *] WebExpress::message.MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
 
-                System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> received message ["+message_queue.messages.get(i)+"].");
+                CommonRails.printSystemComponent(this.hashCode(), "*", "[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> received message ["+message_queue.messages.get(i)+"].");
 
                 MessageQueue.Message message = message_queue.messages.remove(i);
 
@@ -41,21 +41,21 @@ public class MessageQueueSorter extends Thread
                     {
                         BufferedWriter writer = this.web_express.telnet_communication_proxy.writer;
 
-                        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [Message]: " + message.message_buffer + "].");
+                        CommonRails.printSystemComponent(this.hashCode(), "*", "[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [Message]: " + message.message_buffer + "].");
 
-                        writer.write("[Message]: " + message.message_buffer);
+                        writer.write("[Message: ]"+message.message_buffer);
 
-                        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [Date]: " + message.time_stamp + "].");
+                        CommonRails.printSystemComponent(this.hashCode(), "*", "[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [Date]: " + message.time_stamp + "].");
 
                         writer.write("[Date]: " + message.time_stamp);
 
-                        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [IP Address]: " + message.internet_address + "].");
+                        CommonRails.printSystemComponent(this.hashCode(), "*", "[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [IP Address]: " + message.internet_address + "].");
 
                         writer.write("[IP Address]: " + message.internet_address);
 
-                        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [Socket]: " + message.internet_address + "].");
+                        CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: "+this.hashCode()+"] WebExpress::message.MessageQueueSorter >> sending to Telnet message [Socket]: " + message.socket + "].");
 
-                        writer.write("[Socket]: " + message.socket);
+                        writer.write("[Socket]: " + message.socket.toString());
 
                         writer.flush();
                     }
@@ -122,11 +122,11 @@ public class MessageQueueSorter extends Thread
 
     public synchronized void addMessage(MessageQueue.Message message)
     {
-        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
+        CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: *] WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
 
         this.web_express.message_queue.add(message);
 
-        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
+        CommonRails.printSystemComponent(this.hashCode(),"*", "[Object ID: *] WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
     }
 
     public synchronized MessageQueue getMessageQueue()

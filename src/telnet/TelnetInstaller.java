@@ -1,5 +1,6 @@
 package telnet;
 
+import commons.CommonRails;
 import server.WebExpress;
 
 import java.io.BufferedReader;
@@ -25,7 +26,7 @@ public class TelnetInstaller
 
     public TelnetInstaller(WebExpress web_express)
     {
-        System.out.println("[Object ID: "+this.hashCode()+"] WebExpress::Telnet::Installer >> starts [" + new Date() + "].");
+        CommonRails.printSystemComponent(this.hashCode(),"*","[Object ID: *] WebExpress::Telnet::Installer >> starts [" + new Date() + "].");
 
         try
         {
