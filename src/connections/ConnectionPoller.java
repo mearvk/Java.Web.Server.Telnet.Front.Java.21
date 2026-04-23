@@ -73,7 +73,7 @@ public class ConnectionPoller extends Thread
 
                 while ((line=reader.readLine())!=null)
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "[Object ID: "+this.hashCode()+"] WebExpress::connections.ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy ["+line+"].");
+                    CommonRails.printSystemComponent(this.hashCode(), "[Object ID: "+this.hashCode()+"] WebExpress::ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy ["+line+"].");
 
                     buffer.append(line);
                 }
