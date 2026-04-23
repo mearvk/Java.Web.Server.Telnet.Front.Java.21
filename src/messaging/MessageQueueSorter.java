@@ -95,7 +95,7 @@ public class MessageQueueSorter extends Thread
                         {
                             this.web_express.current_connections.remove(message.socket);
 
-                            System.out.println("WebExpress::message.MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
+                            CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size()+1)+"].");
 
                             break;
                         }
