@@ -31,7 +31,7 @@ public class MessageQueueSorter extends Thread
             {
                 CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
 
-                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> received message ["+message_queue.messages.get(i)+"].");
+                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> received message ["+message_queue.messages.get(i).message_buffer+"].");
 
                 MessageQueue.Message message = message_queue.messages.remove(i);
 
