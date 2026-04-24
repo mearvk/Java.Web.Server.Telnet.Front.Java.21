@@ -1,5 +1,6 @@
 package messaging;
 
+import connections.Connection;
 import server.BaseServer;
 
 import java.net.InetAddress;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class MessageQueue
 {
-    protected List<Message> messages;
+    protected ArrayList<Message> messages;
 
     protected BaseServer base_server;
 
@@ -19,7 +20,7 @@ public class MessageQueue
     {
         this.base_server = base_server;
 
-        this.messages = Collections.synchronizedList(messages = new ArrayList<>(5000));
+        this.messages = new ArrayList<>(5000);
     }
 
     public synchronized void add(Message message)
@@ -39,6 +40,8 @@ public class MessageQueue
 
     public static class Message
     {
+        public Connection connection;
+
         public Socket socket;
 
         public Date time_stamp;

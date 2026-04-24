@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.SocketTimeoutException;
 import java.util.Date;
 
 public class MessageQueueSorter extends Thread
@@ -33,7 +34,7 @@ public class MessageQueueSorter extends Thread
             {
                 CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
 
-                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> received message ["+message_queue.messages.get(i).message_buffer+"].");
+                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> received message from connection ["+message_queue.messages.get(i).socket+"] ["+message_queue.messages.get(i).message_buffer+"].");
 
                 MessageQueue.Message message = message_queue.messages.remove(i);
 
@@ -62,11 +63,18 @@ public class MessageQueueSorter extends Thread
                         writer.flush();
                     }
                 }
-                catch (NullPointerException npe)
+                catch (SocketTimeoutException ste)
                 {
-                    this.web_express.current_connections.remove(message.socket);
+                    try
+                    {
+                        message.socket.close();
+                    }
+                    catch (Exception e)
+                    {
+                        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size())+"].");
+                    }
 
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+(this.web_express.current_connections.size())+"].");
+                    this.web_express.current_connections.remove(message.socket);
 
                     break;
                 }

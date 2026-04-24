@@ -68,6 +68,8 @@ public class ConnectionPoller extends Thread
 
                 CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> new connection count ["+size+"].");
 
+                message.connection = connection;
+
                 message.socket = connection.socket;
 
                 message.internet_address = connection.socket.getInetAddress();
@@ -86,15 +88,13 @@ public class ConnectionPoller extends Thread
                     {
                         CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy ["+line+"].");
 
+                        message.socket.setSoTimeout(60*1000);
+
                         buffer.append(line);
 
                         message.message_buffer = new StringBuffer(buffer);
 
                         this.web_express.message_queue.add(message);
-
-                        System.out.println(message);
-
-                        Thread.sleep(100);
                     }
                 }
                 catch (SocketTimeoutException ste)
@@ -103,7 +103,7 @@ public class ConnectionPoller extends Thread
                 }
                 catch (Exception e)
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> exception ["+e.getMessage()+"].");
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> sockets exception ["+e.getMessage()+"].");
                 }
                 finally
                 {
@@ -118,6 +118,8 @@ public class ConnectionPoller extends Thread
                             CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> closed a turtle ["+latent.socket+"].");
                         }
                     }
+
+                    message.socket.setSoTimeout(10000);
                 }
             }
         }
