@@ -25,13 +25,13 @@ public class Main
 
         CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Main >> starts.");
 
-        WebExpress web_express = new WebExpress("localhost", WEB_EXPRESS_SERVER_SOCKET, WEB_EXPRESS_SERVER_THREAD_NAME, true);
+        WebExpress web_express = WebExpress.reference = new WebExpress("localhost", WEB_EXPRESS_SERVER_SOCKET, WEB_EXPRESS_SERVER_THREAD_NAME, true);
 
-        WebExpress aes_express = new WebExpress("localhost", AES2_EXPRESS_SERVER_SOCKET, AES2_EXPRESS_SERVER_THREAD_NAME, false);
+        //WebExpress aes_express = WebExpress.reference = new WebExpress("localhost", AES2_EXPRESS_SERVER_SOCKET, AES2_EXPRESS_SERVER_THREAD_NAME, false);
 
         web_express.start();
 
-        aes_express.start();
+        //aes_express.start();
     }
 
     public static void main(String...args)

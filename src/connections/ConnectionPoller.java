@@ -119,7 +119,10 @@ public class ConnectionPoller extends Thread
                         }
                     }
 
-                    message.socket.setSoTimeout(10000);
+                    if(CommonRails.SocketUtils.isSocketConnected(message.socket))
+                    {
+                        message.socket.setSoTimeout(10000);
+                    }
                 }
             }
         }

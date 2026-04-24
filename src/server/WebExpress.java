@@ -20,6 +20,8 @@ public class WebExpress extends BaseServer
 
     public static final String REMOTE_PORT = "80";
 
+    public String THREAD_NAME;
+
     public TelnetInstaller telnet_installer;
 
     public TelnetCommunicationProxy telnet_communication_proxy;
@@ -38,6 +40,8 @@ public class WebExpress extends BaseServer
     public WebExpress(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
     {
         super(host, port);
+
+        this.THREAD_NAME = thread_name;
 
         if (telnet_proxy)
         {
