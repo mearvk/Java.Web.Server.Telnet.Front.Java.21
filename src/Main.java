@@ -19,7 +19,7 @@ public class Main
 
     protected static final Integer AES2_EXPRESS_SERVER_SOCKET = 5512;
 
-    protected static final String AES2_EXPRESS_SERVER_THREAD_NAME = "AES2_SERVER";
+    protected static final String AES2_EXPRESS_SERVER_THREAD_NAME = "WEB_EXPRESS_AES2_SERVER";
     {
         WebExpress.reference = null;
 
