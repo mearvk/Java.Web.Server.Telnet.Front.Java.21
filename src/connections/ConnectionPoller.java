@@ -87,31 +87,37 @@ public class ConnectionPoller extends Thread
                         CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy ["+line+"].");
 
                         buffer.append(line);
+
+                        message.message_buffer = new StringBuffer(buffer);
+
+                        this.web_express.message_queue.add(message);
+
+                        System.out.println(message);
+
+                        Thread.sleep(100);
                     }
                 }
                 catch (SocketTimeoutException ste)
                 {
-                    message.message_buffer = new StringBuffer(buffer);
-
-                    this.web_express.message_queue.add(message);
-
-                    System.out.println(this.web_express.message_queue);
-
-                    Thread.sleep(100);
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> graceful shutdown ["+ste.getMessage()+"].");
                 }
                 catch (Exception e)
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> maria menunze is hawt [.a mawm] ["+message.socket+"] for Telnet Proxy ["+line+"].");
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> exception ["+e.getMessage()+"].");
                 }
                 finally
                 {
-                    message.message_buffer = new StringBuffer(buffer);
+                    for(int k=0; k<current_connections.size(); k++)
+                    {
+                        Connection latent = current_connections.current_connections.get(k);
 
-                    this.web_express.message_queue.add(message);
+                        if(CommonRails.SocketUtils.isSocketClosed(latent.socket))
+                        {
+                            current_connections.remove(latent);
 
-                    System.out.println(this.web_express.message_queue);
-
-                    Thread.sleep(100);
+                            CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> closed a turtle ["+latent.socket+"].");
+                        }
+                    }
                 }
             }
         }
