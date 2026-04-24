@@ -24,11 +24,11 @@ public class TelnetCommunicationProxy
 
     public BufferedReader reader;
 
-    protected TelnetProxyCommunicator telnet_proxy_communicator;
+    public TelnetProxyCommunicator telnet_proxy_communicator;
 
-    protected TelnetOutputBuilder output_builder;
+    public TelnetOutputBuilder output_builder;
 
-    protected TelnetInputBuilder input_builder;
+    public TelnetInputBuilder input_builder;
 
     public TelnetCommunicationProxy(WebExpress web_express)
     {

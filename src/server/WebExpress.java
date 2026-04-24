@@ -46,15 +46,25 @@ public class WebExpress extends BaseServer
             this.telnet_installer = new TelnetInstaller(this);
 
             this.telnet_communication_proxy = new TelnetCommunicationProxy(this);
+
+            this.message_queue_sorter = new MessageQueueSorter(this);
+
+            this.message_queue_sorter.setName("MessageQueueSorter.TelnetProxy");
+
+            this.telnet_communication_proxy.output_builder.setName("TelnetCommunicationProxy.OutputBuilder");
+
+            this.telnet_communication_proxy.input_builder.setName("TelnetCommunicationProxy.InputBuilder");
         }
         else
         {
             CommonRails.printSystemComponent(this.hashCode(), "WebExpress::Main >> starts [" + host + ":" + port + "]");
+
+            this.message_queue_sorter = new MessageQueueSorter(this);
+
+            this.message_queue_sorter.setName("MessageQueueSorter.AES2");
         }
 
         CommonRails.printSystemComponent(this.hashCode(), "WebExpress::CommonRails >> starts.");
-
-        this.message_queue_sorter = new MessageQueueSorter(this);
 
         this.message_queue_sorter.start();
 
