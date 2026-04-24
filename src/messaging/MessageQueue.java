@@ -27,6 +27,16 @@ public class MessageQueue
         this.messages.add(message);
     }
 
+    public synchronized void remove(Message message)
+    {
+        this.messages.remove(message);
+    }
+
+    public synchronized Integer size()
+    {
+        return this.messages.size();
+    }
+
     public static class Message
     {
         public Socket socket;

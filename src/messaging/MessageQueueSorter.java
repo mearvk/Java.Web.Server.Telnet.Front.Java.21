@@ -16,6 +16,8 @@ public class MessageQueueSorter extends Thread
     public MessageQueueSorter(WebExpress web_express)
     {
         this.web_express = web_express;
+
+        this.setName("MessageQueueSorter");
     }
 
     @Override

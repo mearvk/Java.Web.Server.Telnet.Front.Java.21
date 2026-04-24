@@ -31,6 +31,8 @@ public class WebExpress extends BaseServer
     public WebExpress()
     {
         WebExpress.reference = this;
+
+        this.setName("WebExpress");
     }
 
     public WebExpress(final String host, final Integer port, final Boolean telnet_proxy)
@@ -57,5 +59,7 @@ public class WebExpress extends BaseServer
         this.message_queue_sorter.start();
 
         WebExpress.reference = this;
+
+        this.setName("WebExpress");
     }
 }
