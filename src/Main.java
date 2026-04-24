@@ -15,17 +15,19 @@ public class Main
 
     protected static final Integer WEB_EXPRESS_SERVER_SOCKET = 49152;
 
+    protected static final String WEB_EXPRESS_SERVER_THREAD_NAME = "WEB_EXPRESS_TELNET_PROXY_SERVER";
+
     protected static final Integer AES2_EXPRESS_SERVER_SOCKET = 5512;
 
-    public Main()
+    protected static final String AES2_EXPRESS_SERVER_THREAD_NAME = "AES2_SERVER";
     {
         WebExpress.reference = null;
 
         CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Main >> starts.");
 
-        WebExpress web_express = new WebExpress("localhost", WEB_EXPRESS_SERVER_SOCKET, true);
+        WebExpress web_express = new WebExpress("localhost", WEB_EXPRESS_SERVER_SOCKET, WEB_EXPRESS_SERVER_THREAD_NAME, true);
 
-        WebExpress aes_express = new WebExpress("localhost", AES2_EXPRESS_SERVER_SOCKET, false);
+        WebExpress aes_express = new WebExpress("localhost", AES2_EXPRESS_SERVER_SOCKET, AES2_EXPRESS_SERVER_THREAD_NAME, false);
 
         web_express.start();
 
