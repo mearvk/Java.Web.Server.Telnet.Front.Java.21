@@ -4,6 +4,7 @@ import server.WebExpress;
 
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class CommonRails
@@ -11,6 +12,11 @@ public class CommonRails
     public CommonRails()
     {
 
+    }
+
+    public static <T> Integer size(ArrayList<T> list)
+    {
+        return list.size();
     }
 
     public static void printSystemComponent(Integer hashcode, String line)

@@ -63,17 +63,13 @@ public class ConnectionPoller extends Thread
 
             for(int i=0; i<current_connections.size(); i++)
             {
+                CurrentConnections connections = this.web_express.current_connections;
+
                 connection = current_connections.current_connections.get(i);
 
-                Integer size = current_connections.size();
+                EnglishArithemeter arithemeter = new EnglishArithemeter(connections.size());
 
-                EnglishArithemeter meter = new EnglishArithemeter();
-
-                String conversion = meter.convert(size);
-
-                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> new connection from ["+connection.socket.toString()+"].");
-
-                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> new connection count ["+conversion+" "+size+"].");
+                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> new connection from ["+connection.socket.getRemoteSocketAddress()+"] total connection count ["+arithemeter.result.arithemetic+" : "+arithemeter.result.numeral+"].");
 
                 message.connection = connection;
 
@@ -106,10 +102,14 @@ public class ConnectionPoller extends Thread
                 }
                 catch (SocketTimeoutException ste)
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> graceful shutdown ["+message.socket+"] ["+ste.getMessage()+"].");
+                    connections.remove(connection);
+
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> graceful disconnect ["+message.socket.getRemoteSocketAddress()+"] ["+ste.getMessage()+"] total connection count ["+connections.size()+"].");
                 }
                 catch (Exception e)
                 {
+                    connections.remove(connection);
+
                     CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> socket exception ["+e.getMessage()+"].");
                 }
                 finally

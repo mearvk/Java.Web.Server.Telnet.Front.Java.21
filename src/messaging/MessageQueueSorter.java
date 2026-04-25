@@ -10,7 +10,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 
 public class MessageQueueSorter extends Thread
 {
@@ -34,7 +33,7 @@ public class MessageQueueSorter extends Thread
 
             for(int i=0; i<message_queue.messages.size(); i++)
             {
-                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter ["+this.web_express.THREAD_NAME+"] >> reports message queue has size of ["+message_queue.messages.size()+"].");
+                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
 
                 CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> received message from connection ["+message_queue.messages.get(i).socket+"] ["+message_queue.messages.get(i).message_buffer+"].");
 
@@ -75,13 +74,13 @@ public class MessageQueueSorter extends Thread
                     }
                     catch (Exception e)
                     {
-                        Integer size = this.web_express.current_connections.size();
+                        CurrentConnections connections = this.web_express.current_connections;
 
-                        EnglishArithemeter meter = new EnglishArithemeter();
+                        connections.remove(message.connection);
 
-                        String conversion = meter.convert(size);
+                        EnglishArithemeter arithemeter = new EnglishArithemeter(connections.size());
 
-                        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+conversion+" "+size+"].");
+                        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+arithemeter.result.arithemetic +" : "+arithemeter.result.numeral +"].");
                     }
 
                     this.web_express.current_connections.remove(message.socket);
@@ -117,19 +116,11 @@ public class MessageQueueSorter extends Thread
                             {
                                 CurrentConnections connections = this.web_express.current_connections;
 
-                                String conversion;
+                                connections.remove(message.connection);
 
-                                Integer size;
+                                EnglishArithemeter arithemeter = new EnglishArithemeter(connections.size());
 
-                                connections.remove(message.socket);
-
-                                conversion = EnglishArithemeter.convert(connections.size());
-
-                                conversion = conversion.substring(0, 1).toUpperCase();
-
-                                size = EnglishArithemeter.size(connections.current_connections);
-
-                                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+conversion+" : "+size+"].");
+                                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+arithemeter.result.arithemetic+" : "+arithemeter.result.numeral+"].");
 
                                 break;
                             }

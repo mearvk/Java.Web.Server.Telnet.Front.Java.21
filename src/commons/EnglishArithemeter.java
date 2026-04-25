@@ -7,7 +7,6 @@ package commons;
  */
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 public class EnglishArithemeter
 {
@@ -15,12 +14,37 @@ public class EnglishArithemeter
 
     private static final String[] units = {"", " one", " two", " three", " four", " five", " six", " seven", " eight", " nine", " ten", " eleven", " twelve", " thirteen", " fourteen", " fifteen", " sixteen", " seventeen", " eighteen", " nineteen"};
 
-    public EnglishArithemeter()
-    {
+    public Result result = new Result();
 
+    public Integer size;
+
+    public EnglishArithemeter(Integer size)
+    {
+        this.size = size;
+
+        if(size<=1000)
+        {
+            this.olympics(size);
+        }
+        else
+        {
+            this.convert(size);
+        }
     }
 
-    public static String coulumbsOfNumbers(int number)
+    public static class Result
+    {
+        public String arithemetic;
+
+        public Integer numeral;
+
+        public Result()
+        {
+
+        }
+    }
+
+    public void olympics(int number)
     {
         String convert;
 
@@ -38,55 +62,52 @@ public class EnglishArithemeter
             number /= 10;
         }
 
-        if (number == 0) return convert;
+        if (number == 0)
+        {
+            this.result.arithemetic = "Zero";
 
-        return units[number] + " hundred" + convert;
+            this.result.numeral = 0;
+        }
+
+        this.result.arithemetic = units[number] + " hundred" + convert;
     }
 
-    public static <T> Integer size(ArrayList<T> list)
-    {
-        return list.size();
-    }
-
-    public static String convert(long number)
+    public void convert(long number)
     {
         if (number == 0)
         {
-            return "zero";
+            this.result.arithemetic =  "Zero";
+
+            this.result.numeral = 0;
         }
 
-        String snumber = Long.toString(number);
+        String convertable = Long.toString(number);
 
         String mask = "000000000000";
 
         DecimalFormat df = new DecimalFormat(mask);
 
-        snumber = df.format(number);
+        convertable = df.format(number);
 
-        int billions = Integer.parseInt(snumber.substring(0, 3));
+        int billions = Integer.parseInt(convertable.substring(0, 3));
 
-        int millions = Integer.parseInt(snumber.substring(3, 6));
+        int millions = Integer.parseInt(convertable.substring(3, 6));
 
-        int hundredThousands = Integer.parseInt(snumber.substring(6, 9));
+        int hundreds_of_thousands = Integer.parseInt(convertable.substring(6, 9));
 
-        int thousands = Integer.parseInt(snumber.substring(9, 12));
+        int thousands = Integer.parseInt(convertable.substring(9, 12));
 
         String tradBillions;
 
-        switch (billions)
+        if (billions == 0)
         {
-            case 0:
-                tradBillions = "";
+            tradBillions = "";
+        }
+        else
+        {
+            this.olympics(billions);
 
-                break;
-
-            case 1:
-                tradBillions = coulumbsOfNumbers(billions)  + " billion ";
-
-                break;
-
-            default:
-                tradBillions = coulumbsOfNumbers(billions)  + " billion ";
+            tradBillions = this.result.arithemetic + " billion ";
         }
 
         String result =  tradBillions;
@@ -97,23 +118,18 @@ public class EnglishArithemeter
         {
             case 0:
                 tradMillions = "";
-
-                break;
-
-            case 1 :
-                tradMillions = coulumbsOfNumbers(millions)  + " million ";
-
                 break;
 
             default :
-                tradMillions = coulumbsOfNumbers(millions)  + " million ";
+                olympics(millions);
+                tradMillions = this.result.arithemetic + " million ";
         }
 
         result =  result + tradMillions;
 
         String tradHundredThousands;
 
-        switch (hundredThousands)
+        switch (hundreds_of_thousands)
         {
             case 0:
                 tradHundredThousands = "";
@@ -126,18 +142,23 @@ public class EnglishArithemeter
                 break;
 
             default :
-                tradHundredThousands = coulumbsOfNumbers(hundredThousands) + " thousand ";
+                olympics(hundreds_of_thousands);
+                tradHundredThousands = this.result.arithemetic + " thousand ";
         }
 
         result =  result + tradHundredThousands;
 
         String tradThousand;
 
-        tradThousand = coulumbsOfNumbers(thousands);
+        this.olympics(thousands);
+
+        tradThousand = this.result.arithemetic;
 
         result =  result + tradThousand;
 
-        return result.replaceAll("^\\s+", "").replaceAll("\\b\\s{2,}\\b", " ");
+        String value =  result.replaceAll("^\\s+", "").replaceAll("\\b\\s{2,}\\b", " ");
+
+        this.result.arithemetic = value.substring(0, 1).toUpperCase()+value.substring(1);
     }
 }
 
