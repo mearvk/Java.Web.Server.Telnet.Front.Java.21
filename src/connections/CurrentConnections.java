@@ -27,7 +27,7 @@ public class CurrentConnections
 
     public ConnectionPoller thread;
 
-    ArrayList<Connection> current_connections = new ArrayList<Connection>();
+    public ArrayList<Connection> current_connections = new ArrayList<Connection>();
 
     public void add(Connection connection)
     {

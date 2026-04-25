@@ -1,6 +1,7 @@
 package connections;
 
 import commons.CommonRails;
+import commons.EnglishArithemeter;
 import messaging.MessageQueue;
 import server.BaseServer;
 import server.WebExpress;
@@ -22,6 +23,8 @@ public class ConnectionPoller extends Thread
     protected String host;
 
     protected Integer port;
+
+    protected final Integer SOCKET_TIMEOUT = 20*1000;
 
     public ConnectionPoller(WebExpress web_express, BaseServer base_server, String host, Integer port)
     {
@@ -64,9 +67,13 @@ public class ConnectionPoller extends Thread
 
                 Integer size = current_connections.size();
 
+                EnglishArithemeter meter = new EnglishArithemeter();
+
+                String conversion = meter.convert(size);
+
                 CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> new connection from ["+connection.socket.toString()+"].");
 
-                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> new connection count ["+size+"].");
+                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> new connection count ["+conversion+" "+size+"].");
 
                 message.connection = connection;
 
@@ -86,24 +93,24 @@ public class ConnectionPoller extends Thread
                 {
                     while ((line=reader.readLine())!=null)
                     {
-                        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy ["+line+"].");
+                        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy message ["+line+"].");
 
                         message.socket.setSoTimeout(60*1000);
 
                         buffer.append(line);
-
-                        message.message_buffer = new StringBuffer(buffer);
-
-                        this.web_express.message_queue.add(message);
                     }
+
+                    message.message_buffer = new StringBuffer(buffer);
+
+                    this.web_express.message_queue.add(message);
                 }
                 catch (SocketTimeoutException ste)
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> graceful shutdown ["+ste.getMessage()+"].");
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> graceful shutdown ["+message.socket+"] ["+ste.getMessage()+"].");
                 }
                 catch (Exception e)
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> sockets exception ["+e.getMessage()+"].");
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> socket exception ["+e.getMessage()+"].");
                 }
                 finally
                 {
@@ -121,7 +128,7 @@ public class ConnectionPoller extends Thread
 
                     if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                     {
-                        message.socket.setSoTimeout(10000);
+                        message.socket.setSoTimeout(SOCKET_TIMEOUT);
                     }
                 }
             }

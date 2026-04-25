@@ -34,6 +34,8 @@ public class WebExpress extends BaseServer
     {
         WebExpress.reference = this;
 
+        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::CommonRails >> starts.");
+
         this.setName("WebExpress");
     }
 
@@ -42,6 +44,8 @@ public class WebExpress extends BaseServer
         super(host, port);
 
         this.THREAD_NAME = thread_name;
+
+        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::CommonRails >> starts.");
 
         if (telnet_proxy)
         {
@@ -67,8 +71,6 @@ public class WebExpress extends BaseServer
 
             this.message_queue_sorter.setName("MessageQueueSorter.AES2");
         }
-
-        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::CommonRails >> starts.");
 
         this.message_queue_sorter.start();
 
