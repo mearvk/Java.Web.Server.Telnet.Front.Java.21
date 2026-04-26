@@ -16,6 +16,8 @@ public abstract class BaseServer extends Thread
 
     protected WebExpress reference = WebExpress.reference;
 
+    public static final Integer BASE_CONNECTION_TIMEOUT = 43200 * 2 * 2 * 1000;
+
     public String host = "localhost";
 
     public InetAddress address;
@@ -27,8 +29,6 @@ public abstract class BaseServer extends Thread
     public Boolean running = true;
 
     public CurrentConnections current_connections = new CurrentConnections();
-
-    public static final Integer BASE_CONNECTION_TIMEOUT = 43200 * 2 * 2 * 1000;
 
     private final RecordedConnections recorded_connections = new RecordedConnections();
 

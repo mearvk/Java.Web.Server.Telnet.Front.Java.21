@@ -77,6 +77,8 @@ public class WebExpress extends BaseServer
         WebExpress.reference = this;
 
         this.setName(thread_name);
+
+        this.start();
     }
 
     public static class Aspect
