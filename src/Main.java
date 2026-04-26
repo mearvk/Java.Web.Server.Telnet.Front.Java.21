@@ -43,11 +43,7 @@ public class Main
 
         WebExpress.Aspect.BitcoinCompliant bitcoin_express = new WebExpress.Aspect.BitcoinCompliant(BITCOIN_WEB_EXPRESS, BITCOIN_EXPRESS_SERVER_SOCKET, BITCOIN_EXPRESS_SERVER_THREAD_NAME, false);
 
-        web_express.start();
-
-        aes_express.start();
-
-        bitcoin_express.start();
+        WebExpress.reference.start();
     }
 
     public static void main(String...args)

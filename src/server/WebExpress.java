@@ -90,6 +90,8 @@ public class WebExpress extends BaseServer
                 this.port = port;
 
                 this.setName(thread_name);
+
+                this.start();
             }
         }
 
@@ -102,6 +104,8 @@ public class WebExpress extends BaseServer
                 this.port = port;
 
                 this.setName(thread_name);
+
+                this.start();
             }
         }
     }
