@@ -120,7 +120,7 @@ public abstract class BaseServer extends Thread
 
                 connection.socket = this.server_socket.accept();
 
-                connection.socket.setSoTimeout(60*1000*1000); //43200 * 100
+                connection.socket.setSoTimeout(42300*4*1000); //43200 seconds is 12 hours ~ half a day : is now 2 Days days.
 
                 connection.remote_address = connection.socket.getRemoteSocketAddress().toString();
 
