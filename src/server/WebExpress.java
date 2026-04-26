@@ -85,7 +85,11 @@ public class WebExpress extends BaseServer
         {
             public AESCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
             {
+                this.host = host;
 
+                this.port = port;
+
+                this.setName(thread_name);
             }
         }
 
@@ -93,7 +97,11 @@ public class WebExpress extends BaseServer
         {
             public BitcoinCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
             {
+                this.host = host;
 
+                this.port = port;
+
+                this.setName(thread_name);
             }
         }
     }

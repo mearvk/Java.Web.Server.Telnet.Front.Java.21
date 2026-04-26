@@ -21,7 +21,7 @@ public class Main
 
     protected static final String AES2_EXPRESS_SERVER_THREAD_NAME = "WEB_EXPRESS_AES2_SERVER";
 
-    protected static final Integer BITCOIN_EXPRESS_SERVER_SOCKET = 66812;
+    protected static final Integer BITCOIN_EXPRESS_SERVER_SOCKET = 6682;
 
     protected static final String BITCOIN_EXPRESS_SERVER_THREAD_NAME = "WEB_EXPRESS_BITCOIN_SERVER";
 
