@@ -1,10 +1,7 @@
 package server;
 
 import commons.CommonRails;
-import connections.Connection;
-import connections.ConnectionPoller;
-import connections.CurrentConnections;
-import connections.RecordedConnections;
+import connections.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,7 +28,9 @@ public abstract class BaseServer extends Thread
 
     public CurrentConnections current_connections = new CurrentConnections();
 
-    private RecordedConnections recorded_connections = new RecordedConnections();
+    private final RecordedConnections recorded_connections = new RecordedConnections();
+
+    private final InternationalConnections international_connections = new InternationalConnections();
 
     public BaseServer()
     {
@@ -187,6 +186,8 @@ public abstract class BaseServer extends Thread
                 this.current_connections.add(connection);
 
                 this.recorded_connections.add(connection);
+
+                this.international_connections.add(connection);
             }
         }
         catch(Exception se)
