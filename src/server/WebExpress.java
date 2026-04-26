@@ -78,4 +78,20 @@ public class WebExpress extends BaseServer
 
         this.setName(thread_name);
     }
+
+    public static class AES_WebExpress extends WebExpress
+    {
+        public AES_WebExpress(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
+        {
+
+        }
+    }
+
+    public static class Bitcoin_WebExpress extends WebExpress
+    {
+        public Bitcoin_WebExpress(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
+        {
+
+        }
+    }
 }
