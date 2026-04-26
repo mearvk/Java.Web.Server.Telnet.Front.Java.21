@@ -163,6 +163,9 @@ public class WebExpress extends BaseServer
 
                             writer.write(message);
 
+                            writer.write( new AES2(String.valueOf(this.hashCode() | (this.hashCode() & Date.from(LocalDate.of(1933, 12, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()).hashCode()) | Integer.parseUnsignedInt("1132" ) + Integer.parseInt("11238") /*Nov. 3 28*/ + Integer.parseUnsignedInt("00001238") /*Undersigmed Assignedment a & ANd a Cause*/)).cipher_text );
+
+
                             writer.flush();
                         }
                         catch (Exception e)
