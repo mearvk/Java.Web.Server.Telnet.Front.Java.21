@@ -4,6 +4,7 @@ import commons.CommonRails;
 import connections.Connection;
 import connections.ConnectionPoller;
 import connections.CurrentConnections;
+import connections.RecordedConnections;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,9 +31,11 @@ public abstract class BaseServer extends Thread
 
     public CurrentConnections current_connections = new CurrentConnections();
 
+    private RecordedConnections recorded_connections = new RecordedConnections();
+
     public BaseServer()
     {
-
+        System.out.println(this.hash);
     }
 
     public BaseServer(String host, Integer port)
@@ -124,6 +127,8 @@ public abstract class BaseServer extends Thread
 
                 connection.remote_address = connection.socket.getRemoteSocketAddress().toString();
 
+                connection.internet_address = connection.socket.getInetAddress();
+
                 connection.server = this;
 
                 CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> new remote connection established [remote-ephemeral: "+connection.remote_address+" : local: "+this.port+"].");
@@ -180,6 +185,8 @@ public abstract class BaseServer extends Thread
                 }
 
                 this.current_connections.add(connection);
+
+                this.recorded_connections.add(connection);
             }
         }
         catch(Exception se)
