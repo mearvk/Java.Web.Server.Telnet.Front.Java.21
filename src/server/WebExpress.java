@@ -102,6 +102,11 @@ public class WebExpress extends BaseServer
                 this.start();
             }
 
+            protected static class MessageOutputRecord
+            {
+
+            }
+
             protected static class MessageOutputHandler
             {
                 public Socket socket;
@@ -172,15 +177,12 @@ public class WebExpress extends BaseServer
                     }
                 }
             }
-
-            protected static class MessageOutputRecord
-            {
-
-            }
         }
 
         public static class BitcoinCompliant extends WebExpress
         {
+            public Socket socket;
+
             public BitcoinCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
             {
                 super(host, port, thread_name, telnet_proxy_enabled);
@@ -192,6 +194,77 @@ public class WebExpress extends BaseServer
                 this.setName(thread_name);
 
                 this.start();
+            }
+
+            public BitcoinCompliant()
+            {
+
+            }
+
+            public void send_message(StringBuffer buffer)
+            {
+                if (socket != null && CommonRails.SocketUtils.isSocketConnected(socket))
+                {
+                    try
+                    {
+                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+                        writer.write(buffer.toString());
+
+                        writer.flush();
+                    }
+                    catch (Exception e)
+                    {
+                        if (CommonRails.SocketUtils.isSocketClosed(socket))
+                        {
+                            try
+                            {
+                                socket.close();
+                            }
+                            catch (Exception xe)
+                            {
+                                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> closes on try-exception to close [" + socket.toString() + "]");
+                            }
+                            finally
+                            {
+                                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> safe closes [" + socket.toString() + "]");
+                            }
+                        }
+                    }
+                }
+            }
+
+            public void send_message(String message)
+            {
+                if (socket != null && CommonRails.SocketUtils.isSocketConnected(socket))
+                {
+                    try
+                    {
+                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+                        writer.write(message);
+
+                        writer.flush();
+                    }
+                    catch (Exception e)
+                    {
+                        if (CommonRails.SocketUtils.isSocketClosed(socket))
+                        {
+                            try
+                            {
+                                socket.close();
+                            }
+                            catch (Exception xe)
+                            {
+                                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> closes on try-exception to close [" + socket.toString() + "]");
+                            }
+                            finally
+                            {
+                                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> safe closes [" + socket.toString() + "]");
+                            }
+                        }
+                    }
+                }
             }
         }
     }
