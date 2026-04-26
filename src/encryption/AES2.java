@@ -26,13 +26,13 @@ public class AES2
     }
 
     /**
-     * @Author Max Rupplin
+     * @author Max Rupplin
      *
-     * Padding field of 12 symmetry rows
+     * Initial Padding field of 12 symmetry rows
      */
     public void two()
     {
-        String plain_field =
+        final String plain_field =
         "0x550x550x550x550x550x550x55\n" +
         "0x550x550x550x550x550x550x55\n" +
         "0x550x550x550x550x550x550x55\n" +
@@ -52,6 +52,9 @@ public class AES2
         BufferedReader reader = new BufferedReader(new StringReader(plain_field));
 
 
+
+
+        //11 permutations of cipher intermix
         for(int i=1; i<11; i++)
         {
             try
