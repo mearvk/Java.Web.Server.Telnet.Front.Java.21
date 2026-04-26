@@ -6,6 +6,10 @@ import messaging.MessageQueueSorter;
 import telnet.TelnetCommunicationProxy;
 import telnet.TelnetInstaller;
 
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+
 public class WebExpress extends BaseServer
 {
     public static WebExpress reference = new WebExpress();
@@ -81,6 +85,8 @@ public class WebExpress extends BaseServer
 
     public static class Aspect
     {
+        protected AESCompliant.MessageOutputHandler message_output_handler = new AESCompliant.MessageOutputHandler();
+
         public static class AESCompliant extends WebExpress
         {
             public AESCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
@@ -94,6 +100,82 @@ public class WebExpress extends BaseServer
                 this.setName(thread_name);
 
                 this.start();
+            }
+
+            protected static class MessageOutputHandler
+            {
+                public Socket socket;
+
+                public void send_message(StringBuffer buffer)
+                {
+                    if(socket!=null && CommonRails.SocketUtils.isSocketConnected(socket))
+                    {
+                        try
+                        {
+                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+                            writer.write(buffer.toString());
+
+                            writer.flush();
+                        }
+                        catch (Exception e)
+                        {
+                            if(CommonRails.SocketUtils.isSocketClosed(socket))
+                            {
+                                try
+                                {
+                                    socket.close();
+                                }
+                                catch (Exception xe)
+                                {
+                                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> closes on try-exception to close ["+socket.toString()+"]");
+                                }
+                                finally
+                                {
+                                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> safe closes ["+socket.toString()+"]");
+                                }
+                            }
+                        }
+                    }
+                }
+
+                public void send_message(String message)
+                {
+                    if(socket!=null && CommonRails.SocketUtils.isSocketConnected(socket))
+                    {
+                        try
+                        {
+                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+                            writer.write(message);
+
+                            writer.flush();
+                        }
+                        catch (Exception e)
+                        {
+                            if(CommonRails.SocketUtils.isSocketClosed(socket))
+                            {
+                                try
+                                {
+                                    socket.close();
+                                }
+                                catch (Exception xe)
+                                {
+                                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> closes on try-exception to close ["+socket.toString()+"]");
+                                }
+                                finally
+                                {
+                                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> safe closes ["+socket.toString()+"]");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            protected static class MessageOutputRecord
+            {
+
             }
         }
 
