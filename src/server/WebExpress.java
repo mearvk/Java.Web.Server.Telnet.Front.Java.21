@@ -1,6 +1,7 @@
 package server;
 
 import commons.CommonRails;
+import encryption.AES2;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import telnet.TelnetCommunicationProxy;
@@ -9,6 +10,8 @@ import telnet.TelnetInstaller;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.Date;
+import java.util.Random;
 
 public class WebExpress extends BaseServer
 {
@@ -87,6 +90,8 @@ public class WebExpress extends BaseServer
     {
         protected AESCompliant.MessageOutputHandler message_output_handler = new AESCompliant.MessageOutputHandler();
 
+        protected AES2 aes = new AES2(String.valueOf(new Random(10078)));
+
         public static class AESCompliant extends WebExpress
         {
             public AESCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
@@ -120,6 +125,8 @@ public class WebExpress extends BaseServer
                             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
                             writer.write(buffer.toString());
+
+                            writer.write( new AES2(String.valueOf(this.hashCode() | (this.hashCode() & new Date().hashCode()) | Integer.parseUnsignedInt("1132"))).cipher_text );
 
                             writer.flush();
                         }

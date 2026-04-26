@@ -28,6 +28,7 @@ public class AES2
     /**
      * @author Max Rupplin
      *
+     *
      * Initial Padding field of 12 symmetry rows
      */
     public void two()
@@ -47,12 +48,9 @@ public class AES2
         "0x550x550x550x550x550x550x55\n";
 
         //2ND, 7TH, and 6TH
+
         //0x166f2, 0c0134431, 0c4534321
-
         BufferedReader reader = new BufferedReader(new StringReader(plain_field));
-
-
-
 
         //11 permutations of cipher intermix
         for(int i=1; i<11; i++)
@@ -64,21 +62,21 @@ public class AES2
                 //0x166F2
                 if (i == 2)
                 {
-                    line = Integer.toString(Integer.parseInt(line) | 0x166F2);
+                    line = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x166F2);
                 }
 
                 //0c0134431
                 if (i == 7)
                 {
                     //rewrite radix 12.3
-                    line = Integer.toString(Integer.parseInt(line) | 0x0134431);
+                    line = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x0134431);
                 }
 
                 //0c4534321
                 if(i == 6)
                 {
                     //rewrite radix 12.3
-                    line = Integer.toString(Integer.parseInt(line) | 0x45344321);
+                    line = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x45344321);
                 }
             }
             catch(Exception e)
@@ -99,7 +97,7 @@ public class AES2
             {
                 String line = reader001.readLine();
 
-                String result = Integer.toString(Integer.parseInt(line) | 0x77c7);
+                String result = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x77c7);
             }
             catch (Exception e)
             {
@@ -122,22 +120,22 @@ public class AES2
 
                 if(i == 7)
                 {
-                    result_1_07 = Integer.toString(Integer.parseInt(line) | 0x7716);
+                    result_1_07 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x7716);
                 }
 
                 if(i == 2)
                 {
-                    result_1_02 = Integer.toString(Integer.parseInt(line) | 0x77223);
+                    result_1_02 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x77223);
                 }
 
                 if(i == 6)
                 {
-                    result_1_06 = Integer.toString(Integer.parseInt(line) | 0x7766);
+                    result_1_06 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x7766);
                 }
 
                 if(i == 1)
                 {
-                    result_1_01 = Integer.toString(Integer.parseInt(line) | 0x771c);
+                    result_1_01 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x771c);
                 }
             }
             catch (Exception e)
@@ -199,17 +197,17 @@ public class AES2
 
                 if(i == 17)
                 {
-                    result_2_17 = Integer.toString(Integer.parseInt(line) | 0x771321a);
+                    result_2_17 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x771321a);
                 }
 
                 if(i == 2)
                 {
-                    result_2_02 = Integer.toString(Integer.parseInt(line) | 0x7722321);
+                    result_2_02 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x7722321);
                 }
 
                 if(i == 3)
                 {
-                    result_2_03 = Integer.toString(Integer.parseInt(line) | 0x77321a);
+                    result_2_03 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x77321a);
                 }
             }
             catch (Exception e)
