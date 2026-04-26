@@ -41,7 +41,9 @@ public class Main
 
         web_express.start();
 
-        //aes_express.start();
+        aes_express.start();
+
+        bitcoin_express.start();
     }
 
     public static void main(String...args)
