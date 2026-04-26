@@ -28,6 +28,8 @@ public abstract class BaseServer extends Thread
 
     public CurrentConnections current_connections = new CurrentConnections();
 
+    public static final Integer BASE_CONNECTION_TIMEOUT = 43200 * 2 * 2 * 1000;
+
     private final RecordedConnections recorded_connections = new RecordedConnections();
 
     private final InternationalConnections international_connections = new InternationalConnections();
@@ -122,7 +124,7 @@ public abstract class BaseServer extends Thread
 
                 connection.socket = this.server_socket.accept();
 
-                connection.socket.setSoTimeout(42300*4*1000); //43200 seconds is 12 hours ~ half a day : is now 2 Days days.
+                connection.socket.setSoTimeout(BaseServer.BASE_CONNECTION_TIMEOUT);
 
                 connection.remote_address = connection.socket.getRemoteSocketAddress().toString();
 

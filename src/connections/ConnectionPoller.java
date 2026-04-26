@@ -24,7 +24,7 @@ public class ConnectionPoller extends Thread
 
     protected Integer port;
 
-    protected final Integer SOCKET_TIMEOUT = 20*1000;
+    protected static final Integer READ_WRITE_STANDARD_SOCKET_TIMEOUT = 60*2*1000;
 
     public ConnectionPoller(WebExpress web_express, BaseServer base_server, String host, Integer port)
     {
@@ -91,7 +91,7 @@ public class ConnectionPoller extends Thread
                     {
                         CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy message ["+line+"].");
 
-                        message.socket.setSoTimeout(10*1000);
+                        message.socket.setSoTimeout(ConnectionPoller.READ_WRITE_STANDARD_SOCKET_TIMEOUT);
 
                         buffer.append(line);
                     }
@@ -128,7 +128,7 @@ public class ConnectionPoller extends Thread
 
                     if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                     {
-                        message.socket.setSoTimeout(SOCKET_TIMEOUT);
+                        message.socket.setSoTimeout(READ_WRITE_STANDARD_SOCKET_TIMEOUT);
                     }
                 }
             }
