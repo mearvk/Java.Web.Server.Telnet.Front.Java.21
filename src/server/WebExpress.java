@@ -39,7 +39,7 @@ public class WebExpress extends BaseServer
         this.setName("WebExpress");
     }
 
-    public WebExpress(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
+    public WebExpress(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
     {
         super(host, port);
 
@@ -47,7 +47,7 @@ public class WebExpress extends BaseServer
 
         CommonRails.printSystemComponent(this.hashCode(), "WebExpress::CommonRails >> starts.");
 
-        if (telnet_proxy)
+        if (telnet_proxy_enabled)
         {
             CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Main >> starts [" + host + ":" + port + "] [Telnet Proxy Enabled]");
 
@@ -85,9 +85,9 @@ public class WebExpress extends BaseServer
     {
         public static class AESCompliant extends WebExpress
         {
-            public AESCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
+            public AESCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
             {
-                super(host, port, thread_name, telnet_proxy);
+                super(host, port, thread_name, telnet_proxy_enabled);
 
                 this.host = host;
 
@@ -101,9 +101,9 @@ public class WebExpress extends BaseServer
 
         public static class BitcoinCompliant extends WebExpress
         {
-            public BitcoinCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
+            public BitcoinCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
             {
-                super(host, port, thread_name, telnet_proxy);
+                super(host, port, thread_name, telnet_proxy_enabled);
 
                 this.host = host;
 
