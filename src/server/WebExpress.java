@@ -78,7 +78,7 @@ public class WebExpress extends BaseServer
 
         this.setName(thread_name);
 
-        this.start();
+
     }
 
     public static class Aspect
@@ -87,6 +87,8 @@ public class WebExpress extends BaseServer
         {
             public AESCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
             {
+                super(host, port, thread_name, telnet_proxy);
+
                 this.host = host;
 
                 this.port = port;
@@ -101,6 +103,8 @@ public class WebExpress extends BaseServer
         {
             public BitcoinCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy)
             {
+                super(host, port, thread_name, telnet_proxy);
+
                 this.host = host;
 
                 this.port = port;
