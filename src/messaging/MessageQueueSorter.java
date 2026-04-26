@@ -129,7 +129,7 @@ public class MessageQueueSorter extends Thread
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace(System.err);
+                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"].");
                 }
             }
 
