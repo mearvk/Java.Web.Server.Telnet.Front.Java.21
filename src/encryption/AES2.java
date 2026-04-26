@@ -9,6 +9,8 @@ public class AES2
 
     public String plain_text = "";
 
+    public String initial_pad = "";
+
     public String cipher_text = "";
 
     public AES2(String plain_text)
@@ -20,7 +22,7 @@ public class AES2
     {
         int sub = 0x88034321;
 
-        this.plain_text = Integer.toString(sub | Integer.parseInt(Integer.toOctalString(Integer.parseInt(plain_text))));
+        this.initial_pad = Integer.toString(sub | Integer.parseInt(Integer.toOctalString(Integer.parseInt(plain_text))));
     }
 
     public void two()
