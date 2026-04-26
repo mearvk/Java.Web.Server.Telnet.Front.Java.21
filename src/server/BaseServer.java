@@ -120,7 +120,7 @@ public abstract class BaseServer extends Thread
 
                 connection.socket = this.server_socket.accept();
 
-                connection.socket.setSoTimeout(10000);
+                connection.socket.setSoTimeout(60*1000*1000); //43200 * 100
 
                 connection.remote_address = connection.socket.getRemoteSocketAddress().toString();
 

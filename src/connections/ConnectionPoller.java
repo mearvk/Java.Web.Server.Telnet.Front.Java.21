@@ -91,7 +91,7 @@ public class ConnectionPoller extends Thread
                     {
                         CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy message ["+line+"].");
 
-                        message.socket.setSoTimeout(60*1000);
+                        message.socket.setSoTimeout(10*1000);
 
                         buffer.append(line);
                     }
@@ -122,7 +122,7 @@ public class ConnectionPoller extends Thread
                         {
                             current_connections.remove(latent);
 
-                            CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> closed a turtle ["+latent.socket+"].");
+                            CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> closed a sleeping turtle ["+latent.socket+"].");
                         }
                     }
 
@@ -137,14 +137,14 @@ public class ConnectionPoller extends Thread
         {
             CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> closing socket due to timeout ["+message.socket+"].");
 
-            current_connections.current_connections.remove(connection);
+            current_connections.remove(connection);
 
             if(message.message_buffer.length()>0)
             {
                 this.web_express.message_queue.add(message);
             }
 
-            CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> new connection count ["+current_connections.current_connections.size()+"].");
+            CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> new connection count ["+current_connections.size()+"].");
 
             try
             {
