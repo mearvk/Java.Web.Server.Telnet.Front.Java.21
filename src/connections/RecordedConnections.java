@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class RecordedConnections
 {
-    private ArrayList<RecordedConnection> recorded_connections = new ArrayList<>(1000*1000);
+    private final ArrayList<RecordedConnection> recorded_connections = new ArrayList<>(1000*1000);
 
     public RecordedConnections()
     {

@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class InternationalConnections
 {
-    private ArrayList<RecordedInternationalConnection> recorded_international_connections = new ArrayList<>(1000*1000);
+    private final ArrayList<RecordedInternationalConnection> recorded_international_connections = new ArrayList<>(1000*1000);
 
     public InternationalConnections()
     {
