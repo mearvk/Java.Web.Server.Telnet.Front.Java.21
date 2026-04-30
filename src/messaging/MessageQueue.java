@@ -1,5 +1,6 @@
 package messaging;
 
+import commons.CommonRails;
 import connections.Connection;
 import server.BaseServer;
 
@@ -30,6 +31,8 @@ public class MessageQueue
 
     public synchronized void add(Message message)
     {
+        CommonRails.printSystemComponent(this.hashCode(),"MessageQueue::add >> receives ["+message.message_buffer.toString()+"].");
+
         this.messages.add(message);
     }
 

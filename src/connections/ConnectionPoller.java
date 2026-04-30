@@ -104,6 +104,10 @@ public class ConnectionPoller extends Thread
                 }
                 catch (SocketTimeoutException ste)
                 {
+                    message.message_buffer = new StringBuffer(buffer);
+
+                    this.web_express.message_queue.add(message);
+
                     connections.remove(connection);
 
                     CommonRails.printSystemComponent(this.hashCode(), "WebExpress::ConnectionPoller >> graceful disconnect ["+message.socket.getRemoteSocketAddress()+"] ["+ste.getMessage()+"] total connection count ["+connections.size()+"].");
