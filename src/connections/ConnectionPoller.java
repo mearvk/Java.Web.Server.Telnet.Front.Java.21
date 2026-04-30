@@ -24,6 +24,8 @@ public class ConnectionPoller extends Thread
 
     protected Integer port;
 
+    protected final String LINE_FEED = "\n";
+
     protected static final Integer READ_WRITE_STANDARD_SOCKET_TIMEOUT = 60*2*1000;
 
     public ConnectionPoller(WebExpress web_express, BaseServer base_server, String host, Integer port)
@@ -81,7 +83,7 @@ public class ConnectionPoller extends Thread
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.socket.getInputStream()));
 
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
 
                 String line = null;
 
@@ -93,7 +95,7 @@ public class ConnectionPoller extends Thread
 
                         message.socket.setSoTimeout(ConnectionPoller.READ_WRITE_STANDARD_SOCKET_TIMEOUT);
 
-                        buffer.append(line);
+                        buffer.append(line).append(LINE_FEED);
                     }
 
                     message.message_buffer = new StringBuffer(buffer);
