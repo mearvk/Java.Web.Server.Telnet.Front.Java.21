@@ -58,16 +58,16 @@ public class TelnetMessageQueue
 
     public static class Message
     {
-        protected Integer port;
+        public Integer port;
 
-        protected String protocol;
+        public String protocol;
 
-        protected Socket socket;
+        public Socket socket;
 
-        protected Date time_stamp;
+        public Date time_stamp;
 
-        protected StringBuffer message_buffer = new StringBuffer();
+        public StringBuffer message_buffer = new StringBuffer();
 
-        protected InetAddress internet_address;
+        public InetAddress internet_address;
     }
 }

@@ -148,7 +148,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::BaseServer >> [related input] reader established ["+this.address+":"+this.port+"].");
+                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::BaseServer >> [related input reader] established ["+this.address+":"+this.port+"].");
                 }
 
                 try
@@ -165,7 +165,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> [related output] writer established ["+this.address+":"+this.port+"].");
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> [related output writer] established ["+this.address+":"+this.port+"].");
                 }
 
                 try

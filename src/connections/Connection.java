@@ -32,6 +32,8 @@ public class Connection
 
     public InetAddress internet_address;
 
+    public Boolean IS_TELNET_EXCELSIOR_CONNECTED = Boolean.FALSE;
+
     public Connection()
     {
         this.inception_date = new Date();

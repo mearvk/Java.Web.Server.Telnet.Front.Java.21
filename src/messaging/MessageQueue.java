@@ -4,6 +4,9 @@ import commons.CommonRails;
 import connections.Connection;
 import server.BaseServer;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -27,6 +30,28 @@ public class MessageQueue
         this.messages = null;
 
         this.messages = new ArrayList<>(5000);
+    }
+
+    public synchronized void send(Message message)
+    {
+        BufferedWriter writer;
+
+        try
+        {
+            writer = new BufferedWriter(new OutputStreamWriter(message.socket.getOutputStream()));
+
+            writer.write(message.message_buffer.toString(), 0, message.message_buffer.length());
+
+            writer.flush();
+
+            message.message_buffer = new StringBuffer();
+
+            CommonRails.printSystemComponent(this.hashCode(), "MessageQueue::TelnetQuickSend >> writing initial handshake to Telnet Remote System ["+message.socket+"].");
+        }
+        catch (Exception e)
+        {
+            CommonRails.printSystemComponent(this.hashCode(), "MessageQueue::TelnetQuickSend >> attempted writing initial handshake to Telnet Remote System ["+message.socket+"].");
+        }
     }
 
     public synchronized void add(Message message)
