@@ -2,6 +2,7 @@ package server;
 
 import commons.CommonRails;
 import encryption.AES2;
+import messaging.MessageOutputHandler;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import telnet.TelnetCommunicationProxy;
@@ -120,73 +121,16 @@ public class WebExpress extends BaseServer
 
                 public void send_message(StringBuffer buffer)
                 {
-                    if(socket!=null && CommonRails.SocketUtils.isSocketConnected(socket))
-                    {
-                        try
-                        {
-                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, buffer);
 
-                            writer.write(buffer.toString());
-
-                            writer.write( new AES2(String.valueOf(this.hashCode() | (this.hashCode() & Date.from(LocalDate.of(1933, 12, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()).hashCode()) | Integer.parseUnsignedInt("1132" ) + Integer.parseInt("11238") /*Nov. 3 28*/ + Integer.parseUnsignedInt("00001238") /*Undersigmed Assignedment a & ANd a Cause*/)).cipher_text );
-
-                            writer.flush();
-                        }
-                        catch (Exception e)
-                        {
-                            if(CommonRails.SocketUtils.isSocketClosed(socket))
-                            {
-                                try
-                                {
-                                    socket.close();
-                                }
-                                catch (Exception xe)
-                                {
-                                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> closes on try-exception to close ["+socket.toString()+"]");
-                                }
-                                finally
-                                {
-                                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> safe closes ["+socket.toString()+"]");
-                                }
-                            }
-                        }
-                    }
+                    message_output_handler.run();
                 }
 
                 public void send_message(String message)
                 {
-                    if(socket!=null && CommonRails.SocketUtils.isSocketConnected(socket))
-                    {
-                        try
-                        {
-                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, message);
 
-                            writer.write(message);
-
-                            writer.write( new AES2(String.valueOf(this.hashCode() | (this.hashCode() & Date.from(LocalDate.of(1933, 12, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()).hashCode()) | Integer.parseUnsignedInt("1132" ) + Integer.parseInt("11238") /*Nov. 3 28*/ + Integer.parseUnsignedInt("00001238") /*Undersigmed Assignedment a & ANd a Cause*/)).cipher_text );
-
-
-                            writer.flush();
-                        }
-                        catch (Exception e)
-                        {
-                            if(CommonRails.SocketUtils.isSocketClosed(socket))
-                            {
-                                try
-                                {
-                                    socket.close();
-                                }
-                                catch (Exception xe)
-                                {
-                                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> closes on try-exception to close ["+socket.toString()+"]");
-                                }
-                                finally
-                                {
-                                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> safe closes ["+socket.toString()+"]");
-                                }
-                            }
-                        }
-                    }
+                    message_output_handler.run();
                 }
             }
         }
@@ -215,68 +159,16 @@ public class WebExpress extends BaseServer
 
             public void send_message(StringBuffer buffer)
             {
-                if (socket != null && CommonRails.SocketUtils.isSocketConnected(socket))
-                {
-                    try
-                    {
-                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                MessageOutputHandler message_output_handler = new MessageOutputHandler(socket, buffer);
 
-                        writer.write(buffer.toString());
-
-                        writer.flush();
-                    }
-                    catch (Exception e)
-                    {
-                        if (CommonRails.SocketUtils.isSocketClosed(socket))
-                        {
-                            try
-                            {
-                                socket.close();
-                            }
-                            catch (Exception xe)
-                            {
-                                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> closes on try-exception to close [" + socket.toString() + "]");
-                            }
-                            finally
-                            {
-                                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> safe closes [" + socket.toString() + "]");
-                            }
-                        }
-                    }
-                }
+                message_output_handler.run();
             }
 
             public void send_message(String message)
             {
-                if (socket != null && CommonRails.SocketUtils.isSocketConnected(socket))
-                {
-                    try
-                    {
-                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                MessageOutputHandler message_output_handler = new MessageOutputHandler(socket, message);
 
-                        writer.write(message);
-
-                        writer.flush();
-                    }
-                    catch (Exception e)
-                    {
-                        if (CommonRails.SocketUtils.isSocketClosed(socket))
-                        {
-                            try
-                            {
-                                socket.close();
-                            }
-                            catch (Exception xe)
-                            {
-                                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> closes on try-exception to close [" + socket.toString() + "]");
-                            }
-                            finally
-                            {
-                                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> safe closes [" + socket.toString() + "]");
-                            }
-                        }
-                    }
-                }
+                message_output_handler.run();
             }
         }
     }
