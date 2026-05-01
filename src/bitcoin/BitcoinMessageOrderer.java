@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class BitcoinMessageOrderer extends Thread
 {
+    protected String hash = "0xDA717018470E213F";
+
     public ArrayList<BitcoinMessage> bitcoin_messages = new ArrayList<BitcoinMessage>(5000);
 
     public BitcoinBase bitcoin;

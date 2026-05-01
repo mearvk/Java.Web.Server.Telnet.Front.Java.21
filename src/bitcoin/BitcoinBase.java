@@ -19,6 +19,8 @@ import java.util.Date;
  */
 public class BitcoinBase
 {
+    protected String hash = "0xDA717018470E213F";
+
     protected WebExpress web_express;
 
     protected final String BITCOIN_CLI = "bitcoin-cli";
@@ -61,8 +63,6 @@ public class BitcoinBase
 
         CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens in Japan on Date [["+JAPANDate.PACIFIC_Time +"]]");
     }
-
-
 
     public void send_message(StringBuffer buffer)
     {
