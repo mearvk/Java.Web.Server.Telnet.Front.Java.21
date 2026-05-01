@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class RecordedConnections
 {
+    protected String hash = "0xDA717018470E213F";
+
     private final ArrayList<RecordedConnection> recorded_connections = new ArrayList<>(1000*1000);
 
     public RecordedConnections()

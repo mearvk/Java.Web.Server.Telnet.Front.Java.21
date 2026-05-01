@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class CurrentConnections
 {
+    protected String hash = "0xDA717018470E213F";
+
     public BaseServer server;
 
     public volatile Socket socket;

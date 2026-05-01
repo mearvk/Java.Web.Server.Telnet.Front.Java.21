@@ -13,6 +13,8 @@ import java.net.SocketTimeoutException;
 
 public class MessageQueueSorter extends Thread
 {
+    protected String hash = "0xDA717018470E213F";
+
     protected WebExpress web_express;
 
     public MessageQueueSorter(WebExpress web_express)

@@ -10,6 +10,8 @@ import java.text.DecimalFormat;
 
 public class EnglishArithemeter
 {
+    protected String hash = "0xDA717018470E213F";
+
     private static final String[] tens = {"", " ten", " twenty", " thirty", " forty", " fifty", " sixty", " seventy", " eighty", " ninety"};
 
     private static final String[] units = {"", " one", " two", " three", " four", " five", " six", " seven", " eight", " nine", " ten", " eleven", " twelve", " thirteen", " fourteen", " fifteen", " sixteen", " seventeen", " eighteen", " nineteen"};

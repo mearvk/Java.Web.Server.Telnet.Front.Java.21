@@ -15,6 +15,8 @@ import java.util.Date;
 
 public class ConnectionPoller extends Thread
 {
+    protected String hash = "0xDA717018470E213F";
+
     protected BaseServer base_server;
 
     protected WebExpress web_express;

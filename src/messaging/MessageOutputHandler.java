@@ -12,6 +12,8 @@ import java.util.Date;
 
 public class MessageOutputHandler implements Runnable
 {
+    protected String hash = "0xDA717018470E213F";
+
     protected Socket socket;
 
     protected StringBuffer buffer;

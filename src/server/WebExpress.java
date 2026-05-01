@@ -18,6 +18,8 @@ import java.util.Random;
 
 public class WebExpress extends BaseServer
 {
+    protected String hash = "0xDA717018470E213F";
+
     public static WebExpress reference = new WebExpress();
 
     public static final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};

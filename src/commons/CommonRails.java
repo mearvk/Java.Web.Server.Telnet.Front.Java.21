@@ -9,6 +9,8 @@ import java.util.Date;
 
 public class CommonRails
 {
+    protected String hash = "0xDA717018470E213F";
+
     public CommonRails()
     {
 

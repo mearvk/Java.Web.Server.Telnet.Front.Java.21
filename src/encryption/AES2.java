@@ -5,6 +5,8 @@ import java.io.StringReader;
 
 public class AES2
 {
+    protected String hash = "0xDA717018470E213F";
+
     public int ROUNDS = 32;
 
     public String plain_text = "";

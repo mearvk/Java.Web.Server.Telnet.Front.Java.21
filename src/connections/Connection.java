@@ -12,6 +12,8 @@ import java.util.Date;
 
 public class Connection
 {
+    protected String hash = "0xDA717018470E213F";
+
     public BaseServer server;
 
     public volatile Socket socket;
