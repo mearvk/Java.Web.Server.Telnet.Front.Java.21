@@ -27,7 +27,7 @@ public class Bitcoin
 
     protected final String BITCOIN_CLI_LOAD_WALLET_ARGS = "-named loadwallet -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\" wallet_name=\"United States\"";
 
-    protected final String BITCOIN_GET_WALLET_NAME_ARGS = "-named getwalletinfo wallet_name\"United States\"";
+    protected final String BITCOIN_GET_WALLET_NAME_ARGS = "-named getwalletinfo -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\" wallet_name\"United States\"";
 
     protected final String BITCOIN_CLI_DELETE_WALLET_CMD = "rm -r";
 
@@ -108,14 +108,14 @@ public class Bitcoin
 
             CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
 
-            return "";
+            return "-1";
         }
         catch (Exception e)
         {
             CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
         }
 
-        return "";
+        return "-1";
     }
 
     public void delete_wallet(final String url) throws IOException
