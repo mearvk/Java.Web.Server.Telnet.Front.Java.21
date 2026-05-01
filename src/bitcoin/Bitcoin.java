@@ -23,7 +23,7 @@ public class Bitcoin
     
     protected final String BITCOIN_PORT = "";
 
-    protected final String BITCOIND_START_ARGS = "-regtest -daemon";
+    protected final String BITCOIND_START_ARGS = "-regtest -daemon -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\"";
 
     protected final String BITCOIN_CLI_LOAD_WALLET_ARGS = "-named loadwallet -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\" wallet_name=\"United States\"";
 
@@ -31,11 +31,11 @@ public class Bitcoin
 
     protected final String BITCOIN_CLI_DELETE_WALLET_CMD = "rm -r";
 
-    protected final String BITCOIN_CLI_UNLOAD_WALLET_ARGS = "-named unloadwallet wallet_name=\"United States\"";
+    protected final String BITCOIN_CLI_UNLOAD_WALLET_ARGS = "-named unloadwallet -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\" wallet_name=\"United States\"";
 
     protected final String BITCOIN_CLI_RENAME_WALLET_ARGS = "";
 
-    protected final String BITCOIN_CLI_ADD_NEW_WALLET_ARGS = "";
+    protected final String BITCOIN_CLI_ADD_NEW_WALLET_ARGS = "bitcoin-cli createwallet -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\"";
 
     protected final String BITCOIN_CLI_SEND_LOCAL_WALLET_TO_REMOTE_WALLET_ARGS = "";
 

@@ -3,9 +3,13 @@
     <words>
       <w>arithemeter</w>
       <w>blockstorage</w>
+      <w>createwallet</w>
+      <w>getwalletinfo</w>
       <w>governmor</w>
       <w>justem</w>
       <w>loadwallet</w>
+      <w>rpcpassword</w>
+      <w>rpcport</w>
       <w>rupplin</w>
       <w>soros</w>
       <w>tacobell</w>
