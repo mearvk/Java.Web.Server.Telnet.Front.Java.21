@@ -80,17 +80,17 @@ public class Bitcoin
 
         public synchronized void add(BitcoinMessage bitcoin_message)
         {
-
+            this.bitcoin_messages.add(bitcoin_message);
         }
 
         public synchronized void remove(BitcoinMessage bitcoin_message)
         {
-
+            this.bitcoin_messages.remove(bitcoin_message);
         }
 
         public synchronized void clear(BitcoinMessage bitcoin_message)
         {
-
+            this.bitcoin_messages.clear();
         }
 
         public static class BitcoinMessage
@@ -102,6 +102,11 @@ public class Bitcoin
             protected InetAddress inet_address;
 
             protected StringBuffer message_buffer;
+
+            public BitcoinMessage()
+            {
+
+            }
         }
     }
 
