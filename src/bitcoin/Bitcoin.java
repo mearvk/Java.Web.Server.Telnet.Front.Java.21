@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * @author Max Rupplin
@@ -53,9 +51,13 @@ public class Bitcoin
     {
         this.web_express = web_express;
 
+        BitcoinAsianDate JAPANDate = new BitcoinAsianDate();
+
         BitcoinESTDate ESTDate = new BitcoinESTDate();
 
-        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens on Date [["+ESTDate.EST_Time+"]]");
+        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens in North Carolina on Date [["+ESTDate.EST_Time+"]]");
+
+        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens in Japan on Date [["+JAPANDate.PACIFIC_Time +"]]");
     }
 
     public static class BitcoinMessageOrderer extends Thread
