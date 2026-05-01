@@ -8,12 +8,7 @@ import messaging.MessageQueueSorter;
 import telnet.TelnetCommunicationProxy;
 import telnet.TelnetInstaller;
 
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.Random;
 
 public class WebExpress extends BaseServer
@@ -48,7 +43,7 @@ public class WebExpress extends BaseServer
 
         CommonRails.printSystemComponent(this.hashCode(), "WebExpress::CommonRails >> starts.");
 
-        this.setName("WebExpress");
+        this.setName("United States::D500::WebExpress");
     }
 
     public WebExpress(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
@@ -114,12 +109,20 @@ public class WebExpress extends BaseServer
 
             protected static class MessageOutputRecord
             {
-
+                public MessageOutputRecord()
+                {
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputRecord >> starts.");
+                }
             }
 
             protected static class MessageOutputHandler
             {
                 public Socket socket;
+
+                public MessageOutputHandler()
+                {
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> starts.");
+                }
 
                 public void send_message(StringBuffer buffer)
                 {
@@ -156,7 +159,7 @@ public class WebExpress extends BaseServer
 
             public BitcoinCompliant()
             {
-
+                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BitcoinCompliant >> starts.");
             }
 
             public void send_message(StringBuffer buffer)
