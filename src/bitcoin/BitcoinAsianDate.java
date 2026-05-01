@@ -1,5 +1,7 @@
 package bitcoin;
 
+import sim.stochastic;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -37,4 +39,10 @@ public class BitcoinAsianDate
 
         this.PACIFIC_Time = formatter.format(date);
     }
+
+    stochastic sim;
+
+    stochastic loaddsm_;
+
+    stochastic loadcharacteristic_privileges;
 }
