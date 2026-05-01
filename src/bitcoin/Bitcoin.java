@@ -1,11 +1,15 @@
 package bitcoin;
 
 import commons.CommonRails;
+import server.WebExpress;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -15,6 +19,8 @@ import java.util.TimeZone;
  */
 public class Bitcoin
 {
+    protected WebExpress web_express;
+
     protected final String BITCOIN_CLI = "bitcoin-cli";
 
     protected final String BITCOIND = "bitcoind";
@@ -41,13 +47,64 @@ public class Bitcoin
 
     protected final String SPACE = " ";
 
-    public Bitcoin()
+    protected BitcoinMessageOrderer bitcoin_message_orderer = new BitcoinMessageOrderer(this);
+
+    public Bitcoin(WebExpress web_express)
     {
+        this.web_express = web_express;
+
         SimpleDateFormat date_formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
 
         date_formatter.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 
         CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens on Date [["+date_formatter.format(new Date())+"]]");
+    }
+
+    public static class BitcoinMessageOrderer extends Thread
+    {
+        public ArrayList<BitcoinMessage> bitcoin_messages = new ArrayList<BitcoinMessage>(5000);
+
+        public Bitcoin bitcoin;
+
+        public BitcoinMessageOrderer(Bitcoin bitcoin)
+        {
+            this.bitcoin = bitcoin;
+        }
+
+        @Override
+        public void run()
+        {
+            while(true)
+            {
+
+            }
+        }
+
+        public synchronized void add(BitcoinMessage bitcoin_message)
+        {
+
+        }
+
+        public synchronized void remove(BitcoinMessage bitcoin_message)
+        {
+
+        }
+
+        public synchronized void clear(BitcoinMessage bitcoin_message)
+        {
+
+        }
+
+        public static class BitcoinMessage
+        {
+            protected Date date;
+
+            protected Socket socket;
+
+            protected InetAddress inet_address;
+
+            protected StringBuffer message_buffer;
+        }
     }
 
     public void send_message(StringBuffer buffer)
