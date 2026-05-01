@@ -36,3 +36,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/resources/graal-sdks/
+/resources/ibm-sdks/
