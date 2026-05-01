@@ -50,6 +50,16 @@ public class Bitcoin
         CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens on Date [["+date_formatter.format(new Date())+"]]");
     }
 
+    public void send_message(StringBuffer buffer)
+    {
+
+    }
+
+    public void send_message(String message)
+    {
+
+    }
+
     public void start_server_instance(final String url)
     {
         try
