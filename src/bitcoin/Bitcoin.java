@@ -53,11 +53,9 @@ public class Bitcoin
     {
         this.web_express = web_express;
 
-        SimpleDateFormat date_formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+        BitcoinESTDate ESTDate = new BitcoinESTDate();
 
-        date_formatter.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-
-        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens on Date [["+date_formatter.format(new Date())+"]]");
+        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens on Date [["+ESTDate.EST_Time+"]]");
     }
 
     public static class BitcoinMessageOrderer extends Thread
