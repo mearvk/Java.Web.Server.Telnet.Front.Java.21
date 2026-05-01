@@ -1,8 +1,8 @@
 package server;
 
+import bitcoin.BitcoinBase;
 import commons.CommonRails;
 import encryption.AES2;
-import messaging.MessageOutputHandler;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import telnet.TelnetCommunicationProxy;
@@ -88,9 +88,20 @@ public class WebExpress extends BaseServer
 
     public static class Aspect
     {
-        protected AESCompliant.MessageOutputHandler message_output_handler = new AESCompliant.MessageOutputHandler();
+        protected WebExpress web_express;
 
-        protected AES2 aes = new AES2(String.valueOf(new Random(10078)));
+        protected AESCompliant.MessageOutputHandler aes_message_output_handler = new AESCompliant.MessageOutputHandler();
+
+        protected BitcoinCompliant.MessageOutputHandler bitcoin_message_output_handler = new BitcoinCompliant.MessageOutputHandler();
+
+        protected AES2 aes = new AES2( String.valueOf(new Random(10078)));
+
+        protected BitcoinBase bitcoin_base = new BitcoinBase(this);
+
+        public Aspect(WebExpress web_express)
+        {
+            this.web_express = web_express;
+        }
 
         public static class AESCompliant extends WebExpress
         {
@@ -111,7 +122,7 @@ public class WebExpress extends BaseServer
             {
                 public MessageOutputRecord()
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputRecord >> starts.");
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::AESCompliant::MessageOutputRecord >> loads.");
                 }
             }
 
@@ -121,7 +132,7 @@ public class WebExpress extends BaseServer
 
                 public MessageOutputHandler()
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageOutputHandler >> starts.");
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::AESCompliant::MessageOutputHandler >> starts.");
                 }
 
                 public void send_message(StringBuffer buffer)
@@ -162,18 +173,36 @@ public class WebExpress extends BaseServer
                 CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BitcoinCompliant >> starts.");
             }
 
-            public void send_message(StringBuffer buffer)
+            protected static class MessageOutputRecord
             {
-                MessageOutputHandler message_output_handler = new MessageOutputHandler(socket, buffer);
-
-                message_output_handler.run();
+                public MessageOutputRecord()
+                {
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BitcoinCompliant::MessageOutputRecord >> loads.");
+                }
             }
 
-            public void send_message(String message)
+            protected static class MessageOutputHandler
             {
-                MessageOutputHandler message_output_handler = new MessageOutputHandler(socket, message);
+                public Socket socket;
 
-                message_output_handler.run();
+                public MessageOutputHandler()
+                {
+                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BitcoinCompliant::MessageOutputHandler >> starts.");
+                }
+
+                public void send_message(StringBuffer buffer)
+                {
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, buffer);
+
+                    message_output_handler.run();
+                }
+
+                public void send_message(String message)
+                {
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, message);
+
+                    message_output_handler.run();
+                }
             }
         }
     }

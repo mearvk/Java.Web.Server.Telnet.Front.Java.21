@@ -21,7 +21,7 @@ public class BitcoinBase
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected WebExpress web_express;
+    protected WebExpress.Aspect aspect;
 
     protected final String BITCOIN_CLI = "bitcoin-cli";
 
@@ -51,9 +51,9 @@ public class BitcoinBase
 
     protected BitcoinMessageOrderer bitcoin_message_orderer = new BitcoinMessageOrderer(this);
 
-    public BitcoinBase(WebExpress web_express)
+    public BitcoinBase(WebExpress.Aspect aspect)
     {
-        this.web_express = web_express;
+        this.aspect = aspect;
 
         BitcoinAsianDate JAPANDate = new BitcoinAsianDate();
 
