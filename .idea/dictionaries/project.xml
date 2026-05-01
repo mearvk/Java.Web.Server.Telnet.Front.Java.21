@@ -2,11 +2,14 @@
   <dictionary name="project">
     <words>
       <w>arithemeter</w>
+      <w>blockstorage</w>
       <w>governmor</w>
       <w>justem</w>
+      <w>loadwallet</w>
       <w>rupplin</w>
       <w>soros</w>
       <w>tacobell</w>
+      <w>unloadwallet</w>
     </words>
   </dictionary>
 </component>
