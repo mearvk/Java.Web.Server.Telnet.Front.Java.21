@@ -88,7 +88,7 @@ public class Bitcoin
 
             String message;
 
-            StringBuffer return_value = new StringBuffer();
+            StringBuilder return_value = new StringBuilder();
 
             if((message=reader.readLine())!=null)
             {
