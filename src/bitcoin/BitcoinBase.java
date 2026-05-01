@@ -1,5 +1,7 @@
 package bitcoin;
 
+import bitcoin.time.BitcoinAsianDate;
+import bitcoin.time.BitcoinESTDate;
 import commons.CommonRails;
 import server.WebExpress;
 
@@ -15,7 +17,7 @@ import java.util.Date;
  * @author Max Rupplin
  * @date April 30 2026 - 2671 G. Soros Amazing
  */
-public class Bitcoin
+public class BitcoinBase
 {
     protected WebExpress web_express;
 
@@ -47,7 +49,7 @@ public class Bitcoin
 
     protected BitcoinMessageOrderer bitcoin_message_orderer = new BitcoinMessageOrderer(this);
 
-    public Bitcoin(WebExpress web_express)
+    public BitcoinBase(WebExpress web_express)
     {
         this.web_express = web_express;
 
@@ -64,9 +66,9 @@ public class Bitcoin
     {
         public ArrayList<BitcoinMessage> bitcoin_messages = new ArrayList<BitcoinMessage>(5000);
 
-        public Bitcoin bitcoin;
+        public BitcoinBase bitcoin;
 
-        public BitcoinMessageOrderer(Bitcoin bitcoin)
+        public BitcoinMessageOrderer(BitcoinBase bitcoin)
         {
             this.bitcoin = bitcoin;
         }

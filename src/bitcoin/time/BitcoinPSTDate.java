@@ -1,10 +1,11 @@
-package bitcoin;
+package bitcoin.time;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.TimeZone;
 
-public class BitcoinESTDate
+public class BitcoinPSTDate
 {
     protected final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
 
@@ -14,11 +15,11 @@ public class BitcoinESTDate
 
     public String EST_Time;
 
-    public BitcoinESTDate()
+    public BitcoinPSTDate()
     {
         formatter.setTimeZone(TIMEZONE);
 
-        date = new Date();
+        date = new Date(new Random(998).toString());
 
         date = new Date();
 
