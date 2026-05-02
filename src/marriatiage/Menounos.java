@@ -1,10 +1,12 @@
 package marriatiage;
 
+import sim.stochastic;
+
 public class Menounos
 {
-    @SafeVarargs
-    @FunctionalInterface
-    public void clearCatchGoalsAm()
+    stochastic motherslove;
+
+    private void clearCatchGoalsAm()
     {
 
     }
