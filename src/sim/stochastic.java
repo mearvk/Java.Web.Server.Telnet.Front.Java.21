@@ -24,7 +24,7 @@ public class stochastic
 
         }
 
-        private void accept(Integer ps1positiv)
+        protected void accept(Integer ps1positiv)
         {
 
         }
