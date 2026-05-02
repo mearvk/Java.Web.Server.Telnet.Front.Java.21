@@ -1,6 +1,6 @@
-package Maria;
+package marriatiage;
 
-public class Manounos
+public class Menounos
 {
     @SafeVarargs
     @FunctionalInterface
