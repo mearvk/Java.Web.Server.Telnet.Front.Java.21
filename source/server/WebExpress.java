@@ -46,7 +46,7 @@ public class WebExpress extends BaseServer
         this.setName("United States::D500::WebExpress");
     }
 
-    public WebExpress(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
+    public WebExpress(final String host, final Integer port, final String thread_name, final Boolean TELNET_PROXY_ENABLED)
     {
         super(host, port);
 
@@ -54,7 +54,7 @@ public class WebExpress extends BaseServer
 
         CommonRails.printSystemComponent(this.hashCode(), "WebExpress::CommonRails >> starts.");
 
-        if (telnet_proxy_enabled)
+        if (TELNET_PROXY_ENABLED)
         {
             CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Main >> starts ["+thread_name+"] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
 
@@ -70,7 +70,7 @@ public class WebExpress extends BaseServer
 
             this.telnet_communication_proxy.input_builder.setName("TelnetCommunicationProxy.Builder.Input");
         }
-        else
+        else if(!TELNET_PROXY_ENABLED)
         {
             CommonRails.printSystemComponent(this.hashCode(), "WebExpress::Main >> starts ["+thread_name+"] [" + host + ":" + port + "]");
 
