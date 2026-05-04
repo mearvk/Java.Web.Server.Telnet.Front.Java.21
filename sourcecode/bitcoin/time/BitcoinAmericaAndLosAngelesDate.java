@@ -5,19 +5,19 @@ import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
 
-public class BitcoinPSTDate
+public class BitcoinAmericaAndLosAngelesDate
 {
     protected String hash = "0xDA717018470E213F";
 
     protected final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
 
-    protected final TimeZone TIMEZONE = TimeZone.getTimeZone("America/New_York");
+    protected final TimeZone TIMEZONE = TimeZone.getTimeZone("America/Los_Angeles");
 
     public Date date;
 
     public String EST_Time;
 
-    public BitcoinPSTDate()
+    public BitcoinAmericaAndLosAngelesDate()
     {
         formatter.setTimeZone(TIMEZONE);
 
