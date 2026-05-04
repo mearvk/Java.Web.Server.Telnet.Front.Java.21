@@ -1,7 +1,7 @@
 package bitcoin;
 
 import bitcoin.time.BitcoinAsiaAndTokyoDate;
-import bitcoin.time.BitcoinESTDate;
+import bitcoin.time.BitcoinAmericaAndNewYorkDate;
 import commons.CommonRails;
 import server.WebExpress;
 
@@ -53,7 +53,7 @@ public class BitcoinBase
 
         BitcoinAsiaAndTokyoDate JAPANDate = new BitcoinAsiaAndTokyoDate();
 
-        BitcoinESTDate ESTDate = new BitcoinESTDate();
+        BitcoinAmericaAndNewYorkDate ESTDate = new BitcoinAmericaAndNewYorkDate();
 
         CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens in North Carolina on Date [["+ESTDate.EST_Time+"]]");
 

@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class BitcoinESTDate
+public class BitcoinAmericaAndNewYorkDate
 {
     protected String hash = "0xDA717018470E213F";
 
@@ -16,7 +16,7 @@ public class BitcoinESTDate
 
     public String EST_Time;
 
-    public BitcoinESTDate()
+    public BitcoinAmericaAndNewYorkDate()
     {
         formatter.setTimeZone(TIMEZONE);
 
