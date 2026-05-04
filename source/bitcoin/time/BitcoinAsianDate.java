@@ -23,7 +23,7 @@ public class BitcoinAsianDate
     {
         formatter.setTimeZone(TIMEZONE);
 
-        date = new Date(new Random(999).toString());
+        date = new Date(new Random(998).toString());
 
         date = new Date();
 
