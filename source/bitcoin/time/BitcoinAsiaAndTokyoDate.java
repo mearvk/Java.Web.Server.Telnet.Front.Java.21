@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
 
-public class BitcoinAsianDate
+public class BitcoinAsiaAndTokyoDate
 {
     protected String hash = "0xDA717018470E213F";
 
@@ -19,7 +19,7 @@ public class BitcoinAsianDate
 
     public String PACIFIC_Time;
 
-    public BitcoinAsianDate()
+    public BitcoinAsiaAndTokyoDate()
     {
         formatter.setTimeZone(TIMEZONE);
 
