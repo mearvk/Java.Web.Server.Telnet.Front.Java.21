@@ -1,11 +1,13 @@
 package bitcoin.time;
 
+import bitcoin.time.flat.BitcoinPSTTimeDate;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
 
-public class BitcoinAmericaAndLosAngelesDate
+public class BitcoinAmericaAndLosAngelesDate extends BitcoinPSTTimeDate
 {
     protected String hash = "0xDA717018470E213F";
 

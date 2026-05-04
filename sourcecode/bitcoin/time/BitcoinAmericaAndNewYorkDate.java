@@ -1,10 +1,12 @@
 package bitcoin.time;
 
+import bitcoin.time.flat.BitcoinESTTimeDate;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class BitcoinAmericaAndNewYorkDate
+public class BitcoinAmericaAndNewYorkDate extends BitcoinESTTimeDate
 {
     protected String hash = "0xDA717018470E213F";
 

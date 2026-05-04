@@ -1,5 +1,6 @@
 package bitcoin.time;
 
+import bitcoin.time.flat.midi.BitcoinNewFlatiron108;
 import sim.stochastic;
 
 import java.text.SimpleDateFormat;
@@ -7,7 +8,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
 
-public class BitcoinAsiaAndTokyoDate
+public class BitcoinAsiaAndTokyoDate extends BitcoinNewFlatiron108
 {
     protected String hash = "0xDA717018470E213F";
 
