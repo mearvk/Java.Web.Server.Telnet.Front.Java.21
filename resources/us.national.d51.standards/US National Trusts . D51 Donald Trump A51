@@ -1,0 +1,26 @@
+mearvk@XenuLenovo:~$ telnet tacobell.phd 80
+Trying 64.176.167.52...
+Connected to tacobell.phd.
+Escape character is '^]'.
+GET / HTTP/1.1
+Host: tacobell.phd
+
+HTTP/1.1 200 OK
+Date: Thu, 30 Apr 2026 00:10:35 GMT
+Server: Apache/2.4.63 (Ubuntu)
+Last-Modified: Fri, 06 Feb 2026 12:34:13 GMT
+ETag: "68-64a2701b90301"
+Accept-Ranges: bytes
+Content-Length: 104
+Vary: Accept-Encoding
+Content-Type: text/html
+
+<html>
+
+	<body>
+
+		<h3>D51 with Donald Trump now as US President and as a Ally.</h3>
+
+	</body>
+
+</html>
