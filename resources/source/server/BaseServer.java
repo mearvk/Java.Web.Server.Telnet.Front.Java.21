@@ -72,7 +72,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            CommonRails.printSystemComponent(this.hashCode(),"BaseServer::ServerSocket >> created on port ["+this.port+"]");
+            CommonRails.printSystemComponent(this, this.hashCode(),". BaseServer's ServerSocket created on port "+this.port+" .");
         }
     }
 
@@ -107,7 +107,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> server created on port ["+this.port+"].");
+            CommonRails.printSystemComponent(this.hashCode(), ". WebExpress's BaseServer server created on port "+this.port+" .");
         }
     }
 
@@ -148,7 +148,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::BaseServer >> [related input reader] established ["+this.address+":"+this.port+"].");
+                    CommonRails.printSystemComponent(this.hashCode(),". WebExpress's BaseServer related input reader established "+this.address+":"+this.port+" .");
                 }
 
                 try
@@ -165,7 +165,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> [related output writer] established ["+this.address+":"+this.port+"].");
+                    CommonRails.printSystemComponent(this.hashCode(), ". WebExpress's BaseServer related output writer] established "+this.address+":"+this.port+" .");
                 }
 
                 try

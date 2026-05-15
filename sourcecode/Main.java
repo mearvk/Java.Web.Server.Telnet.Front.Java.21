@@ -38,17 +38,17 @@ public class Main
 
         System.out.println();
 
-        System.out.println("★ Java National Finance Engine ™ Software Processes Starting");
+        System.out.println("[ Java National Finance Engine v.28.1.1 Software Processes Starting ]");
 
-        System.out.println("★ Bitcoin: Lightweight Binary Trader 2.0 Enabled ₿ Running on Bitcoin Open-Source v24.0 or newer.");
+        System.out.println(". Cryptography/Cryptology AES2 National Cryptolograph Enabled DSS 5.0 .");
 
-        System.out.println("★ Cryptology: AES2 National Cryptolograph Enabled DSS 5.0.");
+        System.out.println(". Bitcoin Lightweight Binary Trader 2.0 Enabled ₿ Running on Bitcoin Open-Source v24.0 or newer .");
 
-        System.out.println("★ Operating within and United to National Authority of US United States and State of California in Coalition of and for North Carolina her betterment.");
+        System.out.println(". Operating within and United to National Authority of US United States and State of California in Coalition of and for North Carolina her betterment .");
 
         System.out.println();
 
-        CommonRails.printSystemComponent(this, this.hashCode(),"Java™™™™™™ National Finance Engine v.281.1 v.11.1");
+        CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.28.1.1 v.11.1 .");
 
         WebExpress web_express = WebExpress.reference = new WebExpress(WEB_EXPRESS_HOST, WEB_EXPRESS_SERVER_SOCKET, WEB_EXPRESS_SERVER_THREAD_NAME, true);
 
