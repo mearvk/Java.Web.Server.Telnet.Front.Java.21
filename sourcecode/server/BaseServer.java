@@ -72,7 +72,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            CommonRails.printSystemComponent(this.hashCode(),"BaseServer::ServerSocket >> created on port ["+this.port+"]");
+            CommonRails.printSystemComponent(this, this.hashCode(),"[BaseServer::ServerSocket] [Created on Port ["+this.port+"]]");
         }
     }
 
@@ -107,7 +107,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> server created on port ["+this.port+"].");
+            CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress::BaseServer] [Server created on Port ["+this.port+"]]");
         }
     }
 
@@ -132,7 +132,7 @@ public abstract class BaseServer extends Thread
 
                 connection.server = this;
 
-                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> new remote connection established [remote-ephemeral: "+connection.remote_address+" : local: "+this.port+"].");
+                CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress::BaseServer] [New remote connection established [remote-ephemeral: "+connection.remote_address+" : local: "+this.port+"]]");
 
                 try
                 {
@@ -148,7 +148,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::BaseServer >> [related input reader] established ["+this.address+":"+this.port+"].");
+                    CommonRails.printSystemComponent(this, this.hashCode(),"[WebExpress::BaseServer] [Related input reader established ["+this.address+":"+this.port+"]]");
                 }
 
                 try
@@ -165,7 +165,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> [related output writer] established ["+this.address+":"+this.port+"].");
+                    CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress::BaseServer] [Related output writer established ["+this.address+":"+this.port+"]]");
                 }
 
                 try
@@ -182,7 +182,7 @@ public abstract class BaseServer extends Thread
                 }
                 finally
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BaseServer >> [related I/O listener] thread established ["+this.address+":"+this.port+"].");
+                    CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress::BaseServer] [Related I/O listener thread established ["+this.address+":"+this.port+"]]");
                 }
 
                 this.current_connections.add(connection);

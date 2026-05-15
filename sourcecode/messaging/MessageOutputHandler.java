@@ -62,11 +62,11 @@ public class MessageOutputHandler implements Runnable
                     }
                     catch (Exception xe)
                     {
-                        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> closes on try-exception to close ["+socket.toString()+"]");
+                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageOutputHandler >> closes on try-exception to close ["+socket.toString()+"]");
                     }
                     finally
                     {
-                        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageOutputHandler >> safe closes ["+socket.toString()+"]");
+                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageOutputHandler >> safe closes ["+socket.toString()+"]");
                     }
                 }
             }

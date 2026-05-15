@@ -27,7 +27,7 @@ public class MessageQueueSorter extends Thread
     @Override
     public void run()
     {
-        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageQueueSorter >> starts.");
+        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::MessageQueueSorter >> starts.");
 
         for(;;)
         {
@@ -35,9 +35,9 @@ public class MessageQueueSorter extends Thread
 
             for(int i=0; i<message_queue.messages.size(); i++)
             {
-                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
+                CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageQueueSorter >> reports message queue has size of ["+message_queue.messages.size()+"].");
 
-                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> received message from connection ["+message_queue.messages.get(i).socket+"] ["+message_queue.messages.get(i).message_buffer+"].");
+                CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageQueueSorter >> received message from connection ["+message_queue.messages.get(i).socket+"] ["+message_queue.messages.get(i).message_buffer+"].");
 
                 MessageQueue.Message message = message_queue.messages.remove(i);
 
@@ -47,19 +47,19 @@ public class MessageQueueSorter extends Thread
                     {
                         BufferedWriter writer = this.web_express.telnet_communication_proxy.writer;
 
-                        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageQueueSorter >> sending to Telnet message [Message]: [" + message.message_buffer + "].");
+                        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::MessageQueueSorter >> sending to Telnet message [Message]: [" + message.message_buffer + "].");
 
                         writer.write("[Message: ]"+message.message_buffer+"\n");
 
-                        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> sending to Telnet message [Date]: [" + message.time_stamp + "].");
+                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageQueueSorter >> sending to Telnet message [Date]: [" + message.time_stamp + "].");
 
                         writer.write("[Date]: " + message.time_stamp+"\n");
 
-                        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageQueueSorter >> sending to Telnet message [IP Address]: [" + message.internet_address + "].");
+                        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::MessageQueueSorter >> sending to Telnet message [IP Address]: [" + message.internet_address + "].");
 
                         writer.write("[IP Address]: " + message.internet_address+"\n");
 
-                        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> sending to Telnet message [Socket]: [" + message.socket + "].");
+                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageQueueSorter >> sending to Telnet message [Socket]: [" + message.socket + "].");
 
                         writer.write("[Socket]: " + message.socket.toString()+"\n");
 
@@ -82,7 +82,7 @@ public class MessageQueueSorter extends Thread
 
                         EnglishArithemeter arithemeter = new EnglishArithemeter(connections.size());
 
-                        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+arithemeter.result.arithemetic +" : "+arithemeter.result.numeral +"].");
+                        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+arithemeter.result.arithemetic +" : "+arithemeter.result.numeral +"].");
                     }
 
                     this.web_express.current_connections.remove(message.socket);
@@ -91,7 +91,7 @@ public class MessageQueueSorter extends Thread
                 }
                 catch (IOException e)
                 {
-                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> socket connection closed [Socket]: " + message.internet_address + "].");
+                    CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageQueueSorter >> socket connection closed [Socket]: " + message.internet_address + "].");
                 }
 
                 try
@@ -108,7 +108,7 @@ public class MessageQueueSorter extends Thread
                         {
                             if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                             {
-                                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> received from active Telnet session ["+ WebExpress.REMOTE_SITE+":"+ WebExpress.REMOTE_PORT+"] message ["+line+"].");
+                                CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageQueueSorter >> received from active Telnet session ["+ WebExpress.REMOTE_SITE+":"+ WebExpress.REMOTE_PORT+"] message ["+line+"].");
 
                                 writer.write(line+"\n");
 
@@ -122,7 +122,7 @@ public class MessageQueueSorter extends Thread
 
                                 EnglishArithemeter arithemeter = new EnglishArithemeter(connections.size());
 
-                                CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+arithemeter.result.arithemetic+" : "+arithemeter.result.numeral+"].");
+                                CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"] - new connection count ["+arithemeter.result.arithemetic+" : "+arithemeter.result.numeral+"].");
 
                                 break;
                             }
@@ -131,7 +131,7 @@ public class MessageQueueSorter extends Thread
                 }
                 catch (Exception e)
                 {
-                    CommonRails.printSystemComponent(this.hashCode(),"WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"].");
+                    CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::MessageQueueSorter >> dropped connection ["+message.socket+"].");
                 }
             }
 
@@ -148,11 +148,11 @@ public class MessageQueueSorter extends Thread
 
     public synchronized void addMessage(MessageQueue.Message message)
     {
-        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
+        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::addMessage >> message queue size before ["+this.getMessageQueueSize()+"].");
 
         this.web_express.message_queue.add(message);
 
-        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
+        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::addMessage >> message queue size after ["+this.getMessageQueueSize()+"].");
     }
 
     public synchronized MessageQueue getMessageQueue()

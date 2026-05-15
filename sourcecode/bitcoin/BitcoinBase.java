@@ -55,9 +55,9 @@ public class BitcoinBase
 
         BitcoinAmericaAndNewYorkDate ESTDate = new BitcoinAmericaAndNewYorkDate();
 
-        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens in North Carolina on Date [["+ESTDate.EST_Time+"]]");
+        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::Bitcoin >> opens in North Carolina on Date [["+ESTDate.EST_Time+"]]");
 
-        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens in Japan on Date [["+JAPANDate.PACIFIC_Time +"]]");
+        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::Bitcoin >> opens in Japan on Date [["+JAPANDate.PACIFIC_Time +"]]");
     }
 
     public void send_message(StringBuffer buffer)
@@ -76,11 +76,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIND+SPACE+BITCOIND_START_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -90,11 +90,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_LOAD_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -114,25 +114,25 @@ public class BitcoinBase
             {
                 return_value.append(message);
 
-                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::Bitcoin >> "+message);
+                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> "+message);
 
                 while((message=reader.readLine())!=null)
                 {
                     return_value.append(message);
 
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::Bitcoin >> "+message);
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> "+message);
                 }
 
                 return return_value.toString();
             }
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
 
             return "-1";
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
 
         return "-1";
@@ -162,11 +162,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI_DELETE_WALLET_CMD+SPACE+WALLET_DIR);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -176,11 +176,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_UNLOAD_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -190,11 +190,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_RENAME_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -204,11 +204,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_ADD_NEW_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -218,11 +218,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+ BITCOIN_CLI_SEND_LOCAL_WALLET_TO_REMOTE_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 }

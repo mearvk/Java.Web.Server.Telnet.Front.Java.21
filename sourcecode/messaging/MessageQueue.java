@@ -48,17 +48,17 @@ public class MessageQueue
 
             message.message_buffer = new StringBuffer();
 
-            CommonRails.printSystemComponent(this.hashCode(), "MessageQueue::TelnetQuickSend >> writing initial handshake to Telnet Remote System ["+message.socket+"].");
+            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue::TelnetQuickSend >> writing initial handshake to Telnet Remote System ["+message.socket+"].");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "MessageQueue::TelnetQuickSend >> attempted writing initial handshake to Telnet Remote System ["+message.socket+"].");
+            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue::TelnetQuickSend >> attempted writing initial handshake to Telnet Remote System ["+message.socket+"].");
         }
     }
 
     public synchronized void add(Message message)
     {
-        CommonRails.printSystemComponent(this.hashCode(),"MessageQueue::add >> receives ["+message.message_buffer.toString()+"].");
+        CommonRails.printSystemComponent(this, this.hashCode(),"MessageQueue::add >> receives ["+message.message_buffer.toString()+"].");
 
         this.messages.add(message);
     }

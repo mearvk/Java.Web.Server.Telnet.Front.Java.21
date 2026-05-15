@@ -41,8 +41,6 @@ public class WebExpress extends BaseServer
     {
         WebExpress.reference = this;
 
-        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::CommonRails >> starts.");
-
         this.setName("United States::D500::WebExpress");
     }
 
@@ -52,11 +50,11 @@ public class WebExpress extends BaseServer
 
         this.THREAD_NAME = thread_name;
 
-        CommonRails.printSystemComponent(this.hashCode(), "WebExpress::CommonRails >> starts.");
+        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::CommonRails >> starts.");
 
         if (TELNET_PROXY_ENABLED)
         {
-            CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Main >> starts ["+thread_name+"] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
+            CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::Main >> starts ["+thread_name+"] [" + host + ":" + port + "] [Telnet Proxy Enabled]");
 
             this.telnet_installer = new TelnetInstaller(this);
 
@@ -72,7 +70,7 @@ public class WebExpress extends BaseServer
         }
         else if(!TELNET_PROXY_ENABLED)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "WebExpress::Main >> starts ["+thread_name+"] [" + host + ":" + port + "]");
+            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Main >> starts ["+thread_name+"] [" + host + ":" + port + "]");
 
             this.message_queue_sorter = new MessageQueueSorter(this);
 
@@ -122,7 +120,7 @@ public class WebExpress extends BaseServer
             {
                 public MessageOutputRecord()
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::AESCompliant::MessageOutputRecord >> loads.");
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::AESCompliant::MessageOutputRecord >> loads.");
                 }
             }
 
@@ -132,7 +130,7 @@ public class WebExpress extends BaseServer
 
                 public MessageOutputHandler()
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::AESCompliant::MessageOutputHandler >> starts.");
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::AESCompliant::MessageOutputHandler >> starts.");
                 }
 
                 public void send_message(StringBuffer buffer)
@@ -170,14 +168,14 @@ public class WebExpress extends BaseServer
 
             public BitcoinCompliant()
             {
-                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BitcoinCompliant >> starts.");
+                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::BitcoinCompliant >> starts.");
             }
 
             protected static class MessageOutputRecord
             {
                 public MessageOutputRecord()
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BitcoinCompliant::MessageOutputRecord >> loads.");
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::BitcoinCompliant::MessageOutputRecord >> loads.");
                 }
             }
 
@@ -187,7 +185,7 @@ public class WebExpress extends BaseServer
 
                 public MessageOutputHandler()
                 {
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::BitcoinCompliant::MessageOutputHandler >> starts.");
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::BitcoinCompliant::MessageOutputHandler >> starts.");
                 }
 
                 public void send_message(StringBuffer buffer)

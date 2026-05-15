@@ -21,17 +21,19 @@ public class CommonRails
         return list.size();
     }
 
-    public static void printSystemComponent(Integer hashcode, String line)
+    public static void printSystemComponent(Object object, Integer hashcode, String line)
     {
+        String classname = "[Current: "+object.getClass().getSimpleName()+"]";
+
         String compliant_hashcode = String.format("%010d", hashcode);
 
         String object_id = "[Object ID: "+compliant_hashcode+"]";
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 
         String date = "[Date: "+formatter.format(new Date())+"]";
 
-        String reference = object_id + " " + date + " " + line;
+        String reference = object_id + " "+ date + " " + classname + " " + line;
 
         System.out.println(reference);
     }

@@ -9,6 +9,6 @@ public class Menounos
 
     private void Mother()
     {
-        CommonRails.printSystemComponent(this.hashCode(),"m.m.m.r");
+        CommonRails.printSystemComponent(this, this.hashCode(),"m.m.m.r");
     }
 }
