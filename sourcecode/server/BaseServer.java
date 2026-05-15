@@ -72,7 +72,7 @@ public abstract class BaseServer extends Thread
         }
         finally
         {
-            CommonRails.printSystemComponent(this, this.hashCode(),"[BaseServer::ServerSocket] [Created on Port ["+this.port+"]]");
+            CommonRails.printSystemComponent(this, this.hashCode(),". BaseServer::ServerSocket created on Port "+this.port+" .");
         }
     }
 
