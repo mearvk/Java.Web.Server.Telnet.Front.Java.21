@@ -16,7 +16,7 @@ public class MessageQueue
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected ArrayList<Message> messages;
+    public ArrayList<Message> messages;
 
     protected BaseServer base_server;
 
