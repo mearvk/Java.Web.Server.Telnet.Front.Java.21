@@ -1,10 +1,10 @@
 package server;
 
-import bitcoin.BitcoinBase;
+import bitcoin.BitcoinModule;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
 import connections.CurrentConnections;
-import encryption.AES2;
+import encryption.AES2CryptoModule;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import telnet.TelnetCommunicationProxy;
@@ -99,9 +99,9 @@ public class WebExpress extends BaseServer
 
         protected BitcoinCompliant.MessageOutputHandler bitcoin_message_output_handler = new BitcoinCompliant.MessageOutputHandler();
 
-        protected AES2 aes = new AES2( String.valueOf(new Random(10078)));
+        protected AES2CryptoModule aes = new AES2CryptoModule( String.valueOf(new Random(10078)));
 
-        protected BitcoinBase bitcoin_base = new BitcoinBase(this);
+        protected BitcoinModule bitcoin_base = new BitcoinModule(this);
 
         public Aspect(WebExpress web_express)
         {

@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
  * @author Max Rupplin
  * @date April 30 2026 - 2671 G. Soros Amazing
  */
-public class BitcoinBase
+public class BitcoinModule
 {
     protected String hash = "0xDA717018470E213F";
 
@@ -47,7 +47,7 @@ public class BitcoinBase
 
     protected BitcoinMessageOrderer bitcoin_message_orderer = new BitcoinMessageOrderer(this);
 
-    public BitcoinBase(WebExpress.Aspect aspect)
+    public BitcoinModule(WebExpress.Aspect aspect)
     {
         this.aspect = aspect;
 

@@ -1,7 +1,7 @@
 package messaging;
 
 import commons.CommonRails;
-import encryption.AES2;
+import encryption.AES2CryptoModule;
 
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
@@ -48,7 +48,7 @@ public class MessageOutputHandler implements Runnable
 
                 writer.write(buffer.toString());
 
-                writer.write( new AES2(String.valueOf(this.hashCode() | (this.hashCode() & Date.from(LocalDate.of(1933, 12, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()).hashCode()) | Integer.parseUnsignedInt("1132" ) + Integer.parseInt("11238") /*Nov. 3 28*/ + Integer.parseUnsignedInt("00001238") /*Undersigmed Assignedment a & ANd a Cause*/)).cipher_text );
+                writer.write( new AES2CryptoModule(String.valueOf(this.hashCode() | (this.hashCode() & Date.from(LocalDate.of(1933, 12, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()).hashCode()) | Integer.parseUnsignedInt("1132" ) + Integer.parseInt("11238") /*Nov. 3 28*/ + Integer.parseUnsignedInt("00001238") /*Undersigmed Assignedment a & ANd a Cause*/)).cipher_text );
 
                 writer.flush();
             }

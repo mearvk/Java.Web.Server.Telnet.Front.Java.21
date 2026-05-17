@@ -11,9 +11,9 @@ public class BitcoinMessageOrderer extends Thread
 
     public ArrayList<BitcoinMessage> bitcoin_messages = new ArrayList<BitcoinMessage>(5000);
 
-    public BitcoinBase bitcoin;
+    public BitcoinModule bitcoin;
 
-    public BitcoinMessageOrderer(BitcoinBase bitcoin)
+    public BitcoinMessageOrderer(BitcoinModule bitcoin)
     {
         this.bitcoin = bitcoin;
     }
