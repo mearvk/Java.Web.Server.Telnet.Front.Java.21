@@ -1,10 +1,10 @@
 package server;
 
-import bitcoin.BitcoinModule;
+import bitcoin.BitcoinTraderModule;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
 import connections.CurrentConnections;
-import encryption.AES2CryptoModule;
+import encryption.AES2EncryptionModule;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import telnet.TelnetCommunicationProxy;
@@ -95,13 +95,9 @@ public class WebExpress extends BaseServer
     {
         protected WebExpress web_express;
 
-        protected AESCompliant.MessageOutputHandler aes_message_output_handler = new AESCompliant.MessageOutputHandler();
+        protected AES2EncryptionModule AES2_encryption_module = new AES2EncryptionModule( String.valueOf(new Random(10078)));
 
-        protected BitcoinCompliant.MessageOutputHandler bitcoin_message_output_handler = new BitcoinCompliant.MessageOutputHandler();
-
-        protected AES2CryptoModule aes = new AES2CryptoModule( String.valueOf(new Random(10078)));
-
-        protected BitcoinModule bitcoin_base = new BitcoinModule(this);
+        protected BitcoinTraderModule bitcoin_trader_module = new BitcoinTraderModule(this);
 
         public Aspect(WebExpress web_express)
         {
@@ -110,6 +106,8 @@ public class WebExpress extends BaseServer
 
         public static class AESCompliant extends WebExpress
         {
+            protected AESCompliant.MessageOutputHandler aes_message_output_handler = new AESCompliant.MessageOutputHandler();
+
             public messaging.MessageQueueSorter message_queue_sorter = new MessageQueueSorter(this);
 
             public MessageQueue message_queue = new MessageQueue(this);
@@ -164,6 +162,8 @@ public class WebExpress extends BaseServer
 
         public static class BitcoinCompliant extends WebExpress
         {
+            protected BitcoinCompliant.MessageOutputHandler bitcoin_message_output_handler = new BitcoinCompliant.MessageOutputHandler();
+
             public messaging.MessageQueueSorter message_queue_sorter = new messaging.MessageQueueSorter(this);
 
             public MessageQueue message_queue = new MessageQueue(this);

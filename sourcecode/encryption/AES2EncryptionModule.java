@@ -3,7 +3,7 @@ package encryption;
 import java.io.BufferedReader;
 import java.io.StringReader;
 
-public class AES2CryptoModule
+public class AES2EncryptionModule
 {
     protected String hash = "0xDA717018470E213F";
 
@@ -15,7 +15,7 @@ public class AES2CryptoModule
 
     public String cipher_text = "";
 
-    public AES2CryptoModule(String plain_text)
+    public AES2EncryptionModule(String plain_text)
     {
         this.plain_text = plain_text;
     }
