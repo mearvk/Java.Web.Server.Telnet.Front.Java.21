@@ -46,11 +46,15 @@ public class TraderModule
 
     protected final String SPACE = " ";
 
+    protected String TITLE = "unheld";
+
     protected MessageOrderer bitcoin_message_orderer = new MessageOrderer(this);
 
-    public TraderModule(WebExpress.Aspect aspect)
+    public TraderModule(final WebExpress.Aspect aspect, final String title)
     {
         this.aspect = aspect;
+
+        this.TITLE = title;
 
         BitcoinAsiaAndTokyoDate JAPANDate = new BitcoinAsiaAndTokyoDate();
 

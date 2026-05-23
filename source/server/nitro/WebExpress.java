@@ -94,11 +94,13 @@ public class WebExpress extends BaseServer
 
     public static class Aspect
     {
+        protected final Integer random = 10078;
+
         protected WebExpress web_express;
 
-        protected EncryptionModule encryption_module = new EncryptionModule(new Random(10078),"AES2.0/CaliforniaGovernorNewsom");
+        protected EncryptionModule encryption_module = new EncryptionModule(new Random(random),"AES 2.0 DSS5.0","AES2.0 - California Governor Gavin Newsom");
 
-        protected TraderModule trader_module = new TraderModule(this);
+        protected TraderModule trader_module = new TraderModule(this, "Bitcoin Remote Module 2.0 ADS5.0");
 
         public Aspect(WebExpress web_express)
         {
