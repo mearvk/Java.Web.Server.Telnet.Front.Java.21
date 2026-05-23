@@ -8,8 +8,6 @@ Owner of Miramax Films UK & US United States and Settlement - NO GODZILLA
 
 Owner of Del Taco in Apple Valley, CA '95
 
-Owner of Atlatl Brand Clothing US United States
-
-  
+Owner of AtlAtl.phd Brand Clothing US United States
 
 ![Profile views](https://views.igorkowalczyk.dev/api/badge/@mearvk?style=flat)
