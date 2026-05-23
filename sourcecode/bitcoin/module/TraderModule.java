@@ -1,5 +1,6 @@
-package bitcoin;
+package bitcoin.module;
 
+import bitcoin.messaging.MessageOrderer;
 import bitcoin.time.BitcoinAsiaAndTokyoDate;
 import bitcoin.time.BitcoinAmericaAndNewYorkDate;
 import commons.CommonRails;
@@ -13,7 +14,7 @@ import java.io.InputStreamReader;
  * @author Max Rupplin
  * @date April 30 2026 - 2671 G. Soros Amazing
  */
-public class BitcoinTraderModule
+public class TraderModule
 {
     protected String hash = "0xDA717018470E213F";
 
@@ -45,9 +46,9 @@ public class BitcoinTraderModule
 
     protected final String SPACE = " ";
 
-    protected BitcoinMessageOrderer bitcoin_message_orderer = new BitcoinMessageOrderer(this);
+    protected MessageOrderer bitcoin_message_orderer = new MessageOrderer(this);
 
-    public BitcoinTraderModule(WebExpress.Aspect aspect)
+    public TraderModule(WebExpress.Aspect aspect)
     {
         this.aspect = aspect;
 

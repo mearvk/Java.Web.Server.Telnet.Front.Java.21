@@ -1,19 +1,21 @@
-package bitcoin;
+package bitcoin.messaging;
+
+import bitcoin.module.TraderModule;
 
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class BitcoinMessageOrderer extends Thread
+public class MessageOrderer extends Thread
 {
     protected String hash = "0xDA717018470E213F";
 
     public ArrayList<BitcoinMessage> bitcoin_messages = new ArrayList<BitcoinMessage>(5000);
 
-    public BitcoinTraderModule bitcoin;
+    public TraderModule bitcoin;
 
-    public BitcoinMessageOrderer(BitcoinTraderModule bitcoin)
+    public MessageOrderer(TraderModule bitcoin)
     {
         this.bitcoin = bitcoin;
     }

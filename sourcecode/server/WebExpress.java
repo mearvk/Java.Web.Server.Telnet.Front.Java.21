@@ -1,10 +1,10 @@
 package server;
 
-import bitcoin.BitcoinTraderModule;
+import bitcoin.module.TraderModule;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
 import connections.CurrentConnections;
-import encryption.AES2EncryptionModule;
+import encryption.module.aes.two.EncryptionModule;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import telnet.TelnetCommunicationProxy;
@@ -95,9 +95,9 @@ public class WebExpress extends BaseServer
     {
         protected WebExpress web_express;
 
-        protected AES2EncryptionModule AES2_encryption_module = new AES2EncryptionModule( String.valueOf(new Random(10078)));
+        protected EncryptionModule AES2_encryption_module = new EncryptionModule( String.valueOf(new Random(10078)));
 
-        protected BitcoinTraderModule bitcoin_trader_module = new BitcoinTraderModule(this);
+        protected TraderModule bitcoin_trader_module = new TraderModule(this);
 
         public Aspect(WebExpress web_express)
         {
