@@ -49,7 +49,7 @@ public class MessageOutputHandler implements Runnable
 
                 writer.write(buffer.toString());
 
-                writer.write(new EncryptionModule(new Random(), "").cipher_text);
+                writer.write(new EncryptionModule(new Random(), "", "").cipher_text);
 
                 writer.flush();
             }
