@@ -2,6 +2,7 @@ package encryption.module.aes.two;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
+import java.util.Random;
 
 public class EncryptionModule
 {
@@ -15,7 +16,7 @@ public class EncryptionModule
 
     public String cipher_text = "";
 
-    public EncryptionModule(String plain_text)
+    public EncryptionModule(Random random, String plain_text)
     {
         this.plain_text = plain_text;
     }

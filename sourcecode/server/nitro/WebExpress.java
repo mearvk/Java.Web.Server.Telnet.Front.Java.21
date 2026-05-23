@@ -96,9 +96,9 @@ public class WebExpress extends BaseServer
     {
         protected WebExpress web_express;
 
-        protected EncryptionModule AES2_encryption_module = new EncryptionModule( String.valueOf(new Random(10078)));
+        protected EncryptionModule encryption_module = new EncryptionModule(new Random(10078),"AES2.0/CaliforniaGovernorNewsom");
 
-        protected TraderModule bitcoin_trader_module = new TraderModule(this);
+        protected TraderModule trader_module = new TraderModule(this);
 
         public Aspect(WebExpress web_express)
         {
@@ -109,7 +109,7 @@ public class WebExpress extends BaseServer
         {
             protected AESCompliant.MessageOutputHandler aes_message_output_handler = new AESCompliant.MessageOutputHandler();
 
-            public messaging.MessageQueueSorter message_queue_sorter = new MessageQueueSorter(this);
+            public MessageQueueSorter message_queue_sorter = new MessageQueueSorter(this);
 
             public MessageQueue message_queue = new MessageQueue(this);
 

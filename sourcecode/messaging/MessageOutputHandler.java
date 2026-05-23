@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Random;
 
 public class MessageOutputHandler implements Runnable
 {
@@ -48,7 +49,7 @@ public class MessageOutputHandler implements Runnable
 
                 writer.write(buffer.toString());
 
-                writer.write( new EncryptionModule(String.valueOf(this.hashCode() | (this.hashCode() & Date.from(LocalDate.of(1933, 12, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()).hashCode()) | Integer.parseUnsignedInt("1132" ) + Integer.parseInt("11238") /*Nov. 3 28*/ + Integer.parseUnsignedInt("00001238") /*Undersigmed Assignedment a & ANd a Cause*/)).cipher_text );
+                writer.write(new EncryptionModule(new Random(), "").cipher_text);
 
                 writer.flush();
             }
