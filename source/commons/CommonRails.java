@@ -27,7 +27,7 @@ public class CommonRails
 
         String compliant_hashcode = String.format("%010d", hashcode);
 
-        String object_id = ": [Object ID: "+compliant_hashcode+"]";
+        String object_id = "- : [Object ID: "+compliant_hashcode+"]";
 
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 
