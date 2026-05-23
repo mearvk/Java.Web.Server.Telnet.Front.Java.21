@@ -1,6 +1,6 @@
 package telnet;
 
-import server.BaseServer;
+import server.base.BaseServer;
 
 import java.net.InetAddress;
 import java.net.Socket;

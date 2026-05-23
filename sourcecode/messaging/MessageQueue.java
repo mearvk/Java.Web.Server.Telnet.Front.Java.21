@@ -2,10 +2,9 @@ package messaging;
 
 import commons.CommonRails;
 import connections.Connection;
-import server.BaseServer;
+import server.base.BaseServer;
 
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;

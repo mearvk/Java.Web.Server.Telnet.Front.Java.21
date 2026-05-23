@@ -1,4 +1,4 @@
-package server;
+package server.nitro;
 
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
@@ -7,6 +7,7 @@ import connections.CurrentConnections;
 import encryption.module.aes.two.EncryptionModule;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
+import server.base.BaseServer;
 import telnet.TelnetCommunicationProxy;
 import telnet.TelnetInstaller;
 

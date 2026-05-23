@@ -3,8 +3,8 @@ package connections;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
 import messaging.MessageQueue;
-import server.BaseServer;
-import server.WebExpress;
+import server.base.BaseServer;
+import server.nitro.WebExpress;
 import telnet.TelnetMessageQueue;
 
 import java.io.BufferedReader;
