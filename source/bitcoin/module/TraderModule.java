@@ -79,7 +79,7 @@ public class TraderModule
     {
         try
         {
-            Process process = Runtime.getRuntime().exec(BITCOIND+SPACE+BITCOIND_START_ARGS);
+            Process process = Runtime.getRuntime().exec(BITCOIND + SPACE + BITCOIND_START_ARGS);
 
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
@@ -93,7 +93,7 @@ public class TraderModule
     {
         try
         {
-            Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_LOAD_WALLET_ARGS);
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI + SPACE + BITCOIN_CLI_LOAD_WALLET_ARGS);
 
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
@@ -193,7 +193,7 @@ public class TraderModule
     {
         try
         {
-            Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_RENAME_WALLET_ARGS);
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI + SPACE + BITCOIN_CLI_RENAME_WALLET_ARGS);
 
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
@@ -207,7 +207,7 @@ public class TraderModule
     {
         try
         {
-            Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_ADD_NEW_WALLET_ARGS);
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI + SPACE + BITCOIN_CLI_ADD_NEW_WALLET_ARGS);
 
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
@@ -221,7 +221,7 @@ public class TraderModule
     {
         try
         {
-            Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+ BITCOIN_CLI_SEND_LOCAL_WALLET_TO_REMOTE_WALLET_ARGS);
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI + SPACE + BITCOIN_CLI_SEND_LOCAL_WALLET_TO_REMOTE_WALLET_ARGS);
 
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
