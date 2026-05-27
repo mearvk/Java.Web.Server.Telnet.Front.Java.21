@@ -107,7 +107,7 @@ public class TraderModule
     {
         try
         {
-            Process process = Runtime.getRuntime().exec(BITCOIND+SPACE+ BITCOIN_GET_WALLET_NAME_ARGS);
+            Process process = Runtime.getRuntime().exec(BITCOIND + SPACE + BITCOIN_GET_WALLET_NAME_ARGS);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
@@ -165,7 +165,7 @@ public class TraderModule
 
         try
         {
-            Process process = Runtime.getRuntime().exec(BITCOIN_CLI_DELETE_WALLET_CMD+SPACE+WALLET_DIR);
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI_DELETE_WALLET_CMD + SPACE+WALLET_DIR);
 
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
