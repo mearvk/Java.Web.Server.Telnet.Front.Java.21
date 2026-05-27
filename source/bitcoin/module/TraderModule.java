@@ -4,6 +4,7 @@ import bitcoin.messaging.MessageOrderer;
 import bitcoin.time.BitcoinAsiaAndTokyoDate;
 import bitcoin.time.BitcoinAmericaAndNewYorkDate;
 import commons.CommonRails;
+import server.nitro.NitroWebExpress;
 import server.nitro.WebExpress;
 
 import java.io.BufferedReader;
@@ -18,7 +19,7 @@ public class TraderModule
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected WebExpress.Aspect aspect;
+    protected NitroWebExpress.Aspect aspect;
 
     protected final String BITCOIN_CLI = "bitcoin-cli";
 
@@ -50,7 +51,7 @@ public class TraderModule
 
     protected MessageOrderer bitcoin_message_orderer = new MessageOrderer(this);
 
-    public TraderModule(final WebExpress.Aspect aspect, final String title)
+    public TraderModule(final NitroWebExpress.Aspect aspect, final String title)
     {
         this.aspect = aspect;
 
