@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class NitroWebExpress extends WebExpress
 {
-    public String note = "";
+    public String[] note = {"AES 2.0 DSS5.0, AES2.0", "California Governor Gavin Newsom"};
 
     public NitroWebExpress()
     {
