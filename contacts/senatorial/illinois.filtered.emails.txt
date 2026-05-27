@@ -1,3 +1,4 @@
+Name, Email
 Neil Anderson,anderson@senatedems.ilga.gov
 Omar Aquino,aquino@senatedems.ilga.gov
 Christopher Belt,belt@senatedems.ilga.gov

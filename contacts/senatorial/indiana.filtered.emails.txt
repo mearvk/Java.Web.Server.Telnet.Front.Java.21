@@ -1,3 +1,4 @@
+Name, Email
 Rodric Bray,Senator.Bray@iga.in.gov
 Justin Busch,S52@iga.in.gov
 Lindsey Brown,S44@iga.in.gov
