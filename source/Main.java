@@ -49,13 +49,13 @@ public class Main
 
         CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.28.1.1 v.11.1 .");
 
-        WebExpress web_express = WebExpress.reference = new WebExpress(WEB_EXPRESS_HOST, WEB_EXPRESS_SERVER_SOCKET, WEB_EXPRESS_SERVER_THREAD_NAME, true);
+        NitroWebExpress nitro = new NitroWebExpress();
 
-        NitroWebExpress.Aspect.AESCompliant nitro_aes_express = new NitroWebExpress.Aspect.AESCompliant(AES_WEB_EXPRESS, AES2_EXPRESS_SERVER_SOCKET, AES2_EXPRESS_SERVER_THREAD_NAME, false);
+        nitro.bridge.aescompliance = new NitroWebExpress.Aspect.AESCompliant(AES_WEB_EXPRESS, AES2_EXPRESS_SERVER_SOCKET, AES2_EXPRESS_SERVER_THREAD_NAME, false);
 
-        NitroWebExpress.Aspect.BitcoinCompliant nitro_bitcoin_express = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEB_EXPRESS, BITCOIN_EXPRESS_SERVER_SOCKET, BITCOIN_EXPRESS_SERVER_THREAD_NAME, false);
+        nitro.bridge.bitcoincompliance = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEB_EXPRESS, BITCOIN_EXPRESS_SERVER_SOCKET, BITCOIN_EXPRESS_SERVER_THREAD_NAME, false);
 
-        web_express.start();
+        nitro.start();
     }
 
     public static void main(String...args)
