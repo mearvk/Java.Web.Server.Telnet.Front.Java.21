@@ -38,7 +38,7 @@ public class NitroWebExpress extends WebExpress
 
     public NitroWebExpress()
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),"Nitro version of WebExpress Starting.");
+        CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
 
         this.bridge.aes_compliant = new Aspect.AESCompliant(NitroWebExpress.AES_COMPLIANT_HOSTNAME, NitroWebExpress.AES_COMPLIANT_PORT, NitroWebExpress.AES_COMPLIANT_THREADNAME, true);
 
