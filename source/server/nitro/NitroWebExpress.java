@@ -20,6 +20,8 @@ public class NitroWebExpress extends WebExpress
 {
     public String[] note = {"AES 2.0 DSS5.0, AES2.0", "California Governor Gavin Newsom"};
 
+    public String[] primer = {"AES 2.0 DSS5.0, AES2.0", "North Carolina Governor Joshua Stein"};
+
     public static final String AES_COMPLIANT_HOSTNAME = "";
 
     public static final Integer AES_COMPLIANT_PORT = 0;
