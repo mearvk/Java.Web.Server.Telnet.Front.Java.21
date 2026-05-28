@@ -37,7 +37,7 @@ public class NitroWebExpress extends WebExpress
 
     public Aspect bridge = new Aspect(this);
 
-    public NationalID id;
+    public NationalID id = new NationalID();
 
     public NitroWebExpress()
     {

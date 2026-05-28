@@ -49,6 +49,8 @@ public class Main
 
         CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.28.1.1 v.11.1 .");
 
+        CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
+
         NitroWebExpress nitro = new NitroWebExpress();
 
         nitro.bridge.aescompliance = new NitroWebExpress.Aspect.AESCompliant(AES_WEB_EXPRESS, AES2_EXPRESS_SERVER_SOCKET, AES2_EXPRESS_SERVER_THREAD_NAME, false);
