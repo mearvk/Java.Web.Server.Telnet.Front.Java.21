@@ -7,6 +7,7 @@ import connections.CurrentConnections;
 import encryption.module.aes.two.EncryptionModule;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
+import national.NationalID;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,8 +37,12 @@ public class NitroWebExpress extends WebExpress
 
     public Aspect bridge = new Aspect(this);
 
+    public NationalID id;
+
     public NitroWebExpress()
     {
+        CommonRails.printSystemComponent(this, this.id.hashCode(), ". National ID initialized: "+this.id.eight_digits +" .");
+
         CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
     }
 
