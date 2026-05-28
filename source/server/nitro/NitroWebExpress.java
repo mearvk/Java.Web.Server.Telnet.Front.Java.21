@@ -87,8 +87,6 @@ public class NitroWebExpress extends WebExpress
                 this.port = port;
 
                 this.setName(thread_name);
-
-                this.start();
             }
 
             protected static class MessageOutputRecord
@@ -143,8 +141,6 @@ public class NitroWebExpress extends WebExpress
                 this.port = port;
 
                 this.setName(thread_name);
-
-                this.start();
             }
 
             public BitcoinCompliant()
