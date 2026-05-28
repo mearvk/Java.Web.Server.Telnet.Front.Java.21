@@ -24,7 +24,7 @@ public class BitcoinAsiaAndTokyoDate extends BitcoinNewFlatiron108
     {
         formatter.setTimeZone(TIMEZONE);
 
-        date = new Date(new Random(998).toString());
+        //date = new Date(new Random(998).toString());
 
         date = new Date();
 
