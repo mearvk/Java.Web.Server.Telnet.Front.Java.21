@@ -1,166 +1,93 @@
 package commons;
 
-/**
- * @author Max Rupplin
- *
- * @date April 24 2026
- */
-
 import java.text.DecimalFormat;
 
-public class EnglishArithemeter
-{
+/**
+ * @author Max Rupplin
+ * @date April 24 2026
+ */
+public class EnglishArithemeter {
     protected String hash = "0xDA717018470E213F";
 
-    private static final String[] tens = {"", " ten", " twenty", " thirty", " forty", " fifty", " sixty", " seventy", " eighty", " ninety"};
+    private static final String[] tens = {
+            "", " ten", " twenty", " thirty", " forty", " fifty", " sixty", " seventy", " eighty", " ninety"
+    };
 
-    private static final String[] units = {"", " one", " two", " three", " four", " five", " six", " seven", " eight", " nine", " ten", " eleven", " twelve", " thirteen", " fourteen", " fifteen", " sixteen", " seventeen", " eighteen", " nineteen"};
+    private static final String[] units = {
+            "", " one", " two", " three", " four", " five", " six", " seven", " eight", " nine", " ten",
+            " eleven", " twelve", " thirteen", " fourteen", " fifteen", " sixteen", " seventeen", " eighteen", " nineteen"
+    };
 
     public Result result = new Result();
-
     public Integer size;
 
-    public EnglishArithemeter(Integer size)
-    {
+    public EnglishArithemeter(Integer size) {
         this.size = size;
-
-        if(size<=1000)
-        {
-            this.olympics(size);
-        }
-        else
-        {
+        if (size == 0) {
+            this.result.arithemetic = "Zero";
+            this.result.numeral = 0;
+        } else {
             this.convert(size);
         }
     }
 
-    public static class Result
-    {
+    public static class Result {
         public String arithemetic;
-
         public Integer numeral;
-
-        public Result()
-        {
-
-        }
     }
 
-    public void olympics(int number)
-    {
-        String convert;
+    // Helper method to process a 3-digit chunk and return its string representation
+    public String olympics(int number) {
+        if (number == 0) return "";
 
-        if (number % 100 < 20)
-        {
+        String convert = "";
+        if (number % 100 < 20) {
             convert = units[number % 100];
-            number /= 100;
-        }
-        else
-        {
-            convert = units[number % 10];
-            number /= 10;
-
-            convert = tens[number % 10] + convert;
-            number /= 10;
+        } else {
+            convert = tens[(number % 100) / 10] + units[number % 10];
         }
 
-        if (number == 0)
-        {
-            this.result.arithemetic = "Zero";
-
-            this.result.numeral = 0;
+        int hundreds = number / 100;
+        if (hundreds > 0) {
+            return units[hundreds] + " hundred" + convert;
         }
-
-        this.result.arithemetic = units[number] + " hundred" + convert;
+        return convert;
     }
 
-    public void convert(long number)
-    {
-        if (number == 0)
-        {
-            this.result.arithemetic =  "Zero";
+    public void convert(long number) {
+        this.result.numeral = (int) number;
 
-            this.result.numeral = 0;
-        }
-
-        String convertable = Long.toString(number);
-
-        String mask = "000000000000";
-
-        DecimalFormat df = new DecimalFormat(mask);
-
-        convertable = df.format(number);
+        // Force a 12-digit format grouped into 4 triplets: Billions, Millions, Thousands, Ones
+        DecimalFormat df = new DecimalFormat("000000000000");
+        String convertable = df.format(number);
 
         int billions = Integer.parseInt(convertable.substring(0, 3));
-
         int millions = Integer.parseInt(convertable.substring(3, 6));
+        int thousands = Integer.parseInt(convertable.substring(6, 9));
+        int ones = Integer.parseInt(convertable.substring(9, 12));
 
-        int hundreds_of_thousands = Integer.parseInt(convertable.substring(6, 9));
+        StringBuilder sb = new StringBuilder();
 
-        int thousands = Integer.parseInt(convertable.substring(9, 12));
-
-        String tradBillions;
-
-        if (billions == 0)
-        {
-            tradBillions = "";
-        }
-        else
-        {
-            this.olympics(billions);
-
-            tradBillions = this.result.arithemetic + " billion ";
+        if (billions > 0) {
+            sb.append(this.olympics(billions)).append(" billion ");
         }
 
-        String result =  tradBillions;
-
-        String tradMillions;
-
-        switch (millions)
-        {
-            case 0:
-                tradMillions = "";
-                break;
-
-            default :
-                olympics(millions);
-                tradMillions = this.result.arithemetic + " million ";
+        if (millions > 0) {
+            sb.append(this.olympics(millions)).append(" million ");
         }
 
-        result =  result + tradMillions;
-
-        String tradHundredThousands;
-
-        switch (hundreds_of_thousands)
-        {
-            case 0:
-                tradHundredThousands = "";
-
-                break;
-
-            case 1 :
-                tradHundredThousands = "one thousand ";
-
-                break;
-
-            default :
-                olympics(hundreds_of_thousands);
-                tradHundredThousands = this.result.arithemetic + " thousand ";
+        if (thousands > 0) {
+            sb.append(this.olympics(thousands)).append(" thousand ");
         }
 
-        result =  result + tradHundredThousands;
+        if (ones > 0) {
+            sb.append(this.olympics(ones));
+        }
 
-        String tradThousand;
-
-        this.olympics(thousands);
-
-        tradThousand = this.result.arithemetic;
-
-        result =  result + tradThousand;
-
-        String value =  result.replaceAll("^\\s+", "").replaceAll("\\b\\s{2,}\\b", " ");
-
-        this.result.arithemetic = value.substring(0, 1).toUpperCase()+value.substring(1);
+        // Clean up duplicate spacing and capitalize the first letter
+        String value = sb.toString().trim().replaceAll("\\s{2,}", " ");
+        if (!value.isEmpty()) {
+            this.result.arithemetic = value.substring(0, 1).toUpperCase() + value.substring(1);
+        }
     }
 }
-
