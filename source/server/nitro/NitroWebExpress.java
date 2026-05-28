@@ -20,9 +20,31 @@ public class NitroWebExpress extends WebExpress
 {
     public String[] note = {"AES 2.0 DSS5.0, AES2.0", "California Governor Gavin Newsom"};
 
+    public static final String AES_COMPLIANT_HOSTNAME = "";
+
+    public static final Integer AES_COMPLIANT_PORT = 0;
+
+    public static final String AES_COMPLIANT_THREADNAME = "AES 2.0 Masterthread";
+
+    public static final String BITCOIN_COMPLIANT_HOSTNAME = "";
+
+    public static final Integer BITCOIN_COMPLIANT_PORT = 0;
+
+    public static final String BITCOIN_COMPLIANT_THREADNAME = "Bitcoin v24.0+ Masterthread";
+
+    public Aspect bridge = new Aspect(this);
+
     public NitroWebExpress()
     {
+        CommonRails.printSystemComponent(this, this.hashCode(),"Nitro version of WebExpress Starting.");
 
+        this.bridge.aes_compliant = new Aspect.AESCompliant(NitroWebExpress.AES_COMPLIANT_HOSTNAME, NitroWebExpress.AES_COMPLIANT_PORT, NitroWebExpress.AES_COMPLIANT_THREADNAME, true);
+
+        this.bridge.bitcoin_compliant = new Aspect.BitcoinCompliant(NitroWebExpress.BITCOIN_COMPLIANT_HOSTNAME, NitroWebExpress.BITCOIN_COMPLIANT_PORT, NitroWebExpress.BITCOIN_COMPLIANT_HOSTNAME, true);
+
+        this.bridge.aes_compliant.start();
+
+        this.bridge.bitcoin_compliant.start();
     }
 
     public static class Aspect
@@ -34,6 +56,10 @@ public class NitroWebExpress extends WebExpress
         protected EncryptionModule encryption_module = new EncryptionModule(new Random(random),"AES 2.0 DSS5.0","AES2.0 - California Governor Gavin Newsom");
 
         protected TraderModule trader_module = new TraderModule(this, "Bitcoin Remote Module 2.0 ADS5.0");
+
+        protected AESCompliant aes_compliant = new AESCompliant("", 0, "", true);
+
+        protected BitcoinCompliant bitcoin_compliant = new BitcoinCompliant();
 
         public Aspect(WebExpress web_express)
         {
