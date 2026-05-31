@@ -27,7 +27,7 @@ public class CommonRails
 
         String compliant_hashcode = String.format("%010d", hashcode);
 
-        String object_id = "- : [Object ID: "+compliant_hashcode+"]";
+        String object_id = "-- : [Object ID: "+compliant_hashcode+"]";
 
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 
@@ -35,7 +35,32 @@ public class CommonRails
 
         String reference = object_id + " "+ date + " " + classname + " " + line;
 
-        System.out.println(reference);
+        CommonRails.delayableFinePrinter(reference, 45);
+
+        //System.out.println("\u001B[0m");
+    }
+
+    public static void delayableFinePrinter(String text, int delay)
+    {
+        int[] codes = {232, 235, 238, 241, 244, 247, 250, 253, 231};
+
+        try
+        {
+            for(int color : codes)
+            {
+                System.out.print("\033[38;5;" + color + "m" + text + "\r");
+
+                Thread.sleep(delay);
+            }
+
+            Thread.sleep(1000L);
+
+            System.out.println(text);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace(System.err);
+        }
     }
 
     protected static void _long(final String orgasm, WebExpress web_express, Integer not_less_than)
