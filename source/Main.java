@@ -24,7 +24,7 @@ public class Main
 
     protected static final String BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME = ". WEBEXPRESS_BITCOIN_SERVER .";
 
-    protected static final String WEBEXPRESS_HOST = "localhost";
+    protected static final String WEBEXPRESS_HOSTNAME = "localhost";
 
     protected static final String AES_WEBEXPRESS_HOST = "localhost";
 
@@ -50,7 +50,7 @@ public class Main
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
-        NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOST, Main.WEB_EXPRESS_SERVER_THREAD_NAME);
+        NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREAD_NAME);
 
             nitro.PORT = 49152;
 
