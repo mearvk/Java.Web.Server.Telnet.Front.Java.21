@@ -53,7 +53,7 @@ public class CommonRails
                 Thread.sleep(delay);
             }
 
-            Thread.sleep(1000L);
+            Thread.sleep(400L);
 
             System.out.println(text);
         }
