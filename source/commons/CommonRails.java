@@ -35,14 +35,14 @@ public class CommonRails
 
         String reference = object_id + " "+ date + " " + classname + " " + line;
 
-        CommonRails.delayableFinePrinter(reference, 45);
+        CommonRails.delayableFinePrinter(reference, 21);
 
         //System.out.println("\u001B[0m");
     }
 
     public static void delayableFinePrinter(String text, int delay)
     {
-        int[] codes = {232, 235, 238, 241, 244, 247, 250, 253, 231};
+        int[] codes = {232, 233, 234, 235, 236, 237, 238, 241, 244, 247, 250, 253, 215};
 
         try
         {
