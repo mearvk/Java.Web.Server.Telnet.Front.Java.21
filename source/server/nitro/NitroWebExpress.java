@@ -19,23 +19,29 @@ import java.util.Random;
 
 public class NitroWebExpress extends WebExpress
 {
-    public final String[] note = new String[]{"AES 2.0 DSS5.0, AES2.0", "California Governor Gavin Newsom"};
+    public final String[] NOTE = new String[]{"AES 2.0 DSS5.0, AES2.0", "California Governor Gavin Newsom"};
 
-    public final String[] primer = new String[]{"AES 2.0 DSS5.0, AES2.0", "North Carolina Governor Joshua Stein"};
+    public final String[] PRIMER = new String[]{"AES 2.0 DSS5.0, AES2.0", "North Carolina Governor Joshua Stein"};
 
     public static NitroWebExpress self;
 
-    public static final String AES_COMPLIANT_HOSTNAME = "";
+    public static Integer BASE_PORT = 49152;
 
-    public static final Integer AES_COMPLIANT_PORT = 0;
+    public static final Integer AES_COMPLIANT_PORT = 5512;
+
+    public static final Integer BITCOIN_COMPLIANT_PORT = 6682;
 
     public static final String AES_COMPLIANT_THREADNAME = "AES 2.0 Masterthread";
 
-    public static final String BITCOIN_COMPLIANT_HOSTNAME = "";
-
-    public static final Integer BITCOIN_COMPLIANT_PORT = 0;
-
     public static final String BITCOIN_COMPLIANT_THREADNAME = "Bitcoin v24.0+ Masterthread";
+
+    public static String WEBEXPRESS_COMPLIANT_THREADNAME = "WebExpress v24.0+ Masterthread";
+
+    public static String WEBEXPRESS_COMPLIANT_HOSTNAME = "localhost";
+
+    public static final String BITCOIN_COMPLIANT_HOSTNAME = "localhost";
+
+    public static final String AES_COMPLIANT_HOSTNAME = "localhost";
 
     public Aspect bridge = new Aspect(this);
 
@@ -46,6 +52,12 @@ public class NitroWebExpress extends WebExpress
         CommonRails.printSystemComponent(this, 8, STR.". National ID initialized: \{this.NATIONALID.EIGHT_DIGITS} .");
 
         CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
+
+        NitroWebExpress.BASE_PORT = PORT;
+
+        NitroWebExpress.WEBEXPRESS_COMPLIANT_HOSTNAME = HOST;
+
+        NitroWebExpress.WEBEXPRESS_COMPLIANT_THREADNAME = THREAD_NAME;
 
         NitroWebExpress.self = this;
     }
