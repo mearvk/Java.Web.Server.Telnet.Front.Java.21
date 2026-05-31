@@ -23,6 +23,8 @@ public class NitroWebExpress extends WebExpress
 
     public final String[] primer = {"AES 2.0 DSS5.0, AES2.0", "North Carolina Governor Joshua Stein"};
 
+    public static NitroWebExpress self;
+
     public static final String AES_COMPLIANT_HOSTNAME = "";
 
     public static final Integer AES_COMPLIANT_PORT = 0;
@@ -44,6 +46,8 @@ public class NitroWebExpress extends WebExpress
         CommonRails.printSystemComponent(this, this.NATIONALID.hashCode(), ". National ID initialized: "+this.NATIONALID.EIGHT_DIGITS +" .");
 
         CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
+
+        NitroWebExpress.self = this;
     }
 
     public static class Aspect
