@@ -1,17 +1,16 @@
-package bitcoin;
+package bitcoin.base;
 
-import bitcoin.time.BitcoinAsianDate;
-import bitcoin.time.BitcoinESTDate;
+
+import bitcoin.messaging.MessageOrderer;
+import bitcoin.time.BitcoinAmericaAndNewYorkDate;
+import bitcoin.time.BitcoinAsiaAndTokyoDate;
 import commons.CommonRails;
-import server.WebExpress;
+import server.nitro.NitroWebExpress;
+import server.nitro.WebExpress;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author Max Rupplin
@@ -21,7 +20,7 @@ public class BitcoinBase
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected WebExpress.Aspect aspect;
+    protected NitroWebExpress.Aspect aspect;
 
     protected final String BITCOIN_CLI = "bitcoin-cli";
 
@@ -31,37 +30,37 @@ public class BitcoinBase
     
     protected final String BITCOIN_PORT = "";
 
-    protected final String BITCOIND_START_ARGS = "-regtest -daemon -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\"";
+    protected final String BITCOIND_START_ARGS = STR."-regtest -daemon -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\"";
 
-    protected final String BITCOIN_CLI_LOAD_WALLET_ARGS = "-named loadwallet -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\" wallet_name=\"United States\"";
+    protected final String BITCOIN_CLI_LOAD_WALLET_ARGS = STR."-named loadwallet -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\" wallet_name=\"United States\"";
 
-    protected final String BITCOIN_GET_WALLET_NAME_ARGS = "-named getwalletinfo -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\" wallet_name\"United States\"";
+    protected final String BITCOIN_GET_WALLET_NAME_ARGS = STR."-named getwalletinfo -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\" wallet_name\"United States\"";
 
     protected final String BITCOIN_CLI_DELETE_WALLET_CMD = "rm -r";
 
-    protected final String BITCOIN_CLI_UNLOAD_WALLET_ARGS = "-named unloadwallet -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\" wallet_name=\"United States\"";
+    protected final String BITCOIN_CLI_UNLOAD_WALLET_ARGS = STR."-named unloadwallet -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\" wallet_name=\"United States\"";
 
     protected final String BITCOIN_CLI_RENAME_WALLET_ARGS = "";
 
-    protected final String BITCOIN_CLI_ADD_NEW_WALLET_ARGS = "bitcoin-cli createwallet -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\"";
+    protected final String BITCOIN_CLI_ADD_NEW_WALLET_ARGS = STR."bitcoin-cli createwallet -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\"";
 
     protected final String BITCOIN_CLI_SEND_LOCAL_WALLET_TO_REMOTE_WALLET_ARGS = "";
 
     protected final String SPACE = " ";
 
-    protected BitcoinMessageOrderer bitcoin_message_orderer = new BitcoinMessageOrderer(this);
+    protected MessageOrderer bitcoin_message_orderer = new MessageOrderer(this);
 
-    public BitcoinBase(WebExpress.Aspect aspect)
+    public BitcoinBase(NitroWebExpress.Aspect aspect)
     {
         this.aspect = aspect;
 
-        BitcoinAsianDate JAPANDate = new BitcoinAsianDate();
+        BitcoinAsiaAndTokyoDate JAPANDate = new BitcoinAsiaAndTokyoDate();
 
-        BitcoinESTDate ESTDate = new BitcoinESTDate();
+        BitcoinAmericaAndNewYorkDate ESTDate = new BitcoinAmericaAndNewYorkDate();
 
-        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens in North Carolina on [Date: "+ESTDate.EST_Time+"]");
+        CommonRails.printSystemComponent(this, this.hashCode(), STR."WebExpress::Bitcoin >> opens in North Carolina on [Date: \{ESTDate.EST_Time}]");
 
-        CommonRails.printSystemComponent(this.hashCode(),"WebExpress::Bitcoin >> opens in Japan on [Date: "+JAPANDate.PACIFIC_Time +"]");
+        CommonRails.printSystemComponent(this, this.hashCode(), STR."WebExpress::Bitcoin >> opens in Japan on [Date: \{JAPANDate.PACIFIC_Time}]");
     }
 
     public void send_message(StringBuffer buffer)
@@ -80,11 +79,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIND+SPACE+BITCOIND_START_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -94,11 +93,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_LOAD_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -118,25 +117,25 @@ public class BitcoinBase
             {
                 return_value.append(message);
 
-                CommonRails.printSystemComponent(this.hashCode(), "WebExpress::Bitcoin >> "+message);
+                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> "+message);
 
                 while((message=reader.readLine())!=null)
                 {
                     return_value.append(message);
 
-                    CommonRails.printSystemComponent(this.hashCode(), "WebExpress::Bitcoin >> "+message);
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> "+message);
                 }
 
                 return return_value.toString();
             }
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
 
             return "-1";
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
 
         return "-1";
@@ -166,11 +165,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI_DELETE_WALLET_CMD+SPACE+WALLET_DIR);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -180,11 +179,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_UNLOAD_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -194,11 +193,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_RENAME_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -208,11 +207,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_ADD_NEW_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -222,11 +221,11 @@ public class BitcoinBase
         {
             Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+ BITCOIN_CLI_SEND_LOCAL_WALLET_TO_REMOTE_WALLET_ARGS);
 
-            CommonRails.printSystemComponent(this.hashCode(), "0x8766Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this.hashCode(), "0x8A66Ea");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 }

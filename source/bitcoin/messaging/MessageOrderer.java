@@ -1,5 +1,6 @@
 package bitcoin.messaging;
 
+import bitcoin.base.BitcoinBase;
 import bitcoin.module.TraderModule;
 
 import java.net.InetAddress;
@@ -15,9 +16,16 @@ public class MessageOrderer extends Thread
 
     public TraderModule bitcoin;
 
+    public BitcoinBase base;
+
     public MessageOrderer(TraderModule bitcoin)
     {
         this.bitcoin = bitcoin;
+    }
+
+    public MessageOrderer(BitcoinBase base)
+    {
+        this.base = base;
     }
 
     @Override
