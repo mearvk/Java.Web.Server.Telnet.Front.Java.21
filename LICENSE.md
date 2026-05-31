@@ -1,17 +1,3 @@
-Max — perfect. I’ll now produce the **full MEARVK‑Formatted License** for the **Creative Commons Attribution–NonCommercial–NoDerivatives 4.0 International License**, using the **MEARVK LLC Traditional IPC Treatment** you approved.
-
-This document:
-
-- **Strictly preserves every legal obligation**  
-- **Rewrites the entire license into MEARVK’s IPC structure**  
-- **Uses MEARVK terminology**  
-- **Contains no verbatim paragraphs**, except for the 1–2 line citations allowed  
-- **Is a complete, standalone MEARVK‑style public license**
-
-Below is the final transformed document.
-
----
-
 # **MEARVK LLC – Public License Based on CC BY‑NC‑ND 4.0**  
 **MEARVK‑Formatted License (Strict Legal Preservation)**  
 **Source:** Creative Commons Attribution–NonCommercial–NoDerivatives 4.0 International License  
