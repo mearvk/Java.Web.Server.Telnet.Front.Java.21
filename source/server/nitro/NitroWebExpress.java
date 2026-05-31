@@ -67,6 +67,8 @@ public class NitroWebExpress extends WebExpress
 
         public Aspect(WebExpress WEBEXPRESS)
         {
+            if(WEBEXPRESS==null) throw new SecurityException("//bodi/connect");
+
             this.WEBEXPRESS = WEBEXPRESS;
         }
 
@@ -82,6 +84,8 @@ public class NitroWebExpress extends WebExpress
 
             public AESCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
             {
+                if(host==null || port==null || thread_name==null || telnet_proxy_enabled) throw new SecurityException("//bodi/connect");
+
                 super(host, port, thread_name, telnet_proxy_enabled);
 
                 this.HOST = host;
@@ -115,6 +119,8 @@ public class NitroWebExpress extends WebExpress
 
                 public void send_message(StringBuffer buffer)
                 {
+                    if(buffer==null) throw new SecurityException("//bodi/connect");
+
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, buffer);
 
                     message_output_handler.run();
@@ -141,6 +147,8 @@ public class NitroWebExpress extends WebExpress
 
             public BitcoinCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
             {
+                if(host==null || port==null || thread_name==null || telnet_proxy_enabled) throw new SecurityException("//bodi/connect");
+
                 super(host, port, thread_name, telnet_proxy_enabled);
 
                 this.HOST = host;
@@ -174,6 +182,8 @@ public class NitroWebExpress extends WebExpress
 
                 public void send_message(StringBuffer buffer)
                 {
+                    if(buffer==null) throw new SecurityException("//bodi/connect");
+
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, buffer);
 
                     message_output_handler.run();
@@ -181,6 +191,8 @@ public class NitroWebExpress extends WebExpress
 
                 public void send_message(String message)
                 {
+                    if(message==null) throw new SecurityException("//bodi/connect");
+
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, message);
 
                     message_output_handler.run();
@@ -195,6 +207,8 @@ public class NitroWebExpress extends WebExpress
 
                 public MessageQueueSorter(WebExpress web_express)
                 {
+                    if(web_express==null) throw new SecurityException("//bodi/connect");
+
                     this.web_express = web_express;
 
                     this.setName("MessageQueueSorter");
@@ -324,6 +338,8 @@ public class NitroWebExpress extends WebExpress
 
                 public synchronized void addMessage(MessageQueue.Message message)
                 {
+                    if(message==null) throw new SecurityException("//bodi/connect");
+
                     CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size before "+this.getMessageQueueSize()+" .");
 
                     this.web_express.message_queue.add(message);

@@ -35,12 +35,12 @@ public class WebExpress extends BaseServer
     public WebExpress()
     {
         this.setName("United States::D500::WebExpress");
-
-
     }
 
     public WebExpress(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
     {
+        if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED==null) throw new SecurityException("//bodi/connect");
+
         super(HOST, PORT);
 
         this.INHERITOR = this;
@@ -75,8 +75,6 @@ public class WebExpress extends BaseServer
         }
 
         this.message_queue_sorter.start();
-
-        //WebExpress.reference = this;
 
         this.setName(THREAD_NAME);
     }

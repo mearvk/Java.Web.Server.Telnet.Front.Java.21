@@ -42,7 +42,7 @@ public class CommonRails
 
     public static void delayableFinePrinter(String text, int delay)
     {
-        int[] codes = {232, 233, 234, 235, 236, 237, 238, 241, 244, 247, 250, 253, 215};
+        int[] codes = {232, 233, 234, 235, 236, 237, 238, 241, 244, 247, 250, 253, 188};
 
         try
         {
