@@ -1,30 +1,15 @@
 package server.nitro;
 
-import bitcoin.module.TraderModule;
 import commons.CommonRails;
-import commons.EnglishArithemeter;
-import connections.CurrentConnections;
-import encryption.module.aes.two.EncryptionModule;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import server.base.BaseServer;
 import telnet.TelnetCommunicationProxy;
 import telnet.TelnetInstaller;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.util.Random;
-
 public class WebExpress extends BaseServer
 {
     protected String hash = "0xDA717018470E213F";
-
-    public static WebExpress reference = new WebExpress();
-
     public static final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};
 
     public static final Boolean TELNET_PROXY = Boolean.FALSE;
@@ -37,6 +22,8 @@ public class WebExpress extends BaseServer
 
     public String THREAD_NAME;
 
+    public Boolean TELNET_PROXY_ENABLED;
+
     public TelnetInstaller telnet_installer;
 
     public TelnetCommunicationProxy telnet_communication_proxy;
@@ -47,22 +34,24 @@ public class WebExpress extends BaseServer
 
     public WebExpress()
     {
-        WebExpress.reference = this;
-
         this.setName("United States::D500::WebExpress");
+
+
     }
 
-    public WebExpress(final String host, final Integer port, final String thread_name, final Boolean TELNET_PROXY_ENABLED)
+    public WebExpress(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
     {
-        super(host, port);
+        super(HOST, PORT);
 
-        this.THREAD_NAME = thread_name;
+        this.INHERITOR = this;
+
+        this.THREAD_NAME = THREAD_NAME;
 
         CommonRails.printSystemComponent(this, this.hashCode(), ". CommonRails starts .");
 
-        if (TELNET_PROXY_ENABLED)
+        if(TELNET_PROXY_ENABLED)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(),". "+thread_name+" " + host + ":" + port + " [Telnet Proxy Enabled] .");
+            CommonRails.printSystemComponent(this, this.hashCode(),". "+THREAD_NAME+" " + HOST + ":" + PORT + " [Telnet Proxy Enabled] .");
 
             this.telnet_installer = new TelnetInstaller(this);
 
@@ -76,9 +65,9 @@ public class WebExpress extends BaseServer
 
             this.telnet_communication_proxy.input_builder.setName("TelnetCommunicationProxy.Builder.Input");
         }
-        else if(!TELNET_PROXY_ENABLED)
+        else
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), ". Main starts "+thread_name+" " + host + ":" + port + " .");
+            CommonRails.printSystemComponent(this, this.hashCode(), ". Main starts "+THREAD_NAME+" " + HOST + ":" + PORT + " .");
 
             this.message_queue_sorter = new MessageQueueSorter(this);
 
@@ -87,8 +76,8 @@ public class WebExpress extends BaseServer
 
         this.message_queue_sorter.start();
 
-        WebExpress.reference = this;
+        //WebExpress.reference = this;
 
-        this.setName(thread_name);
+        this.setName(THREAD_NAME);
     }
 }

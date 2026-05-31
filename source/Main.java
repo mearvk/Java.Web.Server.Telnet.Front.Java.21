@@ -1,6 +1,5 @@
 import commons.CommonRails;
 import server.nitro.NitroWebExpress;
-import server.nitro.WebExpress;
 
 /**
  * @author Max Rupplin
@@ -17,24 +16,22 @@ public class Main
 
     protected static final String WEB_EXPRESS_SERVER_THREAD_NAME = "WEB_EXPRESS_TELNET_PROXY_SERVER";
 
-    protected static final Integer AES2_EXPRESS_SERVER_SOCKET = 5512;
+    protected static final Integer AES2_WEBEXPRESS_SERVER_SOCKET = 5512;
 
-    protected static final String AES2_EXPRESS_SERVER_THREAD_NAME = "WEB_EXPRESS_AES2_SERVER";
+    protected static final String AES2_WEBEXPRESS_SERVER_THREAD_NAME = "WEB_EXPRESS_AES2_SERVER";
 
-    protected static final Integer BITCOIN_EXPRESS_SERVER_SOCKET = 6682;
+    protected static final Integer BITCOIN_WEBEXPRESS_SERVER_SOCKET = 6682;
 
-    protected static final String BITCOIN_EXPRESS_SERVER_THREAD_NAME = "WEB_EXPRESS_BITCOIN_SERVER";
+    protected static final String BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME = "WEB_EXPRESS_BITCOIN_SERVER";
 
     protected static final String WEB_EXPRESS_HOST = "localhost";
 
-    protected static final String AES_WEB_EXPRESS = "localhost";
+    protected static final String AES_WEBEXPRESS = "localhost";
 
-    protected static final String BITCOIN_WEB_EXPRESS = "localhost";
+    protected static final String BITCOIN_WEBEXPRESS = "localhost";
 
     public Main()
     {
-        WebExpress.reference = null;
-
         System.out.println();
 
         System.out.println("[ Java National Finance Engine v.28.1.1 Software Processes Starting ]");
@@ -47,15 +44,27 @@ public class Main
 
         System.out.println();
 
-        CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.28.1.1 v.11.1 .");
+        //
+
+        CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
 
         CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
+        //
+
         NitroWebExpress nitro = new NitroWebExpress();
 
-        nitro.bridge.aescompliance = new NitroWebExpress.Aspect.AESCompliant(AES_WEB_EXPRESS, AES2_EXPRESS_SERVER_SOCKET, AES2_EXPRESS_SERVER_THREAD_NAME, false);
+          nitro.PORT = 49152;
 
-        nitro.bridge.bitcoincompliance = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEB_EXPRESS, BITCOIN_EXPRESS_SERVER_SOCKET, BITCOIN_EXPRESS_SERVER_THREAD_NAME, false);
+          nitro.HOST = "localhost";
+
+          nitro.THREAD_NAME = "United States::D500::WebExpress";
+
+          nitro.TELNET_PROXY_ENABLED = Boolean.TRUE;
+
+          nitro.bridge.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+
+          nitro.bridge.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
         nitro.start();
     }

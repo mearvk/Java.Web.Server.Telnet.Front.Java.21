@@ -19,9 +19,9 @@ import java.util.Random;
 
 public class NitroWebExpress extends WebExpress
 {
-    public String[] note = {"AES 2.0 DSS5.0, AES2.0", "California Governor Gavin Newsom"};
+    public final String[] note = {"AES 2.0 DSS5.0, AES2.0", "California Governor Gavin Newsom"};
 
-    public String[] primer = {"AES 2.0 DSS5.0, AES2.0", "North Carolina Governor Joshua Stein"};
+    public final String[] primer = {"AES 2.0 DSS5.0, AES2.0", "North Carolina Governor Joshua Stein"};
 
     public static final String AES_COMPLIANT_HOSTNAME = "";
 
@@ -37,11 +37,11 @@ public class NitroWebExpress extends WebExpress
 
     public Aspect bridge = new Aspect(this);
 
-    public NationalID id = new NationalID();
+    public NationalID NATIONALID = new NationalID();
 
     public NitroWebExpress()
     {
-        CommonRails.printSystemComponent(this, this.id.hashCode(), ". National ID initialized: "+this.id.eight_digits +" .");
+        CommonRails.printSystemComponent(this, this.NATIONALID.hashCode(), ". National ID initialized: "+this.NATIONALID.EIGHT_DIGITS +" .");
 
         CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
     }
@@ -56,9 +56,9 @@ public class NitroWebExpress extends WebExpress
 
         protected TraderModule trader_module = new TraderModule(this, "Bitcoin Remote Module 2.0 ADS5.0");
 
-        public AESCompliant aescompliance = new AESCompliant("", 0, "", true);
+        public AESCompliant AES_COMPONENT = new AESCompliant("", 0, "", true);
 
-        public BitcoinCompliant bitcoincompliance = new BitcoinCompliant();
+        public BitcoinCompliant BITCOIN_COMPONENT = new BitcoinCompliant();
 
         public Aspect(WebExpress web_express)
         {
@@ -79,9 +79,9 @@ public class NitroWebExpress extends WebExpress
             {
                 super(host, port, thread_name, telnet_proxy_enabled);
 
-                this.host = host;
+                this.HOST = host;
 
-                this.port = port;
+                this.PORT = port;
 
                 this.setName(thread_name);
             }
@@ -138,9 +138,9 @@ public class NitroWebExpress extends WebExpress
             {
                 super(host, port, thread_name, telnet_proxy_enabled);
 
-                this.host = host;
+                this.HOST = host;
 
-                this.port = port;
+                this.PORT = port;
 
                 this.setName(thread_name);
             }
