@@ -52,32 +52,33 @@ public class NitroWebExpress extends WebExpress
 
     public static class Aspect
     {
-        protected final Integer random = 10078;
+        protected final Integer RANDOM = 10078;
 
-        protected WebExpress web_express;
+        protected WebExpress WEBEXPRESS;
 
-        protected EncryptionModule encryption_module = new EncryptionModule(new Random(random),"AES 2.0 DSS5.0","AES2.0 - California Governor Gavin Newsom");
+        protected EncryptionModule ENCRYPTION_MODULE = new EncryptionModule(new Random(RANDOM),"AES 2.0 DSS5.0","AES2.0 - California Governor Gavin Newsom");
 
-        protected TraderModule trader_module = new TraderModule(this, "Bitcoin Remote Module 2.0 ADS5.0");
+        protected TraderModule TRADER_MODULE = new TraderModule(this, "Bitcoin Remote Module 2.0 ADS5.0");
 
-        public AESCompliant AES_COMPONENT = new AESCompliant("", 0, "", true);
+        public AESCompliant AES_COMPONENT = new AESCompliant(AES_COMPLIANT_HOSTNAME, 0, "AES COMPONENT", Boolean.TRUE);
 
         public BitcoinCompliant BITCOIN_COMPONENT = new BitcoinCompliant();
 
-        public Aspect(WebExpress web_express)
+
+        public Aspect(WebExpress WEBEXPRESS)
         {
-            this.web_express = web_express;
+            this.WEBEXPRESS = WEBEXPRESS;
         }
 
         public static class AESCompliant extends WebExpress
         {
-            protected AESCompliant.MessageOutputHandler aes_message_output_handler = new AESCompliant.MessageOutputHandler();
+            protected AESCompliant.MessageOutputHandler AES_MESSAGE_OUTPUT_HANDLER = new AESCompliant.MessageOutputHandler();
 
-            public MessageQueueSorter message_queue_sorter = new MessageQueueSorter(this);
+            public MessageQueueSorter MESSAGE_QUEUE_SORTER = new MessageQueueSorter(this);
 
-            public MessageQueue message_queue = new MessageQueue(this);
+            public MessageQueue MESSAGE_QUEUE = new MessageQueue(this);
 
-            public Socket socket;
+            public Socket SOCKET;
 
             public AESCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
             {
