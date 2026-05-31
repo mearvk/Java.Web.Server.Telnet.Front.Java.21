@@ -50,7 +50,7 @@ public class Main
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
-        NitroWebExpress nitro = new NitroWebExpress();
+        NitroWebExpress nitro = new NitroWebExpress(Main.WEB_EXPRESS_SERVER_SOCKET, Main.WEBEXPRESS_HOST, Main.WEB_EXPRESS_SERVER_THREAD_NAME);
 
             nitro.PORT = 49152;
 

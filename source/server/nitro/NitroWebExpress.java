@@ -41,7 +41,7 @@ public class NitroWebExpress extends WebExpress
 
     public NationalID NATIONALID = new NationalID();
 
-    public NitroWebExpress()
+    public NitroWebExpress(final Integer PORT, final String HOST, final String THREAD_NAME)
     {
         CommonRails.printSystemComponent(this, this.NATIONALID.hashCode(), ". National ID initialized: "+this.NATIONALID.EIGHT_DIGITS +" .");
 
