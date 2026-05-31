@@ -12,7 +12,7 @@ public class Main
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected static final Integer WEB_EXPRESS_SERVER_SOCKET = 49152;
+    protected static final Integer WEBEXPRESS_PORT = 49152;
 
     protected static final Integer AES2_WEBEXPRESS_SERVER_SOCKET = 5512;
 
@@ -50,7 +50,7 @@ public class Main
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
-        NitroWebExpress nitro = new NitroWebExpress(Main.WEB_EXPRESS_SERVER_SOCKET, Main.WEBEXPRESS_HOST, Main.WEB_EXPRESS_SERVER_THREAD_NAME);
+        NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOST, Main.WEB_EXPRESS_SERVER_THREAD_NAME);
 
             nitro.PORT = 49152;
 
