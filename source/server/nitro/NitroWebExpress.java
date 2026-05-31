@@ -19,9 +19,9 @@ import java.util.Random;
 
 public class NitroWebExpress extends WebExpress
 {
-    public final String[] note = {"AES 2.0 DSS5.0, AES2.0", "California Governor Gavin Newsom"};
+    public final String[] note = new String[]{"AES 2.0 DSS5.0, AES2.0", "California Governor Gavin Newsom"};
 
-    public final String[] primer = {"AES 2.0 DSS5.0, AES2.0", "North Carolina Governor Joshua Stein"};
+    public final String[] primer = new String[]{"AES 2.0 DSS5.0, AES2.0", "North Carolina Governor Joshua Stein"};
 
     public static NitroWebExpress self;
 
@@ -43,9 +43,9 @@ public class NitroWebExpress extends WebExpress
 
     public NitroWebExpress(final Integer PORT, final String HOST, final String THREAD_NAME)
     {
-        //CommonRails.printSystemComponent(this, 8, STR.". National ID initialized: \{this.NATIONALID.EIGHT_DIGITS} .");
+        CommonRails.printSystemComponent(this, 8, STR.". National ID initialized: \{this.NATIONALID.EIGHT_DIGITS} .");
 
-        //CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
+        CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
 
         NitroWebExpress.self = this;
     }
@@ -82,17 +82,17 @@ public class NitroWebExpress extends WebExpress
 
             public Socket SOCKET;
 
-            public AESCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
+            public AESCompliant(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
             {
-                if(host==null || port==null || thread_name==null || telnet_proxy_enabled) throw new SecurityException("//bodi/connect");
+                if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED) throw new SecurityException("//bodi/connect");
 
-                super(host, port, thread_name, telnet_proxy_enabled);
+                super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
 
-                this.HOST = host;
+                this.HOST = HOST;
 
-                this.PORT = port;
+                this.PORT = PORT;
 
-                this.setName(thread_name);
+                this.setName(THREAD_NAME);
             }
 
             public AESCompliant()
