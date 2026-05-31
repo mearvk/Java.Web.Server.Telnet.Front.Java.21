@@ -14,15 +14,15 @@ public class Main
 
     protected static final Integer WEB_EXPRESS_SERVER_SOCKET = 49152;
 
-    protected static final String WEB_EXPRESS_SERVER_THREAD_NAME = "WEBEXPRESS_TELNET_PROXY_SERVER";
+    protected static final String WEB_EXPRESS_SERVER_THREAD_NAME = ". WEBEXPRESS_TELNET_PROXY_SERVER .";
 
     protected static final Integer AES2_WEBEXPRESS_SERVER_SOCKET = 5512;
 
-    protected static final String AES2_WEBEXPRESS_SERVER_THREAD_NAME = "WEBEXPRESS_AES2_SERVER";
+    protected static final String AES2_WEBEXPRESS_SERVER_THREAD_NAME = ". WEBEXPRESS_AES2_SERVER .";
 
     protected static final Integer BITCOIN_WEBEXPRESS_SERVER_SOCKET = 6682;
 
-    protected static final String BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME = "WEBEXPRESS_BITCOIN_SERVER";
+    protected static final String BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME = ". WEBEXPRESS_BITCOIN_SERVER .";
 
     protected static final String WEBEXPRESS_HOST = "localhost";
 
