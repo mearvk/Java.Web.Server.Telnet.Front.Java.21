@@ -31,7 +31,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       line-height: var(--line-height);
-      overflow-y: auto;
+      overflow-y: auto; /* page-level scrollbar on the far right */
     }
 
     .site {
@@ -125,20 +125,19 @@
       color: var(--carolina-blue);
     }
 
-    /* Secondary small connectors (kept subtle) */
-    .title-line.secondary {
-      font-size: 1.05rem;
-      color: var(--color-section);
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
     /* Legal Protectorate line uses the current dark blue */
     .title-line.legal {
       font-size: 1.6rem;
       margin-bottom: 6px;
       color: var(--color-title);
       font-weight: 700;
+    }
+
+    .title-line.secondary {
+      font-size: 1.05rem;
+      color: var(--color-section);
+      font-weight: 600;
+      margin-bottom: 6px;
     }
 
     .title-line.tertiary {
@@ -157,16 +156,17 @@
       opacity: 0.9;
     }
 
-    /* Container: left-aligned content, constrained width for readability */
+    /* Container: left-aligned content, now wider to fill ~95% of the center area */
     .container {
-      width: 100%;
-      max-width: var(--max-width);
+      width: 95%;               /* fill roughly 95% of the center div */
+      max-width: calc(var(--max-width) * 1.05); /* allow slightly wider lines if viewport permits */
       margin: 0 auto;
       padding: 0;
       box-sizing: border-box;
       text-align: left;
     }
 
+    /* Ensure content elements are left-aligned */
     .container h1,
     .container h2,
     .container h3,
@@ -179,6 +179,7 @@
       margin-right: 0;
     }
 
+    /* Keep code blocks readable */
     .container pre, .container code {
       text-align: left;
       max-width: 100%;
@@ -225,6 +226,7 @@
       .title-line.legal { font-size: 1.25rem; }
       .title-line.secondary { font-size: 1rem; }
       .title-divider { width: 72%; }
+      .container { width: 92%; max-width: none; }
     }
 
     @media (max-width:720px){
@@ -276,11 +278,9 @@
     <main class="main" role="main" aria-label="Main content">
       <div class="container">
         <header class="site-header" role="banner">
-          <!-- Project identifier above the title, in current dark blue -->
           <div class="project-id">Java.Web.Server.Telnet.Front.Java.21</div>
 
           <div class="title-stack" aria-hidden="false">
-            <!-- Combined lines with parentheses at end of the lines -->
             <span class="title-line primary">National Finance Engine (NFE)</span>
             <span class="title-line legal">National IQ Conservatorship &amp; Legal Protectorate (NICLP)</span>
             <div class="title-divider" aria-hidden="true"></div>
