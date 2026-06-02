@@ -21,7 +21,6 @@
       --sidebar-border: #e6eef9;
     }
 
-    /* Ensure the page (body) provides the vertical scrollbar on the far right */
     html, body {
       height: 100%;
       margin: 0;
@@ -31,10 +30,10 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       line-height: var(--line-height);
-      overflow-y: auto; /* page-level scrollbar on the right edge */
+      overflow-y: auto; /* page-level scrollbar on the far right */
     }
 
-    /* Layout: left sidebar + main content */
+    /* Layout */
     .site {
       display: flex;
       min-height: 100vh;
@@ -55,12 +54,11 @@
       align-self: flex-start;
       height: auto;
       max-height: 100vh;
-      overflow: auto; /* internal scrolling for sidebar */
+      overflow: auto;
       box-shadow: 2px 0 6px rgba(11,37,69,0.04);
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none;    /* Firefox */
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
-    /* hide sidebar scrollbar visually (keeps scrolling) */
     .sidebar::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
     .sidebar .repo-link { display:block; font-weight:700; color:var(--color-title); text-decoration:none; margin-bottom:12px; font-size:0.98rem; }
@@ -82,34 +80,71 @@
 
     .sidebar .toc-title { color: var(--color-subsection); font-weight: 700; margin-bottom: 8px; font-size: 0.95rem; }
 
-    /* Main content: do not create its own vertical scrollbar; let the page scrollbar handle vertical scrolling */
+    /* Main content: let page scrollbar handle vertical scrolling */
     .main {
       flex: 1 1 auto;
       padding: 28px;
       box-sizing: border-box;
       max-width: calc(var(--max-width) + var(--sidebar-width));
       margin: 0 auto;
-      overflow: visible; /* ensure main does not create its own scrollbar */
+      overflow: visible;
       max-height: none;
-      padding-right: 28px; /* restore normal right padding */
+      padding-right: 28px;
     }
 
-    /* Remove any custom scrollbar rules for .main (so browser default appears on page edge) */
-    /* No .main::-webkit-scrollbar rules here */
+    /* Title stack (centered) */
+    .site-header {
+      margin-bottom: 22px;
+      text-align: center;
+    }
+    .title-stack {
+      display: inline-block;
+      text-align: center;
+      line-height: 1.05;
+      padding: 6px 12px;
+      border-radius: 8px;
+      margin: 0 auto 12px auto;
+    }
+    .title-line { display:block; font-weight:700; color:var(--color-title); letter-spacing:-0.01em; }
+    .title-line.primary { font-size:1.6rem; margin-bottom:6px; }
+    .title-line.secondary { font-size:1.05rem; color:var(--color-section); font-weight:600; margin-bottom:6px; }
+    .title-line.tertiary { font-size:0.95rem; color:#555; font-weight:600; margin-top:6px; }
+    .title-divider { height:2px; width:56%; margin:10px auto 0; background:linear-gradient(90deg, rgba(11,37,69,0.9), rgba(10,102,194,0.85)); border-radius:2px; opacity:0.9; }
 
+    /* Container: left-aligned content, constrained width for readability */
     .container {
+      width: 100%;
       max-width: var(--max-width);
       margin: 0 auto;
       padding: 0;
       box-sizing: border-box;
-      display: block;
-      text-align: center;
+      text-align: left;
+    }
+
+    /* Ensure content elements are left-aligned */
+    .container h1,
+    .container h2,
+    .container h3,
+    .container p,
+    .container li,
+    .container pre,
+    .container code {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    /* Keep code blocks readable */
+    .container pre, .container code {
+      text-align: left;
+      max-width: 100%;
+      margin: 12px 0;
     }
 
     header.site-header { margin-bottom: 18px; }
 
     h1 { color: var(--color-title); font-size: 2.0rem; line-height: 1.12; margin: 0 0 0.6rem 0; font-weight: 700; letter-spacing: -0.01em; }
-    .subtitle { color: #444; margin: 0 0 1.2rem 0; font-size: 0.98rem; }
+    .subtitle { color: #444; margin: 0 0 1.2rem 0; font-size: 0.98rem; text-align: left; max-width: var(--max-width); margin-left: auto; margin-right: auto; }
 
     h2 { color: var(--color-section); font-size: 1.45rem; margin: 1.2rem 0 0.5rem 0; font-weight: 600; }
     h3 { color: var(--color-subsection); font-size: 1.15rem; margin: 1.0rem 0 0.4rem 0; font-weight: 600; }
@@ -121,15 +156,15 @@
     a { color: var(--color-link); text-decoration: none; font-weight: 600; }
     a:hover { text-decoration: underline; }
 
-    blockquote { border-left: 4px solid var(--sidebar-border); background: #fbfdff; padding: 0.6rem 1rem; margin: 0 0 1rem 0; color: #333; border-radius: 4px; text-align: center; }
+    blockquote { border-left: 4px solid var(--sidebar-border); background: #fbfdff; padding: 0.6rem 1rem; margin: 0 0 1rem 0; color: #333; border-radius: 4px; }
 
     table { border-collapse: collapse; width: 100%; margin: 0.6rem 0 1rem 0; }
     th, td { border: 1px solid #e6e9ee; padding: 0.5rem 0.75rem; text-align: left; font-size: 0.95rem; }
     th { background: #f7fbff; color: var(--color-section); font-weight: 600; }
 
-    footer { margin-top: 2.2rem; color: #666; font-size: 0.9rem; text-align: center; }
+    footer { margin-top: 2.2rem; color: #666; font-size: 0.9rem; text-align: left; }
 
-    /* Responsive: collapse sidebar above content on small screens */
+    /* Responsive */
     @media (max-width: 920px) {
       .site { flex-direction: column; }
       .sidebar {
@@ -142,6 +177,9 @@
         max-height: none;
       }
       .main { padding: 18px; }
+      .title-line.primary { font-size: 1.25rem; }
+      .title-line.secondary { font-size: 1rem; }
+      .title-divider { width: 72%; }
     }
 
     @media (max-width:720px){
@@ -193,7 +231,16 @@
     <main class="main" role="main" aria-label="Main content">
       <div class="container">
         <header class="site-header" role="banner">
-          <h1>National Finance Engine (NFE) &amp; National IQ Conservatorship &amp; Legal Protectorate (NICLP)</h1>
+          <div class="title-stack" aria-hidden="false">
+            <span class="title-line primary">National Finance Engine</span>
+            <span class="title-line secondary">(NFE)</span>
+            <span class="title-line secondary">&amp;</span>
+            <span class="title-line primary">National IQ Conservatorship</span>
+            <span class="title-line secondary">&amp; Legal Protectorate</span>
+            <span class="title-line tertiary">(NICLP)</span>
+            <div class="title-divider" aria-hidden="true"></div>
+          </div>
+
           <p class="subtitle">Modular Java web server and Telnet front end for Java 21. Virtual threads, NIO file handling, and a command‑driven Telnet shell with a centralized <code>Main.java</code> entry point.</p>
         </header>
 
