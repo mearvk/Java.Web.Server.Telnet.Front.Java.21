@@ -101,12 +101,10 @@
         .progress-title { font-weight:700; color:var(--color-title); font-size:1rem; }
         .progress-sub { color:#666; font-size:0.92rem; }
 
-        /* small token input */
         .token-row { display:flex; gap:8px; align-items:center; margin-top:8px; }
         .token-row input { padding:6px 8px; border-radius:6px; border:1px solid #e6e9ee; font-size:0.92rem; width:320px; }
         .token-row button { padding:6px 10px; border-radius:6px; border:1px solid #d0d7e6; background:#f7fbff; cursor:pointer; font-weight:600; color:var(--color-title); }
 
-        /* small status */
         .status { color:#666; font-size:0.9rem; margin-top:8px; }
 
         @media (max-width:920px) {
@@ -182,13 +180,13 @@
                 <div id="chartNote" class="status">Initializing…</div>
 
                 <div class="token-row" style="margin-top:12px;">
-                    <input id="ghToken" type="password" placeholder="Optional: paste GitHub token to increase rate limits (kept in session only)" aria-label="GitHub token" />
+                    <input id="ghToken" type="password" placeholder="Optional: paste GitHub token to increase rate limits (session only)" aria-label="GitHub token" />
                     <button id="saveTokenBtn" type="button">Use token</button>
                     <button id="clearTokenBtn" type="button" style="background:#fff;border:1px solid #f0f0f0;">Clear</button>
                 </div>
             </section>
 
-            <!-- Rest of content sections -->
+            <!-- Content sections -->
             <section id="purpose-and-governance-structure">
                 <h2>1. Purpose and governance structure</h2>
                 <p><strong>The National Finance Engine (NFE)</strong> and the <strong>National IQ Conservatorship &amp; Legal Protectorate (NICLP)</strong> form a dual‑layer digital infrastructure designed to support secure, remote, and ethically governed financial coordination within the United States. Developed by <strong>Max Rupplin</strong>, the framework integrates a national‑grade encrypted trading engine with a state‑aligned analytical and Positionortorship layer represented by <strong>NCIQ (North Carolina IQ)</strong>.</p>
@@ -266,17 +264,15 @@
     (function () {
         const owner = 'mearvk';
         const repo = 'Java.Web.Server.Telnet.Front.Java.21';
-        const statsEndpoint = `https://api.github.com/repos/${owner}/${repo}/stats/commit_activity`;
-        const repoEndpoint = `https://api.github.com/repos/${owner}/${repo}`;
-        const chartCanvas = document.getElementById('commitsChart');
-        const ctx = chartCanvas.getContext('2d');
+        const commitsCanvas = document.getElementById('commitsChart');
+        const ctx = commitsCanvas.getContext('2d');
         const summaryEl = document.getElementById('commitSummary');
         const noteEl = document.getElementById('chartNote');
         const tokenInput = document.getElementById('ghToken');
         const saveTokenBtn = document.getElementById('saveTokenBtn');
         const clearTokenBtn = document.getElementById('clearTokenBtn');
 
-        // store token in sessionStorage only (optional)
+        // store token in sessionStorage only
         function getToken() {
             return sessionStorage.getItem('gh_token') || '';
         }
@@ -296,145 +292,198 @@
             noteEl.textContent = 'Token cleared.';
         });
 
-        // draw a simple bar chart of weekly commits
-        function drawChart(weeks) {
-            const totals = weeks.map(w => w.total);
+        // Utility: floor date to week start (Sunday) in UTC
+        function weekStartUTC(date) {
+            const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+            const day = d.getUTCDay(); // 0 (Sun) - 6
+            d.setUTCDate(d.getUTCDate() - day);
+            d.setUTCHours(0,0,0,0);
+            return d.getTime();
+        }
+
+        // Fetch commits via GitHub REST API (dynamic): paginate commits since 52 weeks ago
+        async function fetchCommitsSince(sinceIso) {
+            const perPage = 100;
+            let page = 1;
+            let allCommits = [];
+            const token = getToken();
+            const headers = token ? { Authorization: 'token ' + token } : {};
+            const baseUrl = `https://api.github.com/repos/${owner}/${repo}/commits`;
+            while (true) {
+                const url = `${baseUrl}?since=${encodeURIComponent(sinceIso)}&per_page=${perPage}&page=${page}`;
+                const res = await fetch(url, { headers });
+                if (res.status === 403) {
+                    // rate limited or forbidden
+                    const reset = res.headers.get('x-ratelimit-reset');
+                    throw new Error('Rate limited or access denied. ' + (reset ? 'Reset at ' + new Date(reset*1000).toLocaleString() : ''));
+                }
+                if (!res.ok) {
+                    throw new Error('Failed to fetch commits: ' + res.status + ' ' + res.statusText);
+                }
+                const commits = await res.json();
+                if (!Array.isArray(commits) || commits.length === 0) break;
+                allCommits = allCommits.concat(commits);
+                // if fewer than perPage returned, no more pages
+                if (commits.length < perPage) break;
+                page++;
+                // safety: avoid infinite loop
+                if (page > 50) break;
+            }
+            return allCommits;
+        }
+
+        // Aggregate commits into 52 weekly buckets (weekStart timestamp -> count)
+        function aggregateWeekly(commits, sinceTs) {
+            // Build map of weekStart -> count
+            const weeksMap = new Map();
+            // initialize 52 weeks from sinceTs to now
+            const now = Date.now();
+            const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
+            for (let t = sinceTs; t <= now; t += oneWeekMs) {
+                weeksMap.set(t, 0);
+            }
+            commits.forEach(c => {
+                // commit.commit.author.date is ISO string
+                const dateStr = c.commit && c.commit.author && c.commit.author.date;
+                if (!dateStr) return;
+                const d = new Date(dateStr);
+                const wk = weekStartUTC(d);
+                // if wk earlier than sinceTs, skip
+                if (wk < sinceTs) return;
+                // find nearest bucket (wk)
+                if (!weeksMap.has(wk)) {
+                    // if not present (edge cases), add it
+                    weeksMap.set(wk, 0);
+                }
+                weeksMap.set(wk, (weeksMap.get(wk) || 0) + 1);
+            });
+            // Convert map to sorted array of {weekStart, total}
+            const arr = Array.from(weeksMap.entries()).sort((a,b)=>a[0]-b[0]).map(([weekStart,total])=>({weekStart, total}));
+            return arr;
+        }
+
+        // Draw bar chart on canvas (responsive)
+        function drawChart(weeklyData) {
+            const totals = weeklyData.map(w => w.total);
             const max = Math.max(...totals, 1);
             const padding = 12;
-            const w = chartCanvas.width = chartCanvas.clientWidth * devicePixelRatio;
-            const h = chartCanvas.height = chartCanvas.clientHeight * devicePixelRatio;
-            ctx.clearRect(0, 0, w, h);
-            ctx.scale(devicePixelRatio, devicePixelRatio);
+            const deviceRatio = window.devicePixelRatio || 1;
+            const clientW = commitsCanvas.clientWidth;
+            const clientH = commitsCanvas.clientHeight;
+            commitsCanvas.width = Math.round(clientW * deviceRatio);
+            commitsCanvas.height = Math.round(clientH * deviceRatio);
+            ctx.setTransform(deviceRatio, 0, 0, deviceRatio, 0, 0);
+            ctx.clearRect(0,0,clientW,clientH);
 
             // background
             ctx.fillStyle = '#fff';
-            ctx.fillRect(0, 0, chartCanvas.clientWidth, chartCanvas.clientHeight);
+            ctx.fillRect(0,0,clientW,clientH);
 
             const barGap = 2;
             const barCount = totals.length;
-            const availW = chartCanvas.clientWidth - padding * 2;
-            const barWidth = (availW - (barCount - 1) * barGap) / barCount;
-            const availH = chartCanvas.clientHeight - padding * 2;
+            const availW = clientW - padding*2;
+            const barWidth = Math.max(1, (availW - (barCount - 1) * barGap) / barCount);
+            const availH = clientH - padding*2;
 
             for (let i = 0; i < barCount; i++) {
                 const x = padding + i * (barWidth + barGap);
                 const barH = (totals[i] / max) * availH;
-                const y = chartCanvas.clientHeight - padding - barH;
+                const y = clientH - padding - barH;
                 const t = totals[i] / max;
                 ctx.fillStyle = `rgba(75,156,211,${0.35 + 0.65 * t})`;
                 ctx.fillRect(x, y, barWidth, barH);
             }
 
-            // small axis label
+            // axis label
             ctx.fillStyle = '#666';
             ctx.font = '12px system-ui, Inter, Arial';
             ctx.textAlign = 'right';
-            ctx.fillText('Weekly commits', chartCanvas.clientWidth - 8, 14);
+            ctx.fillText('Weekly commits', clientW - 8, 14);
         }
 
-        // fetch helper with optional token
-        async function fetchWithToken(url) {
-            const token = getToken();
-            const headers = token ? { Authorization: 'token ' + token } : {};
-            const res = await fetch(url, { headers });
-            return res;
-        }
-
-        // attempt to fetch stats; handle 202 (GitHub computing) by retrying a few times
-        async function fetchStatsWithRetries(retries = 6, delayMs = 10000) {
-            for (let attempt = 0; attempt < retries; attempt++) {
-                try {
-                    const res = await fetchWithToken(statsEndpoint);
-                    if (res.status === 202) {
-                        // GitHub is computing stats
-                        noteEl.textContent = `GitHub is computing commit statistics (attempt ${attempt + 1}/${retries}). Retrying in ${Math.round(delayMs/1000)}s...`;
-                        await new Promise(r => setTimeout(r, delayMs));
-                        continue;
-                    }
-                    if (!res.ok) throw new Error('Stats fetch failed: ' + res.status);
-                    const weeks = await res.json();
-                    if (!Array.isArray(weeks) || weeks.length === 0) {
-                        throw new Error('No weekly commit data available');
-                    }
-                    return weeks;
-                } catch (err) {
-                    // if last attempt, rethrow
-                    if (attempt === retries - 1) throw err;
-                    noteEl.textContent = `Error fetching stats (attempt ${attempt + 1}). Retrying...`;
-                    await new Promise(r => setTimeout(r, delayMs));
-                }
-            }
-            throw new Error('Failed to fetch stats after retries');
-        }
-
-        // fetch repo summary (total commits) as fallback or additional info
-        async function fetchRepoSummary() {
+        // Main update flow: fetch commits via REST, aggregate, draw, update UI
+        async function updateCommits() {
             try {
-                const res = await fetchWithToken(repoEndpoint);
-                if (!res.ok) throw new Error('Repo fetch failed');
-                const data = await res.json();
-                return {
-                    full_name: data.full_name,
-                    description: data.description,
-                    commits: data?.network_count || null, // network_count not reliable; we'll use stats when available
-                    stargazers: data.stargazers_count || 0,
-                    forks: data.forks_count || 0
-                };
-            } catch (err) {
-                return null;
-            }
-        }
-
-        // main update function
-        async function updateChart() {
-            try {
-                noteEl.textContent = 'Fetching weekly commit activity…';
-                const weeks = await fetchStatsWithRetries(4, 8000);
-                drawChart(weeks);
-                const totalYear = weeks.reduce((s, w) => s + w.total, 0);
+                noteEl.textContent = 'Fetching commits via GitHub REST API…';
+                // since = 52 weeks ago, aligned to week start
                 const now = new Date();
-                summaryEl.textContent = `${totalYear} commits (last 52 weeks) · updated ${now.toLocaleString()}`;
-                noteEl.textContent = 'Data from GitHub commit activity API.';
+                const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
+                const sinceDate = new Date(now.getTime() - 52 * oneWeekMs);
+                const sinceWeekStart = new Date(weekStartUTC(sinceDate));
+                const sinceIso = sinceWeekStart.toISOString();
+
+                // fetch commits since that ISO
+                const commits = await fetchCommitsSince(sinceIso);
+                // aggregate
+                const weekly = aggregateWeekly(commits, sinceWeekStart.getTime());
+                // ensure we have 52 weeks (if some missing, fill)
+                if (weekly.length < 52) {
+                    // build full 52-week array starting at sinceWeekStart
+                    const full = [];
+                    for (let i = 0; i < 52; i++) {
+                        const wk = sinceWeekStart.getTime() + i * oneWeekMs;
+                        const found = weekly.find(w => w.weekStart === wk);
+                        full.push(found ? found : { weekStart: wk, total: 0 });
+                    }
+                    // replace weekly
+                    weekly.splice(0, weekly.length, ...full);
+                }
+
+                drawChart(weekly);
+                const totalYear = weekly.reduce((s,w)=>s+w.total,0);
+                const updatedAt = new Date();
+                summaryEl.textContent = `${totalYear} commits (last 52 weeks) · updated ${updatedAt.toLocaleString()}`;
+                noteEl.textContent = 'Data fetched from GitHub REST commits endpoint.';
             } catch (err) {
-                // fallback: fetch repo summary and show message
-                const repoInfo = await fetchRepoSummary();
-                if (repoInfo) {
-                    summaryEl.textContent = `${repoInfo.full_name} · ${repoInfo.stargazers} ★ · ${repoInfo.forks} forks`;
-                    noteEl.textContent = 'Weekly stats unavailable; showing repo summary.';
-                } else {
+                console.warn(err);
+                // fallback: try to fetch repo summary for some info
+                try {
+                    const token = getToken();
+                    const headers = token ? { Authorization: 'token ' + token } : {};
+                    const repoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
+                    if (repoRes.ok) {
+                        const repoJson = await repoRes.json();
+                        summaryEl.textContent = `${repoJson.full_name} · ${repoJson.stargazers_count} ★ · ${repoJson.forks_count} forks`;
+                        noteEl.textContent = 'Weekly commit data unavailable; showing repo summary.';
+                    } else {
+                        summaryEl.textContent = 'Stats unavailable';
+                        noteEl.textContent = 'Unable to fetch commit data. Check network or token.';
+                    }
+                } catch (e2) {
                     summaryEl.textContent = 'Stats unavailable';
                     noteEl.textContent = 'Unable to fetch commit data. Check network or token.';
                 }
                 // draw placeholder
-                ctx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+                const clientW = commitsCanvas.clientWidth;
+                const clientH = commitsCanvas.clientHeight;
+                const deviceRatio = window.devicePixelRatio || 1;
+                commitsCanvas.width = Math.round(clientW * deviceRatio);
+                commitsCanvas.height = Math.round(clientH * deviceRatio);
+                ctx.setTransform(deviceRatio, 0, 0, deviceRatio, 0, 0);
+                ctx.clearRect(0,0,clientW,clientH);
                 ctx.fillStyle = '#f6f8fa';
-                ctx.fillRect(0, 0, chartCanvas.clientWidth, chartCanvas.clientHeight);
+                ctx.fillRect(0,0,clientW,clientH);
                 ctx.fillStyle = '#999';
                 ctx.font = '14px system-ui, Inter';
                 ctx.textAlign = 'center';
-                ctx.fillText('Weekly commit data unavailable', chartCanvas.clientWidth / 2, chartCanvas.clientHeight / 2);
+                ctx.fillText('Weekly commit data unavailable', clientW/2, clientH/2);
             }
         }
 
-        // initial load and periodic refresh
+        // Initial load and periodic refresh
         const REFRESH_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
-        updateChart().catch(e => {
-            console.warn('Initial update failed', e);
-        });
-        // schedule periodic updates
+        updateCommits().catch(e => console.warn('Initial update failed', e));
         setInterval(() => {
-            updateChart().catch(e => {
-                console.warn('Scheduled update failed', e);
-            });
+            updateCommits().catch(e => console.warn('Scheduled update failed', e));
         }, REFRESH_INTERVAL_MS);
 
-        // resize handling to redraw chart responsively
-        let resizeTimeout;
+        // Redraw on resize (debounced)
+        let resizeTimer;
         window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                // attempt to redraw using last-known data by calling updateChart quickly without retries
-                updateChart().catch(() => {});
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                // redraw by calling updateCommits (quick)
+                updateCommits().catch(()=>{});
             }, 300);
         });
 
