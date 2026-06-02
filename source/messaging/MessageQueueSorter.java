@@ -31,7 +31,7 @@ public class MessageQueueSorter extends Thread
 
         for(;;)
         {
-            MessageQueue message_queue = this.web_express.message_queue;
+            MessageQueue message_queue = this.web_express.MESSAGE_QUEUE;
 
             for(int i = 0; i<message_queue.MESSAGES.size(); i++)
             {
@@ -150,18 +150,18 @@ public class MessageQueueSorter extends Thread
     {
         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size before "+this.getMessageQueueSize()+" .");
 
-        this.web_express.message_queue.add(message);
+        this.web_express.MESSAGE_QUEUE.add(message);
 
         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size after "+this.getMessageQueueSize()+" .");
     }
 
     public synchronized MessageQueue getMessageQueue()
     {
-        return this.web_express.message_queue;
+        return this.web_express.MESSAGE_QUEUE;
     }
 
     public synchronized Integer getMessageQueueSize()
     {
-        return this.web_express.message_queue.messages.size();
+        return this.web_express.MESSAGE_QUEUE.MESSAGES.size();
     }
 }
