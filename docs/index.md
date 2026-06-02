@@ -1,321 +1,328 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>National Finance Engine — Home Suites</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>National Finance Engine — Home Suites</title>
 
-  <style>
-    :root{
-      --color-title: #0B2545;
-      --color-section: #1B3A63;
-      --color-subsection: #2B4F80;
-      --color-body: #222222;
-      --color-link: #0A66C2;
-      --max-width: 980px;
-      --content-padding: 28px;
-      --line-height: 1.6;
-      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      /* increased sidebar width by 50px (from 260 -> 310) */
-      --sidebar-width: 310px;
-      --sidebar-bg: #fbfdff;
-      --sidebar-border: #e6eef9;
-      --scrollbar-thumb: #333333; /* charcoal thumb */
-      --scrollbar-track: #f1f3f6;
-    }
+    <!-- Embedded leadership palette + typographic scale -->
+    <style>
+        :root{
+            --color-title: #0B2545;
+            --color-section: #1B3A63;
+            --color-subsection: #2B4F80;
+            --color-body: #222222;
+            --color-link: #0A66C2;
+            --max-width: 980px;
+            --content-padding: 28px;
+            --line-height: 1.6;
+            --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            /* increased sidebar width by 50px (from 260 -> 310) */
+            --sidebar-width: 310px;
+            --sidebar-bg: #fbfdff;
+            --sidebar-border: #e6eef9;
+            --scrollbar-thumb: #333333; /* charcoal thumb */
+            --scrollbar-track: #f1f3f6;
+        }
 
-    html,body{
-      height:100%;
-      margin:0;
-      background:#ffffff;
-      color:var(--color-body);
-      font-family:var(--font-sans);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:var(--line-height);
-    }
+        html,body{
+            height:100%;
+            margin:0;
+            background:#ffffff;
+            color:var(--color-body);
+            font-family:var(--font-sans);
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            line-height:var(--line-height);
+        }
 
-    .site {
-      display: flex;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
+        /* Layout: left sidebar + main content */
+        .site {
+            display: flex;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
 
-    /* Sidebar */
-    .sidebar {
-      width: var(--sidebar-width);
-      min-width: 260px; /* increased to match new width */
-      background: var(--sidebar-bg);
-      border-right: none;
-      padding: 20px 18px;
-      box-sizing: border-box;
-      position: sticky;
-      top: 0;
-      align-self: flex-start;
-      height: auto;
-      max-height: 100vh;
-      overflow: auto;
-      box-shadow: 2px 0 6px rgba(11,37,69,0.04);
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none;    /* Firefox */
-    }
-    .sidebar::-webkit-scrollbar { display: none; width:0; height:0; }
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: 260px; /* increased to match new width */
+            background: var(--sidebar-bg);
+            border-right: none;
+            padding: 20px 18px;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            align-self: flex-start;
+            height: auto;
+            max-height: 100vh;
+            overflow: auto;
+            box-shadow: 2px 0 6px rgba(11,37,69,0.04);
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none;    /* Firefox */
+        }
 
-    .sidebar .repo-link {
-      display:block;
-      font-weight:700;
-      color:var(--color-title);
-      text-decoration:none;
-      margin-bottom:12px;
-      font-size:0.98rem;
-    }
-    .sidebar .repo-link small {
-      display:block;
-      font-weight:600;
-      color:var(--color-link);
-      margin-top:4px;
-      font-size:0.85rem;
-    }
+        /* WebKit browsers (Chrome, Safari, Opera) - hide scrollbar */
+        .sidebar::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
 
-    .sidebar nav { margin-top: 12px; }
-    .sidebar nav ul { list-style: none; padding: 0; margin: 0; }
-    .sidebar nav li { margin: 0.45rem 0; }
-    .sidebar nav a {
-      color: var(--color-section);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      display: inline-block;
-      padding: 6px 8px;
-      border-radius: 6px;
-    }
-    .sidebar nav a:hover {
-      background: #eef6ff;
-      color: var(--color-title);
-      text-decoration: none;
-    }
+        .sidebar .repo-link {
+            display:block;
+            font-weight:700;
+            color:var(--color-title);
+            text-decoration:none;
+            margin-bottom:12px;
+            font-size:0.98rem;
+        }
+        .sidebar .repo-link small {
+            display:block;
+            font-weight:600;
+            color:var(--color-link);
+            margin-top:4px;
+            font-size:0.85rem;
+        }
 
-    .sidebar .toc-title {
-      color: var(--color-subsection);
-      font-weight: 700;
-      margin-bottom: 8px;
-      font-size: 0.95rem;
-    }
+        .sidebar nav { margin-top: 12px; }
+        .sidebar nav ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar nav li { margin: 0.45rem 0; }
+        .sidebar nav a {
+            color: var(--color-section);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-block;
+            padding: 6px 8px;
+            border-radius: 6px;
+        }
+        .sidebar nav a:hover {
+            background: #eef6ff;
+            color: var(--color-title);
+            text-decoration: none;
+        }
 
-    /* Main content */
-    .main {
-      flex: 1 1 auto;
-      padding: 28px;
-      box-sizing: border-box;
-      /* adjust max-width so content area accounts for wider sidebar */
-      max-width: calc(var(--max-width) + var(--sidebar-width));
-      margin: 0 auto;
-      overflow: auto;
-      max-height: 100vh;
-      /* show a custom charcoal scrollbar on the main content */
-    }
+        .sidebar .toc-title {
+            color: var(--color-subsection);
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
 
-    /* Custom scrollbar for main (WebKit) */
-    .main::-webkit-scrollbar {
-      width: 12px;
-    }
-    .main::-webkit-scrollbar-track {
-      background: var(--scrollbar-track);
-      border-radius: 12px;
-    }
-    .main::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar-thumb);
-      border-radius: 12px;
-      border: 3px solid var(--scrollbar-track); /* creates padding around thumb */
-    }
+        /* Main content */
+        .main {
+            flex: 1 1 auto;
+            padding: 28px;
+            box-sizing: border-box;
+            /* adjust max-width so content area accounts for wider sidebar */
+            max-width: calc(var(--max-width) + var(--sidebar-width));
+            margin: 0 auto;
+            overflow: auto;
+            max-height: 100vh;
+        }
 
-    /* Firefox scrollbar styling */
-    .main {
-      scrollbar-width: thin;
-      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-    }
+        /* Custom scrollbar for main (WebKit) */
+        .main::-webkit-scrollbar {
+            width: 12px;
+        }
+        .main::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 12px;
+        }
+        .main::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-thumb);
+            border-radius: 12px;
+            border: 3px solid var(--scrollbar-track); /* creates padding around thumb */
+        }
 
-    .container {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        /* Firefox scrollbar styling */
+        .main {
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+        }
 
-    header.site-header{
-      margin-bottom: 18px;
-    }
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    h1 {
-      color: var(--color-title);
-      font-size: 2.0rem;
-      line-height: 1.12;
-      margin: 0 0 0.6rem 0;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
+        header.site-header{
+            margin-bottom: 18px;
+        }
 
-    .subtitle {
-      color: #444;
-      margin: 0 0 1.2rem 0;
-      font-size: 0.98rem;
-    }
+        h1 {
+            color: var(--color-title);
+            font-size: 2.0rem;
+            line-height: 1.12;
+            margin: 0 0 0.6rem 0;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
 
-    h2 {
-      color: var(--color-section);
-      font-size: 1.45rem;
-      margin: 1.2rem 0 0.5rem 0;
-      font-weight: 600;
-    }
+        .subtitle {
+            color: #444;
+            margin: 0 0 1.2rem 0;
+            font-size: 0.98rem;
+        }
 
-    h3 {
-      color: var(--color-subsection);
-      font-size: 1.15rem;
-      margin: 1.0rem 0 0.4rem 0;
-      font-weight: 600;
-    }
+        h2 {
+            color: var(--color-section);
+            font-size: 1.45rem;
+            margin: 1.2rem 0 0.5rem 0;
+            font-weight: 600;
+        }
 
-    p, li {
-      color: var(--color-body);
-      font-size: 0.98rem;
-      margin: 0 0 0.9rem 0;
-    }
+        h3 {
+            color: var(--color-subsection);
+            font-size: 1.15rem;
+            margin: 1.0rem 0 0.4rem 0;
+            font-weight: 600;
+        }
 
-    code, pre {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
-      background: #f6f8fa;
-      border-radius: 6px;
-      color: #111827;
-    }
+        p, li {
+            color: var(--color-body);
+            font-size: 0.98rem;
+            margin: 0 0 0.9rem 0;
+        }
 
-    pre {
-      padding: 1rem;
-      overflow:auto;
-      font-size:0.92rem;
-      margin: 0 0 1rem 0;
-    }
+        code, pre {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+            background: #f6f8fa;
+            border-radius: 6px;
+            color: #111827;
+        }
 
-    a {
-      color: var(--color-link);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    a:hover { text-decoration: underline; }
+        pre {
+            padding: 1rem;
+            overflow:auto;
+            font-size:0.92rem;
+            margin: 0 0 1rem 0;
+        }
 
-    blockquote {
-      border-left: 4px solid var(--sidebar-border);
-      background: #fbfdff;
-      padding: 0.6rem 1rem;
-      margin: 0 0 1rem 0;
-      color: #333;
-      border-radius: 4px;
-    }
+        a {
+            color: var(--color-link);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a:hover { text-decoration: underline; }
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin: 0.6rem 0 1rem 0;
-    }
-    th, td {
-      border: 1px solid #e6e9ee;
-      padding: 0.5rem 0.75rem;
-      text-align: left;
-      font-size: 0.95rem;
-    }
-    th {
-      background: #f7fbff;
-      color: var(--color-section);
-      font-weight: 600;
-    }
+        blockquote {
+            border-left: 4px solid var(--sidebar-border);
+            background: #fbfdff;
+            padding: 0.6rem 1rem;
+            margin: 0 0 1rem 0;
+            color: #333;
+            border-radius: 4px;
+        }
 
-    footer {
-      margin-top: 2.2rem;
-      color: #666;
-      font-size: 0.9rem;
-    }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.6rem 0 1rem 0;
+        }
+        th, td {
+            border: 1px solid #e6e9ee;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #f7fbff;
+            color: var(--color-section);
+            font-weight: 600;
+        }
 
-    /* Responsive: collapse sidebar above content on small screens */
-    @media (max-width: 920px) {
-      .site { flex-direction: column; }
-      .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--sidebar-border);
-        box-shadow: none;
-        max-height: none;
-      }
-      .main { padding: 18px; max-height: none; overflow: visible; }
-    }
+        footer {
+            margin-top: 2.2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
 
-    @media (max-width:720px){
-      :root { --max-width: 92%; --content-padding: 18px; }
-      h1 { font-size: 1.6rem; }
-      h2 { font-size: 1.2rem; }
-      h3 { font-size: 1.05rem; }
-      .sidebar { padding: 14px; }
-      .sidebar nav a { font-size: 0.92rem; }
-    }
-  </style>
+        /* Responsive: collapse sidebar above content on small screens */
+        @media (max-width: 920px) {
+            .site { flex-direction: column; }
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--sidebar-border);
+                box-shadow: none;
+                max-height: none;
+            }
+            .main { padding: 18px; max-height: none; overflow: visible; }
+        }
+
+        @media (max-width:720px){
+            :root { --max-width: 92%; --content-padding: 18px; }
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.2rem; }
+            h3 { font-size: 1.05rem; }
+            .sidebar { padding: 14px; }
+            .sidebar nav a { font-size: 0.92rem; }
+        }
+    </style>
 </head>
 <body>
-  <div class="site" role="application">
+<div class="site" role="application">
+    <!-- Left navigation sidebar -->
     <aside class="sidebar" role="navigation" aria-label="Documentation navigation">
-      <a class="repo-link" href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" target="_blank" rel="noopener">
-        mearvk / Java.Web.Server.Telnet.Front.Java.21
-        <small>Repository · Wiki · Home Suites</small>
-      </a>
+        <a class="repo-link" href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" target="_blank" rel="noopener">
+            mearvk / Java.Web.Server.Telnet.Front.Java.21
+            <small>Repository · Wiki · Home Suites</small>
+        </a>
 
-      <div class="toc-title">Contents</div>
-      <nav aria-label="Table of contents">
-        <ul>
-          <li><a href="#purpose-and-governance-structure">1. Purpose & governance</a></li>
-          <li><a href="#system-architecture">2. System architecture</a></li>
-          <li><a href="#encryption-and-security">3. Encryption & security</a></li>
-          <li><a href="#calendar-coordinated-trading">4. Calendar‑Coordinated Trading</a></li>
-          <li><a href="#access-model-and-operational-resilience">5. Access model & resilience</a></li>
-          <li><a href="#state-level-analytical-layer">6. State‑level analytical layer</a></li>
-          <li><a href="#federated-digital-finance-model">7. Federated model</a></li>
-          <li><a href="#international-coordination-and-compliance">8. International coordination</a></li>
-          <li><a href="#open-source-transparency">9. Open‑source transparency</a></li>
-          <li><a href="#strategic-relevance">10. Strategic relevance</a></li>
-          <li><a href="#summary">11. Summary</a></li>
-        </ul>
-      </nav>
+        <div class="toc-title">Contents</div>
+        <nav aria-label="Table of contents">
+            <ul>
+                <li><a href="#purpose-and-governance-structure">1. Purpose & governance</a></li>
+                <li><a href="#system-architecture">2. System architecture</a></li>
+                <li><a href="#encryption-and-security">3. Encryption & security</a></li>
+                <li><a href="#calendar-coordinated-trading">4. Calendar‑Coordinated Trading</a></li>
+                <li><a href="#access-model-and-operational-resilience">5. Access model & resilience</a></li>
+                <li><a href="#state-level-analytical-layer">6. State‑level analytical layer</a></li>
+                <li><a href="#federated-digital-finance-model">7. Federated model</a></li>
+                <li><a href="#international-coordination-and-compliance">8. International coordination</a></li>
+                <li><a href="#open-source-transparency">9. Open‑source transparency</a></li>
+                <li><a href="#strategic-relevance">10. Strategic relevance</a></li>
+                <li><a href="#summary">11. Summary</a></li>
+            </ul>
+        </nav>
 
-      <hr style="border:none;border-top:1px solid #eef6ff;margin:12px 0;">
+        <hr style="border:none;border-top:1px solid #eef6ff;margin:12px 0;">
 
-      <nav aria-label="Related links">
-        <ul>
-          <li><a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/wiki" target="_blank" rel="noopener">Wiki Home</a></li>
-          <li><a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" target="_blank" rel="noopener">Repository</a></li>
-          <li><a href="#summary">Quick summary</a></li>
-        </ul>
-      </nav>
+        <nav aria-label="Related links">
+            <ul>
+                <li><a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/wiki" target="_blank" rel="noopener">Wiki Home</a></li>
+                <li><a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" target="_blank" rel="noopener">Repository</a></li>
+                <li><a href="#summary">Quick summary</a></li>
+            </ul>
+        </nav>
     </aside>
 
+    <!-- Main content area -->
     <main class="main" role="main">
-      <div class="container">
-        <header class="site-header" role="banner">
-          <h1>National Finance Engine (NFE) &amp; National IQ Conservatorship &amp; Legal Protectorate (NICLP)</h1>
-          <p class="subtitle">Modular Java web server and Telnet front end for Java 21. Virtual threads, NIO file handling, and a command‑driven Telnet shell with a centralized <code>Main.java</code> entry point.</p>
-        </header>
+        <div class="container">
+            <header class="site-header" role="banner">
+                <h1>National Finance Engine (NFE) &amp; National IQ Conservatorship &amp; Legal Protectorate (NICLP)</h1>
+                <p class="subtitle">Modular Java web server and Telnet front end for Java 21. Virtual threads, NIO file handling, and a command‑driven Telnet shell with a centralized <code>Main.java</code> entry point.</p>
+            </header>
 
-        <!-- (rest of content unchanged) -->
-        <section id="purpose-and-governance-structure">
-          <h2>1. Purpose and governance structure</h2>
-          <p><strong>The National Finance Engine (NFE)</strong> and the <strong>National IQ Conservatorship &amp; Legal Protectorate (NICLP)</strong> form a dual‑layer digital infrastructure designed to support secure, remote, and ethically governed financial coordination within the United States. Developed by <strong>Max Rupplin</strong>, the framework integrates a national‑grade encrypted trading engine with a state‑aligned analytical and Positionortorship layer represented by <strong>NCIQ (North Carolina IQ)</strong>.</p>
-          <p><strong>Note:</strong> NCIQ is not a trading engine; it functions as a state‑level analytical and coordination layer that interfaces with the national system.</p>
-        </section>
+            <section id="purpose-and-governance-structure">
+                <h2>1. Purpose and governance structure</h2>
+                <p><strong>The National Finance Engine (NFE)</strong> and the <strong>National IQ Conservatorship &amp; Legal Protectorate (NICLP)</strong> form a dual‑layer digital infrastructure designed to support secure, remote, and ethically governed financial coordination within the United States. Developed by <strong>Max Rupplin</strong>, the framework integrates a national‑grade encrypted trading engine with a state‑aligned analytical and Positionortorship layer represented by <strong>NCIQ (North Carolina IQ)</strong>.</p>
+                <p><strong>Note:</strong> NCIQ is not a trading engine; it functions as a state‑level analytical and coordination layer that interfaces with the national system.</p>
+            </section>
 
-        <!-- remaining sections omitted here for brevity but should be included unchanged in your file -->
+            <section id="system-architecture">
+                <h2>2. System Architecture</h2>
+                <p>The NFE architecture combines a <strong>Telnet front‑end</strong> for lightweight, text‑based remote command access with one or more <strong>HTTP servers</strong> serving as authoritative transaction processors. The Telnet interface provides universal accessibility, while the HTTP servers manage cryptographic validation, transaction execution, and integration with blockchain nodes or regulated exchange APIs.</p>
+                <p>This separation of concerns supports <strong>transparency</strong>, <strong>operational resilience</strong>, and secure remote access across diverse environments.</p>
+            </section>
 
-        <footer>
-          <p>Documentation generated for <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" target="_blank" rel="noopener">mearvk/Java.Web.Server.Telnet.Front.Java.21</a>. For technical details, see the repository code and wiki pages.</p>
-        </footer>
-      </div>
-    </main>
-  </div>
-</body>
-</html>
+            <section id="encryption-and-security">
+                <h2>3. Encryption and Security</h2>
+                <p>The NFE incorporates <strong>AES 2.0</strong>, a next‑generation encryption model associated with federal‑level cryptographic research. AES 2.0 is designed to protect financial communications, secure identity‑related metadata, and maintain confidentiality
