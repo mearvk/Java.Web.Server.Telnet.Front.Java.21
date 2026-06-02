@@ -7,7 +7,7 @@
 
     <style>
         :root{
-            --color-title: #0B2545; /* dark blue */
+            --color-title: #0B2545;
             --color-section: #1B3A63;
             --color-subsection: #2B4F80;
             --color-body: #222222;
@@ -17,8 +17,8 @@
             --sidebar-width: 310px;
             --sidebar-bg: #fbfdff;
             --sidebar-border: #e6eef9;
-            --line-color: rgba(153,102,255,0.95); /* light purple line */
-            --line-fill: rgba(153,102,255,0.18);  /* translucent fill */
+            --line-color: rgba(153,102,255,0.95);
+            --line-fill: rgba(153,102,255,0.18);
         }
 
         html, body {
@@ -264,15 +264,22 @@
 
 <script>
     (function () {
-        const owner = 'mearvk';
-        const repo = 'Java.Web.Server.Telnet.Front.Java.21';
-        const commitsCanvas = document.getElementById('commitsChart');
-        const ctx = commitsCanvas.getContext('2d');
-        const summaryEl = document.getElementById('commitSummary');
-        const noteEl = document.getElementById('chartNote');
-        const tokenInput = document.getElementById('ghToken');
-        const saveTokenBtn = document.getElementById('saveTokenBtn');
-        const clearTokenBtn = document.getElementById('clearTokenBtn');
+        // Feature detection
+        if (!window.fetch || !document.createElement('canvas').getContext) {
+            var note = document.getElementById('chartNote');
+            if (note) note.textContent = 'Your browser does not support required features (fetch or canvas). Please update or use a modern browser.';
+            return;
+        }
+
+        var owner = 'mearvk';
+        var repo = 'Java.Web.Server.Telnet.Front.Java.21';
+        var commitsCanvas = document.getElementById('commitsChart');
+        var ctx = commitsCanvas.getContext('2d');
+        var summaryEl = document.getElementById('commitSummary');
+        var noteEl = document.getElementById('chartNote');
+        var tokenInput = document.getElementById('ghToken');
+        var saveTokenBtn = document.getElementById('saveTokenBtn');
+        var clearTokenBtn = document.getElementById('clearTokenBtn');
 
         function getToken() {
             return sessionStorage.getItem('gh_token') || '';
@@ -282,110 +289,138 @@
             else sessionStorage.removeItem('gh_token');
         }
 
-        saveTokenBtn.addEventListener('click', () => {
+        saveTokenBtn.addEventListener('click', function () {
             setToken(tokenInput.value.trim());
             tokenInput.value = '';
             noteEl.textContent = 'Token saved for this session.';
         });
-        clearTokenBtn.addEventListener('click', () => {
+        clearTokenBtn.addEventListener('click', function () {
             setToken('');
             tokenInput.value = '';
             noteEl.textContent = 'Token cleared.';
         });
 
-        // Utility: week start (Sunday) in UTC
         function weekStartUTC(date) {
-            const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-            const day = d.getUTCDay();
+            var d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+            var day = d.getUTCDay();
             d.setUTCDate(d.getUTCDate() - day);
             d.setUTCHours(0,0,0,0);
             return d.getTime();
         }
 
-        // Fetch commits via GitHub REST API (paginated) since ISO date
+        // Parse Link header for pagination (returns object of rel->url)
+        function parseLinkHeader(header) {
+            if (!header) return {};
+            var parts = header.split(',');
+            var map = {};
+            for (var i = 0; i < parts.length; i++) {
+                var section = parts[i].split(';');
+                if (section.length < 2) continue;
+                var url = section[0].replace(/<(.*)>/, '$1').trim();
+                var name = section[1].replace(/rel="(.*)"/, '$1').trim();
+                map[name] = url;
+            }
+            return map;
+        }
+
+        // Fetch commits using REST API with robust pagination (Link header)
         async function fetchCommitsSince(sinceIso) {
-            const perPage = 100;
-            let page = 1;
-            let allCommits = [];
-            const token = getToken();
-            const headers = token ? { Authorization: 'token ' + token } : {};
-            const baseUrl = `https://api.github.com/repos/${owner}/${repo}/commits`;
-            while (true) {
-                const url = `${baseUrl}?since=${encodeURIComponent(sinceIso)}&per_page=${perPage}&page=${page}`;
-                const res = await fetch(url, { headers });
+            var perPage = 100;
+            var url = 'https://api.github.com/repos/' + owner + '/' + repo + '/commits?since=' + encodeURIComponent(sinceIso) + '&per_page=' + perPage;
+            var allCommits = [];
+            var token = getToken();
+            var headers = token ? { 'Authorization': 'token ' + token } : {};
+            var attempts = 0;
+
+            while (url && attempts < 100) {
+                attempts++;
+                var res = await fetch(url, { headers: headers });
                 if (res.status === 403) {
-                    const reset = res.headers.get('x-ratelimit-reset');
-                    throw new Error('Rate limited or access denied. ' + (reset ? 'Reset at ' + new Date(reset*1000).toLocaleString() : ''));
+                    // rate limited or forbidden
+                    var reset = res.headers.get('x-ratelimit-reset');
+                    throw new Error('Rate limited or access denied. ' + (reset ? 'Reset at ' + new Date(parseInt(reset,10)*1000).toLocaleString() : ''));
                 }
                 if (!res.ok) {
                     throw new Error('Failed to fetch commits: ' + res.status + ' ' + res.statusText);
                 }
-                const commits = await res.json();
-                if (!Array.isArray(commits) || commits.length === 0) break;
+                var commits = await res.json();
+                if (!Array.isArray(commits) || commits.length === 0) {
+                    break;
+                }
                 allCommits = allCommits.concat(commits);
-                if (commits.length < perPage) break;
-                page++;
-                if (page > 50) break;
+                var link = res.headers.get('link');
+                var parsed = parseLinkHeader(link);
+                if (parsed && parsed.next) {
+                    url = parsed.next;
+                } else {
+                    url = null;
+                }
+                // small delay to be polite (avoid bursts)
+                await new Promise(function (r) { setTimeout(r, 120); });
             }
             return allCommits;
         }
 
-        // Aggregate commits into weekly buckets
         function aggregateWeekly(commits, sinceTs) {
-            const weeksMap = new Map();
-            const now = Date.now();
-            const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
-            for (let t = sinceTs; t <= now; t += oneWeekMs) {
-                weeksMap.set(t, 0);
+            var weeksMap = {};
+            var now = Date.now();
+            var oneWeekMs = 7 * 24 * 60 * 60 * 1000;
+            for (var t = sinceTs; t <= now; t += oneWeekMs) {
+                weeksMap[t] = 0;
             }
-            commits.forEach(c => {
-                const dateStr = c.commit && c.commit.author && c.commit.author.date;
-                if (!dateStr) return;
-                const d = new Date(dateStr);
-                const wk = weekStartUTC(d);
-                if (wk < sinceTs) return;
-                weeksMap.set(wk, (weeksMap.get(wk) || 0) + 1);
-            });
-            const arr = Array.from(weeksMap.entries()).sort((a,b)=>a[0]-b[0]).map(([weekStart,total])=>({weekStart, total}));
+            for (var i = 0; i < commits.length; i++) {
+                var c = commits[i];
+                var dateStr = c && c.commit && c.commit.author && c.commit.author.date;
+                if (!dateStr) continue;
+                var d = new Date(dateStr);
+                var wk = weekStartUTC(d);
+                if (wk < sinceTs) continue;
+                if (!weeksMap.hasOwnProperty(wk)) weeksMap[wk] = 0;
+                weeksMap[wk] = weeksMap[wk] + 1;
+            }
+            var arr = [];
+            var keys = Object.keys(weeksMap).map(function(k){ return parseInt(k,10); }).sort(function(a,b){ return a-b; });
+            for (var j = 0; j < keys.length; j++) {
+                arr.push({ weekStart: keys[j], total: weeksMap[keys[j]] });
+            }
             return arr;
         }
 
-        // Draw a smooth line chart with translucent fill
         function drawLineChart(weeklyData) {
-            const totals = weeklyData.map(w => w.total);
-            const max = Math.max(...totals, 1);
-            const padding = 28;
-            const deviceRatio = window.devicePixelRatio || 1;
-            const clientW = commitsCanvas.clientWidth;
-            const clientH = commitsCanvas.clientHeight;
+            var totals = weeklyData.map(function(w){ return w.total; });
+            var max = Math.max.apply(null, totals.concat([1]));
+            var padding = 28;
+            var deviceRatio = window.devicePixelRatio || 1;
+            var clientW = commitsCanvas.clientWidth;
+            var clientH = commitsCanvas.clientHeight;
             commitsCanvas.width = Math.round(clientW * deviceRatio);
             commitsCanvas.height = Math.round(clientH * deviceRatio);
+            // reset transform then scale
+            ctx.setTransform(1,0,0,1,0,0);
+            ctx.clearRect(0,0,commitsCanvas.width,commitsCanvas.height);
             ctx.setTransform(deviceRatio, 0, 0, deviceRatio, 0, 0);
-            ctx.clearRect(0,0,clientW,clientH);
 
             // background
             ctx.fillStyle = '#fff';
             ctx.fillRect(0,0,clientW,clientH);
 
-            const availW = clientW - padding * 2;
-            const availH = clientH - padding * 2;
-            const pointCount = totals.length;
-            const stepX = pointCount > 1 ? availW / (pointCount - 1) : availW;
+            var availW = clientW - padding * 2;
+            var availH = clientH - padding * 2;
+            var pointCount = totals.length;
+            var stepX = pointCount > 1 ? availW / (pointCount - 1) : availW;
 
-            // compute points
-            const points = totals.map((v, i) => {
-                const x = padding + i * stepX;
-                const y = padding + (1 - (v / max)) * availH;
-                return { x, y, v };
+            var points = totals.map(function(v,i){
+                var x = padding + i * stepX;
+                var y = padding + (1 - (v / max)) * availH;
+                return { x: x, y: y, v: v };
             });
 
-            // draw translucent fill under curve
-            ctx.beginPath();
+            // translucent fill
             if (points.length) {
+                ctx.beginPath();
                 ctx.moveTo(points[0].x, clientH - padding);
-                for (let i = 0; i < points.length; i++) {
-                    const p = points[i];
-                    ctx.lineTo(p.x, p.y);
+                for (var k = 0; k < points.length; k++) {
+                    ctx.lineTo(points[k].x, points[k].y);
                 }
                 ctx.lineTo(points[points.length - 1].x, clientH - padding);
                 ctx.closePath();
@@ -393,12 +428,11 @@
                 ctx.fill();
             }
 
-            // draw line
+            // line
             ctx.beginPath();
-            for (let i = 0; i < points.length; i++) {
-                const p = points[i];
-                if (i === 0) ctx.moveTo(p.x, p.y);
-                else ctx.lineTo(p.x, p.y);
+            for (var m = 0; m < points.length; m++) {
+                if (m === 0) ctx.moveTo(points[m].x, points[m].y);
+                else ctx.lineTo(points[m].x, points[m].y);
             }
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--line-color') || 'rgba(153,102,255,0.95)';
             ctx.lineWidth = 2;
@@ -406,11 +440,11 @@
             ctx.lineCap = 'round';
             ctx.stroke();
 
-            // draw small circles at points
+            // points
             ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--line-color') || 'rgba(153,102,255,0.95)';
-            for (let p of points) {
+            for (var p = 0; p < points.length; p++) {
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
+                ctx.arc(points[p].x, points[p].y, 2.5, 0, Math.PI * 2);
                 ctx.fill();
             }
 
@@ -421,44 +455,48 @@
             ctx.fillText('Weekly commits', clientW - 8, 14);
         }
 
-        // Main update flow
         async function updateCommits() {
             try {
                 noteEl.textContent = 'Fetching commits via GitHub REST API…';
-                const now = new Date();
-                const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
-                const sinceDate = new Date(now.getTime() - 52 * oneWeekMs);
-                const sinceWeekStart = new Date(weekStartUTC(sinceDate));
-                const sinceIso = sinceWeekStart.toISOString();
+                var now = new Date();
+                var oneWeekMs = 7 * 24 * 60 * 60 * 1000;
+                var sinceDate = new Date(now.getTime() - 52 * oneWeekMs);
+                var sinceWeekStart = new Date(weekStartUTC(sinceDate));
+                var sinceIso = sinceWeekStart.toISOString();
 
-                const commits = await fetchCommitsSince(sinceIso);
-                const weekly = aggregateWeekly(commits, sinceWeekStart.getTime());
+                var commits = await fetchCommitsSince(sinceIso);
+                var weekly = aggregateWeekly(commits, sinceWeekStart.getTime());
 
                 // ensure 52 weeks
                 if (weekly.length < 52) {
-                    const full = [];
-                    for (let i = 0; i < 52; i++) {
-                        const wk = sinceWeekStart.getTime() + i * oneWeekMs;
-                        const found = weekly.find(w => w.weekStart === wk);
+                    var full = [];
+                    for (var i = 0; i < 52; i++) {
+                        var wk = sinceWeekStart.getTime() + i * oneWeekMs;
+                        var found = null;
+                        for (var z = 0; z < weekly.length; z++) {
+                            if (weekly[z].weekStart === wk) { found = weekly[z]; break; }
+                        }
                         full.push(found ? found : { weekStart: wk, total: 0 });
                     }
-                    weekly.splice(0, weekly.length, ...full);
+                    weekly = full;
                 }
 
                 drawLineChart(weekly);
-                const totalYear = weekly.reduce((s,w)=>s+w.total,0);
-                const updatedAt = new Date();
-                summaryEl.textContent = `${totalYear} commits (last 52 weeks) · updated ${updatedAt.toLocaleString()}`;
+                var totalYear = 0;
+                for (var q = 0; q < weekly.length; q++) totalYear += weekly[q].total;
+                var updatedAt = new Date();
+                summaryEl.textContent = totalYear + ' commits (last 52 weeks) · updated ' + updatedAt.toLocaleString();
                 noteEl.textContent = 'Data fetched from GitHub REST commits endpoint.';
             } catch (err) {
                 console.warn(err);
+                // fallback to repo summary
                 try {
-                    const token = getToken();
-                    const headers = token ? { Authorization: 'token ' + token } : {};
-                    const repoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
+                    var token = getToken();
+                    var headers = token ? { 'Authorization': 'token ' + token } : {};
+                    var repoRes = await fetch('https://api.github.com/repos/' + owner + '/' + repo, { headers: headers });
                     if (repoRes.ok) {
-                        const repoJson = await repoRes.json();
-                        summaryEl.textContent = `${repoJson.full_name} · ${repoJson.stargazers_count} ★ · ${repoJson.forks_count} forks`;
+                        var repoJson = await repoRes.json();
+                        summaryEl.textContent = repoJson.full_name + ' · ' + (repoJson.stargazers_count || 0) + ' ★ · ' + (repoJson.forks_count || 0) + ' forks';
                         noteEl.textContent = 'Weekly commit data unavailable; showing repo summary.';
                     } else {
                         summaryEl.textContent = 'Stats unavailable';
@@ -468,10 +506,10 @@
                     summaryEl.textContent = 'Stats unavailable';
                     noteEl.textContent = 'Unable to fetch commit data. Check network or token.';
                 }
-                // placeholder
-                const clientW = commitsCanvas.clientWidth;
-                const clientH = commitsCanvas.clientHeight;
-                const deviceRatio = window.devicePixelRatio || 1;
+                // placeholder drawing
+                var clientW = commitsCanvas.clientWidth;
+                var clientH = commitsCanvas.clientHeight;
+                var deviceRatio = window.devicePixelRatio || 1;
                 commitsCanvas.width = Math.round(clientW * deviceRatio);
                 commitsCanvas.height = Math.round(clientH * deviceRatio);
                 ctx.setTransform(deviceRatio, 0, 0, deviceRatio, 0, 0);
@@ -485,19 +523,17 @@
             }
         }
 
-        // Initial load and periodic refresh
-        const REFRESH_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
-        updateCommits().catch(e => console.warn('Initial update failed', e));
-        setInterval(() => {
-            updateCommits().catch(e => console.warn('Scheduled update failed', e));
-        }, REFRESH_INTERVAL_MS);
+        // initial load and periodic refresh
+        var REFRESH_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
+        updateCommits().catch(function(e){ console.warn('Initial update failed', e); });
+        setInterval(function(){ updateCommits().catch(function(e){ console.warn('Scheduled update failed', e); }); }, REFRESH_INTERVAL_MS);
 
-        // Redraw on resize (debounced)
-        let resizeTimer;
-        window.addEventListener('resize', () => {
+        // redraw on resize (debounced)
+        var resizeTimer;
+        window.addEventListener('resize', function(){
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                updateCommits().catch(()=>{});
+            resizeTimer = setTimeout(function(){
+                updateCommits().catch(function(){});
             }, 300);
         });
 
