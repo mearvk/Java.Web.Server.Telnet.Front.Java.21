@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>National Finance Engine — Home Suites</title>
 
-    <!-- Embedded leadership palette + typographic scale -->
     <style>
         :root{
             --color-title: #0B2545;
@@ -17,12 +16,14 @@
             --content-padding: 28px;
             --line-height: 1.6;
             --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            /* increased sidebar width by 50px (from 260 -> 310) */
-            --sidebar-width: 310px;
+            --sidebar-width: 310px; /* widened by 50px */
             --sidebar-bg: #fbfdff;
             --sidebar-border: #e6eef9;
             --scrollbar-thumb: #333333; /* charcoal thumb */
             --scrollbar-track: #f1f3f6;
+            --slider-width: 14px;
+            --slider-thumb: #2b2b2b;
+            --slider-track: #e9ecef;
         }
 
         html,body{
@@ -41,12 +42,13 @@
             display: flex;
             min-height: 100vh;
             box-sizing: border-box;
+            position: relative;
         }
 
         /* Sidebar */
         .sidebar {
             width: var(--sidebar-width);
-            min-width: 260px; /* increased to match new width */
+            min-width: 260px;
             background: var(--sidebar-bg);
             border-right: none;
             padding: 20px 18px;
@@ -61,13 +63,7 @@
             -ms-overflow-style: none; /* IE and Edge */
             scrollbar-width: none;    /* Firefox */
         }
-
-        /* WebKit browsers (Chrome, Safari, Opera) - hide scrollbar */
-        .sidebar::-webkit-scrollbar {
-            display: none;
-            width: 0;
-            height: 0;
-        }
+        .sidebar::-webkit-scrollbar { display: none; width:0; height:0; }
 
         .sidebar .repo-link {
             display:block;
@@ -115,38 +111,45 @@
             flex: 1 1 auto;
             padding: 28px;
             box-sizing: border-box;
-            /* adjust max-width so content area accounts for wider sidebar */
             max-width: calc(var(--max-width) + var(--sidebar-width));
             margin: 0 auto;
             overflow: auto;
             max-height: 100vh;
+            /* ensure content area has room for the custom slider on the right */
+            padding-right: calc(28px + var(--slider-width) + 12px);
         }
 
-        /* Custom scrollbar for main (WebKit) */
-        .main::-webkit-scrollbar {
-            width: 12px;
-        }
-        .main::-webkit-scrollbar-track {
-            background: var(--scrollbar-track);
-            border-radius: 12px;
-        }
-        .main::-webkit-scrollbar-thumb {
-            background-color: var(--scrollbar-thumb);
-            border-radius: 12px;
-            border: 3px solid var(--scrollbar-track); /* creates padding around thumb */
-        }
-
-        /* Firefox scrollbar styling */
-        .main {
-            scrollbar-width: thin;
-            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-        }
-
+        /* Make the content container span the full width of the main panel and center it */
         .container {
-            max-width: var(--max-width);
+            width: 100%;
+            max-width: none;
             margin: 0 auto;
             padding: 0;
             box-sizing: border-box;
+            display: block;
+            text-align: center; /* center text horizontally */
+        }
+
+        /* Make headings and paragraphs centered and allow them to use full width */
+        .container h1,
+        .container h2,
+        .container h3,
+        .container p,
+        .container li,
+        .container pre,
+        .container code {
+            display: block;
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+            text-align: center;
+        }
+
+        /* For readability, keep code blocks left-aligned inside a centered block */
+        .container pre, .container code {
+            text-align: left;
+            max-width: 100%;
+            margin: 12px auto;
         }
 
         header.site-header{
@@ -186,6 +189,7 @@
             color: var(--color-body);
             font-size: 0.98rem;
             margin: 0 0 0.9rem 0;
+            line-height: 1.6;
         }
 
         code, pre {
@@ -216,6 +220,7 @@
             margin: 0 0 1rem 0;
             color: #333;
             border-radius: 4px;
+            text-align: center;
         }
 
         table {
@@ -239,21 +244,108 @@
             margin-top: 2.2rem;
             color: #666;
             font-size: 0.9rem;
+            text-align: center;
         }
 
-        /* Responsive: collapse sidebar above content on small screens */
+        /* Custom scrollbar for main (WebKit) */
+        .main::-webkit-scrollbar {
+            width: 12px;
+        }
+        .main::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 12px;
+        }
+        .main::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-thumb);
+            border-radius: 12px;
+            border: 3px solid var(--scrollbar-track);
+        }
+
+        /* Firefox scrollbar styling */
+        .main {
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+        }
+
+        /* Vertical charcoal slider fixed on the right edge of the viewport */
+        .charcoal-slider {
+            position: fixed;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg); /* rotate to make a vertical appearance */
+            transform-origin: center;
+            z-index: 9999;
+            width: calc(100vh * 0.0); /* no layout width; input itself is rotated */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+        }
+
+        /* The visible wrapper to provide a vertical track */
+        .charcoal-slider .track {
+            width: var(--slider-width);
+            height: 240px;
+            background: var(--slider-track);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        /* The actual input range is rotated back to horizontal inside the wrapper */
+        .charcoal-slider input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 200px; /* length of the slider before rotation */
+            height: 8px;
+            background: transparent;
+            transform: rotate(90deg); /* rotate to vertical orientation inside wrapper */
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Track (for WebKit) */
+        .charcoal-slider input[type="range"]::-webkit-slider-runnable-track {
+            height: 8px;
+            background: var(--slider-track);
+            border-radius: 6px;
+        }
+        /* Thumb (for WebKit) */
+        .charcoal-slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--slider-thumb);
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            margin-top: -5px;
+        }
+
+        /* Firefox styling */
+        .charcoal-slider input[type="range"]::-moz-range-track {
+            height: 8px;
+            background: var(--slider-track);
+            border-radius: 6px;
+        }
+        .charcoal-slider input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: var(--slider-thumb);
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Small screens: move slider inside the main area to avoid overlap */
         @media (max-width: 920px) {
-            .site { flex-direction: column; }
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid var(--sidebar-border);
-                box-shadow: none;
-                max-height: none;
-            }
-            .main { padding: 18px; max-height: none; overflow: visible; }
+            .charcoal-slider { right: 12px; top: auto; bottom: 12px; transform: rotate(0deg); }
+            .charcoal-slider .track { width: 160px; height: 36px; border-radius: 8px; padding: 4px; }
+            .charcoal-slider input[type="range"] { transform: rotate(0deg); width: 160px; }
         }
 
         @media (max-width:720px){
@@ -263,6 +355,7 @@
             h3 { font-size: 1.05rem; }
             .sidebar { padding: 14px; }
             .sidebar nav a { font-size: 0.92rem; }
+            .main { padding-right: 18px; }
         }
     </style>
 </head>
@@ -304,7 +397,7 @@
     </aside>
 
     <!-- Main content area -->
-    <main class="main" role="main">
+    <main class="main" role="main" aria-label="Main content">
         <div class="container">
             <header class="site-header" role="banner">
                 <h1>National Finance Engine (NFE) &amp; National IQ Conservatorship &amp; Legal Protectorate (NICLP)</h1>
@@ -383,5 +476,29 @@
         </div>
     </main>
 </div>
+
+<!-- Charcoal slider UI on the right -->
+<div class="charcoal-slider" aria-hidden="false" title="Charcoal slider">
+    <div class="track" role="presentation">
+        <input id="charcoalRange" type="range" min="0" max="100" value="50" aria-label="Charcoal slider" />
+    </div>
+</div>
+
+<script>
+    // Optional: simple visual feedback — adjust main scrollbar thumb opacity based on slider value
+    (function(){
+        const slider = document.getElementById('charcoalRange');
+        const root = document.documentElement;
+        function apply(value){
+            // map 0..100 to 0.3..1 opacity for the scrollbar thumb
+            const opacity = 0.3 + (value / 100) * 0.7;
+            // set a CSS variable used by the scrollbar thumb color (we'll blend with rgba)
+            root.style.setProperty('--scrollbar-thumb', `rgba(51,51,51,${opacity})`);
+        }
+        slider.addEventListener('input', (e) => apply(e.target.value));
+        // initialize
+        apply(slider.value);
+    })();
+</script>
 </body>
 </html>
