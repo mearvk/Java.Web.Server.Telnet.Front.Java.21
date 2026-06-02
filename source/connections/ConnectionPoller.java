@@ -133,13 +133,13 @@ public class ConnectionPoller extends Thread
 
                             message.message_buffer = new StringBuffer(buffer);
 
-                            this.web_express.message_queue.add(message);
+                            this.web_express.MESSAGE_QUEUE.add(message);
                         }
                         catch (SocketTimeoutException ste)
                         {
                             message.message_buffer = new StringBuffer(buffer);
 
-                            this.web_express.message_queue.add(message);
+                            this.web_express.MESSAGE_QUEUE.add(message);
 
                             connections.remove(connection);
 
@@ -195,7 +195,7 @@ public class ConnectionPoller extends Thread
 
                 if(message.message_buffer.length()>0)
                 {
-                    this.web_express.message_queue.add(message);
+                    this.web_express.MESSAGE_QUEUE.add(message);
                 }
 
                 CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> new connection count ["+current_connections.size()+"].");

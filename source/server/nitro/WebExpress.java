@@ -30,7 +30,7 @@ public class WebExpress extends BaseServer
 
     public MessageQueueSorter MESSAGE_QUEUE_SORTER;
 
-    public MessageQueue message_queue = new MessageQueue(this);
+    public MessageQueue MESSAGE_QUEUE = new MessageQueue(this);
 
     public WebExpress()
     {
