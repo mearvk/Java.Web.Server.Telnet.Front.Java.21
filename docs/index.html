@@ -9,9 +9,7 @@
         :root{
             --color-title: #0B2545;
             --color-section: #1B3A63;
-            --color-subsection: #2B4F80;
             --color-body: #222222;
-            --color-link: #0A66C2;
             --carolina-blue: #4B9CD3;
             --max-width: 980px;
             --sidebar-width: 310px;
@@ -52,9 +50,9 @@
         .sidebar::-webkit-scrollbar { display:none; width:0; height:0; }
 
         .repo-link { display:block; font-weight:700; color:var(--color-title); text-decoration:none; margin-bottom:12px; font-size:0.98rem; }
-        .repo-link small { display:block; font-weight:600; color:var(--color-link); margin-top:4px; font-size:0.85rem; }
+        .repo-link small { display:block; font-weight:600; color:#0A66C2; margin-top:4px; font-size:0.85rem; }
 
-        .toc-title { color: var(--color-subsection); font-weight:700; margin-bottom:8px; font-size:0.95rem; }
+        .toc-title { color: #2B4F80; font-weight:700; margin-bottom:8px; font-size:0.95rem; }
         .sidebar nav ul { list-style:none; padding:0; margin:0; }
         .sidebar nav li { margin:0.45rem 0; }
         .sidebar nav a { color:var(--color-section); text-decoration:none; font-weight:600; font-size:0.95rem; padding:6px 8px; border-radius:6px; display:inline-block; }
@@ -167,12 +165,12 @@
                 <p class="subtitle">Modular Java web server and Telnet front end for Java 21. Virtual threads, NIO file handling, and a command‑driven Telnet shell with a centralized <code>Main.java</code> entry point.</p>
             </header>
 
-            <!-- Progress / commits line chart card -->
+            <!-- Progress / commits additive line chart card -->
             <section id="progress" class="progress-card" aria-labelledby="progressTitle">
                 <div class="progress-header">
                     <div>
                         <div id="progressTitle" class="progress-title">Progress</div>
-                        <div class="progress-sub">Commits (last 52 weeks)</div>
+                        <div class="progress-sub">Cumulative commits (last 52 weeks, daily)</div>
                     </div>
                     <div id="commitSummary" style="color:#333;font-weight:600;font-size:0.95rem;">Loading…</div>
                 </div>
@@ -188,7 +186,7 @@
                 </div>
             </section>
 
-            <!-- Content sections -->
+            <!-- Content sections (unchanged) -->
             <section id="purpose-and-governance-structure">
                 <h2>1. Purpose and governance structure</h2>
                 <p><strong>The National Finance Engine (NFE)</strong> and the <strong>National IQ Conservatorship &amp; Legal Protectorate (NICLP)</strong> form a dual‑layer digital infrastructure designed to support secure, remote, and ethically governed financial coordination within the United States. Developed by <strong>Max Rupplin</strong>, the framework integrates a national‑grade encrypted trading engine with a state‑aligned analytical and Positionortorship layer represented by <strong>NCIQ (North Carolina IQ)</strong>.</p>
@@ -264,10 +262,10 @@
 
 <script>
     (function () {
-        // Feature detection
+        // Basic feature detection
         if (!window.fetch || !document.createElement('canvas').getContext) {
             var note = document.getElementById('chartNote');
-            if (note) note.textContent = 'Your browser does not support required features (fetch or canvas). Please update or use a modern browser.';
+            if (note) note.textContent = 'Your browser lacks required features (fetch or canvas). Please update or use a modern browser.';
             return;
         }
 
@@ -300,6 +298,7 @@
             noteEl.textContent = 'Token cleared.';
         });
 
+        // week/day helpers
         function weekStartUTC(date) {
             var d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
             var day = d.getUTCDay();
@@ -308,7 +307,7 @@
             return d.getTime();
         }
 
-        // Parse Link header for pagination (returns object of rel->url)
+        // parse Link header for pagination
         function parseLinkHeader(header) {
             if (!header) return {};
             var parts = header.split(',');
@@ -323,7 +322,7 @@
             return map;
         }
 
-        // Fetch commits using REST API with robust pagination (Link header)
+        // robust paginated fetch using Link header
         async function fetchCommitsSince(sinceIso) {
             var perPage = 100;
             var url = 'https://api.github.com/repos/' + owner + '/' + repo + '/commits?since=' + encodeURIComponent(sinceIso) + '&per_page=' + perPage;
@@ -332,11 +331,10 @@
             var headers = token ? { 'Authorization': 'token ' + token } : {};
             var attempts = 0;
 
-            while (url && attempts < 100) {
+            while (url && attempts < 200) {
                 attempts++;
                 var res = await fetch(url, { headers: headers });
                 if (res.status === 403) {
-                    // rate limited or forbidden
                     var reset = res.headers.get('x-ratelimit-reset');
                     throw new Error('Rate limited or access denied. ' + (reset ? 'Reset at ' + new Date(parseInt(reset,10)*1000).toLocaleString() : ''));
                 }
@@ -355,47 +353,50 @@
                 } else {
                     url = null;
                 }
-                // small delay to be polite (avoid bursts)
+                // small polite delay
                 await new Promise(function (r) { setTimeout(r, 120); });
             }
             return allCommits;
         }
 
-        function aggregateWeekly(commits, sinceTs) {
-            var weeksMap = {};
-            var now = Date.now();
-            var oneWeekMs = 7 * 24 * 60 * 60 * 1000;
-            for (var t = sinceTs; t <= now; t += oneWeekMs) {
-                weeksMap[t] = 0;
-            }
+        // Aggregate commits into daily buckets across the full range (52 weeks)
+        function aggregateDailyCumulative(commits, sinceTs, daysCount) {
+            var oneDayMs = 24 * 60 * 60 * 1000;
+            var days = new Array(daysCount);
+            for (var i = 0; i < daysCount; i++) days[i] = 0;
+
             for (var i = 0; i < commits.length; i++) {
                 var c = commits[i];
                 var dateStr = c && c.commit && c.commit.author && c.commit.author.date;
                 if (!dateStr) continue;
                 var d = new Date(dateStr);
-                var wk = weekStartUTC(d);
-                if (wk < sinceTs) continue;
-                if (!weeksMap.hasOwnProperty(wk)) weeksMap[wk] = 0;
-                weeksMap[wk] = weeksMap[wk] + 1;
+                var idx = Math.floor((d.getTime() - sinceTs) / oneDayMs);
+                if (idx < 0) continue;
+                if (idx >= daysCount) idx = daysCount - 1; // clamp to last day
+                days[idx] = days[idx] + 1;
             }
-            var arr = [];
-            var keys = Object.keys(weeksMap).map(function(k){ return parseInt(k,10); }).sort(function(a,b){ return a-b; });
-            for (var j = 0; j < keys.length; j++) {
-                arr.push({ weekStart: keys[j], total: weeksMap[keys[j]] });
+
+            // cumulative
+            var cumulative = new Array(daysCount);
+            var running = 0;
+            for (var j = 0; j < daysCount; j++) {
+                running += days[j];
+                cumulative[j] = running;
             }
-            return arr;
+            return { days: days, cumulative: cumulative };
         }
 
-        function drawLineChart(weeklyData) {
-            var totals = weeklyData.map(function(w){ return w.total; });
+        // Draw smooth additive (cumulative) line chart across daily points
+        function drawCumulativeLineChart(cumulativeArray) {
+            var totals = cumulativeArray.slice(); // cumulative values
             var max = Math.max.apply(null, totals.concat([1]));
-            var padding = 28;
+            var paddingX = 28;
+            var paddingY = 28;
             var deviceRatio = window.devicePixelRatio || 1;
             var clientW = commitsCanvas.clientWidth;
             var clientH = commitsCanvas.clientHeight;
             commitsCanvas.width = Math.round(clientW * deviceRatio);
             commitsCanvas.height = Math.round(clientH * deviceRatio);
-            // reset transform then scale
             ctx.setTransform(1,0,0,1,0,0);
             ctx.clearRect(0,0,commitsCanvas.width,commitsCanvas.height);
             ctx.setTransform(deviceRatio, 0, 0, deviceRatio, 0, 0);
@@ -404,31 +405,32 @@
             ctx.fillStyle = '#fff';
             ctx.fillRect(0,0,clientW,clientH);
 
-            var availW = clientW - padding * 2;
-            var availH = clientH - padding * 2;
+            var availW = clientW - paddingX * 2;
+            var availH = clientH - paddingY * 2;
             var pointCount = totals.length;
             var stepX = pointCount > 1 ? availW / (pointCount - 1) : availW;
 
+            // compute points
             var points = totals.map(function(v,i){
-                var x = padding + i * stepX;
-                var y = padding + (1 - (v / max)) * availH;
+                var x = paddingX + i * stepX;
+                var y = paddingY + (1 - (v / max)) * availH;
                 return { x: x, y: y, v: v };
             });
 
-            // translucent fill
+            // translucent fill under curve (smooth by using straight lines; still visually pleasing)
             if (points.length) {
                 ctx.beginPath();
-                ctx.moveTo(points[0].x, clientH - padding);
+                ctx.moveTo(points[0].x, clientH - paddingY);
                 for (var k = 0; k < points.length; k++) {
                     ctx.lineTo(points[k].x, points[k].y);
                 }
-                ctx.lineTo(points[points.length - 1].x, clientH - padding);
+                ctx.lineTo(points[points.length - 1].x, clientH - paddingY);
                 ctx.closePath();
                 ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--line-fill') || 'rgba(153,102,255,0.18)';
                 ctx.fill();
             }
 
-            // line
+            // draw line
             ctx.beginPath();
             for (var m = 0; m < points.length; m++) {
                 if (m === 0) ctx.moveTo(points[m].x, points[m].y);
@@ -440,9 +442,10 @@
             ctx.lineCap = 'round';
             ctx.stroke();
 
-            // points
+            // small circles at sampled points (to avoid drawing 364 circles on very small canvases, sample every Nth point)
+            var sampleEvery = Math.max(1, Math.floor(points.length / 80)); // limit to ~80 markers
             ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--line-color') || 'rgba(153,102,255,0.95)';
-            for (var p = 0; p < points.length; p++) {
+            for (var p = 0; p < points.length; p += sampleEvery) {
                 ctx.beginPath();
                 ctx.arc(points[p].x, points[p].y, 2.5, 0, Math.PI * 2);
                 ctx.fill();
@@ -452,9 +455,10 @@
             ctx.fillStyle = '#666';
             ctx.font = '12px system-ui, Inter, Arial';
             ctx.textAlign = 'right';
-            ctx.fillText('Weekly commits', clientW - 8, 14);
+            ctx.fillText('Cumulative commits', clientW - 8, 14);
         }
 
+        // Main update flow: fetch commits, aggregate per day, compute cumulative, draw
         async function updateCommits() {
             try {
                 noteEl.textContent = 'Fetching commits via GitHub REST API…';
@@ -462,34 +466,27 @@
                 var oneWeekMs = 7 * 24 * 60 * 60 * 1000;
                 var sinceDate = new Date(now.getTime() - 52 * oneWeekMs);
                 var sinceWeekStart = new Date(weekStartUTC(sinceDate));
+                // days across 52 weeks
+                var daysCount = 52 * 7;
+                var sinceTs = sinceWeekStart.getTime();
                 var sinceIso = sinceWeekStart.toISOString();
 
                 var commits = await fetchCommitsSince(sinceIso);
-                var weekly = aggregateWeekly(commits, sinceWeekStart.getTime());
 
-                // ensure 52 weeks
-                if (weekly.length < 52) {
-                    var full = [];
-                    for (var i = 0; i < 52; i++) {
-                        var wk = sinceWeekStart.getTime() + i * oneWeekMs;
-                        var found = null;
-                        for (var z = 0; z < weekly.length; z++) {
-                            if (weekly[z].weekStart === wk) { found = weekly[z]; break; }
-                        }
-                        full.push(found ? found : { weekStart: wk, total: 0 });
-                    }
-                    weekly = full;
-                }
+                // aggregate into daily cumulative
+                var agg = aggregateDailyCumulative(commits, sinceTs, daysCount);
+                var cumulative = agg.cumulative;
 
-                drawLineChart(weekly);
-                var totalYear = 0;
-                for (var q = 0; q < weekly.length; q++) totalYear += weekly[q].total;
+                // draw cumulative line chart across all days
+                drawCumulativeLineChart(cumulative);
+
+                var totalCommits = cumulative.length ? cumulative[cumulative.length - 1] : 0;
                 var updatedAt = new Date();
-                summaryEl.textContent = totalYear + ' commits (last 52 weeks) · updated ' + updatedAt.toLocaleString();
-                noteEl.textContent = 'Data fetched from GitHub REST commits endpoint.';
+                summaryEl.textContent = totalCommits + ' commits (cumulative, last 52 weeks) · updated ' + updatedAt.toLocaleString();
+                noteEl.textContent = 'Additive cumulative chart (daily) from GitHub REST commits endpoint.';
             } catch (err) {
                 console.warn(err);
-                // fallback to repo summary
+                // fallback: repo summary
                 try {
                     var token = getToken();
                     var headers = token ? { 'Authorization': 'token ' + token } : {};
@@ -519,7 +516,7 @@
                 ctx.fillStyle = '#999';
                 ctx.font = '14px system-ui, Inter';
                 ctx.textAlign = 'center';
-                ctx.fillText('Weekly commit data unavailable', clientW/2, clientH/2);
+                ctx.fillText('Cumulative commit data unavailable', clientW/2, clientH/2);
             }
         }
 
