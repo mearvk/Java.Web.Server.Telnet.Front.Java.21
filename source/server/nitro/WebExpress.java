@@ -24,11 +24,11 @@ public class WebExpress extends BaseServer
 
     public Boolean TELNET_PROXY_ENABLED;
 
-    public TelnetInstaller telnet_installer;
+    public TelnetInstaller TELNET_INSTALLER;
 
-    public TelnetCommunicationProxy telnet_communication_proxy;
+    public TelnetCommunicationProxy TELNET_COMMUNICATION_PROXY;
 
-    public MessageQueueSorter message_queue_sorter;
+    public MessageQueueSorter MESSAGE_QUEUE_SORTER;
 
     public MessageQueue message_queue = new MessageQueue(this);
 
@@ -53,28 +53,28 @@ public class WebExpress extends BaseServer
         {
             CommonRails.printSystemComponent(this, this.hashCode(), ". "+THREAD_NAME+" "+HOST+" : "+PORT+" Telnet Proxy Enabled .");
 
-            this.telnet_installer = new TelnetInstaller(this);
+            this.TELNET_INSTALLER = new TelnetInstaller(this);
 
-            this.telnet_communication_proxy = new TelnetCommunicationProxy(this);
+            this.TELNET_COMMUNICATION_PROXY = new TelnetCommunicationProxy(this);
 
-            this.message_queue_sorter = new MessageQueueSorter(this);
+            this.MESSAGE_QUEUE_SORTER = new MessageQueueSorter(this);
 
-            this.message_queue_sorter.setName("MessageQueueSorter.TelnetProxy");
+            this.MESSAGE_QUEUE_SORTER.setName("MessageQueueSorter.TelnetProxy");
 
-            this.telnet_communication_proxy.output_builder.setName("TelnetCommunicationProxy.Builder.Output");
+            this.TELNET_COMMUNICATION_PROXY.output_builder.setName("TelnetCommunicationProxy.Builder.Output");
 
-            this.telnet_communication_proxy.input_builder.setName("TelnetCommunicationProxy.Builder.Input");
+            this.TELNET_COMMUNICATION_PROXY.input_builder.setName("TelnetCommunicationProxy.Builder.Input");
         }
         else
         {
             CommonRails.printSystemComponent(this, this.hashCode(), ". Main starts "+THREAD_NAME+" HOST : "+PORT+" .");
 
-            this.message_queue_sorter = new MessageQueueSorter(this);
+            this.MESSAGE_QUEUE_SORTER = new MessageQueueSorter(this);
 
-            this.message_queue_sorter.setName("MessageQueueSorter.AES2");
+            this.MESSAGE_QUEUE_SORTER.setName("MessageQueueSorter.AES2");
         }
 
-        this.message_queue_sorter.start();
+        this.MESSAGE_QUEUE_SORTER.start();
 
         this.setName(THREAD_NAME);
     }

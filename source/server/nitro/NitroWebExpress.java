@@ -248,7 +248,7 @@ public class NitroWebExpress extends WebExpress
                             {
                                 if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                                 {
-                                    BufferedWriter writer = this.web_express.telnet_communication_proxy.writer;
+                                    BufferedWriter writer = this.web_express.TELNET_COMMUNICATION_PROXY.writer;
 
                                     CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::MessageQueueSorter sending to Telnet message Message: " + message.message_buffer + " .");
 
@@ -299,7 +299,7 @@ public class NitroWebExpress extends WebExpress
 
                             try
                             {
-                                BufferedReader reader = this.web_express.telnet_communication_proxy.reader;
+                                BufferedReader reader = this.web_express.TELNET_COMMUNICATION_PROXY.reader;
 
                                 if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                                 {

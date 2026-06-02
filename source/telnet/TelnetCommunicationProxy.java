@@ -36,13 +36,13 @@ public class TelnetCommunicationProxy
 
         this.web_express = web_express;
 
-        this.process_builder = this.web_express.telnet_installer.process_builder;
+        this.process_builder = this.web_express.TELNET_INSTALLER.process_builder;
 
-        this.process = this.web_express.telnet_installer.process;
+        this.process = this.web_express.TELNET_INSTALLER.process;
 
-        this.writer = this.web_express.telnet_installer.writer;
+        this.writer = this.web_express.TELNET_INSTALLER.writer;
 
-        this.reader = this.web_express.telnet_installer.reader;
+        this.reader = this.web_express.TELNET_INSTALLER.reader;
 
         this.telnet_proxy_communicator = new TelnetProxyCommunicator(this);
 

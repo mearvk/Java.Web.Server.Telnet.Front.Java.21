@@ -84,13 +84,13 @@ public class ConnectionPoller extends Thread
 
                         telnet_message.port = Integer.parseInt(WebExpress.REMOTE_PORT);
 
-                        telnet_message.socket = this.web_express.telnet_communication_proxy.socket;
+                        telnet_message.socket = this.web_express.TELNET_COMMUNICATION_PROXY.socket;
 
                         telnet_message.time_stamp = new Date();
 
                         telnet_message.message_buffer = new StringBuffer("US6");
 
-                        this.web_express.telnet_communication_proxy.output_builder.telnet_message_queue.add(telnet_message);
+                        this.web_express.TELNET_COMMUNICATION_PROXY.output_builder.telnet_message_queue.add(telnet_message);
 
                         connection.IS_TELNET_EXCELSIOR_CONNECTED = Boolean.TRUE;
                     }
