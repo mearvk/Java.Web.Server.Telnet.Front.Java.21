@@ -37,6 +37,7 @@ public class NitroWebExpress extends WebExpress
 
     public static String WEBEXPRESS_COMPLIANT_THREADNAME = "WebExpress v24.0+ Masterthread";
 
+
     public static String WEBEXPRESS_COMPLIANT_HOSTNAME = "localhost";
 
     public static final String BITCOIN_COMPLIANT_HOSTNAME = "localhost";
