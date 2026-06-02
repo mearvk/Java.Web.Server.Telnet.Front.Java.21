@@ -289,6 +289,102 @@
                 <p class="subtitle">Modular Java web server and Telnet front end for Java 21. Virtual threads, NIO file handling, and a command‑driven Telnet shell with a centralized <code>Main.java</code> entry point.</p>
             </header>
 
+            <!-- Insert this block where you want the chart to appear (e.g., after the header) -->
+            <section id="progress" style="margin-top:18px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <div>
+                        <div style="font-weight:700;color:var(--color-title);font-size:1rem;">Progress</div>
+                        <div style="color:#666;font-size:0.92rem;">Commits (last 52 weeks)</div>
+                    </div>
+                    <div id="commitSummary" style="color:#333;font-weight:600;font-size:0.95rem;">Loading…</div>
+                </div>
+
+                <div style="background:#fff;border:1px solid #eef4fb;border-radius:8px;padding:12px;box-shadow:0 1px 4px rgba(16,24,40,0.04);">
+                    <canvas id="commitsChart" width="900" height="220" style="width:100%;height:220px;display:block;"></canvas>
+                    <div id="chartNote" style="margin-top:8px;color:#666;font-size:0.9rem;"></div>
+                </div>
+            </section>
+
+            <script>
+                (async function(){
+                    const owner = 'mearvk';
+                    const repo = 'Java.Web.Server.Telnet.Front.Java.21';
+                    const statsUrl = `https://api.github.com/repos/${owner}/${repo}/stats/commit_activity`;
+                    const summaryEl = document.getElementById('commitSummary');
+                    const noteEl = document.getElementById('chartNote');
+                    const canvas = document.getElementById('commitsChart');
+                    const ctx = canvas.getContext('2d');
+
+                    function drawChart(weeks){
+                        // weeks: array of {week:timestamp, total:number, days:[]}
+                        const totals = weeks.map(w => w.total);
+                        const max = Math.max(...totals, 1);
+                        const padding = 12;
+                        const w = canvas.width;
+                        const h = canvas.height;
+                        ctx.clearRect(0,0,w,h);
+                        // background
+                        ctx.fillStyle = '#fff';
+                        ctx.fillRect(0,0,w,h);
+                        // draw bars
+                        const barGap = 2;
+                        const barCount = totals.length;
+                        const barWidth = (w - padding*2 - (barCount-1)*barGap) / barCount;
+                        for(let i=0;i<barCount;i++){
+                            const x = padding + i*(barWidth+barGap);
+                            const barH = (totals[i]/max) * (h - padding*2);
+                            const y = h - padding - barH;
+                            // color gradient: light carolina blue to dark
+                            const t = totals[i]/max;
+                            ctx.fillStyle = `rgba(75,156,211,${0.35 + 0.65*t})`; // carolina-blue base
+                            ctx.fillRect(x, y, barWidth, barH);
+                        }
+                        // axis label (right)
+                        ctx.fillStyle = '#666';
+                        ctx.font = '12px system-ui, Inter, Arial';
+                        ctx.textAlign = 'right';
+                        ctx.fillText('Weekly commits', w - 8, 14);
+                    }
+
+                    try {
+                        // fetch commit activity (may return 202 while GitHub computes)
+                        const res = await fetch(statsUrl);
+                        if (res.status === 202) {
+                            noteEl.textContent = 'GitHub is computing commit statistics; try again in a few moments.';
+                            summaryEl.textContent = 'Stats pending';
+                            return;
+                        }
+                        if (!res.ok) throw new Error('Stats fetch failed');
+                        const weeks = await res.json();
+                        if (!Array.isArray(weeks) || weeks.length === 0) {
+                            noteEl.textContent = 'No weekly commit data available.';
+                            summaryEl.textContent = 'No data';
+                            return;
+                        }
+                        // draw chart
+                        drawChart(weeks);
+                        // compute total commits in the returned year window
+                        const totalYear = weeks.reduce((s,w)=>s+w.total,0);
+                        summaryEl.textContent = `${totalYear} commits (last 52 weeks)`;
+                        noteEl.textContent = 'Data from GitHub commit activity API.';
+                    } catch (err) {
+                        // fallback: show a static total from the repo page (reported on GitHub)
+                        // The repo page lists total commits; we display that as a fallback with citation.
+                        summaryEl.innerHTML = '225 commits (repo page) <span style="color:#888;font-size:0.85rem"></span>';
+                        noteEl.textContent = 'Live weekly stats unavailable; showing repo commit count.';
+                        // draw an empty placeholder
+                        ctx.clearRect(0,0,canvas.width,canvas.height);
+                        ctx.fillStyle = '#f6f8fa';
+                        ctx.fillRect(0,0,canvas.width,canvas.height);
+                        ctx.fillStyle = '#999';
+                        ctx.font = '14px system-ui, Inter';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('Weekly commit data unavailable', canvas.width/2, canvas.height/2);
+                    }
+                })();
+            </script>
+
+
             <section id="purpose-and-governance-structure">
                 <h2>1. Purpose and governance structure</h2>
                 <p><strong>The National Finance Engine (NFE)</strong> and the <strong>National IQ Conservatorship &amp; Legal Protectorate (NICLP)</strong> form a dual‑layer digital infrastructure designed to support secure, remote, and ethically governed financial coordination within the United States. Developed by <strong>Max Rupplin</strong>, the framework integrates a national‑grade encrypted trading engine with a state‑aligned analytical and Positionortorship layer represented by <strong>NCIQ (North Carolina IQ)</strong>.</p>
