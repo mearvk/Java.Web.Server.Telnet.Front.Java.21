@@ -7,7 +7,7 @@
 
   <style>
     :root{
-      --color-title: #0B2545;
+      --color-title: #0B2545; /* current dark blue */
       --color-section: #1B3A63;
       --color-subsection: #2B4F80;
       --color-body: #222222;
@@ -19,6 +19,7 @@
       --sidebar-width: 310px;
       --sidebar-bg: #fbfdff;
       --sidebar-border: #e6eef9;
+      --carolina-blue: #4B9CD3; /* light Carolina blue for large titles */
     }
 
     html, body {
@@ -30,10 +31,9 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       line-height: var(--line-height);
-      overflow-y: auto; /* page-level scrollbar on the far right */
+      overflow-y: auto;
     }
 
-    /* Layout */
     .site {
       display: flex;
       min-height: 100vh;
@@ -80,7 +80,7 @@
 
     .sidebar .toc-title { color: var(--color-subsection); font-weight: 700; margin-bottom: 8px; font-size: 0.95rem; }
 
-    /* Main content: let page scrollbar handle vertical scrolling */
+    /* Main content: page scrollbar handles vertical scrolling */
     .main {
       flex: 1 1 auto;
       padding: 28px;
@@ -92,11 +92,21 @@
       padding-right: 28px;
     }
 
-    /* Title stack (centered) */
+    /* Title area */
     .site-header {
       margin-bottom: 22px;
       text-align: center;
     }
+
+    /* Project identifier above title */
+    .project-id {
+      color: var(--color-title); /* current dark blue */
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+    }
+
     .title-stack {
       display: inline-block;
       text-align: center;
@@ -105,11 +115,47 @@
       border-radius: 8px;
       margin: 0 auto 12px auto;
     }
-    .title-line { display:block; font-weight:700; color:var(--color-title); letter-spacing:-0.01em; }
-    .title-line.primary { font-size:1.6rem; margin-bottom:6px; }
-    .title-line.secondary { font-size:1.05rem; color:var(--color-section); font-weight:600; margin-bottom:6px; }
-    .title-line.tertiary { font-size:0.95rem; color:#555; font-weight:600; margin-top:6px; }
-    .title-divider { height:2px; width:56%; margin:10px auto 0; background:linear-gradient(90deg, rgba(11,37,69,0.9), rgba(10,102,194,0.85)); border-radius:2px; opacity:0.9; }
+
+    .title-line { display:block; font-weight:700; letter-spacing:-0.01em; }
+
+    /* Primary lines use Carolina blue */
+    .title-line.primary {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+      color: var(--carolina-blue);
+    }
+
+    /* Secondary small connectors (kept subtle) */
+    .title-line.secondary {
+      font-size: 1.05rem;
+      color: var(--color-section);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    /* Legal Protectorate line uses the current dark blue */
+    .title-line.legal {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+      color: var(--color-title);
+      font-weight: 700;
+    }
+
+    .title-line.tertiary {
+      font-size: 0.95rem;
+      color: #555;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .title-divider {
+      height: 2px;
+      width: 56%;
+      margin: 10px auto 0;
+      background: linear-gradient(90deg, rgba(11,37,69,0.9), rgba(10,102,194,0.85));
+      border-radius: 2px;
+      opacity: 0.9;
+    }
 
     /* Container: left-aligned content, constrained width for readability */
     .container {
@@ -121,7 +167,6 @@
       text-align: left;
     }
 
-    /* Ensure content elements are left-aligned */
     .container h1,
     .container h2,
     .container h3,
@@ -134,7 +179,6 @@
       margin-right: 0;
     }
 
-    /* Keep code blocks readable */
     .container pre, .container code {
       text-align: left;
       max-width: 100%;
@@ -178,6 +222,7 @@
       }
       .main { padding: 18px; }
       .title-line.primary { font-size: 1.25rem; }
+      .title-line.legal { font-size: 1.25rem; }
       .title-line.secondary { font-size: 1rem; }
       .title-divider { width: 72%; }
     }
@@ -231,13 +276,13 @@
     <main class="main" role="main" aria-label="Main content">
       <div class="container">
         <header class="site-header" role="banner">
+          <!-- Project identifier above the title, in current dark blue -->
+          <div class="project-id">Java.Web.Server.Telnet.Front.Java.21</div>
+
           <div class="title-stack" aria-hidden="false">
-            <span class="title-line primary">National Finance Engine</span>
-            <span class="title-line secondary">(NFE)</span>
-            <span class="title-line secondary">&amp;</span>
-            <span class="title-line primary">National IQ Conservatorship</span>
-            <span class="title-line secondary">&amp; Legal Protectorate</span>
-            <span class="title-line tertiary">(NICLP)</span>
+            <!-- Combined lines with parentheses at end of the lines -->
+            <span class="title-line primary">National Finance Engine (NFE)</span>
+            <span class="title-line legal">National IQ Conservatorship &amp; Legal Protectorate (NICLP)</span>
             <div class="title-divider" aria-hidden="true"></div>
           </div>
 
