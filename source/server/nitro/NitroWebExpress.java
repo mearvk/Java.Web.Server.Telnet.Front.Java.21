@@ -355,19 +355,19 @@ public class NitroWebExpress extends WebExpress
 
                     CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size before "+this.getMessageQueueSize()+" .");
 
-                    this.WEB_EXPRESS.message_queue.add(message);
+                    this.WEB_EXPRESS.MESSAGE_QUEUE.add(message);
 
                     CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size after "+this.getMessageQueueSize()+" .");
                 }
 
                 public synchronized MessageQueue getMessageQueue()
                 {
-                    return this.WEB_EXPRESS.message_queue;
+                    return this.WEB_EXPRESS.MESSAGE_QUEUE;
                 }
 
                 public synchronized Integer getMessageQueueSize()
                 {
-                    return this.WEB_EXPRESS.message_queue.messages.size();
+                    return this.WEB_EXPRESS.MESSAGE_QUEUE.MESSAGES.size();
                 }
             }
         }
