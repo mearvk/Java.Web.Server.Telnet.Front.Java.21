@@ -33,13 +33,13 @@ public class MessageQueueSorter extends Thread
         {
             MessageQueue message_queue = this.web_express.message_queue;
 
-            for(int i=0; i<message_queue.messages.size(); i++)
+            for(int i = 0; i<message_queue.MESSAGES.size(); i++)
             {
-                CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter reports message queue has size of "+message_queue.messages.size()+" .");
+                CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter reports message queue has size of "+message_queue.MESSAGES.size()+" .");
 
-                CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter received message from connection "+message_queue.messages.get(i).socket+" "+message_queue.messages.get(i).message_buffer+" .");
+                CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter received message from connection "+message_queue.MESSAGES.get(i).socket+" "+message_queue.MESSAGES.get(i).MESSAGE_BUFFER +" .");
 
-                MessageQueue.Message message = message_queue.messages.remove(i);
+                MessageQueue.Message message = message_queue.MESSAGES.remove(i);
 
                 try
                 {
@@ -47,9 +47,9 @@ public class MessageQueueSorter extends Thread
                     {
                         BufferedWriter writer = this.web_express.TELNET_COMMUNICATION_PROXY.writer;
 
-                        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::MessageQueueSorter sending to Telnet message Message: " + message.message_buffer + " .");
+                        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::MessageQueueSorter sending to Telnet message Message: " + message.MESSAGE_BUFFER + " .");
 
-                        writer.write("Message: "+message.message_buffer+"\n");
+                        writer.write("Message: "+message.MESSAGE_BUFFER +"\n");
 
                         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter sending to Telnet message Date: " + message.time_stamp + " .");
 

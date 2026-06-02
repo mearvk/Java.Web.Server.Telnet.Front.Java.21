@@ -105,7 +105,7 @@ public class ConnectionPoller extends Thread
 
                         message.time_stamp = new Date(System.currentTimeMillis());
 
-                        message.message_buffer = new StringBuffer("US22.09");
+                        message.MESSAGE_BUFFER = new StringBuffer("US22.09");
 
                         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.socket.getInputStream()));
 
@@ -131,13 +131,13 @@ public class ConnectionPoller extends Thread
                                 }
                             }
 
-                            message.message_buffer = new StringBuffer(buffer);
+                            message.MESSAGE_BUFFER = new StringBuffer(buffer);
 
                             this.web_express.MESSAGE_QUEUE.add(message);
                         }
                         catch (SocketTimeoutException ste)
                         {
-                            message.message_buffer = new StringBuffer(buffer);
+                            message.MESSAGE_BUFFER = new StringBuffer(buffer);
 
                             this.web_express.MESSAGE_QUEUE.add(message);
 
@@ -193,7 +193,7 @@ public class ConnectionPoller extends Thread
 
                 current_connections.remove(connection);
 
-                if(message.message_buffer.length()>0)
+                if(message.MESSAGE_BUFFER.length()>0)
                 {
                     this.web_express.MESSAGE_QUEUE.add(message);
                 }

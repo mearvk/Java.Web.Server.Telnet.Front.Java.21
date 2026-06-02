@@ -64,7 +64,7 @@ public class Main
 
             nitro.bridge.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-        NitroWebExpress.self.start();
+        NitroWebExpress.SELF.start();
     }
 
     public static void main(String...args)

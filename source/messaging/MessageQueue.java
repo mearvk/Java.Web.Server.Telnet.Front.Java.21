@@ -15,7 +15,7 @@ public class MessageQueue
 {
     protected String hash = "0xDA717018470E213F";
 
-    public ArrayList<Message> messages;
+    public ArrayList<Message> MESSAGES;
 
     protected BaseServer base_server;
 
@@ -23,14 +23,14 @@ public class MessageQueue
     {
         this.base_server = base_server;
 
-        this.messages = new ArrayList<>(5000);
+        this.MESSAGES = new ArrayList<>(5000);
     }
 
     public synchronized void clear()
     {
-        this.messages = null;
+        this.MESSAGES = null;
 
-        this.messages = new ArrayList<>(5000);
+        this.MESSAGES = new ArrayList<>(5000);
     }
 
     public synchronized void send(Message message)
@@ -41,11 +41,11 @@ public class MessageQueue
         {
             writer = new BufferedWriter(new OutputStreamWriter(message.socket.getOutputStream()));
 
-            writer.write(message.message_buffer.toString(), 0, message.message_buffer.length());
+            writer.write(message.MESSAGE_BUFFER.toString(), 0, message.MESSAGE_BUFFER.length());
 
             writer.flush();
 
-            message.message_buffer = new StringBuffer();
+            message.MESSAGE_BUFFER = new StringBuffer();
 
             CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue::TelnetQuickSend >> writing initial handshake to Telnet Remote System ["+message.socket+"].");
         }
@@ -57,19 +57,19 @@ public class MessageQueue
 
     public synchronized void add(Message message)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),"MessageQueue::add >> receives ["+message.message_buffer.toString()+"].");
+        CommonRails.printSystemComponent(this, this.hashCode(),"MessageQueue::add >> receives ["+message.MESSAGE_BUFFER.toString()+"].");
 
-        this.messages.add(message);
+        this.MESSAGES.add(message);
     }
 
     public synchronized void remove(Message message)
     {
-        this.messages.remove(message);
+        this.MESSAGES.remove(message);
     }
 
     public synchronized Integer size()
     {
-        return this.messages.size();
+        return this.MESSAGES.size();
     }
 
     public static class Message
@@ -80,7 +80,7 @@ public class MessageQueue
 
         public Date time_stamp;
 
-        public StringBuffer message_buffer = new StringBuffer();
+        public StringBuffer MESSAGE_BUFFER = new StringBuffer();
 
         public InetAddress internet_address;
     }

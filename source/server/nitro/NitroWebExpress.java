@@ -23,7 +23,7 @@ public class NitroWebExpress extends WebExpress
 
     public final String[] PRIMER = new String[]{"AES 2.0 DSS5.0, AES2.0", "North Carolina Governor Joshua Stein"};
 
-    public static NitroWebExpress self;
+    public static NitroWebExpress SELF;
 
     public static Integer BASE_PORT = 49152;
 
@@ -60,7 +60,7 @@ public class NitroWebExpress extends WebExpress
 
         NitroWebExpress.WEBEXPRESS_COMPLIANT_THREADNAME = THREAD_NAME;
 
-        NitroWebExpress.self = this;
+        NitroWebExpress.SELF = this;
     }
 
     public static class Aspect
@@ -117,13 +117,13 @@ public class NitroWebExpress extends WebExpress
             {
                 public MessageOutputRecord()
                 {
-                    CommonRails.printSystemComponent(this, this.hashCode(), "AESCompliant::MessageOutputRecord loads.");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". AESCompliant::MessageOutputRecord loads .");
                 }
             }
 
             protected static class MessageOutputHandler
             {
-                public Socket socket;
+                public Socket SOCKET;
 
                 public MessageOutputHandler()
                 {
@@ -134,14 +134,14 @@ public class NitroWebExpress extends WebExpress
                 {
                     if(buffer==null) throw new SecurityException("//bodi/connect");
 
-                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, buffer);
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, buffer);
 
                     message_output_handler.run();
                 }
 
                 public void send_message(String message)
                 {
-                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, message);
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, message);
 
                     message_output_handler.run();
                 }
@@ -186,7 +186,7 @@ public class NitroWebExpress extends WebExpress
 
             protected static class MessageOutputHandler
             {
-                public Socket socket;
+                public Socket SOCKET;
 
                 public MessageOutputHandler()
                 {
@@ -197,7 +197,7 @@ public class NitroWebExpress extends WebExpress
                 {
                     if(buffer==null) throw new SecurityException("//bodi/connect");
 
-                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, buffer);
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, buffer);
 
                     message_output_handler.run();
                 }
@@ -206,7 +206,7 @@ public class NitroWebExpress extends WebExpress
                 {
                     if(message==null) throw new SecurityException("//bodi/connect");
 
-                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(socket, message);
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, message);
 
                     message_output_handler.run();
                 }
@@ -214,15 +214,15 @@ public class NitroWebExpress extends WebExpress
 
             public static class MessageQueueSorter extends Thread
             {
-                protected String hash = "0xDA717018470E213F";
+                protected String HASH = "0xDA717018470E213F";
 
-                protected WebExpress web_express;
+                protected WebExpress WEB_EXPRESS;
 
                 public MessageQueueSorter(WebExpress web_express)
                 {
                     if(web_express==null) throw new SecurityException("//bodi/connect");
 
-                    this.web_express = web_express;
+                    this.WEB_EXPRESS = web_express;
 
                     this.setName("MessageQueueSorter");
                 }
@@ -234,25 +234,25 @@ public class NitroWebExpress extends WebExpress
 
                     for(;;)
                     {
-                        MessageQueue message_queue = this.web_express.message_queue;
+                        MessageQueue MESSAGE_QUEUE = this.WEB_EXPRESS.MESSAGE_QUEUE;
 
-                        for(int i=0; i<message_queue.messages.size(); i++)
+                        for(int i = 0; i<MESSAGE_QUEUE.MESSAGES.size(); i++)
                         {
-                            CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter reports message queue has size of "+message_queue.messages.size()+" .");
+                            CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter reports message queue has size of "+MESSAGE_QUEUE.MESSAGES.size()+" .");
 
-                            CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter received message from connection "+message_queue.messages.get(i).socket+" "+message_queue.messages.get(i).message_buffer+" .");
+                            CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter received message from connection "+MESSAGE_QUEUE.MESSAGES.get(i).socket+" "+MESSAGE_QUEUE.MESSAGES.get(i).MESSAGE_BUFFER +" .");
 
-                            MessageQueue.Message message = message_queue.messages.remove(i);
+                            MessageQueue.Message message = MESSAGE_QUEUE.MESSAGES.remove(i);
 
                             try
                             {
                                 if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                                 {
-                                    BufferedWriter writer = this.web_express.TELNET_COMMUNICATION_PROXY.writer;
+                                    BufferedWriter writer = this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.writer;
 
-                                    CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::MessageQueueSorter sending to Telnet message Message: " + message.message_buffer + " .");
+                                    CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::MessageQueueSorter sending to Telnet message Message: " + message.MESSAGE_BUFFER + " .");
 
-                                    writer.write("Message: "+message.message_buffer+"\n");
+                                    writer.write("Message: "+message.MESSAGE_BUFFER +"\n");
 
                                     CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter sending to Telnet message Date: " + message.time_stamp + " .");
 
@@ -268,7 +268,7 @@ public class NitroWebExpress extends WebExpress
 
                                     writer.flush();
 
-                                    message_queue.remove(message);
+                                    MESSAGE_QUEUE.remove(message);
                                 }
                             }
                             catch (SocketTimeoutException ste)
@@ -279,7 +279,7 @@ public class NitroWebExpress extends WebExpress
                                 }
                                 catch (Exception e)
                                 {
-                                    CurrentConnections connections = this.web_express.current_connections;
+                                    CurrentConnections connections = this.WEB_EXPRESS.current_connections;
 
                                     connections.remove(message.connection);
 
@@ -288,7 +288,7 @@ public class NitroWebExpress extends WebExpress
                                     CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::MessageQueueSorter >> dropped connection "+message.socket+" - new connection count "+arithemeter.result.arithemetic +" : "+arithemeter.result.numeral +" .");
                                 }
 
-                                this.web_express.current_connections.remove(message.socket);
+                                this.WEB_EXPRESS.current_connections.remove(message.socket);
 
                                 break;
                             }
@@ -299,7 +299,7 @@ public class NitroWebExpress extends WebExpress
 
                             try
                             {
-                                BufferedReader reader = this.web_express.TELNET_COMMUNICATION_PROXY.reader;
+                                BufferedReader reader = this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.reader;
 
                                 if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                                 {
@@ -319,7 +319,7 @@ public class NitroWebExpress extends WebExpress
                                         }
                                         else
                                         {
-                                            CurrentConnections connections = this.web_express.current_connections;
+                                            CurrentConnections connections = this.WEB_EXPRESS.current_connections;
 
                                             connections.remove(message.connection);
 
@@ -355,19 +355,19 @@ public class NitroWebExpress extends WebExpress
 
                     CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size before "+this.getMessageQueueSize()+" .");
 
-                    this.web_express.message_queue.add(message);
+                    this.WEB_EXPRESS.message_queue.add(message);
 
                     CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size after "+this.getMessageQueueSize()+" .");
                 }
 
                 public synchronized MessageQueue getMessageQueue()
                 {
-                    return this.web_express.message_queue;
+                    return this.WEB_EXPRESS.message_queue;
                 }
 
                 public synchronized Integer getMessageQueueSize()
                 {
-                    return this.web_express.message_queue.messages.size();
+                    return this.WEB_EXPRESS.message_queue.messages.size();
                 }
             }
         }
