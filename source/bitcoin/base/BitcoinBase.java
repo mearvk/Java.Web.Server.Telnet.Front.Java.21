@@ -30,19 +30,19 @@ public class BitcoinBase
     
     protected final String BITCOIN_PORT = "";
 
-    protected final String BITCOIND_START_ARGS = STR."-regtest -daemon -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\"";
+    protected final String BITCOIND_START_ARGS = "-regtest -daemon -rpcpassword="+BITCOIN_ROOT_PASSWORD+" -rpcport="+BITCOIN_PORT;
 
-    protected final String BITCOIN_CLI_LOAD_WALLET_ARGS = STR."-named loadwallet -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\" wallet_name=\"United States\"";
+    protected final String BITCOIN_CLI_LOAD_WALLET_ARGS = "-named loadwallet -rpcpassword="+BITCOIN_ROOT_PASSWORD+" -rpcport="+BITCOIN_PORT+" wallet_name=\"United States\"";
 
-    protected final String BITCOIN_GET_WALLET_NAME_ARGS = STR."-named getwalletinfo -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\" wallet_name\"United States\"";
+    protected final String BITCOIN_GET_WALLET_NAME_ARGS = "-named getwalletinfo -rpcpassword="+BITCOIN_ROOT_PASSWORD+" -rpcport="+BITCOIN_PORT+" wallet_name\"United States\"";
 
     protected final String BITCOIN_CLI_DELETE_WALLET_CMD = "rm -r";
 
-    protected final String BITCOIN_CLI_UNLOAD_WALLET_ARGS = STR."-named unloadwallet -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\" wallet_name=\"United States\"";
+    protected final String BITCOIN_CLI_UNLOAD_WALLET_ARGS = "-named unloadwallet -rpcpassword="+BITCOIN_ROOT_PASSWORD+" -rpcport="+BITCOIN_PORT+" wallet_name=\"United States\"";
 
     protected final String BITCOIN_CLI_RENAME_WALLET_ARGS = "";
 
-    protected final String BITCOIN_CLI_ADD_NEW_WALLET_ARGS = STR."bitcoin-cli createwallet -rpcpassword=\"\{BITCOIN_ROOT_PASSWORD}\" -rpcport=\"\{BITCOIN_PORT}\"";
+    protected final String BITCOIN_CLI_ADD_NEW_WALLET_ARGS = "bitcoin-cli createwallet -rpcpassword="+BITCOIN_ROOT_PASSWORD+" -rpcport="+BITCOIN_PORT;
 
     protected final String BITCOIN_CLI_SEND_LOCAL_WALLET_TO_REMOTE_WALLET_ARGS = "";
 
@@ -58,9 +58,9 @@ public class BitcoinBase
 
         BitcoinAmericaAndNewYorkDate ESTDate = new BitcoinAmericaAndNewYorkDate();
 
-        CommonRails.printSystemComponent(this, this.hashCode(), STR."WebExpress::Bitcoin >> opens in North Carolina on [Date: \{ESTDate.EST_Time}]");
+        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> opens in North Carolina on [Date: "+ESTDate.EST_Time);
 
-        CommonRails.printSystemComponent(this, this.hashCode(), STR."WebExpress::Bitcoin >> opens in Japan on [Date: \{JAPANDate.PACIFIC_Time}]");
+        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> opens in Japan on [Date: "+JAPANDate.PACIFIC_Time);
     }
 
     public void send_message(StringBuffer buffer)
