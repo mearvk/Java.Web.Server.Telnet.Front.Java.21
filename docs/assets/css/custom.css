@@ -1,0 +1,135 @@
+/* assets/css/custom.css
+   Leadership palette + typographic scale for GitHub Pages (Jekyll)
+   Paste this file into your repo under docs/assets/css/custom.css or assets/css/custom.css
+*/
+
+:root{
+    --color-title: #0B2545;
+    --color-section: #1B3A63;
+    --color-subsection: #2B4F80;
+    --color-body: #222222;
+    --color-link: #0A66C2;
+    --max-width: 980px;
+    --content-padding: 28px;
+    --line-height: 1.6;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Page container */
+body {
+    font-family: var(--font-sans);
+    color: var(--color-body);
+    background: #ffffff;
+    line-height: var(--line-height);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Constrain content for improved readability */
+.container {
+    max-width: var(--max-width);
+    margin: 28px auto;
+    padding: var(--content-padding);
+    box-sizing: border-box;
+}
+
+/* Headings: simulate darker titles via color and weight */
+h1 {
+    color: var(--color-title);
+    font-size: 2.0rem; /* leadership title */
+    line-height: 1.15;
+    margin: 0 0 0.6rem 0;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+h2 {
+    color: var(--color-section);
+    font-size: 1.45rem; /* section */
+    margin: 1.2rem 0 0.5rem 0;
+    font-weight: 600;
+}
+
+h3 {
+    color: var(--color-subsection);
+    font-size: 1.15rem; /* subsection */
+    margin: 1.0rem 0 0.4rem 0;
+    font-weight: 600;
+}
+
+h4 {
+    color: var(--color-subsection);
+    font-size: 1.0rem;
+    margin: 0.8rem 0 0.3rem 0;
+    font-weight: 600;
+}
+
+/* Paragraphs and lists */
+p, li {
+    color: var(--color-body);
+    font-size: 0.98rem;
+    margin: 0 0 0.9rem 0;
+}
+
+/* Code blocks and inline code */
+pre, code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+    background: #f6f8fa;
+    border-radius: 6px;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.92rem;
+    color: #111827;
+}
+
+pre {
+    padding: 1rem;
+    overflow: auto;
+}
+
+/* Links and accents */
+a {
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: 600;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* Blockquote for emphasis */
+blockquote {
+    border-left: 4px solid #e6eef9;
+    background: #fbfdff;
+    padding: 0.6rem 1rem;
+    margin: 0 0 1rem 0;
+    color: #333;
+    border-radius: 4px;
+}
+
+/* Tables */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.6rem 0 1rem 0;
+}
+th, td {
+    border: 1px solid #e6e9ee;
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+th {
+    background: #f7fbff;
+    color: var(--color-section);
+    font-weight: 600;
+}
+
+/* Small screens */
+@media (max-width: 720px) {
+    :root { --max-width: 92%; --content-padding: 18px; }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.2rem; }
+    h3 { font-size: 1.05rem; }
+}
