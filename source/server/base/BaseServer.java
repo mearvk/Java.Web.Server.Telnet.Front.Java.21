@@ -9,6 +9,16 @@ package server.base;
 
 import commons.CommonRails;
 import connections.*;
+import connections.MexicoConnections;
+import connections.NationalConnections;
+import connections.GalacticConnections;
+import connections.logic.IPGeoParser;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -40,6 +50,19 @@ public abstract class BaseServer extends Thread
 
     private final InternationalConnections international_connections = new InternationalConnections();
 
+    // regional registries
+    private final MexicoConnections mexico_connections = new MexicoConnections();
+
+    private final NationalConnections national_connections = new NationalConnections();
+
+    private final GalacticConnections galactic_connections = new GalacticConnections();
+
+    // IP geolocation parser
+    private final IPGeoParser ipGeoParser = new IPGeoParser();
+
+    // directory for connection XML data
+    private final Path CONNECTION_DATA_DIR = Path.of("data", "connections");
+
     public BaseServer()
     {
         System.out.println(this.hash);
@@ -47,7 +70,7 @@ public abstract class BaseServer extends Thread
 
     public BaseServer(final String host, Integer PORT)
     {
-        if(host==null || PORT ==null) throw new SecurityException("//bodi/connect");
+        if(host==null || PORT ==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
         this.HOST = host;
 
@@ -78,7 +101,7 @@ public abstract class BaseServer extends Thread
 
     public BaseServer(Integer PORT)
     {
-        if(PORT ==null) throw new SecurityException("//bodi/connect");
+        if(PORT ==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
         this.PORT = PORT;
 
@@ -127,6 +150,83 @@ public abstract class BaseServer extends Thread
                 connection.server = this;
 
                 CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress::BaseServer] [New remote connection established [remote-ephemeral: "+connection.remote_address+" : local: "+this.PORT +"]]");
+
+                // Attempt to geolocate the new connection and route to regional registries
+                IPGeoParser.GeoInfo geo = null;
+                try
+                {
+                    geo = this.ipGeoParser.parseConnection(connection);
+                }
+                catch (Exception e)
+                {
+                    CommonRails.printSystemComponent(this, this.hashCode(), "[BaseServer] IPGeoParser failed: " + e.getMessage());
+                    geo = null;
+                }
+
+                String regionFile = "galactic.xml";
+
+                if (geo != null && geo.countryCode != null)
+                {
+                    String cc = geo.countryCode.toUpperCase();
+
+                    if ("MX".equals(cc))
+                    {
+                        this.mexico_connections.add(connection);
+
+                        regionFile = "mexico.xml";
+                    }
+                    else if ("US".equals(cc))
+                    {
+                        this.national_connections.add(connection);
+
+                        regionFile = "national.xml";
+                    }
+                    else
+                    {
+                        // keep international for other countries
+                        regionFile = "international.xml";
+                    }
+                }
+                else
+                {
+                    this.galactic_connections.add(connection);
+                }
+
+                try
+                {
+                    if (!Files.exists(CONNECTION_DATA_DIR)) Files.createDirectories(CONNECTION_DATA_DIR);
+
+                    Path out = CONNECTION_DATA_DIR.resolve(regionFile);
+
+                    StringBuilder xml = new StringBuilder();
+
+                    xml.append("<connection>\n");
+
+                    xml.append("  <remoteAddress>").append(escapeXml(connection.remote_address)).append("</remoteAddress>\n");
+
+                    xml.append("  <inetAddress>").append(escapeXml(String.valueOf(connection.internet_address))).append("</inetAddress>\n");
+
+                    if (geo != null)
+                    {
+                        xml.append("  <country>").append(escapeXml(geo.country)).append("</country>\n");
+                        xml.append("  <countryCode>").append(escapeXml(geo.countryCode)).append("</countryCode>\n");
+                        xml.append("  <region>").append(escapeXml(geo.regionName)).append("</region>\n");
+                        xml.append("  <city>").append(escapeXml(geo.city)).append("</city>\n");
+                        xml.append("  <isp>").append(escapeXml(geo.isp)).append("</isp>\n");
+                        xml.append("  <lat>").append(geo.lat).append("</lat>\n");
+                        xml.append("  <lon>").append(geo.lon).append("</lon>\n");
+                    }
+
+                    xml.append("  <timestamp>").append(System.currentTimeMillis()).append("</timestamp>\n");
+
+                    xml.append("</connection>\n");
+
+                    Files.writeString(out, xml.toString(), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                }
+                catch (Exception e)
+                {
+                    CommonRails.printSystemComponent(this, this.hashCode(), "[BaseServer] Failed to write connection xml: " + e.getMessage());
+                }
 
                 try
                 {
@@ -191,4 +291,16 @@ public abstract class BaseServer extends Thread
             se.printStackTrace(System.err);
         }
     }
+
+    private static String escapeXml(final String s)
+    {
+        if (s == null) return "";
+
+        return s.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&apos;");
+    }
 }
+

@@ -50,7 +50,7 @@ public class Connection
 
     public Connection(BaseServer server)
     {
-        if(server==null) throw new SecurityException("//bodi/connect");
+        if(server==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
         this.server = server;
     }
