@@ -1,8 +1,8 @@
 package telnet;
 
 import commons.CommonRails;
-import exceptions.ExceptionHandler;
 import server.nitro.WebExpress;
+//import sim.stochastic;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,15 +26,13 @@ public class TelnetCommunicationProxy
 
     public TelnetProxyCommunicator telnet_proxy_communicator;
 
-    public TelnetOutputBuilder OUTPUT_BUILDER;
+    public TelnetOutputBuilder output_builder;
 
     public TelnetInputBuilder input_builder;
 
-    public TelnetProxyLivenessMonitor liveness_monitor;
-
     public TelnetCommunicationProxy(WebExpress web_express)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Communicator starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::Telnet::Communicator starts .");
 
         this.web_express = web_express;
 
@@ -48,35 +46,13 @@ public class TelnetCommunicationProxy
 
         this.telnet_proxy_communicator = new TelnetProxyCommunicator(this);
 
-        this.OUTPUT_BUILDER = new TelnetOutputBuilder(this);
+        this.output_builder = new TelnetOutputBuilder(this);
 
         this.input_builder = new TelnetInputBuilder(this);
 
-        this.OUTPUT_BUILDER.start();
+        this.output_builder.start();
 
         this.input_builder.start();
-
-        this.liveness_monitor = new TelnetProxyLivenessMonitor(this);
-
-        this.liveness_monitor.start();
-    }
-
-    /** Returns true when the backing process is alive and the writer pipe is open. */
-    public boolean isProxyAlive()
-    {
-        try
-        {
-            if (this.process == null || !this.process.isAlive()) return false;
-
-            if (this.writer != null) this.writer.flush();
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            ExceptionHandler.dispatch(e);
-            return false;
-        }
     }
 
     public static class TelnetProxyCommunicator extends Thread
@@ -93,65 +69,74 @@ public class TelnetCommunicationProxy
         {
             for(;;)
             {
-                StringBuffer buffer;
+                StringBuffer buffer = null;
 
                 try
                 {
-                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
-
                     final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 
                     String line = proxy.reader.readLine();
 
-                    if(line!=null)
+                    if(line != null)
                     {
-                        message.MESSAGE_BUFFER.append(line);
+                        TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
 
-                        while ( (line=proxy.reader.readLine()) !=null)
+                        // collect first line and subsequent available lines
+                        message.message_buffer.append(line);
+
+                        while ((line = proxy.reader.readLine()) != null)
                         {
-                            message.MESSAGE_BUFFER.append(line);
+                            message.message_buffer.append('\n').append(line);
                         }
 
+                        // keep a reference to buffer for optional outbound use
+                        buffer = message.message_buffer;
+
+                        // enqueue received data for input processing
                         proxy.input_builder.telnet_message_queue.add(message);
                     }
                 }
                 catch (Exception e)
                 {
-                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
                 }
-                finally
+
+                // If we have data (buffer), create an outbound message for the output queue
+                if (buffer != null)
                 {
-                    buffer = null;
+                    try
+                    {
+                        TelnetMessageQueue.Message outMsg = new TelnetMessageQueue.Message();
+
+                        outMsg.port = Integer.valueOf(WebExpress.REMOTE_PORT);
+
+                        outMsg.protocol = WebExpress.PROTOCOL;
+
+                        outMsg.socket = proxy.socket;
+
+                        outMsg.message_buffer = buffer;
+
+                        outMsg.time_stamp = new Date();
+
+                        outMsg.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
+
+                        this.telnet_communication_proxy.output_builder.telnet_message_queue.add(outMsg);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace(System.err);
+                    }
+                    finally
+                    {
+                        // check the actual socket if available
+                        try {
+                            CommonRails.SocketUtils.isSocketConnected(this.telnet_communication_proxy.socket);
+                        } catch (Exception ignored) {
+                        }
+                    }
                 }
 
-                try
-                {
-                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
-
-                    message.PORT = Integer.valueOf(WebExpress.REMOTE_PORT);
-
-                    message.protocol = WebExpress.PROTOCOL;
-
-                    message.SOCKET = null;
-
-                    message.MESSAGE_BUFFER = buffer;
-
-                    message.TIMESTAMP = new Date();
-
-                    message.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
-
-                    this.telnet_communication_proxy.OUTPUT_BUILDER.TELNET_MESSAGE_QUEUE.add(message);
-                }
-                catch (Exception e)
-                {
-                    ExceptionHandler.dispatch(e);
-                    e.printStackTrace(System.err);
-                }
-                finally
-                {
-                    CommonRails.SocketUtils.isSocketConnected(null);
-                }
+                try { Thread.sleep(100); } catch (Exception e) { /* throttle loop a bit */ }
             }
         }
     }

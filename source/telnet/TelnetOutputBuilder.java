@@ -1,13 +1,12 @@
 package telnet;
 
 import commons.CommonRails;
-import exceptions.ExceptionHandler;
 
 public class TelnetOutputBuilder extends Thread
 {
     public TelnetCommunicationProxy telnet_communication_proxy;
 
-    public TelnetMessageQueue TELNET_MESSAGE_QUEUE = new TelnetMessageQueue(5000);
+    public TelnetMessageQueue telnet_message_queue = new TelnetMessageQueue(5000);
 
     public TelnetOutputBuilder(TelnetCommunicationProxy telnet_communication_proxy)
     {
@@ -19,59 +18,51 @@ public class TelnetOutputBuilder extends Thread
     {
         while(true)
         {
-            TelnetMessageQueue queue = this.TELNET_MESSAGE_QUEUE;
+            TelnetMessageQueue queue = this.telnet_message_queue;
 
-            try
+            if (queue == null) {
+                try{ Thread.sleep(1000); } catch (Exception e){e.printStackTrace(System.err);} 
+                continue;
+            }
+
+            int i = 0;
+            while (i < queue.messages.size())
             {
-                synchronized (queue)
+                try
                 {
-                    while (queue.size() == 0)
+                    final TelnetMessageQueue.Message message = queue.messages.get(i);
+
+                    final String value = message.message_buffer == null ? "" : message.message_buffer.toString();
+
+                    final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
+
+                    if(!value.isEmpty())
                     {
-                        try { queue.wait(); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); return; }
+                        CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder::Output >> sending message ["+value+"]");
+
+                        proxy.writer.write(value);
+
+                        proxy.writer.flush();
+
+                        queue.messages.remove(i);
+                        // do not increment i, list shifted
                     }
-
-                    while (queue.messages.size() > 0)
+                    else
                     {
-                        try
-                        {
-                            final TelnetMessageQueue.Message message = queue.messages.get(0);
+                        CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder::Output >> removing empty message.");
 
-                            final String value = message.MESSAGE_BUFFER.toString();
-
-                            final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
-
-                            if(!value.isEmpty())
-                            {
-                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> sending message ["+value+"]");
-
-                                if(CommonRails.isConnected(proxy.writer))
-                                    proxy.writer.write(value);
-
-                                if(CommonRails.isConnected(proxy.writer))
-                                    proxy.writer.flush();
-
-                                queue.messages.removeFirst();
-                            }
-                            else
-                            {
-                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> removing sorted-simple message.");
-
-                                queue.messages.remove(0);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            ExceptionHandler.dispatch(e);
-                            e.printStackTrace(System.err);
-                        }
+                        queue.messages.remove(i);
+                        // do not increment i, list shifted
                     }
                 }
+                catch (Exception e)
+                {
+                    e.printStackTrace(System.err);
+                    i++; // advance on error to avoid infinite loop
+                }
             }
-            catch (Exception e)
-            {
-                ExceptionHandler.dispatch(e);
-                e.printStackTrace(System.err);
-            }
+
+            try{ Thread.sleep(1000); } catch (Exception e){e.printStackTrace(System.err);} 
         }
     }
 }
