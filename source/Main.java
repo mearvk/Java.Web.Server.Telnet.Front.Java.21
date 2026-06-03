@@ -60,7 +60,7 @@ public class Main
 
             nitro.HOST = "localhost";
 
-            nitro.THREAD_NAME = "United States::D500::WebExpress";
+            nitro.THREAD_NAME = "United States D500 WebExpress";
 
             nitro.TELNET_PROXY_ENABLED = Boolean.TRUE;
 

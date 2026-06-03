@@ -61,9 +61,9 @@ public class TraderModule
 
         BitcoinAmericaAndNewYorkDate ESTDate = new BitcoinAmericaAndNewYorkDate();
 
-        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::Bitcoin >> opens in North Carolina on Date [["+ESTDate.EST_Time+"]]");
+        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress Bitcoin >> opens in North Carolina on Date [["+ESTDate.EST_Time+"]]");
 
-        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress::Bitcoin >> opens in Japan on Date [["+JAPANDate.PACIFIC_Time +"]]");
+        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress Bitcoin >> opens in Japan on Date [["+JAPANDate.PACIFIC_Time +"]]");
     }
 
     public void send_message(StringBuffer buffer)
@@ -120,13 +120,13 @@ public class TraderModule
             {
                 return_value.append(message);
 
-                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> "+message);
+                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress Bitcoin >> "+message);
 
                 while((message=reader.readLine())!=null)
                 {
                     return_value.append(message);
 
-                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> "+message);
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress Bitcoin >> "+message);
                 }
 
                 return return_value.toString();
