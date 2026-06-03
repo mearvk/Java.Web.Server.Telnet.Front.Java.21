@@ -39,7 +39,7 @@ public class TelnetCommunicationProxy
 
     public TelnetCommunicationProxy(WebExpress WEB_EXPRESS)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::Telnet::Communicator starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Communicator starts .");
 
         this.WEB_EXPRESS = WEB_EXPRESS;
 

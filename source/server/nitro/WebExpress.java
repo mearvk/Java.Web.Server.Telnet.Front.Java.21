@@ -69,7 +69,7 @@ public class WebExpress extends BaseServer
 
     public WebExpress()
     {
-        this.setName("United States::D500::WebExpress");
+        this.setName("United States D500 WebExpress");
     }
 
     public WebExpress(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
