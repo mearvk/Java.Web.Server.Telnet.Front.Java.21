@@ -55,6 +55,12 @@ public class CommonRails
 
     }
 
+    // Color constants
+    private static final String ANSI_WHITE = "\033[38;5;15m";
+    private static final String ANSI_DEEP_RED = "\033[38;5;160m";
+    private static final String ANSI_SILVER = "\033[38;5;250m";
+    private static final String ANSI_RESET = "\u001B[0m";
+
     public static <T> Integer size(ArrayList<T> list)
     {
         return list.size();
@@ -146,12 +152,27 @@ public class CommonRails
         // Uppercase specific keywords anywhere in the line when they appear as whole words
         if (lineFixed != null)
         {
-            String[] keywords = new String[]{"telnet", "proxy", "installer", "communicator", "webexpress"};
+            String[] keywords = new String[]{"telnet", "proxy", "installer", "communicator", "webexpress", "messagequeuesorter", "messagequeuehandler", "serversocket"};
             for (String kw : keywords)
             {
                 // (?i) for case-insensitive, \b for word boundary, use Pattern.quote to avoid accidental regex metacharacters
                 lineFixed = lineFixed.replaceAll("(?i)\\b" + java.util.regex.Pattern.quote(kw) + "\\b", kw.toUpperCase());
             }
+
+            // Colorize JAVA and TM symbol: make JAVA full white, TM in deep red-burgundy
+            try
+            {
+                // Replace standalone JAVA (case-insensitive) with white-colored version
+                lineFixed = lineFixed.replaceAll("(?i)\\bJAVA\\b", ANSI_WHITE + "JAVA" + ANSI_RESET);
+
+                // Replace trademark symbol ™ with deep red color
+                lineFixed = lineFixed.replaceAll("™", ANSI_DEEP_RED + "™" + ANSI_RESET);
+
+                // Color NitroExpress and "National Finance" in white-silver
+                lineFixed = lineFixed.replaceAll("(?i)\\bNitroExpress\\b", ANSI_SILVER + "NitroExpress" + ANSI_RESET);
+                lineFixed = lineFixed.replaceAll("(?i)National Finance", ANSI_SILVER + "National Finance" + ANSI_RESET);
+            }
+            catch (Throwable ignored) {}
         }
 
         String reference = object_id + " " + date + " " + classnamePadded + " " + lineFixed;
@@ -296,20 +317,23 @@ public class CommonRails
 
         Object printer = (owner == null) ? CommonRails.class : owner;
 
+        // derive a process descriptor from ProcessBuilder or Process info
+        final String procDesc = getProcessDescriptor(pb, process);
+
         try
         {
-            CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails registerProcess >> registered process: " + process + " . ");
+            CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails REGISTERED: " + process + " [proc: " + procDesc + "] . ");
 
             // Attach onExit listener
             process.onExit().thenAccept(p -> {
                 try
                 {
-                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " exit=" + p.exitValue() + " . ");
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " exit=" + p.exitValue() + " [proc: " + procDesc + "] . ");
                 }
                 catch (Throwable t)
                 {
                     // Best-effort printing
-                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " . ");
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " [proc: " + procDesc + "] . ");
                 }
                 finally
                 {
@@ -323,7 +347,7 @@ public class CommonRails
                 {
                     if (!process.waitFor(2, TimeUnit.HOURS))
                     {
-                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process timeout (2 hours) exceeded; destroying: " + process + " . ");
+                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process timeout (2 hours) exceeded; destroying: " + process + " [proc: " + procDesc + "] . ");
 
                         try { process.destroyForcibly(); } catch (Throwable ignored) {}
                     }
@@ -346,11 +370,11 @@ public class CommonRails
                     {
                         int rv = process.exitValue();
 
-                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails processExited(watcher) >> process closed: " + process + " exit=" + rv + " . ");
+                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails processExited(watcher) >> process closed: " + process + " exit=" + rv + " [proc: " + getProcessDescriptor(null, process) + "] . ");
                     }
                     else
                     {
-                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process watcher timeout (2 hours) exceeded; destroying: " + process + " . ");
+                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process watcher timeout (2 hours) exceeded; destroying: " + process + " [proc: " + getProcessDescriptor(null, process) + "] . ");
 
                         try { process.destroyForcibly(); } catch (Throwable ignored) {}
                     }
@@ -365,6 +389,46 @@ public class CommonRails
                 }
             }, "CommonRails-ProcessWatcher-" + process.hashCode()).start();
         }
+    }
+
+    /**
+     * Derive a human-friendly process descriptor for printing.
+     */
+    protected static String getProcessDescriptor(ProcessBuilder pb, Process process)
+    {
+        try
+        {
+            if (pb != null)
+            {
+                try
+                {
+                    java.util.List<String> cmd = pb.command();
+                    if (cmd != null && !cmd.isEmpty()) return String.join(" ", cmd);
+                }
+                catch (Throwable ignored) {}
+            }
+
+            if (process != null)
+            {
+                try
+                {
+                    ProcessHandle.Info info = process.info();
+                    if (info.command().isPresent())
+                    {
+                        String cmd = info.command().get();
+                        String[] args = info.arguments().orElse(new String[0]);
+                        if (args.length > 0) return cmd + " " + String.join(" ", args);
+                        return cmd;
+                    }
+                }
+                catch (Throwable ignored) {}
+
+                return process.toString();
+            }
+        }
+        catch (Throwable ignored) {}
+
+        return "<unknown>";
     }
 
     public static synchronized List<Process> getRegisteredProcesses()
@@ -416,7 +480,7 @@ public class CommonRails
      */
     public static class IranianWedding
     {
-        private static final String BURGUNDY_ANSI = "\033[38;5;88m";
+        private static final String BURGUNDY_ANSI = "\033[38;5;160m";
         private static final String RESET_ANSI = "\u001B[0m";
 
         /**
