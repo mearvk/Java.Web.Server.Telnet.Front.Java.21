@@ -85,7 +85,7 @@ public class ConnectionPoller extends Thread
                     {
                         EnglishArithemeter arithemeter = new EnglishArithemeter(connections.size());
 
-                        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> new connection from ["+connection.socket.getRemoteSocketAddress()+"] total connection count ["+arithemeter.result.arithemetic+" : "+arithemeter.result.numeral+"].");
+                        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> new connection from ["+connection.socket.getRemoteSocketAddress()+"] total connection count ["+arithemeter.result.arithemetic+" : "+arithemeter.result.numeral+"].");
 
                         TelnetMessageQueue.Message telnet_message = new TelnetMessageQueue.Message();
 
@@ -130,7 +130,7 @@ public class ConnectionPoller extends Thread
 
                                 for(line=null;(line=reader.readLine())!=null;)
                                 {
-                                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy message ["+line+"].");
+                                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> reading in input ["+message.socket+"] for Telnet Proxy message ["+line+"].");
 
                                     message.socket.setSoTimeout(ConnectionPoller.READ_WRITE_STANDARD_SOCKET_TIMEOUT);
 
@@ -150,13 +150,13 @@ public class ConnectionPoller extends Thread
 
                             connections.remove(connection);
 
-                            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> graceful disconnect ["+message.socket.getRemoteSocketAddress()+"] ["+ste.getMessage()+"] total connection count ["+connections.size()+"].");
+                            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> graceful disconnect ["+message.socket.getRemoteSocketAddress()+"] ["+ste.getMessage()+"] total connection count ["+connections.size()+"].");
                         }
                         catch (Exception e)
                         {
                             connections.remove(connection);
 
-                            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> socket exception ["+e.getMessage()+"].");
+                            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> socket exception ["+e.getMessage()+"].");
                         }
                         finally
                         {
@@ -168,7 +168,7 @@ public class ConnectionPoller extends Thread
                                 {
                                     current_connections.remove(latent);
 
-                                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> closed a sleeping turtle ["+latent.socket+"].");
+                                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed a sleeping turtle ["+latent.socket+"].");
                                 }
                             }
 
@@ -189,14 +189,14 @@ public class ConnectionPoller extends Thread
                         }
                         catch (Exception e)
                         {
-                            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> closed connection close.");
+                            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed connection close.");
                         }
                     }
                 }
             }
             catch (SocketTimeoutException ste)
             {
-                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> closing socket due to timeout ["+message.socket+"].");
+                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closing socket due to timeout ["+message.socket+"].");
 
                 current_connections.remove(connection);
 
@@ -205,7 +205,7 @@ public class ConnectionPoller extends Thread
                     this.WEB_EXPRESS.MESSAGE_QUEUE.add(message);
                 }
 
-                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> new connection count ["+current_connections.size()+"].");
+                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> new connection count ["+current_connections.size()+"].");
 
                 try
                 {
@@ -216,7 +216,7 @@ public class ConnectionPoller extends Thread
                 }
                 catch (Exception e)
                 {
-                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> closed connection close.");
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed connection close.");
                 }
             }
             catch (Exception e)
@@ -231,7 +231,7 @@ public class ConnectionPoller extends Thread
                 }
                 catch (Exception e)
                 {
-                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> closed connection on main polling thread sleep.");
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed connection on main polling thread sleep.");
                 }
             }
 

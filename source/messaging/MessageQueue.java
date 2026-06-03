@@ -9,7 +9,6 @@ package messaging;
 
 import commons.CommonRails;
 import connections.Connection;
-import exceptions.ExceptionHandler;
 import server.base.BaseServer;
 
 import java.io.BufferedWriter;
@@ -54,7 +53,7 @@ public class MessageQueue
 
         try
         {
-            writer = new BufferedWriter(new OutputStreamWriter(message.SOCKET.getOutputStream()));
+            writer = new BufferedWriter(new OutputStreamWriter(message.socket.getOutputStream()));
 
             writer.write(message.MESSAGE_BUFFER.toString(), 0, message.MESSAGE_BUFFER.length());
 
@@ -62,12 +61,11 @@ public class MessageQueue
 
             message.MESSAGE_BUFFER = new StringBuffer();
 
-            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue TelnetQuickSend >> writing initial handshake to Telnet Remote System ["+message.SOCKET +"].");
+            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue TelnetQuickSend >> writing initial handshake to Telnet Remote System ["+message.socket+"].");
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
-            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue TelnetQuickSend >> attempted writing initial handshake to Telnet Remote System ["+message.SOCKET +"].");
+            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue TelnetQuickSend >> attempted writing initial handshake to Telnet Remote System ["+message.socket+"].");
         }
     }
 
@@ -91,14 +89,14 @@ public class MessageQueue
 
     public static class Message
     {
-        public Connection CONNECTION;
+        public Connection connection;
 
-        public Socket SOCKET;
+        public Socket socket;
 
-        public Date TIME_STAMP;
+        public Date time_stamp;
 
         public StringBuffer MESSAGE_BUFFER = new StringBuffer();
 
-        public InetAddress INTERNET_ADDRESS;
+        public InetAddress internet_address;
     }
 }

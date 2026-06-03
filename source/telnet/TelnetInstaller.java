@@ -32,7 +32,7 @@ public class TelnetInstaller
 
     public TelnetInstaller(WebExpress WEB_EXPRESS)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::Telnet::Installer starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Installer starts .");
 
         try
         {
@@ -53,7 +53,7 @@ public class TelnetInstaller
 
             this.writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 
-            //commons.CommonRails._long("TelnetCommunicator::Close::Hook", this.web_express, 1000);
+            //commons.CommonRails._long("TelnetCommunicator Close Hook", this.web_express, 1000);
         }
         catch (Exception e)
         {

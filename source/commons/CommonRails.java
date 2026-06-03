@@ -78,7 +78,7 @@ public class CommonRails
 
         switch (orgasm)
         {
-            case "TelnetCommunicator::Close::Hook":
+            case "TelnetCommunicator Close Hook":
 
                 try
                 {
@@ -144,18 +144,18 @@ public class CommonRails
 
         try
         {
-            CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails::registerProcess >> registered process: " + process);
+            CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails registerProcess >> registered process: " + process);
 
             // Attach onExit listener
             process.onExit().thenAccept(p -> {
                 try
                 {
-                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails::processExited >> process closed: " + p + " exit=" + p.exitValue());
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " exit=" + p.exitValue());
                 }
                 catch (Throwable t)
                 {
                     // Best-effort printing
-                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails::processExited >> process closed: " + p);
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p);
                 }
                 finally
                 {
@@ -171,7 +171,7 @@ public class CommonRails
                 {
                     int rv = process.waitFor();
 
-                    CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails::processExited(watcher) >> process closed: " + process + " exit=" + rv);
+                    CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails processExited(watcher) >> process closed: " + process + " exit=" + rv);
                 }
                 catch (Exception e)
                 {
@@ -246,7 +246,7 @@ public class CommonRails
                     System.out.println(output);
                 }
 
-                CommonRails.printSystemComponent(owner == null ? CommonRails.class : owner, (owner==null?CommonRails.class.hashCode():owner.hashCode()), ". IranianWedding::presentation printed .");
+                //CommonRails.printSystemComponent(owner == null ? CommonRails.class : owner, (owner==null?CommonRails.class.hashCode():owner.hashCode()), ". IranianWedding presentation printed .");
             }
             catch (Exception e)
             {

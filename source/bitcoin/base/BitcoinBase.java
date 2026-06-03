@@ -58,9 +58,9 @@ public class BitcoinBase
 
         BitcoinAmericaAndNewYorkDate ESTDate = new BitcoinAmericaAndNewYorkDate();
 
-        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> opens in North Carolina on [Date: "+ESTDate.EST_Time);
+        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress Bitcoin >> opens in North Carolina on [Date: "+ESTDate.EST_Time);
 
-        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> opens in Japan on [Date: "+JAPANDate.PACIFIC_Time);
+        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress Bitcoin >> opens in Japan on [Date: "+JAPANDate.PACIFIC_Time);
     }
 
     public void send_message(StringBuffer buffer)
@@ -73,67 +73,17 @@ public class BitcoinBase
 
     }
 
-    private boolean isWindows()
-    {
-        return System.getProperty("os.name").toLowerCase().contains("win");
-    }
-
-    private String runCommand(final String cmd)
-        throws IOException
-    {
-        try
-        {
-            ProcessBuilder pb;
-
-            if (isWindows())
-            {
-                pb = new ProcessBuilder("cmd", "/c", cmd);
-            }
-            else
-            {
-                pb = new ProcessBuilder("sh", "-c", cmd);
-            }
-
-            pb.redirectErrorStream(true);
-
-            Process process = pb.start();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-            String line;
-
-            StringBuilder output = new StringBuilder();
-
-            while ((line = reader.readLine()) != null)
-            {
-                output.append(line).append('\n');
-
-                CommonRails.printSystemComponent(this, this.hashCode(), "BitcoinBase::runCommand >> "+line);
-            }
-
-            try { process.waitFor(); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
-
-            return output.toString();
-        }
-        catch (IOException ioe)
-        {
-            throw ioe;
-        }
-    }
-
     public void start_server_instance(final String url)
     {
         try
         {
-            String cmd = BITCOIND+SPACE+BITCOIND_START_ARGS;
+            Process process = Runtime.getRuntime().exec(BITCOIND+SPACE+BITCOIND_START_ARGS);
 
-            String out = runCommand(cmd);
-
-            CommonRails.printSystemComponent(this, this.hashCode(), "start_server_instance output: "+out);
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "start_server_instance failed: "+e.getMessage());
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -141,15 +91,13 @@ public class BitcoinBase
     {
         try
         {
-            String cmd = BITCOIN_CLI+SPACE+BITCOIN_CLI_LOAD_WALLET_ARGS;
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_LOAD_WALLET_ARGS);
 
-            String out = runCommand(cmd);
-
-            CommonRails.printSystemComponent(this, this.hashCode(), "load_wallet output: "+out);
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "load_wallet failed: "+e.getMessage());
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -157,24 +105,37 @@ public class BitcoinBase
     {
         try
         {
-            String cmd = BITCOIN_CLI+SPACE+ BITCOIN_GET_WALLET_NAME_ARGS;
+            Process process = Runtime.getRuntime().exec(BITCOIND+SPACE+ BITCOIN_GET_WALLET_NAME_ARGS);
 
-            String out = runCommand(cmd);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-            if (out != null && !out.isEmpty())
+            String message;
+
+            StringBuilder return_value = new StringBuilder();
+
+            if((message=reader.readLine())!=null)
             {
-                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::Bitcoin >> "+out.trim());
+                return_value.append(message);
 
-                return out.trim();
+                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress Bitcoin >> "+message);
+
+                while((message=reader.readLine())!=null)
+                {
+                    return_value.append(message);
+
+                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress Bitcoin >> "+message);
+                }
+
+                return return_value.toString();
             }
 
-            CommonRails.printSystemComponent(this, this.hashCode(), "get_wallet_name returned empty");
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
 
             return "-1";
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "get_wallet_name failed: "+e.getMessage());
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
 
         return "-1";
@@ -202,15 +163,13 @@ public class BitcoinBase
 
         try
         {
-            String cmd = BITCOIN_CLI_DELETE_WALLET_CMD+SPACE+WALLET_DIR;
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI_DELETE_WALLET_CMD+SPACE+WALLET_DIR);
 
-            String out = runCommand(cmd);
-
-            CommonRails.printSystemComponent(this, this.hashCode(), "delete_wallet output: "+out);
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "delete_wallet failed: "+e.getMessage());
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -218,15 +177,13 @@ public class BitcoinBase
     {
         try
         {
-            String cmd = BITCOIN_CLI+SPACE+BITCOIN_CLI_UNLOAD_WALLET_ARGS;
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_UNLOAD_WALLET_ARGS);
 
-            String out = runCommand(cmd);
-
-            CommonRails.printSystemComponent(this, this.hashCode(), "unload_wallet output: "+out);
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "unload_wallet failed: "+e.getMessage());
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -234,15 +191,13 @@ public class BitcoinBase
     {
         try
         {
-            String cmd = BITCOIN_CLI+SPACE+BITCOIN_CLI_RENAME_WALLET_ARGS;
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_RENAME_WALLET_ARGS);
 
-            String out = runCommand(cmd);
-
-            CommonRails.printSystemComponent(this, this.hashCode(), "rename_wallet output: "+out);
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "rename_wallet failed: "+e.getMessage());
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -250,15 +205,13 @@ public class BitcoinBase
     {
         try
         {
-            String cmd = BITCOIN_CLI+SPACE+BITCOIN_CLI_ADD_NEW_WALLET_ARGS;
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+BITCOIN_CLI_ADD_NEW_WALLET_ARGS);
 
-            String out = runCommand(cmd);
-
-            CommonRails.printSystemComponent(this, this.hashCode(), "add_new_wallet output: "+out);
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "add_new_wallet failed: "+e.getMessage());
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 
@@ -266,15 +219,13 @@ public class BitcoinBase
     {
         try
         {
-            String cmd = BITCOIN_CLI+SPACE+ BITCOIN_CLI_SEND_LOCAL_WALLET_TO_REMOTE_WALLET_ARGS;
+            Process process = Runtime.getRuntime().exec(BITCOIN_CLI+SPACE+ BITCOIN_CLI_SEND_LOCAL_WALLET_TO_REMOTE_WALLET_ARGS);
 
-            String out = runCommand(cmd);
-
-            CommonRails.printSystemComponent(this, this.hashCode(), "send_local_wallet_to_remote_wallet output: "+out);
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
         }
         catch (Exception e)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "send_local_wallet_to_remote_wallet failed: "+e.getMessage());
+            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
 }

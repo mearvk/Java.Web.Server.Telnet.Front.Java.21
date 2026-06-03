@@ -7,7 +7,6 @@ import commons.CommonRails;
 import server.nitro.NitroWebExpress;
 import server.nitro.WebExpress;
 
-import exceptions.ExceptionHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -62,9 +61,9 @@ public class TraderModule
 
         BitcoinAmericaAndNewYorkDate ESTDate = new BitcoinAmericaAndNewYorkDate();
 
-        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress Bitcoin >> opens in North Carolina on Date "+ESTDate.EST_Time+" . ");
+        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress Bitcoin >> opens in North Carolina on Date [["+ESTDate.EST_Time+"]]");
 
-        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress Bitcoin >> opens in Japan on Date "+JAPANDate.PACIFIC_Time+" . ");
+        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress Bitcoin >> opens in Japan on Date [["+JAPANDate.PACIFIC_Time +"]]");
     }
 
     public void send_message(StringBuffer buffer)
@@ -87,7 +86,6 @@ public class TraderModule
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -102,7 +100,6 @@ public class TraderModule
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -141,7 +138,6 @@ public class TraderModule
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
 
@@ -176,7 +172,6 @@ public class TraderModule
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -191,7 +186,6 @@ public class TraderModule
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -206,7 +200,6 @@ public class TraderModule
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -221,7 +214,6 @@ public class TraderModule
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -236,7 +228,6 @@ public class TraderModule
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
