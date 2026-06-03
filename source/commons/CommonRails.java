@@ -59,7 +59,7 @@ public class CommonRails
         String classname = "[Current: "+object.getClass().getSimpleName()+"]";
 
         // Pad the classname field so that everything after it starts at the same column
-        int CLASSNAME_PAD = 30; // adjust as needed for wider class names
+        int CLASSNAME_PAD = 31; // adjusted: one more column for clearer alignment
         String classnamePadded = String.format("%-" + CLASSNAME_PAD + "s", classname);
 
         String compliant_hashcode = String.format("%010d", hashcode);
