@@ -1,10 +1,3 @@
-/**
- * File-level Javadoc.
- *
- * @author Max Rupplin
- * @date June 03 2026 EST
- */
-
 package telnet;
 
 import commons.CommonRails;
@@ -27,56 +20,53 @@ public class TelnetOutputBuilder extends Thread
         {
             TelnetMessageQueue queue = this.telnet_message_queue;
 
-            if (queue == null) {
-                try{ Thread.sleep(1000); } catch (Exception e){e.printStackTrace(System.err);} 
-                continue;
-            }
-
-            int i = 0;
-            while (i < queue.messages.size())
+            try
             {
-                try
+                synchronized (queue)
                 {
-                    final TelnetMessageQueue.Message message = queue.messages.get(i);
-
-                    final String value = message.message_buffer == null ? "" : message.message_buffer.toString();
-
-                    final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
-
-                    if (proxy == null || proxy.writer == null)
+                    while (queue.size() == 0)
                     {
-                        // advance to avoid stuck on null proxy
-                        i++;
-                        continue;
+                        try { queue.wait(); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); return; }
                     }
 
-                    if(!value.isEmpty())
+                    while (queue.messages.size() > 0)
                     {
-                        CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder::Output >> sending message ["+value+"]");
+                        try
+                        {
+                            final TelnetMessageQueue.Message message = queue.messages.get(0);
 
-                        proxy.writer.write(value);
+                            final String value = message.message_buffer.toString();
 
-                        proxy.writer.flush();
+                            final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 
-                        queue.messages.remove(i);
-                        // do not increment i, list shifted
+                            if(!value.isEmpty())
+                            {
+                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder::Output >> sending message ["+message+"]");
+
+                                proxy.writer.write(value);
+
+                                proxy.writer.flush();
+
+                                queue.messages.remove(0);
+                            }
+                            else
+                            {
+                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder::Output >> removing sorted-simple message.");
+
+                                queue.messages.remove(0);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace(System.err);
+                        }
                     }
-                    else
-                    {
-                        CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder::Output >> removing empty message.");
-
-                        queue.messages.remove(i);
-                        // do not increment i, list shifted
-                    }
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace(System.err);
-                    i++; // advance on error to avoid infinite loop
                 }
             }
-
-            try{ Thread.sleep(1000); } catch (Exception e){e.printStackTrace(System.err);} 
+            catch (Exception e)
+            {
+                e.printStackTrace(System.err);
+            }
         }
     }
 }
