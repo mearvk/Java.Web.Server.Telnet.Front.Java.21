@@ -1,6 +1,6 @@
 package server;
 
-import bitcoin.BitcoinBase;
+import bitcoin.base.BitcoinBase;
 import commons.CommonRails;
 import encryption.AES2;
 import messaging.MessageQueue;
