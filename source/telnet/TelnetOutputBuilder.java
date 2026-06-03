@@ -36,6 +36,13 @@ public class TelnetOutputBuilder extends Thread
 
                     final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 
+                    if (proxy == null || proxy.writer == null)
+                    {
+                        // advance to avoid stuck on null proxy
+                        i++;
+                        continue;
+                    }
+
                     if(!value.isEmpty())
                     {
                         CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder::Output >> sending message ["+value+"]");

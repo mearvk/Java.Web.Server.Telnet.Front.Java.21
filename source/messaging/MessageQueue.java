@@ -38,6 +38,13 @@ public class MessageQueue
     {
         BufferedWriter writer;
 
+        if (message == null || message.socket == null || message.MESSAGE_BUFFER == null)
+        {
+            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue::TelnetQuickSend >> null message, socket, or buffer; skipping send.");
+
+            return;
+        }
+
         try
         {
             writer = new BufferedWriter(new OutputStreamWriter(message.SOCKET.getOutputStream()));
