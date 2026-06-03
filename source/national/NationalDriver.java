@@ -50,53 +50,94 @@ public class NationalDriver
      */
     public static synchronized void printCorrectedOrder()
     {
-        List<String> nitro = new ArrayList<>();
-        List<String> web = new ArrayList<>();
-        List<String> base = new ArrayList<>();
-        List<String> telnet = new ArrayList<>();
-        List<String> aes = new ArrayList<>();
-        List<String> bitcoin = new ArrayList<>();
-        List<String> remainder = new ArrayList<>();
+        class Entry { String ref; long ts; int idx; Entry(String r,long t,int i){ref=r;ts=t;idx=i;} }
 
+        List<Entry> nitro = new ArrayList<>();
+        List<Entry> web = new ArrayList<>();
+        List<Entry> base = new ArrayList<>();
+        List<Entry> telnet = new ArrayList<>();
+        List<Entry> aes = new ArrayList<>();
+        List<Entry> bitcoin = new ArrayList<>();
+        List<Entry> remainder = new ArrayList<>();
+
+        int index = 0;
         for (String ref : STARTUP_REFERENCES)
         {
             String cn = extractClassName(ref);
             String low = cn.toLowerCase();
+            long ts = extractTimestamp(ref); // may be -1 on parse failure
 
-            if (cn.equals("NitroWebExpress") || low.contains("nitrowebexpress")) nitro.add(ref);
-            else if (cn.equals("WebExpress") || low.contains("webexpress")) web.add(ref);
-            else if (cn.equals("BaseServer") || low.contains("baseserver")) base.add(ref);
-            else if (low.contains("telnet")) telnet.add(ref);
-            else if (low.contains("aes") || low.contains("aesc") || low.contains("aesen")) aes.add(ref);
-            else if (low.contains("bitcoin")) bitcoin.add(ref);
-            else remainder.add(ref);
+            if (cn.equalsIgnoreCase("NitroWebExpress") || low.contains("nitrowebexpress")) nitro.add(new Entry(ref, ts, index));
+            else if (cn.equalsIgnoreCase("WebExpress") || low.contains("webexpress")) web.add(new Entry(ref, ts, index));
+            else if (cn.equalsIgnoreCase("BaseServer") || low.contains("baseserver")) base.add(new Entry(ref, ts, index));
+            else if (low.contains("telnet")) telnet.add(new Entry(ref, ts, index));
+            else if (low.contains("aes") || low.contains("aesc") || low.contains("aesen")) aes.add(new Entry(ref, ts, index));
+            else if (low.contains("bitcoin")) bitcoin.add(new Entry(ref, ts, index));
+            else remainder.add(new Entry(ref, ts, index));
+
+            index++;
         }
+
+        // Sort each group by timestamp (ascending). If timestamp unknown (-1), preserve original index ordering.
+        java.util.Comparator<Entry> cmp = (a,b) -> {
+            if (a.ts != -1 && b.ts != -1) return Long.compare(a.ts, b.ts);
+            if (a.ts != -1) return -1;
+            if (b.ts != -1) return 1;
+            return Integer.compare(a.idx, b.idx);
+        };
+
+        nitro.sort(cmp); web.sort(cmp); base.sort(cmp); telnet.sort(cmp); aes.sort(cmp); bitcoin.sort(cmp); remainder.sort(cmp);
 
         // Print in the requested sequence using CommonRails.delayableFinePrinter to preserve formatting/animation.
         try
         {
-            for (String s : nitro) CommonRails.delayableFinePrinter(s, 21);
-            for (String s : web) CommonRails.delayableFinePrinter(s, 21);
-            for (String s : base) CommonRails.delayableFinePrinter(s, 21);
-            for (String s : telnet) CommonRails.delayableFinePrinter(s, 21);
-            for (String s : aes) CommonRails.delayableFinePrinter(s, 21);
-            for (String s : bitcoin) CommonRails.delayableFinePrinter(s, 21);
-            for (String s : remainder) CommonRails.delayableFinePrinter(s, 21);
+            for (Entry e : nitro) CommonRails.delayableFinePrinter(e.ref, 21);
+            for (Entry e : web) CommonRails.delayableFinePrinter(e.ref, 21);
+            for (Entry e : base) CommonRails.delayableFinePrinter(e.ref, 21);
+            for (Entry e : telnet) CommonRails.delayableFinePrinter(e.ref, 21);
+            for (Entry e : aes) CommonRails.delayableFinePrinter(e.ref, 21);
+            for (Entry e : bitcoin) CommonRails.delayableFinePrinter(e.ref, 21);
+            for (Entry e : remainder) CommonRails.delayableFinePrinter(e.ref, 21);
         }
         catch (Throwable t)
         {
             // best-effort printing; if CommonRails printing fails, fall back to System.out
             try
             {
-                for (String s : nitro) System.out.println(s);
-                for (String s : web) System.out.println(s);
-                for (String s : base) System.out.println(s);
-                for (String s : telnet) System.out.println(s);
-                for (String s : aes) System.out.println(s);
-                for (String s : bitcoin) System.out.println(s);
-                for (String s : remainder) System.out.println(s);
+                for (Entry e : nitro) System.out.println(e.ref);
+                for (Entry e : web) System.out.println(e.ref);
+                for (Entry e : base) System.out.println(e.ref);
+                for (Entry e : telnet) System.out.println(e.ref);
+                for (Entry e : aes) System.out.println(e.ref);
+                for (Entry e : bitcoin) System.out.println(e.ref);
+                for (Entry e : remainder) System.out.println(e.ref);
             }
             catch (Throwable ignored) {}
+        }
+    }
+
+    /**
+     * Extract epoch millis from the reference's Date field. Returns -1 on failure.
+     */
+    protected static long extractTimestamp(String reference)
+    {
+        if (reference == null) return -1;
+        int idx = reference.indexOf("[Date:");
+        if (idx < 0) return -1;
+        int start = idx + "[Date:".length();
+        int end = reference.indexOf(']', start);
+        if (end < 0) return -1;
+        String dateText = reference.substring(start, end).trim();
+        // dateText format expected: yyyy-MM-dd HH:mm:ss z
+        try
+        {
+            java.text.SimpleDateFormat fmt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+            java.util.Date d = fmt.parse(dateText);
+            return d.getTime();
+        }
+        catch (Exception e)
+        {
+            return -1;
         }
     }
 

@@ -63,7 +63,7 @@ public class CommonRails
     public static void printSystemComponent(Object object, Integer hashcode, String line)
     {
         // Build the [Current: ...] field and pad the content inside the brackets to the desired total width
-        String inner = "Current: " + object.getClass().getSimpleName();
+        String inner = "Current: @" + object.getClass().getSimpleName();
         int innerPad = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
         String classname = "[" + inner + " ".repeat(innerPad) + "]";
 
@@ -84,21 +84,73 @@ public class CommonRails
         String lineFixed = line;
         if (lineFixed != null && lineFixed.length() > 0)
         {
+            int len = lineFixed.length();
             int i = 0;
             // skip non-alphanumeric leading characters (punctuation, spaces)
-            while (i < lineFixed.length() && !Character.isLetterOrDigit(lineFixed.charAt(i))) i++;
+            while (i < len && !Character.isLetterOrDigit(lineFixed.charAt(i))) i++;
 
-            int start = i;
-            while (i < lineFixed.length() && (Character.isLetterOrDigit(lineFixed.charAt(i)) || lineFixed.charAt(i) == '_')) i++;
+            int start1 = i;
+            while (i < len && (Character.isLetterOrDigit(lineFixed.charAt(i)) || lineFixed.charAt(i) == '_')) i++;
+            int end1 = i;
 
-            if (start < i)
+            if (start1 < end1)
             {
-                String token = lineFixed.substring(start, i);
+                String token1 = lineFixed.substring(start1, end1);
 
-                // Replace token with fully uppercased form
-                String upper = token.toUpperCase();
+                // Replace token1 with fully uppercased form
+                String upper1 = token1.toUpperCase();
 
-                lineFixed = lineFixed.substring(0, start) + upper + lineFixed.substring(i);
+                lineFixed = lineFixed.substring(0, start1) + upper1 + lineFixed.substring(end1);
+
+                // find the second token; allow dots, colons and dashes (for IPs/hosts/ports)
+                len = lineFixed.length();
+                i = start1 + upper1.length();
+
+                // helper to identify token characters for second token
+                java.util.function.IntPredicate isTokenChar = c -> (Character.isLetterOrDigit((char)c) || c == '_' || c == '.' || c == ':' || c == '-');
+
+                // skip non-token characters
+                while (i < len && !isTokenChar.test(lineFixed.charAt(i))) i++;
+
+                int start2 = i;
+                while (i < len && isTokenChar.test(lineFixed.charAt(i))) i++;
+                int end2 = i;
+
+                if (start2 < end2)
+                {
+                    String token2 = lineFixed.substring(start2, end2);
+
+                    boolean shouldUppercaseSecond = false;
+
+                    // localhost exact match
+                    if (token2.equalsIgnoreCase("localhost")) shouldUppercaseSecond = true;
+
+                    // class/object keywords
+                    if (token2.equalsIgnoreCase("class") || token2.equalsIgnoreCase("classname") || token2.equalsIgnoreCase("object")) shouldUppercaseSecond = true;
+
+                    // IP-like (contains dot or colon) or numeric IP pattern
+                    if (token2.contains(".") || token2.contains(":")) shouldUppercaseSecond = true;
+
+                    // if second token looks like an IPv4 numeric segment sequence
+                    if (token2.matches("\\d{1,3}(?:\\.\\d{1,3}){1,3}(?::\\d+)?")) shouldUppercaseSecond = true;
+
+                    if (shouldUppercaseSecond)
+                    {
+                        String upper2 = token2.toUpperCase();
+                        lineFixed = lineFixed.substring(0, start2) + upper2 + lineFixed.substring(end2);
+                    }
+                }
+            }
+        }
+
+        // Uppercase specific keywords anywhere in the line when they appear as whole words
+        if (lineFixed != null)
+        {
+            String[] keywords = new String[]{"telnet", "proxy", "installer", "communicator", "webexpress"};
+            for (String kw : keywords)
+            {
+                // (?i) for case-insensitive, \b for word boundary, use Pattern.quote to avoid accidental regex metacharacters
+                lineFixed = lineFixed.replaceAll("(?i)\\b" + java.util.regex.Pattern.quote(kw) + "\\b", kw.toUpperCase());
             }
         }
 
@@ -139,7 +191,9 @@ public class CommonRails
             return;
         }
 
-        int[] codes = {232, 233, 234, 235, 236, 237, 238, 241, 244, 247, 250, 253, 188};
+        // Grayscale fade: dark grey -> full white using ANSI 256-color codes 236..255 (20 steps)
+        int[] codes = new int[20];
+        for (int k = 0; k < 20; k++) codes[k] = 236 + k; // 236..255
 
         try
         {
@@ -147,10 +201,12 @@ public class CommonRails
             {
                 System.out.print("\033[38;5;" + color + "m" + text + "\r");
 
-                Thread.sleep(delay);
+                // per-grade delay fixed at 20ms for a smoother, more emotive fade
+                Thread.sleep(20);
             }
 
-            Thread.sleep(400L);
+            // short pause before final print
+            Thread.sleep(200L);
 
             System.out.println(text);
 
