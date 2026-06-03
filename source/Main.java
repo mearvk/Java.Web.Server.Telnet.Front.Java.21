@@ -2,6 +2,7 @@ import commons.CommonRails;
 import commons.InternationalCommonRails;
 import commons.IranianWedding;
 import server.nitro.NitroWebExpress;
+import commons.NationalDriver;
 
 /**
  * @author Max Rupplin
@@ -53,6 +54,14 @@ public class Main
             CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
+
+            // Re-order and print captured startup entries, then continue with normal startup
+            try {
+                NationalDriver.printCorrectedOrder();
+                NationalDriver.clear();
+            } catch (Throwable t) {
+                // best-effort: continue startup even if reordering fails
+            }
 
         NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
 
