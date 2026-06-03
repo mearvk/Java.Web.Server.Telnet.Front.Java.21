@@ -1,15 +1,8 @@
-/**
- * File-level Javadoc.
- *
- * @author Max Rupplin
- * @date June 03 2026 EST
- */
-
 package server.nitro;
 
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
-import commons.transition.english.EnglishArithemeter;
+import commons.EnglishArithemeter;
 import connections.CurrentConnections;
 import encryption.module.aes.two.EncryptionModule;
 import messaging.MessageQueue;
@@ -57,13 +50,6 @@ public class NitroWebExpress extends WebExpress
 
     public NitroWebExpress(final Integer PORT, final String HOST, final String THREAD_NAME)
     {
-        this(PORT, HOST, THREAD_NAME, Boolean.TRUE);
-    }
-
-    public NitroWebExpress(final Integer PORT, final String HOST, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
-    {
-        super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
-
         CommonRails.printSystemComponent(this, 8, ". National ID initialized: "+this.NATIONALID.EIGHT_DIGITS+" .");
 
         CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
@@ -87,14 +73,14 @@ public class NitroWebExpress extends WebExpress
 
         protected TraderModule TRADER_MODULE = new TraderModule(this, "Bitcoin Remote Module 2.0 ADS5.0");
 
-        public AESCompliant AES_COMPONENT = new AESCompliant();
+        public AESCompliant AES_COMPONENT = new AESCompliant(AES_COMPLIANT_HOSTNAME, 0, "AES COMPONENT", Boolean.TRUE);
 
         public BitcoinCompliant BITCOIN_COMPONENT = new BitcoinCompliant();
 
 
         public Aspect(WebExpress WEBEXPRESS)
         {
-            if(WEBEXPRESS==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
+            if(WEBEXPRESS==null) throw new SecurityException("//bodi/connect");
 
             this.WEBEXPRESS = WEBEXPRESS;
         }
@@ -111,13 +97,13 @@ public class NitroWebExpress extends WebExpress
 
             public AESCompliant(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
             {
-                super(requireHost(HOST), requirePort(PORT), requireThreadName(THREAD_NAME), requireTelnetProxyEnabled(TELNET_PROXY_ENABLED));
+                if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED==null) throw new SecurityException("//bodi/connect");
+
+                super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
 
                 this.HOST = HOST;
 
                 this.PORT = PORT;
-
-                this.TELNET_PROXY_ENABLED = TELNET_PROXY_ENABLED;
 
                 this.setName(THREAD_NAME);
             }
@@ -146,7 +132,7 @@ public class NitroWebExpress extends WebExpress
 
                 public void send_message(StringBuffer buffer)
                 {
-                    if(buffer==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
+                    if(buffer==null) throw new SecurityException("//bodi/connect");
 
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, buffer);
 
@@ -174,13 +160,13 @@ public class NitroWebExpress extends WebExpress
 
             public BitcoinCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
             {
-                super(requireHost(host), requirePort(port), requireThreadName(thread_name), requireTelnetProxyEnabled(telnet_proxy_enabled));
+                if(host==null || port==null || thread_name==null || telnet_proxy_enabled==null) throw new SecurityException("//bodi/connect");
+
+                super(host, port, thread_name, telnet_proxy_enabled);
 
                 this.HOST = host;
 
                 this.PORT = port;
-
-                this.TELNET_PROXY_ENABLED = telnet_proxy_enabled;
 
                 this.setName(thread_name);
             }
@@ -209,7 +195,7 @@ public class NitroWebExpress extends WebExpress
 
                 public void send_message(StringBuffer buffer)
                 {
-                    if(buffer==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
+                    if(buffer==null) throw new SecurityException("//bodi/connect");
 
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, buffer);
 
@@ -218,7 +204,7 @@ public class NitroWebExpress extends WebExpress
 
                 public void send_message(String message)
                 {
-                    if(message==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
+                    if(message==null) throw new SecurityException("//bodi/connect");
 
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, message);
 
@@ -232,11 +218,11 @@ public class NitroWebExpress extends WebExpress
 
                 protected WebExpress WEB_EXPRESS;
 
-                public MessageQueueSorter(WebExpress WEB_EXPRESS)
+                public MessageQueueSorter(WebExpress web_express)
                 {
-                    if(WEB_EXPRESS==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
+                    if(web_express==null) throw new SecurityException("//bodi/connect");
 
-                    this.WEB_EXPRESS = WEB_EXPRESS;
+                    this.WEB_EXPRESS = web_express;
 
                     this.setName("MessageQueueSorter");
                 }
@@ -367,7 +353,7 @@ public class NitroWebExpress extends WebExpress
 
                 public synchronized void addMessage(MessageQueue.Message message)
                 {
-                    if(message==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
+                    if(message==null) throw new SecurityException("//bodi/connect");
 
                     CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size before "+this.getMessageQueueSize()+" .");
 
