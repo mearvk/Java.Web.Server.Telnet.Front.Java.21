@@ -264,4 +264,46 @@ public class CommonRails
             }
         }
     }
+
+    /**
+     * Support class for a themed startup decorator — IranianWedding presentation.
+     * Provides a burgundy-colored single-line print used during program init.
+     */
+    public static class IranianWedding
+    {
+        private static final String BURGUNDY_ANSI = "\033[38;5;88m";
+        private static final String RESET_ANSI = "\u001B[0m";
+
+        /**
+         * Print a single-line burgundy presentation. Respects USE_COLORED_OUTPUT flag;
+         * when disabled, prints plain text without ANSI codes.
+         */
+        public static void printBurgundyPresentation(Object owner, String text)
+        {
+            if (text == null) return;
+
+            String output = text;
+
+            try
+            {
+                if (USE_COLORED_OUTPUT)
+                {
+                    System.out.print(BURGUNDY_ANSI);
+                    System.out.print(output);
+                    System.out.print(RESET_ANSI);
+                    System.out.print("\n");
+                }
+                else
+                {
+                    System.out.println(output);
+                }
+
+                CommonRails.printSystemComponent(owner == null ? CommonRails.class : owner, (owner==null?CommonRails.class.hashCode():owner.hashCode()), ". IranianWedding::presentation printed .");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.err);
+            }
+        }
+    }
 }

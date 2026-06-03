@@ -50,6 +50,9 @@ public class Main
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
+            // Startup decorations (themed presentations)
+            commons.StartupDecorator.decorateStart(this);
+
         NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
 
             nitro.PORT = 49152;
