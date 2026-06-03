@@ -278,7 +278,7 @@ public class CommonRails
          * Print a single-line burgundy presentation. Respects USE_COLORED_OUTPUT flag;
          * when disabled, prints plain text without ANSI codes.
          */
-        public static void printBurgundyPresentation(Object owner, String text)
+        public static void printInternationalGregorianRhetoric(Object owner, String text)
         {
             if (text == null) return;
 
