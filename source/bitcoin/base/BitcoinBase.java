@@ -58,9 +58,9 @@ public class BitcoinBase
 
         BitcoinAmericaAndNewYorkDate ESTDate = new BitcoinAmericaAndNewYorkDate();
 
-        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress Bitcoin >> opens in North Carolina on [Date: "+ESTDate.EST_Time+"] .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress Bitcoin >> opens in North Carolina on Date "+ESTDate.EST_Time+" . ");
 
-        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress Bitcoin >> opens in Japan on [Date: "+JAPANDate.PACIFIC_Time+"] .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress Bitcoin >> opens in Japan on Date "+JAPANDate.PACIFIC_Time+" . ");
     }
 
     public void send_message(StringBuffer buffer)
