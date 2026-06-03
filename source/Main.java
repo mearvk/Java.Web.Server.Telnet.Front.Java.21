@@ -44,14 +44,14 @@ public class Main
 
             System.out.println(". ND51 North Carolina Labors & Standards A5501 ANationals Standards of Cary, NC 2807 .");
 
+            // Startup decorations (themed presentations)
+            commons.StartupDecorator.decorateStart(this);
+
         System.out.println("-");
 
             CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
-
-            // Startup decorations (themed presentations)
-            commons.StartupDecorator.decorateStart(this);
 
         NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
 
