@@ -24,27 +24,43 @@ public class TelnetInputBuilder extends Thread
         {
             TelnetMessageQueue queue = this.telnet_message_queue;
 
-            for(int i=0; queue!=null && i<queue.size(); i++)
+            try
             {
-                try
+                synchronized (queue)
                 {
-                    final String message = queue.messages.get(i).message_buffer.toString();
+                    while (queue.size() == 0)
+                    {
+                        try { queue.wait(); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); return; }
+                    }
 
-                    final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
+                    // process all available messages
+                    while (queue.size() > 0)
+                    {
+                        try
+                        {
+                            final String message = queue.messages.get(0).message_buffer.toString();
 
-                    proxy.writer.write(message);
+                            final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 
-                    CommonRails.printSystemComponent(this, this.hashCode(), "[Object ID: "+this.hashCode()+"] TelnetOutputBuilder::Output >> sending message ["+message+"]");
+                            proxy.writer.write(message);
 
-                    proxy.writer.flush();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace(System.err);
+                            CommonRails.printSystemComponent(this, this.hashCode(), "[Object ID: "+this.hashCode()+"] TelnetOutputBuilder::Output >> sending message ["+message+"]");
+
+                            proxy.writer.flush();
+
+                            queue.messages.remove(0);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace(System.err);
+                        }
+                    }
                 }
             }
-
-            try{ Thread.sleep(1000); } catch (Exception e){e.printStackTrace(System.err);}
+            catch (Exception e)
+            {
+                e.printStackTrace(System.err);
+            }
         }
     }
 

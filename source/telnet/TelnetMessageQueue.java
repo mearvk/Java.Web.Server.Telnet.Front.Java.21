@@ -34,16 +34,18 @@ public class TelnetMessageQueue
     public synchronized void add(Message message)
     {
         this.messages.add(message);
+        this.notifyAll();
     }
 
     public synchronized void remove(Message message)
     {
-        this.messages.add(message);
+        this.messages.remove(message);
     }
 
     public synchronized void sleep(Message message)
     {
         this.messages.add(message);
+        this.notifyAll();
     }
 
     public synchronized Integer size()
