@@ -42,6 +42,13 @@ public class TelnetInstaller
 
             this.process = process_builder.start();
 
+            // register process with CommonRails so it can monitor exit/finish events
+            try {
+                CommonRails.registerProcess(this.process_builder, this.process, this);
+            } catch (Exception ignore) {
+                // best-effort: don't let registration prevent initialization
+            }
+
             this.reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
             this.writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
