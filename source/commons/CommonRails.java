@@ -14,6 +14,12 @@ public class CommonRails
 {
     protected String hash = "0xDA717018470E213F";
 
+    // Padding for the [Current: ...] display: total field width before extra separator
+    protected static final int CLASSNAME_PAD = 50;
+
+    // Number of extra spaces appended to the right of the [Current: ...] field
+    protected static final int CLASSNAME_EXTRA_SPACES = 10;
+
     /**
      * If true, CommonRails will emit ANSI-coloured animated output in delayableFinePrinter.
      * Can be overridden with system property `commonrails.color` or env var `COMMONRAILS_COLOR`.
@@ -59,10 +65,8 @@ public class CommonRails
     {
         String classname = "[Current: "+object.getClass().getSimpleName()+"]";
 
-        // Pad the classname field so that everything after it starts at the same column
-        int CLASSNAME_PAD = 50; // increased padding for wider alignment
-        // Add an additional 10-space separator after the padded classname for unique spacing
-        String classnamePadded = String.format("%-" + CLASSNAME_PAD + "s", classname) + "          ";
+        // Pad the classname field using class constants so that everything after it starts at the same column
+        String classnamePadded = String.format("%-" + CLASSNAME_PAD + "s", classname) + " ".repeat(CLASSNAME_EXTRA_SPACES);
 
         String compliant_hashcode = String.format("%010d", hashcode);
 
