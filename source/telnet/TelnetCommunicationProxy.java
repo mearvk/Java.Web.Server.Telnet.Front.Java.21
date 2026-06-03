@@ -71,10 +71,10 @@ public class TelnetCommunicationProxy
             {
                 StringBuffer buffer = null;
 
+                final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
+
                 try
                 {
-                    final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
-
                     String line = proxy.reader.readLine();
 
                     if(line != null)
