@@ -15,7 +15,7 @@ public class CommonRails
     protected String hash = "0xDA717018470E213F";
 
     // Desired total width for the text inside the [Current: ...] brackets
-    protected static final int CLASSNAME_TOTAL_WIDTH = 50;
+    protected static final int CLASSNAME_TOTAL_WIDTH = 35;
 
     /**
      * If true, CommonRails will emit ANSI-coloured animated output in delayableFinePrinter.
