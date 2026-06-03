@@ -48,9 +48,22 @@ public class NationalDriver
      * Print registered startup references in corrected order using CommonRails.delayableFinePrinter.
      * Desired order: NitroWebExpress, WebExpress, BaseServer, Telnet module, AES module, Bitcoin module, remainder
      */
+    protected static List<List<String>> GROUPED_STARTUP_REFERENCES = null;
+    protected static List<String> GROUP_NAMES = null;
+
+    public static synchronized List<List<String>> getGroupedStartupReferences()
+    {
+        return GROUPED_STARTUP_REFERENCES;
+    }
+
+    public static synchronized List<String> getGroupNames()
+    {
+        return GROUP_NAMES;
+    }
+
     public static synchronized void printCorrectedOrder()
     {
-        class Entry { String ref; long ts; int idx; Entry(String r,long t,int i){ref=r;ts=t;idx=i;} }
+        class Entry { String ref; long ts; int idx; String className; Entry(String r,long t,int i,String cn){ref=r;ts=t;idx=i;className=cn;} }
 
         List<Entry> nitro = new ArrayList<>();
         List<Entry> web = new ArrayList<>();
@@ -67,50 +80,88 @@ public class NationalDriver
             String low = cn.toLowerCase();
             long ts = extractTimestamp(ref); // may be -1 on parse failure
 
-            if (cn.equalsIgnoreCase("NitroWebExpress") || low.contains("nitrowebexpress")) nitro.add(new Entry(ref, ts, index));
-            else if (cn.equalsIgnoreCase("WebExpress") || low.contains("webexpress")) web.add(new Entry(ref, ts, index));
-            else if (cn.equalsIgnoreCase("BaseServer") || low.contains("baseserver")) base.add(new Entry(ref, ts, index));
-            else if (low.contains("telnet")) telnet.add(new Entry(ref, ts, index));
-            else if (low.contains("aes") || low.contains("aesc") || low.contains("aesen")) aes.add(new Entry(ref, ts, index));
-            else if (low.contains("bitcoin")) bitcoin.add(new Entry(ref, ts, index));
-            else remainder.add(new Entry(ref, ts, index));
+            // treat any mention of "nitro" as NitroWebExpress group to ensure they print first
+            if (low.contains("nitro")) nitro.add(new Entry(ref, ts, index, cn));
+            else if (cn.equalsIgnoreCase("WebExpress") || low.contains("webexpress")) web.add(new Entry(ref, ts, index, cn));
+            else if (cn.equalsIgnoreCase("BaseServer") || low.contains("baseserver")) base.add(new Entry(ref, ts, index, cn));
+            else if (low.contains("telnet")) telnet.add(new Entry(ref, ts, index, cn));
+            else if (low.contains("aes") || low.contains("aesc") || low.contains("aesen")) aes.add(new Entry(ref, ts, index, cn));
+            else if (low.contains("bitcoin")) bitcoin.add(new Entry(ref, ts, index, cn));
+            else remainder.add(new Entry(ref, ts, index, cn));
 
             index++;
         }
 
         // Sort each group by timestamp (ascending). If timestamp unknown (-1), preserve original index ordering.
         java.util.Comparator<Entry> cmp = (a,b) -> {
-            if (a.ts != -1 && b.ts != -1) return Long.compare(a.ts, b.ts);
-            if (a.ts != -1) return -1;
-            if (b.ts != -1) return 1;
+            if (a.ts != -1 && b.ts != -1)
+            {
+                int r = Long.compare(a.ts, b.ts);
+                if (r != 0) return r;
+            }
+            else if (a.ts != -1) return -1;
+            else if (b.ts != -1) return 1;
+
+            // secondary: class name alphabetical to group similar subentries, then original index
+            int cn = a.className.compareToIgnoreCase(b.className);
+            if (cn != 0) return cn;
             return Integer.compare(a.idx, b.idx);
         };
 
         nitro.sort(cmp); web.sort(cmp); base.sort(cmp); telnet.sort(cmp); aes.sort(cmp); bitcoin.sort(cmp); remainder.sort(cmp);
 
-        // Print in the requested sequence using CommonRails.delayableFinePrinter to preserve formatting/animation.
+        // Convert to lists of strings and store grouped arrays
+        List<String> nitroRefs = new ArrayList<>(); for (Entry e: nitro) nitroRefs.add(e.ref);
+        List<String> webRefs = new ArrayList<>(); for (Entry e: web) webRefs.add(e.ref);
+        List<String> baseRefs = new ArrayList<>(); for (Entry e: base) baseRefs.add(e.ref);
+        List<String> telnetRefs = new ArrayList<>(); for (Entry e: telnet) telnetRefs.add(e.ref);
+        List<String> aesRefs = new ArrayList<>(); for (Entry e: aes) aesRefs.add(e.ref);
+        List<String> bitcoinRefs = new ArrayList<>(); for (Entry e: bitcoin) bitcoinRefs.add(e.ref);
+        List<String> remainderRefs = new ArrayList<>(); for (Entry e: remainder) remainderRefs.add(e.ref);
+
+        List<List<String>> grouped = new ArrayList<>();
+        grouped.add(nitroRefs);
+        grouped.add(webRefs);
+        grouped.add(baseRefs);
+        grouped.add(telnetRefs);
+        grouped.add(aesRefs);
+        grouped.add(bitcoinRefs);
+        grouped.add(remainderRefs);
+
+        List<String> groupNames = new ArrayList<>();
+        groupNames.add("NITRO");
+        groupNames.add("WEBEXPRESS");
+        groupNames.add("BASESERVER");
+        groupNames.add("TELNET");
+        groupNames.add("AES");
+        groupNames.add("BITCOIN");
+        groupNames.add("REMAINDER");
+
+        GROUPED_STARTUP_REFERENCES = grouped;
+        GROUP_NAMES = groupNames;
+
+        // Print groups in order; each group's entries are printed together
         try
         {
-            for (Entry e : nitro) CommonRails.delayableFinePrinter(e.ref, 21);
-            for (Entry e : web) CommonRails.delayableFinePrinter(e.ref, 21);
-            for (Entry e : base) CommonRails.delayableFinePrinter(e.ref, 21);
-            for (Entry e : telnet) CommonRails.delayableFinePrinter(e.ref, 21);
-            for (Entry e : aes) CommonRails.delayableFinePrinter(e.ref, 21);
-            for (Entry e : bitcoin) CommonRails.delayableFinePrinter(e.ref, 21);
-            for (Entry e : remainder) CommonRails.delayableFinePrinter(e.ref, 21);
+            for (int gi = 0; gi < grouped.size(); gi++)
+            {
+                List<String> g = grouped.get(gi);
+                String gname = groupNames.get(gi);
+                CommonRails.delayableFinePrinter(". START GROUP: " + gname + " (" + g.size() + ") .", 21);
+                for (String s : g) CommonRails.delayableFinePrinter(s, 21);
+            }
         }
         catch (Throwable t)
         {
-            // best-effort printing; if CommonRails printing fails, fall back to System.out
             try
             {
-                for (Entry e : nitro) System.out.println(e.ref);
-                for (Entry e : web) System.out.println(e.ref);
-                for (Entry e : base) System.out.println(e.ref);
-                for (Entry e : telnet) System.out.println(e.ref);
-                for (Entry e : aes) System.out.println(e.ref);
-                for (Entry e : bitcoin) System.out.println(e.ref);
-                for (Entry e : remainder) System.out.println(e.ref);
+                for (int gi = 0; gi < grouped.size(); gi++)
+                {
+                    List<String> g = grouped.get(gi);
+                    String gname = groupNames.get(gi);
+                    System.out.println("START GROUP: " + gname + " (" + g.size() + ")");
+                    for (String s : g) System.out.println(s);
+                }
             }
             catch (Throwable ignored) {}
         }
