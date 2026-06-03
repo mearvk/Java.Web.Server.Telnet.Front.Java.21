@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 public class CommonRails
 {
@@ -218,6 +219,23 @@ public class CommonRails
                     REGISTERED_PROCESSES.remove(p);
                 }
             });
+
+            // Supervisor: ensure process is not left running beyond timeout (2 hours)
+            new Thread(() -> {
+                try
+                {
+                    if (!process.waitFor(2, TimeUnit.HOURS))
+                    {
+                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process timeout (2 hours) exceeded; destroying: " + process);
+
+                        try { process.destroyForcibly(); } catch (Throwable ignored) {}
+                    }
+                }
+                catch (Throwable t)
+                {
+                    // ignore supervision errors
+                }
+            }, "CommonRails-ProcessTimeout-" + process.hashCode()).start();
         }
         catch (Throwable t)
         {
@@ -225,9 +243,20 @@ public class CommonRails
             new Thread(() -> {
                 try
                 {
-                    int rv = process.waitFor();
+                    boolean finished = process.waitFor(2, TimeUnit.HOURS);
 
-                    CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails processExited(watcher) >> process closed: " + process + " exit=" + rv);
+                    if (finished)
+                    {
+                        int rv = process.exitValue();
+
+                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails processExited(watcher) >> process closed: " + process + " exit=" + rv);
+                    }
+                    else
+                    {
+                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process watcher timeout (2 hours) exceeded; destroying: " + process);
+
+                        try { process.destroyForcibly(); } catch (Throwable ignored) {}
+                    }
                 }
                 catch (Exception e)
                 {
@@ -260,7 +289,22 @@ public class CommonRails
         {
             try
             {
-                int return_value = this.web_express.TELNET_COMMUNICATION_PROXY.process.waitFor();
+                Process p = this.web_express.TELNET_COMMUNICATION_PROXY.process;
+
+                boolean finished = p.waitFor(2, TimeUnit.HOURS);
+
+                if (finished)
+                {
+                    int return_value = p.exitValue();
+
+                    CommonRails.printSystemComponent(this, p.hashCode(), ". TelnetCallOnComplete >> process exited: " + p + " exit=" + return_value);
+                }
+                else
+                {
+                    CommonRails.printSystemComponent(this, p.hashCode(), ". TelnetCallOnComplete >> timeout (2 hours) exceeded; destroying process: " + p);
+
+                    try { p.destroyForcibly(); } catch (Throwable ignored) {}
+                }
             }
             catch (Exception e)
             {
