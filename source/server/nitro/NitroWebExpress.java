@@ -232,11 +232,11 @@ public class NitroWebExpress extends WebExpress
 
                 protected WebExpress WEB_EXPRESS;
 
-                public MessageQueueSorter(WebExpress web_express)
+                public MessageQueueSorter(WebExpress WEB_EXPRESS)
                 {
-                    if(web_express==null) throw new SecurityException("//bodi/connect");
+                    if(WEB_EXPRESS==null) throw new SecurityException("//bodi/connect");
 
-                    this.WEB_EXPRESS = web_express;
+                    this.WEB_EXPRESS = WEB_EXPRESS;
 
                     this.setName("MessageQueueSorter");
                 }
