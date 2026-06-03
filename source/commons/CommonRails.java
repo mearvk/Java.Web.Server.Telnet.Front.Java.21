@@ -13,6 +13,37 @@ public class CommonRails
 {
     protected String hash = "0xDA717018470E213F";
 
+    /**
+     * If true, CommonRails will emit ANSI-coloured animated output in delayableFinePrinter.
+     * Can be overridden with system property `commonrails.color` or env var `COMMONRAILS_COLOR`.
+     */
+    public static boolean USE_COLORED_OUTPUT = true;
+    static
+    {
+        try
+        {
+            String prop = System.getProperty("commonrails.color");
+
+            if(prop!=null)
+            {
+                USE_COLORED_OUTPUT = Boolean.parseBoolean(prop);
+            }
+            else
+            {
+                String env = System.getenv("COMMONRAILS_COLOR");
+
+                if(env!=null)
+                {
+                    USE_COLORED_OUTPUT = Boolean.parseBoolean(env);
+                }
+            }
+        }
+        catch (Throwable t)
+        {
+            // best-effort; keep default
+        }
+    }
+
     public CommonRails()
     {
 
@@ -44,6 +75,24 @@ public class CommonRails
 
     public static void delayableFinePrinter(String text, int delay)
     {
+        // When colored output is disabled, just print a single plain line and ensure ANSI reset.
+        if (!USE_COLORED_OUTPUT)
+        {
+            try
+            {
+                System.out.println(text);
+
+                // ensure terminal color state is reset
+                System.out.println("\u001B[0m");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.err);
+            }
+
+            return;
+        }
+
         int[] codes = {232, 233, 234, 235, 236, 237, 238, 241, 244, 247, 250, 253, 188};
 
         try
@@ -58,6 +107,9 @@ public class CommonRails
             Thread.sleep(400L);
 
             System.out.println(text);
+
+            // reset terminal color state after animation
+            System.out.println("\u001B[0m");
         }
         catch (Exception e)
         {
