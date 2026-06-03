@@ -38,7 +38,7 @@ public abstract class BaseServer extends Thread
         System.out.println(this.hash);
     }
 
-    public BaseServer(String host, Integer PORT)
+    public BaseServer(final String host, Integer PORT)
     {
         if(host==null || PORT ==null) throw new SecurityException("//bodi/connect");
 

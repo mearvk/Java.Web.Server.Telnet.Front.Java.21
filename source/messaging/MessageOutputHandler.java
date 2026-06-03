@@ -23,7 +23,7 @@ public class MessageOutputHandler implements Runnable
     protected String message;
 
 
-    public MessageOutputHandler(Socket socket, StringBuffer buffer)
+    public MessageOutputHandler(final Socket socket, StringBuffer buffer)
     {
         this.socket = socket;
 
@@ -32,7 +32,7 @@ public class MessageOutputHandler implements Runnable
         this.message = buffer == null ? "" : buffer.toString();
     }
 
-    public MessageOutputHandler(Socket socket, String message)
+    public MessageOutputHandler(final Socket socket, String message)
     {
         this.socket = socket;
 

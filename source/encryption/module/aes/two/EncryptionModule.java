@@ -17,7 +17,7 @@ public class EncryptionModule
 
     public String cipher_text = "";
 
-    public EncryptionModule(Random random, String title, String plain_text)
+    public EncryptionModule(final Random random,  final String title, String plain_text)
     {
         this.plain_text = plain_text;
     }

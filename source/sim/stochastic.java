@@ -21,7 +21,7 @@ public class stochastic
 
     protected static class LongSummaryStatistics
     {
-        protected void accept(Address address, Address a1positive)
+        protected void accept(final Address address, Address a1positive)
         {
 
         }
