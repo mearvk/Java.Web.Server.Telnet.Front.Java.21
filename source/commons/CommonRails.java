@@ -61,7 +61,8 @@ public class CommonRails
 
         // Pad the classname field so that everything after it starts at the same column
         int CLASSNAME_PAD = 50; // increased padding for wider alignment
-        String classnamePadded = String.format("%-" + CLASSNAME_PAD + "s", classname);
+        // Add an additional 10-space separator after the padded classname for unique spacing
+        String classnamePadded = String.format("%-" + CLASSNAME_PAD + "s", classname) + "          ";
 
         String compliant_hashcode = String.format("%010d", hashcode);
 
