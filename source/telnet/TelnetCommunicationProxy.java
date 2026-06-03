@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class TelnetCommunicationProxy
 {
-    protected WebExpress web_express;
+    protected WebExpress WEB_EXPRESS;
 
     protected ProcessBuilder process_builder = new ProcessBuilder();
 
@@ -37,19 +37,19 @@ public class TelnetCommunicationProxy
 
     public TelnetInputBuilder input_builder;
 
-    public TelnetCommunicationProxy(WebExpress web_express)
+    public TelnetCommunicationProxy(WebExpress WEB_EXPRESS)
     {
         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::Telnet::Communicator starts .");
 
-        this.web_express = web_express;
+        this.WEB_EXPRESS = WEB_EXPRESS;
 
-        this.process_builder = this.web_express.TELNET_INSTALLER.process_builder;
+        this.process_builder = this.WEB_EXPRESS.TELNET_INSTALLER.process_builder;
 
-        this.process = this.web_express.TELNET_INSTALLER.process;
+        this.process = this.WEB_EXPRESS.TELNET_INSTALLER.process;
 
-        this.writer = this.web_express.TELNET_INSTALLER.writer;
+        this.writer = this.WEB_EXPRESS.TELNET_INSTALLER.writer;
 
-        this.reader = this.web_express.TELNET_INSTALLER.reader;
+        this.reader = this.WEB_EXPRESS.TELNET_INSTALLER.reader;
 
         this.telnet_proxy_communicator = new TelnetProxyCommunicator(this);
 

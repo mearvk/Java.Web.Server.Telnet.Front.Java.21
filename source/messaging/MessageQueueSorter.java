@@ -22,11 +22,11 @@ public class MessageQueueSorter extends Thread
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected WebExpress web_express;
+    protected WebExpress WEB_EXPRESS;
 
-    public MessageQueueSorter(WebExpress web_express)
+    public MessageQueueSorter(WebExpress WEB_EXPRESS)
     {
-        this.web_express = web_express;
+        this.WEB_EXPRESS = WEB_EXPRESS;
 
         this.setName("MessageQueueSorter");
     }
@@ -38,7 +38,7 @@ public class MessageQueueSorter extends Thread
 
         for(;;)
         {
-            MessageQueue message_queue = this.web_express.MESSAGE_QUEUE;
+            MessageQueue message_queue = this.WEB_EXPRESS.MESSAGE_QUEUE;
 
             for(int i = 0; i<message_queue.MESSAGES.size(); i++)
             {
@@ -52,7 +52,7 @@ public class MessageQueueSorter extends Thread
                 {
                     if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                     {
-                        if (this.web_express == null || this.web_express.TELNET_COMMUNICATION_PROXY == null || this.web_express.TELNET_COMMUNICATION_PROXY.writer == null)
+                        if (this.WEB_EXPRESS == null || this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY == null || this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.writer == null)
                         {
                             CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::MessageQueueSorter >> no telnet proxy writer; dropping message.");
 
@@ -61,7 +61,7 @@ public class MessageQueueSorter extends Thread
                             continue;
                         }
 
-                        BufferedWriter writer = this.web_express.TELNET_COMMUNICATION_PROXY.writer;
+                        BufferedWriter writer = this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.writer;
 
                         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::MessageQueueSorter sending to Telnet message Message: " + message.MESSAGE_BUFFER + " .");
 
@@ -92,7 +92,7 @@ public class MessageQueueSorter extends Thread
                     }
                     catch (Exception e)
                     {
-                        CurrentConnections connections = this.web_express.current_connections;
+                        CurrentConnections connections = this.WEB_EXPRESS.current_connections;
 
                         connections.remove(message.connection);
 
@@ -101,7 +101,7 @@ public class MessageQueueSorter extends Thread
                         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::MessageQueueSorter >> dropped connection "+message.socket+" - new connection count "+arithemeter.result.arithemetic +" : "+arithemeter.result.numeral +" .");
                     }
 
-                    this.web_express.current_connections.remove(message.socket);
+                    this.WEB_EXPRESS.current_connections.remove(message.socket);
 
                     break;
                 }
@@ -112,14 +112,14 @@ public class MessageQueueSorter extends Thread
 
                 try
                 {
-                    if (this.web_express == null || this.web_express.TELNET_COMMUNICATION_PROXY == null || this.web_express.TELNET_COMMUNICATION_PROXY.reader == null)
+                    if (this.WEB_EXPRESS == null || this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY == null || this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.reader == null)
                     {
                         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::MessageQueueSorter >> no telnet proxy reader; skipping read loop.");
 
                     }
                     else
                     {
-                        BufferedReader reader = this.web_express.TELNET_COMMUNICATION_PROXY.reader;
+                        BufferedReader reader = this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.reader;
 
                         if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                         {
@@ -139,7 +139,7 @@ public class MessageQueueSorter extends Thread
                                 }
                                 else
                                 {
-                                    CurrentConnections connections = this.web_express.current_connections;
+                                    CurrentConnections connections = this.WEB_EXPRESS.current_connections;
 
                                     connections.remove(message.connection);
 
@@ -174,18 +174,18 @@ public class MessageQueueSorter extends Thread
     {
         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size before "+this.getMessageQueueSize()+" .");
 
-        this.web_express.MESSAGE_QUEUE.add(message);
+        this.WEB_EXPRESS.MESSAGE_QUEUE.add(message);
 
         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size after "+this.getMessageQueueSize()+" .");
     }
 
     public synchronized MessageQueue getMessageQueue()
     {
-        return this.web_express.MESSAGE_QUEUE;
+        return this.WEB_EXPRESS.MESSAGE_QUEUE;
     }
 
     public synchronized Integer getMessageQueueSize()
     {
-        return this.web_express.MESSAGE_QUEUE.MESSAGES.size();
+        return this.WEB_EXPRESS.MESSAGE_QUEUE.MESSAGES.size();
     }
 }

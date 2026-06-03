@@ -100,7 +100,7 @@ public class CommonRails
         }
     }
 
-    protected static void actionDelay(final String action,  final WebExpress web_express, final Integer notLessThan)
+    protected static void actionDelay(final String action,  final WebExpress WEB_EXPRESS, final Integer notLessThan)
     {
         try
         {
@@ -115,7 +115,7 @@ public class CommonRails
         {
             try
             {
-                TelnetCallOnComplete call_on_complete = new TelnetCallOnComplete(web_express);
+                TelnetCallOnComplete call_on_complete = new TelnetCallOnComplete(WEB_EXPRESS);
 
                 call_on_complete.run();
             }
@@ -185,24 +185,24 @@ public class CommonRails
 
     public static class TelnetCallOnComplete implements Runnable
     {
-        protected WebExpress web_express;
+        protected WebExpress WEB_EXPRESS;
 
-        public TelnetCallOnComplete(final WebExpress web_express)
+        public TelnetCallOnComplete(final WebExpress WEB_EXPRESS)
         {
-            this.web_express = web_express;
+            this.WEB_EXPRESS = WEB_EXPRESS;
         }
 
         @Override
         public void run()
         {
-            if (this.web_express == null || this.web_express.TELNET_COMMUNICATION_PROXY == null || this.web_express.TELNET_COMMUNICATION_PROXY.process == null)
+            if (this.WEB_EXPRESS == null || this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY == null || this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.process == null)
             {
                 return;
             }
 
             try
             {
-                this.web_express.TELNET_COMMUNICATION_PROXY.process.waitFor();
+                this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.process.waitFor();
             }
             catch (InterruptedException ie)
             {

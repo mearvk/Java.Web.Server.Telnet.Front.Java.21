@@ -26,7 +26,7 @@ public class ConnectionPoller extends Thread
 
     protected BaseServer base_server;
 
-    protected WebExpress web_express;
+    protected WebExpress WEB_EXPRESS;
 
     protected ServerSocket server_socket;
 
@@ -38,9 +38,9 @@ public class ConnectionPoller extends Thread
 
     protected static final Integer READ_WRITE_STANDARD_SOCKET_TIMEOUT = 60*2*1000;
 
-    public ConnectionPoller(final WebExpress web_express,  final BaseServer base_server,  final String host, Integer port)
+    public ConnectionPoller(final WebExpress WEB_EXPRESS,  final BaseServer base_server,  final String host, Integer port)
     {
-        this.web_express = web_express;
+        this.WEB_EXPRESS = WEB_EXPRESS;
 
         this.base_server = base_server;
 
@@ -51,9 +51,9 @@ public class ConnectionPoller extends Thread
         this.setName("ConnectionPoller");
     }
 
-    public ConnectionPoller(final WebExpress web_express, BaseServer base_server)
+    public ConnectionPoller(final WebExpress WEB_EXPRESS, BaseServer base_server)
     {
-        this.web_express = web_express;
+        this.WEB_EXPRESS = WEB_EXPRESS;
 
         this.base_server = base_server;
 
@@ -77,7 +77,7 @@ public class ConnectionPoller extends Thread
 
                 for(int i=0; i<current_connections.size(); i++)
                 {
-                    CurrentConnections connections = this.web_express.current_connections;
+                    CurrentConnections connections = this.WEB_EXPRESS.current_connections;
 
                     connection = current_connections.current_connections.get(i);
 
@@ -91,13 +91,13 @@ public class ConnectionPoller extends Thread
 
                         telnet_message.port = Integer.parseInt(WebExpress.REMOTE_PORT);
 
-                        telnet_message.socket = this.web_express.TELNET_COMMUNICATION_PROXY.socket;
+                        telnet_message.socket = this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.socket;
 
                         telnet_message.time_stamp = new Date();
 
                         telnet_message.message_buffer = new StringBuffer("US6");
 
-                        this.web_express.TELNET_COMMUNICATION_PROXY.output_builder.telnet_message_queue.add(telnet_message);
+                        this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.output_builder.telnet_message_queue.add(telnet_message);
 
                         connection.IS_TELNET_EXCELSIOR_CONNECTED = Boolean.TRUE;
                     }
@@ -140,13 +140,13 @@ public class ConnectionPoller extends Thread
 
                             message.MESSAGE_BUFFER = new StringBuffer(buffer);
 
-                            this.web_express.MESSAGE_QUEUE.add(message);
+                            this.WEB_EXPRESS.MESSAGE_QUEUE.add(message);
                         }
                         catch (SocketTimeoutException ste)
                         {
                             message.MESSAGE_BUFFER = new StringBuffer(buffer);
 
-                            this.web_express.MESSAGE_QUEUE.add(message);
+                            this.WEB_EXPRESS.MESSAGE_QUEUE.add(message);
 
                             connections.remove(connection);
 
@@ -202,7 +202,7 @@ public class ConnectionPoller extends Thread
 
                 if(message.MESSAGE_BUFFER.length()>0)
                 {
-                    this.web_express.MESSAGE_QUEUE.add(message);
+                    this.WEB_EXPRESS.MESSAGE_QUEUE.add(message);
                 }
 
                 CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress::ConnectionPoller >> new connection count ["+current_connections.size()+"].");

@@ -18,7 +18,7 @@ import java.net.Socket;
 
 public class TelnetInstaller
 {
-    public WebExpress web_express;
+    public WebExpress WEB_EXPRESS;
 
     protected ProcessBuilder process_builder = new ProcessBuilder();
 
@@ -30,13 +30,13 @@ public class TelnetInstaller
 
     protected BufferedReader reader;
 
-    public TelnetInstaller(WebExpress web_express)
+    public TelnetInstaller(WebExpress WEB_EXPRESS)
     {
         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::Telnet::Installer starts .");
 
         try
         {
-            this.web_express = web_express;
+            this.WEB_EXPRESS = WEB_EXPRESS;
 
             this.process_builder.command(WebExpress.TELNET_PROXY_SERVER_ARGS);
 
