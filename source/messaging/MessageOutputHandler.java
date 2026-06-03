@@ -29,7 +29,7 @@ public class MessageOutputHandler implements Runnable
 
         this.buffer = buffer;
 
-        this.message = buffer.toString();
+        this.message = buffer == null ? "" : buffer.toString();
     }
 
     public MessageOutputHandler(Socket socket, String message)
@@ -48,7 +48,7 @@ public class MessageOutputHandler implements Runnable
             {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-                writer.write(buffer.toString());
+                writer.write(buffer == null ? "" : buffer.toString());
 
                 writer.write(new EncryptionModule(new Random(), "", "").cipher_text);
 

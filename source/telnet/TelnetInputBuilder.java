@@ -38,6 +38,13 @@ public class TelnetInputBuilder extends Thread
 
                     final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 
+                    if (proxy == null || proxy.writer == null)
+                    {
+                        // advance to avoid stuck on null proxy
+                        i++;
+                        continue;
+                    }
+
                     proxy.writer.write(message);
 
                     CommonRails.printSystemComponent(this, this.hashCode(), "[Object ID: "+this.hashCode()+"] TelnetInputBuilder::Input >> sending message ["+message+"]");
