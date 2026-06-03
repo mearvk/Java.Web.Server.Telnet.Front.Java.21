@@ -97,7 +97,7 @@ public class NitroWebExpress extends WebExpress
 
             public AESCompliant(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
             {
-                if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED) throw new SecurityException("//bodi/connect");
+                if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED==null) throw new SecurityException("//bodi/connect");
 
                 super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
 
@@ -160,7 +160,7 @@ public class NitroWebExpress extends WebExpress
 
             public BitcoinCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
             {
-                if(host==null || port==null || thread_name==null || telnet_proxy_enabled) throw new SecurityException("//bodi/connect");
+                if(host==null || port==null || thread_name==null || telnet_proxy_enabled==null) throw new SecurityException("//bodi/connect");
 
                 super(host, port, thread_name, telnet_proxy_enabled);
 
