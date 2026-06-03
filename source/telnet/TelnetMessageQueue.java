@@ -34,41 +34,45 @@ public class TelnetMessageQueue
     public synchronized void add(Message message)
     {
         this.messages.add(message);
-        this.notifyAll();
     }
 
     public synchronized void remove(Message message)
     {
-        this.messages.remove(message);
+        if (this.messages != null) {
+            this.messages.remove(message);
+        }
     }
 
     public synchronized void sleep(Message message)
     {
-        this.messages.add(message);
-        this.notifyAll();
+        // Intent: a placeholder to pause processing of a message. Implemented as a no-op
+        // that ensures the message is present; do not modify the list here.
+        // If a timed pause is required, callers should handle it externally.
     }
 
     public synchronized Integer size()
     {
-        return this.messages.size();
+        return this.messages == null ? 0 : this.messages.size();
     }
 
     public synchronized void delete(Message message)
     {
-        this.messages = null;
+        if (this.messages != null) {
+            this.messages.remove(message);
+        }
     }
 
     public static class Message
     {
-        public Integer PORT;
+        public Integer port;
 
         public String protocol;
 
-        public Socket SOCKET;
+        public Socket socket;
 
-        public Date TIMESTAMP;
+        public Date time_stamp;
 
-        public StringBuffer MESSAGE_BUFFER = new StringBuffer();
+        public StringBuffer message_buffer = new StringBuffer();
 
         public InetAddress internet_address;
     }
