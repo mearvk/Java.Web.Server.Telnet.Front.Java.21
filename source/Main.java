@@ -38,7 +38,6 @@ public class Main
 
     public Main()
     {
-
         System.out.println("[ Java National Finance Engine v.28.1.1 Software Processes Starting ]");
 
         System.out.println(". Cryptography/Cryptology AES2 National Cryptolograph Enabled DSS 5.0 .");
