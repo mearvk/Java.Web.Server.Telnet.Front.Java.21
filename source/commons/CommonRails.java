@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Collections;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 public class CommonRails
@@ -72,7 +73,9 @@ public class CommonRails
 
         String object_id = "-- : [Object ID: "+compliant_hashcode+"]";
 
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        // Use full date/time in EST for the Date field
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+        formatter.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 
         String date = "[Date: "+formatter.format(new Date())+"]";
 
