@@ -66,6 +66,7 @@ public class Main
     private static void configureBridge(final NitroWebExpress nitro)
     {
         Objects.requireNonNull(nitro, "nitro");
+
         Objects.requireNonNull(nitro.bridge, "nitro.bridge");
 
         nitro.bridge.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, COMPONENT_TELNET_PROXY_ENABLED);
@@ -84,6 +85,6 @@ public class Main
 
     public static void main(String...args)
     {
-        new Main();
+        Main main = new Main();
     }
 }
