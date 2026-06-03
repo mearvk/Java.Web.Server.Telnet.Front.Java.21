@@ -1,3 +1,10 @@
+/**
+ * File-level Javadoc.
+ *
+ * @author Max Rupplin
+ * @date June 03 2026 EST
+ */
+
 package bitcoin.time;
 
 import bitcoin.time.flat.BitcoinESTTimeDate;
