@@ -33,23 +33,40 @@ public class MessageOrderer extends Thread
     {
         while(true)
         {
+            synchronized (this)
+            {
+                while (this.bitcoin_messages.isEmpty())
+                {
+                    try { this.wait(); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); return; }
+                }
 
+                // process all messages (no-op here; callers add/remove externally)
+                // keep loop to empty list if any
+                while (this.bitcoin_messages.size() > 0)
+                {
+                    // In absence of explicit processing logic, just remove the head
+                    this.bitcoin_messages.remove(0);
+                }
+            }
         }
     }
 
     public synchronized void add(BitcoinMessage bitcoin_message)
     {
         this.bitcoin_messages.add(bitcoin_message);
+        this.notifyAll();
     }
 
     public synchronized void remove(BitcoinMessage bitcoin_message)
     {
         this.bitcoin_messages.remove(bitcoin_message);
+        this.notifyAll();
     }
 
     public synchronized void clear(BitcoinMessage bitcoin_message)
     {
         this.bitcoin_messages.clear();
+        this.notifyAll();
     }
 
     public static class BitcoinMessage

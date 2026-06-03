@@ -60,6 +60,7 @@ public class MessageQueue
         CommonRails.printSystemComponent(this, this.hashCode(),"MessageQueue::add >> receives ["+message.MESSAGE_BUFFER.toString()+"].");
 
         this.MESSAGES.add(message);
+        this.notifyAll();
     }
 
     public synchronized void remove(Message message)
