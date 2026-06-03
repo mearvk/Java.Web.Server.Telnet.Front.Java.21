@@ -68,11 +68,11 @@ public abstract class BaseServer extends Thread
         System.out.println(this.hash);
     }
 
-    public BaseServer(final String host, Integer PORT)
+    public BaseServer(final String HOST, Integer PORT)
     {
-        if(host==null || PORT ==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
+        if(HOST==null || PORT ==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
-        this.HOST = host;
+        this.HOST = HOST;
 
         this.PORT = PORT;
 
@@ -80,11 +80,11 @@ public abstract class BaseServer extends Thread
 
         try
         {
-            this.ADDRESS = InetAddress.getByName(host);
+            this.ADDRESS = InetAddress.getByName(HOST);
         }
         catch(Exception e)
         {
-            throw new IllegalStateException("Unable to resolve server host "+host, e);
+            throw new IllegalStateException("Unable to resolve server HOST "+HOST, e);
         }
 
         try
@@ -95,7 +95,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
-            throw new IllegalStateException("Unable to create server socket on "+host+":"+this.PORT, e);
+            throw new IllegalStateException("Unable to create server socket on "+HOST+":"+this.PORT, e);
         }
     }
 
