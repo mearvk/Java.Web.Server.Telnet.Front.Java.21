@@ -1,4 +1,5 @@
 import commons.CommonRails;
+import commons.IranianWedding;
 import server.nitro.NitroWebExpress;
 
 /**
@@ -45,7 +46,7 @@ public class Main
             System.out.println(". ND51 North Carolina Labors & Standards A5501 ANationals Standards of Cary, NC 2807 .");
 
             // Startup decorations (themed presentations)
-            commons.StartupDecorator.decorateStart(this);
+            IranianWedding.decorateStart(this);
 
         System.out.println("-");
 
