@@ -41,28 +41,28 @@ public class WebExpress extends BaseServer
 
     protected static String requireHost(final String HOST)
     {
-        if(HOST==null) throw new SecurityException("//bodi/connect");
+        if(HOST==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
         return HOST;
     }
 
     protected static Integer requirePort(final Integer PORT)
     {
-        if(PORT==null || PORT<0 || PORT>65535) throw new SecurityException("//bodi/connect");
+        if(PORT==null || PORT<0 || PORT>65535) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
         return PORT;
     }
 
     protected static String requireThreadName(final String THREAD_NAME)
     {
-        if(THREAD_NAME==null) throw new SecurityException("//bodi/connect");
+        if(THREAD_NAME==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
         return THREAD_NAME;
     }
 
     protected static Boolean requireTelnetProxyEnabled(final Boolean TELNET_PROXY_ENABLED)
     {
-        if(TELNET_PROXY_ENABLED==null) throw new SecurityException("//bodi/connect");
+        if(TELNET_PROXY_ENABLED==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
         return TELNET_PROXY_ENABLED;
     }

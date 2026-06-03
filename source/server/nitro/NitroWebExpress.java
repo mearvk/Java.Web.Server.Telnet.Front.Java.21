@@ -94,7 +94,7 @@ public class NitroWebExpress extends WebExpress
 
         public Aspect(WebExpress WEBEXPRESS)
         {
-            if(WEBEXPRESS==null) throw new SecurityException("//bodi/connect");
+            if(WEBEXPRESS==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
             this.WEBEXPRESS = WEBEXPRESS;
         }
@@ -146,7 +146,7 @@ public class NitroWebExpress extends WebExpress
 
                 public void send_message(StringBuffer buffer)
                 {
-                    if(buffer==null) throw new SecurityException("//bodi/connect");
+                    if(buffer==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, buffer);
 
@@ -209,7 +209,7 @@ public class NitroWebExpress extends WebExpress
 
                 public void send_message(StringBuffer buffer)
                 {
-                    if(buffer==null) throw new SecurityException("//bodi/connect");
+                    if(buffer==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, buffer);
 
@@ -218,7 +218,7 @@ public class NitroWebExpress extends WebExpress
 
                 public void send_message(String message)
                 {
-                    if(message==null) throw new SecurityException("//bodi/connect");
+                    if(message==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, message);
 
@@ -234,7 +234,7 @@ public class NitroWebExpress extends WebExpress
 
                 public MessageQueueSorter(WebExpress WEB_EXPRESS)
                 {
-                    if(WEB_EXPRESS==null) throw new SecurityException("//bodi/connect");
+                    if(WEB_EXPRESS==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
                     this.WEB_EXPRESS = WEB_EXPRESS;
 
@@ -365,7 +365,7 @@ public class NitroWebExpress extends WebExpress
 
                 public synchronized void addMessage(MessageQueue.Message message)
                 {
-                    if(message==null) throw new SecurityException("//bodi/connect");
+                    if(message==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
                     CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress::addMessage message queue size before "+this.getMessageQueueSize()+" .");
 
