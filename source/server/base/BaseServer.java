@@ -56,6 +56,8 @@ public abstract class BaseServer extends Thread
         {
             e.printStackTrace(System.err);
 
+            this.RUNNING = false;
+
             return;
         }
 
@@ -66,6 +68,9 @@ public abstract class BaseServer extends Thread
         catch(Exception e)
         {
             e.printStackTrace(System.err);
+
+            // mark as not running so run() will not attempt accept on a null socket
+            this.RUNNING = false;
 
             return;
         }
@@ -91,6 +96,8 @@ public abstract class BaseServer extends Thread
         {
             e.printStackTrace(System.err);
 
+            this.RUNNING = false;
+
             return;
         }
 
@@ -102,11 +109,13 @@ public abstract class BaseServer extends Thread
         {
             e.printStackTrace(System.err);
 
+            this.RUNNING = false;
+
             return;
         }
         finally
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress::BaseServer] [Server created on Port ["+this.PORT +"]]");
+            CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress::BaseServer] [Server created on Port ["+this.PORT+"]]" );
         }
     }
 
@@ -115,6 +124,14 @@ public abstract class BaseServer extends Thread
     {
         try
         {
+            // Defensive: if server socket failed to initialize the constructor set RUNNING=false;
+            if (this.SERVER_SOCKET == null)
+            {
+                CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress::BaseServer] [SERVER_SOCKET is null; server not started]");
+
+                return;
+            }
+
             while(RUNNING)
             {
                 Connection connection;
