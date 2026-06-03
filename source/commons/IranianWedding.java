@@ -1,6 +1,6 @@
 package commons;
 
-public class StartupDecorator
+public class IranianWedding
 {
     public static void decorateStart(Object owner)
     {
