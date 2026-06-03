@@ -76,9 +76,10 @@ public class NitroWebExpress extends WebExpress
 
         protected TraderModule TRADER_MODULE = new TraderModule(this, "Bitcoin Remote Module 2.0 ADS5.0");
 
-        public AESCompliant AES_COMPONENT = new AESCompliant(AES_COMPLIANT_HOSTNAME, 0, "AES COMPONENT", Boolean.TRUE);
+        // Do not eagerly instantiate components that bind sockets; create on-demand to avoid accidental double binds
+        public AESCompliant AES_COMPONENT;
 
-        public BitcoinCompliant BITCOIN_COMPONENT = new BitcoinCompliant();
+        public BitcoinCompliant BITCOIN_COMPONENT;
 
 
         public Aspect(WebExpress WEBEXPRESS)
