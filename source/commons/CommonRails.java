@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Collections;
 
 public class CommonRails
 {
@@ -122,6 +124,70 @@ public class CommonRails
 
             return false;
         }
+    }
+
+    // Registry for started Processes so CommonRails can monitor them and print on exit
+    protected static final List<Process> REGISTERED_PROCESSES = Collections.synchronizedList(new ArrayList<Process>());
+
+    /**
+     * Register a started Process with CommonRails. CommonRails will attach a listener
+     * to the process' onExit CompletableFuture (Java 9+) and print when the process exits.
+     * If onExit is unavailable/throws, a watcher thread using waitFor is started as a fallback.
+     */
+    public static synchronized void registerProcess(ProcessBuilder pb, Process process, Object owner)
+    {
+        if (process == null) return;
+
+        REGISTERED_PROCESSES.add(process);
+
+        Object printer = (owner == null) ? CommonRails.class : owner;
+
+        try
+        {
+            CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails::registerProcess >> registered process: " + process);
+
+            // Attach onExit listener
+            process.onExit().thenAccept(p -> {
+                try
+                {
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails::processExited >> process closed: " + p + " exit=" + p.exitValue());
+                }
+                catch (Throwable t)
+                {
+                    // Best-effort printing
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails::processExited >> process closed: " + p);
+                }
+                finally
+                {
+                    REGISTERED_PROCESSES.remove(p);
+                }
+            });
+        }
+        catch (Throwable t)
+        {
+            // Fallback: spawn a watcher thread that waits for the process
+            new Thread(() -> {
+                try
+                {
+                    int rv = process.waitFor();
+
+                    CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails::processExited(watcher) >> process closed: " + process + " exit=" + rv);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace(System.err);
+                }
+                finally
+                {
+                    REGISTERED_PROCESSES.remove(process);
+                }
+            }, "CommonRails-ProcessWatcher-" + process.hashCode()).start();
+        }
+    }
+
+    public static synchronized List<Process> getRegisteredProcesses()
+    {
+        return new ArrayList<>(REGISTERED_PROCESSES);
     }
 
     public static class TelnetCallOnComplete implements Runnable
