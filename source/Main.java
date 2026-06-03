@@ -21,11 +21,11 @@ public class Main
 
     protected static final Integer BITCOIN_WEBEXPRESS_SERVER_SOCKET = 6682;
 
-    protected static final String WEB_EXPRESS_SERVER_THREADNAME = ". WEBEXPRESS_TELNET_PROXY_SERVER .";
+    protected static final String WEB_EXPRESS_SERVER_THREADNAME = "WEBEXPRESS_TELNET_PROXY_SERVER";
 
-    protected static final String AES2_WEBEXPRESS_SERVER_THREAD_NAME = ". WEBEXPRESS_AES2_SERVER .";
+    protected static final String AES2_WEBEXPRESS_SERVER_THREAD_NAME = "WEBEXPRESS_AES2_SERVER";
 
-    protected static final String BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME = ". WEBEXPRESS_BITCOIN_SERVER .";
+    protected static final String BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME = "WEBEXPRESS_BITCOIN_SERVER";
 
     protected static final String WEBEXPRESS_HOSTNAME = "localhost";
 
@@ -56,10 +56,13 @@ public class Main
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
             // Re-order and print captured startup entries, then continue with normal startup
-            try {
+            try
+            {
                 NationalDriver.printCorrectedOrder();
                 NationalDriver.clear();
-            } catch (Throwable t) {
+            }
+            catch (Throwable t)
+            {
                 // best-effort: continue startup even if reordering fails
             }
 
