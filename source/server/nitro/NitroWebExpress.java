@@ -50,6 +50,9 @@ public class NitroWebExpress extends WebExpress
 
     public NitroWebExpress(final Integer PORT, final String HOST, final String THREAD_NAME)
     {
+        // Initialize BaseServer/WebExpress so SERVER_SOCKET is created and run() will not NPE
+        super(HOST, PORT, THREAD_NAME, Boolean.TRUE);
+
         CommonRails.printSystemComponent(this, 8, ". National ID initialized: "+this.NATIONALID.EIGHT_DIGITS+" .");
 
         CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
