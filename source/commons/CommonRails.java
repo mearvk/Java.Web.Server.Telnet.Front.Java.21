@@ -1,212 +1,210 @@
-/**
- * File-level Javadoc.
- *
- * @author Max Rupplin
- * @date June 03 2026 EST
- */
-
 package commons;
 
 import server.nitro.WebExpress;
 
-import java.io.Closeable;
 import java.net.Socket;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Collections;
 
 public class CommonRails
 {
     protected String hash = "0xDA717018470E213F";
-
-    private static final DateTimeFormatter TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss z");
-
-    private static final ZoneId DEFAULT_ZONE = ZoneId.of("America/New_York");
 
     public CommonRails()
     {
 
     }
 
-    public static <T> Integer size(final List<T> list)
+    public static <T> Integer size(ArrayList<T> list)
     {
-        return list == null ? 0 : list.size();
+        return list.size();
     }
 
-    public static void info(final Object object, final Integer hashcode, final String line)
+    public static void printSystemComponent(Object object, Integer hashcode, String line)
     {
-        printSystemComponent(object, hashcode, "INFO", line);
+        String classname = "[Current: "+object.getClass().getSimpleName()+"]";
+
+        String compliant_hashcode = String.format("%010d", hashcode);
+
+        String object_id = "-- : [Object ID: "+compliant_hashcode+"]";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+
+        String date = "[Date: "+formatter.format(new Date())+"]";
+
+        String reference = object_id + " "+ date + " " + classname + " " + line;
+
+        CommonRails.delayableFinePrinter(reference, 21);
+
+        //System.out.println("\u001B[0m");
     }
 
-    public static void warn(final Object object, final Integer hashcode, final String line)
+    public static void delayableFinePrinter(String text, int delay)
     {
-        printSystemComponent(object, hashcode, "WARN", line);
-    }
-
-    public static void error(final Object object, final Integer hashcode, final String line)
-    {
-        printSystemComponent(object, hashcode, "ERROR", line);
-    }
-
-    public static void printSystemComponent(final Object object, final Integer hashcode, final String level, final String line)
-    {
-        final String classname = object == null ? "[Current: null]" : ("[Current: "+object.getClass().getSimpleName()+"]");
-
-        final String compliant_hashcode = String.format("%010d", hashcode == null ? 0 : hashcode);
-
-        final String object_id = "-- : [Object ID: "+compliant_hashcode+"]";
-
-        final String date = "[Date: "+ ZonedDateTime.now(DEFAULT_ZONE).format(TIMESTAMP_FORMATTER) +"]";
-
-        final String reference = object_id + " "+ date + " " + level + " " + classname + " " + line;
-
-        delayableFinePrinter(reference, 12);
-    }
-
-    public static void printSystemComponent(final Object object,  final Integer hashcode, final String line)
-    {
-        printSystemComponent(object, hashcode, "INFO", line);
-    }
-
-    public static void delayableFinePrinter(final String text, final int delay)
-    {
-        final int[] codes = {232, 233, 234, 235, 236, 237, 238, 241, 244, 247, 250, 253, 188};
+        int[] codes = {232, 233, 234, 235, 236, 237, 238, 241, 244, 247, 250, 253, 188};
 
         try
         {
-            for (int color : codes)
+            for(int color : codes)
             {
                 System.out.print("\033[38;5;" + color + "m" + text + "\r");
 
                 Thread.sleep(delay);
             }
 
-            Thread.sleep(120L);
-
-            System.out.println(text);
-        }
-        catch (InterruptedException ie)
-        {
-            Thread.currentThread().interrupt();
+            Thread.sleep(400L);
 
             System.out.println(text);
         }
         catch (Exception e)
         {
-            System.out.println(text);
+            e.printStackTrace(System.err);
         }
     }
 
-    protected static void actionDelay(final String action,  final WebExpress WEB_EXPRESS, final Integer notLessThan)
+    protected static void _long(final String orgasm, WebExpress web_express, Integer not_less_than)
     {
         try
         {
-            Thread.sleep(notLessThan == null ? 0 : notLessThan);
+            Thread.sleep(not_less_than);
         }
-        catch (InterruptedException ie)
+        catch (Exception e)
         {
-            Thread.currentThread().interrupt();
+            e.printStackTrace(System.err);
         }
 
-        if ("TelnetCommunicator::Close::Hook".equals(action))
+        switch (orgasm)
         {
-            try
-            {
-                TelnetCallOnComplete call_on_complete = new TelnetCallOnComplete(WEB_EXPRESS);
+            case "TelnetCommunicator::Close::Hook":
 
-                call_on_complete.run();
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace(System.err);
-            }
+                try
+                {
+                    TelnetCallOnComplete call_on_complete = new TelnetCallOnComplete(web_express);
+
+                    call_on_complete.run();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace(System.err);
+                }
+
+                break;
         }
     }
 
     public static class SocketUtils
     {
-        public static boolean isSocketConnected(final Socket socket)
+        public static Boolean isSocketConnected(Socket socket)
         {
-            if (socket == null) return false;
-
             try
             {
-                return socket.isConnected() && !socket.isClosed();
+                socket.getOutputStream().write("".getBytes());
             }
             catch (Exception e)
             {
                 return false;
             }
+
+            return true;
         }
 
-        public static boolean isSocketClosed(final Socket socket)
+        public static Boolean isSocketClosed(Socket socket)
         {
-            if (socket == null) return true;
-
             try
             {
-                return socket.isClosed();
+                socket.getOutputStream().write("".getBytes());
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 return true;
             }
-        }
 
-        public static void safeClose(final Socket socket)
+            return false;
+        }
+    }
+
+    // Registry for started Processes so CommonRails can monitor them and print on exit
+    protected static final List<Process> REGISTERED_PROCESSES = Collections.synchronizedList(new ArrayList<Process>());
+
+    /**
+     * Register a started Process with CommonRails. CommonRails will attach a listener
+     * to the process' onExit CompletableFuture (Java 9+) and print when the process exits.
+     * If onExit is unavailable/throws, a watcher thread using waitFor is started as a fallback.
+     */
+    public static synchronized void registerProcess(ProcessBuilder pb, Process process, Object owner)
+    {
+        if (process == null) return;
+
+        REGISTERED_PROCESSES.add(process);
+
+        Object printer = (owner == null) ? CommonRails.class : owner;
+
+        try
         {
-            if (socket == null) return;
+            CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails::registerProcess >> registered process: " + process);
 
-            try
-            {
-                socket.close();
-            }
-            catch (Exception ignored)
-            {
-            }
+            // Attach onExit listener
+            process.onExit().thenAccept(p -> {
+                try
+                {
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails::processExited >> process closed: " + p + " exit=" + p.exitValue());
+                }
+                catch (Throwable t)
+                {
+                    // Best-effort printing
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails::processExited >> process closed: " + p);
+                }
+                finally
+                {
+                    REGISTERED_PROCESSES.remove(p);
+                }
+            });
         }
-
-        public static void safeClose(final Closeable c)
+        catch (Throwable t)
         {
-            if (c == null) return;
+            // Fallback: spawn a watcher thread that waits for the process
+            new Thread(() -> {
+                try
+                {
+                    int rv = process.waitFor();
 
-            try
-            {
-                c.close();
-            }
-            catch (Exception ignored)
-            {
-            }
+                    CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails::processExited(watcher) >> process closed: " + process + " exit=" + rv);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace(System.err);
+                }
+                finally
+                {
+                    REGISTERED_PROCESSES.remove(process);
+                }
+            }, "CommonRails-ProcessWatcher-" + process.hashCode()).start();
         }
+    }
+
+    public static synchronized List<Process> getRegisteredProcesses()
+    {
+        return new ArrayList<>(REGISTERED_PROCESSES);
     }
 
     public static class TelnetCallOnComplete implements Runnable
     {
-        protected WebExpress WEB_EXPRESS;
+        protected WebExpress web_express;
 
-        public TelnetCallOnComplete(final WebExpress WEB_EXPRESS)
+        public TelnetCallOnComplete(WebExpress web_express)
         {
-            this.WEB_EXPRESS = WEB_EXPRESS;
+            this.web_express = web_express;
         }
 
         @Override
         public void run()
         {
-            if (this.WEB_EXPRESS == null || this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY == null || this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.process == null)
-            {
-                return;
-            }
-
             try
             {
-                this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.process.waitFor();
-            }
-            catch (InterruptedException ie)
-            {
-                Thread.currentThread().interrupt();
+                int return_value = this.web_express.TELNET_COMMUNICATION_PROXY.process.waitFor();
             }
             catch (Exception e)
             {
