@@ -10,4 +10,4 @@ Owner of Del Taco in Apple Valley, CA '95
 
 Owner of AtlAtl.phd Brand Clothing US United States
 
-![Profile views](https://views.igorkowalczyk.dev/api/badge/@mearvk?style=flat)
+![Profile views](https://views.igorkowalczyk.dev/api/badge/@mearvk?style=flat)@
