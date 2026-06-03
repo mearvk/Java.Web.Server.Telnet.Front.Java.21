@@ -1,4 +1,4 @@
-package sources.security;
+package security;
 
 /**
  * PortKnockKnock - placeholder for port knocking functionality.
