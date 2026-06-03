@@ -9,7 +9,7 @@ package server.nitro;
 
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
-import commons.EnglishArithemeter;
+import commons.transition.english.EnglishArithemeter;
 import connections.CurrentConnections;
 import encryption.module.aes.two.EncryptionModule;
 import messaging.MessageQueue;

@@ -5,7 +5,7 @@
  * @date June 03 2026 EST
  */
 
-package commons;
+package commons.transition.english;
 
 public class Arithmeter
 {
