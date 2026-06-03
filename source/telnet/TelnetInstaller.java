@@ -1,7 +1,6 @@
 package telnet;
 
 import commons.CommonRails;
-import exceptions.ExceptionHandler;
 import server.nitro.WebExpress;
 
 import java.io.BufferedReader;
@@ -26,7 +25,7 @@ public class TelnetInstaller
 
     public TelnetInstaller(WebExpress web_express)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Installer starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress::Telnet::Installer starts .");
 
         try
         {
@@ -36,23 +35,15 @@ public class TelnetInstaller
 
             this.process = process_builder.start();
 
-            // register process with CommonRails so it can monitor exit/finish events
-            try {
-                CommonRails.registerProcess(this.process_builder, this.process, this);
-            } catch (Exception ignore) {
-                // best-effort: don't let registration prevent initialization
-            }
-
             this.reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
             this.writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 
-            //commons.CommonRails._long("TelnetCommunicator Close Hook", this.web_express, 1000);
+            //commons.CommonRails._long("TelnetCommunicator::Close::Hook", this.web_express, 1000);
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
-            e.printStackTrace(System.err);
+            throw new IllegalStateException("Unable to start telnet proxy command "+this.process_builder.command(), e);
         }
     }
 }
