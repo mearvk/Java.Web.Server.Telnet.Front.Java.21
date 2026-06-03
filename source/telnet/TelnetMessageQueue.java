@@ -1,10 +1,3 @@
-/**
- * File-level Javadoc.
- *
- * @author Max Rupplin
- * @date June 03 2026 EST
- */
-
 package telnet;
 
 import server.base.BaseServer;
@@ -41,32 +34,28 @@ public class TelnetMessageQueue
     public synchronized void add(Message message)
     {
         this.messages.add(message);
+        this.notifyAll();
     }
 
     public synchronized void remove(Message message)
     {
-        if (this.messages != null) {
-            this.messages.remove(message);
-        }
+        this.messages.remove(message);
     }
 
     public synchronized void sleep(Message message)
     {
-        // Intent: a placeholder to pause processing of a message. Implemented as a no-op
-        // that ensures the message is present; do not modify the list here.
-        // If a timed pause is required, callers should handle it externally.
+        this.messages.add(message);
+        this.notifyAll();
     }
 
     public synchronized Integer size()
     {
-        return this.messages == null ? 0 : this.messages.size();
+        return this.messages.size();
     }
 
     public synchronized void delete(Message message)
     {
-        if (this.messages != null) {
-            this.messages.remove(message);
-        }
+        this.messages = null;
     }
 
     public static class Message
