@@ -81,6 +81,16 @@ public class CommonRails
 
         String reference = object_id + " " + date + " " + classnamePadded + " " + line;
 
+        // Record reference order for startup ordering backend (best-effort)
+        try
+        {
+            NationalDriver.record(reference);
+        }
+        catch (Throwable t)
+        {
+            // non-fatal: continue printing even if recording fails
+        }
+
         CommonRails.delayableFinePrinter(reference, 21);
 
         //System.out.println("\u001B[0m");
