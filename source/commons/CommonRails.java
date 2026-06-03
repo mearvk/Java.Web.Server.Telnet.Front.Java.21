@@ -80,7 +80,29 @@ public class CommonRails
 
         String date = "[Date: "+formatter.format(new Date())+"]";
 
-        String reference = object_id + " " + date + " " + classnamePadded + " " + line;
+        // Uppercase the first alphanumeric token in the provided line (the fourth printed field)
+        String lineFixed = line;
+        if (lineFixed != null && lineFixed.length() > 0)
+        {
+            int i = 0;
+            // skip non-alphanumeric leading characters (punctuation, spaces)
+            while (i < lineFixed.length() && !Character.isLetterOrDigit(lineFixed.charAt(i))) i++;
+
+            int start = i;
+            while (i < lineFixed.length() && (Character.isLetterOrDigit(lineFixed.charAt(i)) || lineFixed.charAt(i) == '_')) i++;
+
+            if (start < i)
+            {
+                String token = lineFixed.substring(start, i);
+
+                // Replace token with fully uppercased form
+                String upper = token.toUpperCase();
+
+                lineFixed = lineFixed.substring(0, start) + upper + lineFixed.substring(i);
+            }
+        }
+
+        String reference = object_id + " " + date + " " + classnamePadded + " " + lineFixed;
 
         // Record reference order for startup ordering backend (best-effort)
         try
@@ -220,18 +242,18 @@ public class CommonRails
 
         try
         {
-            CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails registerProcess >> registered process: " + process);
+            CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails registerProcess >> registered process: " + process + " . ");
 
             // Attach onExit listener
             process.onExit().thenAccept(p -> {
                 try
                 {
-                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " exit=" + p.exitValue());
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " exit=" + p.exitValue() + " . ");
                 }
                 catch (Throwable t)
                 {
                     // Best-effort printing
-                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p);
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " . ");
                 }
                 finally
                 {
@@ -245,7 +267,7 @@ public class CommonRails
                 {
                     if (!process.waitFor(2, TimeUnit.HOURS))
                     {
-                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process timeout (2 hours) exceeded; destroying: " + process);
+                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process timeout (2 hours) exceeded; destroying: " + process + " . ");
 
                         try { process.destroyForcibly(); } catch (Throwable ignored) {}
                     }
@@ -268,11 +290,11 @@ public class CommonRails
                     {
                         int rv = process.exitValue();
 
-                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails processExited(watcher) >> process closed: " + process + " exit=" + rv);
+                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails processExited(watcher) >> process closed: " + process + " exit=" + rv + " . ");
                     }
                     else
                     {
-                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process watcher timeout (2 hours) exceeded; destroying: " + process);
+                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process watcher timeout (2 hours) exceeded; destroying: " + process + " . ");
 
                         try { process.destroyForcibly(); } catch (Throwable ignored) {}
                     }
@@ -316,7 +338,7 @@ public class CommonRails
                 {
                     int return_value = p.exitValue();
 
-                    CommonRails.printSystemComponent(this, p.hashCode(), ". TelnetCallOnComplete >> process exited: " + p + " exit=" + return_value);
+                    CommonRails.printSystemComponent(this, p.hashCode(), ". TelnetCallOnComplete >> process exited: " + p + " exit=" + return_value + " . ");
                 }
                 else
                 {
