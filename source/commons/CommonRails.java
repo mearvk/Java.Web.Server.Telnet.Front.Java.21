@@ -14,11 +14,8 @@ public class CommonRails
 {
     protected String hash = "0xDA717018470E213F";
 
-    // Padding for the [Current: ...] display: total field width before extra separator
-    protected static final int CLASSNAME_PAD = 50;
-
-    // Number of extra spaces appended to the right of the [Current: ...] field
-    protected static final int CLASSNAME_EXTRA_SPACES = 10;
+    // Desired total width for the text inside the [Current: ...] brackets
+    protected static final int CLASSNAME_TOTAL_WIDTH = 50;
 
     /**
      * If true, CommonRails will emit ANSI-coloured animated output in delayableFinePrinter.
@@ -63,10 +60,13 @@ public class CommonRails
 
     public static void printSystemComponent(Object object, Integer hashcode, String line)
     {
-        String classname = "[Current: "+object.getClass().getSimpleName()+"]";
+        // Build the [Current: ...] field and pad the content inside the brackets to the desired total width
+        String inner = "Current: " + object.getClass().getSimpleName();
+        int innerPad = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
+        String classname = "[" + inner + " ".repeat(innerPad) + "]";
 
-        // Pad the classname field using class constants so that everything after it starts at the same column
-        String classnamePadded = String.format("%-" + CLASSNAME_PAD + "s", classname) + " ".repeat(CLASSNAME_EXTRA_SPACES);
+        // classname is already the fixed-width bracketed field; use as-is
+        String classnamePadded = classname;
 
         String compliant_hashcode = String.format("%010d", hashcode);
 
