@@ -60,7 +60,7 @@ public class Main
 
             configureBridge(nitro);
 
-        startNitroWebExpress(nitro);
+            startNitroWebExpress(nitro);
     }
 
     private static void configureBridge(final NitroWebExpress nitro)
