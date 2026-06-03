@@ -1,5 +1,6 @@
 import commons.CommonRails;
 import commons.InternationalCommonRails;
+import national.NationalDriver;
 import server.nitro.NitroWebExpress;
 
 /**
@@ -57,6 +58,7 @@ public class Main
             try
             {
                 NationalDriver.printCorrectedOrder();
+
                 NationalDriver.clear();
             }
             catch (Throwable t)
