@@ -83,7 +83,7 @@ public class CommonRails
                 System.out.println(text);
 
                 // ensure terminal color state is reset
-                System.out.println("\u001B[0m");
+                System.out.print("\u001B[0m");
             }
             catch (Exception e)
             {
@@ -109,7 +109,7 @@ public class CommonRails
             System.out.println(text);
 
             // reset terminal color state after animation
-            System.out.println("\u001B[0m");
+            System.out.print("\u001B[0m");
         }
         catch (Exception e)
         {
