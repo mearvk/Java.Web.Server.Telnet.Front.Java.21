@@ -58,6 +58,10 @@ public class CommonRails
     {
         String classname = "[Current: "+object.getClass().getSimpleName()+"]";
 
+        // Pad the classname field so that everything after it starts at the same column
+        int CLASSNAME_PAD = 30; // adjust as needed for wider class names
+        String classnamePadded = String.format("%-" + CLASSNAME_PAD + "s", classname);
+
         String compliant_hashcode = String.format("%010d", hashcode);
 
         String object_id = "-- : [Object ID: "+compliant_hashcode+"]";
@@ -66,7 +70,7 @@ public class CommonRails
 
         String date = "[Date: "+formatter.format(new Date())+"]";
 
-        String reference = object_id + " "+ date + " " + classname + " " + line;
+        String reference = object_id + " " + date + " " + classnamePadded + " " + line;
 
         CommonRails.delayableFinePrinter(reference, 21);
 
