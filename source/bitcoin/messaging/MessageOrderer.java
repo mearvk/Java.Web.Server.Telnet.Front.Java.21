@@ -3,6 +3,10 @@ package bitcoin.messaging;
 import bitcoin.base.BitcoinBase;
 import bitcoin.module.TraderModule;
 
+import commons.CommonRails;
+
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -33,40 +37,118 @@ public class MessageOrderer extends Thread
     {
         while(true)
         {
-            synchronized (this)
+            BitcoinMessage msg = null;
+
+            synchronized (this.bitcoin_messages)
             {
                 while (this.bitcoin_messages.isEmpty())
                 {
-                    try { this.wait(); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); return; }
+                    try
+                    {
+                        this.bitcoin_messages.wait();
+                    }
+                    catch (InterruptedException ie)
+                    {
+                        Thread.currentThread().interrupt();
+
+                        return;
+                    }
                 }
 
-                // process all messages (no-op here; callers add/remove externally)
-                // keep loop to empty list if any
-                while (this.bitcoin_messages.size() > 0)
-                {
-                    // In absence of explicit processing logic, just remove the head
-                    this.bitcoin_messages.remove(0);
-                }
+                msg = this.bitcoin_messages.remove(0);
+            }
+
+            try
+            {
+                processMessage(msg);
+            }
+            catch (Exception e)
+            {
+                CommonRails.printSystemComponent(this, this.hashCode(), ". MessageOrderer::run >> exception processing message: " + e.getMessage());
             }
         }
     }
 
     public synchronized void add(BitcoinMessage bitcoin_message)
     {
-        this.bitcoin_messages.add(bitcoin_message);
-        this.notifyAll();
+        if (bitcoin_message == null)
+        {
+            return;
+        }
+
+        synchronized (this.bitcoin_messages)
+        {
+            this.bitcoin_messages.add(bitcoin_message);
+
+            this.bitcoin_messages.notifyAll();
+        }
     }
 
     public synchronized void remove(BitcoinMessage bitcoin_message)
     {
-        this.bitcoin_messages.remove(bitcoin_message);
-        this.notifyAll();
+        synchronized (this.bitcoin_messages)
+        {
+            this.bitcoin_messages.remove(bitcoin_message);
+        }
     }
 
     public synchronized void clear(BitcoinMessage bitcoin_message)
     {
-        this.bitcoin_messages.clear();
-        this.notifyAll();
+        synchronized (this.bitcoin_messages)
+        {
+            this.bitcoin_messages.clear();
+        }
+    }
+
+    public synchronized int size()
+    {
+        synchronized (this.bitcoin_messages)
+        {
+            return this.bitcoin_messages.size();
+        }
+    }
+
+    protected void processMessage(BitcoinMessage msg)
+    {
+        if (msg == null)
+        {
+            return;
+        }
+
+        CommonRails.printSystemComponent(this, this.hashCode(), ". MessageOrderer::processMessage >> processing message from " + msg.inet_address + " socket=" + msg.socket);
+
+        try
+        {
+            if (msg.socket != null && CommonRails.SocketUtils.isSocketConnected(msg.socket))
+            {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(msg.socket.getOutputStream()));
+
+                String out = msg.message_buffer == null ? "" : msg.message_buffer.toString();
+
+                writer.write(out);
+
+                writer.flush();
+            }
+            else
+            {
+                CommonRails.printSystemComponent(this, this.hashCode(), ". MessageOrderer::processMessage >> socket not available, storing/logging message.");
+            }
+        }
+        catch (Exception e)
+        {
+            CommonRails.printSystemComponent(this, this.hashCode(), ". MessageOrderer::processMessage >> error sending message: " + e.getMessage());
+
+            try
+            {
+                if (msg.socket != null)
+                {
+                    msg.socket.close();
+                }
+            }
+            catch (Exception ignored)
+            {
+            }
+        }
     }
 
     public static class BitcoinMessage
