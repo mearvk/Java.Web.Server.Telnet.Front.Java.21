@@ -147,6 +147,7 @@ public class MessageOrderer extends Thread
             }
             catch (Exception ignored)
             {
+                ignored.printStackTrace(System.err);
             }
         }
     }
