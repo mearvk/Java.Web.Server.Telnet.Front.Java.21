@@ -10,6 +10,7 @@ import telnet.TelnetInstaller;
 public class WebExpress extends BaseServer
 {
     protected String hash = "0xDA717018470E213F";
+
     public static final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};
 
     public static final Boolean TELNET_PROXY = Boolean.FALSE;
@@ -31,6 +32,8 @@ public class WebExpress extends BaseServer
     public MessageQueueSorter MESSAGE_QUEUE_SORTER;
 
     public MessageQueue MESSAGE_QUEUE = new MessageQueue(this);
+
+    public BaseServer BASESERVER;
 
     public WebExpress()
     {
