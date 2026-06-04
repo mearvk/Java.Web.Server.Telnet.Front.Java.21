@@ -2,6 +2,7 @@ package server.base;
 
 import commons.CommonRails;
 import connections.*;
+import server.nitro.WebExpress;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,6 +28,7 @@ public abstract class BaseServer extends Thread
 
     public Boolean RUNNING = true;
 
+
     public CurrentConnections current_connections = new CurrentConnections();
 
     private final RecordedConnections recorded_connections = new RecordedConnections();
@@ -45,6 +47,8 @@ public abstract class BaseServer extends Thread
         this.HOST = host;
 
         this.PORT = PORT;
+
+        this.INHERITOR = this;
 
         this.setName("BasicServer");
 
@@ -186,7 +190,7 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.thread = new ConnectionPoller(null,this, this.HOST, this.PORT);
+                    connection.thread = new ConnectionPoller(this, this.HOST, this.PORT);
 
                     connection.thread.start();
                 }
