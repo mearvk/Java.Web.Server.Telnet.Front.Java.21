@@ -19,13 +19,13 @@ public class ConnectionPoller extends Thread
 
     protected BaseServer base_server;
 
-    protected WebExpress web_express;
-
     protected ServerSocket server_socket;
 
     protected String host;
 
     protected Integer port;
+
+    protected WebExpress web_express;
 
     protected final String LINE_FEED = "\n";
 
@@ -44,8 +44,6 @@ public class ConnectionPoller extends Thread
 
     public ConnectionPoller(WebExpress web_express, BaseServer base_server)
     {
-        this.web_express = web_express;
-
         this.base_server = base_server;
 
         this.setName("ConnectionPoller");
@@ -64,11 +62,11 @@ public class ConnectionPoller extends Thread
         {
             try
             {
-                current_connections = this.base_server.current_connections;
+                current_connections = this.base_server.CURRENT_CONNECTIONS;
 
                 for(int i=0; i<current_connections.size(); i++)
                 {
-                    CurrentConnections connections = this.web_express.current_connections;
+                    CurrentConnections connections = this.web_express.CURRENT_CONNECTIONS;
 
                     connection = current_connections.current_connections.get(i);
 

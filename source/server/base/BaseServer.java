@@ -2,7 +2,6 @@ package server.base;
 
 import commons.CommonRails;
 import connections.*;
-import server.nitro.WebExpress;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -29,11 +28,11 @@ public abstract class BaseServer extends Thread
     public Boolean RUNNING = true;
 
 
-    public CurrentConnections current_connections = new CurrentConnections();
+    public CurrentConnections CURRENT_CONNECTIONS = new CurrentConnections();
 
-    private final RecordedConnections recorded_connections = new RecordedConnections();
+    private final RecordedConnections RECORDED_CONNECTIONS = new RecordedConnections();
 
-    private final InternationalConnections international_connections = new InternationalConnections();
+    private final InternationalConnections INTERNATIONAL_CONNECTIONS = new InternationalConnections();
 
     public BaseServer()
     {
@@ -205,11 +204,11 @@ public abstract class BaseServer extends Thread
                     CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress BaseServer] [Related I/O listener thread established ["+this.ADDRESS +":"+this.PORT +"]]");
                 }
 
-                this.current_connections.add(connection);
+                this.CURRENT_CONNECTIONS.add(connection);
 
-                this.recorded_connections.add(connection);
+                this.RECORDED_CONNECTIONS.add(connection);
 
-                this.international_connections.add(connection);
+                this.INTERNATIONAL_CONNECTIONS.add(connection);
             }
         }
         catch(Exception se)
