@@ -147,8 +147,8 @@ public class NationalDriver
             {
                 List<String> g = grouped.get(gi);
                 String gname = groupNames.get(gi);
-                CommonRails.delayableFinePrinter(". START GROUP: " + gname + " (" + g.size() + ") .", 21);
-                for (String s : g) CommonRails.delayableFinePrinter(s, 21);
+                //CommonRails.delayableFinePrinter(". START GROUP: " + gname + " (" + g.size() + ") .", 21);
+                //for (String s : g) CommonRails.delayableFinePrinter(s, 21);
             }
         }
         catch (Throwable t)
