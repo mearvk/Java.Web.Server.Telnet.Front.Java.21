@@ -54,7 +54,6 @@ public class Main
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
-            // Re-order and print captured startup entries, then continue with normal startup
             try
             {
                 NationalDriver.printCorrectedOrder();
@@ -63,7 +62,7 @@ public class Main
             }
             catch (Throwable t)
             {
-                // best-effort: continue startup even if reordering fails
+                t.printStackTrace(System.err);
             }
 
         NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
