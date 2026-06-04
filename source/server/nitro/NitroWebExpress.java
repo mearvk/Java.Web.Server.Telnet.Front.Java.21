@@ -288,7 +288,7 @@ public class NitroWebExpress extends WebExpress
                                         }
                                         catch (Exception e)
                                         {
-                                            CurrentConnections connections = this.WEB_EXPRESS.current_connections;
+                                            CurrentConnections connections = this.WEB_EXPRESS.CURRENT_CONNECTIONS;
 
                                             connections.remove(message.connection);
 
@@ -297,7 +297,7 @@ public class NitroWebExpress extends WebExpress
                                             CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter >> dropped connection "+message.socket+" - new connection count "+arithemeter.result.arithemetic +" : "+arithemeter.result.numeral +" .");
                                         }
 
-                                        this.WEB_EXPRESS.current_connections.remove(message.socket);
+                                        this.WEB_EXPRESS.CURRENT_CONNECTIONS.remove(message.socket);
 
                                         break;
                                     }
@@ -328,7 +328,7 @@ public class NitroWebExpress extends WebExpress
                                                 }
                                                 else
                                                 {
-                                                    CurrentConnections connections = this.WEB_EXPRESS.current_connections;
+                                                    CurrentConnections connections = this.WEB_EXPRESS.CURRENT_CONNECTIONS;
 
                                                     connections.remove(message.connection);
 
