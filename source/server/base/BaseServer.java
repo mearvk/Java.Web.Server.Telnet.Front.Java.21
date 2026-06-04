@@ -145,13 +145,13 @@ public abstract class BaseServer extends Thread
 
                 connection = new Connection(this);
 
-                connection.socket = this.SERVER_SOCKET.accept();
+                connection.SOCKET = this.SERVER_SOCKET.accept();
 
-                connection.socket.setSoTimeout(BaseServer.BASE_CONNECTION_TIMEOUT);
+                connection.SOCKET.setSoTimeout(BaseServer.BASE_CONNECTION_TIMEOUT);
 
-                connection.remote_address = connection.socket.getRemoteSocketAddress().toString();
+                connection.remote_address = connection.SOCKET.getRemoteSocketAddress().toString();
 
-                connection.internet_address = connection.socket.getInetAddress();
+                connection.internet_address = connection.SOCKET.getInetAddress();
 
                 connection.server = this;
 
@@ -159,7 +159,7 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.inputstream = connection.socket.getInputStream();
+                    connection.inputstream = connection.SOCKET.getInputStream();
 
                     connection.reader = new BufferedReader(new InputStreamReader(connection.inputstream));
                 }
@@ -176,7 +176,7 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.outputstream = connection.socket.getOutputStream();
+                    connection.outputstream = connection.SOCKET.getOutputStream();
 
                     connection.writer = new BufferedWriter(new OutputStreamWriter(connection.outputstream));
                 }

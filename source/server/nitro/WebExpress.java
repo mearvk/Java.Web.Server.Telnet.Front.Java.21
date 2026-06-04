@@ -68,7 +68,7 @@ public class WebExpress extends BaseServer
 
             this.MESSAGE_QUEUE_SORTER.setName("MessageQueueSorter.TelnetProxy");
 
-            this.TELNET_COMMUNICATION_PROXY.output_builder.setName("TelnetCommunicationProxy.Builder.Output");
+            this.TELNET_COMMUNICATION_PROXY.OUTPUT_BUILDER.setName("TelnetCommunicationProxy.Builder.Output");
 
             this.TELNET_COMMUNICATION_PROXY.input_builder.setName("TelnetCommunicationProxy.Builder.Input");
         }

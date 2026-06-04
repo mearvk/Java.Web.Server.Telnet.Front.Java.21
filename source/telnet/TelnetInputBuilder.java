@@ -38,7 +38,7 @@ public class TelnetInputBuilder extends Thread
                     {
                         try
                         {
-                            final String message = queue.messages.get(0).message_buffer.toString();
+                            final String message = queue.messages.get(0).MESSAGE_BUFFER.toString();
 
                             final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 
