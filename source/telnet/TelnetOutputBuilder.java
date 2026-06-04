@@ -41,13 +41,15 @@ public class TelnetOutputBuilder extends Thread
 
                             if(!value.isEmpty())
                             {
-                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> sending message ["+message.toString()+"]");
+                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> sending message ["+value+"]");
 
-                                proxy.writer.write(value);
+                                if(CommonRails.isConnected(proxy.writer))
+                                    proxy.writer.write(value);
 
-                                proxy.writer.flush();
+                                if(CommonRails.isConnected(proxy.writer))
+                                    proxy.writer.flush();
 
-                                queue.messages.remove(0);
+                                queue.messages.removeFirst();
                             }
                             else
                             {
