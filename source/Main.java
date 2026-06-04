@@ -34,7 +34,7 @@ public class Main
 
     public Main()
     {
-            CommonRails.printSpinner();
+        CommonRails.printStartRecipeSpinner();
 
             System.out.println("[ Java National Finance Engine v.28.1.1 Software Processes Starting ]");
 

@@ -69,7 +69,7 @@ public class CommonRails
         return list.size();
     }
 
-    public static void printSpinner()
+    public static void printStartRecipeSpinner()
     {
         for(int i=0; i<3; i++)
         {
