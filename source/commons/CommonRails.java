@@ -68,29 +68,31 @@ public class CommonRails
 
     public static void printSpinner()
     {
-        for(int i=0; i<250; i++)
+        for(int i=0; i<3; i++)
         {
             try
             {
-                System.out.print("- Loading.\r");
+                System.out.print("- Loading Java National Finance Engine v.2811.\r");
 
                 Thread.sleep(500);
 
-                System.out.print("+ Loading..\r");
+                System.out.print("+ Loading Java National Finance Engine v.2811..\r");
 
                 Thread.sleep(500);
 
-                System.out.print("- Loading...\r");
+                System.out.print("- Loading Java National Finance Engine v.2811...\r");
 
                 Thread.sleep(500);
 
-                System.out.print("+ Loading\r");
+                System.out.print("+ Loading Java National Finance Engine v.2811\r");
             }
             catch (Exception e)
             {
                 e.printStackTrace(System.err);
             }
         }
+
+        System.out.print("\r");
     }
 
     public static void printSystemComponent(Object object, Integer hashcode, String line)
