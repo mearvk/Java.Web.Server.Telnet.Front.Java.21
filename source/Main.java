@@ -34,13 +34,7 @@ public class Main
 
     public Main()
     {
-        System.out.print("-\r");
-
-        System.out.print("+\r");
-
-        System.out.print("-\r");
-
-        System.out.print("+\r");
+            CommonRails.printSpinner();
 
             System.out.println("[ Java National Finance Engine v.28.1.1 Software Processes Starting ]");
 

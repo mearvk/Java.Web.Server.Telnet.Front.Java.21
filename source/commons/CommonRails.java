@@ -66,6 +66,33 @@ public class CommonRails
         return list.size();
     }
 
+    public static void printSpinner()
+    {
+        for(int i=0; i<250; i++)
+        {
+            try
+            {
+                System.out.print("- Loading.\r");
+
+                Thread.sleep(500);
+
+                System.out.print("+ Loading..\r");
+
+                Thread.sleep(500);
+
+                System.out.print("- Loading...\r");
+
+                Thread.sleep(500);
+
+                System.out.print("+ Loading\r");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.err);
+            }
+        }
+    }
+
     public static void printSystemComponent(Object object, Integer hashcode, String line)
     {
         // Build the [Current: ...] field and pad the content inside the brackets to the desired total width
