@@ -34,7 +34,13 @@ public class Main
 
     public Main()
     {
-        System.out.println("-");
+        System.out.print("-\r");
+
+        System.out.print("+\r");
+
+        System.out.print("-\r");
+
+        System.out.print("+\r");
 
             System.out.println("[ Java National Finance Engine v.28.1.1 Software Processes Starting ]");
 
