@@ -50,6 +50,9 @@ public class NitroWebExpress extends WebExpress
 
     public NitroWebExpress(final Integer PORT, final String HOST, final String THREAD_NAME)
     {
+        // Initialize BaseServer/WebExpress so SERVER_SOCKET is created and run() will not NPE
+        super(HOST, PORT, THREAD_NAME, Boolean.TRUE);
+
         CommonRails.printSystemComponent(this, 8, ". National ID initialized: "+this.NATIONALID.EIGHT_DIGITS+" .");
 
         CommonRails.printSystemComponent(this, this.hashCode(),". Nitro version of WebExpress Starting .");
@@ -73,9 +76,10 @@ public class NitroWebExpress extends WebExpress
 
         protected TraderModule TRADER_MODULE = new TraderModule(this, "Bitcoin Remote Module 2.0 ADS5.0");
 
-        public AESCompliant AES_COMPONENT = new AESCompliant(AES_COMPLIANT_HOSTNAME, 0, "AES COMPONENT", Boolean.TRUE);
+        // Do not eagerly instantiate components that bind sockets; create on-demand to avoid accidental double binds
+        public AESCompliant AES_COMPONENT;
 
-        public BitcoinCompliant BITCOIN_COMPONENT = new BitcoinCompliant();
+        public BitcoinCompliant BITCOIN_COMPONENT;
 
 
         public Aspect(WebExpress WEBEXPRESS)
@@ -251,7 +255,7 @@ public class NitroWebExpress extends WebExpress
 
                                     try
                                     {
-                                        if(CommonRails.SocketUtils.isSocketConnected(message.socket))
+                                        if(CommonRails.SocketUtils.isSocketConnected(message.SOCKET))
                                         {
                                             BufferedWriter writer = this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.writer;
 
@@ -259,17 +263,17 @@ public class NitroWebExpress extends WebExpress
 
                                             writer.write("Message: "+message.MESSAGE_BUFFER +"\n");
 
-                                            CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter sending to Telnet message Date: " + message.time_stamp + " .");
+                                            CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter sending to Telnet message Date: " + message.TIME_STAMP + " .");
 
-                                            writer.write("[Date]: " + message.time_stamp+"\n");
+                                            writer.write("[Date]: " + message.TIME_STAMP +"\n");
 
-                                            CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter sending to Telnet message IP Address: " + message.internet_address + " .");
+                                            CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter sending to Telnet message IP Address: " + message.INTERNET_ADDRESS + " .");
 
-                                            writer.write("[IP Address]: " + message.internet_address+"\n");
+                                            writer.write("[IP Address]: " + message.INTERNET_ADDRESS +"\n");
 
-                                            CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter >> sending to Telnet message Socket: " + message.socket + " .");
+                                            CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter >> sending to Telnet message Socket: " + message.SOCKET + " .");
 
-                                            writer.write("[Socket]: " + message.socket.toString()+"\n");
+                                            writer.write("[Socket]: " + message.SOCKET.toString()+"\n");
 
                                             writer.flush();
 
@@ -280,41 +284,41 @@ public class NitroWebExpress extends WebExpress
                                     {
                                         try
                                         {
-                                            message.socket.close();
+                                            message.SOCKET.close();
                                         }
                                         catch (Exception e)
                                         {
-                                            CurrentConnections connections = this.WEB_EXPRESS.current_connections;
+                                            CurrentConnections connections = this.WEB_EXPRESS.CURRENT_CONNECTIONS;
 
-                                            connections.remove(message.connection);
+                                            connections.remove(message.CONNECTION);
 
                                             EnglishArithemeter arithemeter = new EnglishArithemeter(connections.size());
 
-                                            CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter >> dropped connection "+message.socket+" - new connection count "+arithemeter.result.arithemetic +" : "+arithemeter.result.numeral +" .");
+                                            CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter >> dropped connection "+message.SOCKET +" - new connection count "+arithemeter.result.arithemetic +" : "+arithemeter.result.numeral +" .");
                                         }
 
-                                        this.WEB_EXPRESS.current_connections.remove(message.socket);
+                                        this.WEB_EXPRESS.CURRENT_CONNECTIONS.remove(message.SOCKET);
 
                                         break;
                                     }
                                     catch (IOException e)
                                     {
-                                        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter socket connection closed Socket: " + message.internet_address + " .");
+                                        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter socket connection closed Socket: " + message.INTERNET_ADDRESS + " .");
                                     }
 
                                     try
                                     {
                                         BufferedReader reader = this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.reader;
 
-                                        if(CommonRails.SocketUtils.isSocketConnected(message.socket))
+                                        if(CommonRails.SocketUtils.isSocketConnected(message.SOCKET))
                                         {
-                                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(message.socket.getOutputStream()));
+                                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(message.SOCKET.getOutputStream()));
 
                                             String line = null;
 
                                             while((line=reader.readLine())!=null)
                                             {
-                                                if(CommonRails.SocketUtils.isSocketConnected(message.socket))
+                                                if(CommonRails.SocketUtils.isSocketConnected(message.SOCKET))
                                                 {
                                                     CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter received from active Telnet session "+ WebExpress.REMOTE_SITE+":"+ WebExpress.REMOTE_PORT+" message "+line+" .");
 
@@ -324,13 +328,13 @@ public class NitroWebExpress extends WebExpress
                                                 }
                                                 else
                                                 {
-                                                    CurrentConnections connections = this.WEB_EXPRESS.current_connections;
+                                                    CurrentConnections connections = this.WEB_EXPRESS.CURRENT_CONNECTIONS;
 
-                                                    connections.remove(message.connection);
+                                                    connections.remove(message.CONNECTION);
 
                                                     EnglishArithemeter arithemeter = new EnglishArithemeter(connections.size());
 
-                                                    CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter dropped connection "+message.socket+" - new connection count "+arithemeter.result.arithemetic+" : "+arithemeter.result.numeral+" .");
+                                                    CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter dropped connection "+message.SOCKET +" - new connection count "+arithemeter.result.arithemetic+" : "+arithemeter.result.numeral+" .");
 
                                                     break;
                                                 }
@@ -339,7 +343,7 @@ public class NitroWebExpress extends WebExpress
                                     }
                                     catch (Exception e)
                                     {
-                                        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter >> dropped connection "+message.socket+" .");
+                                        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter >> dropped connection "+message.SOCKET +" .");
                                     }
                                 }
                             }

@@ -6,7 +6,7 @@ public class TelnetOutputBuilder extends Thread
 {
     public TelnetCommunicationProxy telnet_communication_proxy;
 
-    public TelnetMessageQueue telnet_message_queue = new TelnetMessageQueue(5000);
+    public TelnetMessageQueue TELNET_MESSAGE_QUEUE = new TelnetMessageQueue(5000);
 
     public TelnetOutputBuilder(TelnetCommunicationProxy telnet_communication_proxy)
     {
@@ -18,7 +18,7 @@ public class TelnetOutputBuilder extends Thread
     {
         while(true)
         {
-            TelnetMessageQueue queue = this.telnet_message_queue;
+            TelnetMessageQueue queue = this.TELNET_MESSAGE_QUEUE;
 
             try
             {
@@ -35,7 +35,7 @@ public class TelnetOutputBuilder extends Thread
                         {
                             final TelnetMessageQueue.Message message = queue.messages.get(0);
 
-                            final String value = message.message_buffer.toString();
+                            final String value = message.MESSAGE_BUFFER.toString();
 
                             final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 

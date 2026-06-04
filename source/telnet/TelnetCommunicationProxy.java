@@ -1,10 +1,3 @@
-/**
- * File-level Javadoc.
- *
- * @author Max Rupplin
- * @date June 03 2026 EST
- */
-
 package telnet;
 
 import commons.CommonRails;
@@ -19,7 +12,7 @@ import java.util.Date;
 
 public class TelnetCommunicationProxy
 {
-    protected WebExpress WEB_EXPRESS;
+    protected WebExpress web_express;
 
     protected ProcessBuilder process_builder = new ProcessBuilder();
 
@@ -33,31 +26,31 @@ public class TelnetCommunicationProxy
 
     public TelnetProxyCommunicator telnet_proxy_communicator;
 
-    public TelnetOutputBuilder output_builder;
+    public TelnetOutputBuilder OUTPUT_BUILDER;
 
     public TelnetInputBuilder input_builder;
 
-    public TelnetCommunicationProxy(WebExpress WEB_EXPRESS)
+    public TelnetCommunicationProxy(WebExpress web_express)
     {
         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Communicator starts .");
 
-        this.WEB_EXPRESS = WEB_EXPRESS;
+        this.web_express = web_express;
 
-        this.process_builder = this.WEB_EXPRESS.TELNET_INSTALLER.process_builder;
+        this.process_builder = this.web_express.TELNET_INSTALLER.process_builder;
 
-        this.process = this.WEB_EXPRESS.TELNET_INSTALLER.process;
+        this.process = this.web_express.TELNET_INSTALLER.process;
 
-        this.writer = this.WEB_EXPRESS.TELNET_INSTALLER.writer;
+        this.writer = this.web_express.TELNET_INSTALLER.writer;
 
-        this.reader = this.WEB_EXPRESS.TELNET_INSTALLER.reader;
+        this.reader = this.web_express.TELNET_INSTALLER.reader;
 
         this.telnet_proxy_communicator = new TelnetProxyCommunicator(this);
 
-        this.output_builder = new TelnetOutputBuilder(this);
+        this.OUTPUT_BUILDER = new TelnetOutputBuilder(this);
 
         this.input_builder = new TelnetInputBuilder(this);
 
-        this.output_builder.start();
+        this.OUTPUT_BUILDER.start();
 
         this.input_builder.start();
     }
@@ -76,30 +69,25 @@ public class TelnetCommunicationProxy
         {
             for(;;)
             {
-                StringBuffer buffer = null;
-
-                final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
+                StringBuffer buffer;
 
                 try
                 {
+                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
+
+                    final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
+
                     String line = proxy.reader.readLine();
 
-                    if(line != null)
+                    if(line!=null)
                     {
-                        TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
+                        message.MESSAGE_BUFFER.append(line);
 
-                        // collect first line and subsequent available lines
-                        message.message_buffer.append(line);
-
-                        while ((line = proxy.reader.readLine()) != null)
+                        while ( (line=proxy.reader.readLine()) !=null)
                         {
-                            message.message_buffer.append('\n').append(line);
+                            message.MESSAGE_BUFFER.append(line);
                         }
 
-                        // keep a reference to buffer for optional outbound use
-                        buffer = message.message_buffer;
-
-                        // enqueue received data for input processing
                         proxy.input_builder.telnet_message_queue.add(message);
                     }
                 }
@@ -107,43 +95,37 @@ public class TelnetCommunicationProxy
                 {
                     e.printStackTrace(System.err);
                 }
-
-                // If we have data (buffer), create an outbound message for the output queue
-                if (buffer != null)
+                finally
                 {
-                    try
-                    {
-                        TelnetMessageQueue.Message outMsg = new TelnetMessageQueue.Message();
-
-                        outMsg.port = Integer.valueOf(WebExpress.REMOTE_PORT);
-
-                        outMsg.protocol = WebExpress.PROTOCOL;
-
-                        outMsg.socket = proxy.socket;
-
-                        outMsg.message_buffer = buffer;
-
-                        outMsg.time_stamp = new Date();
-
-                        outMsg.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
-
-                        this.telnet_communication_proxy.output_builder.telnet_message_queue.add(outMsg);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace(System.err);
-                    }
-                    finally
-                    {
-                        // check the actual socket if available
-                        try {
-                            CommonRails.SocketUtils.isSocketConnected(this.telnet_communication_proxy.socket);
-                        } catch (Exception ignored) {
-                        }
-                    }
+                    buffer = null;
                 }
 
-                try { Thread.sleep(100); } catch (Exception e) { /* throttle loop a bit */ }
+                try
+                {
+                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
+
+                    message.PORT = Integer.valueOf(WebExpress.REMOTE_PORT);
+
+                    message.protocol = WebExpress.PROTOCOL;
+
+                    message.SOCKET = null;
+
+                    message.MESSAGE_BUFFER = buffer;
+
+                    message.TIMESTAMP = new Date();
+
+                    message.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
+
+                    this.telnet_communication_proxy.OUTPUT_BUILDER.TELNET_MESSAGE_QUEUE.add(message);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace(System.err);
+                }
+                finally
+                {
+                    CommonRails.SocketUtils.isSocketConnected(null);
+                }
             }
         }
     }
