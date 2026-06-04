@@ -59,6 +59,7 @@ public class CommonRails
     private static final String ANSI_WHITE = "\033[38;5;15m";
     private static final String ANSI_DEEP_RED = "\033[38;5;160m";
     private static final String ANSI_SILVER = "\033[38;5;250m";
+    private static final String ANSI_IMPERIAL_GRAY = "\u001B[38;5;242m";
     private static final String ANSI_RESET = "\u001B[0m";
 
     public static <T> Integer size(ArrayList<T> list)
@@ -510,6 +511,9 @@ public class CommonRails
     public static class IranianWedding
     {
         private static final String BURGUNDY_ANSI = "\033[38;5;160m";
+
+        private static final String SILVER_GRAY = "\033[38;2;149;157;153;1m";
+
         private static final String RESET_ANSI = "\u001B[0m";
 
         /**
@@ -526,10 +530,9 @@ public class CommonRails
             {
                 if (USE_COLORED_OUTPUT)
                 {
-                    System.out.print(BURGUNDY_ANSI);
+                    System.out.print(SILVER_GRAY);
                     System.out.print(output);
                     System.out.print(RESET_ANSI);
-                    System.out.print("\n");
                 }
                 else
                 {

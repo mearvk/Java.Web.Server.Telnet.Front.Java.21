@@ -48,7 +48,7 @@ public class Main
 
             InternationalCommonRails.IranianWedding.printSystemComponent(this);
 
-        System.out.println("-");
+        System.out.println();
 
             CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
 
