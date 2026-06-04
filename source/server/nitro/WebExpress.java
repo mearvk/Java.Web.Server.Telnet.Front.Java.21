@@ -33,7 +33,7 @@ public class WebExpress extends BaseServer
 
     public MessageQueue MESSAGE_QUEUE = new MessageQueue(this);
 
-    public BaseServer BASESERVER;
+    public WebExpress WEBEXPRESS;
 
     public WebExpress()
     {
