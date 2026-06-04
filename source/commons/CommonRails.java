@@ -3,6 +3,8 @@ package commons;
 import national.NationalDriver;
 import server.nitro.WebExpress;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -267,6 +269,20 @@ public class CommonRails
         catch (Exception e)
         {
             e.printStackTrace(System.err);
+        }
+    }
+
+    public static boolean isConnected(BufferedWriter writer)
+    {
+        try
+        {
+            writer.flush();
+
+            return true;
+        }
+        catch (IOException e)
+        {
+            return false;
         }
     }
 
