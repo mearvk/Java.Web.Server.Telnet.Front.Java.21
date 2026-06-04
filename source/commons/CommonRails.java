@@ -256,12 +256,12 @@ public class CommonRails
                 Thread.sleep(20);
             }
 
-            // short pause before final print
+            System.out.print("\u001B[0m");
+
             Thread.sleep(200L);
 
             System.out.println(text);
 
-            // reset terminal color state after animation
             System.out.print("\u001B[0m");
         }
         catch (Exception e)
