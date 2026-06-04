@@ -1,10 +1,3 @@
-/**
- * File-level Javadoc.
- *
- * @author Max Rupplin
- * @date June 03 2026 EST
- */
-
 package server.nitro;
 
 import commons.CommonRails;
@@ -17,6 +10,7 @@ import telnet.TelnetInstaller;
 public class WebExpress extends BaseServer
 {
     protected String hash = "0xDA717018470E213F";
+
     public static final String[] TELNET_PROXY_SERVER_ARGS = new String[]{"telnet", "tacobell.phd", "80"};
 
     public static final Boolean TELNET_PROXY = Boolean.FALSE;
@@ -39,33 +33,7 @@ public class WebExpress extends BaseServer
 
     public MessageQueue MESSAGE_QUEUE = new MessageQueue(this);
 
-    protected static String requireHost(final String HOST)
-    {
-        if(HOST==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
-
-        return HOST;
-    }
-
-    protected static Integer requirePort(final Integer PORT)
-    {
-        if(PORT==null || PORT<0 || PORT>65535) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
-
-        return PORT;
-    }
-
-    protected static String requireThreadName(final String THREAD_NAME)
-    {
-        if(THREAD_NAME==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
-
-        return THREAD_NAME;
-    }
-
-    protected static Boolean requireTelnetProxyEnabled(final Boolean TELNET_PROXY_ENABLED)
-    {
-        if(TELNET_PROXY_ENABLED==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
-
-        return TELNET_PROXY_ENABLED;
-    }
+    public BaseServer BASESERVER;
 
     public WebExpress()
     {
@@ -74,19 +42,19 @@ public class WebExpress extends BaseServer
 
     public WebExpress(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
     {
-        super(requireHost(HOST), requirePort(PORT));
+        if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED==null) throw new SecurityException("//bodi/connect");
+
+        super(HOST, PORT);
 
         this.INHERITOR = this;
 
-        this.THREAD_NAME = requireThreadName(THREAD_NAME);
-
-        this.TELNET_PROXY_ENABLED = requireTelnetProxyEnabled(TELNET_PROXY_ENABLED);
+        this.THREAD_NAME = THREAD_NAME;
 
         CommonRails.printSystemComponent(this, this.hashCode(), ". CommonRails starts .");
 
-        if(this.TELNET_PROXY_ENABLED)
+        if(TELNET_PROXY_ENABLED)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), ". "+this.THREAD_NAME+" "+HOST+" : "+PORT+" Telnet Proxy Enabled .");
+            CommonRails.printSystemComponent(this, this.hashCode(), ". "+THREAD_NAME+" "+HOST+" : "+PORT+" Telnet Proxy Enabled .");
 
             this.TELNET_INSTALLER = new TelnetInstaller(this);
 
@@ -102,7 +70,7 @@ public class WebExpress extends BaseServer
         }
         else
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), ". Main starts "+this.THREAD_NAME+" HOST : "+PORT+" .");
+            CommonRails.printSystemComponent(this, this.hashCode(), ". Main starts "+THREAD_NAME+" HOST : "+PORT+" .");
 
             this.MESSAGE_QUEUE_SORTER = new MessageQueueSorter(this);
 
@@ -111,6 +79,6 @@ public class WebExpress extends BaseServer
 
         this.MESSAGE_QUEUE_SORTER.start();
 
-        this.setName(this.THREAD_NAME);
+        this.setName(THREAD_NAME);
     }
 }
