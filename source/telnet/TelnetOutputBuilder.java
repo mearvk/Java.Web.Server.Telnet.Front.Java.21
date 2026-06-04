@@ -41,7 +41,7 @@ public class TelnetOutputBuilder extends Thread
 
                             if(!value.isEmpty())
                             {
-                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> sending message ["+message+"]");
+                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> sending message ["+message.toString()+"]");
 
                                 proxy.writer.write(value);
 
