@@ -468,11 +468,11 @@ public class CommonRails
 
     public static class TelnetCallOnComplete implements Runnable
     {
-        protected WebExpress web_express;
+        protected WebExpress WEBEXPRESS;
 
-        public TelnetCallOnComplete(WebExpress web_express)
+        public TelnetCallOnComplete(WebExpress WEBEXPRESS)
         {
-            this.web_express = web_express;
+            this.WEBEXPRESS = WEBEXPRESS;
         }
 
         @Override
@@ -480,7 +480,7 @@ public class CommonRails
         {
             try
             {
-                Process p = this.web_express.TELNET_COMMUNICATION_PROXY.process;
+                Process p = this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.process;
 
                 boolean finished = p.waitFor(2, TimeUnit.HOURS);
 
