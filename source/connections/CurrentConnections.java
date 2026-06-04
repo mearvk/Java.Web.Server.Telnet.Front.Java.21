@@ -29,35 +29,35 @@ public class CurrentConnections
 
     public ConnectionPoller thread;
 
-    public ArrayList<Connection> current_connections = new ArrayList<Connection>();
+    public ArrayList<Connection> CURRENT_CONNECTION = new ArrayList<Connection>();
 
     public void add(Connection connection)
     {
-        this.current_connections.add(connection);
+        this.CURRENT_CONNECTION.add(connection);
     }
 
     public void remove(Socket socket)
     {
-        for(int i=0; i<this.current_connections.size(); i++)
+        for(int i = 0; i<this.CURRENT_CONNECTION.size(); i++)
         {
-            Socket _socket = this.current_connections.get(i).socket;
+            Socket _socket = this.CURRENT_CONNECTION.get(i).SOCKET;
 
             if(_socket==socket)
             {
-                Connection connection = this.current_connections.get(i);
+                Connection connection = this.CURRENT_CONNECTION.get(i);
 
-                this.current_connections.remove(connection);
+                this.CURRENT_CONNECTION.remove(connection);
             }
         }
     }
 
     public void remove(Connection connection)
     {
-        this.current_connections.remove(connection);
+        this.CURRENT_CONNECTION.remove(connection);
     }
 
     public Integer size()
     {
-        return this.current_connections.size();
+        return this.CURRENT_CONNECTION.size();
     }
 }

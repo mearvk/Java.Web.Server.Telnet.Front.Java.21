@@ -46,7 +46,7 @@ public class InternationalConnections
 
         RecordedInternationalConnection record = new RecordedInternationalConnection();
 
-        record.socket = x.socket;
+        record.socket = x.SOCKET;
 
         record.connection_date = x.inception_date;
 

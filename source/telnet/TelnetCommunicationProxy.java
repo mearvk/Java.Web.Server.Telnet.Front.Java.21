@@ -26,7 +26,7 @@ public class TelnetCommunicationProxy
 
     public TelnetProxyCommunicator telnet_proxy_communicator;
 
-    public TelnetOutputBuilder output_builder;
+    public TelnetOutputBuilder OUTPUT_BUILDER;
 
     public TelnetInputBuilder input_builder;
 
@@ -46,11 +46,11 @@ public class TelnetCommunicationProxy
 
         this.telnet_proxy_communicator = new TelnetProxyCommunicator(this);
 
-        this.output_builder = new TelnetOutputBuilder(this);
+        this.OUTPUT_BUILDER = new TelnetOutputBuilder(this);
 
         this.input_builder = new TelnetInputBuilder(this);
 
-        this.output_builder.start();
+        this.OUTPUT_BUILDER.start();
 
         this.input_builder.start();
     }
@@ -81,11 +81,11 @@ public class TelnetCommunicationProxy
 
                     if(line!=null)
                     {
-                        message.message_buffer.append(line);
+                        message.MESSAGE_BUFFER.append(line);
 
                         while ( (line=proxy.reader.readLine()) !=null)
                         {
-                            message.message_buffer.append(line);
+                            message.MESSAGE_BUFFER.append(line);
                         }
 
                         proxy.input_builder.telnet_message_queue.add(message);
@@ -104,19 +104,19 @@ public class TelnetCommunicationProxy
                 {
                     TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
 
-                    message.port = Integer.valueOf(WebExpress.REMOTE_PORT);
+                    message.PORT = Integer.valueOf(WebExpress.REMOTE_PORT);
 
                     message.protocol = WebExpress.PROTOCOL;
 
-                    message.socket = null;
+                    message.SOCKET = null;
 
-                    message.message_buffer = buffer;
+                    message.MESSAGE_BUFFER = buffer;
 
-                    message.time_stamp = new Date();
+                    message.TIMESTAMP = new Date();
 
                     message.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
 
-                    this.telnet_communication_proxy.output_builder.telnet_message_queue.add(message);
+                    this.telnet_communication_proxy.OUTPUT_BUILDER.TELNET_MESSAGE_QUEUE.add(message);
                 }
                 catch (Exception e)
                 {

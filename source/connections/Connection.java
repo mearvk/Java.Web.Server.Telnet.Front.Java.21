@@ -16,7 +16,7 @@ public class Connection
 
     public BaseServer server;
 
-    public volatile Socket socket;
+    public volatile Socket SOCKET;
 
     public InputStream inputstream;
 

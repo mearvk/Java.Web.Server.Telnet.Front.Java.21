@@ -60,15 +60,15 @@ public class TelnetMessageQueue
 
     public static class Message
     {
-        public Integer port;
+        public Integer PORT;
 
         public String protocol;
 
-        public Socket socket;
+        public Socket SOCKET;
 
-        public Date time_stamp;
+        public Date TIMESTAMP;
 
-        public StringBuffer message_buffer = new StringBuffer();
+        public StringBuffer MESSAGE_BUFFER = new StringBuffer();
 
         public InetAddress internet_address;
     }
