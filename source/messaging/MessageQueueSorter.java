@@ -15,11 +15,11 @@ public class MessageQueueSorter extends Thread
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected WebExpress web_express;
+    protected WebExpress WEBEXPRESS;
 
-    public MessageQueueSorter(WebExpress web_express)
+    public MessageQueueSorter(WebExpress WEBEXPRESS)
     {
-        this.web_express = web_express;
+        this.WEBEXPRESS = WEBEXPRESS;
 
         this.setName("MessageQueueSorter");
     }
@@ -31,7 +31,7 @@ public class MessageQueueSorter extends Thread
 
         while(true)
         {
-            MessageQueue message_queue = this.web_express.MESSAGE_QUEUE;
+            MessageQueue message_queue = this.WEBEXPRESS.MESSAGE_QUEUE;
 
             try
             {
@@ -51,7 +51,7 @@ public class MessageQueueSorter extends Thread
                         {
                             if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                             {
-                                BufferedWriter writer = this.web_express.TELNET_COMMUNICATION_PROXY.writer;
+                                BufferedWriter writer = this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.writer;
 
                                 CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter sending to Telnet message Message: " + message.MESSAGE_BUFFER + " .");
 
@@ -82,7 +82,7 @@ public class MessageQueueSorter extends Thread
                             }
                             catch (Exception e)
                             {
-                                CurrentConnections connections = this.web_express.current_connections;
+                                CurrentConnections connections = this.WEBEXPRESS.CURRENT_CONNECTIONS;
 
                                 connections.remove(message.connection);
 
@@ -91,7 +91,7 @@ public class MessageQueueSorter extends Thread
                                 CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter >> dropped connection "+message.socket+" - new connection count "+arithemeter.result.arithemetic +" : "+arithemeter.result.numeral +" .");
                             }
 
-                            this.web_express.current_connections.remove(message.socket);
+                            this.WEBEXPRESS.CURRENT_CONNECTIONS.remove(message.socket);
 
                             break;
                         }
@@ -102,7 +102,7 @@ public class MessageQueueSorter extends Thread
 
                         try
                         {
-                            BufferedReader reader = this.web_express.TELNET_COMMUNICATION_PROXY.reader;
+                            BufferedReader reader = this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.reader;
 
                             if(CommonRails.SocketUtils.isSocketConnected(message.socket))
                             {
@@ -122,7 +122,7 @@ public class MessageQueueSorter extends Thread
                                     }
                                     else
                                     {
-                                        CurrentConnections connections = this.web_express.current_connections;
+                                        CurrentConnections connections = this.WEBEXPRESS.CURRENT_CONNECTIONS;
 
                                         connections.remove(message.connection);
 
@@ -153,18 +153,18 @@ public class MessageQueueSorter extends Thread
     {
         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage message queue size before "+this.getMessageQueueSize()+" .");
 
-        this.web_express.MESSAGE_QUEUE.add(message);
+        this.WEBEXPRESS.MESSAGE_QUEUE.add(message);
 
         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage message queue size after "+this.getMessageQueueSize()+" .");
     }
 
     public synchronized MessageQueue getMessageQueue()
     {
-        return this.web_express.MESSAGE_QUEUE;
+        return this.WEBEXPRESS.MESSAGE_QUEUE;
     }
 
     public synchronized Integer getMessageQueueSize()
     {
-        return this.web_express.MESSAGE_QUEUE.MESSAGES.size();
+        return this.WEBEXPRESS.MESSAGE_QUEUE.MESSAGES.size();
     }
 }
