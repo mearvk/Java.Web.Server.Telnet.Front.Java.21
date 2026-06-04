@@ -35,6 +35,8 @@ public class WebExpress extends BaseServer
 
     public WebExpress WEBEXPRESS;
 
+    public BaseServer BASESERVER;
+
     public WebExpress()
     {
         this.setName("United States D500 WebExpress");
@@ -46,7 +48,9 @@ public class WebExpress extends BaseServer
 
         super(HOST, PORT);
 
-        this.INHERITOR = this;
+        this.BASESERVER = this.SELF;
+
+        this.SUPERCLASS = this;
 
         this.THREAD_NAME = THREAD_NAME;
 

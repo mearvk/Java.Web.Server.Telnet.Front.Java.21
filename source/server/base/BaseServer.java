@@ -12,9 +12,11 @@ import java.net.ServerSocket;
 
 public abstract class BaseServer extends Thread
 {
-    public Integer hash = 0x008808FF;
+    public Integer HASH = 0x008808FF;
 
-    public BaseServer INHERITOR;
+    public BaseServer SUPERCLASS;
+
+    public BaseServer SELF;
     public static final Integer BASE_CONNECTION_TIMEOUT = 43200 * 2 * 2 * 1000;
 
     public String HOST = "localhost";
@@ -36,7 +38,7 @@ public abstract class BaseServer extends Thread
 
     public BaseServer()
     {
-        System.out.println(this.hash);
+        System.out.println(this.HASH);
     }
 
     public BaseServer(String host, Integer PORT)
@@ -47,7 +49,9 @@ public abstract class BaseServer extends Thread
 
         this.PORT = PORT;
 
-        this.INHERITOR = this;
+        this.SUPERCLASS = this;
+
+        this.SELF = this;
 
         this.setName("BasicServer");
 
