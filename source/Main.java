@@ -54,16 +54,16 @@ public class Main
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
-            try
-            {
-                NationalDriver.printCorrectedOrder();
+        try
+        {
+            NationalDriver.printCorrectedOrder();
 
-                NationalDriver.clear();
-            }
-            catch (Throwable t)
-            {
-                t.printStackTrace(System.err);
-            }
+            NationalDriver.clear();
+        }
+        catch (Throwable t)
+        {
+            t.printStackTrace(System.err);
+        }
 
         NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
 
