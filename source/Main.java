@@ -56,9 +56,11 @@ public class Main
 
         try
         {
-            NationalDriver.printCorrectedOrder();
+            NationalDriver driver = new NationalDriver();
 
-            NationalDriver.clear();
+            driver.printCorrectedOrder();
+
+            driver.clear();
         }
         catch (Throwable t)
         {
