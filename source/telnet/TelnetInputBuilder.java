@@ -1,6 +1,7 @@
 package telnet;
 
 import commons.CommonRails;
+import exceptions.ExceptionHandler;
 
 public class TelnetInputBuilder extends Thread
 {
@@ -52,6 +53,7 @@ public class TelnetInputBuilder extends Thread
                         }
                         catch (Exception e)
                         {
+                            ExceptionHandler.dispatch(e);
                             e.printStackTrace(System.err);
                         }
                     }
@@ -59,6 +61,7 @@ public class TelnetInputBuilder extends Thread
             }
             catch (Exception e)
             {
+                ExceptionHandler.dispatch(e);
                 e.printStackTrace(System.err);
             }
         }

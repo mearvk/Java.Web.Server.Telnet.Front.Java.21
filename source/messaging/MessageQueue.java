@@ -9,6 +9,7 @@ package messaging;
 
 import commons.CommonRails;
 import connections.Connection;
+import exceptions.ExceptionHandler;
 import server.base.BaseServer;
 
 import java.io.BufferedWriter;
@@ -65,6 +66,7 @@ public class MessageQueue
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue TelnetQuickSend >> attempted writing initial handshake to Telnet Remote System ["+message.SOCKET +"].");
         }
     }

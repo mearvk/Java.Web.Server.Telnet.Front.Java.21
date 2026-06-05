@@ -7,6 +7,7 @@ import commons.CommonRails;
 import server.nitro.NitroWebExpress;
 import server.nitro.WebExpress;
 
+import exceptions.ExceptionHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -86,6 +87,7 @@ public class TraderModule
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -100,6 +102,7 @@ public class TraderModule
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -138,6 +141,7 @@ public class TraderModule
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
 
@@ -172,6 +176,7 @@ public class TraderModule
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -186,6 +191,7 @@ public class TraderModule
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -200,6 +206,7 @@ public class TraderModule
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -214,6 +221,7 @@ public class TraderModule
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }
@@ -228,6 +236,7 @@ public class TraderModule
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
         }
     }

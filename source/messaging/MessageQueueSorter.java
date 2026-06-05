@@ -3,6 +3,7 @@ package messaging;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
 import connections.CurrentConnections;
+import exceptions.ExceptionHandler;
 import server.nitro.WebExpress;
 
 import java.io.BufferedReader;
@@ -82,6 +83,7 @@ public class MessageQueueSorter extends Thread
                             }
                             catch (Exception e)
                             {
+                                ExceptionHandler.dispatch(e);
                                 CurrentConnections connections = this.WEBEXPRESS.CURRENT_CONNECTIONS;
 
                                 connections.remove(message.CONNECTION);
@@ -97,6 +99,7 @@ public class MessageQueueSorter extends Thread
                         }
                         catch (IOException e)
                         {
+                            ExceptionHandler.dispatch(e);
                             CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter socket connection closed Socket: " + message.INTERNET_ADDRESS + " .");
                         }
 
@@ -137,6 +140,7 @@ public class MessageQueueSorter extends Thread
                         }
                         catch (Exception e)
                         {
+                            ExceptionHandler.dispatch(e);
                             CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter >> dropped connection "+message.SOCKET +" .");
                         }
                     }
@@ -144,6 +148,7 @@ public class MessageQueueSorter extends Thread
             }
             catch (Exception e)
             {
+                ExceptionHandler.dispatch(e);
                 e.printStackTrace(System.err);
             }
         }
