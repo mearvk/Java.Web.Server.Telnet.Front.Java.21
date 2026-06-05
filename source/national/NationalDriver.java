@@ -69,11 +69,17 @@ public class NationalDriver
         class Entry { String ref; long ts; int idx; String className; Entry(String r,long t,int i,String cn){ref=r;ts=t;idx=i;className=cn;} }
 
         List<Entry> nitro = new ArrayList<>();
+
         List<Entry> web = new ArrayList<>();
+
         List<Entry> base = new ArrayList<>();
+
         List<Entry> telnet = new ArrayList<>();
+
         List<Entry> aes = new ArrayList<>();
+
         List<Entry> bitcoin = new ArrayList<>();
+
         List<Entry> remainder = new ArrayList<>();
 
         int index = 0;
@@ -196,9 +202,8 @@ public class NationalDriver
             for (int gi = 0; gi < grouped.size(); gi++)
             {
                 List<String> g = grouped.get(gi);
+
                 String gname = groupNames.get(gi);
-                //CommonRails.delayableFinePrinter(". START GROUP: " + gname + " (" + g.size() + ") .", 21);
-                //for (String s : g) CommonRails.delayableFinePrinter(s, 21);
             }
         }
         catch (Throwable t)
@@ -208,12 +213,18 @@ public class NationalDriver
                 for (int gi = 0; gi < grouped.size(); gi++)
                 {
                     List<String> g = grouped.get(gi);
+
                     String gname = groupNames.get(gi);
+
                     System.out.println("START GROUP: " + gname + " (" + g.size() + ")");
+
                     for (String s : g) System.out.println(s);
                 }
             }
-            catch (Throwable ignored) {}
+            catch (Throwable ignored)
+            {
+                ignored.printStackTrace(System.err);
+            }
         }
     }
 
@@ -223,17 +234,25 @@ public class NationalDriver
     protected static long extractTimestamp(String reference)
     {
         if (reference == null) return -1;
+
         int idx = reference.indexOf("[Date:");
+
         if (idx < 0) return -1;
+
         int start = idx + "[Date:".length();
+
         int end = reference.indexOf(']', start);
+
         if (end < 0) return -1;
+
         String dateText = reference.substring(start, end).trim();
-        // dateText format expected: yyyy-MM-dd HH:mm:ss z
+
         try
         {
             java.text.SimpleDateFormat fmt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+
             java.util.Date d = fmt.parse(dateText);
+
             return d.getTime();
         }
         catch (Exception e)
