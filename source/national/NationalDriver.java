@@ -59,7 +59,7 @@ public class NationalDriver
         return GROUP_NAMES;
     }
 
-    public static synchronized void printCorrectedOrder()
+    public synchronized void printCorrectedOrder()
     {
         class Entry { String ref; long ts; int idx; String className; Entry(String r,long t,int i,String cn){ref=r;ts=t;idx=i;className=cn;} }
 
@@ -193,7 +193,7 @@ public class NationalDriver
     /**
      * Clear recorded startup references.
      */
-    public static synchronized void clear()
+    public synchronized void clear()
     {
         STARTUP_REFERENCES.clear();
     }
