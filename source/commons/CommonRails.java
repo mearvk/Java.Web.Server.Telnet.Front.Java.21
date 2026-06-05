@@ -80,6 +80,16 @@ public class CommonRails
                 CommonRails.IranianWedding.printInternationalGregorianRhetoric(owner, message);
             }
         }
+
+        public static class IranWedding
+        {
+            public static void printSystemComponent(Object owner)
+            {
+                String message = ". THE US (USA) WERE FINE AND IN FACT RELATED TO AN IRANIAN WEDDING OF REMARKABLE PRECEDENT .\n";
+
+                CommonRails.IranianWedding.printInternationalGregorianRhetoric(owner, message);
+            }
+        }
     }
 
     public static void printStartRecipeSpinner()
