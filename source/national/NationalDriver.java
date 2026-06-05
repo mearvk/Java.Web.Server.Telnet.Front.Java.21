@@ -126,33 +126,68 @@ public class NationalDriver
         remainder.sort(cmp);
 
         // Convert to lists of strings and store grouped arrays
-        List<String> nitroRefs = new ArrayList<>(); for (Entry e: nitro) nitroRefs.add(e.ref);
-        List<String> webRefs = new ArrayList<>(); for (Entry e: web) webRefs.add(e.ref);
-        List<String> baseRefs = new ArrayList<>(); for (Entry e: base) baseRefs.add(e.ref);
-        List<String> telnetRefs = new ArrayList<>(); for (Entry e: telnet) telnetRefs.add(e.ref);
-        List<String> aesRefs = new ArrayList<>(); for (Entry e: aes) aesRefs.add(e.ref);
-        List<String> bitcoinRefs = new ArrayList<>(); for (Entry e: bitcoin) bitcoinRefs.add(e.ref);
-        List<String> remainderRefs = new ArrayList<>(); for (Entry e: remainder) remainderRefs.add(e.ref);
+        List<String> nitroRefs = new ArrayList<>();
+
+        for (Entry e: nitro) nitroRefs.add(e.ref);
+
+        List<String> webRefs = new ArrayList<>();
+
+        for (Entry e: web) webRefs.add(e.ref);
+
+        List<String> baseRefs = new ArrayList<>();
+
+        for (Entry e: base) baseRefs.add(e.ref);
+
+        List<String> telnetRefs = new ArrayList<>();
+
+        for (Entry e: telnet) telnetRefs.add(e.ref);
+
+        List<String> aesRefs = new ArrayList<>();
+
+        for (Entry e: aes) aesRefs.add(e.ref);
+
+        List<String> bitcoinRefs = new ArrayList<>();
+
+        for (Entry e: bitcoin) bitcoinRefs.add(e.ref);
+
+        List<String> remainderRefs = new ArrayList<>();
+
+        for (Entry e: remainder) remainderRefs.add(e.ref);
 
         List<List<String>> grouped = new ArrayList<>();
+
         grouped.add(nitroRefs);
+
         grouped.add(webRefs);
+
         grouped.add(baseRefs);
+
         grouped.add(telnetRefs);
+
         grouped.add(aesRefs);
+
         grouped.add(bitcoinRefs);
+
         grouped.add(remainderRefs);
 
         List<String> groupNames = new ArrayList<>();
+
         groupNames.add("NITRO");
+
         groupNames.add("WEBEXPRESS");
+
         groupNames.add("BASESERVER");
+
         groupNames.add("TELNET");
+
         groupNames.add("AES");
+
         groupNames.add("BITCOIN");
+
         groupNames.add("REMAINDER");
 
         GROUPED_STARTUP_REFERENCES = grouped;
+
         GROUP_NAMES = groupNames;
 
         // Print groups in order; each group's entries are printed together
