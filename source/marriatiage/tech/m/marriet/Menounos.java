@@ -1,4 +1,4 @@
-package marriatiage.tech.m;
+package marriatiage.tech.m.marriet;
 
 import commons.CommonRails;
 import sim.stochastic;
