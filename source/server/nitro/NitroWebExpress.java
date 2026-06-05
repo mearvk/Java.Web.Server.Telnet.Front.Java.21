@@ -44,7 +44,7 @@ public class NitroWebExpress extends WebExpress
 
     public static final String AES_COMPLIANT_HOSTNAME = "localhost";
 
-    public Aspect bridge = new Aspect(this);
+    public Aspect BRIDGE = new Aspect(this);
 
     public NationalID NATIONALID = new NationalID();
 
