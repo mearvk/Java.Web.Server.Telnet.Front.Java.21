@@ -38,7 +38,7 @@ public class Main
 
             System.out.println("[ Java National Finance Engine v.28.1.1 Software Processes Starting ]");
 
-            System.out.println(". Cryptography/Cryptology AES 2.0 National Cryptolograph Enabled DSS (DeepSonaGraph0Sophons) 5.0 .");
+            System.out.println(". Cryptography/Cryptology AES 2.0 National Cryptolograph Enabled DSS (DeepSonaGraphoSophons) 5.0 .");
 
             System.out.println(". Bitcoin Lightweight Binary Trader 2.0 Enabled ₿ Running on Bitcoin Open-Source v24.0 or newer .");
 
