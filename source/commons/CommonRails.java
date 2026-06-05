@@ -85,7 +85,7 @@ public class CommonRails
         {
             public static void printSystemComponent(Object owner)
             {
-                String message = ". THE US (USA) WERE FINE AND IN FACT RELATED TO AN IRANIAN WEDDING OF REMARKABLE PRECEDENT .\n";
+                String message = ". THE US United States of America (USA) were fine and in fact related to an IRAN WEDDING of REMARKABLE PRECEDENT .\n";
 
                 CommonRails.IranianWedding.printInternationalGregorianRhetoric(owner, message);
             }
