@@ -69,6 +69,19 @@ public class CommonRails
         return list.size();
     }
 
+    public static class International
+    {
+        public static class IranianWedding
+        {
+            public static void printSystemComponent(Object owner)
+            {
+                String message = ". THE US (USA) WERE FINE AND IN FACT RELATED TO AN IRANIAN WEDDING OF REMARKABLE PRECEDENT .\n";
+
+                CommonRails.IranianWedding.printInternationalGregorianRhetoric(owner, message);
+            }
+        }
+    }
+
     public static void printStartRecipeSpinner()
     {
         for(int i=0; i<3; i++)
