@@ -17,6 +17,7 @@ public class NationalDriver
     public static synchronized void record(String reference)
     {
         if (reference == null) return;
+
         STARTUP_REFERENCES.add(reference);
     }
 
@@ -25,20 +26,24 @@ public class NationalDriver
         if (reference == null) return "";
 
         int idx = reference.indexOf("[Current:");
+
         if (idx < 0) return "";
 
         int start = idx + "[Current:".length();
+
         int end = reference.indexOf(']', start);
+
         if (end < 0) end = Math.min(reference.length(), start + 200);
 
         String inner = reference.substring(start, end).trim();
-        // inner begins with the class simple name (we padded it earlier). Remove any extra spaces.
-        // If inner contains spaces, first token is the class name.
+
         int firstSpace = inner.indexOf(' ');
+
         if (firstSpace > 0)
         {
             return inner.substring(0, firstSpace).trim();
         }
+
         return inner;
     }
 
