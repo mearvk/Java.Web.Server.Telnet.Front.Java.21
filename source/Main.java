@@ -1,5 +1,4 @@
 import commons.CommonRails;
-import commons.InternationalCommonRails;
 import national.NationalDriver;
 import server.nitro.NitroWebExpress;
 
@@ -54,18 +53,11 @@ public class Main
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
-        try
-        {
-            NationalDriver driver = new NationalDriver();
+        NationalDriver driver = new NationalDriver();
 
-            driver.printCorrectedOrder();
+        driver.printOrderedComponents();
 
-            driver.clear();
-        }
-        catch (Throwable t)
-        {
-            t.printStackTrace(System.err);
-        }
+        driver.clear();
 
         NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
 

@@ -59,7 +59,7 @@ public class NationalDriver
         return GROUP_NAMES;
     }
 
-    public synchronized void printCorrectedOrder()
+    public synchronized void printOrderedComponents()
     {
         class Entry { String ref; long ts; int idx; String className; Entry(String r,long t,int i,String cn){ref=r;ts=t;idx=i;className=cn;} }
 
