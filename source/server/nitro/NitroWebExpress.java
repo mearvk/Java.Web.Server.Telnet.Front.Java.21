@@ -4,6 +4,7 @@ import bitcoin.module.TraderModule;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
 import connections.CurrentConnections;
+import exceptions.ExceptionHandler;
 import encryption.module.aes.two.EncryptionModule;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
@@ -288,6 +289,7 @@ public class NitroWebExpress extends WebExpress
                                         }
                                         catch (Exception e)
                                         {
+                                            ExceptionHandler.dispatch(e);
                                             CurrentConnections connections = this.WEB_EXPRESS.CURRENT_CONNECTIONS;
 
                                             connections.remove(message.CONNECTION);
@@ -303,6 +305,7 @@ public class NitroWebExpress extends WebExpress
                                     }
                                     catch (IOException e)
                                     {
+                                        ExceptionHandler.dispatch(e);
                                         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter socket connection closed Socket: " + message.INTERNET_ADDRESS + " .");
                                     }
 
@@ -343,6 +346,7 @@ public class NitroWebExpress extends WebExpress
                                     }
                                     catch (Exception e)
                                     {
+                                        ExceptionHandler.dispatch(e);
                                         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter >> dropped connection "+message.SOCKET +" .");
                                     }
                                 }
@@ -350,6 +354,7 @@ public class NitroWebExpress extends WebExpress
                         }
                         catch (Exception e)
                         {
+                            ExceptionHandler.dispatch(e);
                             e.printStackTrace(System.err);
                         }
                     }

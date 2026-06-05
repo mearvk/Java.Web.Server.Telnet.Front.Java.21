@@ -2,6 +2,8 @@ package exceptions;
 
 import java.util.List;
 
+import commons.CommonRails;
+
 /**
  * Singleton dispatcher wired with all standard listeners.
  * All source classes call ExceptionHandler.dispatch(e) to route exceptions
@@ -36,6 +38,9 @@ public class ExceptionHandler
             persistence,
             settings
         );
+
+        // Wire CommonRails catch blocks through this dispatcher without circular import
+        CommonRails.setExceptionSink(this.dispatcher::dispatch);
     }
 
     public static ExceptionHandler getInstance()
