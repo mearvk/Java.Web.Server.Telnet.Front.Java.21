@@ -111,7 +111,19 @@ public class NationalDriver
             return Integer.compare(a.idx, b.idx);
         };
 
-        nitro.sort(cmp); web.sort(cmp); base.sort(cmp); telnet.sort(cmp); aes.sort(cmp); bitcoin.sort(cmp); remainder.sort(cmp);
+        nitro.sort(cmp);
+
+        web.sort(cmp);
+
+        base.sort(cmp);
+
+        telnet.sort(cmp);
+
+        aes.sort(cmp);
+
+        bitcoin.sort(cmp);
+
+        remainder.sort(cmp);
 
         // Convert to lists of strings and store grouped arrays
         List<String> nitroRefs = new ArrayList<>(); for (Entry e: nitro) nitroRefs.add(e.ref);
