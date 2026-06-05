@@ -30,6 +30,8 @@ public class TelnetCommunicationProxy
 
     public TelnetInputBuilder input_builder;
 
+    public TelnetProxyLivenessMonitor liveness_monitor;
+
     public TelnetCommunicationProxy(WebExpress web_express)
     {
         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Communicator starts .");
@@ -53,6 +55,28 @@ public class TelnetCommunicationProxy
         this.OUTPUT_BUILDER.start();
 
         this.input_builder.start();
+
+        this.liveness_monitor = new TelnetProxyLivenessMonitor(this);
+
+        this.liveness_monitor.start();
+    }
+
+    /** Returns true when the backing process is alive and the writer pipe is open. */
+    public boolean isProxyAlive()
+    {
+        try
+        {
+            if (this.process == null || !this.process.isAlive()) return false;
+
+            if (this.writer != null) this.writer.flush();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            ExceptionHandler.dispatch(e);
+            return false;
+        }
     }
 
     public static class TelnetProxyCommunicator extends Thread
