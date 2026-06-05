@@ -53,11 +53,11 @@ public class Main
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
-        NationalDriver driver = new NationalDriver();
+        NationalDriver DRIVER = new NationalDriver();
 
-            driver.printOrderedComponents();
+            DRIVER.printOrderedComponents();
 
-            driver.clear();
+            DRIVER.clear();
 
         NitroWebExpress NITRO = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
 
