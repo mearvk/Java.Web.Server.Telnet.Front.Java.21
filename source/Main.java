@@ -55,9 +55,9 @@ public class Main
 
         NationalDriver driver = new NationalDriver();
 
-        driver.printOrderedComponents();
+            driver.printOrderedComponents();
 
-        driver.clear();
+            driver.clear();
 
         NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
 
