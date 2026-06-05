@@ -1,6 +1,7 @@
 package telnet;
 
 import commons.CommonRails;
+import exceptions.ExceptionHandler;
 import server.nitro.WebExpress;
 
 import java.io.BufferedReader;
@@ -50,6 +51,7 @@ public class TelnetInstaller
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
         }
     }

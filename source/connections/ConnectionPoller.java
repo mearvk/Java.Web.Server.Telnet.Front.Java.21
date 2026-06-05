@@ -2,6 +2,7 @@ package connections;
 
 import commons.CommonRails;
 import commons.EnglishArithemeter;
+import exceptions.ExceptionHandler;
 import messaging.MessageQueue;
 import server.base.BaseServer;
 import server.nitro.WebExpress;
@@ -147,6 +148,7 @@ public class ConnectionPoller extends Thread
                         }
                         catch (Exception e)
                         {
+                            ExceptionHandler.dispatch(e);
                             CONNECTIONS.remove(CONNECTION);
 
                             CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> socket exception ["+e.getMessage()+"].");
@@ -182,6 +184,7 @@ public class ConnectionPoller extends Thread
                         }
                         catch (Exception e)
                         {
+                            ExceptionHandler.dispatch(e);
                             CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed CONNECTION close.");
                         }
                     }
@@ -209,11 +212,13 @@ public class ConnectionPoller extends Thread
                 }
                 catch (Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed CONNECTION close.");
                 }
             }
             catch (Exception e)
             {
+                ExceptionHandler.dispatch(e);
                 e.printStackTrace(System.err);
             }
             finally
@@ -224,6 +229,7 @@ public class ConnectionPoller extends Thread
                 }
                 catch (Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed CONNECTION on main polling thread sleep.");
                 }
             }

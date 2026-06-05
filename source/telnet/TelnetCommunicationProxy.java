@@ -1,8 +1,8 @@
 package telnet;
 
 import commons.CommonRails;
+import exceptions.ExceptionHandler;
 import server.nitro.WebExpress;
-//import sim.stochastic;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -93,6 +93,7 @@ public class TelnetCommunicationProxy
                 }
                 catch (Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
                 }
                 finally
@@ -120,6 +121,7 @@ public class TelnetCommunicationProxy
                 }
                 catch (Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
                 }
                 finally
