@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<servers>
+    <server>
+        <id>100</id>
+        <name>AES 2.0 Remote Server</name>
+        <domain>mearvk.us</domain>
+        <ip>45.32.31.139</ip>
+    </server>
+    <server>
+        <id>200</id>
+        <name>Bitcoin v24.0+ Remote Server</name>
+        <domain>mearvk.us</domain>
+        <ip>45.32.31.139</ip>
+    </server>
+</servers>
