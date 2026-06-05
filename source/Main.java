@@ -27,9 +27,9 @@ public class Main
 
     protected static final String WEBEXPRESS_HOSTNAME = "localhost";
 
-    protected static final String AES_WEBEXPRESS_HOST = "localhost";
+    protected static final String AES_WEBEXPRESS_REMOTE_HOST = "localhost";
 
-    protected static final String BITCOIN_WEBEXPRESS_HOST = "localhost";
+    protected static final String BITCOIN_WEBEXPRESS_REMOTE_HOST = "localhost";
 
     public Main()
     {
@@ -69,9 +69,9 @@ public class Main
 
             NITRO.TELNET_PROXY_ENABLED = Boolean.TRUE;
 
-            NITRO.BRIDGE.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+            NITRO.BRIDGE.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_REMOTE_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+            NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
         NitroWebExpress.SELF.start();
     }
