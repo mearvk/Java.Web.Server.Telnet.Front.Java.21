@@ -1,5 +1,6 @@
 package national;
 
+import exceptions.ExceptionHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -257,6 +258,7 @@ public class NationalDriver
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             return -1;
         }
     }

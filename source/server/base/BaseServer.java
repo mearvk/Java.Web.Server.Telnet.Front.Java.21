@@ -2,6 +2,7 @@ package server.base;
 
 import commons.CommonRails;
 import connections.*;
+import exceptions.ExceptionHandler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -61,6 +62,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             this.RUNNING = false;
@@ -74,6 +76,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             // mark as not running so run() will not attempt accept on a null socket
@@ -101,6 +104,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             this.RUNNING = false;
@@ -114,6 +118,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             this.RUNNING = false;
@@ -165,6 +170,7 @@ public abstract class BaseServer extends Thread
                 }
                 catch(Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
 
                     return;
@@ -182,6 +188,7 @@ public abstract class BaseServer extends Thread
                 }
                 catch(Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
 
                     return;
@@ -199,6 +206,7 @@ public abstract class BaseServer extends Thread
                 }
                 catch(Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
 
                     return;
@@ -217,6 +225,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception se)
         {
+            ExceptionHandler.dispatch(se);
             se.printStackTrace(System.err);
         }
     }

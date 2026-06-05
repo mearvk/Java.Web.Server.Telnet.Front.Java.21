@@ -18,6 +18,15 @@ public class CommonRails
 {
     protected String hash = "0xDA717018470E213F";
 
+    /** Pluggable exception sink — set by ExceptionHandler at startup to avoid circular import. */
+    public static java.util.function.Consumer<Exception> EXCEPTION_SINK = e -> {};
+
+    /** Called by ExceptionHandler once to wire itself in. */
+    public static void setExceptionSink(java.util.function.Consumer<Exception> sink)
+    {
+        if (sink != null) EXCEPTION_SINK = sink;
+    }
+
     // Desired total width for the text inside the [Current: ...] brackets
     protected static final int CLASSNAME_TOTAL_WIDTH = 35;
 
@@ -114,6 +123,7 @@ public class CommonRails
             }
             catch (Exception e)
             {
+                EXCEPTION_SINK.accept(e);
                 e.printStackTrace(System.err);
             }
         }
@@ -261,6 +271,7 @@ public class CommonRails
             }
             catch (Exception e)
             {
+                EXCEPTION_SINK.accept(e);
                 e.printStackTrace(System.err);
             }
 
@@ -291,6 +302,7 @@ public class CommonRails
         }
         catch (Exception e)
         {
+            EXCEPTION_SINK.accept(e);
             e.printStackTrace(System.err);
         }
     }
@@ -317,6 +329,7 @@ public class CommonRails
         }
         catch (Exception e)
         {
+            EXCEPTION_SINK.accept(e);
             e.printStackTrace(System.err);
         }
 
@@ -332,6 +345,7 @@ public class CommonRails
                 }
                 catch (Exception e)
                 {
+                    EXCEPTION_SINK.accept(e);
                     e.printStackTrace(System.err);
                 }
 
@@ -450,6 +464,7 @@ public class CommonRails
                 }
                 catch (Exception e)
                 {
+                    EXCEPTION_SINK.accept(e);
                     e.printStackTrace(System.err);
                 }
                 finally
@@ -538,6 +553,7 @@ public class CommonRails
             }
             catch (Exception e)
             {
+                EXCEPTION_SINK.accept(e);
                 e.printStackTrace(System.err);
             }
         }
@@ -582,6 +598,7 @@ public class CommonRails
             }
             catch (Exception e)
             {
+                EXCEPTION_SINK.accept(e);
                 e.printStackTrace(System.err);
             }
         }
