@@ -84,6 +84,51 @@ public class NitroWebExpress extends WebExpress
 
         public ConnectionStatusServer CONNECTION_STATUS;
 
+        public MySQLComponent MYSQL_COMPONENT = new MySQLComponent();
+
+        /** Start CONNECTION_STATUS and NitroWebExpress.SELF together. */
+        public void start()
+        {
+            if (CONNECTION_STATUS != null) CONNECTION_STATUS.start();
+            if (NitroWebExpress.SELF != null) NitroWebExpress.SELF.start();
+        }
+
+        public static class MySQLComponent
+        {
+            public db.N21Status.Status dbStatus;
+            public String oidColor;
+            public String statusMsg;
+
+            public MySQLComponent()
+            {
+                db.N21AuthConfig.get().ensureMysqlRunning();
+                this.dbStatus = db.N21Status.check();
+
+                if (dbStatus.jdbcConnected() && dbStatus.n21DbExists())
+                {
+                    this.oidColor  = CommonRails.COLOR_LIME_GREEN;
+                    this.statusMsg = ". MySQL N21 Database Connected and Ready — " + db.N21Status.dbHost() + ":" + db.N21Status.dbPort() + " .";
+                }
+                else if (dbStatus.tcpReachable() || dbStatus.pingable())
+                {
+                    this.oidColor  = CommonRails.COLOR_TANGERINE;
+                    this.statusMsg = ". MySQL Unreachable or Auth Failed — XML Fallback Storage Active .";
+                }
+                else
+                {
+                    this.oidColor  = CommonRails.COLOR_STANDARD_RED;
+                    this.statusMsg = ". MySQL Not Found or Not Running — XML Fallback Storage Active .";
+                }
+            }
+
+            /** Print the MySQL status line without animation/blink. */
+            public void print(Object owner)
+            {
+                String reset = "\u001B[0m";
+                System.out.println(oidColor + statusMsg + reset);
+            }
+        }
+
 
         public Aspect(WebExpress WEBEXPRESS)
         {

@@ -63,33 +63,6 @@ public class Main
 
         System.out.println();
 
-        // ── MySQL / N21 database status — printed BEFORE first CommonRails line ──
-        db.N21AuthConfig.get().ensureMysqlRunning();
-        db.N21Status.Status dbStatus = db.N21Status.check();
-        {
-            String oidColor;
-            String statusMsg;
-
-            if (dbStatus.jdbcConnected() && dbStatus.n21DbExists())
-            {
-                oidColor  = CommonRails.COLOR_LIME_GREEN;
-                statusMsg = ". MySQL N21 Database Connected and Ready — " + db.N21Status.dbHost() + ":" + db.N21Status.dbPort() + " .";
-            }
-            else if (dbStatus.tcpReachable() || dbStatus.pingable())
-            {
-                oidColor  = CommonRails.COLOR_TANGERINE;
-                statusMsg = ". MySQL Unreachable or Auth Failed — XML Fallback Storage Active .";
-            }
-            else
-            {
-                oidColor  = CommonRails.COLOR_STANDARD_RED;
-                statusMsg = ". MySQL Not Found or Not Running — XML Fallback Storage Active .";
-            }
-
-            CommonRails.printSystemComponent(this, this.hashCode(), statusMsg, oidColor);
-        }
-        // ─────────────────────────────────────────────────────────────────────
-
             CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
@@ -116,9 +89,9 @@ public class Main
 
             NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
-            NITRO.BRIDGE.CONNECTION_STATUS.start();
+            NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
 
-        NitroWebExpress.SELF.start();
+            NITRO.BRIDGE.start();
     }
 
     public static void main(String...args)

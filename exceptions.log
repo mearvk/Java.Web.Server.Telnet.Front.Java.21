@@ -1687,3 +1687,127 @@ server.nitro.NitroWebExpress.<init>(NitroWebExpress.java:55)
 Main.<init>(Main.java:71)
 Main.main(Main.java:90)
 ------------------------------------------------------------
+[EXCEPTION] 2026-06-06T05:42:24.846197719Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace: java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.base.BaseServer.<init>(BaseServer.java:75)
+server.nitro.WebExpress.<init>(WebExpress.java:52)
+server.nitro.NitroWebExpress.<init>(NitroWebExpress.java:55)
+Main.<init>(Main.java:103)
+Main.main(Main.java:126)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T05:42:24.849319993Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.base.BaseServer.<init>(BaseServer.java:75)
+server.nitro.WebExpress.<init>(WebExpress.java:52)
+server.nitro.NitroWebExpress.<init>(NitroWebExpress.java:55)
+Main.<init>(Main.java:103)
+Main.main(Main.java:126)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T05:42:30.975749658Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace: java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.base.BaseServer.<init>(BaseServer.java:75)
+server.nitro.WebExpress.<init>(WebExpress.java:52)
+server.nitro.NitroWebExpress$Aspect$AESCompliant.<init>(NitroWebExpress.java:109)
+Main.<init>(Main.java:113)
+Main.main(Main.java:126)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T05:42:30.976145758Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.base.BaseServer.<init>(BaseServer.java:75)
+server.nitro.WebExpress.<init>(WebExpress.java:52)
+server.nitro.NitroWebExpress$Aspect$AESCompliant.<init>(NitroWebExpress.java:109)
+Main.<init>(Main.java:113)
+Main.main(Main.java:126)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T05:42:35.258987510Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace: java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.base.BaseServer.<init>(BaseServer.java:75)
+server.nitro.WebExpress.<init>(WebExpress.java:52)
+server.nitro.NitroWebExpress$Aspect$BitcoinCompliant.<init>(NitroWebExpress.java:172)
+Main.<init>(Main.java:115)
+Main.main(Main.java:126)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T05:42:35.259152348Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.base.BaseServer.<init>(BaseServer.java:75)
+server.nitro.WebExpress.<init>(WebExpress.java:52)
+server.nitro.NitroWebExpress$Aspect$BitcoinCompliant.<init>(NitroWebExpress.java:172)
+Main.<init>(Main.java:115)
+Main.main(Main.java:126)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T05:42:39.537520028Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace: java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.nitro.ConnectionStatusServer.run(ConnectionStatusServer.java:58)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T05:42:39.537857969Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.nitro.ConnectionStatusServer.run(ConnectionStatusServer.java:58)
+------------------------------------------------------------
