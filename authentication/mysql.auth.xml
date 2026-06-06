@@ -2,7 +2,7 @@
 <mysql-auth>
     <host>localhost</host>
     <port>3306</port>
-    <username>root</username>
-    <password></password>
+    <username>mearvk</username>
+    <password>$$Ironman1</password>
     <use-sudo>true</use-sudo>
 </mysql-auth>

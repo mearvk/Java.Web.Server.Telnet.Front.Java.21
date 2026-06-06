@@ -676,4 +676,37 @@ public class CommonRails
     {
         System.out.println(ANSI_DEEP_RED + text + ANSI_RESET);
     }
+
+    /**
+     * Same as printSystemComponent but uses an explicit ANSI color code for the Object ID digits.
+     * Pass one of the OID_* constants or any "\033[38;5;Nm" string.
+     */
+    public static void printSystemComponent(Object object, Integer hashcode, String line, String oidColor)
+    {
+        String inner      = "Current: @" + object.getClass().getSimpleName();
+        int    innerPad   = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
+        String classname  = "[" + inner + " ".repeat(innerPad) + "]";
+
+        String compliant_hashcode = String.format("%010d", hashcode);
+        String colored_hashcode   = USE_COLORED_OUTPUT
+            ? oidColor + compliant_hashcode + ANSI_RESET
+            : compliant_hashcode;
+
+        String object_id = "-- : [Object ID: " + colored_hashcode + "]";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+        formatter.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+        String date = "[Date: " + formatter.format(new Date()) + "]";
+
+        String reference = object_id + " " + date + " " + classname + " " + (line != null ? line : "");
+
+        try { NationalDriver.record(reference); } catch (Throwable ignored) {}
+
+        CommonRails.delayableFinePrinter(reference, 21);
+    }
+
+    // Expose OID color constants for external callers (e.g. DB status)
+    public static final String COLOR_LIME_GREEN     = "\033[38;5;118m";  // connected
+    public static final String COLOR_TANGERINE      = "\033[38;5;214m";  // XML fallback
+    public static final String COLOR_STANDARD_RED   = "\033[38;5;160m";  // full failure
 }

@@ -1,0 +1,12 @@
+<N21>
+  <record table="geo_locations" ts="2026-06-06T04:17:56.589983339Z">
+    <ip_address>127.0.0.1</ip_address>
+    <city>Graham</city>
+    <country>United States</country>
+  </record>
+  <record table="status_snapshots" ts="2026-06-06T04:17:56.597038893Z">
+    <active_connections>0</active_connections>
+    <uptime_secs>70</uptime_secs>
+    <total_memory_mb>218</total_memory_mb>
+    <used_memory_mb>52</used_memory_mb>
+  </record>
