@@ -1,5 +1,6 @@
 import commons.CommonRails;
 import national.NationalDriver;
+import server.nitro.ConnectionStatusServer;
 import server.nitro.NitroWebExpress;
 
 import java.io.File;
@@ -32,6 +33,10 @@ public class Main
     protected static final String AES_WEBEXPRESS_REMOTE_HOST = "localhost";
 
     protected static final String BITCOIN_WEBEXPRESS_REMOTE_HOST = "localhost";
+
+    protected static final Integer CONNECTION_STATUS_SERVER_PORT = ConnectionStatusServer.STATUS_PORT;
+
+    protected static final String CONNECTION_STATUS_SERVER_HOST = "localhost";
 
     public Main()
     {
@@ -81,6 +86,10 @@ public class Main
             NITRO.BRIDGE.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_REMOTE_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+
+            NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
+
+            NITRO.BRIDGE.CONNECTION_STATUS.start();
 
         NitroWebExpress.SELF.start();
     }

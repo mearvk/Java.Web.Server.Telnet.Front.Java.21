@@ -82,6 +82,8 @@ public class NitroWebExpress extends WebExpress
 
         public BitcoinCompliant BITCOIN_COMPONENT;
 
+        public ConnectionStatusServer CONNECTION_STATUS;
+
 
         public Aspect(WebExpress WEBEXPRESS)
         {
