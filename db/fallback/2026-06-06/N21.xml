@@ -25,3 +25,18 @@
     <promissory_note>0.0</promissory_note>
     <created_at>Sat Jun 06 15:02:56 EDT 2026</created_at>
   </record>
+  <record table="national_finance_ids" ts="2026-06-06T19:16:00.462326881Z">
+    <national_id>73058825</national_id>
+    <remote_address>/127.0.0.1:38502</remote_address>
+    <iq>259</iq>
+    <education_level>Masters</education_level>
+    <social_skills>100</social_skills>
+    <equipment>Communications</equipment>
+    <trust_level>100</trust_level>
+    <parent_one>Max Rupplin</parent_one>
+    <parent_two>X</parent_two>
+    <suspects>Masters of Science is Adequate</suspects>
+    <social_spotting>High Demography</social_spotting>
+    <promissory_note>0.0</promissory_note>
+    <created_at>Sat Jun 06 15:15:08 EDT 2026</created_at>
+  </record>
