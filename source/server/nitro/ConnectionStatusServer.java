@@ -9,9 +9,6 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Binds port 49155 and serves a plain-text status report on demand.
@@ -77,14 +74,7 @@ public class ConnectionStatusServer extends Thread
         {
             int count = watched.size();
 
-            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-            fmt.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-            String timestamp = fmt.format(new Date());
-
-            String report =
-                "{ \"port\": "        + watchedPort + ", " +
-                "\"connections\": "   + count       + ", " +
-                "\"timestamp\": \""   + timestamp   + "\" }\n";
+            String report = "Current Connections: " + count + "\n";
 
             CommonRails.printSystemComponent(this, this.hashCode(),
                 ". ConnectionStatusServer >> status query: port=" + watchedPort
