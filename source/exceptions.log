@@ -20200,3 +20200,1229 @@ java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
 java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
 messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
 ------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:31:04.868678831Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:31:04.870833386Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:31:39.480045144Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:31:39.480244061Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:32.214438654Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:32.214720150Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:35.251914559Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:35.252150149Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:38.287322492Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:38.287603350Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:41.321278770Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:41.321582506Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:44.356485625Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:44.356987922Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:47.389793359Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:47.390045302Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:49.212554270Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:49.212858892Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:58.921520319Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:32:58.921817881Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:01.953951893Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:01.954091039Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:03.167182147Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:03.167459624Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:06.195349005Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:06.195702779Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:07.407891103Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:07.408109081Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:11.046296522Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:11.046655078Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:14.075802496Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:14.076014281Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:15.286506313Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:15.286648580Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:18.310058823Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:18.310297139Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:19.522608570Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:19.522933187Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:22.550584329Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:22.550739131Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:23.767621320Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:23.767910549Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:26.796620269Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:26.796881644Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:28.007775730Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:28.007900342Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:31.637825857Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:31.637994851Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:34.667237772Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:34.667616471Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:35.881435041Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:33:35.881767634Z
+Type: java.net.SocketException
+Message: Broken pipe
+Origin: java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:65)
+java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:402)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:418)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:130)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:18.233968226Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:18.239395600Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:37.655020337Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:37.655289777Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:52.812423810Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:52.812699931Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:55.844135433Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:55.844363905Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:58.876045940Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:34:58.876271090Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:01.905722928Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:01.905910132Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:04.933647671Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:04.933930718Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:07.967320862Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:07.967525213Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:12.208293178Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:12.208637093Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:15.236974623Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:35:15.237120537Z
+Type: java.io.IOException
+Message: Stream closed
+Origin: java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+StackTrace:
+java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:434)
+java.base/java.io.OutputStream.write(OutputStream.java:167)
+java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:123)
+java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:203)
+java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:321)
+java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:51:28.593359988Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace: java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.nitro.ConnectionStatusServer.run(ConnectionStatusServer.java:52)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:51:28.595270055Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.nitro.ConnectionStatusServer.run(ConnectionStatusServer.java:52)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:51:32.863594954Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace: java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.nitro.ConnectionStatusServer.run(ConnectionStatusServer.java:52)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T01:51:32.863751821Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.nitro.ConnectionStatusServer.run(ConnectionStatusServer.java:52)
+------------------------------------------------------------
