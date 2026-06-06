@@ -150,6 +150,13 @@ public class N21Store
         {
             try
             {
+                // Satisfy the FK: ensure the eight_digit_id exists in national_ids first.
+                // Uses a placeholder sixteen_digit_key of 0 when none is provided.
+                PreparedStatement pi = N21DataSource.get().prepareStatement(
+                    "INSERT IGNORE INTO national_ids (eight_digit_id, sixteen_digit_key) VALUES (?,0)");
+                pi.setLong(1, n.nationalId);
+                pi.executeUpdate(); pi.close();
+
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
                     "INSERT INTO national_finance_ids " +
                     "(national_id, remote_address, iq, education_level, social_skills, equipment, " +
