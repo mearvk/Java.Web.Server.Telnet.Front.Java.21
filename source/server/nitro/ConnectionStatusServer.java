@@ -35,10 +35,10 @@ public class ConnectionStatusServer extends Thread
 
     public ConnectionStatusServer(String host, CurrentConnections watched, int watchedPort)
     {
-        if(host == null || watched == null) throw new SecurityException("//bodi/connect");
+        if (host == null || watched == null) throw new SecurityException("//bodi/connect");
 
-        this.host        = host;
-        this.watched     = watched;
+        this.host = host;
+        this.watched = watched;
         this.watchedPort = watchedPort;
 
         this.setName("ConnectionStatusServer");
@@ -55,9 +55,9 @@ public class ConnectionStatusServer extends Thread
             serverSocket = new ServerSocket(STATUS_PORT, 256, addr);
 
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". ConnectionStatusServer listening on port " + STATUS_PORT + " .");
+                    ". ConnectionStatusServer listening on port " + STATUS_PORT + " .");
 
-            while(!Thread.currentThread().isInterrupted())
+            while (!Thread.currentThread().isInterrupted())
             {
                 Socket client = serverSocket.accept();
 
@@ -66,8 +66,7 @@ public class ConnectionStatusServer extends Thread
                 responder.setDaemon(true);
                 responder.start();
             }
-        }
-        catch(Exception e)
+        } catch (Exception e)
         {
             ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
@@ -80,41 +79,46 @@ public class ConnectionStatusServer extends Thread
         {
             int count = watched.size();
 
-            String remoteIp  = client.getInetAddress().getHostAddress();
-            String geoLine   = fetchGeo(remoteIp);
+            String remoteIp = client.getInetAddress().getHostAddress();
+            String geoLine = fetchGeo(remoteIp);
             String localTime = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm a"));
 
             String banner =
-                "╔══════════════════════════════════════════════╗\n" +
-                "║   National JDK Finance Engine  v2811.1 v12.1 ║\n" +
-                "╚══════════════════════════════════════════════╝\n";
+                    "╔══════════════════════════════════════════════╗\n" +
+                            "║   National JDK Finance Engine  v2811.1 v12.1 ║\n" +
+                            "╚══════════════════════════════════════════════╝\n";
 
             String report = banner +
-                "Remote IP:           " + remoteIp  + "\n" +
-                "Geo Location:        " + geoLine   + "\n" +
-                "Local Server Time:   " + localTime + "\n" +
-                "Current Connections: " + count     + "\n";
+                    "Remote IP:           " + remoteIp + "\n" +
+                    "Geo Location:        " + geoLine + "\n" +
+                    "Local Server Time:   " + localTime + "\n" +
+                    "Current Connections: " + count + "\n";
 
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". ConnectionStatusServer >> status query: port=" + watchedPort
-                + " connections=" + count + " .");
+                    ". ConnectionStatusServer >> status query: port=" + watchedPort
+                            + " connections=" + count + " .");
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 
             writer.write(report);
             writer.flush();
-        }
-        catch(Exception e)
+        } catch (Exception e)
         {
             ExceptionHandler.dispatch(e);
-        }
-        finally
+        } finally
         {
-            try { client.close(); } catch(Exception ignored) {}
+            try
+            {
+                client.close();
+            } catch (Exception ignored)
+            {
+            }
         }
     }
 
-    /** Returns "City, Country" for the given IP, or "Unknown" on failure. */
+    /**
+     * Returns "City, Country" for the given IP, or "Unknown" on failure.
+     */
     private String fetchGeo(String ip)
     {
         try
@@ -123,12 +127,15 @@ public class ConnectionStatusServer extends Thread
             conn.setConnectTimeout(2000);
             conn.setReadTimeout(2000);
 
-            try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream())))
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream())))
             {
-                String city    = br.readLine();
+                String city = br.readLine();
                 String country = br.readLine();
                 return (city != null ? city : "?") + ", " + (country != null ? country : "?");
             }
+        } catch (Exception e)
+        {
+            return "Unknown";
         }
-        catch(Exception e) { return "Unknown"; }
     }
+}
