@@ -1621,3 +1621,36 @@ java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
 java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
 messaging.MessageQueueSorter.run(MessageQueueSorter.java:73)
 ------------------------------------------------------------
+[EXCEPTION] 2026-06-06T02:19:54.478661430Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace: java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.base.BaseServer.<init>(BaseServer.java:75)
+server.nitro.WebExpress.<init>(WebExpress.java:52)
+server.nitro.NitroWebExpress.<init>(NitroWebExpress.java:55)
+Main.<init>(Main.java:62)
+Main.main(Main.java:81)
+------------------------------------------------------------
+[EXCEPTION] 2026-06-06T02:19:54.482142896Z
+Type: java.net.BindException
+Message: Address already in use
+Origin: java.base/sun.nio.ch.Net.bind0(Native Method)
+StackTrace:
+java.base/sun.nio.ch.Net.bind0(Native Method)
+java.base/sun.nio.ch.Net.bind(Net.java:522)
+java.base/sun.nio.ch.Net.bind(Net.java:511)
+java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:641)
+java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+server.base.BaseServer.<init>(BaseServer.java:75)
+server.nitro.WebExpress.<init>(WebExpress.java:52)
+server.nitro.NitroWebExpress.<init>(NitroWebExpress.java:55)
+Main.<init>(Main.java:62)
+Main.main(Main.java:81)
+------------------------------------------------------------
