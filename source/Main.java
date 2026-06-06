@@ -38,13 +38,25 @@ public class Main
 
     protected static final String CONNECTION_STATUS_SERVER_HOST = "localhost";
 
+    public static void main(String...args)
+    {
+        Main main = new Main();
+    }
+
     public Main()
     {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+        {
+            try
+            {
                 String script = new File("scripts/shutdown.sh").getAbsolutePath();
+
                 new ProcessBuilder("bash", script).inheritIO().start().waitFor();
-            } catch (Exception e) { e.printStackTrace(System.err); }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.err);
+            }
         }, "ShutdownHook"));
 
         CommonRails.printStartRecipeSpinner();
@@ -92,10 +104,5 @@ public class Main
             NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
 
             NITRO.BRIDGE.start();
-    }
-
-    public static void main(String...args)
-    {
-        Main main = new Main();
     }
 }
