@@ -679,14 +679,18 @@ public class CommonRails
     }
 
     /**
-     * Same as printSystemComponent but uses an explicit ANSI color code for the Object ID digits.
-     * Pass one of the OID_* constants or any "\033[38;5;Nm" string.
+     * Same as printSystemComponent but uses an explicit ANSI color for the Object ID digits.
+     * Delegates to the standard method after patching the OID color — identical animation, no blink.
      */
     public static void printSystemComponent(Object object, Integer hashcode, String line, String oidColor)
     {
-        String inner      = "Current: @" + object.getClass().getSimpleName();
-        int    innerPad   = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
-        String classname  = "[" + inner + " ".repeat(innerPad) + "]";
+        // Temporarily override resolveOidColor by building the reference manually only for the hashcode
+        // then delegating the full pipeline to the standard method via a thin wrapper object
+        // whose class name maps to a known color — instead, we patch at the reference level directly.
+
+        String inner     = "Current: @" + object.getClass().getSimpleName();
+        int    innerPad  = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
+        String classname = "[" + inner + " ".repeat(innerPad) + "]";
 
         String compliant_hashcode = String.format("%010d", hashcode);
         String colored_hashcode   = USE_COLORED_OUTPUT
@@ -699,7 +703,32 @@ public class CommonRails
         formatter.setTimeZone(TimeZone.getTimeZone("America/New_York"));
         String date = "[Date: " + formatter.format(new Date()) + "]";
 
-        String reference = object_id + " " + date + " " + classname + " " + (line != null ? line : "");
+        // Run the same token-uppercasing and keyword pipeline as the standard method
+        String lineFixed = line;
+        if (lineFixed != null && !lineFixed.isEmpty())
+        {
+            int len = lineFixed.length(), i = 0;
+            while (i < len && !Character.isLetterOrDigit(lineFixed.charAt(i))) i++;
+            int s1 = i;
+            while (i < len && (Character.isLetterOrDigit(lineFixed.charAt(i)) || lineFixed.charAt(i) == '_')) i++;
+            if (s1 < i)
+                lineFixed = lineFixed.substring(0, s1) + lineFixed.substring(s1, i).toUpperCase() + lineFixed.substring(i);
+
+            String[] keywords = {"telnet","proxy","installer","communicator","webexpress","messagequeuesorter","messagequeuehandler","serversocket"};
+            for (String kw : keywords)
+                lineFixed = lineFixed.replaceAll("(?i)\\b" + java.util.regex.Pattern.quote(kw) + "\\b", kw.toUpperCase());
+
+            try
+            {
+                lineFixed = lineFixed.replaceAll("(?i)\\bJAVA\\b", ANSI_WHITE + "JAVA" + ANSI_RESET);
+                lineFixed = lineFixed.replaceAll("™", ANSI_DEEP_RED + "™" + ANSI_RESET);
+                lineFixed = lineFixed.replaceAll("(?i)\\bNitroExpress\\b", ANSI_SILVER + "NitroExpress" + ANSI_RESET);
+                lineFixed = lineFixed.replaceAll("(?i)National Finance", ANSI_SILVER + "National Finance" + ANSI_RESET);
+            }
+            catch (Throwable ignored) {}
+        }
+
+        String reference = object_id + " " + date + " " + classname + " " + lineFixed;
 
         try { NationalDriver.record(reference); } catch (Throwable ignored) {}
 
