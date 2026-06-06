@@ -142,6 +142,53 @@ public class N21Store
             "sixteen_digit_key", String.valueOf(sixteenDigit));
     }
 
+    // ── national_finance_ids ──────────────────────────────────────────────────
+
+    public static void storeNationalFinanceID(national.NationalFinanceID n)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "INSERT INTO national_finance_ids " +
+                    "(national_id, remote_address, iq, education_level, social_skills, equipment, " +
+                    " trust_level, parent_one, parent_two, suspects, social_spotting, promissory_note, created_at) " +
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                ps.setLong(1,   n.nationalId);
+                ps.setString(2, n.remoteAddress != null ? n.remoteAddress : "");
+                ps.setInt(3,    n.iq);
+                ps.setString(4, n.educationLevel != null ? n.educationLevel : "");
+                ps.setInt(5,    n.socialSkills);
+                ps.setString(6, n.equipment != null ? n.equipment : "");
+                ps.setInt(7,    n.trustLevel);
+                ps.setString(8, n.parentOne != null ? n.parentOne : "");
+                ps.setString(9, n.parentTwo != null ? n.parentTwo : "");
+                ps.setString(10, n.suspects != null ? n.suspects : "");
+                ps.setString(11, n.socialSpotting != null ? n.socialSpotting : "");
+                ps.setDouble(12, n.promissoryNote);
+                ps.setTimestamp(13, n.createdAt != null ? new Timestamp(n.createdAt.getTime()) : new Timestamp(System.currentTimeMillis()));
+                ps.executeUpdate(); ps.close();
+                return;
+            }
+            catch (Exception e) { fail("national_finance_ids", e); }
+        }
+        N21XmlFallback.append("national_finance_ids",
+            "national_id",     String.valueOf(n.nationalId),
+            "remote_address",  n.remoteAddress != null ? n.remoteAddress : "",
+            "iq",              String.valueOf(n.iq),
+            "education_level", n.educationLevel != null ? n.educationLevel : "",
+            "social_skills",   String.valueOf(n.socialSkills),
+            "equipment",       n.equipment != null ? n.equipment : "",
+            "trust_level",     String.valueOf(n.trustLevel),
+            "parent_one",      n.parentOne != null ? n.parentOne : "",
+            "parent_two",      n.parentTwo != null ? n.parentTwo : "",
+            "suspects",        n.suspects != null ? n.suspects : "",
+            "social_spotting", n.socialSpotting != null ? n.socialSpotting : "",
+            "promissory_note", String.valueOf(n.promissoryNote),
+            "created_at",      n.createdAt != null ? n.createdAt.toString() : "");
+    }
+
     // ── status_snapshots ──────────────────────────────────────────────────────
 
     public static void storeStatusSnapshot(int activeConnections, long uptimeSecs, long totalMb, long usedMb)

@@ -97,6 +97,31 @@ CREATE TABLE IF NOT EXISTS national_ids (
 ) ENGINE=InnoDB;
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- National Finance IDs  (source/national/NationalFinanceID.java)
+-- Full person-aspect profile populated from the initial Telnet connection
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS national_finance_ids (
+    id                          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    national_id                 BIGINT UNSIGNED NOT NULL,
+    remote_address              VARCHAR(45)     NOT NULL DEFAULT '',
+    iq                          SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    education_level             VARCHAR(128)    NOT NULL DEFAULT '',
+    social_skills               TINYINT UNSIGNED NOT NULL DEFAULT 0,   -- 0-100
+    equipment                   TEXT            NULL,
+    trust_level                 TINYINT UNSIGNED NOT NULL DEFAULT 0,   -- 0-100
+    parent_one                  VARCHAR(255)    NOT NULL DEFAULT '',
+    parent_two                  VARCHAR(255)    NOT NULL DEFAULT '',
+    suspects                    TEXT            NULL,    -- probable beliefs / societal settings
+    social_spotting             TEXT            NULL,    -- perceived social placement
+    promissory_note             DECIMAL(18,2)   NOT NULL DEFAULT 0.00, -- projected profit value
+    created_at                  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY fk_nfid_nat     (national_id)  REFERENCES national_ids(eight_digit_id) ON DELETE CASCADE,
+    INDEX idx_national_id       (national_id),
+    INDEX idx_trust             (trust_level),
+    INDEX idx_created           (created_at)
+) ENGINE=InnoDB;
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- Users  (tie national IDs, connection history, and geo together)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
