@@ -57,6 +57,7 @@ public class NationalFinanceIDFeeder
                     write(conn, "");
                     write(conn, "  National ID " + id + " recognised.  Welcome back.");
                     write(conn, "");
+                    financePrompt(conn, existing);
                     return existing;
                 }
                 write(conn, "  ID not found — continuing as new user.");
@@ -138,6 +139,7 @@ public class NationalFinanceIDFeeder
             write(conn, "  ✔  National Finance ID " + nfid.nationalId + " registered and stored.");
             write(conn, "");
 
+            financePrompt(conn, nfid);
             return nfid;
         }
         catch (Exception e)
@@ -146,6 +148,56 @@ public class NationalFinanceIDFeeder
             return null;
         }
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // National ID Finance prompt — runs after login for both new and returning users
+    // ─────────────────────────────────────────────────────────────────────────
+
+    private static void financePrompt(Connection conn, NationalFinanceID nfid)
+    {
+        write(conn, "National ID Finance");
+        write(conn, "");
+
+        int line = 1;
+        for (;;)
+        {
+            String input = prompt(conn, line + " > ");
+            if (input == null || input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) break;
+
+            write(conn, line + " < " + trade(input, nfid));
+            line++;
+        }
+    }
+
+    /**
+     * Produce a trading-context reply for the given input.
+     * Recognises basic directives; anything else echoes a market acknowledgement.
+     */
+    private static String trade(String input, NationalFinanceID nfid)
+    {
+        String cmd = input.trim().toLowerCase();
+        if (cmd.isEmpty())                          return "Ready.";
+        if (cmd.equals("help"))                     return HELP;
+        if (cmd.startsWith("buy"))                  return "BUY order noted for National ID " + nfid.nationalId + ".  Awaiting market confirmation.";
+        if (cmd.startsWith("sell"))                 return "SELL order noted for National ID " + nfid.nationalId + ".  Awaiting market confirmation.";
+        if (cmd.startsWith("balance"))              return "Promissory balance: $" + String.format("%.2f", nfid.promissoryNote) + " USD.";
+        if (cmd.startsWith("id"))                   return "National ID: " + nfid.nationalId + "  Trust: " + nfid.trustLevel + "  Education: " + nfid.educationLevel + ".";
+        if (cmd.startsWith("status"))               return "National ID " + nfid.nationalId + " active.  Trust " + nfid.trustLevel + "/100.  Promissory $" + String.format("%.2f", nfid.promissoryNote) + ".";
+        return "Received: [" + input + "]  — National ID " + nfid.nationalId + " logged.";
+    }
+
+    private static final String HELP =
+        "\r\n" +
+        "  Commands\r\n" +
+        "  ────────────────────────────────────────────────────\r\n" +
+        "  buy  <amount>   Place a BUY order on the market\r\n" +
+        "  sell <amount>   Place a SELL order on the market\r\n" +
+        "  balance         Show your promissory note balance (USD)\r\n" +
+        "  id              Show your National ID and profile summary\r\n" +
+        "  status          Show full account status and trust level\r\n" +
+        "  help            Show this command list\r\n" +
+        "  quit / exit     End this session\r\n" +
+        "  ────────────────────────────────────────────────────";
 
     // ─────────────────────────────────────────────────────────────────────────
     // Helpers
