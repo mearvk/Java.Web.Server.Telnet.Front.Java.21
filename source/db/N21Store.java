@@ -189,6 +189,42 @@ public class N21Store
             "created_at",      n.createdAt != null ? n.createdAt.toString() : "");
     }
 
+    public static national.NationalFinanceID loadNationalFinanceID(long nationalId)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "SELECT * FROM national_finance_ids WHERE national_id=? ORDER BY id DESC LIMIT 1");
+                ps.setLong(1, nationalId);
+                java.sql.ResultSet rs = ps.executeQuery();
+                if (rs.next())
+                {
+                    national.NationalFinanceID n = new national.NationalFinanceID();
+                    n.nationalId     = rs.getLong("national_id");
+                    n.remoteAddress  = rs.getString("remote_address");
+                    n.iq             = rs.getInt("iq");
+                    n.educationLevel = rs.getString("education_level");
+                    n.socialSkills   = rs.getInt("social_skills");
+                    n.equipment      = rs.getString("equipment");
+                    n.trustLevel     = rs.getInt("trust_level");
+                    n.parentOne      = rs.getString("parent_one");
+                    n.parentTwo      = rs.getString("parent_two");
+                    n.suspects       = rs.getString("suspects");
+                    n.socialSpotting = rs.getString("social_spotting");
+                    n.promissoryNote = rs.getDouble("promissory_note");
+                    n.createdAt      = rs.getTimestamp("created_at");
+                    rs.close(); ps.close();
+                    return n;
+                }
+                rs.close(); ps.close();
+            }
+            catch (Exception e) { fail("national_finance_ids", e); }
+        }
+        return null;
+    }
+
     // ── status_snapshots ──────────────────────────────────────────────────────
 
     public static void storeStatusSnapshot(int activeConnections, long uptimeSecs, long totalMb, long usedMb)
