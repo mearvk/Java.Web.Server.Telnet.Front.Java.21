@@ -37,6 +37,9 @@ public class WebExpress extends BaseServer
 
     public BaseServer BASESERVER;
 
+    /** Status server on port 49155 reporting live connection count for this WebExpress instance. */
+    public ConnectionStatusServer CONNECTION_STATUS_SERVER;
+
     public WebExpress()
     {
         this.setName("United States D500 WebExpress");
