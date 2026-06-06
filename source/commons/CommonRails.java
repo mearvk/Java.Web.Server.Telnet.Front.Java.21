@@ -67,11 +67,67 @@ public class CommonRails
     }
 
     // Color constants
-    private static final String ANSI_WHITE = "\033[38;5;15m";
-    private static final String ANSI_DEEP_RED = "\033[38;5;160m";
-    private static final String ANSI_SILVER = "\033[38;5;250m";
-    private static final String ANSI_IMPERIAL_GRAY = "\u001B[38;5;242m";
-    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_WHITE        = "\033[38;5;15m";
+    private static final String ANSI_DEEP_RED     = "\033[38;5;160m";
+    private static final String ANSI_SILVER       = "\033[38;5;250m";
+    private static final String ANSI_IMPERIAL_GRAY= "\u001B[38;5;242m";
+    private static final String ANSI_RESET        = "\u001B[0m";
+
+    // Object-ID category colors (applied to the numeric digits only)
+    private static final String OID_SECURITY    = "\033[38;5;196m"; // bright red
+    private static final String OID_TELNET      = "\033[38;5;51m";  // cyan
+    private static final String OID_ENCRYPTION  = "\033[38;5;208m"; // orange
+    private static final String OID_BITCOIN     = "\033[38;5;220m"; // gold
+    private static final String OID_LOGGING     = "\033[38;5;147m"; // lavender
+    private static final String OID_MESSAGING   = "\033[38;5;118m"; // lime green
+    private static final String OID_CONNECTIONS = "\033[38;5;75m";  // sky blue
+    private static final String OID_SERVER      = "\033[38;5;214m"; // amber
+    private static final String OID_LIVENESS    = "\033[38;5;46m";  // bright green
+    private static final String OID_DEFAULT     = "\033[38;5;250m"; // silver
+
+    /**
+     * Resolve which Object-ID color to use based on the owner's simple class name.
+     */
+    private static String resolveOidColor(String simpleClassName)
+    {
+        if (simpleClassName == null) return OID_DEFAULT;
+
+        String low = simpleClassName.toLowerCase();
+
+        if (low.contains("security") || low.contains("port") || low.contains("auth"))
+            return OID_SECURITY;
+
+        if (low.contains("telnet") || low.contains("proxy") || low.contains("communicator"))
+            return OID_TELNET;
+
+        if (low.contains("encrypt") || low.contains("aes") || low.contains("cipher"))
+            return OID_ENCRYPTION;
+
+        if (low.contains("bitcoin") || low.contains("trader") || low.contains("wallet"))
+            return OID_BITCOIN;
+
+        if (low.contains("common") || low.contains("rail") || low.contains("logger")
+                || low.contains("national") || low.contains("driver") || low.contains("iranian")
+                || low.contains("wedding"))
+            return OID_LOGGING;
+
+        if (low.contains("message") || low.contains("queue") || low.contains("sorter")
+                || low.contains("handler") || low.contains("orderer"))
+            return OID_MESSAGING;
+
+        if (low.contains("connection") || low.contains("poller") || low.contains("socket")
+                || low.contains("galactic") || low.contains("international") || low.contains("recorded"))
+            return OID_CONNECTIONS;
+
+        if (low.contains("server") || low.contains("express") || low.contains("nitro")
+                || low.contains("base") || low.contains("installer"))
+            return OID_SERVER;
+
+        if (low.contains("liveness") || low.contains("monitor"))
+            return OID_LIVENESS;
+
+        return OID_DEFAULT;
+    }
 
     public static <T> Integer size(ArrayList<T> list)
     {
@@ -143,7 +199,12 @@ public class CommonRails
 
         String compliant_hashcode = String.format("%010d", hashcode);
 
-        String object_id = "-- : [Object ID: "+compliant_hashcode+"]";
+        // Color the numeric digits by object category when color output is enabled
+        String colored_hashcode = USE_COLORED_OUTPUT
+            ? resolveOidColor(object.getClass().getSimpleName()) + compliant_hashcode + ANSI_RESET
+            : compliant_hashcode;
+
+        String object_id = "-- : [Object ID: "+colored_hashcode+"]";
 
         // Use full date/time in EST for the Date field
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
