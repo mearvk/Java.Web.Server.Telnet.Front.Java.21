@@ -67,6 +67,7 @@ public class CommonRails
     }
 
     // Color constants
+    private static final String ANSI_YELLOW = "\u001B[33m";
     private static final String ANSI_WHITE        = "\033[38;5;15m";
     private static final String ANSI_DEEP_RED     = "\033[38;5;160m";
     private static final String ANSI_SILVER       = "\033[38;5;250m";
@@ -709,4 +710,5 @@ public class CommonRails
     public static final String COLOR_LIME_GREEN     = "\033[38;5;118m";  // connected
     public static final String COLOR_TANGERINE      = "\033[38;5;214m";  // XML fallback
     public static final String COLOR_STANDARD_RED   = "\033[38;5;160m";  // full failure
+    public static final String COLOR_YELLOW         = "\033[38;5;226m";  // warning / stopped
 }
