@@ -1,5 +1,6 @@
 package db;
 
+import commons.CommonRails;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -9,13 +10,11 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 /**
  * Loads MySQL credentials from authentication/mysql.auth.xml.
- * Provides ensureMysqlRunning() which uses systemctl status mysql to check
- * whether MySQL is installed and running, and starts it via sudo if needed.
+ * ensureMysqlRunning() checks systemctl status, starts if needed, then tests JDBC login.
  */
 public class N21AuthConfig
 {
@@ -46,7 +45,6 @@ public class N21AuthConfig
 
         if (!file.exists())
         {
-            System.err.println("[N21AuthConfig] " + file.getAbsolutePath() + " NOT FOUND — using defaults.");
             INSTANCE = fallback();
             return INSTANCE;
         }
@@ -65,16 +63,9 @@ public class N21AuthConfig
             boolean useSudo  = Boolean.parseBoolean(text(root, "use-sudo", "false"));
 
             INSTANCE = new N21AuthConfig(host, port, username, password, useSudo);
-
-            // Explicit confirmation that the file was read and what was loaded (password masked)
-            System.out.println("[N21AuthConfig] Read: " + file.getAbsolutePath());
-            System.out.println("[N21AuthConfig]   host=" + host + "  port=" + port
-                + "  username=" + username + "  password=" + (password.isEmpty() ? "(empty)" : "***")
-                + "  use-sudo=" + useSudo);
         }
         catch (Exception e)
         {
-            System.err.println("[N21AuthConfig] Parse error: " + e.getMessage() + " — using defaults.");
             INSTANCE = fallback();
         }
 
@@ -82,10 +73,9 @@ public class N21AuthConfig
     }
 
     /**
-     * 1. Runs "systemctl status mysql" to determine install + running state.
-     * 2. If installed but not running and use-sudo=true, starts it.
-     * 3. Runs a login test: mysql -h host -P port -u user -pPASS -e "SELECT 1"
-     *    to confirm the username from the XML can authenticate.
+     * 1. systemctl status mysql — printed via CommonRails with lime/yellow/red OID color.
+     * 2. sudo systemctl start mysql if not running and use-sudo=true.
+     * 3. JDBC login test using credentials from mysql.auth.xml.
      */
     public void ensureMysqlRunning()
     {
@@ -99,76 +89,69 @@ public class N21AuthConfig
                 .lines().collect(Collectors.joining("\n"));
             int exit = proc.waitFor();
 
-            if (output.contains("not-found") || output.contains("could not be found"))
+            boolean notInstalled = output.contains("not-found") || output.contains("could not be found");
+            boolean running      = !notInstalled && ((exit == 0) || output.contains("active (running)"));
+
+            if (notInstalled)
             {
-                System.err.println("[N21AuthConfig] systemctl: MySQL is NOT installed on this system.");
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". systemctl status mysql — MySQL NOT INSTALLED on this system .",
+                    CommonRails.COLOR_STANDARD_RED);
                 return;
             }
-
-            boolean running = (exit == 0) || output.contains("active (running)");
-
-            System.out.println("[N21AuthConfig] systemctl status mysql → "
-                + (running ? "active (running)" : "inactive/stopped") + " (exit=" + exit + ")");
-
-            if (!running && useSudo)
+            else if (running)
             {
-                System.out.println("[N21AuthConfig] Starting MySQL via sudo systemctl start mysql...");
-                Process start = new ProcessBuilder("sudo", "systemctl", "start", "mysql")
-                    .inheritIO().start();
-                start.waitFor();
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". systemctl status mysql — active (running) .",
+                    CommonRails.COLOR_LIME_GREEN);
+            }
+            else
+            {
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". systemctl status mysql — inactive / stopped .",
+                    CommonRails.COLOR_YELLOW);
 
-                // re-check
-                Process recheck = new ProcessBuilder("systemctl", "is-active", "--quiet", "mysql").start();
-                recheck.waitFor();
-                System.out.println("[N21AuthConfig] MySQL after start: "
-                    + (recheck.exitValue() == 0 ? "running" : "still not running"));
+                if (useSudo)
+                {
+                    new ProcessBuilder("sudo", "systemctl", "start", "mysql").inheritIO().start().waitFor();
+
+                    Process recheck = new ProcessBuilder("systemctl", "is-active", "--quiet", "mysql").start();
+                    recheck.waitFor();
+                    boolean nowRunning = (recheck.exitValue() == 0);
+
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". systemctl start mysql — " + (nowRunning ? "now running ." : "FAILED to start ."),
+                        nowRunning ? CommonRails.COLOR_LIME_GREEN : CommonRails.COLOR_STANDARD_RED);
+                }
             }
         }
         catch (Exception e)
         {
-            System.err.println("[N21AuthConfig] systemctl check failed: " + e.getMessage());
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". systemctl status mysql — check failed: " + e.getMessage() + " .",
+                CommonRails.COLOR_STANDARD_RED);
         }
 
-        // ── 2. Login test — credentials passed via --defaults-file (never in argv/ps) ──
-        File cnf = null;
+        // ── 2. JDBC login test using credentials from mysql.auth.xml ──────────
         try
         {
-            // Write a temp .cnf readable only by owner; deleted immediately after the test
-            cnf = File.createTempFile("n21-mysql-", ".cnf");
-            cnf.setReadable(false, false);
-            cnf.setReadable(true, true);   // owner-only read
-            cnf.setWritable(true, true);
-            cnf.deleteOnExit();
+            String url = "jdbc:mysql://" + host + ":" + port
+                + "/N21?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=3000";
 
-            try (java.io.FileWriter fw = new java.io.FileWriter(cnf))
-            {
-                fw.write("[client]\n");
-                fw.write("user=" + username + "\n");
-                fw.write("password=" + password + "\n");
-                fw.write("host=" + host + "\n");
-                fw.write("port=" + port + "\n");
-            }
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://localhost:3306/N21";
-            String user = "mearvk";
-            String password = "$$Ironman1";
-
-            try (Connection conn = DriverManager.getConnection(url, user, password))
+            try (Connection conn = DriverManager.getConnection(url, username, password))
             {
-                System.out.println("Connected successfully without terminal commands!");
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". MySQL JDBC login — user '" + username + "' authenticated successfully .",
+                    CommonRails.COLOR_LIME_GREEN);
             }
         }
         catch (Exception e)
         {
-            System.err.println("[N21AuthConfig] Login test error: " + e.getMessage());
-        }
-        finally
-        {
-            if (cnf != null) cnf.delete();
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". MySQL JDBC login — user '" + username + "' FAILED: " + e.getMessage() + " .",
+                CommonRails.COLOR_STANDARD_RED);
         }
     }
 
