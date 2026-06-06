@@ -664,4 +664,16 @@ public class CommonRails
             }
         }
     }
+
+    /** Print a line in lime green (ANSI 118) — used for positive status reports. */
+    public static void printLimeGreen(String text)
+    {
+        System.out.println("\033[38;5;118m" + text + ANSI_RESET);
+    }
+
+    /** Print a line in deep red (ANSI 160) — used for failure/warning status reports. */
+    public static void printDeepRed(String text)
+    {
+        System.out.println(ANSI_DEEP_RED + text + ANSI_RESET);
+    }
 }
