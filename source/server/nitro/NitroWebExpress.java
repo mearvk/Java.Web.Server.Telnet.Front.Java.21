@@ -106,8 +106,11 @@ public class NitroWebExpress extends WebExpress
 
                 if (dbStatus.jdbcConnected() && dbStatus.n21DbExists())
                 {
+                    String host     = db.N21Status.dbHost();
+                    int    port     = db.N21Status.dbPort();
+                    String locality = (host.equals("localhost") || host.equals("127.0.0.1")) ? "Local" : "Remote";
                     this.oidColor  = CommonRails.COLOR_LIME_GREEN;
-                    this.statusMsg = ". MySQL N21 Database Connected and Ready — " + db.N21Status.dbHost() + ":" + db.N21Status.dbPort() + " .";
+                    this.statusMsg = ". MySQL N21 Connected — " + locality + " — Port " + port + " .";
                 }
                 else if (dbStatus.tcpReachable() || dbStatus.pingable())
                 {
@@ -121,11 +124,9 @@ public class NitroWebExpress extends WebExpress
                 }
             }
 
-            /** Print the MySQL status line without animation/blink. */
             public void print(Object owner)
             {
-                String reset = "\u001B[0m";
-                System.out.println(oidColor + statusMsg + reset);
+                CommonRails.printSystemComponent(owner, owner.hashCode(), statusMsg, oidColor);
             }
         }
 
