@@ -63,23 +63,28 @@ public class ConnectionPoller extends Thread
         {
             if(!CommonRails.SocketUtils.isSocketConnected(CONNECTION.SOCKET)) return;
 
-            // 1. Read client request with bounded timeout
+            // ── National Finance ID: prompt on first connect ──────────────────
+            CONNECTION.reader = new java.io.BufferedReader(
+                new InputStreamReader(CONNECTION.SOCKET.getInputStream()));
+            CONNECTION.writer = new java.io.BufferedWriter(
+                new java.io.OutputStreamWriter(CONNECTION.SOCKET.getOutputStream()));
+
+            national.NationalFinanceIDFeeder.greet(CONNECTION);
+
+            // 1. Read remaining client input with bounded timeout
             StringBuilder BUFFER = new StringBuilder();
 
             try
             {
                 CONNECTION.SOCKET.setSoTimeout(PROXY_READ_TIMEOUT_MS);
 
-                BufferedReader READER = new BufferedReader(
-                    new InputStreamReader(CONNECTION.SOCKET.getInputStream()));
-
                 String LINE;
 
-                if((LINE = READER.readLine()) != null)
+                if((LINE = CONNECTION.reader.readLine()) != null)
                 {
                     BUFFER.append(LINE).append(LINE_FEED);
 
-                    while((LINE = READER.readLine()) != null)
+                    while((LINE = CONNECTION.reader.readLine()) != null)
                     {
                         CommonRails.printSystemComponent(this, this.hashCode(),
                             "WebExpress SessionHandler >> read line [" + LINE + "].");
