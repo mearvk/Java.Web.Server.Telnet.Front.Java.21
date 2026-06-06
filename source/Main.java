@@ -103,6 +103,8 @@ public class Main
 
             NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
 
+            db.N21XmlFallback.replayFallback();
+
             NITRO.BRIDGE.start();
     }
 }
