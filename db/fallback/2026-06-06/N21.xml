@@ -10,3 +10,18 @@
     <total_memory_mb>218</total_memory_mb>
     <used_memory_mb>52</used_memory_mb>
   </record>
+  <record table="national_finance_ids" ts="2026-06-06T19:04:21.320228997Z">
+    <national_id>24587455</national_id>
+    <remote_address>/127.0.0.1:53604</remote_address>
+    <iq>259</iq>
+    <education_level>Masters</education_level>
+    <social_skills>97</social_skills>
+    <equipment>Walkie-Talkies</equipment>
+    <trust_level>100</trust_level>
+    <parent_one>Max Donald</parent_one>
+    <parent_two>Max Donald</parent_two>
+    <suspects>Higher Systems Win</suspects>
+    <social_spotting>Highest IQ in the Country</social_spotting>
+    <promissory_note>0.0</promissory_note>
+    <created_at>Sat Jun 06 15:02:56 EDT 2026</created_at>
+  </record>
