@@ -92,8 +92,7 @@ CREATE TABLE IF NOT EXISTS national_ids (
     eight_digit_id              BIGINT UNSIGNED NOT NULL,
     sixteen_digit_key           BIGINT UNSIGNED NOT NULL,
     issued_at                   DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY uq_eight         (eight_digit_id),
-    UNIQUE KEY uq_sixteen       (sixteen_digit_key)
+    UNIQUE KEY uq_eight         (eight_digit_id)
 ) ENGINE=InnoDB;
 
 -- ─────────────────────────────────────────────────────────────────────────────
