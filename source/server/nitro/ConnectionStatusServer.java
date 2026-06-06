@@ -4,11 +4,17 @@ import commons.CommonRails;
 import connections.CurrentConnections;
 import exceptions.ExceptionHandler;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Binds port 49155 and serves a plain-text status report on demand.
@@ -74,7 +80,20 @@ public class ConnectionStatusServer extends Thread
         {
             int count = watched.size();
 
-            String report = "Current Connections: " + count + "\n";
+            String remoteIp  = client.getInetAddress().getHostAddress();
+            String geoLine   = fetchGeo(remoteIp);
+            String localTime = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm a"));
+
+            String banner =
+                "╔══════════════════════════════════════════════╗\n" +
+                "║   National JDK Finance Engine  v2811.1 v12.1 ║\n" +
+                "╚══════════════════════════════════════════════╝\n";
+
+            String report = banner +
+                "Remote IP:           " + remoteIp  + "\n" +
+                "Geo Location:        " + geoLine   + "\n" +
+                "Local Server Time:   " + localTime + "\n" +
+                "Current Connections: " + count     + "\n";
 
             CommonRails.printSystemComponent(this, this.hashCode(),
                 ". ConnectionStatusServer >> status query: port=" + watchedPort
@@ -94,4 +113,22 @@ public class ConnectionStatusServer extends Thread
             try { client.close(); } catch(Exception ignored) {}
         }
     }
-}
+
+    /** Returns "City, Country" for the given IP, or "Unknown" on failure. */
+    private String fetchGeo(String ip)
+    {
+        try
+        {
+            HttpURLConnection conn = (HttpURLConnection) new URL("http://ip-api.com/line/" + ip + "?fields=city,country").openConnection();
+            conn.setConnectTimeout(2000);
+            conn.setReadTimeout(2000);
+
+            try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream())))
+            {
+                String city    = br.readLine();
+                String country = br.readLine();
+                return (city != null ? city : "?") + ", " + (country != null ? country : "?");
+            }
+        }
+        catch(Exception e) { return "Unknown"; }
+    }

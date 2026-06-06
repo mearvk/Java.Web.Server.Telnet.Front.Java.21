@@ -28,7 +28,7 @@ public class CommonRails
     }
 
     // Desired total width for the text inside the [Current: ...] brackets
-    protected static final int CLASSNAME_TOTAL_WIDTH = 35;
+    protected static final int CLASSNAME_TOTAL_WIDTH = 39;
 
     /**
      * If true, CommonRails will emit ANSI-coloured animated output in delayableFinePrinter.
