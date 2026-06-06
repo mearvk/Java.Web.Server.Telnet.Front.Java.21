@@ -99,75 +99,33 @@ public class ConnectionPoller extends Thread
 
             if(BUFFER.length() == 0) return;
 
-            // 2. Spawn per-session telnet subprocess, forward request, stream response back
-            ProcessBuilder PER_PB   = new ProcessBuilder(WebExpress.TELNET_PROXY_SERVER_ARGS);
-            Process        PER_PROC = PER_PB.start();
-
-            try
+            // 2. Send a sample HTTP GET to tacobell.phd:80 and stream the reply back to the client
+            try(java.net.Socket proxy = new java.net.Socket())
             {
-                java.io.OutputStream PER_OUT = PER_PROC.getOutputStream();
+                proxy.connect(new java.net.InetSocketAddress(WebExpress.REMOTE_SITE, Integer.parseInt(WebExpress.REMOTE_PORT)), PROXY_READ_TIMEOUT_MS);
+                proxy.setSoTimeout(PROXY_READ_TIMEOUT_MS);
 
-                byte[] REQUEST_BYTES = BUFFER.toString().getBytes();
-
-                PER_OUT.write(REQUEST_BYTES);
-                PER_OUT.write('\n');
-                PER_OUT.flush();
+                java.io.OutputStream proxyOut = proxy.getOutputStream();
+                String httpRequest = "GET / HTTP/1.0\r\nHost: " + WebExpress.REMOTE_SITE + "\r\nConnection: close\r\n\r\n";
+                proxyOut.write(httpRequest.getBytes());
+                proxyOut.flush();
 
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    "WebExpress SessionHandler >> forwarded [" + REQUEST_BYTES.length + " bytes] to telnet backend.");
+                    "WebExpress SessionHandler >> forwarded HTTP GET to " + WebExpress.REMOTE_SITE + ":" + WebExpress.REMOTE_PORT + ".");
 
-                java.io.InputStream  PER_IN     = PER_PROC.getInputStream();
-                java.io.OutputStream CLIENT_OUT = CONNECTION.SOCKET.getOutputStream();
+                java.io.OutputStream clientOut = CONNECTION.SOCKET.getOutputStream();
+                byte[] chunk = new byte[4096];
+                int read;
+                long deadline = System.currentTimeMillis() + PROXY_WALL_TIMEOUT_MS;
 
-                java.util.concurrent.atomic.AtomicLong   LAST_READ  = new java.util.concurrent.atomic.AtomicLong(-1);
-                java.util.concurrent.atomic.AtomicBoolean FIRST_BYTE = new java.util.concurrent.atomic.AtomicBoolean(false);
-
-                java.util.concurrent.ExecutorService EXEC = java.util.concurrent.Executors.newSingleThreadExecutor();
-
-                java.util.concurrent.Future<?> FUTURE = EXEC.submit(() ->
+                while(System.currentTimeMillis() < deadline && (read = proxy.getInputStream().read(chunk)) != -1)
                 {
-                    byte[] CHUNK = new byte[4096];
-                    int    READ;
+                    clientOut.write(chunk, 0, read);
+                    clientOut.flush();
 
-                    try
-                    {
-                        while((READ = PER_IN.read(CHUNK)) != -1)
-                        {
-                            CLIENT_OUT.write(CHUNK, 0, READ);
-                            CLIENT_OUT.flush();
-                            FIRST_BYTE.set(true);
-                            LAST_READ.set(System.currentTimeMillis());
-
-                            CommonRails.printSystemComponent(this, this.hashCode(),
-                                "WebExpress SessionHandler >> proxied [" + READ + " bytes] to client.");
-                        }
-                    }
-                    catch(Exception ignored) {}
-                });
-
-                long WALL = System.currentTimeMillis() + PROXY_WALL_TIMEOUT_MS;
-
-                while(System.currentTimeMillis() < WALL)
-                {
-                    if(FUTURE.isDone()) break;
-
-                    if(FIRST_BYTE.get()
-                            && System.currentTimeMillis() - LAST_READ.get() > PROXY_READ_TIMEOUT_MS)
-                        break;
-
-                    Thread.sleep(100);
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        "WebExpress SessionHandler >> proxied [" + read + " bytes] to client.");
                 }
-
-                FUTURE.cancel(true);
-                EXEC.shutdownNow();
-
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    "WebExpress SessionHandler >> proxy read window closed for ["
-                    + CONNECTION.SOCKET.getRemoteSocketAddress() + "].");
-            }
-            finally
-            {
-                try { PER_PROC.destroyForcibly(); } catch(Exception ignored) {}
             }
 
             // Enqueue for MessageQueueSorter audit trail
