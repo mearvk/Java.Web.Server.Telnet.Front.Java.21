@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.lang.management.ManagementFactory;
 
 /**
  * Binds port 49155 and serves a plain-text status report on demand.
@@ -32,6 +33,8 @@ public class ConnectionStatusServer extends Thread
     private final String host;
 
     private ServerSocket serverSocket;
+
+    private final long startTime = System.currentTimeMillis();
 
     public ConnectionStatusServer(String host, CurrentConnections watched, int watchedPort)
     {
@@ -83,16 +86,25 @@ public class ConnectionStatusServer extends Thread
             String geoLine = fetchGeo(remoteIp);
             String localTime = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm a"));
 
+            long uptimeSecs  = (System.currentTimeMillis() - startTime) / 1000;
+            String uptime    = (uptimeSecs / 3600) + "hrs " + ((uptimeSecs % 3600) / 60) + "mins " + (uptimeSecs % 60) + "secs";
+
+            Runtime rt       = Runtime.getRuntime();
+            long totalMB     = rt.totalMemory() / (1024 * 1024);
+            long usedMB      = (rt.totalMemory() - rt.freeMemory()) / (1024 * 1024);
+
             String banner =
                     "╔══════════════════════════════════════════════╗\n" +
                             "║   National JDK Finance Engine  v2811.1 v12.1 ║\n" +
                             "╚══════════════════════════════════════════════╝\n";
 
             String report = banner +
-                    "Remote IP:           " + remoteIp + "\n" +
-                    "Geo Location:        " + geoLine + "\n" +
+                    "Remote IP:           " + remoteIp  + "\n" +
+                    "Geo Location:        " + geoLine   + "\n" +
                     "Local Server Time:   " + localTime + "\n" +
-                    "Current Connections: " + count + "\n";
+                    "Server Uptime:       " + uptime    + "\n" +
+                    "Total Memory:        " + totalMB   + "MB (used: " + usedMB + "MB)\n" +
+                    "Current Connections: " + count     + "\n";
 
             CommonRails.printSystemComponent(this, this.hashCode(),
                     ". ConnectionStatusServer >> status query: port=" + watchedPort
@@ -118,22 +130,29 @@ public class ConnectionStatusServer extends Thread
 
     /**
      * Returns "City, Country" for the given IP, or "Unknown" on failure.
+     * Private/loopback IPs fall back to the server's own public IP.
      */
     private String fetchGeo(String ip)
     {
         try
         {
-            HttpURLConnection conn = (HttpURLConnection) new URL("http://ip-api.com/line/" + ip + "?fields=city,country").openConnection();
+            boolean isPrivate = ip.startsWith("127.") || ip.startsWith("10.")
+                || ip.startsWith("192.168.") || ip.equals("::1") || ip.equals("0:0:0:0:0:0:0:1");
+
+            String target = isPrivate ? "" : ip;
+
+            HttpURLConnection conn = (HttpURLConnection) new URL("http://ip-api.com/line/" + target + "?fields=city,country").openConnection();
             conn.setConnectTimeout(2000);
             conn.setReadTimeout(2000);
 
             try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream())))
             {
                 String country = br.readLine();
-                String city = br.readLine();
+                String city    = br.readLine();
                 return (city != null ? city : "?") + ", " + (country != null ? country : "?");
             }
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             return "Unknown";
         }
