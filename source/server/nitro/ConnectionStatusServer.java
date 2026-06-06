@@ -129,8 +129,8 @@ public class ConnectionStatusServer extends Thread
 
             try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream())))
             {
-                String city = br.readLine();
                 String country = br.readLine();
+                String city = br.readLine();
                 return (city != null ? city : "?") + ", " + (country != null ? country : "?");
             }
         } catch (Exception e)
