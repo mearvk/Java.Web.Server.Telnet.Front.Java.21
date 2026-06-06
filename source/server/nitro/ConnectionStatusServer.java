@@ -93,6 +93,11 @@ public class ConnectionStatusServer extends Thread
             long totalMB     = rt.totalMemory() / (1024 * 1024);
             long usedMB      = (rt.totalMemory() - rt.freeMemory()) / (1024 * 1024);
 
+            // Persist geo + status snapshot to N21
+            String[] geoParts = geoLine.split(", ", 2);
+            db.N21Store.storeGeo(remoteIp, geoParts.length > 0 ? geoParts[0] : "", geoParts.length > 1 ? geoParts[1] : "");
+            db.N21Store.storeStatusSnapshot(count, uptimeSecs, totalMB, usedMB);
+
             String banner =
                     "╔══════════════════════════════════════════════╗\n" +
                             "║   National JDK Finance Engine  v2811.1 v12.1 ║\n" +

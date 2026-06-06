@@ -33,7 +33,8 @@ public class ExceptionHandler
             List.of(
                 new SecurityExceptionHandler(),
                 new NullPointerConstructorHandler(),
-                new PersistenceListener("exceptions.log")
+                new PersistenceListener("exceptions.log"),
+                new N21ExceptionListener()
             ),
             persistence,
             settings
