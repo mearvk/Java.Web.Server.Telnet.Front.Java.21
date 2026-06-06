@@ -221,6 +221,8 @@ public abstract class BaseServer extends Thread
                 this.RECORDED_CONNECTIONS.add(connection);
 
                 this.INTERNATIONAL_CONNECTIONS.add(connection);
+
+                db.N21Store.storeConnection(connection, this.PORT);
             }
         }
         catch(Exception se)
