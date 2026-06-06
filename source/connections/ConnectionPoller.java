@@ -208,8 +208,9 @@ public class ConnectionPoller extends Thread
                         CONNECTIONS.remove(CONNECTION);
 
                         CommonRails.printSystemComponent(this, this.hashCode(),
-                            "WebExpress ConnectionPoller >> removed closed socket ["
-                            + CONNECTION.SOCKET + "].");
+                            ". WebExpress ConnectionPoller >> client disconnected ["
+                            + CONNECTION.SOCKET.getRemoteSocketAddress()
+                            + "] active connections now [" + CONNECTIONS.size() + "] .");
                     }
                 }
             }
@@ -218,7 +219,14 @@ public class ConnectionPoller extends Thread
                 ExceptionHandler.dispatch(e);
 
                 if(CURRENT_CONNECTIONS != null)
+                {
                     CURRENT_CONNECTIONS.remove(CONNECTION);
+
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". WebExpress ConnectionPoller >> client disconnected on exception ["
+                        + (CONNECTION != null && CONNECTION.SOCKET != null ? CONNECTION.SOCKET.getRemoteSocketAddress() : "unknown")
+                        + "] active connections now [" + CURRENT_CONNECTIONS.size() + "] .");
+                }
 
                 try
                 {
