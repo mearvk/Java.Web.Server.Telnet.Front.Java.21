@@ -12,8 +12,8 @@ import java.sql.Statement;
  */
 public class N21Status
 {
-    public static final String DB_HOST = "localhost";
-    public static final int    DB_PORT = 3306;
+    public static String dbHost() { return N21AuthConfig.get().host; }
+    public static int    dbPort() { return N21AuthConfig.get().port; }
 
     public record Status(
         boolean tcpReachable,   // can we open a TCP socket to host:port?
@@ -47,7 +47,7 @@ public class N21Status
     {
         try (Socket s = new Socket())
         {
-            s.connect(new java.net.InetSocketAddress(DB_HOST, DB_PORT), 2000);
+            s.connect(new java.net.InetSocketAddress(dbHost(), dbPort()), 2000);
             return true;
         }
         catch (Exception e) { return false; }
@@ -57,7 +57,7 @@ public class N21Status
     {
         try
         {
-            return InetAddress.getByName(DB_HOST).isReachable(2000);
+            return InetAddress.getByName(dbHost()).isReachable(2000);
         }
         catch (Exception e) { return false; }
     }
@@ -95,10 +95,10 @@ public class N21Status
 
     private static String buildMessage(boolean tcp, boolean ping, boolean jdbc, boolean n21)
     {
-        if (!tcp && !ping)  return "MySQL unreachable at " + DB_HOST + ":" + DB_PORT + " — XML fallback active.";
-        if (!tcp)           return "MySQL port " + DB_PORT + " closed (host pingable) — XML fallback active.";
+        if (!tcp && !ping)  return "MySQL unreachable at " + dbHost() + ":" + dbPort() + " — XML fallback active.";
+        if (!tcp)           return "MySQL port " + dbPort() + " closed (host pingable) — XML fallback active.";
         if (!jdbc)          return "MySQL TCP open but JDBC auth/connect failed — XML fallback active.";
         if (!n21)           return "MySQL connected but database N21 not found — run N21.table.builder.sh.";
-        return               "MySQL connected. Database N21 ready at " + DB_HOST + ":" + DB_PORT + ".";
+        return               "MySQL connected. Database N21 ready at " + dbHost() + ":" + dbPort() + ".";
     }
 }

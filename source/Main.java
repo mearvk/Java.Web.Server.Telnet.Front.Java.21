@@ -68,6 +68,7 @@ public class Main
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
         // ── MySQL / N21 database status check ────────────────────────────────
+        db.N21AuthConfig.get().ensureMysqlRunning();
         db.N21Status.Status dbStatus = db.N21Status.check();
         if (dbStatus.jdbcConnected() && dbStatus.n21DbExists())
             CommonRails.printLimeGreen(". " + dbStatus.message() + " .");
