@@ -682,6 +682,16 @@ public class CommonRails
     }
 
     /**
+     * Print a shutdown signal in the standard component format.
+     * Uses deep red for the port number to distinguish shutdown events.
+     */
+    public static void printShutdownSignal(final Object OWNER, final int PORT, final String PHASE)
+    {
+        printSystemComponent(OWNER, OWNER.hashCode(),
+            "[shutdown] " + PHASE + " port " + PORT);
+    }
+
+    /**
      * Same as printSystemComponent but uses an explicit ANSI color for the Object ID digits.
      * Delegates to the standard method after patching the OID color — identical animation, no blink.
      */
