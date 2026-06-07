@@ -38,7 +38,7 @@ public class WebExpress extends BaseServer
     public BaseServer BASESERVER;
 
     /** Status server on port 49155 reporting live connection count for this WebExpress instance. */
-    public ConnectionStatusServer CONNECTION_STATUS_SERVER;
+    public NitroWebExpress.Aspect.ConnectionStatusServer CONNECTION_STATUS_SERVER;
 
     public WebExpress()
     {
