@@ -1,0 +1,196 @@
+JAVA NATIONAL FINANCE ENGINE — STRUCTURE
+=========================================
+Version:  2811.2.1
+Date:     2026-06-07
+Owner:    Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
+
+
+VERSION RATIONALE
+-----------------
+  2811   — Matches the engine version printed at startup (v.2811.1); major release series.
+     2   — Second minor: module installation, ASCII signature, and admin layers added this session.
+     1   — First patch of this minor series.
+
+Full semver: 2811.2.1
+
+
+SOURCE PACKAGES  (source/)
+---------------------------
+  Main.java
+    Entry point.  Wires NITRO.BRIDGE and starts all services.
+    Ports declared: 49152 (WebExpress), 49155 (Status), 49166 (ModuleInstaller),
+                    49177 (ASCIICreator), 5512 (AES2), 6682 (Bitcoin).
+
+  admin/
+    ModuleAdmin           — Session-token admin authenticator for module unload / signatory ops.
+                            Password via system property module.admin.password or
+                            env MODULE_ADMIN_PASSWORD (default: n21admin).
+
+  ascii/creator/
+    ASCIICreator          — Generates unique 5×5 binary ASCII grid codes (2,097,152 combinations).
+
+  bitcoin/
+    base/BitcoinBase
+    messaging/MessageOrderer
+    module/TraderModule
+    time/  — BitcoinAmericaAndLosAngelesDate, BitcoinAmericaAndNewYorkDate, BitcoinAsiaAndTokyoDate
+    time/flat/  — Full IANA timezone coverage (~400 timezone date classes)
+    time/flat/midi/BitcoinNewFlatiron108
+
+  commons/
+    CommonRails           — Core print architecture; printSystemComponent / printShutdownSignal /
+                            delayableFinePrinter / ANSI color constants / resolveOidColor.
+    EnglishArithemeter
+    InternationalCommonRails
+    IranianWedding
+    security/BodiSecurityException
+    security/SecurityExceptionHandler
+    transition/english/Arithmeter, EnglishArithemeter
+
+  connections/
+    Connection
+    ConnectionPoller
+    CurrentConnections
+    GalacticConnections
+    InternationalConnections
+    MexicoConnections
+    NationalConnections
+    RecordedConnections
+    logic/IPGeoParser
+
+  db/
+    N21AuthConfig         — Loads MySQL credentials from authentication/mysql.auth.xml;
+                            ensureMysqlRunning() checks / starts MySQL via systemctl.
+    N21DataSource         — Shared JDBC connection; auto-fallback to XML on failure.
+    N21Status             — Reports MySQL connectivity status with ANSI OID color.
+    N21Store              — Static store methods for every N21 table:
+                              connections, geo_locations, exceptions, security_events,
+                              national_ids, national_finance_ids, status_snapshots,
+                              ascii_signatures, module_loader.
+    N21XmlFallback        — XML-based offline fallback; replayFallback() on startup.
+
+  encryption/module/aes/two/
+    EncryptionModule      — AES 2.0 DSS5.0 encryption module.
+
+  exceptions/
+    ExceptionRecord       — Record: EXCEPTION, ORIGIN, STACKTRACE, TIMESTAMP.
+    ExceptionListener     — Interface; getPriority() + onException().
+    ExceptionHandler      — Singleton dispatcher; ExceptionHandler.dispatch(e).
+    ExceptionEventDispatcher
+    ExceptionPersistenceService — Writes to /logging/exceptions.log (creates dir if absent).
+    PersistenceListener         — Priority-100 listener; writes to /logging/exceptions.log.
+    N21ExceptionListener        — Persists to MySQL via N21Store; flags security events.
+    NullPointerConstructorHandler
+    SecurityExceptionHandler
+    BackendSettings
+
+  marriatiage/tech/m/marriet/
+    Maria, Menounos
+
+  messaging/
+    MessageOutputHandler
+    MessageQueue
+    MessageQueueSorter
+
+  national/
+    NationalID            — 8-digit + 16-digit key pair.
+    NationalFinanceID     — Full person-aspect profile (IQ, education, trust, parents, etc.)
+    NationalFinanceIDFeeder — Telnet interactive onboarding; stores to MySQL.
+    NationalDriver        — Ordered component printer for startup output.
+    NationalTellus
+
+  security/
+    PortAdministrator
+    PortKnockKnock
+    PortStealth
+
+  server/base/
+    BaseServer            — ServerSocket lifecycle base.
+
+  server/nitro/
+    NitroWebExpress       — Main server class; extends WebExpress.
+    WebExpress            — Telnet proxy / message queue server base.
+
+    NitroWebExpress.Aspect  — Bridge container; holds all service components:
+      ├─ AESCompliant              — AES 2.0 WebExpress on port 5512.
+      ├─ BitcoinCompliant          — Bitcoin WebExpress on port 6682.
+      ├─ ConnectionStatusServer    — Status report server on port 49155.
+      │    Reports: connections, geo, uptime, memory; persists to N21Store.
+      ├─ MySQLComponent            — Checks MySQL at startup; prints lime/red OID status.
+      ├─ ModuleInstallationService — TCP command service on port 49166.
+      │    install  <name> <sha256> <bytes>  — receive .jar/.zip/.java, verify sig, load.
+      │    unload   <name>                   — admin-only classloader close + registry remove.
+      │    list / restart / comment / signatory
+      │    Logs all actions to module_loader table.
+      │    ModuleRegistry          — ConcurrentHashMap of InstalledModule entries.
+      │    InstalledModule         — name, Path, URLClassLoader, install timestamp.
+      └─ ASCIICreatorServer        — Binary ASCII signature service on port 49177.
+           request <nationalId>    — issues unique 5×5 grid, 1000-day TTL, stored in DB.
+           view    <nationalId>    — retrieves existing valid signature.
+           Uniqueness enforced: UNIQUE KEY on both national_id and sig_id.
+
+  shutdown/
+    ShutdownHooks         — JVM shutdown hook; prints SIGTERM/SIGKILL signals via CommonRails;
+                            runs scripts/shutdown.sh silently for OS-level kills.
+    Ports swept: 49152, 49155, 49166, 49177, 5512, 6682.
+
+  sim/
+    InputQueue, stochastic
+
+  telnet/
+    TelnetCommunicationProxy
+    TelnetInputBuilder
+    TelnetInstaller
+    TelnetMessageQueue
+    TelnetOutputBuilder
+    TelnetProxyLivenessMonitor
+
+
+DATABASE TABLES  (MySQL — database N21)
+----------------------------------------
+  connections           — TCP connection log.
+  geo_locations         — IP → city/country (ip-api.com).
+  exceptions            — Full exception records with stack trace.
+  security_events       — Security-flagged subset of exceptions.
+  national_ids          — 8-digit + 16-digit key pairs.
+  national_finance_ids  — Full person profile (NationalFinanceID fields).
+  users                 — Links national IDs, connections, and geo.
+  status_snapshots      — Periodic uptime / memory / connection count.
+  ascii_signatures      — Unique binary ASCII grid per National ID; 1000-day TTL.
+  module_loader         — Audit log of all module install/unload/restart/connect actions.
+  bitcoin_transactions  — Bitcoin tx records with AES keys and imagograph blob.
+  cia                   — Reserved: intelligence-agency integration.
+  fbi                   — Reserved: law-enforcement integration.
+
+  All tables are self-provisioning via N21Store.create*Table() at runtime
+  and also defined in scripts/N21.table.builder.sh.
+
+
+SCRIPTS  (scripts/)
+--------------------
+  startup.sh            — Start the server.
+  shutdown.sh           — Silent SIGTERM → sleep 2 → SIGKILL on all server ports.
+  N21.table.builder.sh  — Create database N21 and all application tables.
+  mysql.install.sh      — MySQL installation helper.
+  github.binary.classes.sh
+  bash/bitcoin/*        — Bitcoin node verify/install scripts for versions 24–30.
+
+  bash/github.binary.classes.sh
+    Moves compiled .class files from source/ to out/ relative to project root.
+
+
+PORTS SUMMARY
+-------------
+  49152   WebExpress (main Telnet proxy)
+  49155   ConnectionStatusServer
+  49166   ModuleInstallationService
+  49177   ASCIICreatorServer
+   5512   AES 2.0 Compliant WebExpress
+   6682   Bitcoin Compliant WebExpress
+
+
+LOG / DATA PATHS
+----------------
+  /logging/exceptions.log   — Exception persistence (directory auto-created).
+  modules/                  — Installed module files (.jar / .zip / .java source).
+  authentication/mysql.auth.xml  — MySQL credentials.
