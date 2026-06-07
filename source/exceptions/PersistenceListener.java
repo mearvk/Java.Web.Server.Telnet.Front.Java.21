@@ -1,5 +1,6 @@
 package exceptions;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
@@ -29,6 +30,12 @@ public class PersistenceListener implements ExceptionListener
 
     private void writeRecordToFile(final ExceptionRecord RECORD)
     {
+        try
+        {
+            new File(FILEPATH).getParentFile().mkdirs();
+        }
+        catch (Exception ignored) {}
+
         try (FileWriter writer = new FileWriter(FILEPATH, true))
         {
             writer.write("[EXCEPTION] " + Instant.now() + System.lineSeparator() + "Type: " + RECORD.EXCEPTION().getClass().getName() + System.lineSeparator() + "Message: " + RECORD.EXCEPTION().getMessage() + System.lineSeparator() + "Origin: " + RECORD.ORIGIN() + System.lineSeparator() + "StackTrace: " + RECORD.STACKTRACE() + System.lineSeparator() + "------------------------------------------------------------" + System.lineSeparator());
