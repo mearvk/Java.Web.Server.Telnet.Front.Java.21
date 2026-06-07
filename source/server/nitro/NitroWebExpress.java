@@ -12,8 +12,14 @@ import national.NationalID;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
@@ -21,8 +27,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HexFormat;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.Random;
 
 public class NitroWebExpress extends WebExpress
@@ -248,12 +263,54 @@ public class NitroWebExpress extends WebExpress
             this.WEBEXPRESS = WEBEXPRESS;
         }
 
+        // ── Module loading infrastructure ─────────────────────────────────────
+
+        public static class InstalledModule
+        {
+            public final String       NAME;
+            public final Path         SOURCE;
+            public final URLClassLoader LOADER;
+            public final long         INSTALLED_AT = System.currentTimeMillis();
+
+            public InstalledModule(final String NAME, final Path SOURCE, final URLClassLoader LOADER)
+            {
+                this.NAME   = NAME;
+                this.SOURCE = SOURCE;
+                this.LOADER = LOADER;
+            }
+        }
+
+        public static class ModuleRegistry
+        {
+            private static final ConcurrentHashMap<String, InstalledModule> MODULES = new ConcurrentHashMap<>();
+
+            public static void register(final InstalledModule M)
+            {
+                MODULES.put(M.NAME, M);
+                CommonRails.printSystemComponent(M, M.hashCode(), ". ModuleRegistry registered module [" + M.NAME + "] .");
+            }
+
+            public static boolean unload(final String NAME)
+            {
+                InstalledModule m = MODULES.remove(NAME);
+                if (m == null) return false;
+                try { m.LOADER.close(); } catch (Exception ignored) {}
+                CommonRails.printSystemComponent(m, m.hashCode(), ". ModuleRegistry unloaded module [" + NAME + "] .");
+                return true;
+            }
+
+            public static InstalledModule get(final String NAME) { return MODULES.get(NAME); }
+
+            public static ConcurrentHashMap<String, InstalledModule> all() { return MODULES; }
+        }
+
         public static class ModuleInstallationService extends Thread
         {
             public static final int PORT = 49166;
 
-            private final String HOST;
+            private static final Path INSTALL_DIR = Paths.get("modules");
 
+            private final String HOST;
             private ServerSocket SERVER_SOCKET;
 
             public ModuleInstallationService(final String HOST)
@@ -269,6 +326,7 @@ public class NitroWebExpress extends WebExpress
             {
                 try
                 {
+                    Files.createDirectories(INSTALL_DIR);
                     SERVER_SOCKET = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
                     CommonRails.printSystemComponent(this, this.hashCode(),
                         ". ModuleInstallationService listening on port " + PORT + " .");
@@ -289,27 +347,39 @@ public class NitroWebExpress extends WebExpress
                     BufferedReader in  = new BufferedReader(new InputStreamReader(CLIENT.getInputStream()));
                     BufferedWriter out = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream()))
                 ) {
-                    writeLine(out, "ModuleInstallationService v1.0 — type 'help' for commands.");
+                    writeLine(out, "ModuleInstallationService v2.0 — type 'help' for commands.");
                     String line;
                     while ((line = in.readLine()) != null)
                     {
                         line = line.trim();
                         if (line.isEmpty()) continue;
                         CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". ModuleInstallationService command [" + line + "] from " + CLIENT.getInetAddress().getHostAddress() + " .");
+                            ". ModuleInstallationService command [" + line + "] from "
+                            + CLIENT.getInetAddress().getHostAddress() + " .");
                         if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) break;
-                        writeLine(out, dispatch(line));
+                        String response = dispatch(line, CLIENT.getInputStream(), out);
+                        if (response != null) writeLine(out, response);
                     }
                 }
                 catch (Exception e) { ExceptionHandler.dispatch(e); }
                 finally { try { CLIENT.close(); } catch (Exception ignored) {} }
             }
 
-            private String dispatch(final String CMD)
+            /** Returns null when the command handled its own output (e.g. install streams bytes). */
+            private String dispatch(final String CMD, final InputStream RAW, final BufferedWriter OUT)
             {
-                String[] parts = CMD.split("\\s+", 3);
+                String[] parts = CMD.split("\\s+", 4);
                 switch (parts[0].toLowerCase())
                 {
+                    case "install":
+                        // install <name> <sha256sig> <bytecount>
+                        if (parts.length < 4) return "Usage: install <name> <sha256hex> <bytecount>";
+                        return installModule(parts[1], parts[2], parts[3], RAW, OUT);
+                    case "unload":
+                        if (parts.length < 2) return "Usage: unload <name>";
+                        return ModuleRegistry.unload(parts[1]) ? "[unload] Module '" + parts[1] + "' unloaded." : "[unload] Module not found: " + parts[1];
+                    case "list":
+                        return listModules();
                     case "restart":
                         if (parts.length < 2) return "Usage: restart <module>";
                         return restartModule(parts[1]);
@@ -326,10 +396,109 @@ public class NitroWebExpress extends WebExpress
                 }
             }
 
+            /**
+             * Receive raw bytes from the socket stream, verify SHA-256 signature,
+             * check file type, persist to disk, then load into ModuleRegistry.
+             */
+            private String installModule(final String NAME, final String SIG_HEX, final String BYTE_COUNT_STR,
+                                          final InputStream RAW, final BufferedWriter OUT)
+            {
+                try
+                {
+                    int byteCount = Integer.parseInt(BYTE_COUNT_STR);
+                    if (byteCount <= 0 || byteCount > 50 * 1024 * 1024)
+                        return "[install] Invalid byte count: " + byteCount;
+
+                    writeLine(OUT, "[install] Ready to receive " + byteCount + " bytes for module '" + NAME + "'.");
+
+                    // Read exactly byteCount bytes
+                    byte[] data = new byte[byteCount];
+                    DataInputStream dis = new DataInputStream(RAW);
+                    dis.readFully(data);
+
+                    // ── Security check 1: SHA-256 signature ───────────────────
+                    String actualHex = sha256hex(data);
+                    if (!actualHex.equalsIgnoreCase(SIG_HEX))
+                    {
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". ModuleInstallationService SECURITY FAIL — signature mismatch for [" + NAME + "] .");
+                        return "[install] REJECTED — signature mismatch. Expected: " + SIG_HEX + " Got: " + actualHex;
+                    }
+
+                    // ── Security check 2: file type by magic bytes ────────────
+                    String detectedType = detectType(data);
+                    if (detectedType == null)
+                    {
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". ModuleInstallationService SECURITY FAIL — unsupported file type for [" + NAME + "] .");
+                        return "[install] REJECTED — unsupported file type (must be .jar, .zip, or .java source).";
+                    }
+
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ModuleInstallationService security checks passed for [" + NAME + "] type=" + detectedType + " .");
+
+                    // ── Persist to modules/ ───────────────────────────────────
+                    String filename = NAME.replaceAll("[^a-zA-Z0-9._-]", "_") + "." + detectedType;
+                    Path dest = INSTALL_DIR.resolve(filename);
+                    Files.write(dest, data);
+
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ModuleInstallationService saved [" + NAME + "] to " + dest + " .");
+
+                    // ── Load into ModuleRegistry ──────────────────────────────
+                    URLClassLoader loader = null;
+                    if (detectedType.equals("jar"))
+                    {
+                        loader = new URLClassLoader(new URL[]{ dest.toUri().toURL() },
+                                                    Thread.currentThread().getContextClassLoader());
+                    }
+                    else if (detectedType.equals("zip"))
+                    {
+                        Path unzipDir = INSTALL_DIR.resolve(NAME);
+                        Files.createDirectories(unzipDir);
+                        unzip(data, unzipDir);
+                        loader = new URLClassLoader(new URL[]{ unzipDir.toUri().toURL() },
+                                                    Thread.currentThread().getContextClassLoader());
+                    }
+                    else // java source — compile it
+                    {
+                        javax.tools.JavaCompiler compiler = javax.tools.ToolProvider.getSystemJavaCompiler();
+                        if (compiler == null)
+                            return "[install] Java source received but no system compiler available (JDK required).";
+                        Path srcFile = INSTALL_DIR.resolve(NAME + ".java");
+                        Files.write(srcFile, data);
+                        int rc = compiler.run(null, null, null, srcFile.toString());
+                        if (rc != 0) return "[install] Compilation failed for " + NAME + ".java";
+                        loader = new URLClassLoader(new URL[]{ INSTALL_DIR.toUri().toURL() },
+                                                    Thread.currentThread().getContextClassLoader());
+                    }
+
+                    ModuleRegistry.register(new InstalledModule(NAME, dest, loader));
+
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ModuleInstallationService installed and loaded module [" + NAME + "] .");
+
+                    return "[install] Module '" + NAME + "' installed successfully (" + detectedType + ", " + byteCount + " bytes).";
+                }
+                catch (NumberFormatException e) { return "[install] Invalid byte count."; }
+                catch (Exception e) { ExceptionHandler.dispatch(e); return "[install] Error: " + e.getMessage(); }
+            }
+
+            private String listModules()
+            {
+                ConcurrentHashMap<String, InstalledModule> all = ModuleRegistry.all();
+                if (all.isEmpty()) return "[list] No modules loaded.";
+                StringBuilder sb = new StringBuilder("[list] Loaded modules:\r\n");
+                all.forEach((name, m) -> sb.append("  ").append(name).append(" — ").append(m.SOURCE).append("\r\n"));
+                return sb.toString().stripTrailing();
+            }
+
             private String restartModule(final String MODULE)
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
                     ". ModuleInstallationService restarting module [" + MODULE + "] .");
+                InstalledModule m = ModuleRegistry.get(MODULE);
+                if (m != null) return "[restart] Module '" + MODULE + "' restart signal sent.";
                 switch (MODULE.toLowerCase())
                 {
                     case "aes": case "bitcoin": case "status": case "national":
@@ -373,6 +542,58 @@ public class NitroWebExpress extends WebExpress
                 catch (Exception e) { ExceptionHandler.dispatch(e); return "[signatory] Error: " + e.getMessage(); }
             }
 
+            // ── Helpers ───────────────────────────────────────────────────────
+
+            /** Detect type by magic bytes: PK zip/jar = zip/jar, 0xCAFEBABE = class, else java text. */
+            private static String detectType(final byte[] DATA)
+            {
+                if (DATA.length < 4) return null;
+                // PK magic → zip or jar (treat all as jar; caller decides)
+                if (DATA[0] == 0x50 && DATA[1] == 0x4B)
+                {
+                    // Peek inside: if contains META-INF/MANIFEST.MF it's a jar, otherwise zip
+                    String header = new String(DATA, 0, Math.min(DATA.length, 256));
+                    return header.contains("META-INF") ? "jar" : "zip";
+                }
+                // Java .class magic
+                if (DATA[0] == (byte)0xCA && DATA[1] == (byte)0xFE
+                    && DATA[2] == (byte)0xBA && DATA[3] == (byte)0xBE) return null; // raw .class rejected
+                // Assume Java source text
+                String text = new String(DATA, 0, Math.min(DATA.length, 512));
+                if (text.contains("package ") || text.contains("public class") || text.contains("import "))
+                    return "java";
+                return null;
+            }
+
+            private static String sha256hex(final byte[] DATA) throws Exception
+            {
+                byte[] digest = MessageDigest.getInstance("SHA-256").digest(DATA);
+                return HexFormat.of().formatHex(digest);
+            }
+
+            private static void unzip(final byte[] DATA, final Path DEST) throws Exception
+            {
+                try (ZipInputStream zis = new ZipInputStream(new java.io.ByteArrayInputStream(DATA)))
+                {
+                    ZipEntry entry;
+                    while ((entry = zis.getNextEntry()) != null)
+                    {
+                        Path target = DEST.resolve(entry.getName()).normalize();
+                        if (!target.startsWith(DEST)) continue; // zip-slip guard
+                        if (entry.isDirectory()) { Files.createDirectories(target); }
+                        else
+                        {
+                            Files.createDirectories(target.getParent());
+                            try (OutputStream os = new FileOutputStream(target.toFile()))
+                            {
+                                zis.transferTo(os);
+                            }
+                        }
+                        zis.closeEntry();
+                    }
+                }
+            }
+
             private static void writeLine(final BufferedWriter OUT, final String LINE)
             {
                 try { OUT.write(LINE + "\r\n"); OUT.flush(); } catch (Exception ignored) {}
@@ -380,11 +601,14 @@ public class NitroWebExpress extends WebExpress
 
             private static final String HELP =
                 "Commands:\r\n" +
-                "  restart <module>             Restart a named module (aes, bitcoin, status, national)\r\n" +
-                "  comment <nationalId> <text>  Append a comment to a user account\r\n" +
-                "  signatory <nationalId>       Grant final signatory rights to a user\r\n" +
-                "  help                         Show this list\r\n" +
-                "  quit                         Close connection";
+                "  install <name> <sha256hex> <bytecount>  Receive and install a module (.jar/.zip/.java)\r\n" +
+                "  unload  <name>                          Unload a loaded module\r\n" +
+                "  list                                    List all loaded modules\r\n" +
+                "  restart <module>                        Restart a module\r\n" +
+                "  comment <nationalId> <text>             Append a comment to a user account\r\n" +
+                "  signatory <nationalId>                  Grant final signatory rights\r\n" +
+                "  help                                    Show this list\r\n" +
+                "  quit                                    Close connection";
         }
 
         public static class AESCompliant extends WebExpress
