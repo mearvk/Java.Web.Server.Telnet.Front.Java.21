@@ -25,6 +25,12 @@ public class Main
 
     protected static final String BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME = "WEBEXPRESS_BITCOIN_SERVER";
 
+    protected static final Integer RSA_WEBEXPRESS_SERVER_SOCKET = NitroWebExpress.Aspect.RSACompliant.DEFAULT_PORT;
+
+    protected static final String RSA_WEBEXPRESS_REMOTE_HOST = "localhost";
+
+    protected static final String RSA_WEBEXPRESS_SERVER_THREAD_NAME = NitroWebExpress.Aspect.RSACompliant.DEFAULT_THREAD;
+
     protected static final String WEBEXPRESS_HOSTNAME = "localhost";
 
     protected static final String AES_WEBEXPRESS_REMOTE_HOST = "localhost";
@@ -95,6 +101,8 @@ public class Main
             NITRO.BRIDGE.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_REMOTE_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+
+            NITRO.BRIDGE.RSA_COMPONENT = new NitroWebExpress.Aspect.RSACompliant(RSA_WEBEXPRESS_REMOTE_HOST, RSA_WEBEXPRESS_SERVER_SOCKET, RSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             NITRO.BRIDGE.CONNECTION_STATUS = new NitroWebExpress.Aspect.ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 

@@ -104,6 +104,8 @@ public class NitroWebExpress extends WebExpress
 
         public BitcoinCompliant BITCOIN_COMPONENT;
 
+        public RSACompliant RSA_COMPONENT;
+
         public ConnectionStatusServer CONNECTION_STATUS;
 
         public MySQLComponent MYSQL_COMPONENT = new MySQLComponent();
@@ -115,6 +117,7 @@ public class NitroWebExpress extends WebExpress
         /** Start CONNECTION_STATUS and NitroWebExpress.SELF together. */
         public void start()
         {
+            if (RSA_COMPONENT            != null) RSA_COMPONENT.start();
             if (CONNECTION_STATUS        != null) CONNECTION_STATUS.start();
             if (MODULE_INSTALLER_SERVICE != null) MODULE_INSTALLER_SERVICE.start();
             if (ASCII_CREATOR_SERVER     != null) ASCII_CREATOR_SERVER.start();
@@ -882,6 +885,64 @@ public class NitroWebExpress extends WebExpress
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, MESSAGE);
 
                     message_output_handler.run();
+                }
+            }
+        }
+
+        public static class RSACompliant extends WebExpress
+        {
+            public static final Integer DEFAULT_PORT   = 7743;
+            public static final String  DEFAULT_THREAD = "WEBEXPRESS_RSA_SERVER";
+
+            protected final RSACompliant.MessageOutputHandler RSA_MESSAGE_OUTPUT_HANDLER = new RSACompliant.MessageOutputHandler();
+
+            public messaging.MessageQueueSorter MESSAGE_QUEUE_SORTER;
+            public messaging.MessageQueue       MESSAGE_QUEUE;
+            public java.net.Socket              SOCKET;
+
+            public final encryption.module.rsa.EncryptionModuleRSA ENCRYPTION_MODULE =
+                new encryption.module.rsa.EncryptionModuleRSA();
+
+            public RSACompliant(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
+            {
+                if (HOST == null || PORT == null || THREAD_NAME == null || TELNET_PROXY_ENABLED == null)
+                    throw new SecurityException("//bodi/connect");
+
+                super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
+
+                this.HOST        = HOST;
+                this.PORT        = PORT;
+                this.MESSAGE_QUEUE        = new messaging.MessageQueue(this);
+                this.MESSAGE_QUEUE_SORTER = new messaging.MessageQueueSorter(this);
+                this.setName(THREAD_NAME);
+
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". RSACompliant starting on " + HOST + ":" + PORT + " .");
+            }
+
+            public RSACompliant() {}
+
+            protected static class MessageOutputHandler
+            {
+                public java.net.Socket SOCKET;
+
+                public MessageOutputHandler()
+                {
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". RSACompliant MessageOutputHandler starts .");
+                }
+
+                public void send_message(final String MESSAGE)
+                {
+                    if (MESSAGE == null) throw new SecurityException("//bodi/connect");
+                    messaging.MessageOutputHandler h = new messaging.MessageOutputHandler(SOCKET, MESSAGE);
+                    h.run();
+                }
+
+                public void send_message(final StringBuffer BUFFER)
+                {
+                    if (BUFFER == null) throw new SecurityException("//bodi/connect");
+                    messaging.MessageOutputHandler h = new messaging.MessageOutputHandler(SOCKET, BUFFER);
+                    h.run();
                 }
             }
         }

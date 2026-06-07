@@ -838,6 +838,7 @@ public class CommonRails
             case 49177: module = "ASCIICreatorServer";       break;
             case  5512: module = "AES";                      break;
             case  6682: module = "Bitcoin";                  break;
+            case  7743: module = "RSA";                      break;
             default:    module = "Unknown";                  break;
         }
         printSystemComponent(OWNER, OWNER.hashCode(),
