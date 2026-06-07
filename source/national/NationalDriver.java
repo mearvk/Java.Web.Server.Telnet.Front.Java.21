@@ -1,5 +1,6 @@
 package national;
 
+import commons.CommonRails;
 import exceptions.ExceptionHandler;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -165,15 +166,15 @@ public class NationalDriver
 
         grouped.add(nitroRefs);
 
-        grouped.add(webRefs);
-
-        grouped.add(baseRefs);
-
         grouped.add(telnetRefs);
 
         grouped.add(aesRefs);
 
         grouped.add(bitcoinRefs);
+
+        grouped.add(webRefs);
+
+        grouped.add(baseRefs);
 
         grouped.add(remainderRefs);
 
@@ -181,15 +182,15 @@ public class NationalDriver
 
         groupNames.add("NITRO");
 
-        groupNames.add("WEBEXPRESS");
-
-        groupNames.add("BASESERVER");
-
         groupNames.add("TELNET");
 
         groupNames.add("AES");
 
         groupNames.add("BITCOIN");
+
+        groupNames.add("WEBEXPRESS");
+
+        groupNames.add("BASESERVER");
 
         groupNames.add("REMAINDER");
 
@@ -197,35 +198,16 @@ public class NationalDriver
 
         GROUP_NAMES = groupNames;
 
-        // Print groups in order; each group's entries are printed together
-        try
+        // Print groups in order; each group's entries are printed through CommonRails
+        for (int gi = 0; gi < grouped.size(); gi++)
         {
-            for (int gi = 0; gi < grouped.size(); gi++)
-            {
-                List<String> g = grouped.get(gi);
+            List<String> g = grouped.get(gi);
 
-                String gname = groupNames.get(gi);
-            }
-        }
-        catch (Throwable t)
-        {
-            try
-            {
-                for (int gi = 0; gi < grouped.size(); gi++)
-                {
-                    List<String> g = grouped.get(gi);
+            if (g.isEmpty()) continue;
 
-                    String gname = groupNames.get(gi);
+            CommonRails.delayableFinePrinter("\033[38;5;242m-- [ " + groupNames.get(gi) + " ]\033[0m", 21);
 
-                    System.out.println("START GROUP: " + gname + " (" + g.size() + ")");
-
-                    for (String s : g) System.out.println(s);
-                }
-            }
-            catch (Throwable ignored)
-            {
-                ignored.printStackTrace(System.err);
-            }
+            for (String s : g) CommonRails.delayableFinePrinter(s, 21);
         }
     }
 
