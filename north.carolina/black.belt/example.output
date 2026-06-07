@@ -1,0 +1,24 @@
+{
+  "legitimacy_assessment": {
+    "system": "Taekwondo WT",
+    "legitimacy": "recognized_national_or_international"
+  },
+  "ethical_risk_profile": {
+    "right_to_choose": "affirmed",
+    "non_discrimination": "compliant",
+    "authority_misuse": "no_indicators"
+  },
+  "legal_alignment": {
+    "proportionality": "aligned",
+    "self_defense": "aligned"
+  },
+  "conduct_score": "low",
+  "risk_rating": "low",
+  "closure_summary": "The practitioner demonstrates compliant conduct, low ethical risk, and alignment with U.S. self-defense norms.",
+  "closure_status": "closed",
+  "signature_block": {
+    "practitioner_signature_line": "_____________________",
+    "auditor_signature_line": "_____________________",
+    "date_line": "_____________________"
+  }
+}

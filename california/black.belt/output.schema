@@ -1,0 +1,10 @@
+{
+  "legitimacy_assessment": {...},
+  "ethical_risk_profile": {...},
+  "legal_alignment": {...},
+  "conduct_score": "low | medium | high",
+  "risk_rating": "low | medium | high",
+  "closure_summary": "string",
+  "closure_status": "closed | follow_up_required",
+  "signature_block": {...}
+}
