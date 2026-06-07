@@ -366,10 +366,55 @@ sim.stochastic                   Stochastic simulation base.
 sim.InputQueue                   Input queue for simulation events.
 
 ================================================================================
-CONFIGURATION  (source/configuration/)
+MODULE LOADER  (source/loader/)
 ================================================================================
 
-configuration/config.xml         Runtime configuration (XML).
+loader.ModuleLoaderDaemon  (extends Thread, daemon)
+  PORT = 49188
+
+  Standalone OS-installable module loader.  Runs independently of NWE on any
+  server that carries the install mat.  Port privilege is granted externally
+  by the national port-authority database before clients may push or replicate.
+
+  Commands (TCP text protocol):
+    identify <nationalId>               Identify via N21Store lookup
+    token    <port-registry-token>      Present national port-authority token
+    push     <name> <sha256> <bytes>    Install a module (binary follows inline)
+    pull     <name>                     Download an installed module
+    list                                List all installed modules + SHA-256 + size
+    remove   <name>                     Remove a module (token required)
+    replicate <host:port> <name>        Duplicate module to remote ModuleLoaderDaemon
+    quit                                Close connection
+
+  Static:
+    registerPortToken(token, nationalId)  Register a port-registry token
+                                          (called by national port-authority DB)
+
+  DaemonModule (inner static)             NAME, PATH, SHA256, SIZE, INSTALLED_AT
+
+  Wired into NitroWebExpress.Aspect as MODULE_LOADER_DAEMON field;
+  started via Aspect.start() alongside all other NWE services.
+
+================================================================================
+CONFIGURATION  (configuration/)
+================================================================================
+
+configuration/nwe-config.xml     Master NWE configuration file.
+                                 Documents all ports, threads, hosts, and service
+                                 descriptions for every NWE component:
+                                   NITRO_WEB_EXPRESS    49152
+                                   AES_COMPLIANT         5512
+                                   RSA_COMPLIANT         7743
+                                   DSA_COMPLIANT         7744
+                                   BITCOIN_COMPLIANT     6682
+                                   CONNECTION_STATUS    49155
+                                   ASCII_CREATOR        49177
+                                   MODULE_INSTALLATION  49166
+                                   MODULE_LOADER_DAEMON 49188
+                                   AES_REMOTE           45.32.31.139 (mearvk.us)
+                                   BITCOIN_REMOTE       45.32.31.139 (mearvk.us)
+
+source/configuration/config.xml  Legacy runtime configuration (XML).
 
 ================================================================================
 KNOWN INTEGRITY NOTES (post-commit repairs)

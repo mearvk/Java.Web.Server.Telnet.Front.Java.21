@@ -55,6 +55,10 @@ public class Main
 
     protected static final String ASCII_CREATOR_SERVER_HOST = "localhost";
 
+    protected static final Integer MODULE_LOADER_DAEMON_PORT = loader.ModuleLoaderDaemon.PORT;
+
+    protected static final String MODULE_LOADER_DAEMON_HOST = "localhost";
+
     public static void main(String...args)
     {
         Main main = new Main();
@@ -111,6 +115,8 @@ public class Main
             NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
 
             NITRO.BRIDGE.ASCII_CREATOR_SERVER = new NitroWebExpress.Aspect.ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
+
+            NITRO.BRIDGE.MODULE_LOADER_DAEMON = new loader.ModuleLoaderDaemon(MODULE_LOADER_DAEMON_HOST);
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
 
