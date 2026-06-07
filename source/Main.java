@@ -101,6 +101,8 @@ public class Main
 
             NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
+            NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
+
             NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
 
             db.N21XmlFallback.replayFallback();
