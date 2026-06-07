@@ -36,7 +36,7 @@ public class ConnectionPoller extends Thread
     {
         this.BASESERVER = BASESERVER;
 
-        this.WEBEXPRESS = (WebExpress) this.BASESERVER.SUPERCLASS;
+        this.WEBEXPRESS = (WebExpress) this.BASESERVER.INHERITOR;
 
         this.HOST = HOST;
 
