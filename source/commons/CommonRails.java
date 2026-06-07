@@ -152,9 +152,113 @@ public class CommonRails
      *   250                — commons, output, printing
      *   255  least lawful  — messaging, timing, sim, telnet I/O
      */
+    /** Two shades darker than terminal reset (255); used for [Current: @ClassName] field. */
+    private static final String ANSI_NEAR_RESET_DARK2 = "\033[38;5;253m";
+
+    /**
+     * Scores a class name across four concern axes and maps the sum to an ANSI-256 grayscale color.
+     *
+     * AXES & MAX POINTS (total = 13):
+     *
+     * 1. Platonic Form proximity (0–4):
+     *    How near to the Form of the Good (Republic).
+     *    4 = Philosopher-King (sovereign, guardian, identity)
+     *    3 = Episteme / anamnesis (knowledge, record, truth-preservation)
+     *    2 = Demiourgoi / sophrosyne (commerce, material stewardship)
+     *    1 = Auxiliaries / andreia (infrastructure, coordination)
+     *    0 = Eikasia / shadow (raw conduit, simulation, I/O)
+     *
+     * 2. Etymology — civic rootedness (0–3):
+     *    3 = Latin/Greek civic origin: nationalis, securitas, authentikos, signatorius
+     *    2 = Latin disciplinary origin: exceptio, persistere, kryptos
+     *    1 = Romance/Germanic utility: connectere, servire, communis
+     *    0 = Modern portmanteau or purely technical: queue, telnet, sim
+     *
+     * 3. Social program — contribution to the polis (0–3):
+     *    3 = Direct: state protection, lawful identity, civic record
+     *    2 = Indirect: economic participation, infrastructure enabling cooperation
+     *    1 = Facilitative: shared language, utilities all classes depend on
+     *    0 = Neutral conduit: carries meaning without producing civic value
+     *
+     * 4. Ethics — weight of obligation (0–3):
+     *    3 = Deontological duty (justice, protection of the governed)
+     *    2 = Stewardship (proportional exchange, accountability)
+     *    1 = Virtue of reliability (service, accessibility)
+     *    0 = Instrumental (value from what is conveyed, not the conveying)
+     *
+     * SPECTRUM:
+     *    score 0  → ANSI 238 (darkest in range — least normative, pure shadow)
+     *    score 13 → ANSI 255 (pure white / at reset — most lawful, nearest Form of the Good)
+     *    intermediate scores interpolate linearly across 238–255 (17-step range, ~1.31 per point)
+     */
     private static String resolveLawfulness(final String SIMPLECLASSNAME)
     {
-        return "";
+        if (SIMPLECLASSNAME == null || !USE_COLORED_OUTPUT) return "";
+        String low = SIMPLECLASSNAME.toLowerCase();
+
+        int plato = 0, etym = 0, social = 0, ethics = 0;
+
+        // ── Platonic Form proximity ───────────────────────────────────────────
+        if (low.contains("national") || low.contains("security") || low.contains("auth")
+                || low.contains("admin") || low.contains("signatory") || low.contains("bodi")
+                || low.contains("port") || low.contains("cia") || low.contains("fbi"))
+            plato = 4;
+        else if (low.contains("encrypt") || low.contains("exception") || low.contains("persistence")
+                || low.contains("listener") || low.contains("handler"))
+            plato = 3;
+        else if (low.contains("finance") || low.contains("store") || low.contains("datasource")
+                || low.contains("bitcoin") || low.contains("trader") || low.contains("wallet")
+                || low.contains("ascii") || low.contains("signature") || low.contains("module"))
+            plato = 2;
+        else if (low.contains("connection") || low.contains("server") || low.contains("express")
+                || low.contains("nitro") || low.contains("poller") || low.contains("installer")
+                || low.contains("driver") || low.contains("status") || low.contains("shutdown"))
+            plato = 1;
+        // else plato = 0 (eikasia: messaging, queue, sim, telnet, raw I/O)
+
+        // ── Etymology — civic rootedness ──────────────────────────────────────
+        if (low.contains("national") || low.contains("security") || low.contains("auth")
+                || low.contains("signatory") || low.contains("admin"))
+            etym = 3;
+        else if (low.contains("encrypt") || low.contains("exception") || low.contains("persist")
+                || low.contains("handler") || low.contains("finance") || low.contains("store"))
+            etym = 2;
+        else if (low.contains("connect") || low.contains("server") || low.contains("common")
+                || low.contains("arith") || low.contains("driver") || low.contains("module"))
+            etym = 1;
+        // else etym = 0 (queue, telnet, sim, bitcoin portmanteau, raw I/O)
+
+        // ── Social program — contribution to the polis ────────────────────────
+        if (low.contains("national") || low.contains("security") || low.contains("auth")
+                || low.contains("signatory") || low.contains("admin") || low.contains("bodi"))
+            social = 3;
+        else if (low.contains("finance") || low.contains("bitcoin") || low.contains("store")
+                || low.contains("connection") || low.contains("server") || low.contains("encrypt")
+                || low.contains("exception") || low.contains("installer") || low.contains("module"))
+            social = 2;
+        else if (low.contains("common") || low.contains("rail") || low.contains("arith")
+                || low.contains("handler") || low.contains("driver") || low.contains("status"))
+            social = 1;
+        // else social = 0 (neutral conduit)
+
+        // ── Ethics — weight of obligation ─────────────────────────────────────
+        if (low.contains("national") || low.contains("security") || low.contains("auth")
+                || low.contains("signatory") || low.contains("admin"))
+            ethics = 3;
+        else if (low.contains("finance") || low.contains("store") || low.contains("exception")
+                || low.contains("persist") || low.contains("encrypt") || low.contains("bitcoin"))
+            ethics = 2;
+        else if (low.contains("server") || low.contains("connect") || low.contains("common")
+                || low.contains("handler") || low.contains("driver") || low.contains("module"))
+            ethics = 1;
+        // else ethics = 0 (instrumental)
+
+        // ── Map total score (0–13) → ANSI-256 grayscale (238–255) ────────────
+        // Inverted: most lawful (score 13) → 255 (lightest, at/above reset)
+        //           least lawful (score 0)  → 238 (darker, but above old floor)
+        int score = plato + etym + social + ethics;                   // 0–13
+        int code  = 238 + (int) Math.round(score * (17.0 / 13.0));   // 238–255
+        return "\033[38;5;" + code + "m";
     }
 
     /** Return the same ANSI-256 color as resolveLawfulness but 2 shades darker (min 232). */
