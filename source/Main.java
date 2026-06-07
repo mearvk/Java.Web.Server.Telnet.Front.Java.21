@@ -82,10 +82,6 @@ public class Main
             CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
             System.out.print("\033[0m");
 
-            System.out.print("\033[31m");
-            CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
-            System.out.print("\033[0m");
-
         NationalDriver DRIVER = new NationalDriver();
 
             DRIVER.printOrderedComponents();
