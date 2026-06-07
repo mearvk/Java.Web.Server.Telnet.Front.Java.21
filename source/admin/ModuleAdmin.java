@@ -16,7 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ModuleAdmin
 {
-    private static final String PASSWORD = resolvePassword();
+    private static volatile String PASSWORD = resolvePassword();
+
+    /** Called by NweConfig after loading nwe-config.xml to apply the configured admin password. */
+    public static void setPassword(final String NEW_PASSWORD)
+    {
+        if (NEW_PASSWORD != null && !NEW_PASSWORD.isEmpty()) PASSWORD = NEW_PASSWORD;
+    }
 
     /** Active session tokens — keyed by token string, value = nationalId of admin. */
     private static final ConcurrentHashMap<String, Long> SESSIONS = new ConcurrentHashMap<>();
