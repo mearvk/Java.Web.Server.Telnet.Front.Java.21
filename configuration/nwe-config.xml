@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    NitroWebExpress Configuration
+    ==============================
+    MEARVK LLC — National Finance Engine v2811.1
+    Author: Max Rupplin
+
+    All ports listed here are the authoritative reference for NWE services.
+    Port privilege for MODULE_LOADER_DAEMON is established externally by the
+    national port-aware program and its database.  All other ports are bound
+    locally on startup.
+-->
+<nwe-config>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MAIN SERVER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="NITRO_WEB_EXPRESS">
+        <name>NitroWebExpress</name>
+        <thread>WEBEXPRESS_TELNET_PROXY_SERVER</thread>
+        <host>localhost</host>
+        <port>49152</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>Main NitroWebExpress entry point. Telnet-proxy enabled.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ENCRYPTION SERVERS
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="AES_COMPLIANT">
+        <name>AES 2.0 DSS5.0 Server</name>
+        <thread>WEBEXPRESS_AES2_SERVER</thread>
+        <host>localhost</host>
+        <port>5512</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>AES 2.0 compliant sub-server. Cryptographic compliance layer.</description>
+    </server>
+
+    <server id="RSA_COMPLIANT">
+        <name>RSA Compliant Server</name>
+        <thread>WEBEXPRESS_RSA_SERVER</thread>
+        <host>localhost</host>
+        <port>7743</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>RSA encryption sub-server.</description>
+    </server>
+
+    <server id="DSA_COMPLIANT">
+        <name>DSA Compliant Server</name>
+        <thread>WEBEXPRESS_DSA_SERVER</thread>
+        <host>localhost</host>
+        <port>7744</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>DSA encryption sub-server.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BITCOIN SERVER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="BITCOIN_COMPLIANT">
+        <name>Bitcoin v24.0+ Masterthread</name>
+        <thread>WEBEXPRESS_BITCOIN_SERVER</thread>
+        <host>localhost</host>
+        <port>6682</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>Bitcoin lightweight trading sub-server.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STATUS AND UTILITY SERVERS
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="CONNECTION_STATUS">
+        <name>ConnectionStatusServer</name>
+        <thread>ConnectionStatusServer</thread>
+        <host>localhost</host>
+        <port>49155</port>
+        <description>Returns server status: IP, geo, uptime, memory, connection count.</description>
+    </server>
+
+    <server id="ASCII_CREATOR">
+        <name>ASCIICreatorServer</name>
+        <thread>ASCIICreatorServer</thread>
+        <host>localhost</host>
+        <port>49177</port>
+        <description>Binary ASCII signature service. Issues unique signatures per National ID.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODULE SERVICES
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="MODULE_INSTALLATION">
+        <name>ModuleInstallationService</name>
+        <thread>ModuleInstallationService</thread>
+        <host>localhost</host>
+        <port>49166</port>
+        <description>
+            Install, unload, and manage modules via authenticated TCP session.
+            Requires National ID identification and admin password for privileged ops.
+        </description>
+    </server>
+
+    <server id="MODULE_LOADER_DAEMON">
+        <name>ModuleLoaderDaemon</name>
+        <thread>ModuleLoaderDaemon</thread>
+        <host>localhost</host>
+        <port>49188</port>
+        <description>
+            Standalone OS-installable module loader daemon.  Runs independently;
+            can be installed as a systemd/launchd/Windows service.  Supports
+            remote push, pull, and replication to other ModuleLoaderDaemon instances.
+            Port privilege is granted by the national port-aware program and
+            its external database before clients may perform write operations.
+        </description>
+        <port-authority>
+            <!-- Token store is populated at runtime by the national port-authority
+                 database.  If empty, local/trusted access is permitted without token. -->
+            <tokens-required>true</tokens-required>
+            <authority-db>national-port-registry</authority-db>
+        </port-authority>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         REMOTE / EXTERNAL SERVERS  (for outbound connections)
+    ════════════════════════════════════════════════════════════════════ -->
+    <remote-server id="AES_REMOTE">
+        <name>AES 2.0 Remote Server</name>
+        <domain>mearvk.us</domain>
+        <ip>45.32.31.139</ip>
+        <description>Production AES remote target.</description>
+    </remote-server>
+
+    <remote-server id="BITCOIN_REMOTE">
+        <name>Bitcoin v24.0+ Remote Server</name>
+        <domain>mearvk.us</domain>
+        <ip>45.32.31.139</ip>
+        <description>Production Bitcoin remote target.</description>
+    </remote-server>
+
+</nwe-config>
