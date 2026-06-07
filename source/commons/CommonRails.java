@@ -95,6 +95,9 @@ public class CommonRails
 
         String low = SIMPLECLASSNAME.toLowerCase();
 
+        if (low.equals("main"))
+            return "\033[31m";
+
         if (low.contains("security") || low.contains("port") || low.contains("auth"))
             return OID_SECURITY;
 

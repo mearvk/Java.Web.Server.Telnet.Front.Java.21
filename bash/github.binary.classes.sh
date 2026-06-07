@@ -2,7 +2,7 @@
 # github.binary.classes.sh
 # Moves all .class files from /source to the corresponding /out directory.
 
-ROOT="$(cd "$(dirname "$0")" && pwd)"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$ROOT/source"
 OUT="$ROOT/out"
 
