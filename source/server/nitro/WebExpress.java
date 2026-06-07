@@ -33,7 +33,12 @@ public class WebExpress extends BaseServer
 
     public MessageQueue MESSAGE_QUEUE = new MessageQueue(this);
 
+    public WebExpress WEBEXPRESS;
+
     public BaseServer BASESERVER;
+
+    /** Status server on port 49155 reporting live connection count for this WebExpress instance. */
+    public ConnectionStatusServer CONNECTION_STATUS_SERVER;
 
     public WebExpress()
     {
@@ -46,7 +51,9 @@ public class WebExpress extends BaseServer
 
         super(HOST, PORT);
 
-        this.INHERITOR = this;
+        this.BASESERVER = this.SELF;
+
+        this.SUPERCLASS = this;
 
         this.THREAD_NAME = THREAD_NAME;
 

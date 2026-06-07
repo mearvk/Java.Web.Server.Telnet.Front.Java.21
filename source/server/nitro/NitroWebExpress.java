@@ -2,8 +2,9 @@ package server.nitro;
 
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
-import commons.transition.english.EnglishArithemeter;
+import commons.EnglishArithemeter;
 import connections.CurrentConnections;
+import exceptions.ExceptionHandler;
 import encryption.module.aes.two.EncryptionModule;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
@@ -44,7 +45,7 @@ public class NitroWebExpress extends WebExpress
 
     public static final String AES_COMPLIANT_HOSTNAME = "localhost";
 
-    public Aspect bridge = new Aspect(this);
+    public Aspect BRIDGE = new Aspect(this);
 
     public NationalID NATIONALID = new NationalID();
 
@@ -80,6 +81,54 @@ public class NitroWebExpress extends WebExpress
         public AESCompliant AES_COMPONENT;
 
         public BitcoinCompliant BITCOIN_COMPONENT;
+
+        public ConnectionStatusServer CONNECTION_STATUS;
+
+        public MySQLComponent MYSQL_COMPONENT = new MySQLComponent();
+
+        /** Start CONNECTION_STATUS and NitroWebExpress.SELF together. */
+        public void start()
+        {
+            if (CONNECTION_STATUS != null) CONNECTION_STATUS.start();
+            if (NitroWebExpress.SELF != null) NitroWebExpress.SELF.start();
+        }
+
+        public static class MySQLComponent
+        {
+            public db.N21Status.Status dbStatus;
+            public String oidColor;
+            public String statusMsg;
+
+            public MySQLComponent()
+            {
+                db.N21AuthConfig.get().ensureMysqlRunning();
+                this.dbStatus = db.N21Status.check();
+
+                if (dbStatus.jdbcConnected() && dbStatus.n21DbExists())
+                {
+                    String host     = db.N21Status.dbHost();
+                    int    port     = db.N21Status.dbPort();
+                    String locality = (host.equals("localhost") || host.equals("127.0.0.1")) ? "Local" : "Remote";
+                    this.oidColor  = CommonRails.COLOR_LIME_GREEN;
+                    this.statusMsg = ". MySQL N21 Connected — " + locality + " — Port " + port + " .";
+                }
+                else if (dbStatus.tcpReachable() || dbStatus.pingable())
+                {
+                    this.oidColor  = CommonRails.COLOR_TANGERINE;
+                    this.statusMsg = ". MySQL Unreachable or Auth Failed — XML Fallback Storage Active .";
+                }
+                else
+                {
+                    this.oidColor  = CommonRails.COLOR_STANDARD_RED;
+                    this.statusMsg = ". MySQL Not Found or Not Running — XML Fallback Storage Active .";
+                }
+            }
+
+            public void print(Object owner)
+            {
+                CommonRails.printSystemComponent(owner, owner.hashCode(), statusMsg, oidColor);
+            }
+        }
 
 
         public Aspect(WebExpress WEBEXPRESS)
@@ -288,6 +337,7 @@ public class NitroWebExpress extends WebExpress
                                         }
                                         catch (Exception e)
                                         {
+                                            ExceptionHandler.dispatch(e);
                                             CurrentConnections connections = this.WEB_EXPRESS.CURRENT_CONNECTIONS;
 
                                             connections.remove(message.CONNECTION);
@@ -303,6 +353,7 @@ public class NitroWebExpress extends WebExpress
                                     }
                                     catch (IOException e)
                                     {
+                                        ExceptionHandler.dispatch(e);
                                         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter socket connection closed Socket: " + message.INTERNET_ADDRESS + " .");
                                     }
 
@@ -343,6 +394,7 @@ public class NitroWebExpress extends WebExpress
                                     }
                                     catch (Exception e)
                                     {
+                                        ExceptionHandler.dispatch(e);
                                         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter >> dropped connection "+message.SOCKET +" .");
                                     }
                                 }
@@ -350,6 +402,7 @@ public class NitroWebExpress extends WebExpress
                         }
                         catch (Exception e)
                         {
+                            ExceptionHandler.dispatch(e);
                             e.printStackTrace(System.err);
                         }
                     }

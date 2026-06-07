@@ -1,7 +1,7 @@
 package connections;
 
 import commons.CommonRails;
-import commons.transition.english.EnglishArithemeter;
+import commons.EnglishArithemeter;
 import exceptions.ExceptionHandler;
 import messaging.MessageQueue;
 import server.base.BaseServer;
@@ -32,11 +32,14 @@ public class ConnectionPoller extends Thread
 
     protected static final Integer READ_WRITE_STANDARD_SOCKET_TIMEOUT = 60*2*1000;
 
+    protected static final int PROXY_READ_TIMEOUT_MS  = 5000;
+    protected static final int PROXY_WALL_TIMEOUT_MS  = 20_000;
+
     public ConnectionPoller(BaseServer BASESERVER, String HOST, Integer PORT)
     {
         this.BASESERVER = BASESERVER;
 
-        this.WEBEXPRESS = (WebExpress) this.BASESERVER.INHERITOR;
+        this.WEBEXPRESS = (WebExpress) this.BASESERVER.SUPERCLASS;
 
         this.HOST = HOST;
 
@@ -52,13 +55,110 @@ public class ConnectionPoller extends Thread
         this.setName("ConnectionPoller");
     }
 
+    // ── Per-connection session handler ────────────────────────────────────────
+
+    private void handleSession(Connection CONNECTION, CurrentConnections CONNECTIONS)
+    {
+        try
+        {
+            if(!CommonRails.SocketUtils.isSocketConnected(CONNECTION.SOCKET)) return;
+
+            // ── National Finance ID: prompt on first connect ──────────────────
+            CONNECTION.reader = new java.io.BufferedReader(
+                new InputStreamReader(CONNECTION.SOCKET.getInputStream()));
+            CONNECTION.writer = new java.io.BufferedWriter(
+                new java.io.OutputStreamWriter(CONNECTION.SOCKET.getOutputStream()));
+
+            national.NationalFinanceIDFeeder.greet(CONNECTION);
+
+            // 1. Read remaining client input with bounded timeout
+            StringBuilder BUFFER = new StringBuilder();
+
+            try
+            {
+                CONNECTION.SOCKET.setSoTimeout(PROXY_READ_TIMEOUT_MS);
+
+                String LINE;
+
+                if((LINE = CONNECTION.reader.readLine()) != null)
+                {
+                    BUFFER.append(LINE).append(LINE_FEED);
+
+                    while((LINE = CONNECTION.reader.readLine()) != null)
+                    {
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            "WebExpress SessionHandler >> read line [" + LINE + "].");
+
+                        BUFFER.append(LINE).append(LINE_FEED);
+                    }
+                }
+            }
+            catch(SocketTimeoutException clientReadDone)
+            {
+                // window closed — proceed with what arrived
+            }
+            finally
+            {
+                CONNECTION.SOCKET.setSoTimeout(READ_WRITE_STANDARD_SOCKET_TIMEOUT);
+            }
+
+            if(BUFFER.length() == 0) return;
+
+            // 2. Send a sample HTTP GET to tacobell.phd:80 and stream the reply back to the client
+            try(java.net.Socket proxy = new java.net.Socket())
+            {
+                proxy.connect(new java.net.InetSocketAddress(WebExpress.REMOTE_SITE, Integer.parseInt(WebExpress.REMOTE_PORT)), PROXY_READ_TIMEOUT_MS);
+                proxy.setSoTimeout(PROXY_READ_TIMEOUT_MS);
+
+                java.io.OutputStream proxyOut = proxy.getOutputStream();
+                String httpRequest = "GET / HTTP/1.0\r\nHost: " + WebExpress.REMOTE_SITE + "\r\nConnection: close\r\n\r\n";
+                proxyOut.write(httpRequest.getBytes());
+                proxyOut.flush();
+
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    "WebExpress SessionHandler >> forwarded HTTP GET to " + WebExpress.REMOTE_SITE + ":" + WebExpress.REMOTE_PORT + ".");
+
+                java.io.OutputStream clientOut = CONNECTION.SOCKET.getOutputStream();
+                byte[] chunk = new byte[4096];
+                int read;
+                long deadline = System.currentTimeMillis() + PROXY_WALL_TIMEOUT_MS;
+
+                while(System.currentTimeMillis() < deadline && (read = proxy.getInputStream().read(chunk)) != -1)
+                {
+                    clientOut.write(chunk, 0, read);
+                    clientOut.flush();
+
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        "WebExpress SessionHandler >> proxied [" + read + " bytes] to client.");
+                }
+            }
+
+            // Enqueue for MessageQueueSorter audit trail
+            MessageQueue.Message MSG = new MessageQueue.Message();
+            MSG.CONNECTION       = CONNECTION;
+            MSG.SOCKET           = CONNECTION.SOCKET;
+            MSG.INTERNET_ADDRESS = CONNECTION.SOCKET.getInetAddress();
+            MSG.TIME_STAMP       = new Date();
+            MSG.MESSAGE_BUFFER   = new StringBuffer(BUFFER);
+
+            this.WEBEXPRESS.MESSAGE_QUEUE.add(MSG);
+        }
+        catch(Exception e)
+        {
+            ExceptionHandler.dispatch(e);
+
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                "WebExpress SessionHandler >> exception [" + e.getMessage() + "].");
+        }
+        // Do NOT remove from CONNECTIONS here — BaseServer.run() cleans up on socket close
+    }
+
+    // ── Poller loop: accepts new connections, marks them, spawns handler ──────
+
     @Override
     public void run()
     {
-        MessageQueue.Message MESSAGE = new MessageQueue.Message();
-
-        Connection CONNECTION = null;
-
+        Connection         CONNECTION         = null;
         CurrentConnections CURRENT_CONNECTIONS = null;
 
         while(true)
@@ -67,8 +167,11 @@ public class ConnectionPoller extends Thread
             {
                 CURRENT_CONNECTIONS = this.BASESERVER.CURRENT_CONNECTIONS;
 
-                for(int i=0; i<CURRENT_CONNECTIONS.size(); i++)
+                for(int i = 0; i < CURRENT_CONNECTIONS.size(); i++)
                 {
+                    if(this.WEBEXPRESS == null || this.WEBEXPRESS.CURRENT_CONNECTIONS == null)
+                        throw new SecurityException("//bodi/exceptions");
+
                     CurrentConnections CONNECTIONS = this.WEBEXPRESS.CURRENT_CONNECTIONS;
 
                     CONNECTION = CURRENT_CONNECTIONS.CURRENT_CONNECTION.get(i);
@@ -77,162 +180,79 @@ public class ConnectionPoller extends Thread
                     {
                         EnglishArithemeter arithemeter = new EnglishArithemeter(CONNECTIONS.size());
 
-                        CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> new CONNECTION from ["+CONNECTION.SOCKET.getRemoteSocketAddress()+"] total CONNECTION count ["+arithemeter.result.arithemetic+" : "+arithemeter.result.numeral+"].");
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            "WebExpress ConnectionPoller >> new CONNECTION from ["
+                            + CONNECTION.SOCKET.getRemoteSocketAddress()
+                            + "] total count ["
+                            + arithemeter.result.arithemetic + " : " + arithemeter.result.numeral + "].");
 
-                        TelnetMessageQueue.Message TELNET_MESSAGE = new TelnetMessageQueue.Message();
+                        TelnetMessageQueue.Message TELNET_MSG = new TelnetMessageQueue.Message();
+                        TELNET_MSG.PORT           = Integer.parseInt(WebExpress.REMOTE_PORT);
+                        TELNET_MSG.SOCKET         = this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.socket;
+                        TELNET_MSG.TIMESTAMP      = new Date();
+                        TELNET_MSG.MESSAGE_BUFFER = new StringBuffer("US6");
 
-                        TELNET_MESSAGE.PORT = Integer.parseInt(WebExpress.REMOTE_PORT);
-
-                        TELNET_MESSAGE.SOCKET = this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.socket;
-
-                        TELNET_MESSAGE.TIMESTAMP = new Date();
-
-                        TELNET_MESSAGE.MESSAGE_BUFFER = new StringBuffer("US6");
-
-                        this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.OUTPUT_BUILDER.TELNET_MESSAGE_QUEUE.add(TELNET_MESSAGE);
+                        this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.OUTPUT_BUILDER
+                            .TELNET_MESSAGE_QUEUE.add(TELNET_MSG);
 
                         CONNECTION.IS_TELNET_EXCELSIOR_CONNECTED = Boolean.TRUE;
+
+                        // Spawn a dedicated handler thread so all sessions run in parallel
+                        final Connection         CONN_F  = CONNECTION;
+                        final CurrentConnections CONNS_F = CONNECTIONS;
+
+                        Thread H = new Thread(() -> handleSession(CONN_F, CONNS_F));
+                        H.setName("SessionHandler-" + CONNECTION.SOCKET.getRemoteSocketAddress());
+                        H.setDaemon(true);
+                        H.start();
                     }
 
-                    if(CommonRails.SocketUtils.isSocketConnected(MESSAGE.SOCKET))
+                    // Clean up closed sockets
+                    if(CommonRails.SocketUtils.isSocketClosed(CONNECTION.SOCKET))
                     {
-                        MESSAGE.CONNECTION = CONNECTION;
+                        CONNECTIONS.remove(CONNECTION);
 
-                        MESSAGE.SOCKET = CONNECTION.SOCKET;
-
-                        MESSAGE.INTERNET_ADDRESS = CONNECTION.SOCKET.getInetAddress();
-
-                        MESSAGE.TIME_STAMP = new Date(System.currentTimeMillis());
-
-                        MESSAGE.MESSAGE_BUFFER = new StringBuffer("US22.09");
-
-                        BufferedReader READER = new BufferedReader(new InputStreamReader(CONNECTION.SOCKET.getInputStream()));
-
-                        StringBuilder BUFFER = new StringBuilder();
-
-                        String LINE = null;
-
-                        try
-                        {
-                            if ((LINE=READER.readLine())!=null)
-                            {
-                                String LOCAL_TEMP = LINE;
-
-                                BUFFER.append(LOCAL_TEMP);
-
-                                for(LINE=null;(LINE=READER.readLine())!=null;)
-                                {
-                                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> reading in input ["+MESSAGE.SOCKET +"] for Telnet Proxy message ["+LINE+"].");
-
-                                    MESSAGE.SOCKET.setSoTimeout(ConnectionPoller.READ_WRITE_STANDARD_SOCKET_TIMEOUT);
-
-                                    BUFFER.append(LINE).append(LINE_FEED);
-                                }
-                            }
-
-                            MESSAGE.MESSAGE_BUFFER = new StringBuffer(BUFFER);
-
-                            this.WEBEXPRESS.MESSAGE_QUEUE.add(MESSAGE);
-                        }
-                        catch (SocketTimeoutException ste)
-                        {
-                            MESSAGE.MESSAGE_BUFFER = new StringBuffer(BUFFER);
-
-                            this.WEBEXPRESS.MESSAGE_QUEUE.add(MESSAGE);
-
-                            CONNECTIONS.remove(CONNECTION);
-
-                            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> graceful disconnect ["+MESSAGE.SOCKET.getRemoteSocketAddress()+"] ["+ste.getMessage()+"] total CONNECTION count ["+CONNECTIONS.size()+"].");
-                        }
-                        catch (Exception e)
-                        {
-                            ExceptionHandler.dispatch(e);
-                            CONNECTIONS.remove(CONNECTION);
-
-                            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> socket exception ["+e.getMessage()+"].");
-                        }
-                        finally
-                        {
-                            for(int k=0; k<CURRENT_CONNECTIONS.size(); k++)
-                            {
-                                Connection LATENT = CURRENT_CONNECTIONS.CURRENT_CONNECTION.get(k);
-
-                                if(CommonRails.SocketUtils.isSocketClosed(LATENT.SOCKET))
-                                {
-                                    CURRENT_CONNECTIONS.remove(LATENT);
-
-                                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed a sleeping turtle ["+LATENT.SOCKET +"].");
-                                }
-                            }
-
-                            if(CommonRails.SocketUtils.isSocketConnected(MESSAGE.SOCKET))
-                            {
-                                MESSAGE.SOCKET.setSoTimeout(READ_WRITE_STANDARD_SOCKET_TIMEOUT);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            if(CONNECTION.SOCKET !=null)
-                            {
-                                CONNECTION.SOCKET.close();
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            ExceptionHandler.dispatch(e);
-                            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed CONNECTION close.");
-                        }
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". WebExpress ConnectionPoller >> client disconnected ["
+                            + CONNECTION.SOCKET.getRemoteSocketAddress()
+                            + "] active connections now [" + CONNECTIONS.size() + "] .");
                     }
                 }
             }
-            catch (SocketTimeoutException ste)
+            catch(Exception e)
             {
-                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closing socket due to timeout ["+MESSAGE.SOCKET +"].");
+                ExceptionHandler.dispatch(e);
 
-                CURRENT_CONNECTIONS.remove(CONNECTION);
-
-                if(MESSAGE.MESSAGE_BUFFER.length()>0)
+                if(CURRENT_CONNECTIONS != null)
                 {
-                    this.WEBEXPRESS.MESSAGE_QUEUE.add(MESSAGE);
-                }
+                    CURRENT_CONNECTIONS.remove(CONNECTION);
 
-                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> new CONNECTION count ["+CURRENT_CONNECTIONS.size()+"].");
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". WebExpress ConnectionPoller >> client disconnected on exception ["
+                        + (CONNECTION != null && CONNECTION.SOCKET != null ? CONNECTION.SOCKET.getRemoteSocketAddress() : "unknown")
+                        + "] active connections now [" + CURRENT_CONNECTIONS.size() + "] .");
+                }
 
                 try
                 {
-                    if(CONNECTION!=null && CONNECTION.SOCKET !=null)
-                    {
+                    if(CONNECTION != null && CONNECTION.SOCKET != null)
                         CONNECTION.SOCKET.close();
-                    }
                 }
-                catch (Exception e)
-                {
-                    ExceptionHandler.dispatch(e);
-                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed CONNECTION close.");
-                }
-            }
-            catch (Exception e)
-            {
-                ExceptionHandler.dispatch(e);
+                catch(Exception ignored) {}
+
                 e.printStackTrace(System.err);
             }
             finally
             {
                 try
                 {
-                    Thread.sleep(1500);
+                    Thread.sleep(500);
                 }
-                catch (Exception e)
+                catch(Exception e)
                 {
                     ExceptionHandler.dispatch(e);
-                    CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress ConnectionPoller >> closed CONNECTION on main polling thread sleep.");
                 }
             }
-
-
         }
     }
 }

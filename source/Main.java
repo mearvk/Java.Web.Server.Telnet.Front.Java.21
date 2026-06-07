@@ -1,5 +1,9 @@
 import commons.CommonRails;
+import national.NationalDriver;
+import server.nitro.ConnectionStatusServer;
 import server.nitro.NitroWebExpress;
+
+import java.io.File;
 
 /**
  * @author Max Rupplin
@@ -18,60 +22,89 @@ public class Main
 
     protected static final Integer BITCOIN_WEBEXPRESS_SERVER_SOCKET = 6682;
 
-    protected static final String WEB_EXPRESS_SERVER_THREADNAME = ". WEBEXPRESS_TELNET_PROXY_SERVER .";
+    protected static final String WEB_EXPRESS_SERVER_THREADNAME = "WEBEXPRESS_TELNET_PROXY_SERVER";
 
-    protected static final String AES2_WEBEXPRESS_SERVER_THREAD_NAME = ". WEBEXPRESS_AES2_SERVER .";
+    protected static final String AES2_WEBEXPRESS_SERVER_THREAD_NAME = "WEBEXPRESS_AES2_SERVER";
 
-    protected static final String BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME = ". WEBEXPRESS_BITCOIN_SERVER .";
+    protected static final String BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME = "WEBEXPRESS_BITCOIN_SERVER";
 
     protected static final String WEBEXPRESS_HOSTNAME = "localhost";
 
-    protected static final String AES_WEBEXPRESS_HOST = "localhost";
+    protected static final String AES_WEBEXPRESS_REMOTE_HOST = "localhost";
 
-    protected static final String BITCOIN_WEBEXPRESS_HOST = "localhost";
+    protected static final String BITCOIN_WEBEXPRESS_REMOTE_HOST = "localhost";
+
+    protected static final Integer CONNECTION_STATUS_SERVER_PORT = ConnectionStatusServer.STATUS_PORT;
+
+    protected static final String CONNECTION_STATUS_SERVER_HOST = "localhost";
+
+    public static void main(String...args)
+    {
+        Main main = new Main();
+    }
 
     public Main()
     {
-        System.out.println("-");
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+        {
+            try
+            {
+                String script = new File("scripts/shutdown.sh").getAbsolutePath();
+
+                new ProcessBuilder("bash", script).inheritIO().start().waitFor();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.err);
+            }
+        }, "ShutdownHook"));
+
+        CommonRails.printStartRecipeSpinner();
 
             System.out.println("[ Java National Finance Engine v.28.1.1 Software Processes Starting ]");
 
-            System.out.println(". Cryptography/Cryptology AES2 National Cryptolograph Enabled DSS 5.0 .");
+            System.out.println(". Cryptography/Cryptology AES 2.0 National Cryptolograph Enabled DSS (DeepSonaGraphoSophons) 5.0 .");
 
             System.out.println(". Bitcoin Lightweight Binary Trader 2.0 Enabled ₿ Running on Bitcoin Open-Source v24.0 or newer .");
 
             System.out.println(". Operating within and United to National Authority of US United States and State of California in Coalition of and for North Carolina her betterment .");
 
-            System.out.println(". ND51 North Carolina Labors & Standards A5501 ANationals Standards of Cary, NC 2807 .");
+            System.out.println(". ND51 North Carolina Labors & Standards A5501 ANationals Standards of Cary, NC 2807 .\n");
 
-        System.out.println("-");
+        CommonRails.International.IranWedding.printSystemComponent(this);
+
+        System.out.println();
 
             CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
 
             CommonRails.printSystemComponent(this, this.hashCode(),". National NitroExpress™ Web Engine Starting .");
 
-            // Startup decorations (themed presentations)
-            commons.StartupDecorator.decorateStart(this);
+        NationalDriver DRIVER = new NationalDriver();
 
-        NitroWebExpress nitro = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
+            DRIVER.printOrderedComponents();
 
-            nitro.PORT = 49152;
+            DRIVER.clear();
 
-            nitro.HOST = "localhost";
+        NitroWebExpress NITRO = new NitroWebExpress(Main.WEBEXPRESS_PORT, Main.WEBEXPRESS_HOSTNAME, Main.WEB_EXPRESS_SERVER_THREADNAME);
 
-            nitro.THREAD_NAME = "United States D500 WebExpress";
+            NITRO.PORT = 49152;
 
-            nitro.TELNET_PROXY_ENABLED = Boolean.TRUE;
+            NITRO.HOST = "localhost";
 
-            nitro.bridge.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+            NITRO.THREAD_NAME = "United States D500 WebExpress";
 
-            nitro.bridge.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+            NITRO.TELNET_PROXY_ENABLED = Boolean.TRUE;
 
-        NitroWebExpress.SELF.start();
-    }
+            NITRO.BRIDGE.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_REMOTE_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-    public static void main(String...args)
-    {
-        Main main = new Main();
+            NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+
+            NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
+
+            NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
+
+            db.N21XmlFallback.replayFallback();
+
+            NITRO.BRIDGE.start();
     }
 }

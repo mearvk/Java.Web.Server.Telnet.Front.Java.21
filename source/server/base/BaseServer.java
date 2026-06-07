@@ -2,7 +2,7 @@ package server.base;
 
 import commons.CommonRails;
 import connections.*;
-import server.nitro.WebExpress;
+import exceptions.ExceptionHandler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,9 +13,11 @@ import java.net.ServerSocket;
 
 public abstract class BaseServer extends Thread
 {
-    public Integer hash = 0x008808FF;
+    public Integer HASH = 0x008808FF;
 
-    public BaseServer INHERITOR;
+    public BaseServer SUPERCLASS;
+
+    public BaseServer SELF;
     public static final Integer BASE_CONNECTION_TIMEOUT = 43200 * 2 * 2 * 1000;
 
     public String HOST = "localhost";
@@ -31,13 +33,13 @@ public abstract class BaseServer extends Thread
 
     public CurrentConnections CURRENT_CONNECTIONS = new CurrentConnections();
 
-    private final RecordedConnections recorded_connections = new RecordedConnections();
+    private final RecordedConnections RECORDED_CONNECTIONS = new RecordedConnections();
 
-    private final InternationalConnections international_connections = new InternationalConnections();
+    private final InternationalConnections INTERNATIONAL_CONNECTIONS = new InternationalConnections();
 
     public BaseServer()
     {
-        System.out.println(this.hash);
+        System.out.println(this.HASH);
     }
 
     public BaseServer(String host, Integer PORT)
@@ -48,7 +50,9 @@ public abstract class BaseServer extends Thread
 
         this.PORT = PORT;
 
-        this.INHERITOR = this;
+        this.SUPERCLASS = this;
+
+        this.SELF = this;
 
         this.setName("BasicServer");
 
@@ -58,6 +62,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             this.RUNNING = false;
@@ -71,6 +76,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             // mark as not running so run() will not attempt accept on a null socket
@@ -98,6 +104,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             this.RUNNING = false;
@@ -111,6 +118,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             this.RUNNING = false;
@@ -162,6 +170,7 @@ public abstract class BaseServer extends Thread
                 }
                 catch(Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
 
                     return;
@@ -179,6 +188,7 @@ public abstract class BaseServer extends Thread
                 }
                 catch(Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
 
                     return;
@@ -196,6 +206,7 @@ public abstract class BaseServer extends Thread
                 }
                 catch(Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
 
                     return;
@@ -207,13 +218,16 @@ public abstract class BaseServer extends Thread
 
                 this.CURRENT_CONNECTIONS.add(connection);
 
-                this.recorded_connections.add(connection);
+                this.RECORDED_CONNECTIONS.add(connection);
 
-                this.international_connections.add(connection);
+                this.INTERNATIONAL_CONNECTIONS.add(connection);
+
+                db.N21Store.storeConnection(connection, this.PORT);
             }
         }
         catch(Exception se)
         {
+            ExceptionHandler.dispatch(se);
             se.printStackTrace(System.err);
         }
     }

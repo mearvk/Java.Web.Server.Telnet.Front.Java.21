@@ -53,7 +53,7 @@ public class MexicoConnections
 
         RecordedMexicoConnection record = new RecordedMexicoConnection();
 
-        record.socket = x.SOCKET;
+        record.socket = x.socket;
 
         record.connection_date = x.inception_date;
 
