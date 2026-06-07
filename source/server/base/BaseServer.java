@@ -29,7 +29,7 @@ public abstract class BaseServer extends Thread
     public Boolean RUNNING = true;
 
 
-    public CurrentConnections current_connections = new CurrentConnections();
+    public CurrentConnections CURRENT_CONNECTIONS = new CurrentConnections();
 
     private final RecordedConnections recorded_connections = new RecordedConnections();
 
@@ -205,7 +205,7 @@ public abstract class BaseServer extends Thread
                     CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress BaseServer] [Related I/O listener thread established ["+this.ADDRESS +":"+this.PORT +"]]");
                 }
 
-                this.current_connections.add(connection);
+                this.CURRENT_CONNECTIONS.add(connection);
 
                 this.recorded_connections.add(connection);
 
