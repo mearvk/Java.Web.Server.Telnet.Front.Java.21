@@ -31,6 +31,12 @@ public class Main
 
     protected static final String RSA_WEBEXPRESS_SERVER_THREAD_NAME = NitroWebExpress.Aspect.RSACompliant.DEFAULT_THREAD;
 
+    protected static final Integer DSA_WEBEXPRESS_SERVER_SOCKET = NitroWebExpress.Aspect.DSACompliant.DEFAULT_PORT;
+
+    protected static final String DSA_WEBEXPRESS_REMOTE_HOST = "localhost";
+
+    protected static final String DSA_WEBEXPRESS_SERVER_THREAD_NAME = NitroWebExpress.Aspect.DSACompliant.DEFAULT_THREAD;
+
     protected static final String WEBEXPRESS_HOSTNAME = "localhost";
 
     protected static final String AES_WEBEXPRESS_REMOTE_HOST = "localhost";
@@ -72,8 +78,6 @@ public class Main
 
         CommonRails.International.IranWedding.printSystemComponent(this);
 
-        System.out.println();
-
             System.out.print("\033[31m");
             CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
             System.out.print("\033[0m");
@@ -103,6 +107,8 @@ public class Main
             NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             NITRO.BRIDGE.RSA_COMPONENT = new NitroWebExpress.Aspect.RSACompliant(RSA_WEBEXPRESS_REMOTE_HOST, RSA_WEBEXPRESS_SERVER_SOCKET, RSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+
+            NITRO.BRIDGE.DSA_COMPONENT = new NitroWebExpress.Aspect.DSACompliant(DSA_WEBEXPRESS_REMOTE_HOST, DSA_WEBEXPRESS_SERVER_SOCKET, DSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             NITRO.BRIDGE.CONNECTION_STATUS = new NitroWebExpress.Aspect.ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
