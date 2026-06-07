@@ -133,6 +133,62 @@ public class CommonRails
         return OID_DEFAULT;
     }
 
+    /**
+     * Maps a class name to a grayscale ANSI 256 shade based on its proximity to US law.
+     * ANSI 256 grayscale ramp: 232 (near-black) → 255 (near-white).
+     *
+     * Theory of term:
+     *   - Classes that embody or enforce US law (security, national ID, auth, exceptions,
+     *     encryption, admin, signatory) are most lawful → darkest (toward black, 232).
+     *   - Classes that are pure infrastructure / utility with no legal character
+     *     (messaging, timing, sim, telnet I/O) → lightest (toward white, 255).
+     *   - All others fall in between proportionally.
+     *
+     * Scale (ANSI grayscale code):
+     *   232  most lawful   — security, national authority, authentication
+     *   236                — encryption, admin, exceptions
+     *   240                — database, finance, bitcoin
+     *   245                — connections, server infrastructure
+     *   250                — commons, output, printing
+     *   255  least lawful  — messaging, timing, sim, telnet I/O
+     */
+    private static String resolveLawfulness(final String SIMPLECLASSNAME)
+    {
+        if (SIMPLECLASSNAME == null || !USE_COLORED_OUTPUT) return "";
+        String low = SIMPLECLASSNAME.toLowerCase();
+
+        // Most lawful: direct US legal authority, security, national ID, auth, admin
+        if (low.contains("security") || low.contains("national") || low.contains("auth")
+                || low.contains("admin") || low.contains("signatory") || low.contains("cia")
+                || low.contains("fbi") || low.contains("port") || low.contains("bodi"))
+            return "\033[38;5;232m";
+
+        // Very lawful: encryption, exceptions, persistence
+        if (low.contains("encrypt") || low.contains("exception") || low.contains("persistence")
+                || low.contains("listener") || low.contains("handler"))
+            return "\033[38;5;236m";
+
+        // Moderately lawful: finance, database, bitcoin transactions
+        if (low.contains("finance") || low.contains("store") || low.contains("datasource")
+                || low.contains("bitcoin") || low.contains("trader") || low.contains("wallet")
+                || low.contains("ascii") || low.contains("signature") || low.contains("module"))
+            return "\033[38;5;240m";
+
+        // Infrastructure: connections, server, WebExpress
+        if (low.contains("connection") || low.contains("server") || low.contains("express")
+                || low.contains("nitro") || low.contains("poller") || low.contains("installer")
+                || low.contains("driver") || low.contains("status") || low.contains("shutdown"))
+            return "\033[38;5;245m";
+
+        // Commons / utilities
+        if (low.contains("common") || low.contains("rail") || low.contains("iranian")
+                || low.contains("wedding") || low.contains("arith") || low.contains("english"))
+            return "\033[38;5;250m";
+
+        // Least lawful: messaging, timing, simulation, raw I/O
+        return "\033[38;5;255m";
+    }
+
     public static <T> Integer size(final ArrayList<T> LIST)
     {
         return LIST.size();
@@ -199,7 +255,9 @@ public class CommonRails
         String classname = "[" + inner + " ".repeat(innerPad) + "]";
 
         // classname is already the fixed-width bracketed field; use as-is
-        String classnamePadded = classname;
+        String classnamePadded = USE_COLORED_OUTPUT
+            ? resolveLawfulness(OBJECT.getClass().getSimpleName()) + classname + ANSI_RESET
+            : classname;
 
         String compliant_hashcode = String.format("%010d", HASHCODE);
 
@@ -704,6 +762,9 @@ public class CommonRails
         String inner     = "Current: @" + OBJECT.getClass().getSimpleName();
         int    innerPad  = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
         String classname = "[" + inner + " ".repeat(innerPad) + "]";
+        String classnamePadded = USE_COLORED_OUTPUT
+            ? resolveLawfulness(OBJECT.getClass().getSimpleName()) + classname + ANSI_RESET
+            : classname;
 
         String compliant_hashcode = String.format("%010d", HASHCODE);
         String colored_hashcode   = USE_COLORED_OUTPUT
@@ -741,7 +802,7 @@ public class CommonRails
             catch (Throwable ignored) {}
         }
 
-        String reference = object_id + " " + date + " " + classname + " " + lineFixed;
+        String reference = object_id + " " + date + " " + classnamePadded + " " + lineFixed;
 
         try { NationalDriver.record(reference); } catch (Throwable ignored) {}
 
