@@ -1,7 +1,7 @@
 package messaging;
 
 import commons.CommonRails;
-import commons.EnglishArithemeter;
+import commons.transition.english.EnglishArithemeter;
 import connections.CurrentConnections;
 import exceptions.ExceptionHandler;
 import server.nitro.WebExpress;
