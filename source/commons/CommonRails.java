@@ -253,11 +253,11 @@ public class CommonRails
             ethics = 1;
         // else ethics = 0 (instrumental)
 
-        // ── Map total score (0–13) → ANSI-256 grayscale (238–255) ────────────
+        // ── Map total score (0–13) → ANSI-256 grayscale (240–255) ────────────
         // Inverted: most lawful (score 13) → 255 (lightest, at/above reset)
-        //           least lawful (score 0)  → 238 (darker, but above old floor)
+        //           least lawful (score 0)  → 240 (two shades lighter than previous floor)
         int score = plato + etym + social + ethics;                   // 0–13
-        int code  = 238 + (int) Math.round(score * (17.0 / 13.0));   // 238–255
+        int code  = Math.min(255, 240 + (int) Math.round(score * (15.0 / 13.0)));  // 240–255
         return "\033[38;5;" + code + "m";
     }
 
@@ -337,14 +337,11 @@ public class CommonRails
     public static void printSystemComponent(final Object OBJECT, final Integer HASHCODE, final String LINE)
     {
         // Build the [Current: ...] field and pad the content inside the brackets to the desired total width
-        String inner = "Current: @" + OBJECT.getClass().getSimpleName();
-        int innerPad = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
-        String classname = "[" + inner + " ".repeat(innerPad) + "]";
-
-        // classname is already the fixed-width bracketed field; use as-is
+        String simpleName = OBJECT.getClass().getSimpleName();
+        int innerPad = Math.max(0, CLASSNAME_TOTAL_WIDTH - ("Current: @" + simpleName).length());
         String classnamePadded = USE_COLORED_OUTPUT
-            ? resolveLawfulnessDark2(OBJECT.getClass().getSimpleName()) + classname + ANSI_RESET
-            : classname;
+            ? "[Current: " + resolveLawfulnessDark2(simpleName) + "@" + simpleName + ANSI_RESET + " ".repeat(innerPad) + "]"
+            : "[Current: @" + simpleName + " ".repeat(innerPad) + "]";
 
         String compliant_hashcode = String.format("%010d", HASHCODE);
 
@@ -857,12 +854,11 @@ public class CommonRails
         // then delegating the full pipeline to the standard method via a thin wrapper OBJECT
         // whose class name maps to a known color — instead, we patch at the reference level directly.
 
-        String inner     = "Current: @" + OBJECT.getClass().getSimpleName();
-        int    innerPad  = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
-        String classname = "[" + inner + " ".repeat(innerPad) + "]";
+        String simpleName2 = OBJECT.getClass().getSimpleName();
+        int    innerPad  = Math.max(0, CLASSNAME_TOTAL_WIDTH - ("Current: @" + simpleName2).length());
         String classnamePadded = USE_COLORED_OUTPUT
-            ? resolveLawfulnessDark2(OBJECT.getClass().getSimpleName()) + classname + ANSI_RESET
-            : classname;
+            ? "[Current: " + resolveLawfulnessDark2(simpleName2) + "@" + simpleName2 + ANSI_RESET + " ".repeat(innerPad) + "]"
+            : "[Current: @" + simpleName2 + " ".repeat(innerPad) + "]";
 
         String compliant_hashcode = String.format("%010d", HASHCODE);
         String colored_hashcode   = USE_COLORED_OUTPUT
