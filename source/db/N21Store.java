@@ -232,6 +232,78 @@ public class N21Store
         return null;
     }
 
+    // ── module_loader ─────────────────────────────────────────────────────────
+
+    /** Ensure the module_loader table exists — called once at startup. */
+    public static void createModuleLoaderTable()
+    {
+        if (!dbOk()) return;
+        try
+        {
+            java.sql.Statement st = N21DataSource.get().createStatement();
+            st.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS module_loader (" +
+                "  id            BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                "  national_id   BIGINT UNSIGNED NOT NULL," +
+                "  module_name   VARCHAR(255)    NOT NULL," +
+                "  action        VARCHAR(64)     NOT NULL," +   // install / unload / restart / connect
+                "  source_ip     VARCHAR(45)     NOT NULL DEFAULT ''," +
+                "  file_type     VARCHAR(16)     NOT NULL DEFAULT ''," +
+                "  byte_count    INT UNSIGNED    NOT NULL DEFAULT 0," +
+                "  sig_hex       VARCHAR(64)     NOT NULL DEFAULT ''," +
+                "  admin_token   VARCHAR(128)    NOT NULL DEFAULT ''," +
+                "  result        VARCHAR(255)    NOT NULL DEFAULT ''," +
+                "  recorded_at   DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                "  INDEX idx_ml_national  (national_id)," +
+                "  INDEX idx_ml_module    (module_name)," +
+                "  INDEX idx_ml_action    (action)," +
+                "  INDEX idx_ml_recorded  (recorded_at)" +
+                ") ENGINE=InnoDB");
+            st.close();
+        }
+        catch (Exception e) { fail("module_loader", e); }
+    }
+
+    public static void storeModuleAction(final long NATIONAL_ID, final String MODULE_NAME,
+                                          final String ACTION,      final String SOURCE_IP,
+                                          final String FILE_TYPE,   final int BYTE_COUNT,
+                                          final String SIG_HEX,     final String ADMIN_TOKEN,
+                                          final String RESULT)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "INSERT INTO module_loader " +
+                    "(national_id, module_name, action, source_ip, file_type, byte_count, sig_hex, admin_token, result) " +
+                    "VALUES (?,?,?,?,?,?,?,?,?)");
+                ps.setLong(1,   NATIONAL_ID);
+                ps.setString(2, MODULE_NAME  != null ? MODULE_NAME  : "");
+                ps.setString(3, ACTION       != null ? ACTION       : "");
+                ps.setString(4, SOURCE_IP    != null ? SOURCE_IP    : "");
+                ps.setString(5, FILE_TYPE    != null ? FILE_TYPE    : "");
+                ps.setInt(6,    BYTE_COUNT);
+                ps.setString(7, SIG_HEX      != null ? SIG_HEX      : "");
+                ps.setString(8, ADMIN_TOKEN  != null ? ADMIN_TOKEN  : "");
+                ps.setString(9, RESULT       != null ? RESULT       : "");
+                ps.executeUpdate(); ps.close();
+                return;
+            }
+            catch (Exception e) { fail("module_loader", e); }
+        }
+        N21XmlFallback.append("module_loader",
+            "national_id",  String.valueOf(NATIONAL_ID),
+            "module_name",  MODULE_NAME  != null ? MODULE_NAME  : "",
+            "action",       ACTION       != null ? ACTION       : "",
+            "source_ip",    SOURCE_IP    != null ? SOURCE_IP    : "",
+            "file_type",    FILE_TYPE    != null ? FILE_TYPE    : "",
+            "byte_count",   String.valueOf(BYTE_COUNT),
+            "sig_hex",      SIG_HEX      != null ? SIG_HEX      : "",
+            "admin_token",  ADMIN_TOKEN  != null ? ADMIN_TOKEN  : "",
+            "result",       RESULT       != null ? RESULT       : "");
+    }
+
     // ── status_snapshots ──────────────────────────────────────────────────────
 
     public static void storeStatusSnapshot(final int ACTIVECONNECTIONS, final long UPTIMESECS, final long TOTALMB, final long USEDMB)

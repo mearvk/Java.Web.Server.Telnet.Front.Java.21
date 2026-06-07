@@ -327,6 +327,7 @@ public class NitroWebExpress extends WebExpress
                 try
                 {
                     Files.createDirectories(INSTALL_DIR);
+                    db.N21Store.createModuleLoaderTable();
                     SERVER_SOCKET = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
                     CommonRails.printSystemComponent(this, this.hashCode(),
                         ". ModuleInstallationService listening on port " + PORT + " .");
@@ -341,53 +342,88 @@ public class NitroWebExpress extends WebExpress
                 catch (Exception e) { ExceptionHandler.dispatch(e); }
             }
 
+            /** Per-connection session state. */
+            private static class Session
+            {
+                long   nationalId  = -1;
+                String adminToken  = null;
+                String remoteIp    = "";
+            }
+
             private void handle(final Socket CLIENT)
             {
+                Session session = new Session();
+                session.remoteIp = CLIENT.getInetAddress().getHostAddress();
+
                 try (
                     BufferedReader in  = new BufferedReader(new InputStreamReader(CLIENT.getInputStream()));
                     BufferedWriter out = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream()))
                 ) {
-                    writeLine(out, "ModuleInstallationService v2.0 — type 'help' for commands.");
+                    writeLine(out, "ModuleInstallationService v2.0");
+                    writeLine(out, "Type 'identify <nationalId>' first, then 'help' for commands.");
+
+                    db.N21Store.storeModuleAction(0, "", "connect", session.remoteIp,
+                        "", 0, "", "", "connected");
+
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ModuleInstallationService connection from " + session.remoteIp + " .");
+
                     String line;
                     while ((line = in.readLine()) != null)
                     {
                         line = line.trim();
                         if (line.isEmpty()) continue;
-                        CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". ModuleInstallationService command [" + line + "] from "
-                            + CLIENT.getInetAddress().getHostAddress() + " .");
                         if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) break;
-                        String response = dispatch(line, CLIENT.getInputStream(), out);
+
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". ModuleInstallationService [" + session.remoteIp + "] cmd: " + line + " .");
+
+                        String response = dispatch(line, CLIENT.getInputStream(), out, session);
                         if (response != null) writeLine(out, response);
                     }
                 }
                 catch (Exception e) { ExceptionHandler.dispatch(e); }
-                finally { try { CLIENT.close(); } catch (Exception ignored) {} }
+                finally
+                {
+                    if (session.adminToken != null) admin.ModuleAdmin.logout(session.adminToken);
+                    try { CLIENT.close(); } catch (Exception ignored) {}
+                }
             }
 
-            /** Returns null when the command handled its own output (e.g. install streams bytes). */
-            private String dispatch(final String CMD, final InputStream RAW, final BufferedWriter OUT)
+            private String dispatch(final String CMD, final InputStream RAW,
+                                     final BufferedWriter OUT, final Session SESSION)
             {
                 String[] parts = CMD.split("\\s+", 4);
                 switch (parts[0].toLowerCase())
                 {
+                    case "identify":
+                        if (parts.length < 2) return "Usage: identify <nationalId>";
+                        return identify(parts[1], SESSION);
+                    case "admin":
+                        if (parts.length < 2) return "Usage: admin <password>";
+                        return adminLogin(parts[1], SESSION);
                     case "install":
-                        // install <name> <sha256sig> <bytecount>
+                        // install <name> <sha256hex> <bytecount>
                         if (parts.length < 4) return "Usage: install <name> <sha256hex> <bytecount>";
-                        return installModule(parts[1], parts[2], parts[3], RAW, OUT);
+                        if (SESSION.nationalId < 0) return "[install] Identify yourself first: identify <nationalId>";
+                        return installModule(parts[1], parts[2], parts[3], RAW, OUT, SESSION);
                     case "unload":
                         if (parts.length < 2) return "Usage: unload <name>";
-                        return ModuleRegistry.unload(parts[1]) ? "[unload] Module '" + parts[1] + "' unloaded." : "[unload] Module not found: " + parts[1];
+                        if (!admin.ModuleAdmin.isAdmin(SESSION.adminToken))
+                            return "[unload] Admin authentication required. Use: admin <password>";
+                        return unloadModule(parts[1], SESSION);
                     case "list":
                         return listModules();
                     case "restart":
                         if (parts.length < 2) return "Usage: restart <module>";
-                        return restartModule(parts[1]);
+                        return restartModule(parts[1], SESSION);
                     case "comment":
                         if (parts.length < 3) return "Usage: comment <nationalId> <text>";
                         return addComment(parts[1], parts[2]);
                     case "signatory":
                         if (parts.length < 2) return "Usage: signatory <nationalId>";
+                        if (!admin.ModuleAdmin.isAdmin(SESSION.adminToken))
+                            return "[signatory] Admin authentication required.";
                         return grantSignatory(parts[1]);
                     case "help":
                         return HELP;
@@ -396,12 +432,42 @@ public class NitroWebExpress extends WebExpress
                 }
             }
 
-            /**
-             * Receive raw bytes from the socket stream, verify SHA-256 signature,
-             * check file type, persist to disk, then load into ModuleRegistry.
-             */
-            private String installModule(final String NAME, final String SIG_HEX, final String BYTE_COUNT_STR,
-                                          final InputStream RAW, final BufferedWriter OUT)
+            private String identify(final String NATIONAL_ID_STR, final Session SESSION)
+            {
+                try
+                {
+                    long id = Long.parseLong(NATIONAL_ID_STR);
+                    national.NationalFinanceID r = db.N21Store.loadNationalFinanceID(id);
+                    if (r == null) return "[identify] National ID " + id + " not found.";
+                    SESSION.nationalId = id;
+                    db.N21Store.storeModuleAction(id, "", "identify", SESSION.remoteIp,
+                        "", 0, "", "", "identified");
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ModuleInstallationService identified National ID " + id + " .");
+                    return "[identify] National ID " + id + " recognised. Welcome.";
+                }
+                catch (NumberFormatException e) { return "[identify] Invalid National ID."; }
+            }
+
+            private String adminLogin(final String PASSWORD, final Session SESSION)
+            {
+                if (SESSION.nationalId < 0) return "[admin] Identify yourself first.";
+                String token = admin.ModuleAdmin.login(PASSWORD, SESSION.nationalId);
+                if (token == null)
+                {
+                    db.N21Store.storeModuleAction(SESSION.nationalId, "", "admin-login-fail",
+                        SESSION.remoteIp, "", 0, "", "", "failed");
+                    return "[admin] Authentication failed.";
+                }
+                SESSION.adminToken = token;
+                db.N21Store.storeModuleAction(SESSION.nationalId, "", "admin-login",
+                    SESSION.remoteIp, "", 0, "", token, "success");
+                return "[admin] Authenticated. You may now unload modules and grant signatories.";
+            }
+
+            private String installModule(final String NAME, final String SIG_HEX,
+                                          final String BYTE_COUNT_STR, final InputStream RAW,
+                                          final BufferedWriter OUT, final Session SESSION)
             {
                 try
                 {
@@ -409,48 +475,46 @@ public class NitroWebExpress extends WebExpress
                     if (byteCount <= 0 || byteCount > 50 * 1024 * 1024)
                         return "[install] Invalid byte count: " + byteCount;
 
-                    writeLine(OUT, "[install] Ready to receive " + byteCount + " bytes for module '" + NAME + "'.");
+                    writeLine(OUT, "[install] Ready to receive " + byteCount + " bytes for '" + NAME + "'.");
 
-                    // Read exactly byteCount bytes
                     byte[] data = new byte[byteCount];
-                    DataInputStream dis = new DataInputStream(RAW);
-                    dis.readFully(data);
+                    new DataInputStream(RAW).readFully(data);
 
-                    // ── Security check 1: SHA-256 signature ───────────────────
+                    // Security check 1: SHA-256
                     String actualHex = sha256hex(data);
                     if (!actualHex.equalsIgnoreCase(SIG_HEX))
                     {
+                        String result = "sig-mismatch expected=" + SIG_HEX + " got=" + actualHex;
+                        db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject",
+                            SESSION.remoteIp, "", byteCount, SIG_HEX, "", result);
                         CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". ModuleInstallationService SECURITY FAIL — signature mismatch for [" + NAME + "] .");
-                        return "[install] REJECTED — signature mismatch. Expected: " + SIG_HEX + " Got: " + actualHex;
+                            ". ModuleInstallationService SECURITY FAIL sig mismatch [" + NAME + "] .");
+                        return "[install] REJECTED — signature mismatch.";
                     }
 
-                    // ── Security check 2: file type by magic bytes ────────────
+                    // Security check 2: file type
                     String detectedType = detectType(data);
                     if (detectedType == null)
                     {
+                        db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject",
+                            SESSION.remoteIp, "unknown", byteCount, SIG_HEX, "", "bad-type");
                         CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". ModuleInstallationService SECURITY FAIL — unsupported file type for [" + NAME + "] .");
-                        return "[install] REJECTED — unsupported file type (must be .jar, .zip, or .java source).";
+                            ". ModuleInstallationService SECURITY FAIL unsupported type [" + NAME + "] .");
+                        return "[install] REJECTED — unsupported file type (must be .jar, .zip, or .java).";
                     }
 
                     CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ModuleInstallationService security checks passed for [" + NAME + "] type=" + detectedType + " .");
+                        ". ModuleInstallationService security passed [" + NAME + "] type=" + detectedType + " .");
 
-                    // ── Persist to modules/ ───────────────────────────────────
                     String filename = NAME.replaceAll("[^a-zA-Z0-9._-]", "_") + "." + detectedType;
                     Path dest = INSTALL_DIR.resolve(filename);
                     Files.write(dest, data);
 
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ModuleInstallationService saved [" + NAME + "] to " + dest + " .");
-
-                    // ── Load into ModuleRegistry ──────────────────────────────
                     URLClassLoader loader = null;
                     if (detectedType.equals("jar"))
                     {
                         loader = new URLClassLoader(new URL[]{ dest.toUri().toURL() },
-                                                    Thread.currentThread().getContextClassLoader());
+                            Thread.currentThread().getContextClassLoader());
                     }
                     else if (detectedType.equals("zip"))
                     {
@@ -458,30 +522,45 @@ public class NitroWebExpress extends WebExpress
                         Files.createDirectories(unzipDir);
                         unzip(data, unzipDir);
                         loader = new URLClassLoader(new URL[]{ unzipDir.toUri().toURL() },
-                                                    Thread.currentThread().getContextClassLoader());
+                            Thread.currentThread().getContextClassLoader());
                     }
-                    else // java source — compile it
+                    else
                     {
                         javax.tools.JavaCompiler compiler = javax.tools.ToolProvider.getSystemJavaCompiler();
-                        if (compiler == null)
-                            return "[install] Java source received but no system compiler available (JDK required).";
+                        if (compiler == null) return "[install] No system compiler available (JDK required).";
                         Path srcFile = INSTALL_DIR.resolve(NAME + ".java");
                         Files.write(srcFile, data);
-                        int rc = compiler.run(null, null, null, srcFile.toString());
-                        if (rc != 0) return "[install] Compilation failed for " + NAME + ".java";
+                        if (compiler.run(null, null, null, srcFile.toString()) != 0)
+                            return "[install] Compilation failed for " + NAME + ".java";
                         loader = new URLClassLoader(new URL[]{ INSTALL_DIR.toUri().toURL() },
-                                                    Thread.currentThread().getContextClassLoader());
+                            Thread.currentThread().getContextClassLoader());
                     }
 
                     ModuleRegistry.register(new InstalledModule(NAME, dest, loader));
 
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ModuleInstallationService installed and loaded module [" + NAME + "] .");
+                    String result = "installed " + detectedType + " " + byteCount + "B";
+                    db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install",
+                        SESSION.remoteIp, detectedType, byteCount, SIG_HEX, "", result);
 
-                    return "[install] Module '" + NAME + "' installed successfully (" + detectedType + ", " + byteCount + " bytes).";
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ModuleInstallationService installed [" + NAME + "] for National ID "
+                        + SESSION.nationalId + " .");
+
+                    return "[install] Module '" + NAME + "' installed (" + detectedType + ", " + byteCount + " bytes).";
                 }
                 catch (NumberFormatException e) { return "[install] Invalid byte count."; }
                 catch (Exception e) { ExceptionHandler.dispatch(e); return "[install] Error: " + e.getMessage(); }
+            }
+
+            private String unloadModule(final String NAME, final Session SESSION)
+            {
+                boolean removed = ModuleRegistry.unload(NAME);
+                String result = removed ? "unloaded" : "not-found";
+                db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "unload",
+                    SESSION.remoteIp, "", 0, "", SESSION.adminToken, result);
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". ModuleInstallationService admin unload [" + NAME + "] result=" + result + " .");
+                return removed ? "[unload] Module '" + NAME + "' unloaded." : "[unload] Module not found: " + NAME;
             }
 
             private String listModules()
@@ -489,23 +568,21 @@ public class NitroWebExpress extends WebExpress
                 ConcurrentHashMap<String, InstalledModule> all = ModuleRegistry.all();
                 if (all.isEmpty()) return "[list] No modules loaded.";
                 StringBuilder sb = new StringBuilder("[list] Loaded modules:\r\n");
-                all.forEach((name, m) -> sb.append("  ").append(name).append(" — ").append(m.SOURCE).append("\r\n"));
+                all.forEach((name, m) -> sb.append("  ").append(name)
+                    .append(" — ").append(m.SOURCE).append("\r\n"));
                 return sb.toString().stripTrailing();
             }
 
-            private String restartModule(final String MODULE)
+            private String restartModule(final String MODULE, final Session SESSION)
             {
+                db.N21Store.storeModuleAction(SESSION.nationalId, MODULE, "restart",
+                    SESSION.remoteIp, "", 0, "", "", "signal-sent");
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". ModuleInstallationService restarting module [" + MODULE + "] .");
+                    ". ModuleInstallationService restart [" + MODULE + "] .");
                 InstalledModule m = ModuleRegistry.get(MODULE);
-                if (m != null) return "[restart] Module '" + MODULE + "' restart signal sent.";
-                switch (MODULE.toLowerCase())
-                {
-                    case "aes": case "bitcoin": case "status": case "national":
-                        return "[restart] Module '" + MODULE + "' restart signal sent.";
-                    default:
-                        return "[restart] Unknown module: " + MODULE;
-                }
+                if (m != null || MODULE.matches("aes|bitcoin|status|national"))
+                    return "[restart] Module '" + MODULE + "' restart signal sent.";
+                return "[restart] Unknown module: " + MODULE;
             }
 
             private String addComment(final String NATIONAL_ID_STR, final String COMMENT)
@@ -515,7 +592,8 @@ public class NitroWebExpress extends WebExpress
                     long id = Long.parseLong(NATIONAL_ID_STR);
                     national.NationalFinanceID r = db.N21Store.loadNationalFinanceID(id);
                     if (r == null) return "[comment] National ID " + id + " not found.";
-                    r.suspects = (r.suspects != null && !r.suspects.isEmpty()) ? r.suspects + "; " + COMMENT : COMMENT;
+                    r.suspects = (r.suspects != null && !r.suspects.isEmpty())
+                        ? r.suspects + "; " + COMMENT : COMMENT;
                     db.N21Store.storeNationalFinanceID(r);
                     CommonRails.printSystemComponent(this, this.hashCode(),
                         ". ModuleInstallationService comment added to National ID " + id + " .");
@@ -544,21 +622,16 @@ public class NitroWebExpress extends WebExpress
 
             // ── Helpers ───────────────────────────────────────────────────────
 
-            /** Detect type by magic bytes: PK zip/jar = zip/jar, 0xCAFEBABE = class, else java text. */
             private static String detectType(final byte[] DATA)
             {
                 if (DATA.length < 4) return null;
-                // PK magic → zip or jar (treat all as jar; caller decides)
                 if (DATA[0] == 0x50 && DATA[1] == 0x4B)
                 {
-                    // Peek inside: if contains META-INF/MANIFEST.MF it's a jar, otherwise zip
                     String header = new String(DATA, 0, Math.min(DATA.length, 256));
                     return header.contains("META-INF") ? "jar" : "zip";
                 }
-                // Java .class magic
                 if (DATA[0] == (byte)0xCA && DATA[1] == (byte)0xFE
-                    && DATA[2] == (byte)0xBA && DATA[3] == (byte)0xBE) return null; // raw .class rejected
-                // Assume Java source text
+                    && DATA[2] == (byte)0xBA && DATA[3] == (byte)0xBE) return null;
                 String text = new String(DATA, 0, Math.min(DATA.length, 512));
                 if (text.contains("package ") || text.contains("public class") || text.contains("import "))
                     return "java";
@@ -579,15 +652,13 @@ public class NitroWebExpress extends WebExpress
                     while ((entry = zis.getNextEntry()) != null)
                     {
                         Path target = DEST.resolve(entry.getName()).normalize();
-                        if (!target.startsWith(DEST)) continue; // zip-slip guard
+                        if (!target.startsWith(DEST)) continue;
                         if (entry.isDirectory()) { Files.createDirectories(target); }
                         else
                         {
                             Files.createDirectories(target.getParent());
                             try (OutputStream os = new FileOutputStream(target.toFile()))
-                            {
-                                zis.transferTo(os);
-                            }
+                            { zis.transferTo(os); }
                         }
                         zis.closeEntry();
                     }
@@ -601,12 +672,14 @@ public class NitroWebExpress extends WebExpress
 
             private static final String HELP =
                 "Commands:\r\n" +
-                "  install <name> <sha256hex> <bytecount>  Receive and install a module (.jar/.zip/.java)\r\n" +
-                "  unload  <name>                          Unload a loaded module\r\n" +
-                "  list                                    List all loaded modules\r\n" +
+                "  identify <nationalId>                   Identify yourself (required before install)\r\n" +
+                "  admin <password>                        Authenticate as administrator\r\n" +
+                "  install <name> <sha256hex> <bytecount>  Install a module (.jar/.zip/.java)\r\n" +
+                "  unload  <name>                          Unload a module (admin only)\r\n" +
+                "  list                                    List loaded modules\r\n" +
                 "  restart <module>                        Restart a module\r\n" +
                 "  comment <nationalId> <text>             Append a comment to a user account\r\n" +
-                "  signatory <nationalId>                  Grant final signatory rights\r\n" +
+                "  signatory <nationalId>                  Grant final signatory rights (admin only)\r\n" +
                 "  help                                    Show this list\r\n" +
                 "  quit                                    Close connection";
         }
