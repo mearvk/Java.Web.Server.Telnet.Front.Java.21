@@ -27,21 +27,21 @@ public class NullPointerConstructorHandler implements ExceptionListener
 
     private boolean isConstructorNPE(final ExceptionRecord RECORD)
     {
-        Throwable ex = RECORD.exception();
+        Throwable ex = RECORD.EXCEPTION();
 
         if (!(ex instanceof NullPointerException))
         {
             return false;
         }
 
-        String origin = RECORD.origin();
+        String origin = RECORD.ORIGIN();
 
         return origin != null && origin.contains("<init>");
     }
 
     private void logConstructorFailure(final ExceptionRecord RECORD)
     {
-        System.err.println("[CONSTRUCTOR-NPE] " + Instant.now() + " | " + "Origin=" + RECORD.origin() + " | " + "Message=" + RECORD.exception().getMessage());
+        System.err.println("[CONSTRUCTOR-NPE] " + Instant.now() + " | " + "Origin=" + RECORD.ORIGIN() + " | " + "Message=" + RECORD.EXCEPTION().getMessage());
     }
 
     private void annotateForDiagnostics(final ExceptionRecord RECORD)

@@ -25,11 +25,11 @@ public class ExceptionPersistenceService
         {
 
             writer.write("[EXCEPTION] " + Instant.now() + System.lineSeparator() +
-                            "Type: " + RECORD.exception().getClass().getName() + System.lineSeparator() +
-                            "Message: " + RECORD.exception().getMessage() + System.lineSeparator() +
-                            "Origin: " + RECORD.origin() + System.lineSeparator() +
+                            "Type: " + RECORD.EXCEPTION().getClass().getName() + System.lineSeparator() +
+                            "Message: " + RECORD.EXCEPTION().getMessage() + System.lineSeparator() +
+                            "Origin: " + RECORD.ORIGIN() + System.lineSeparator() +
                             "StackTrace:" + System.lineSeparator() +
-                            RECORD.stackTrace() + System.lineSeparator() +
+                            RECORD.STACKTRACE() + System.lineSeparator() +
                             "------------------------------------------------------------" +
                             System.lineSeparator()
             );

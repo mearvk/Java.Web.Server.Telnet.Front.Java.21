@@ -6,7 +6,7 @@ import java.util.List;
 public class ExceptionEventDispatcher
 {
     private final List<ExceptionListener> LISTENERS;
-    private final ExceptionPersistenceService persistenceService;
+    private final ExceptionPersistenceService PERSISTENCESERVICE;
     private final BackendSettings SETTINGS;
 
     public ExceptionEventDispatcher(final List<ExceptionListener> LISTENERS, final ExceptionPersistenceService PERSISTENCESERVICE, final BackendSettings SETTINGS)
@@ -15,7 +15,7 @@ public class ExceptionEventDispatcher
                 .sorted(Comparator.comparingInt(ExceptionListener::getPriority))
                 .toList();
 
-        this.persistenceService = PERSISTENCESERVICE;
+        this.PERSISTENCESERVICE = PERSISTENCESERVICE;
 
         this.SETTINGS = SETTINGS;
     }
@@ -31,7 +31,7 @@ public class ExceptionEventDispatcher
 
         if (SETTINGS.isPersistExceptions())
         {
-            persistenceService.persist(record);
+            PERSISTENCESERVICE.persist(record);
         }
     }
 }

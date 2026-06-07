@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public record ExceptionRecord(
-        Throwable exception,
-        String origin,
-        String stackTrace,
-        Instant timestamp
+        Throwable EXCEPTION,
+        String ORIGIN,
+        String STACKTRACE,
+        Instant TIMESTAMP
 ) {
 
     public static ExceptionRecord from(final Throwable EX) {
