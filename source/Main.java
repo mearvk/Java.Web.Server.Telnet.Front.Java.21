@@ -1,6 +1,5 @@
 import commons.CommonRails;
 import national.NationalDriver;
-import server.nitro.ConnectionStatusServer;
 import server.nitro.NitroWebExpress;
 
 /**
@@ -32,7 +31,7 @@ public class Main
 
     protected static final String BITCOIN_WEBEXPRESS_REMOTE_HOST = "localhost";
 
-    protected static final Integer CONNECTION_STATUS_SERVER_PORT = ConnectionStatusServer.STATUS_PORT;
+    protected static final Integer CONNECTION_STATUS_SERVER_PORT = NitroWebExpress.Aspect.ConnectionStatusServer.STATUS_PORT;
 
     protected static final String CONNECTION_STATUS_SERVER_HOST = "localhost";
 
@@ -89,7 +88,9 @@ public class Main
 
             NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
+            NITRO.BRIDGE.CONNECTION_STATUS = new NitroWebExpress.Aspect.ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
+
+            NITRO.BRIDGE.MODULE_INSTALLATION = new NitroWebExpress.Aspect.ModuleInstallationService("localhost");
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
 
