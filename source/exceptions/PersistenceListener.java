@@ -8,11 +8,11 @@ public class PersistenceListener implements ExceptionListener
 {
     private static final int PRIORITY = 100;
 
-    private final String filePath;
+    private final String FILEPATH;
 
     public PersistenceListener(final String FILEPATH)
     {
-        this.filePath = FILEPATH;
+        this.FILEPATH = FILEPATH;
     }
 
     @Override
@@ -29,9 +29,9 @@ public class PersistenceListener implements ExceptionListener
 
     private void writeRecordToFile(final ExceptionRecord RECORD)
     {
-        try (FileWriter writer = new FileWriter(filePath, true))
+        try (FileWriter writer = new FileWriter(FILEPATH, true))
         {
-            writer.write("[EXCEPTION] " + Instant.now() + System.lineSeparator() + "Type: " + RECORD.exception().getClass().getName() + System.lineSeparator() + "Message: " + RECORD.exception().getMessage() + System.lineSeparator() + "Origin: " + RECORD.origin() + System.lineSeparator() + "StackTrace: " + RECORD.stackTrace() + System.lineSeparator() + "------------------------------------------------------------" + System.lineSeparator());
+            writer.write("[EXCEPTION] " + Instant.now() + System.lineSeparator() + "Type: " + RECORD.EXCEPTION().getClass().getName() + System.lineSeparator() + "Message: " + RECORD.EXCEPTION().getMessage() + System.lineSeparator() + "Origin: " + RECORD.ORIGIN() + System.lineSeparator() + "StackTrace: " + RECORD.STACKTRACE() + System.lineSeparator() + "------------------------------------------------------------" + System.lineSeparator());
         }
         catch (IOException ioEx)
         {

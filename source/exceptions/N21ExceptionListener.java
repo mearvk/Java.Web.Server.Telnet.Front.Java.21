@@ -16,8 +16,8 @@ public class N21ExceptionListener implements ExceptionListener
     @Override
     public void onException(final ExceptionRecord RECORD)
     {
-        boolean isSecurity = RECORD.exception() instanceof SecurityException
-            || isSecurityKeyword(RECORD.exception());
+        boolean isSecurity = RECORD.EXCEPTION() instanceof SecurityException
+            || isSecurityKeyword(RECORD.EXCEPTION());
 
         N21Store.storeException(RECORD, isSecurity);
 

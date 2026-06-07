@@ -27,7 +27,7 @@ public class SecurityExceptionHandler implements ExceptionListener
 
     private boolean isSecurityEvent(final ExceptionRecord RECORD)
     {
-        Throwable ex = RECORD.exception();
+        Throwable ex = RECORD.EXCEPTION();
 
         if (ex instanceof SecurityException)
         {
@@ -48,7 +48,7 @@ public class SecurityExceptionHandler implements ExceptionListener
 
     private void logSecurityEvent(final ExceptionRecord RECORD)
     {
-        System.err.println("[SECURITY] " + Instant.now() + " | " + "Type=" + RECORD.exception().getClass().getSimpleName() + " | " + "Message=" + RECORD.exception().getMessage() + " | " + "Origin=" + RECORD.origin());
+        System.err.println("[SECURITY] " + Instant.now() + " | " + "Type=" + RECORD.EXCEPTION().getClass().getSimpleName() + " | " + "Message=" + RECORD.EXCEPTION().getMessage() + " | " + "Origin=" + RECORD.ORIGIN());
     }
 
     private void triggerSecurityAlert(final ExceptionRecord RECORD)

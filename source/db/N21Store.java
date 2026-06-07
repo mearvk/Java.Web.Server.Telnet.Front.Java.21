@@ -73,24 +73,24 @@ public class N21Store
             {
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
                     "INSERT INTO exceptions (exception_type, message, origin, stack_trace, is_security_event, recorded_at) VALUES (?,?,?,?,?,?)");
-                ps.setString(1, R.exception().getClass().getSimpleName());
-                ps.setString(2, R.exception().getMessage());
-                ps.setString(3, R.origin());
-                ps.setString(4, R.stackTrace());
+                ps.setString(1, R.EXCEPTION().getClass().getSimpleName());
+                ps.setString(2, R.EXCEPTION().getMessage());
+                ps.setString(3, R.ORIGIN());
+                ps.setString(4, R.STACKTRACE());
                 ps.setBoolean(5, ISSECURITYEVENT);
-                ps.setTimestamp(6, Timestamp.from(R.timestamp()));
+                ps.setTimestamp(6, Timestamp.from(R.TIMESTAMP()));
                 ps.executeUpdate(); ps.close();
                 return;
             }
             catch (Exception e) { fail("exceptions", e); }
         }
         N21XmlFallback.append("exceptions",
-            "exception_type", R.exception().getClass().getSimpleName(),
-            "message",        R.exception().getMessage(),
-            "origin",         R.origin(),
-            "stack_trace",    R.stackTrace(),
+            "exception_type", R.EXCEPTION().getClass().getSimpleName(),
+            "message",        R.EXCEPTION().getMessage(),
+            "origin",         R.ORIGIN(),
+            "stack_trace",    R.STACKTRACE(),
             "security",       String.valueOf(ISSECURITYEVENT),
-            "recorded_at",    R.timestamp().toString());
+            "recorded_at",    R.TIMESTAMP().toString());
     }
 
     // ── security_events ───────────────────────────────────────────────────────
@@ -103,22 +103,22 @@ public class N21Store
             {
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
                     "INSERT INTO security_events (event_type, message, origin, source_ip, recorded_at) VALUES (?,?,?,?,?)");
-                ps.setString(1, R.exception().getClass().getSimpleName());
-                ps.setString(2, R.exception().getMessage());
-                ps.setString(3, R.origin());
+                ps.setString(1, R.EXCEPTION().getClass().getSimpleName());
+                ps.setString(2, R.EXCEPTION().getMessage());
+                ps.setString(3, R.ORIGIN());
                 ps.setString(4, SOURCEIP != null ? SOURCEIP : "");
-                ps.setTimestamp(5, Timestamp.from(R.timestamp()));
+                ps.setTimestamp(5, Timestamp.from(R.TIMESTAMP()));
                 ps.executeUpdate(); ps.close();
                 return;
             }
             catch (Exception e) { fail("security_events", e); }
         }
         N21XmlFallback.append("security_events",
-            "event_type", R.exception().getClass().getSimpleName(),
-            "message",    R.exception().getMessage(),
-            "origin",     R.origin(),
+            "event_type", R.EXCEPTION().getClass().getSimpleName(),
+            "message",    R.EXCEPTION().getMessage(),
+            "origin",     R.ORIGIN(),
             "source_ip",  SOURCEIP != null ? SOURCEIP : "",
-            "recorded_at", R.timestamp().toString());
+            "recorded_at", R.TIMESTAMP().toString());
     }
 
     // ── national_ids ──────────────────────────────────────────────────────────
