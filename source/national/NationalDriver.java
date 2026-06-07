@@ -205,8 +205,6 @@ public class NationalDriver
 
             if (g.isEmpty()) continue;
 
-            CommonRails.delayableFinePrinter("\033[38;5;242m-- [ " + groupNames.get(gi) + " ]\033[0m", 21);
-
             for (String s : g) CommonRails.delayableFinePrinter(s, 21);
         }
     }
