@@ -54,7 +54,7 @@ public class Main
 
         CommonRails.printStartRecipeSpinner();
 
-            System.out.println("[ Java National Finance Engine v.28.1.1 Software Processes Starting ]");
+            System.out.println("\033[38;5;74m[ Java National Finance Engine v.28.1.1 Software Processes Starting ]\033[0m");
 
             System.out.println(". Cryptography/Cryptology AES 2.0 National Cryptolograph Enabled DSS (DeepSonaGraphoSophons) 5.0 .");
 
