@@ -13,6 +13,7 @@ public class CommonRails
 {
     protected String hash = "0xDA717018470E213F";
 
+    public static boolean USE_COLORED_OUTPUT = true;
     public CommonRails()
     {
 
@@ -252,6 +253,11 @@ public class CommonRails
             {
                 e.printStackTrace(System.err);
             }
+        }
+
+        public static void printInternationalGregorianRhetoric(Object owner, String text)
+        {
+            printBurgundyPresentation(owner, text);
         }
     }
 }
