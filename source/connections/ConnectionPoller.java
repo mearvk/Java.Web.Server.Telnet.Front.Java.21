@@ -1,7 +1,7 @@
 package connections;
 
 import commons.CommonRails;
-import commons.EnglishArithemeter;
+import commons.transition.english.EnglishArithemeter;
 import exceptions.ExceptionHandler;
 import messaging.MessageQueue;
 import server.base.BaseServer;

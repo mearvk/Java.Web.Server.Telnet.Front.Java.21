@@ -53,7 +53,7 @@ public class NationalConnections
 
         RecordedNationalConnection record = new RecordedNationalConnection();
 
-        record.socket = x.socket;
+        record.socket = x.SOCKET;
 
         record.connection_date = x.inception_date;
 
