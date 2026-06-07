@@ -35,6 +35,10 @@ public class Main
 
     protected static final String CONNECTION_STATUS_SERVER_HOST = "localhost";
 
+    protected static final Integer MODULE_INSTALLER_SERVICE_PORT = NitroWebExpress.Aspect.ModuleInstallationService.PORT;
+
+    protected static final String MODULE_INSTALLER_SERVICE_HOST = "localhost";
+
     public static void main(String...args)
     {
         Main main = new Main();
@@ -90,7 +94,7 @@ public class Main
 
             NITRO.BRIDGE.CONNECTION_STATUS = new NitroWebExpress.Aspect.ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
-            NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService("localhost");
+            NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
 

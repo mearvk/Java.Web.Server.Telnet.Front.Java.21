@@ -257,6 +257,28 @@ CREATE TABLE IF NOT EXISTS bitcoin_transactions (
     INDEX idx_btc_signatory     (final_signatory(64))
 ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- Module loader  (NitroWebExpress.Aspect.ModuleInstallationService)
+-- Logs every module action: install, unload, restart, connect, identify
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS module_loader (
+    id            BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    national_id   BIGINT UNSIGNED NOT NULL,
+    module_name   VARCHAR(255)    NOT NULL,
+    action        VARCHAR(64)     NOT NULL,
+    source_ip     VARCHAR(45)     NOT NULL DEFAULT '',
+    file_type     VARCHAR(16)     NOT NULL DEFAULT '',
+    byte_count    INT UNSIGNED    NOT NULL DEFAULT 0,
+    sig_hex       VARCHAR(64)     NOT NULL DEFAULT '',
+    admin_token   VARCHAR(128)    NOT NULL DEFAULT '',
+    result        VARCHAR(255)    NOT NULL DEFAULT '',
+    recorded_at   DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_ml_national  (national_id),
+    INDEX idx_ml_module    (module_name),
+    INDEX idx_ml_action    (action),
+    INDEX idx_ml_recorded  (recorded_at)
+) ENGINE=InnoDB;
+
 SQL
 
 echo "[N21] All tables created successfully."
