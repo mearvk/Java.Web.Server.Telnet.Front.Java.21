@@ -39,6 +39,10 @@ public class Main
 
     protected static final String MODULE_INSTALLER_SERVICE_HOST = "localhost";
 
+    protected static final Integer ASCII_CREATOR_SERVER_PORT = NitroWebExpress.Aspect.ASCIICreatorServer.PORT;
+
+    protected static final String ASCII_CREATOR_SERVER_HOST = "localhost";
+
     public static void main(String...args)
     {
         Main main = new Main();
@@ -95,6 +99,8 @@ public class Main
             NITRO.BRIDGE.CONNECTION_STATUS = new NitroWebExpress.Aspect.ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
             NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
+
+            NITRO.BRIDGE.ASCII_CREATOR_SERVER = new NitroWebExpress.Aspect.ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
 

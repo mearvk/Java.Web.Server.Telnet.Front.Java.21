@@ -258,6 +258,22 @@ CREATE TABLE IF NOT EXISTS bitcoin_transactions (
 ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- ASCII signatures  (NitroWebExpress.Aspect.ASCIICreatorServer)
+-- One unique binary ASCII signature per National ID; 1000-day TTL.
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS ascii_signatures (
+    id            BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    national_id   BIGINT UNSIGNED NOT NULL,
+    sig_id        INT UNSIGNED    NOT NULL,          -- the 0..2097151 grid ID
+    ascii_grid    TEXT            NOT NULL,          -- rendered ASCII art
+    issued_at     DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at    DATETIME        NOT NULL,          -- issued_at + 1000 days
+    UNIQUE KEY uq_national   (national_id),
+    UNIQUE KEY uq_sig_id     (sig_id),               -- no two users share the same signature
+    INDEX idx_expires        (expires_at)
+) ENGINE=InnoDB;
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- Module loader  (NitroWebExpress.Aspect.ModuleInstallationService)
 -- Logs every module action: install, unload, restart, connect, identify
 -- ─────────────────────────────────────────────────────────────────────────────

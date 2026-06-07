@@ -12,7 +12,7 @@ import java.net.Socket;
  */
 public class ShutdownHooks
 {
-    public static final int[] PORTS = { 49152, 49155, 49166, 5512, 6682 };
+    public static final int[] PORTS = { 49152, 49155, 49166, 49177, 5512, 6682 };
 
     public static void register()
     {
