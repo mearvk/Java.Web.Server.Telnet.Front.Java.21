@@ -1,5 +1,6 @@
 package exceptions;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
@@ -21,6 +22,12 @@ public class ExceptionPersistenceService
      */
     public void persist(final ExceptionRecord RECORD)
     {
+        try
+        {
+            new File(FILEPATH).getParentFile().mkdirs();
+        }
+        catch (Exception ignored) {}
+
         try (FileWriter writer = new FileWriter(FILEPATH, true))
         {
 
