@@ -93,64 +93,55 @@ public class TelnetCommunicationProxy
         {
             for(;;)
             {
-                StringBuffer buffer;
-
                 try
                 {
-                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
-
                     final TelnetCommunicationProxy proxy = this.TELNET_COMMUNICATION_PROXY;
 
+                    // ── Inbound: read one full response from the remote process ──
+                    // readLine() blocks until a line arrives or the stream closes.
                     String line = proxy.reader.readLine();
 
-                    if(line!=null)
+                    if (line == null)
                     {
-                        message.MESSAGE_BUFFER.append(line);
-
-                        while ( (line=proxy.reader.readLine()) !=null)
-                        {
-                            message.MESSAGE_BUFFER.append(line);
-                        }
-
-                        proxy.input_builder.telnet_message_queue.add(message);
+                        // Stream closed — back off and let the liveness monitor reconnect
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". TelnetProxyCommunicator >> remote stream closed, waiting for reconnect .");
+                        Thread.sleep(2000);
+                        continue;
                     }
+
+                    TelnetMessageQueue.Message inbound = new TelnetMessageQueue.Message();
+                    inbound.MESSAGE_BUFFER.append(line);
+
+                    // Drain any additional lines available without blocking indefinitely
+                    proxy.reader.mark(1);
+                    while (proxy.reader.ready() && (line = proxy.reader.readLine()) != null)
+                    {
+                        inbound.MESSAGE_BUFFER.append('\n').append(line);
+                        proxy.reader.mark(1);
+                    }
+
+                    proxy.input_builder.telnet_message_queue.add(inbound);
+
+                    // ── Outbound: re-enqueue a status ping so OUTPUT_BUILDER stays active ──
+                    TelnetMessageQueue.Message outbound = new TelnetMessageQueue.Message();
+                    outbound.PORT             = Integer.valueOf(WebExpress.REMOTE_PORT);
+                    outbound.protocol         = WebExpress.PROTOCOL;
+                    outbound.SOCKET           = null;
+                    outbound.MESSAGE_BUFFER   = new StringBuffer(); // empty — OUTPUT_BUILDER skips empties
+                    outbound.TIMESTAMP        = new java.util.Date();
+                    outbound.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
+
+                    this.TELNET_COMMUNICATION_PROXY.OUTPUT_BUILDER.TELNET_MESSAGE_QUEUE.add(outbound);
+                }
+                catch (InterruptedException ie)
+                {
+                    Thread.currentThread().interrupt();
+                    return;
                 }
                 catch (Exception e)
                 {
                     ExceptionHandler.dispatch(e);
-                    e.printStackTrace(System.err);
-                }
-                finally
-                {
-                    buffer = null;
-                }
-
-                try
-                {
-                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
-
-                    message.PORT = Integer.valueOf(WebExpress.REMOTE_PORT);
-
-                    message.protocol = WebExpress.PROTOCOL;
-
-                    message.SOCKET = null;
-
-                    message.MESSAGE_BUFFER = buffer;
-
-                    message.TIMESTAMP = new Date();
-
-                    message.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
-
-                    this.TELNET_COMMUNICATION_PROXY.OUTPUT_BUILDER.TELNET_MESSAGE_QUEUE.add(message);
-                }
-                catch (Exception e)
-                {
-                    ExceptionHandler.dispatch(e);
-                    e.printStackTrace(System.err);
-                }
-                finally
-                {
-                    CommonRails.SocketUtils.isSocketConnected(null);
                 }
             }
         }
