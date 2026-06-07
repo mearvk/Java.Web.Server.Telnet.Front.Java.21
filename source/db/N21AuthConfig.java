@@ -18,23 +18,24 @@ import java.util.stream.Collectors;
  */
 public class N21AuthConfig
 {
-    public final String  host;
-    public final int     port;
-    public final String  username;
-    public final String  password;
-    public final boolean useSudo;
+    public final String  HOST;
+
+    public final int     PORT;
+    public final String  USERNAME;
+    public final String  PASSWORD;
+    public final boolean USESUDO;
 
     private static final String AUTH_FILE = "authentication/mysql.auth.xml";
 
     private static N21AuthConfig INSTANCE = null;
 
-    private N21AuthConfig(String host, int port, String username, String password, boolean useSudo)
+    private N21AuthConfig(final String HOST, final int PORT, final String USERNAME, final String PASSWORD, final boolean USESUDO)
     {
-        this.host     = host;
-        this.port     = port;
-        this.username = username;
-        this.password = password;
-        this.useSudo  = useSudo;
+        this.HOST     = HOST;
+        this.PORT     = PORT;
+        this.USERNAME = USERNAME;
+        this.PASSWORD = PASSWORD;
+        this.USESUDO  = USESUDO;
     }
 
     public static synchronized N21AuthConfig get()
@@ -111,7 +112,7 @@ public class N21AuthConfig
                     ". systemctl status mysql — inactive / stopped .",
                     CommonRails.COLOR_YELLOW);
 
-                if (useSudo)
+                if (USESUDO)
                 {
                     new ProcessBuilder("sudo", "systemctl", "start", "mysql").inheritIO().start().waitFor();
 
@@ -135,32 +136,32 @@ public class N21AuthConfig
         // ── 2. JDBC login test using credentials from mysql.auth.xml ──────────
         try
         {
-            String url = "jdbc:mysql://" + host + ":" + port
+            String url = "jdbc:mysql://" + HOST + ":" + PORT
                 + "/N21?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=3000";
 
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            try (Connection conn = DriverManager.getConnection(url, username, password))
+            try (Connection conn = DriverManager.getConnection(url, USERNAME, PASSWORD))
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". MySQL JDBC login — user '" + username + "' authenticated successfully .",
+                    ". MySQL JDBC login — user '" + USERNAME + "' authenticated successfully .",
                     CommonRails.COLOR_LIME_GREEN);
             }
         }
         catch (Exception e)
         {
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". MySQL JDBC login — user '" + username + "' FAILED: " + e.getMessage() + " .",
+                ". MySQL JDBC login — user '" + USERNAME + "' FAILED: " + e.getMessage() + " .",
                 CommonRails.COLOR_STANDARD_RED);
         }
     }
 
-    private static String text(Element root, String tag, String def)
+    private static String text(final Element ROOT, final String TAG, final String DEF)
     {
-        var nodes = root.getElementsByTagName(tag);
-        if (nodes.getLength() == 0) return def;
+        var nodes = ROOT.getElementsByTagName(TAG);
+        if (nodes.getLength() == 0) return DEF;
         String val = nodes.item(0).getTextContent().trim();
-        return val.isEmpty() ? def : val;
+        return val.isEmpty() ? DEF : val;
     }
 
     private static N21AuthConfig fallback()

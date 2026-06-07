@@ -31,7 +31,7 @@ public class InternationalConnections
 
         public Date inception_date;
 
-        public Socket socket;
+        public Socket SOCKET;
 
         public String remote_address;
 
@@ -47,13 +47,13 @@ public class InternationalConnections
         }
     }
 
-    public synchronized void add(final Connection connection)
+    public synchronized void add(final Connection CONNECTION)
     {
-        Connection x = connection;
+        Connection x = CONNECTION;
 
         RecordedInternationalConnection record = new RecordedInternationalConnection();
 
-        record.socket = x.SOCKET;
+        record.SOCKET = x.SOCKET;
 
         record.connection_date = x.inception_date;
 
@@ -64,11 +64,11 @@ public class InternationalConnections
         this.recorded_international_connections.add(record);
     }
 
-    public synchronized void remove(final Socket socket)
+    public synchronized void remove(final Socket SOCKET)
     {
         for(int i=0; i<this.recorded_international_connections.size(); i++)
         {
-            if(this.recorded_international_connections.get(i).socket==socket)
+            if(this.recorded_international_connections.get(i).SOCKET==SOCKET)
             {
                 RecordedInternationalConnection connection = this.recorded_international_connections.get(i);
 
@@ -77,9 +77,9 @@ public class InternationalConnections
         }
     }
 
-    public synchronized void remove(RecordedInternationalConnection connection)
+    public synchronized void remove(final RecordedInternationalConnection CONNECTION)
     {
-        this.recorded_international_connections.remove(connection);
+        this.recorded_international_connections.remove(CONNECTION);
     }
 
     public synchronized Integer size()

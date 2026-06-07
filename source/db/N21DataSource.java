@@ -17,7 +17,7 @@ public class N21DataSource
     private static String buildUrl()
     {
         N21AuthConfig cfg = N21AuthConfig.get();
-        return "jdbc:mysql://" + cfg.host + ":" + cfg.port
+        return "jdbc:mysql://" + cfg.HOST + ":" + cfg.PORT
             + "/N21?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=3000";
     }
 
@@ -34,7 +34,7 @@ public class N21DataSource
         {
             N21AuthConfig cfg = N21AuthConfig.get();
             Class.forName("com.mysql.cj.jdbc.Driver");
-            CONNECTION = DriverManager.getConnection(buildUrl(), cfg.username, cfg.password);
+            CONNECTION = DriverManager.getConnection(buildUrl(), cfg.USERNAME, cfg.PASSWORD);
             CONNECTION.setAutoCommit(true);
             DB_FAILED = false;
         }

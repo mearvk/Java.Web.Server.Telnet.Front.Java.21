@@ -11,51 +11,53 @@ import java.util.List;
 
 public class TelnetMessageQueue
 {
-    protected List<Message> messages;
+    protected List<Message> MESSAGES;
 
-    protected Integer size;
+    protected Integer SIZE;
 
-    protected BaseServer base_server;
+    protected BaseServer BASE_SERVER;
 
-    public TelnetMessageQueue(Integer size)
+    public TelnetMessageQueue(final Integer SIZE)
     {
-        this.size = size;
+        this.SIZE = SIZE;
 
-        this.messages = Collections.synchronizedList(messages = new ArrayList<>(this.size));
+        this.MESSAGES = Collections.synchronizedList(MESSAGES = new ArrayList<>(this.SIZE));
     }
 
-    public TelnetMessageQueue(BaseServer base_server)
+    public TelnetMessageQueue(final BaseServer BASE_SERVER)
     {
-        this.base_server = base_server;
+        this.BASE_SERVER = BASE_SERVER;
 
-        this.messages = Collections.synchronizedList(messages = new ArrayList<>(5000));
+        this.MESSAGES = Collections.synchronizedList(MESSAGES = new ArrayList<>(5000));
     }
 
-    public synchronized void add(Message message)
+    public synchronized void add(final Message MESSAGE)
     {
-        this.messages.add(message);
+        this.MESSAGES.add(MESSAGE);
+
         this.notifyAll();
     }
 
-    public synchronized void remove(Message message)
+    public synchronized void remove(final Message MESSAGE)
     {
-        this.messages.remove(message);
+        this.MESSAGES.remove(MESSAGE);
     }
 
-    public synchronized void sleep(Message message)
+    public synchronized void sleep(final Message MESSAGE)
     {
-        this.messages.add(message);
+        this.MESSAGES.add(MESSAGE);
+
         this.notifyAll();
     }
 
     public synchronized Integer size()
     {
-        return this.messages.size();
+        return this.MESSAGES.size();
     }
 
-    public synchronized void delete(Message message)
+    public synchronized void delete(final Message MESSAGE)
     {
-        this.messages = null;
+        this.MESSAGES = null;
     }
 
     public static class Message

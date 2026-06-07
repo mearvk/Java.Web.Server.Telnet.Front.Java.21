@@ -58,16 +58,16 @@ public class SecurityExceptionHandler
         WORKER.start();
     }
 
-    public static void handle(final BodiSecurityException ex)
+    public static void handle(final BodiSecurityException EX)
     {
-        if (ex == null) return;
+        if (EX == null) return;
 
         // enqueue, try non-blocking first
-        if (!QUEUE.offer(ex))
+        if (!QUEUE.offer(EX))
         {
             try
             {
-                QUEUE.put(ex);
+                QUEUE.put(EX);
             }
             catch (InterruptedException ie)
             {
@@ -76,9 +76,9 @@ public class SecurityExceptionHandler
         }
     }
 
-    private static void process(final BodiSecurityException ex)
+    private static void process(final BodiSecurityException EX)
     {
-        if (ex == null) return;
+        if (EX == null) return;
 
         try
         {
@@ -92,11 +92,11 @@ public class SecurityExceptionHandler
 
             xml.append("<securityEvent>\n");
 
-            xml.append("  <message>").append(escapeXml(ex.getMessage())).append("</message>\n");
+            xml.append("  <message>").append(escapeXml(EX.getMessage())).append("</message>\n");
 
             xml.append("  <timestamp>").append(Instant.now().toString()).append("</timestamp>\n");
 
-            StackTraceElement st = ex.getRelatedStackCall();
+            StackTraceElement st = EX.getRelatedStackCall();
 
             if (st != null)
             {
@@ -118,7 +118,7 @@ public class SecurityExceptionHandler
         // Backend actions
         try
         {
-            final String msg = ex.getMessage();
+            final String msg = EX.getMessage();
 
             // simple escalation: if connection-related, create a lockout file and log an alert
             if (msg != null && msg.contains("//bodi/connect"))
@@ -127,7 +127,7 @@ public class SecurityExceptionHandler
                 {
                     Path alerts = SECURITY_DIR.resolve("alerts.log");
 
-                    String alert = Instant.now().toString() + " - Connection access denied at " + (ex.getRelatedStackCall()!=null ? ex.getRelatedStackCall().toString() : "unknown") + "\n";
+                    String alert = Instant.now().toString() + " - Connection access denied at " + (EX.getRelatedStackCall()!=null ? EX.getRelatedStackCall().toString() : "unknown") + "\n";
 
                     Files.writeString(alerts, alert, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
@@ -143,7 +143,7 @@ public class SecurityExceptionHandler
                     // firewall placeholder action (do NOT execute system commands here) — just log intended action
                     Path fw = SECURITY_DIR.resolve("firewall_actions.log");
 
-                    String fwAction = Instant.now().toString() + " - ACTION: block-source (placeholder) - origin=" + (ex.getRelatedStackCall()!=null ? ex.getRelatedStackCall().getClassName() : "unknown") + "\n";
+                    String fwAction = Instant.now().toString() + " - ACTION: block-source (placeholder) - origin=" + (EX.getRelatedStackCall()!=null ? EX.getRelatedStackCall().getClassName() : "unknown") + "\n";
 
                     Files.writeString(fw, fwAction, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
@@ -160,11 +160,11 @@ public class SecurityExceptionHandler
         }
     }
 
-    private static String escapeXml(final String s)
+    private static String escapeXml(final String S)
     {
-        if (s == null) return "";
+        if (S == null) return "";
 
-        return s.replace("&", "&amp;")
+        return S.replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")

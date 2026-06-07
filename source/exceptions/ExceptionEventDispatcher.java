@@ -5,31 +5,31 @@ import java.util.List;
 
 public class ExceptionEventDispatcher
 {
-    private final List<ExceptionListener> listeners;
+    private final List<ExceptionListener> LISTENERS;
     private final ExceptionPersistenceService persistenceService;
-    private final BackendSettings settings;
+    private final BackendSettings SETTINGS;
 
-    public ExceptionEventDispatcher(List<ExceptionListener> listeners, ExceptionPersistenceService persistenceService, BackendSettings settings)
+    public ExceptionEventDispatcher(final List<ExceptionListener> LISTENERS, final ExceptionPersistenceService PERSISTENCESERVICE, final BackendSettings SETTINGS)
     {
-        this.listeners = listeners.stream()
+        this.LISTENERS = LISTENERS.stream()
                 .sorted(Comparator.comparingInt(ExceptionListener::getPriority))
                 .toList();
 
-        this.persistenceService = persistenceService;
+        this.persistenceService = PERSISTENCESERVICE;
 
-        this.settings = settings;
+        this.SETTINGS = SETTINGS;
     }
 
-    public void dispatch(Exception ex)
+    public void dispatch(final Exception EX)
     {
-        ExceptionRecord record = ExceptionRecord.from(ex);
+        ExceptionRecord record = ExceptionRecord.from(EX);
 
-        for (ExceptionListener listener : listeners)
+        for (ExceptionListener listener : LISTENERS)
         {
             listener.onException(record);
         }
 
-        if (settings.isPersistExceptions())
+        if (SETTINGS.isPersistExceptions())
         {
             persistenceService.persist(record);
         }

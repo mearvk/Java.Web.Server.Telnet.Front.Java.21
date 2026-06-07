@@ -12,8 +12,8 @@ import java.sql.Statement;
  */
 public class N21Status
 {
-    public static String dbHost() { return N21AuthConfig.get().host; }
-    public static int    dbPort() { return N21AuthConfig.get().port; }
+    public static String dbHost() { return N21AuthConfig.get().HOST; }
+    public static int    dbPort() { return N21AuthConfig.get().PORT; }
 
     public record Status(
         boolean tcpReachable,   // can we open a TCP socket to host:port?
@@ -93,12 +93,12 @@ public class N21Status
 
     // ── message builder ───────────────────────────────────────────────────────
 
-    private static String buildMessage(boolean tcp, boolean ping, boolean jdbc, boolean n21)
+    private static String buildMessage(final boolean TCP, final boolean PING, final boolean JDBC, final boolean N21)
     {
-        if (!tcp && !ping)  return "MySQL unreachable at " + dbHost() + ":" + dbPort() + " — XML fallback active.";
-        if (!tcp)           return "MySQL port " + dbPort() + " closed (host pingable) — XML fallback active.";
-        if (!jdbc)          return "MySQL TCP open but JDBC auth/connect failed — XML fallback active.";
-        if (!n21)           return "MySQL connected but database N21 not found — run N21.table.builder.sh.";
+        if (!TCP && !PING)  return "MySQL unreachable at " + dbHost() + ":" + dbPort() + " — XML fallback active.";
+        if (!TCP)           return "MySQL port " + dbPort() + " closed (host pingable) — XML fallback active.";
+        if (!JDBC)          return "MySQL TCP open but JDBC auth/connect failed — XML fallback active.";
+        if (!N21)           return "MySQL connected but database N21 not found — run N21.table.builder.sh.";
         return               "MySQL connected. Database N21 ready at " + dbHost() + ":" + dbPort() + ".";
     }
 }

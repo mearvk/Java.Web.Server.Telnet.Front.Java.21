@@ -8,7 +8,7 @@ package commons.security;
 
 public class SecurityExceptionHandlerTest
 {
-    public static void main(String[] args)
+    public static void main(final String[] ARGS)
     {
         try
         {

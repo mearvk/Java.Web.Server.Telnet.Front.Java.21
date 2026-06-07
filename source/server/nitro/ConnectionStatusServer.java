@@ -26,23 +26,23 @@ public class ConnectionStatusServer extends Thread
 {
     public static final int STATUS_PORT = 49155;
 
-    private final CurrentConnections watched;
+    private final CurrentConnections WATCHED;
 
-    private final int watchedPort;
+    private final int WATCHEDPORT;
 
-    private final String host;
+    private final String HOST;
 
     private ServerSocket serverSocket;
 
     private final long startTime = System.currentTimeMillis();
 
-    public ConnectionStatusServer(String host, CurrentConnections watched, int watchedPort)
+    public ConnectionStatusServer(final String HOST, final CurrentConnections WATCHED, final int WATCHEDPORT)
     {
-        if (host == null || watched == null) throw new SecurityException("//bodi/connect");
+        if (HOST == null || WATCHED == null) throw new SecurityException("//bodi/connect");
 
-        this.host = host;
-        this.watched = watched;
-        this.watchedPort = watchedPort;
+        this.HOST = HOST;
+        this.WATCHED = WATCHED;
+        this.WATCHEDPORT = WATCHEDPORT;
 
         this.setName("ConnectionStatusServer");
         this.setDaemon(true);
@@ -53,7 +53,7 @@ public class ConnectionStatusServer extends Thread
     {
         try
         {
-            InetAddress addr = InetAddress.getByName(host);
+            InetAddress addr = InetAddress.getByName(HOST);
 
             serverSocket = new ServerSocket(STATUS_PORT, 256, addr);
 
@@ -76,13 +76,13 @@ public class ConnectionStatusServer extends Thread
         }
     }
 
-    private void respond(Socket client)
+    private void respond(final Socket CLIENT)
     {
         try
         {
-            int count = watched.size();
+            int count = WATCHED.size();
 
-            String remoteIp = client.getInetAddress().getHostAddress();
+            String remoteIp = CLIENT.getInetAddress().getHostAddress();
             String geoLine = fetchGeo(remoteIp);
             String localTime = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm a"));
 
@@ -112,10 +112,10 @@ public class ConnectionStatusServer extends Thread
                     "Current Connections: " + count     + "\n";
 
             CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". ConnectionStatusServer >> status query: port=" + watchedPort
+                    ". ConnectionStatusServer >> status query: port=" + WATCHEDPORT
                             + " connections=" + count + " .");
 
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream()));
 
             writer.write(report);
             writer.flush();
@@ -126,7 +126,7 @@ public class ConnectionStatusServer extends Thread
         {
             try
             {
-                client.close();
+                CLIENT.close();
             } catch (Exception ignored)
             {
             }
@@ -137,16 +137,16 @@ public class ConnectionStatusServer extends Thread
      * Returns "City, Country" for the given IP, or "Unknown" on failure.
      * Private/loopback IPs fall back to the server's own public IP.
      */
-    private String fetchGeo(String ip)
+    private String fetchGeo(final String IP)
     {
         try
         {
-            boolean isPrivate = ip.startsWith("127.") || ip.startsWith("10.")
-                || ip.startsWith("192.168.") || ip.equals("::1") || ip.equals("0:0:0:0:0:0:0:1");
+            boolean isPrivate = IP.startsWith("127.") || IP.startsWith("10.")
+                || IP.startsWith("192.168.") || IP.equals("::1") || IP.equals("0:0:0:0:0:0:0:1");
 
-            String target = isPrivate ? "" : ip;
+            String target = isPrivate ? "" : IP;
 
-            HttpURLConnection conn = (HttpURLConnection) new URL("http://ip-api.com/line/" + target + "?fields=city,country").openConnection();
+            HttpURLConnection conn = (HttpURLConnection) new URL("http://IP-api.com/line/" + target + "?fields=city,country").openConnection();
             conn.setConnectTimeout(2000);
             conn.setReadTimeout(2000);
 

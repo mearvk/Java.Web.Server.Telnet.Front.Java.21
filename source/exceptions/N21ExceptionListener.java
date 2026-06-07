@@ -14,21 +14,21 @@ public class N21ExceptionListener implements ExceptionListener
     public int getPriority() { return PRIORITY; }
 
     @Override
-    public void onException(ExceptionRecord record)
+    public void onException(final ExceptionRecord RECORD)
     {
-        boolean isSecurity = record.exception() instanceof SecurityException
-            || isSecurityKeyword(record.exception());
+        boolean isSecurity = RECORD.exception() instanceof SecurityException
+            || isSecurityKeyword(RECORD.exception());
 
-        N21Store.storeException(record, isSecurity);
+        N21Store.storeException(RECORD, isSecurity);
 
         if (isSecurity)
-            N21Store.storeSecurityEvent(record, null);
+            N21Store.storeSecurityEvent(RECORD, null);
     }
 
-    private boolean isSecurityKeyword(Throwable ex)
+    private boolean isSecurityKeyword(final Throwable EX)
     {
-        String name = ex.getClass().getSimpleName().toLowerCase();
-        String msg  = ex.getMessage() != null ? ex.getMessage().toLowerCase() : "";
+        String name = EX.getClass().getSimpleName().toLowerCase();
+        String msg  = EX.getMessage() != null ? EX.getMessage().toLowerCase() : "";
         return name.contains("auth") || name.contains("access") || msg.contains("unauthorized");
     }
 }

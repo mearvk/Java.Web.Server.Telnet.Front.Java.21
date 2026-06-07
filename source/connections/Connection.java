@@ -21,7 +21,7 @@ public class Connection
 {
     protected String hash = "0xDA717018470E213F";
 
-    public BaseServer server;
+    public BaseServer SERVER;
 
     public volatile Socket SOCKET;
 
@@ -48,10 +48,10 @@ public class Connection
         this.inception_date = new Date();
     }
 
-    public Connection(BaseServer server)
+    public Connection(final BaseServer SERVER)
     {
-        if(server==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
+        if(SERVER==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
-        this.server = server;
+        this.SERVER = SERVER;
     }
 }

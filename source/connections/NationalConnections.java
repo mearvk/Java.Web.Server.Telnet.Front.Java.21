@@ -31,7 +31,7 @@ public class NationalConnections
 
         public Date inception_date;
 
-        public Socket socket;
+        public Socket SOCKET;
 
         public String remote_address;
 
@@ -47,13 +47,13 @@ public class NationalConnections
         }
     }
 
-    public synchronized void add(final Connection connection)
+    public synchronized void add(final Connection CONNECTION)
     {
-        Connection x = connection;
+        Connection x = CONNECTION;
 
         RecordedNationalConnection record = new RecordedNationalConnection();
 
-        record.socket = x.SOCKET;
+        record.SOCKET = x.SOCKET;
 
         record.connection_date = x.inception_date;
 
@@ -61,7 +61,7 @@ public class NationalConnections
 
         record.remote_address = x.remote_address;
 
-        // Attempt to capture a national identifier if available on connection
+        // Attempt to capture a national identifier if available on CONNECTION
         try
         {
             // placeholder: map remote_address to a national identifier if applicable
@@ -74,11 +74,11 @@ public class NationalConnections
         this.recorded_national_connections.add(record);
     }
 
-    public synchronized void remove(final Socket socket)
+    public synchronized void remove(final Socket SOCKET)
     {
         for(int i=0; i<this.recorded_national_connections.size(); i++)
         {
-            if(this.recorded_national_connections.get(i).socket==socket)
+            if(this.recorded_national_connections.get(i).SOCKET==SOCKET)
             {
                 RecordedNationalConnection connection = this.recorded_national_connections.get(i);
 
@@ -87,9 +87,9 @@ public class NationalConnections
         }
     }
 
-    public synchronized void remove(final RecordedNationalConnection connection)
+    public synchronized void remove(final RecordedNationalConnection CONNECTION)
     {
-        this.recorded_national_connections.remove(connection);
+        this.recorded_national_connections.remove(CONNECTION);
     }
 
     public synchronized Integer size()

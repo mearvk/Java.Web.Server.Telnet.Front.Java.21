@@ -42,11 +42,11 @@ public abstract class BaseServer extends Thread
         System.out.println(this.HASH);
     }
 
-    public BaseServer(String host, Integer PORT)
+    public BaseServer(final String HOST, final Integer PORT)
     {
-        if(host==null || PORT ==null) throw new SecurityException("//bodi/connect");
+        if(HOST==null || PORT ==null) throw new SecurityException("//bodi/connect");
 
-        this.HOST = host;
+        this.HOST = HOST;
 
         this.PORT = PORT;
 
@@ -58,7 +58,7 @@ public abstract class BaseServer extends Thread
 
         try
         {
-            this.ADDRESS = InetAddress.getByName(host);
+            this.ADDRESS = InetAddress.getByName(HOST);
         }
         catch(Exception e)
         {
@@ -90,7 +90,7 @@ public abstract class BaseServer extends Thread
         }
     }
 
-    public BaseServer(Integer PORT)
+    public BaseServer(final Integer PORT)
     {
         if(PORT ==null) throw new SecurityException("//bodi/connect");
 
@@ -158,7 +158,7 @@ public abstract class BaseServer extends Thread
 
                 connection.internet_address = connection.SOCKET.getInetAddress();
 
-                connection.server = this;
+                connection.SERVER = this;
 
                 CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress BaseServer] [New remote connection established [remote-ephemeral: "+connection.remote_address+" : local: "+this.PORT +"]]");
 

@@ -27,25 +27,25 @@ public class NationalFinanceIDFeeder
      * Prompts for an existing National ID or collects all profile fields for a new user.
      * Persists to MySQL on completion.
      */
-    public static NationalFinanceID greet(Connection conn)
+    public static NationalFinanceID greet(final Connection CONN)
     {
         try
         {
-            write(conn, "");
-            write(conn, "╔══════════════════════════════════════════════════════════╗");
-            write(conn, "║          N21 NATIONAL FINANCE IDENTIFICATION SYSTEM      ║");
-            write(conn, "╚══════════════════════════════════════════════════════════╝");
-            write(conn, "");
-            write(conn, "  Welcome.  This system records your National Finance ID.");
-            write(conn, "  Your profile includes: IQ, education, social skills,");
-            write(conn, "  equipment, trust level, parents, societal beliefs,");
-            write(conn, "  social standing, and promissory note (projected value).");
-            write(conn, "");
-            write(conn, "  If you have an existing 8-digit National ID, enter it now.");
-            write(conn, "  Otherwise press ENTER to register as a new user.");
-            write(conn, "");
+            write(CONN, "");
+            write(CONN, "╔══════════════════════════════════════════════════════════╗");
+            write(CONN, "║          N21 NATIONAL FINANCE IDENTIFICATION SYSTEM      ║");
+            write(CONN, "╚══════════════════════════════════════════════════════════╝");
+            write(CONN, "");
+            write(CONN, "  Welcome.  This system records your National Finance ID.");
+            write(CONN, "  Your profile includes: IQ, education, social skills,");
+            write(CONN, "  equipment, trust level, parents, societal beliefs,");
+            write(CONN, "  social standing, and promissory note (projected value).");
+            write(CONN, "");
+            write(CONN, "  If you have an existing 8-digit National ID, enter it now.");
+            write(CONN, "  Otherwise press ENTER to register as a new user.");
+            write(CONN, "");
 
-            String firstLine = prompt(conn, "  National ID (or ENTER for new): ");
+            String firstLine = prompt(CONN, "  National ID (or ENTER for new): ");
 
             // ── returning user: look up by national ID ────────────────────────
             if (firstLine != null && firstLine.matches("\\d{8}"))
@@ -54,92 +54,92 @@ public class NationalFinanceIDFeeder
                 NationalFinanceID existing = N21Store.loadNationalFinanceID(id);
                 if (existing != null)
                 {
-                    write(conn, "");
-                    write(conn, "  National ID " + id + " recognised.  Welcome back.");
-                    write(conn, "");
-                    financePrompt(conn, existing);
+                    write(CONN, "");
+                    write(CONN, "  National ID " + id + " recognised.  Welcome back.");
+                    write(CONN, "");
+                    financePrompt(CONN, existing);
                     return existing;
                 }
-                write(conn, "  ID not found — continuing as new user.");
+                write(CONN, "  ID not found — continuing as new user.");
             }
 
             // ── new user: collect all fields ──────────────────────────────────
             NationalFinanceID nfid = new NationalFinanceID();
-            nfid.remoteAddress = conn.remote_address != null ? conn.remote_address : "";
+            nfid.remoteAddress = CONN.remote_address != null ? CONN.remote_address : "";
 
             // Assign a new National ID
             national.NationalID natId = new national.NationalID();
             nfid.nationalId = natId.EIGHT_DIGITS;
 
-            write(conn, "");
-            write(conn, "  Your assigned National ID: " + nfid.nationalId);
-            write(conn, "  Please answer the following questions.");
-            write(conn, "  (Press ENTER to skip any field.)");
-            write(conn, "");
+            write(CONN, "");
+            write(CONN, "  Your assigned National ID: " + nfid.nationalId);
+            write(CONN, "  Please answer the following questions.");
+            write(CONN, "  (Press ENTER to skip any field.)");
+            write(CONN, "");
 
             // IQ
-            write(conn, "  IQ — Your estimated intelligence quotient (e.g. 100).");
-            nfid.iq = parseInt(prompt(conn, "  IQ: "), 0);
+            write(CONN, "  IQ — Your estimated intelligence quotient (e.g. 100).");
+            nfid.iq = parseInt(prompt(CONN, "  IQ: "), 0);
 
             // Education
-            write(conn, "");
-            write(conn, "  Education — Highest level attained.");
-            write(conn, "  Options: none / high school / associates / bachelors / masters / phd / trade");
-            nfid.educationLevel = defaultStr(prompt(conn, "  Education: "), "none");
+            write(CONN, "");
+            write(CONN, "  Education — Highest level attained.");
+            write(CONN, "  Options: none / high school / associates / bachelors / masters / phd / trade");
+            nfid.educationLevel = defaultStr(prompt(CONN, "  Education: "), "none");
 
             // Social skills
-            write(conn, "");
-            write(conn, "  Social Skills — Score 0-100 measuring ability to operate in");
-            write(conn, "  group, institutional, and public settings.");
-            nfid.socialSkills = parseInt(prompt(conn, "  Social Skills (0-100): "), 0);
+            write(CONN, "");
+            write(CONN, "  Social Skills — Score 0-100 measuring ability to operate in");
+            write(CONN, "  group, institutional, and public settings.");
+            nfid.socialSkills = parseInt(prompt(CONN, "  Social Skills (0-100): "), 0);
 
             // Equipment
-            write(conn, "");
-            write(conn, "  Equipment — Comma-separated hardware/tools/resources you possess");
-            write(conn, "  (e.g. laptop,radio,vehicle).");
-            nfid.equipment = defaultStr(prompt(conn, "  Equipment: "), "");
+            write(CONN, "");
+            write(CONN, "  Equipment — Comma-separated hardware/tools/resources you possess");
+            write(CONN, "  (e.g. laptop,radio,vehicle).");
+            nfid.equipment = defaultStr(prompt(CONN, "  Equipment: "), "");
 
             // Trust level
-            write(conn, "");
-            write(conn, "  Trust Level — Your institutional trust score 0-100.");
-            write(conn, "  Higher means more trusted by the national system.");
-            nfid.trustLevel = parseInt(prompt(conn, "  Trust Level (0-100): "), 0);
+            write(CONN, "");
+            write(CONN, "  Trust Level — Your institutional trust score 0-100.");
+            write(CONN, "  Higher means more trusted by the national system.");
+            nfid.trustLevel = parseInt(prompt(CONN, "  Trust Level (0-100): "), 0);
 
             // Parents
-            write(conn, "");
-            write(conn, "  Parent One — Full name of your first parent or legal guardian.");
-            nfid.parentOne = defaultStr(prompt(conn, "  Parent One: "), "");
+            write(CONN, "");
+            write(CONN, "  Parent One — Full name of your first parent or legal guardian.");
+            nfid.parentOne = defaultStr(prompt(CONN, "  Parent One: "), "");
 
-            write(conn, "");
-            write(conn, "  Parent Two — Full name of your second parent or legal guardian.");
-            nfid.parentTwo = defaultStr(prompt(conn, "  Parent Two: "), "");
+            write(CONN, "");
+            write(CONN, "  Parent Two — Full name of your second parent or legal guardian.");
+            nfid.parentTwo = defaultStr(prompt(CONN, "  Parent Two: "), "");
 
             // Suspects (societal beliefs)
-            write(conn, "");
-            write(conn, "  Societal Beliefs — What do you probably believe in society?");
-            write(conn, "  Describe your ideological settings, affiliations, or tendencies.");
-            nfid.suspects = defaultStr(prompt(conn, "  Beliefs: "), "");
+            write(CONN, "");
+            write(CONN, "  Societal Beliefs — What do you probably believe in society?");
+            write(CONN, "  Describe your ideological settings, affiliations, or tendencies.");
+            nfid.suspects = defaultStr(prompt(CONN, "  Beliefs: "), "");
 
             // Social spotting
-            write(conn, "");
-            write(conn, "  Social Spotting — Where does society most likely place you?");
-            write(conn, "  Describe your perceived class, role, or standing.");
-            nfid.socialSpotting = defaultStr(prompt(conn, "  Social Standing: "), "");
+            write(CONN, "");
+            write(CONN, "  Social Spotting — Where does society most likely place you?");
+            write(CONN, "  Describe your perceived class, role, or standing.");
+            nfid.socialSpotting = defaultStr(prompt(CONN, "  Social Standing: "), "");
 
             // Promissory note
-            write(conn, "");
-            write(conn, "  Promissory Note — Your projected future profit value (USD).");
-            write(conn, "  Enter the monetary amount you expect to generate or receive.");
-            nfid.promissoryNote = parseDouble(prompt(conn, "  Promissory Note (USD): "), 0.0);
+            write(CONN, "");
+            write(CONN, "  Promissory Note — Your projected future profit value (USD).");
+            write(CONN, "  Enter the monetary amount you expect to generate or receive.");
+            nfid.promissoryNote = parseDouble(prompt(CONN, "  Promissory Note (USD): "), 0.0);
 
             // Persist
             N21Store.storeNationalFinanceID(nfid);
 
-            write(conn, "");
-            write(conn, "  ✔  National Finance ID " + nfid.nationalId + " registered and stored.");
-            write(conn, "");
+            write(CONN, "");
+            write(CONN, "  ✔  National Finance ID " + nfid.nationalId + " registered and stored.");
+            write(CONN, "");
 
-            financePrompt(conn, nfid);
+            financePrompt(CONN, nfid);
             return nfid;
         }
         catch (Exception e)
@@ -153,18 +153,18 @@ public class NationalFinanceIDFeeder
     // National ID Finance prompt — runs after login for both new and returning users
     // ─────────────────────────────────────────────────────────────────────────
 
-    private static void financePrompt(Connection conn, NationalFinanceID nfid)
+    private static void financePrompt(final Connection CONN, final NationalFinanceID NFID)
     {
-        write(conn, "National ID Finance");
-        write(conn, "");
+        write(CONN, "National ID Finance");
+        write(CONN, "");
 
         int line = 1;
         for (;;)
         {
-            String input = prompt(conn, line + " > ");
+            String input = prompt(CONN, line + " > ");
             if (input == null || input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) break;
 
-            write(conn, line + " < " + trade(input, nfid));
+            write(CONN, line + " < " + trade(input, NFID));
             line++;
         }
     }
@@ -173,17 +173,17 @@ public class NationalFinanceIDFeeder
      * Produce a trading-context reply for the given input.
      * Recognises basic directives; anything else echoes a market acknowledgement.
      */
-    private static String trade(String input, NationalFinanceID nfid)
+    private static String trade(final String INPUT, final NationalFinanceID NFID)
     {
-        String cmd = input.trim().toLowerCase();
+        String cmd = INPUT.trim().toLowerCase();
         if (cmd.isEmpty())                          return "Ready.";
         if (cmd.equals("help"))                     return HELP;
-        if (cmd.startsWith("buy"))                  return "BUY order noted for National ID " + nfid.nationalId + ".  Awaiting market confirmation.";
-        if (cmd.startsWith("sell"))                 return "SELL order noted for National ID " + nfid.nationalId + ".  Awaiting market confirmation.";
-        if (cmd.startsWith("balance"))              return "Promissory balance: $" + String.format("%.2f", nfid.promissoryNote) + " USD.";
-        if (cmd.startsWith("id"))                   return "National ID: " + nfid.nationalId + "  Trust: " + nfid.trustLevel + "  Education: " + nfid.educationLevel + ".";
-        if (cmd.startsWith("status"))               return "National ID " + nfid.nationalId + " active.  Trust " + nfid.trustLevel + "/100.  Promissory $" + String.format("%.2f", nfid.promissoryNote) + ".";
-        return "Received: [" + input + "]  — National ID " + nfid.nationalId + " logged.";
+        if (cmd.startsWith("buy"))                  return "BUY order noted for National ID " + NFID.nationalId + ".  Awaiting market confirmation.";
+        if (cmd.startsWith("sell"))                 return "SELL order noted for National ID " + NFID.nationalId + ".  Awaiting market confirmation.";
+        if (cmd.startsWith("balance"))              return "Promissory balance: $" + String.format("%.2f", NFID.promissoryNote) + " USD.";
+        if (cmd.startsWith("id"))                   return "National ID: " + NFID.nationalId + "  Trust: " + NFID.trustLevel + "  Education: " + NFID.educationLevel + ".";
+        if (cmd.startsWith("status"))               return "National ID " + NFID.nationalId + " active.  Trust " + NFID.trustLevel + "/100.  Promissory $" + String.format("%.2f", NFID.promissoryNote) + ".";
+        return "Received: [" + INPUT + "]  — National ID " + NFID.nationalId + " logged.";
     }
 
     private static final String HELP =
@@ -203,31 +203,31 @@ public class NationalFinanceIDFeeder
     // Helpers
     // ─────────────────────────────────────────────────────────────────────────
 
-    private static void write(Connection conn, String line)
+    private static void write(final Connection CONN, final String LINE)
     {
         try
         {
-            BufferedWriter w = conn.writer;
+            BufferedWriter w = CONN.writer;
             if (w == null) return;
-            w.write(line + "\r\n");
+            w.write(LINE + "\r\n");
             w.flush();
         }
         catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
     }
 
-    private static String prompt(Connection conn, String question)
+    private static String prompt(final Connection CONN, final String QUESTION)
     {
         try
         {
-            write(conn, question);
-            if (conn.reader == null) return "";
-            String line = conn.reader.readLine();
+            write(CONN, QUESTION);
+            if (CONN.reader == null) return "";
+            String line = CONN.reader.readLine();
             return line != null ? line.trim() : "";
         }
         catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); return ""; }
     }
 
-    private static int    parseInt(String s, int def)     { try { return Integer.parseInt(s.replaceAll("[^\\d]","")); } catch (Exception e) { return def; } }
-    private static double parseDouble(String s, double d) { try { return Double.parseDouble(s); }                       catch (Exception e) { return d;   } }
-    private static String defaultStr(String s, String d)  { return (s == null || s.isEmpty()) ? d : s; }
+    private static int    parseInt(final String S, final int DEF)     { try { return Integer.parseInt(S.replaceAll("[^\\d]","")); } catch (Exception e) { return DEF; } }
+    private static double parseDouble(final String S, final double D) { try { return Double.parseDouble(S); }                       catch (Exception e) { return D;   } }
+    private static String defaultStr(final String S, final String D)  { return (S == null || S.isEmpty()) ? D : S; }
 }

@@ -16,14 +16,14 @@ public class InputQueue
 {
     public Queue<Connection> queue = new LinkedList<>();
 
-    public void add(Connection connection)
+    public void add(final Connection CONNECTION)
     {
-        this.queue.add(connection);
+        this.queue.add(CONNECTION);
     }
 
-    public void remove(Connection connection)
+    public void remove(final Connection CONNECTION)
     {
-        this.queue.remove(connection);
+        this.queue.remove(CONNECTION);
     }
 
     public Connection peek()

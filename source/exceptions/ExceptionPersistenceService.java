@@ -7,11 +7,11 @@ import java.time.Instant;
 public class ExceptionPersistenceService
 {
 
-    private final String filePath;
+    private final String FILEPATH;
 
-    public ExceptionPersistenceService(String filePath)
+    public ExceptionPersistenceService(final String FILEPATH)
     {
-        this.filePath = filePath;
+        this.FILEPATH = FILEPATH;
     }
 
     /**
@@ -19,24 +19,24 @@ public class ExceptionPersistenceService
      * This method must NEVER throw — persistence failures
      * are logged but do not interrupt the exception pipeline.
      */
-    public void persist(ExceptionRecord record)
+    public void persist(final ExceptionRecord RECORD)
     {
-        try (FileWriter writer = new FileWriter(filePath, true))
+        try (FileWriter writer = new FileWriter(FILEPATH, true))
         {
 
             writer.write("[EXCEPTION] " + Instant.now() + System.lineSeparator() +
-                            "Type: " + record.exception().getClass().getName() + System.lineSeparator() +
-                            "Message: " + record.exception().getMessage() + System.lineSeparator() +
-                            "Origin: " + record.origin() + System.lineSeparator() +
+                            "Type: " + RECORD.exception().getClass().getName() + System.lineSeparator() +
+                            "Message: " + RECORD.exception().getMessage() + System.lineSeparator() +
+                            "Origin: " + RECORD.origin() + System.lineSeparator() +
                             "StackTrace:" + System.lineSeparator() +
-                            record.stackTrace() + System.lineSeparator() +
+                            RECORD.stackTrace() + System.lineSeparator() +
                             "------------------------------------------------------------" +
                             System.lineSeparator()
             );
 
         } catch (IOException ioEx)
         {
-            System.err.println("[PERSISTENCE-ERROR] Failed to write exception record: " + ioEx.getMessage());
+            System.err.println("[PERSISTENCE-ERROR] Failed to write exception RECORD: " + ioEx.getMessage());
         }
     }
 }

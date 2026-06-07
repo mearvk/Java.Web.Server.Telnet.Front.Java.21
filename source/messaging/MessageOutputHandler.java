@@ -23,39 +23,39 @@ public class MessageOutputHandler implements Runnable
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected Socket socket;
+    protected Socket SOCKET;
 
-    protected StringBuffer buffer;
+    protected StringBuffer BUFFER;
 
-    protected String message;
+    protected String MESSAGE;
 
 
-    public MessageOutputHandler(final Socket socket, StringBuffer buffer)
+    public MessageOutputHandler(final Socket SOCKET, final StringBuffer BUFFER)
     {
-        this.socket = socket;
+        this.SOCKET = SOCKET;
 
-        this.buffer = buffer;
+        this.BUFFER = BUFFER;
 
-        this.message = buffer == null ? "" : buffer.toString();
+        this.MESSAGE = BUFFER == null ? "" : BUFFER.toString();
     }
 
-    public MessageOutputHandler(final Socket socket, String message)
+    public MessageOutputHandler(final Socket SOCKET, final String MESSAGE)
     {
-        this.socket = socket;
+        this.SOCKET = SOCKET;
 
-        this.message = message;
+        this.MESSAGE = MESSAGE;
     }
 
     @Override
     public void run()
     {
-        if(socket!=null && CommonRails.SocketUtils.isSocketConnected(socket))
+        if(SOCKET!=null && CommonRails.SocketUtils.isSocketConnected(SOCKET))
         {
             try
             {
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(SOCKET.getOutputStream()));
 
-                writer.write(buffer == null ? "" : buffer.toString());
+                writer.write(BUFFER == null ? "" : BUFFER.toString());
 
                 writer.write(new EncryptionModule(new Random(), "", "").cipher_text);
 
@@ -64,20 +64,20 @@ public class MessageOutputHandler implements Runnable
             catch (Exception e)
             {
                 ExceptionHandler.dispatch(e);
-                if(CommonRails.SocketUtils.isSocketClosed(socket))
+                if(CommonRails.SocketUtils.isSocketClosed(SOCKET))
                 {
                     try
                     {
-                        socket.close();
+                        SOCKET.close();
                     }
                     catch (Exception xe)
                     {
                         ExceptionHandler.dispatch(xe);
-                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress MessageOutputHandler >> closes on try-exception to close ["+socket.toString()+"]");
+                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress MessageOutputHandler >> closes on try-exception to close ["+SOCKET.toString()+"]");
                     }
                     finally
                     {
-                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress MessageOutputHandler >> safe closes ["+socket.toString()+"]");
+                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress MessageOutputHandler >> safe closes ["+SOCKET.toString()+"]");
                     }
                 }
             }
