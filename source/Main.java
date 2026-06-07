@@ -3,8 +3,6 @@ import national.NationalDriver;
 import server.nitro.ConnectionStatusServer;
 import server.nitro.NitroWebExpress;
 
-import java.io.File;
-
 /**
  * @author Max Rupplin
  *
@@ -45,19 +43,7 @@ public class Main
 
     public Main()
     {
-        Runtime.getRuntime().addShutdownHook(new Thread(() ->
-        {
-            try
-            {
-                String script = new File("scripts/shutdown.sh").getAbsolutePath();
-
-                new ProcessBuilder("bash", script).inheritIO().start().waitFor();
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace(System.err);
-            }
-        }, "ShutdownHook"));
+        shutdown.ShutdownHooks.register();
 
         CommonRails.printStartRecipeSpinner();
 
