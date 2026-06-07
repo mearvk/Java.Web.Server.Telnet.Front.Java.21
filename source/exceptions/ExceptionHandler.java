@@ -17,15 +17,15 @@ public class ExceptionHandler
 
     private ExceptionHandler()
     {
-        ExceptionPersistenceService persistence = new ExceptionPersistenceService("exceptions.log");
+        ExceptionPersistenceService persistence = new ExceptionPersistenceService("/logging/exceptions.log");
 
         BackendSettings settings = new BackendSettings(
             true,
-            "exceptions.log",
+            "/logging/exceptions.log",
             List.of(
                 new SecurityExceptionHandler(),
                 new NullPointerConstructorHandler(),
-                new PersistenceListener("exceptions.log")
+                new PersistenceListener("/logging/exceptions.log")
             )
         );
 
@@ -33,7 +33,7 @@ public class ExceptionHandler
             List.of(
                 new SecurityExceptionHandler(),
                 new NullPointerConstructorHandler(),
-                new PersistenceListener("exceptions.log"),
+                new PersistenceListener("/logging/exceptions.log"),
                 new N21ExceptionListener()
             ),
             persistence,
