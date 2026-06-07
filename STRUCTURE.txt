@@ -1,0 +1,390 @@
+Java National Finance Engine v2811.1
+====================================
+Author: Max Rupplin
+Source root: source/
+
+================================================================================
+ENTRY POINT
+================================================================================
+
+Main (source/Main.java)
+  - main(String...args)         Entry point; instantiates Main.
+  - Main()                      Constructor; registers shutdown hook, starts
+                                NationalDriver, builds NitroWebExpress and wires
+                                its AES, Bitcoin, ConnectionStatus, and MySQL
+                                bridge components, then starts the bridge.
+
+================================================================================
+SERVER LAYER  (source/server/)
+================================================================================
+
+server.base.BaseServer  (abstract, extends Thread)
+  - BaseServer()                Default constructor.
+  - BaseServer(String,Integer)  Binds ServerSocket on host:port.
+  - BaseServer(Integer)         Binds ServerSocket on localhost:port.
+  - run()                       Accept loop: creates Connection, sets up
+                                reader/writer, spawns ConnectionPoller thread,
+                                adds connection to CURRENT_CONNECTIONS.
+
+server.nitro.WebExpress  (extends BaseServer)
+  - WebExpress()                No-arg constructor.
+  - WebExpress(host,port,name,  Wires TelnetInstaller, TelnetCommunicationProxy,
+    telnetEnabled)              MessageQueueSorter; starts sorter thread.
+
+server.nitro.NitroWebExpress  (extends WebExpress)
+  - NitroWebExpress(port,host,  Full constructor; calls WebExpress super,
+    threadName)                 initialises NationalID, sets static SELF ref.
+
+  NitroWebExpress.Aspect        Bridge holder for AES and Bitcoin components.
+    - Aspect(WebExpress)
+    - AES_COMPONENT             AESCompliant instance (wired from Main).
+    - BITCOIN_COMPONENT         BitcoinCompliant instance (wired from Main).
+
+  NitroWebExpress.Aspect.AESCompliant  (extends WebExpress)
+    - AESCompliant(host,port,   Starts AES WebExpress sub-server.
+      threadName,telnetEnabled)
+    - MessageOutputHandler
+        send_message(StringBuffer)
+        send_message(String)    Routes outbound AES messages.
+
+  NitroWebExpress.Aspect.BitcoinCompliant  (extends WebExpress)
+    - BitcoinCompliant(host,    Starts Bitcoin WebExpress sub-server.
+      port,threadName,enabled)
+    - MessageOutputHandler
+        send_message(StringBuffer)
+        send_message(String)    Routes outbound Bitcoin messages.
+    - MessageQueueSorter (inner Thread)
+        run()                   Drains MESSAGE_QUEUE; writes to Telnet proxy
+                                writer; cleans disconnected clients from
+                                CURRENT_CONNECTIONS.
+        addMessage(Message)
+        getMessageQueue()
+        getMessageQueueSize()
+
+server.nitro.ConnectionStatusServer  (extends Thread)
+  - ConnectionStatusServer(host, watched, watchedPort)
+  - run()                       Binds port 49155; accepts status queries.
+  - respond(Socket)             Returns plain-text report: remote IP, geo,
+                                uptime, memory, connection count. Persists
+                                geo + snapshot to N21Store.
+  - fetchGeo(String ip)         HTTP lookup via ip-api.com; returns "City, Country".
+
+================================================================================
+CONNECTIONS  (source/connections/)
+================================================================================
+
+connections.Connection
+  Fields: SOCKET, inputstream, outputstream, reader, writer, server,
+          remote_address, internet_address, inception_date,
+          IS_TELNET_EXCELSIOR_CONNECTED
+  - Connection()
+  - Connection(BaseServer)
+
+connections.CurrentConnections
+  Fields: CURRENT_CONNECTION (ArrayList<Connection>)
+  - add(Connection)
+  - remove(Socket)
+  - remove(Connection)
+  - size()
+
+connections.ConnectionPoller  (extends Thread)
+  - ConnectionPoller(BaseServer,String,Integer)
+  - ConnectionPoller(WebExpress,BaseServer)
+  - handleSession(Connection,CurrentConnections)
+                                Greeted by NationalFinanceIDFeeder; reads client
+                                input; proxies HTTP GET to tacobell.phd:80;
+                                enqueues MessageQueue.Message for audit trail.
+  - run()                       Polls CURRENT_CONNECTIONS; marks new connections
+                                IS_TELNET_EXCELSIOR_CONNECTED; spawns per-connection
+                                SessionHandler threads; cleans closed sockets.
+
+connections.RecordedConnections   Archive of all historical connections.
+connections.InternationalConnections  International connection tracking list.
+connections.NationalConnections   National connection tracking list.
+connections.GalacticConnections   Extended connection tracking list.
+connections.MexicoConnections     Regional connection tracking list.
+connections.InternationalConnections
+connections.logic.IPGeoParser     Parses IP geolocation data.
+
+================================================================================
+MESSAGING  (source/messaging/)
+================================================================================
+
+messaging.MessageQueue
+  - MessageQueue(BaseServer)
+  - clear()                     Reinitialises MESSAGES list.
+  - send(Message)               Writes MESSAGE_BUFFER to Message.SOCKET.
+  - add(Message)                Adds message; notifies waiting threads.
+  - remove(Message)
+  - size()
+  Message (inner static class)
+    Fields: CONNECTION, SOCKET, TIME_STAMP, MESSAGE_BUFFER, INTERNET_ADDRESS
+
+messaging.MessageQueueSorter  (extends Thread)
+  - MessageQueueSorter(WebExpress)
+  - run()                       Drains MESSAGE_QUEUE; forwards each message to
+                                TelnetCommunicationProxy writer; reads Telnet
+                                reply and proxies back to client socket; removes
+                                disconnected clients from CURRENT_CONNECTIONS.
+  - addMessage(Message)
+  - getMessageQueue()
+  - getMessageQueueSize()
+
+messaging.MessageOutputHandler
+  - MessageOutputHandler(Socket,StringBuffer)
+  - MessageOutputHandler(Socket,String)
+  - run()                       Writes buffer/string to socket output stream.
+
+================================================================================
+TELNET  (source/telnet/)
+================================================================================
+
+telnet.TelnetInstaller
+  - TelnetInstaller(WebExpress)  Starts OS telnet process to REMOTE_SITE:REMOTE_PORT;
+                                 wires process_builder, process, reader, writer.
+
+telnet.TelnetCommunicationProxy
+  - TelnetCommunicationProxy(WebExpress)
+                                Borrows streams from TelnetInstaller; creates
+                                TelnetProxyCommunicator, TelnetOutputBuilder,
+                                TelnetInputBuilder; starts all three.
+  TelnetProxyCommunicator (inner Thread)
+    - run()                     Reads lines from telnet process; enqueues to
+                                input_builder.telnet_message_queue; also builds
+                                outbound messages for OUTPUT_BUILDER queue.
+
+telnet.TelnetOutputBuilder  (extends Thread)
+  - TelnetOutputBuilder(TelnetCommunicationProxy)
+  - run()                       Drains TELNET_MESSAGE_QUEUE; writes each message
+                                to proxy.writer (telnet process stdin).
+
+telnet.TelnetInputBuilder  (extends Thread)
+  - TelnetInputBuilder(TelnetCommunicationProxy)
+  - run()                       Drains telnet_message_queue; writes each message
+                                to proxy.writer.
+  - setBuffer(StringBuffer)
+
+telnet.TelnetMessageQueue
+  - TelnetMessageQueue(Integer size)
+  - TelnetMessageQueue(BaseServer)
+  - add(Message)
+  - remove(Message)
+  - sleep(Message)              Alias of add; enqueues and notifies.
+  - size()
+  - delete(Message)             Nulls the messages list (destructive).
+  Message (inner static class)
+    Fields: PORT, protocol, SOCKET, TIMESTAMP, MESSAGE_BUFFER, internet_address
+
+telnet.TelnetProxyLivenessMonitor  (extends Thread, daemon)
+  - TelnetProxyLivenessMonitor(TelnetCommunicationProxy)
+  - run()                       Probes proxy every 15s when clients connected;
+                                idles every 5s when no clients; calls reconnect()
+                                on failure.
+  - isProxyAlive()              Checks process.isAlive() and flushes writer.
+  - reconnect()                 Destroys dead process; runs TelnetInstaller;
+                                rewires proxy streams.
+
+================================================================================
+NATIONAL  (source/national/)
+================================================================================
+
+national.NationalID
+  Fields: EIGHT_DIGITS, SIXTEEN_DIGITS   Randomly generated IDs.
+
+national.NationalFinanceID
+  Fields: nationalId, remoteAddress, iq, educationLevel, socialSkills,
+          equipment, trustLevel, parentOne, parentTwo, suspects,
+          socialSpotting, promissoryNote, createdAt
+
+national.NationalFinanceIDFeeder
+  - greet(Connection)           Interactive Telnet prompt: collects/loads
+                                NationalFinanceID; persists via N21Store;
+                                enters finance command loop.
+  - financePrompt(Connection,   Finance REPL: buy / sell / balance / id /
+    NationalFinanceID)          status / help / quit commands.
+  - trade(String,               Processes one REPL command; returns reply.
+    NationalFinanceID)
+
+national.NationalDriver
+  - record(String)              Records a CommonRails startup print line.
+  - printOrderedComponents()    Groups and sorts startup references by subsystem
+                                (NITRO, WEBEXPRESS, BASESERVER, TELNET, AES,
+                                BITCOIN, REMAINDER); stores grouped result.
+  - getGroupedStartupReferences()
+  - getGroupNames()
+  - clear()                     Clears recorded startup references.
+  - extractClassName(String)    Parses class name from reference string.
+  - extractTimestamp(String)    Parses epoch millis from reference string.
+
+national.NationalTellus          National telemetry/state tracking.
+
+================================================================================
+DATABASE  (source/db/)
+================================================================================
+
+db.N21DataSource
+  - get()                       Returns live java.sql.Connection (MySQL).
+  - isAvailable()               Returns current DB availability flag.
+  - markFailed()                Marks datasource as unavailable.
+
+db.N21AuthConfig
+  Fields: host, port, username, password, useSudo
+  ANSI colors: COLOR_LIME_GREEN, COLOR_YELLOW, COLOR_STANDARD_RED, COLOR_RESET
+  - get()                       Singleton; loads from authentication/mysql.auth.xml.
+  - ensureMysqlRunning()        systemctl status/start mysql; JDBC login test;
+                                prints results in colour via CommonRails.
+
+db.N21Store  (all methods static)
+  - storeConnection(Connection,int)
+  - storeGeo(String ip,city,country)
+  - storeException(ExceptionRecord,boolean)
+  - storeSecurityEvent(ExceptionRecord,String)
+  - storeNationalId(long,long)
+  - storeNationalFinanceID(NationalFinanceID)
+  - loadNationalFinanceID(long)   Returns NationalFinanceID or null.
+  - storeStatusSnapshot(int,long,long,long)
+  (all methods fall through to N21XmlFallback if MySQL is unavailable)
+
+db.N21XmlFallback
+  - append(String table, String...kvPairs)
+                                Appends a record to fallback XML file.
+  - replayFallback()            Replays buffered XML records into MySQL on startup.
+
+db.N21Status                    Tracks DB status flags and last-error state.
+
+================================================================================
+EXCEPTIONS  (source/exceptions/)
+================================================================================
+
+exceptions.ExceptionHandler
+  - dispatch(Exception)         Routes through ExceptionEventDispatcher pipeline.
+  - dispatch(Throwable)
+  - getInstance()
+
+exceptions.ExceptionEventDispatcher
+  - dispatch(Exception)         Fans out to all registered ExceptionListeners;
+                                forwards to ExceptionPersistenceService.
+
+exceptions.ExceptionPersistenceService
+  - persist(ExceptionRecord)    Writes exception to exceptions.log.
+
+exceptions.ExceptionRecord      Value type: exception, origin, stackTrace, timestamp.
+exceptions.ExceptionListener    Interface: onException(ExceptionRecord).
+exceptions.N21ExceptionListener Implementation of ExceptionListener.
+exceptions.SecurityExceptionHandler  Handles SecurityException subclass.
+exceptions.NullPointerConstructorHandler  Handles NullPointerException.
+exceptions.PersistenceListener  Writes to persistence log on exception.
+exceptions.BackendSettings      Config: enabled flag, log path, listener list.
+
+================================================================================
+COMMONS  (source/commons/)
+================================================================================
+
+commons.CommonRails
+  Fields: USE_COLORED_OUTPUT (default true)
+  - printSystemComponent(Object,Integer,String)
+                                Formats and prints a dated, hashed component
+                                log line via delayableFinePrinter.
+  - delayableFinePrinter(String,int)
+                                Animates text through a greyscale ANSI ramp,
+                                then prints the final line.
+  - registerProcess(ProcessBuilder,Process,Object)
+                                Registers an OS Process; attaches onExit
+                                listener (or watcher thread fallback).
+  - getRegisteredProcesses()
+  - size(ArrayList)
+  - _long(String,WebExpress,Integer)
+                                Sleeps then dispatches named lifecycle hooks
+                                (e.g. TelnetCommunicator Close Hook).
+  SocketUtils (inner static)
+    - isSocketConnected(Socket) Write-probe; returns true if socket is live.
+    - isSocketClosed(Socket)    Write-probe; returns true if socket is closed.
+  TelnetCallOnComplete (inner static, implements Runnable)
+    - run()                     Waits for TELNET_COMMUNICATION_PROXY process exit.
+  IranianWedding (inner static)
+    - printBurgundyPresentation(Object,String)
+                                Prints text in ANSI burgundy (code 88).
+    - printInternationalGregorianRhetoric(Object,String)
+                                Delegates to printBurgundyPresentation.
+
+commons.InternationalCommonRails
+  IranianWedding (inner static)
+    - printSystemComponent(Object)
+                                Prints the US/Iranian Wedding startup rhetoric
+                                via CommonRails.IranianWedding.
+                                printInternationalGregorianRhetoric.
+
+commons.IranianWedding           Standalone burgundy print utility.
+
+commons.transition.english.EnglishArithemeter
+  - EnglishArithemeter(int)     Converts integer to English word + numeral result.
+  result.arithemetic            English word form (e.g. "three").
+  result.numeral                Numeric string form (e.g. "3").
+
+commons.transition.english.Arithmeter
+  Base arithmetic-to-word conversion.
+
+commons.security.BodiSecurityException   Custom security exception with stack context.
+commons.security.SecurityExceptionHandler
+commons.security.SecurityExceptionHandlerTest
+
+================================================================================
+ENCRYPTION  (source/encryption/)
+================================================================================
+
+encryption.module.aes.two.EncryptionModule
+  - EncryptionModule(Random,String,String)
+                                AES 2.0 DSS 5.0 encryption module; initialised
+                                with a seeded Random and descriptor strings.
+
+================================================================================
+BITCOIN  (source/bitcoin/)
+================================================================================
+
+bitcoin.base.BitcoinBase         Core Bitcoin protocol base.
+bitcoin.module.TraderModule
+  - TraderModule(Aspect,String)  Lightweight Bitcoin trading module; wired to
+                                 the NitroWebExpress Aspect bridge.
+bitcoin.messaging.MessageOrderer  Orders outbound Bitcoin messages.
+bitcoin.time.BitcoinAmericaAndNewYorkDate   NY-timezone date for Bitcoin.
+bitcoin.time.BitcoinAmericaAndLosAngelesDate  LA-timezone date.
+bitcoin.time.BitcoinAsiaAndTokyoDate          Tokyo-timezone date.
+
+================================================================================
+SECURITY  (source/security/)
+================================================================================
+
+security.PortAdministrator       Port access administration.
+security.PortKnockKnock          Port-knock detection.
+security.PortStealth             Port stealth/hiding utility.
+
+================================================================================
+SIMULATION  (source/sim/)
+================================================================================
+
+sim.stochastic                   Stochastic simulation base.
+sim.InputQueue                   Input queue for simulation events.
+
+================================================================================
+CONFIGURATION  (source/configuration/)
+================================================================================
+
+configuration/config.xml         Runtime configuration (XML).
+
+================================================================================
+KNOWN INTEGRITY NOTES (post-commit repairs)
+================================================================================
+
+- commons.EnglishArithemeter import corrected to
+  commons.transition.english.EnglishArithemeter in ConnectionPoller.
+- messaging.MessageQueue null-check corrected from message.socket to
+  message.SOCKET.
+- ConnectionPoller.BASESERVER.SUPERCLASS corrected to BASESERVER.INHERITOR.
+- CURRENT_CONNECTIONS renamed from current_connections across all source files
+  (BaseServer, ConnectionPoller, MessageQueueSorter, NitroWebExpress,
+  TelnetProxyLivenessMonitor).
+- CommonRails.USE_COLORED_OUTPUT field added (was referenced but missing).
+- CommonRails.IranianWedding.printInternationalGregorianRhetoric restored.
+- N21AuthConfig ANSI color constants added; printSystemComponent calls corrected
+  to embed color in message string (no 4-arg overload exists).
+- configureBridge / startNitroWebExpress dead methods removed from Main.java.
