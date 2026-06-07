@@ -84,6 +84,7 @@ public class MessageQueueSorter extends Thread
                             catch (Exception e)
                             {
                                 ExceptionHandler.dispatch(e);
+
                                 CurrentConnections connections = this.WEBEXPRESS.CURRENT_CONNECTIONS;
 
                                 connections.remove(message.CONNECTION);
@@ -100,6 +101,7 @@ public class MessageQueueSorter extends Thread
                         catch (IOException e)
                         {
                             ExceptionHandler.dispatch(e);
+
                             CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter socket connection closed Socket: " + message.INTERNET_ADDRESS + " .");
                         }
 
