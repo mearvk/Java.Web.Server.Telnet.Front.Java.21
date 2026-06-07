@@ -232,6 +232,102 @@ public class N21Store
         return null;
     }
 
+    // ── ascii_signatures ──────────────────────────────────────────────────────
+
+    public static void createAsciiSignaturesTable()
+    {
+        if (!dbOk()) return;
+        try
+        {
+            java.sql.Statement st = N21DataSource.get().createStatement();
+            st.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS ascii_signatures (" +
+                "  id          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                "  national_id BIGINT UNSIGNED NOT NULL," +
+                "  sig_id      INT UNSIGNED    NOT NULL," +
+                "  ascii_grid  TEXT            NOT NULL," +
+                "  issued_at   DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                "  expires_at  DATETIME        NOT NULL," +
+                "  UNIQUE KEY uq_national (national_id)," +
+                "  UNIQUE KEY uq_sig_id   (sig_id)," +
+                "  INDEX idx_expires      (expires_at)" +
+                ") ENGINE=InnoDB");
+            st.close();
+        }
+        catch (Exception e) { fail("ascii_signatures", e); }
+    }
+
+    /** Returns the next available sig_id not yet assigned to any national ID. */
+    public static int nextAsciiSigId()
+    {
+        if (dbOk())
+        {
+            try
+            {
+                // Find lowest gap in sig_id 0..2097151 not already taken
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "SELECT sig_id FROM ascii_signatures ORDER BY sig_id ASC");
+                java.sql.ResultSet rs = ps.executeQuery();
+                int expected = 0;
+                while (rs.next())
+                {
+                    int used = rs.getInt(1);
+                    if (used != expected) break;
+                    expected++;
+                }
+                rs.close(); ps.close();
+                return expected;
+            }
+            catch (Exception e) { fail("ascii_signatures", e); }
+        }
+        return (int)(System.nanoTime() & 0x1FFFFFL); // fallback
+    }
+
+    public static void storeAsciiSignature(final long NATIONAL_ID, final int SIG_ID, final String ASCII_GRID)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "INSERT INTO ascii_signatures (national_id, sig_id, ascii_grid, expires_at) " +
+                    "VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 1000 DAY)) " +
+                    "ON DUPLICATE KEY UPDATE sig_id=VALUES(sig_id), ascii_grid=VALUES(ascii_grid), " +
+                    "issued_at=NOW(), expires_at=DATE_ADD(NOW(), INTERVAL 1000 DAY)");
+                ps.setLong(1, NATIONAL_ID);
+                ps.setInt(2, SIG_ID);
+                ps.setString(3, ASCII_GRID);
+                ps.executeUpdate(); ps.close();
+                return;
+            }
+            catch (Exception e) { fail("ascii_signatures", e); }
+        }
+        N21XmlFallback.append("ascii_signatures",
+            "national_id", String.valueOf(NATIONAL_ID),
+            "sig_id",      String.valueOf(SIG_ID),
+            "ascii_grid",  ASCII_GRID);
+    }
+
+    /** Returns {sig_id, ascii_grid, expires_at} row or null if none / expired. */
+    public static java.sql.ResultSet loadAsciiSignature(final long NATIONAL_ID)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "SELECT sig_id, ascii_grid, issued_at, expires_at FROM ascii_signatures " +
+                    "WHERE national_id=? AND expires_at > NOW()");
+                ps.setLong(1, NATIONAL_ID);
+                java.sql.ResultSet rs = ps.executeQuery();
+                if (rs.next()) return rs;
+                rs.close(); ps.close();
+            }
+            catch (Exception e) { fail("ascii_signatures", e); }
+        }
+        return null;
+    }
+
     // ── module_loader ─────────────────────────────────────────────────────────
 
     /** Ensure the module_loader table exists — called once at startup. */
