@@ -68,6 +68,8 @@ public class Main
     {
         shutdown.ShutdownHooks.register();
 
+        configuration.NweConfig.load();
+
         CommonRails.printStartRecipeSpinner();
 
             System.out.println("\033[38;5;74m[ Java National Finance Engine v.28.1.1 Software Processes Starting ]\033[0m");
@@ -102,21 +104,29 @@ public class Main
 
             NITRO.TELNET_PROXY_ENABLED = Boolean.TRUE;
 
-            NITRO.BRIDGE.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_REMOTE_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+            if (configuration.NweConfig.isEnabled("AES_COMPLIANT"))
+                NITRO.BRIDGE.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_REMOTE_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+            if (configuration.NweConfig.isEnabled("BITCOIN_COMPLIANT"))
+                NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            NITRO.BRIDGE.RSA_COMPONENT = new NitroWebExpress.Aspect.RSACompliant(RSA_WEBEXPRESS_REMOTE_HOST, RSA_WEBEXPRESS_SERVER_SOCKET, RSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+            if (configuration.NweConfig.isEnabled("RSA_COMPLIANT"))
+                NITRO.BRIDGE.RSA_COMPONENT = new NitroWebExpress.Aspect.RSACompliant(RSA_WEBEXPRESS_REMOTE_HOST, RSA_WEBEXPRESS_SERVER_SOCKET, RSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            NITRO.BRIDGE.DSA_COMPONENT = new NitroWebExpress.Aspect.DSACompliant(DSA_WEBEXPRESS_REMOTE_HOST, DSA_WEBEXPRESS_SERVER_SOCKET, DSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+            if (configuration.NweConfig.isEnabled("DSA_COMPLIANT"))
+                NITRO.BRIDGE.DSA_COMPONENT = new NitroWebExpress.Aspect.DSACompliant(DSA_WEBEXPRESS_REMOTE_HOST, DSA_WEBEXPRESS_SERVER_SOCKET, DSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            NITRO.BRIDGE.CONNECTION_STATUS = new NitroWebExpress.Aspect.ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
+            if (configuration.NweConfig.isEnabled("CONNECTION_STATUS"))
+                NITRO.BRIDGE.CONNECTION_STATUS = new NitroWebExpress.Aspect.ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
-            NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
+            if (configuration.NweConfig.isEnabled("MODULE_INSTALLATION"))
+                NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
 
-            NITRO.BRIDGE.ASCII_CREATOR_SERVER = new NitroWebExpress.Aspect.ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
+            if (configuration.NweConfig.isEnabled("ASCII_CREATOR"))
+                NITRO.BRIDGE.ASCII_CREATOR_SERVER = new NitroWebExpress.Aspect.ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
 
-            NITRO.BRIDGE.MODULE_LOADER_DAEMON = new loader.ModuleLoaderDaemon(MODULE_LOADER_DAEMON_HOST);
+            if (configuration.NweConfig.isEnabled("MODULE_LOADER_DAEMON"))
+                NITRO.BRIDGE.MODULE_LOADER_DAEMON = new loader.ModuleLoaderDaemon(MODULE_LOADER_DAEMON_HOST);
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
 

@@ -9,13 +9,37 @@
     Port privilege for MODULE_LOADER_DAEMON is established externally by the
     national port-aware program and its database.  All other ports are bound
     locally on startup.
+
+    Admin credentials below are for the initial administrator.  Change the
+    password before first production deployment.  The admin account governs:
+      - database configuration
+      - server document management
+      - module installation / unload authority
+      - inclusion decisions (enabling / disabling servers at startup)
 -->
 <nwe-config>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         INITIAL ADMINISTRATOR
+         Username and password are loaded by NweConfig at startup.
+         The admin may log in to any TCP service that accepts admin auth
+         (ModuleInstallationService, ModuleLoaderDaemon) using these credentials.
+    ════════════════════════════════════════════════════════════════════ -->
+    <admin>
+        <username>mearvk</username>
+        <password>n21admin</password>
+        <description>
+            Initial NWE administrator.  Responsible for database configuration,
+            server document management, and module authority.
+            Change the password before production deployment.
+        </description>
+    </admin>
 
     <!-- ═══════════════════════════════════════════════════════════════════
          MAIN SERVER
     ════════════════════════════════════════════════════════════════════ -->
     <server id="NITRO_WEB_EXPRESS">
+        <enabled>true</enabled>
         <name>NitroWebExpress</name>
         <thread>WEBEXPRESS_TELNET_PROXY_SERVER</thread>
         <host>localhost</host>
@@ -28,6 +52,7 @@
          ENCRYPTION SERVERS
     ════════════════════════════════════════════════════════════════════ -->
     <server id="AES_COMPLIANT">
+        <enabled>true</enabled>
         <name>AES 2.0 DSS5.0 Server</name>
         <thread>WEBEXPRESS_AES2_SERVER</thread>
         <host>localhost</host>
@@ -37,6 +62,7 @@
     </server>
 
     <server id="RSA_COMPLIANT">
+        <enabled>true</enabled>
         <name>RSA Compliant Server</name>
         <thread>WEBEXPRESS_RSA_SERVER</thread>
         <host>localhost</host>
@@ -46,6 +72,7 @@
     </server>
 
     <server id="DSA_COMPLIANT">
+        <enabled>true</enabled>
         <name>DSA Compliant Server</name>
         <thread>WEBEXPRESS_DSA_SERVER</thread>
         <host>localhost</host>
@@ -58,6 +85,7 @@
          BITCOIN SERVER
     ════════════════════════════════════════════════════════════════════ -->
     <server id="BITCOIN_COMPLIANT">
+        <enabled>true</enabled>
         <name>Bitcoin v24.0+ Masterthread</name>
         <thread>WEBEXPRESS_BITCOIN_SERVER</thread>
         <host>localhost</host>
@@ -70,6 +98,7 @@
          STATUS AND UTILITY SERVERS
     ════════════════════════════════════════════════════════════════════ -->
     <server id="CONNECTION_STATUS">
+        <enabled>true</enabled>
         <name>ConnectionStatusServer</name>
         <thread>ConnectionStatusServer</thread>
         <host>localhost</host>
@@ -78,6 +107,7 @@
     </server>
 
     <server id="ASCII_CREATOR">
+        <enabled>true</enabled>
         <name>ASCIICreatorServer</name>
         <thread>ASCIICreatorServer</thread>
         <host>localhost</host>
@@ -89,6 +119,7 @@
          MODULE SERVICES
     ════════════════════════════════════════════════════════════════════ -->
     <server id="MODULE_INSTALLATION">
+        <enabled>true</enabled>
         <name>ModuleInstallationService</name>
         <thread>ModuleInstallationService</thread>
         <host>localhost</host>
@@ -100,6 +131,7 @@
     </server>
 
     <server id="MODULE_LOADER_DAEMON">
+        <enabled>true</enabled>
         <name>ModuleLoaderDaemon</name>
         <thread>ModuleLoaderDaemon</thread>
         <host>localhost</host>
