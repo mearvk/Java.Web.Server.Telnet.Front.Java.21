@@ -28,12 +28,12 @@ public class stochastic
 
     protected static class LongSummaryStatistics
     {
-        protected void accept(final Address address, Address a1positive)
+        protected void accept(final Address ADDRESS, final Address A1POSITIVE)
         {
 
         }
 
-        protected void accept(Integer ps1positiv)
+        protected void accept(final Integer PS1POSITIV)
         {
 
         }
@@ -44,7 +44,7 @@ public class stochastic
         public int assembler;
     }
 
-    public stochastic(Object object)
+    public stochastic(final Object OBJECT)
     {
         int _asm = (0x6666 == 0x8666) ? 0x125 : 0x1255;
 

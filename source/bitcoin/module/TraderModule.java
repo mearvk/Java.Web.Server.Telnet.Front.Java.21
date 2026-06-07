@@ -20,7 +20,7 @@ public class TraderModule
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected NitroWebExpress.Aspect aspect;
+    protected NitroWebExpress.Aspect ASPECT;
 
     protected final String BITCOIN_CLI = "bitcoin-cli";
 
@@ -52,11 +52,11 @@ public class TraderModule
 
     protected MessageOrderer bitcoin_message_orderer = new MessageOrderer(this);
 
-    public TraderModule(final NitroWebExpress.Aspect aspect, final String title)
+    public TraderModule(final NitroWebExpress.Aspect ASPECT, final String TITLE)
     {
-        this.aspect = aspect;
+        this.ASPECT = ASPECT;
 
-        this.TITLE = title;
+        this.TITLE = TITLE;
 
         BitcoinAsiaAndTokyoDate JAPANDate = new BitcoinAsiaAndTokyoDate();
 
@@ -67,17 +67,17 @@ public class TraderModule
         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress Bitcoin >> opens in Japan on Date "+JAPANDate.PACIFIC_Time+" . ");
     }
 
-    public void send_message(StringBuffer buffer)
+    public void send_message(final StringBuffer BUFFER)
     {
 
     }
 
-    public void send_message(String message)
+    public void send_message(final String MESSAGE)
     {
 
     }
 
-    public void start_server_instance(final String url)
+    public void start_server_instance(final String URL)
     {
         try
         {
@@ -92,7 +92,7 @@ public class TraderModule
         }
     }
 
-    public void load_wallet(final String url) throws IOException
+    public void load_wallet(final String URL) throws IOException
     {
         try
         {
@@ -107,7 +107,7 @@ public class TraderModule
         }
     }
 
-    public String get_wallet_name(final String url)
+    public String get_wallet_name(final String URL)
     {
         try
         {
@@ -148,7 +148,7 @@ public class TraderModule
         return "-1";
     }
 
-    public void delete_wallet(final String url) throws IOException
+    public void delete_wallet(final String URL) throws IOException
     {
         final String SEPARATOR = "/";
 
@@ -164,7 +164,7 @@ public class TraderModule
 
         final String WALLET_DIR = SPECIFIC_DIR+SEPARATOR+REGTEST;
 
-        final String WALLET_NAME = this.get_wallet_name(url);
+        final String WALLET_NAME = this.get_wallet_name(URL);
 
         final String COMPLETE_URL = WALLET_DIR+SEPARATOR+WALLET_NAME;
 
@@ -181,7 +181,7 @@ public class TraderModule
         }
     }
 
-    public void unload_wallet(final String url) throws IOException
+    public void unload_wallet(final String URL) throws IOException
     {
         try
         {
@@ -196,7 +196,7 @@ public class TraderModule
         }
     }
 
-    public void rename_wallet(final String url)
+    public void rename_wallet(final String URL)
     {
         try
         {
@@ -211,7 +211,7 @@ public class TraderModule
         }
     }
 
-    public void add_new_wallet(final String url)
+    public void add_new_wallet(final String URL)
     {
         try
         {
@@ -226,7 +226,7 @@ public class TraderModule
         }
     }
 
-    public void send_local_wallet_to_remote_wallet(final String url)
+    public void send_local_wallet_to_remote_wallet(final String URL)
     {
         try
         {

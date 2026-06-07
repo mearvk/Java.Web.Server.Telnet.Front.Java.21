@@ -2,7 +2,7 @@ package server.nitro;
 
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
-import commons.transition.english.EnglishArithemeter;
+import commons.EnglishArithemeter;
 import connections.CurrentConnections;
 import exceptions.ExceptionHandler;
 import encryption.module.aes.two.EncryptionModule;
@@ -124,14 +124,14 @@ public class NitroWebExpress extends WebExpress
                 }
             }
 
-            public void print(Object owner)
+            public void print(final Object OWNER)
             {
-                CommonRails.printSystemComponent(owner, owner.hashCode(), statusMsg, oidColor);
+                CommonRails.printSystemComponent(OWNER, OWNER.hashCode(), statusMsg, oidColor);
             }
         }
 
 
-        public Aspect(WebExpress WEBEXPRESS)
+        public Aspect(final WebExpress WEBEXPRESS)
         {
             if(WEBEXPRESS==null) throw new SecurityException("//bodi/connect");
 
@@ -183,18 +183,18 @@ public class NitroWebExpress extends WebExpress
                     CommonRails.printSystemComponent(this, this.hashCode(), ". AESCompliant MessageOutputHandler starts .");
                 }
 
-                public void send_message(StringBuffer buffer)
+                public void send_message(final StringBuffer BUFFER)
                 {
-                    if(buffer==null) throw new SecurityException("//bodi/connect");
+                    if(BUFFER==null) throw new SecurityException("//bodi/connect");
 
-                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, buffer);
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, BUFFER);
 
                     message_output_handler.run();
                 }
 
-                public void send_message(String message)
+                public void send_message(final String MESSAGE)
                 {
-                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, message);
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, MESSAGE);
 
                     message_output_handler.run();
                 }
@@ -211,17 +211,17 @@ public class NitroWebExpress extends WebExpress
 
             public Socket socket;
 
-            public BitcoinCompliant(final String host, final Integer port, final String thread_name, final Boolean telnet_proxy_enabled)
+            public BitcoinCompliant(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
             {
-                if(host==null || port==null || thread_name==null || telnet_proxy_enabled==null) throw new SecurityException("//bodi/connect");
+                if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED==null) throw new SecurityException("//bodi/connect");
 
-                super(host, port, thread_name, telnet_proxy_enabled);
+                super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
 
-                this.HOST = host;
+                this.HOST = HOST;
 
-                this.PORT = port;
+                this.PORT = PORT;
 
-                this.setName(thread_name);
+                this.setName(THREAD_NAME);
             }
 
             public BitcoinCompliant()
@@ -246,20 +246,20 @@ public class NitroWebExpress extends WebExpress
                     CommonRails.printSystemComponent(this, this.hashCode(), ". BitcoinCompliant MessageOutputHandler starts .");
                 }
 
-                public void send_message(StringBuffer buffer)
+                public void send_message(final StringBuffer BUFFER)
                 {
-                    if(buffer==null) throw new SecurityException("//bodi/connect");
+                    if(BUFFER==null) throw new SecurityException("//bodi/connect");
 
-                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, buffer);
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, BUFFER);
 
                     message_output_handler.run();
                 }
 
-                public void send_message(String message)
+                public void send_message(final String MESSAGE)
                 {
-                    if(message==null) throw new SecurityException("//bodi/connect");
+                    if(MESSAGE==null) throw new SecurityException("//bodi/connect");
 
-                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, message);
+                    messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, MESSAGE);
 
                     message_output_handler.run();
                 }
@@ -271,11 +271,11 @@ public class NitroWebExpress extends WebExpress
 
                 protected WebExpress WEB_EXPRESS;
 
-                public MessageQueueSorter(WebExpress web_express)
+                public MessageQueueSorter(final WebExpress WEB_EXPRESS)
                 {
-                    if(web_express==null) throw new SecurityException("//bodi/connect");
+                    if(WEB_EXPRESS==null) throw new SecurityException("//bodi/connect");
 
-                    this.WEB_EXPRESS = web_express;
+                    this.WEB_EXPRESS = WEB_EXPRESS;
 
                     this.setName("MessageQueueSorter");
                 }
@@ -408,15 +408,15 @@ public class NitroWebExpress extends WebExpress
                     }
                 }
 
-                public synchronized void addMessage(MessageQueue.Message message)
+                public synchronized void addMessage(final MessageQueue.Message MESSAGE)
                 {
-                    if(message==null) throw new SecurityException("//bodi/connect");
+                    if(MESSAGE==null) throw new SecurityException("//bodi/connect");
 
-                    CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage message queue size before "+this.getMessageQueueSize()+" .");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage MESSAGE queue size before "+this.getMessageQueueSize()+" .");
 
-                    this.WEB_EXPRESS.MESSAGE_QUEUE.add(message);
+                    this.WEB_EXPRESS.MESSAGE_QUEUE.add(MESSAGE);
 
-                    CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage message queue size after "+this.getMessageQueueSize()+" .");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage MESSAGE queue size after "+this.getMessageQueueSize()+" .");
                 }
 
                 public synchronized MessageQueue getMessageQueue()

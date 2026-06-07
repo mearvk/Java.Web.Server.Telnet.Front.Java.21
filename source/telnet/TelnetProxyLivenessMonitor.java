@@ -23,11 +23,11 @@ public class TelnetProxyLivenessMonitor extends Thread
     private static final long IDLE_INTERVAL_MS   = 5_000L;
     private static final long RECONNECT_DELAY_MS = 3_000L;
 
-    private final TelnetCommunicationProxy proxy;
+    private final TelnetCommunicationProxy PROXY;
 
-    public TelnetProxyLivenessMonitor(TelnetCommunicationProxy proxy)
+    public TelnetProxyLivenessMonitor(final TelnetCommunicationProxy PROXY)
     {
-        this.proxy = proxy;
+        this.PROXY = PROXY;
         this.setName("TelnetProxyLivenessMonitor");
         this.setDaemon(true);
     }
@@ -41,7 +41,7 @@ public class TelnetProxyLivenessMonitor extends Thread
         {
             try
             {
-                boolean clientsConnected = proxy.web_express.CURRENT_CONNECTIONS.size() > 0;
+                boolean clientsConnected = PROXY.WEB_EXPRESS.CURRENT_CONNECTIONS.size() > 0;
 
                 if (clientsConnected)
                 {
@@ -55,7 +55,7 @@ public class TelnetProxyLivenessMonitor extends Thread
                     else
                     {
                         CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". TelnetProxyLivenessMonitor >> proxy alive, clients=" + proxy.web_express.CURRENT_CONNECTIONS.size() + " .");
+                            ". TelnetProxyLivenessMonitor >> proxy alive, clients=" + PROXY.WEB_EXPRESS.CURRENT_CONNECTIONS.size() + " .");
                     }
 
                     Thread.sleep(PROBE_INTERVAL_MS);
@@ -86,15 +86,15 @@ public class TelnetProxyLivenessMonitor extends Thread
         try
         {
             // Check the OS process is still running
-            if (proxy.process == null || !proxy.process.isAlive())
+            if (PROXY.process == null || !PROXY.process.isAlive())
             {
                 return false;
             }
 
             // Attempt a NOP flush — will throw if the pipe is broken
-            if (proxy.writer != null)
+            if (PROXY.writer != null)
             {
-                proxy.writer.flush();
+                PROXY.writer.flush();
             }
 
             return true;
@@ -117,10 +117,10 @@ public class TelnetProxyLivenessMonitor extends Thread
             // Destroy the old process if still lingering
             try
             {
-                if (proxy.process != null && proxy.process.isAlive())
+                if (PROXY.process != null && PROXY.process.isAlive())
                 {
-                    proxy.process.destroyForcibly();
-                    proxy.process.waitFor(5, TimeUnit.SECONDS);
+                    PROXY.process.destroyForcibly();
+                    PROXY.process.waitFor(5, TimeUnit.SECONDS);
                 }
             }
             catch (Exception e)
@@ -131,15 +131,15 @@ public class TelnetProxyLivenessMonitor extends Thread
             Thread.sleep(RECONNECT_DELAY_MS);
 
             // Reinstall — TelnetInstaller starts a fresh telnet process and sets up new streams
-            TelnetInstaller installer = new TelnetInstaller(proxy.web_express);
+            TelnetInstaller installer = new TelnetInstaller(PROXY.WEB_EXPRESS);
 
-            proxy.process_builder = installer.process_builder;
-            proxy.process          = installer.process;
-            proxy.writer           = installer.writer;
-            proxy.reader           = installer.reader;
+            PROXY.process_builder = installer.process_builder;
+            PROXY.process          = installer.process;
+            PROXY.writer           = installer.writer;
+            PROXY.reader           = installer.reader;
 
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". TelnetProxyLivenessMonitor >> proxy reconnected, process=" + proxy.process + " .");
+                ". TelnetProxyLivenessMonitor >> proxy reconnected, process=" + PROXY.process + " .");
         }
         catch (InterruptedException ie)
         {

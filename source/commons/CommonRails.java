@@ -22,9 +22,9 @@ public class CommonRails
     public static java.util.function.Consumer<Exception> EXCEPTION_SINK = e -> {};
 
     /** Called by ExceptionHandler once to wire itself in. */
-    public static void setExceptionSink(java.util.function.Consumer<Exception> sink)
+    public static void setExceptionSink(final java.util.function.Consumer<Exception> SINK)
     {
-        if (sink != null) EXCEPTION_SINK = sink;
+        if (SINK != null) EXCEPTION_SINK = SINK;
     }
 
     // Desired total width for the text inside the [Current: ...] brackets
@@ -89,11 +89,11 @@ public class CommonRails
     /**
      * Resolve which Object-ID color to use based on the owner's simple class name.
      */
-    private static String resolveOidColor(String simpleClassName)
+    private static String resolveOidColor(final String SIMPLECLASSNAME)
     {
-        if (simpleClassName == null) return OID_DEFAULT;
+        if (SIMPLECLASSNAME == null) return OID_DEFAULT;
 
-        String low = simpleClassName.toLowerCase();
+        String low = SIMPLECLASSNAME.toLowerCase();
 
         if (low.contains("security") || low.contains("port") || low.contains("auth"))
             return OID_SECURITY;
@@ -130,30 +130,30 @@ public class CommonRails
         return OID_DEFAULT;
     }
 
-    public static <T> Integer size(ArrayList<T> list)
+    public static <T> Integer size(final ArrayList<T> LIST)
     {
-        return list.size();
+        return LIST.size();
     }
 
     public static class International
     {
         public static class IranianWedding
         {
-            public static void printSystemComponent(Object owner)
+            public static void printSystemComponent(final Object OWNER)
             {
                 String message = ". THE US (USA) WERE FINE AND IN FACT RELATED TO AN IRANIAN WEDDING OF REMARKABLE PRECEDENT .\n";
 
-                CommonRails.IranianWedding.printInternationalGregorianRhetoric(owner, message);
+                CommonRails.IranianWedding.printInternationalGregorianRhetoric(OWNER, message);
             }
         }
 
         public static class IranWedding
         {
-            public static void printSystemComponent(Object owner)
+            public static void printSystemComponent(final Object OWNER)
             {
                 String message = ". THE US United States of America (USA) were fine and in fact related to an IRAN WEDDING of REMARKABLE PRECEDENT .\n";
 
-                CommonRails.IranianWedding.printInternationalGregorianRhetoric(owner, message);
+                CommonRails.IranianWedding.printInternationalGregorianRhetoric(OWNER, message);
             }
         }
     }
@@ -188,21 +188,21 @@ public class CommonRails
         System.out.print("\r");
     }
 
-    public static void printSystemComponent(Object object, Integer hashcode, String line)
+    public static void printSystemComponent(final Object OBJECT, final Integer HASHCODE, final String LINE)
     {
         // Build the [Current: ...] field and pad the content inside the brackets to the desired total width
-        String inner = "Current: @" + object.getClass().getSimpleName();
+        String inner = "Current: @" + OBJECT.getClass().getSimpleName();
         int innerPad = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
         String classname = "[" + inner + " ".repeat(innerPad) + "]";
 
         // classname is already the fixed-width bracketed field; use as-is
         String classnamePadded = classname;
 
-        String compliant_hashcode = String.format("%010d", hashcode);
+        String compliant_hashcode = String.format("%010d", HASHCODE);
 
-        // Color the numeric digits by object category when color output is enabled
+        // Color the numeric digits by OBJECT category when color output is enabled
         String colored_hashcode = USE_COLORED_OUTPUT
-            ? resolveOidColor(object.getClass().getSimpleName()) + compliant_hashcode + ANSI_RESET
+            ? resolveOidColor(OBJECT.getClass().getSimpleName()) + compliant_hashcode + ANSI_RESET
             : compliant_hashcode;
 
         String object_id = "-- : [Object ID: "+colored_hashcode+"]";
@@ -213,8 +213,8 @@ public class CommonRails
 
         String date = "[Date: "+formatter.format(new Date())+"]";
 
-        // Uppercase the first alphanumeric token in the provided line (the fourth printed field)
-        String lineFixed = line;
+        // Uppercase the first alphanumeric token in the provided LINE (the fourth printed field)
+        String lineFixed = LINE;
         if (lineFixed != null && lineFixed.length() > 0)
         {
             int len = lineFixed.length();
@@ -258,7 +258,7 @@ public class CommonRails
                     // localhost exact match
                     if (token2.equalsIgnoreCase("localhost")) shouldUppercaseSecond = true;
 
-                    // class/object keywords
+                    // class/OBJECT keywords
                     if (token2.equalsIgnoreCase("class") || token2.equalsIgnoreCase("classname") || token2.equalsIgnoreCase("object")) shouldUppercaseSecond = true;
 
                     // IP-like (contains dot or colon) or numeric IP pattern
@@ -276,7 +276,7 @@ public class CommonRails
             }
         }
 
-        // Uppercase specific keywords anywhere in the line when they appear as whole words
+        // Uppercase specific keywords anywhere in the LINE when they appear as whole words
         if (lineFixed != null)
         {
             String[] keywords = new String[]{"telnet", "proxy", "installer", "communicator", "webexpress", "messagequeuesorter", "messagequeuehandler", "serversocket"};
@@ -319,14 +319,14 @@ public class CommonRails
         //System.out.println("\u001B[0m");
     }
 
-    public static void delayableFinePrinter(String text, int delay)
+    public static void delayableFinePrinter(final String TEXT, final int DELAY)
     {
         // When colored output is disabled, just print a single plain line and ensure ANSI reset.
         if (!USE_COLORED_OUTPUT)
         {
             try
             {
-                System.out.println(text);
+                System.out.println(TEXT);
 
                 // ensure terminal color state is reset
                 System.out.print("\u001B[0m");
@@ -348,9 +348,9 @@ public class CommonRails
         {
             for(int color : codes)
             {
-                System.out.print("\033[38;5;" + color + "m" + text + "\r");
+                System.out.print("\033[38;5;" + color + "m" + TEXT + "\r");
 
-                // per-grade delay fixed at 20ms for a smoother, more emotive fade
+                // per-grade DELAY fixed at 20ms for a smoother, more emotive fade
                 Thread.sleep(20);
             }
 
@@ -358,7 +358,7 @@ public class CommonRails
 
             Thread.sleep(200L);
 
-            System.out.println(text);
+            System.out.println(TEXT);
 
             System.out.print("\u001B[0m");
         }
@@ -369,11 +369,11 @@ public class CommonRails
         }
     }
 
-    public static boolean isConnected(BufferedWriter writer)
+    public static boolean isConnected(final BufferedWriter WRITER)
     {
         try
         {
-            writer.flush();
+            WRITER.flush();
 
             return true;
         }
@@ -383,11 +383,11 @@ public class CommonRails
         }
     }
 
-    protected static void _long(final String orgasm, WebExpress web_express, Integer not_less_than)
+    protected static void _long(final String ORGASM, final WebExpress WEB_EXPRESS, final Integer NOT_LESS_THAN)
     {
         try
         {
-            Thread.sleep(not_less_than);
+            Thread.sleep(NOT_LESS_THAN);
         }
         catch (Exception e)
         {
@@ -395,13 +395,13 @@ public class CommonRails
             e.printStackTrace(System.err);
         }
 
-        switch (orgasm)
+        switch (ORGASM)
         {
             case "TelnetCommunicator Close Hook":
 
                 try
                 {
-                    TelnetCallOnComplete call_on_complete = new TelnetCallOnComplete(web_express);
+                    TelnetCallOnComplete call_on_complete = new TelnetCallOnComplete(WEB_EXPRESS);
 
                     call_on_complete.run();
                 }
@@ -417,11 +417,11 @@ public class CommonRails
 
     public static class SocketUtils
     {
-        public static Boolean isSocketConnected(Socket socket)
+        public static Boolean isSocketConnected(final Socket SOCKET)
         {
             try
             {
-                socket.getOutputStream().write("".getBytes());
+                SOCKET.getOutputStream().write("".getBytes());
             }
             catch (Exception e)
             {
@@ -431,11 +431,11 @@ public class CommonRails
             return true;
         }
 
-        public static Boolean isSocketClosed(Socket socket)
+        public static Boolean isSocketClosed(final Socket SOCKET)
         {
             try
             {
-                socket.getOutputStream().write("".getBytes());
+                SOCKET.getOutputStream().write("".getBytes());
             }
             catch(Exception e)
             {
@@ -454,31 +454,31 @@ public class CommonRails
      * to the process' onExit CompletableFuture (Java 9+) and print when the process exits.
      * If onExit is unavailable/throws, a watcher thread using waitFor is started as a fallback.
      */
-    public static synchronized void registerProcess(ProcessBuilder pb, Process process, Object owner)
+    public static synchronized void registerProcess(final ProcessBuilder PB, final Process PROCESS, final Object OWNER)
     {
-        if (process == null) return;
+        if (PROCESS == null) return;
 
-        REGISTERED_PROCESSES.add(process);
+        REGISTERED_PROCESSES.add(PROCESS);
 
-        Object printer = (owner == null) ? CommonRails.class : owner;
+        Object printer = (OWNER == null) ? CommonRails.class : OWNER;
 
-        // derive a process descriptor from ProcessBuilder or Process info
-        final String procDesc = getProcessDescriptor(pb, process);
+        // derive a PROCESS descriptor from ProcessBuilder or Process info
+        final String procDesc = getProcessDescriptor(PB, PROCESS);
 
         try
         {
-            CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails REGISTERED: " + process + " [proc: " + procDesc + "] . ");
+            CommonRails.printSystemComponent(printer, PROCESS.hashCode(), ". CommonRails REGISTERED: " + PROCESS + " [proc: " + procDesc + "] . ");
 
             // Attach onExit listener
-            process.onExit().thenAccept(p -> {
+            PROCESS.onExit().thenAccept(p -> {
                 try
                 {
-                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " exit=" + p.exitValue() + " [proc: " + procDesc + "] . ");
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> PROCESS closed: " + p + " exit=" + p.exitValue() + " [proc: " + procDesc + "] . ");
                 }
                 catch (Throwable t)
                 {
                     // Best-effort printing
-                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> process closed: " + p + " [proc: " + procDesc + "] . ");
+                    CommonRails.printSystemComponent(printer, p.hashCode(), ". CommonRails processExited >> PROCESS closed: " + p + " [proc: " + procDesc + "] . ");
                 }
                 finally
                 {
@@ -486,42 +486,42 @@ public class CommonRails
                 }
             });
 
-            // Supervisor: ensure process is not left running beyond timeout (2 hours)
+            // Supervisor: ensure PROCESS is not left running beyond timeout (2 hours)
             new Thread(() -> {
                 try
                 {
-                    if (!process.waitFor(2, TimeUnit.HOURS))
+                    if (!PROCESS.waitFor(2, TimeUnit.HOURS))
                     {
-                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process timeout (2 hours) exceeded; destroying: " + process + " [proc: " + procDesc + "] . ");
+                        CommonRails.printSystemComponent(printer, PROCESS.hashCode(), ". CommonRails PROCESS timeout (2 hours) exceeded; destroying: " + PROCESS + " [proc: " + procDesc + "] . ");
 
-                        try { process.destroyForcibly(); } catch (Throwable ignored) {}
+                        try { PROCESS.destroyForcibly(); } catch (Throwable ignored) {}
                     }
                 }
                 catch (Throwable t)
                 {
                     // ignore supervision errors
                 }
-            }, "CommonRails-ProcessTimeout-" + process.hashCode()).start();
+            }, "CommonRails-ProcessTimeout-" + PROCESS.hashCode()).start();
         }
         catch (Throwable t)
         {
-            // Fallback: spawn a watcher thread that waits for the process
+            // Fallback: spawn a watcher thread that waits for the PROCESS
             new Thread(() -> {
                 try
                 {
-                    boolean finished = process.waitFor(2, TimeUnit.HOURS);
+                    boolean finished = PROCESS.waitFor(2, TimeUnit.HOURS);
 
                     if (finished)
                     {
-                        int rv = process.exitValue();
+                        int rv = PROCESS.exitValue();
 
-                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails processExited(watcher) >> process closed: " + process + " exit=" + rv + " [proc: " + getProcessDescriptor(null, process) + "] . ");
+                        CommonRails.printSystemComponent(printer, PROCESS.hashCode(), ". CommonRails processExited(watcher) >> PROCESS closed: " + PROCESS + " exit=" + rv + " [proc: " + getProcessDescriptor(null, PROCESS) + "] . ");
                     }
                     else
                     {
-                        CommonRails.printSystemComponent(printer, process.hashCode(), ". CommonRails process watcher timeout (2 hours) exceeded; destroying: " + process + " [proc: " + getProcessDescriptor(null, process) + "] . ");
+                        CommonRails.printSystemComponent(printer, PROCESS.hashCode(), ". CommonRails PROCESS watcher timeout (2 hours) exceeded; destroying: " + PROCESS + " [proc: " + getProcessDescriptor(null, PROCESS) + "] . ");
 
-                        try { process.destroyForcibly(); } catch (Throwable ignored) {}
+                        try { PROCESS.destroyForcibly(); } catch (Throwable ignored) {}
                     }
                 }
                 catch (Exception e)
@@ -531,34 +531,34 @@ public class CommonRails
                 }
                 finally
                 {
-                    REGISTERED_PROCESSES.remove(process);
+                    REGISTERED_PROCESSES.remove(PROCESS);
                 }
-            }, "CommonRails-ProcessWatcher-" + process.hashCode()).start();
+            }, "CommonRails-ProcessWatcher-" + PROCESS.hashCode()).start();
         }
     }
 
     /**
      * Derive a human-friendly process descriptor for printing.
      */
-    protected static String getProcessDescriptor(ProcessBuilder pb, Process process)
+    protected static String getProcessDescriptor(final ProcessBuilder PB, final Process PROCESS)
     {
         try
         {
-            if (pb != null)
+            if (PB != null)
             {
                 try
                 {
-                    java.util.List<String> cmd = pb.command();
+                    java.util.List<String> cmd = PB.command();
                     if (cmd != null && !cmd.isEmpty()) return String.join(" ", cmd);
                 }
                 catch (Throwable ignored) {}
             }
 
-            if (process != null)
+            if (PROCESS != null)
             {
                 try
                 {
-                    ProcessHandle.Info info = process.info();
+                    ProcessHandle.Info info = PROCESS.info();
                     if (info.command().isPresent())
                     {
                         String cmd = info.command().get();
@@ -569,7 +569,7 @@ public class CommonRails
                 }
                 catch (Throwable ignored) {}
 
-                return process.toString();
+                return PROCESS.toString();
             }
         }
         catch (Throwable ignored) {}
@@ -586,7 +586,7 @@ public class CommonRails
     {
         protected WebExpress WEBEXPRESS;
 
-        public TelnetCallOnComplete(WebExpress WEBEXPRESS)
+        public TelnetCallOnComplete(final WebExpress WEBEXPRESS)
         {
             this.WEBEXPRESS = WEBEXPRESS;
         }
@@ -637,11 +637,11 @@ public class CommonRails
          * Print a single-line burgundy presentation. Respects USE_COLORED_OUTPUT flag;
          * when disabled, prints plain text without ANSI codes.
          */
-        public static void printInternationalGregorianRhetoric(Object owner, String text)
+        public static void printInternationalGregorianRhetoric(final Object OWNER, final String TEXT)
         {
-            if (text == null) return;
+            if (TEXT == null) return;
 
-            String output = text;
+            String output = TEXT;
 
             try
             {
@@ -656,7 +656,7 @@ public class CommonRails
                     System.out.println(output);
                 }
 
-                //CommonRails.printSystemComponent(owner == null ? CommonRails.class : owner, (owner==null?CommonRails.class.hashCode():owner.hashCode()), ". IranianWedding presentation printed .");
+                //CommonRails.printSystemComponent(OWNER == null ? CommonRails.class : OWNER, (OWNER==null?CommonRails.class.hashCode():OWNER.hashCode()), ". IranianWedding presentation printed .");
             }
             catch (Exception e)
             {
@@ -667,34 +667,34 @@ public class CommonRails
     }
 
     /** Print a line in lime green (ANSI 118) — used for positive status reports. */
-    public static void printLimeGreen(String text)
+    public static void printLimeGreen(final String TEXT)
     {
-        System.out.println("\033[38;5;118m" + text + ANSI_RESET);
+        System.out.println("\033[38;5;118m" + TEXT + ANSI_RESET);
     }
 
     /** Print a line in deep red (ANSI 160) — used for failure/warning status reports. */
-    public static void printDeepRed(String text)
+    public static void printDeepRed(final String TEXT)
     {
-        System.out.println(ANSI_DEEP_RED + text + ANSI_RESET);
+        System.out.println(ANSI_DEEP_RED + TEXT + ANSI_RESET);
     }
 
     /**
      * Same as printSystemComponent but uses an explicit ANSI color for the Object ID digits.
      * Delegates to the standard method after patching the OID color — identical animation, no blink.
      */
-    public static void printSystemComponent(Object object, Integer hashcode, String line, String oidColor)
+    public static void printSystemComponent(final Object OBJECT, final Integer HASHCODE, final String LINE, final String OIDCOLOR)
     {
-        // Temporarily override resolveOidColor by building the reference manually only for the hashcode
-        // then delegating the full pipeline to the standard method via a thin wrapper object
+        // Temporarily override resolveOidColor by building the reference manually only for the HASHCODE
+        // then delegating the full pipeline to the standard method via a thin wrapper OBJECT
         // whose class name maps to a known color — instead, we patch at the reference level directly.
 
-        String inner     = "Current: @" + object.getClass().getSimpleName();
+        String inner     = "Current: @" + OBJECT.getClass().getSimpleName();
         int    innerPad  = Math.max(0, CLASSNAME_TOTAL_WIDTH - inner.length());
         String classname = "[" + inner + " ".repeat(innerPad) + "]";
 
-        String compliant_hashcode = String.format("%010d", hashcode);
+        String compliant_hashcode = String.format("%010d", HASHCODE);
         String colored_hashcode   = USE_COLORED_OUTPUT
-            ? oidColor + compliant_hashcode + ANSI_RESET
+            ? OIDCOLOR + compliant_hashcode + ANSI_RESET
             : compliant_hashcode;
 
         String object_id = "-- : [Object ID: " + colored_hashcode + "]";
@@ -704,7 +704,7 @@ public class CommonRails
         String date = "[Date: " + formatter.format(new Date()) + "]";
 
         // Run the same token-uppercasing and keyword pipeline as the standard method
-        String lineFixed = line;
+        String lineFixed = LINE;
         if (lineFixed != null && !lineFixed.isEmpty())
         {
             int len = lineFixed.length(), i = 0;

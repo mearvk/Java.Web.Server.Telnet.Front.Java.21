@@ -21,7 +21,7 @@ public class BitcoinBase
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected NitroWebExpress.Aspect aspect;
+    protected NitroWebExpress.Aspect ASPECT;
 
     protected final String BITCOIN_CLI = "bitcoin-cli";
 
@@ -51,9 +51,9 @@ public class BitcoinBase
 
     protected MessageOrderer bitcoin_message_orderer = new MessageOrderer(this);
 
-    public BitcoinBase(NitroWebExpress.Aspect aspect)
+    public BitcoinBase(final NitroWebExpress.Aspect ASPECT)
     {
-        this.aspect = aspect;
+        this.ASPECT = ASPECT;
 
         BitcoinAsiaAndTokyoDate JAPANDate = new BitcoinAsiaAndTokyoDate();
 
@@ -64,17 +64,17 @@ public class BitcoinBase
         CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress Bitcoin >> opens in Japan on Date "+JAPANDate.PACIFIC_Time+" . ");
     }
 
-    public void send_message(StringBuffer buffer)
+    public void send_message(final StringBuffer BUFFER)
     {
 
     }
 
-    public void send_message(String message)
+    public void send_message(final String MESSAGE)
     {
 
     }
 
-    public void start_server_instance(final String url)
+    public void start_server_instance(final String URL)
     {
         try
         {
@@ -89,7 +89,7 @@ public class BitcoinBase
         }
     }
 
-    public void load_wallet(final String url) throws IOException
+    public void load_wallet(final String URL) throws IOException
     {
         try
         {
@@ -104,7 +104,7 @@ public class BitcoinBase
         }
     }
 
-    public String get_wallet_name(final String url)
+    public String get_wallet_name(final String URL)
     {
         try
         {
@@ -145,7 +145,7 @@ public class BitcoinBase
         return "-1";
     }
 
-    public void delete_wallet(final String url) throws IOException
+    public void delete_wallet(final String URL) throws IOException
     {
         final String SEPARATOR = "/";
 
@@ -161,7 +161,7 @@ public class BitcoinBase
 
         final String WALLET_DIR = SPECIFIC_DIR+SEPARATOR+REGTEST;
 
-        final String WALLET_NAME = this.get_wallet_name(url);
+        final String WALLET_NAME = this.get_wallet_name(URL);
 
         final String COMPLETE_URL = WALLET_DIR+SEPARATOR+WALLET_NAME;
 
@@ -178,7 +178,7 @@ public class BitcoinBase
         }
     }
 
-    public void unload_wallet(final String url) throws IOException
+    public void unload_wallet(final String URL) throws IOException
     {
         try
         {
@@ -193,7 +193,7 @@ public class BitcoinBase
         }
     }
 
-    public void rename_wallet(final String url)
+    public void rename_wallet(final String URL)
     {
         try
         {
@@ -208,7 +208,7 @@ public class BitcoinBase
         }
     }
 
-    public void add_new_wallet(final String url)
+    public void add_new_wallet(final String URL)
     {
         try
         {
@@ -223,7 +223,7 @@ public class BitcoinBase
         }
     }
 
-    public void send_local_wallet_to_remote_wallet(final String url)
+    public void send_local_wallet_to_remote_wallet(final String URL)
     {
         try
         {

@@ -32,11 +32,11 @@ public class NationalTellus
 
     public static class OriginRecord
     {
-        public final Integer id;
+        public final Integer ID;
 
         public String organizationalHierarchy;
 
-        public String location;
+        public String LOCATION;
 
         public Date startDate;
 
@@ -55,43 +55,43 @@ public class NationalTellus
          */
         public double radiusOfAdvice = 0.0;
 
-        public OriginRecord(final Integer id)
+        public OriginRecord(final Integer ID)
         {
-            this.id = id;
+            this.ID = ID;
         }
 
         @Override
         public String toString()
         {
-            return "OriginRecord{id=" + id + ", org=" + organizationalHierarchy + ", loc=" + location + ", start=" + startDate + "}";
+            return "OriginRecord{id=" + ID + ", org=" + organizationalHierarchy + ", loc=" + LOCATION + ", start=" + startDate + "}";
         }
     }
 
-    public synchronized OriginRecord createOrigin(final Integer id)
+    public synchronized OriginRecord createOrigin(final Integer ID)
     {
-        OriginRecord r = new OriginRecord(id);
+        OriginRecord r = new OriginRecord(ID);
 
         this.origins.add(r);
 
         return r;
     }
 
-    public synchronized void addOrigin(final OriginRecord record)
+    public synchronized void addOrigin(final OriginRecord RECORD)
     {
-        if (record == null) return;
+        if (RECORD == null) return;
 
-        this.origins.add(record);
+        this.origins.add(RECORD);
     }
 
-    public synchronized List<OriginRecord> findByOrganization(final String org)
+    public synchronized List<OriginRecord> findByOrganization(final String ORG)
     {
-        if (org == null) return new ArrayList<OriginRecord>();
+        if (ORG == null) return new ArrayList<OriginRecord>();
 
         List<OriginRecord> result = new ArrayList<OriginRecord>();
 
         for (OriginRecord r : this.origins)
         {
-            if (r.organizationalHierarchy != null && r.organizationalHierarchy.equals(org))
+            if (r.organizationalHierarchy != null && r.organizationalHierarchy.equals(ORG))
             {
                 result.add(r);
             }
@@ -100,15 +100,15 @@ public class NationalTellus
         return result;
     }
 
-    public synchronized List<OriginRecord> findByLocation(final String location)
+    public synchronized List<OriginRecord> findByLocation(final String LOCATION)
     {
-        if (location == null) return new ArrayList<OriginRecord>();
+        if (LOCATION == null) return new ArrayList<OriginRecord>();
 
         List<OriginRecord> result = new ArrayList<OriginRecord>();
 
         for (OriginRecord r : this.origins)
         {
-            if (r.location != null && r.location.equals(location))
+            if (r.LOCATION != null && r.LOCATION.equals(LOCATION))
             {
                 result.add(r);
             }

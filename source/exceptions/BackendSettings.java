@@ -6,15 +6,15 @@ public class BackendSettings
 {
     private final boolean persistExceptions;
     private final String persistenceFilePath;
-    private final List<ExceptionListener> listeners;
+    private final List<ExceptionListener> LISTENERS;
 
-    public BackendSettings(boolean persistExceptions, String persistenceFilePath, List<ExceptionListener> listeners)
+    public BackendSettings(final boolean PERSISTEXCEPTIONS, final String PERSISTENCEFILEPATH, final List<ExceptionListener> LISTENERS)
     {
-        this.persistExceptions = persistExceptions;
+        this.persistExceptions = PERSISTEXCEPTIONS;
 
-        this.persistenceFilePath = persistenceFilePath;
+        this.persistenceFilePath = PERSISTENCEFILEPATH;
 
-        this.listeners = List.copyOf(listeners);
+        this.LISTENERS = List.copyOf(LISTENERS);
     }
 
     public boolean isPersistExceptions()
@@ -29,7 +29,7 @@ public class BackendSettings
 
     public List<ExceptionListener> getListeners()
     {
-        return listeners;
+        return LISTENERS;
     }
 }
 

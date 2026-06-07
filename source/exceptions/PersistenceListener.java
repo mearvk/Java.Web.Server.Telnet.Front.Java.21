@@ -10,9 +10,9 @@ public class PersistenceListener implements ExceptionListener
 
     private final String filePath;
 
-    public PersistenceListener(String filePath)
+    public PersistenceListener(final String FILEPATH)
     {
-        this.filePath = filePath;
+        this.filePath = FILEPATH;
     }
 
     @Override
@@ -22,20 +22,20 @@ public class PersistenceListener implements ExceptionListener
     }
 
     @Override
-    public void onException(ExceptionRecord record)
+    public void onException(final ExceptionRecord RECORD)
     {
-        writeRecordToFile(record);
+        writeRecordToFile(RECORD);
     }
 
-    private void writeRecordToFile(ExceptionRecord record)
+    private void writeRecordToFile(final ExceptionRecord RECORD)
     {
         try (FileWriter writer = new FileWriter(filePath, true))
         {
-            writer.write("[EXCEPTION] " + Instant.now() + System.lineSeparator() + "Type: " + record.exception().getClass().getName() + System.lineSeparator() + "Message: " + record.exception().getMessage() + System.lineSeparator() + "Origin: " + record.origin() + System.lineSeparator() + "StackTrace: " + record.stackTrace() + System.lineSeparator() + "------------------------------------------------------------" + System.lineSeparator());
+            writer.write("[EXCEPTION] " + Instant.now() + System.lineSeparator() + "Type: " + RECORD.exception().getClass().getName() + System.lineSeparator() + "Message: " + RECORD.exception().getMessage() + System.lineSeparator() + "Origin: " + RECORD.origin() + System.lineSeparator() + "StackTrace: " + RECORD.stackTrace() + System.lineSeparator() + "------------------------------------------------------------" + System.lineSeparator());
         }
         catch (IOException ioEx)
         {
-            System.err.println("[PERSISTENCE-ERROR] Failed to write exception record: " + ioEx.getMessage());
+            System.err.println("[PERSISTENCE-ERROR] Failed to write exception RECORD: " + ioEx.getMessage());
         }
     }
 }

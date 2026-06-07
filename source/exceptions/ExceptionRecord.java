@@ -11,25 +11,25 @@ public record ExceptionRecord(
         Instant timestamp
 ) {
 
-    public static ExceptionRecord from(Throwable ex) {
+    public static ExceptionRecord from(final Throwable EX) {
         return new ExceptionRecord(
-                ex,
-                resolveOrigin(ex),
-                resolveStackTrace(ex),
+                EX,
+                resolveOrigin(EX),
+                resolveStackTrace(EX),
                 Instant.now()
         );
     }
 
-    private static String resolveOrigin(Throwable ex) {
-        StackTraceElement[] trace = ex.getStackTrace();
+    private static String resolveOrigin(final Throwable EX) {
+        StackTraceElement[] trace = EX.getStackTrace();
         if (trace.length == 0) {
             return "unknown";
         }
         return trace[0].toString();
     }
 
-    private static String resolveStackTrace(Throwable ex) {
-        return Arrays.stream(ex.getStackTrace())
+    private static String resolveStackTrace(final Throwable EX) {
+        return Arrays.stream(EX.getStackTrace())
                 .map(StackTraceElement::toString)
                 .collect(Collectors.joining(System.lineSeparator()));
     }

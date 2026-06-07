@@ -15,12 +15,12 @@ public class N21Store
 {
     // ── connections ───────────────────────────────────────────────────────────
 
-    public static void storeConnection(Connection c, int serverPort)
+    public static void storeConnection(final Connection C, final int SERVERPORT)
     {
-        String remoteAddr  = c.remote_address != null ? c.remote_address : "";
-        String inetAddr    = c.internet_address != null ? c.internet_address.getHostAddress() : "";
-        String telnet      = Boolean.TRUE.equals(c.IS_TELNET_EXCELSIOR_CONNECTED) ? "1" : "0";
-        String inception   = c.inception_date != null ? c.inception_date.toString() : "";
+        String remoteAddr  = C.remote_address != null ? C.remote_address : "";
+        String inetAddr    = C.internet_address != null ? C.internet_address.getHostAddress() : "";
+        String telnet      = Boolean.TRUE.equals(C.IS_TELNET_EXCELSIOR_CONNECTED) ? "1" : "0";
+        String inception   = C.inception_date != null ? C.inception_date.toString() : "";
 
         if (dbOk())
         {
@@ -30,9 +30,9 @@ public class N21Store
                     "INSERT INTO connections (remote_address, internet_address, server_port, is_telnet_excelsior_connected, inception_date) VALUES (?,?,?,?,?)");
                 ps.setString(1, remoteAddr);
                 ps.setString(2, inetAddr);
-                ps.setInt(3, serverPort);
-                ps.setBoolean(4, Boolean.TRUE.equals(c.IS_TELNET_EXCELSIOR_CONNECTED));
-                ps.setTimestamp(5, c.inception_date != null ? new Timestamp(c.inception_date.getTime()) : new Timestamp(System.currentTimeMillis()));
+                ps.setInt(3, SERVERPORT);
+                ps.setBoolean(4, Boolean.TRUE.equals(C.IS_TELNET_EXCELSIOR_CONNECTED));
+                ps.setTimestamp(5, C.inception_date != null ? new Timestamp(C.inception_date.getTime()) : new Timestamp(System.currentTimeMillis()));
                 ps.executeUpdate(); ps.close();
                 return;
             }
@@ -40,32 +40,32 @@ public class N21Store
         }
         N21XmlFallback.append("connections",
             "remote_address", remoteAddr, "internet_address", inetAddr,
-            "server_port", String.valueOf(serverPort), "telnet", telnet, "inception_date", inception);
+            "server_port", String.valueOf(SERVERPORT), "telnet", telnet, "inception_date", inception);
     }
 
     // ── geo_locations ─────────────────────────────────────────────────────────
 
-    public static void storeGeo(String ip, String city, String country)
+    public static void storeGeo(final String IP, final String CITY, final String COUNTRY)
     {
         if (dbOk())
         {
             try
             {
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
-                    "INSERT INTO geo_locations (ip_address, city, country) VALUES (?,?,?) " +
-                    "ON DUPLICATE KEY UPDATE city=VALUES(city), country=VALUES(country), resolved_at=NOW()");
-                ps.setString(1, ip); ps.setString(2, city != null ? city : ""); ps.setString(3, country != null ? country : "");
+                    "INSERT INTO geo_locations (ip_address, CITY, COUNTRY) VALUES (?,?,?) " +
+                    "ON DUPLICATE KEY UPDATE CITY=VALUES(CITY), COUNTRY=VALUES(COUNTRY), resolved_at=NOW()");
+                ps.setString(1, IP); ps.setString(2, CITY != null ? CITY : ""); ps.setString(3, COUNTRY != null ? COUNTRY : "");
                 ps.executeUpdate(); ps.close();
                 return;
             }
             catch (Exception e) { fail("geo_locations", e); }
         }
-        N21XmlFallback.append("geo_locations", "ip_address", ip, "city", city, "country", country);
+        N21XmlFallback.append("geo_locations", "ip_address", IP, "city", CITY, "country", COUNTRY);
     }
 
     // ── exceptions ────────────────────────────────────────────────────────────
 
-    public static void storeException(ExceptionRecord r, boolean isSecurityEvent)
+    public static void storeException(final ExceptionRecord R, final boolean ISSECURITYEVENT)
     {
         if (dbOk())
         {
@@ -73,29 +73,29 @@ public class N21Store
             {
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
                     "INSERT INTO exceptions (exception_type, message, origin, stack_trace, is_security_event, recorded_at) VALUES (?,?,?,?,?,?)");
-                ps.setString(1, r.exception().getClass().getSimpleName());
-                ps.setString(2, r.exception().getMessage());
-                ps.setString(3, r.origin());
-                ps.setString(4, r.stackTrace());
-                ps.setBoolean(5, isSecurityEvent);
-                ps.setTimestamp(6, Timestamp.from(r.timestamp()));
+                ps.setString(1, R.exception().getClass().getSimpleName());
+                ps.setString(2, R.exception().getMessage());
+                ps.setString(3, R.origin());
+                ps.setString(4, R.stackTrace());
+                ps.setBoolean(5, ISSECURITYEVENT);
+                ps.setTimestamp(6, Timestamp.from(R.timestamp()));
                 ps.executeUpdate(); ps.close();
                 return;
             }
             catch (Exception e) { fail("exceptions", e); }
         }
         N21XmlFallback.append("exceptions",
-            "exception_type", r.exception().getClass().getSimpleName(),
-            "message",        r.exception().getMessage(),
-            "origin",         r.origin(),
-            "stack_trace",    r.stackTrace(),
-            "security",       String.valueOf(isSecurityEvent),
-            "recorded_at",    r.timestamp().toString());
+            "exception_type", R.exception().getClass().getSimpleName(),
+            "message",        R.exception().getMessage(),
+            "origin",         R.origin(),
+            "stack_trace",    R.stackTrace(),
+            "security",       String.valueOf(ISSECURITYEVENT),
+            "recorded_at",    R.timestamp().toString());
     }
 
     // ── security_events ───────────────────────────────────────────────────────
 
-    public static void storeSecurityEvent(ExceptionRecord r, String sourceIp)
+    public static void storeSecurityEvent(final ExceptionRecord R, final String SOURCEIP)
     {
         if (dbOk())
         {
@@ -103,27 +103,27 @@ public class N21Store
             {
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
                     "INSERT INTO security_events (event_type, message, origin, source_ip, recorded_at) VALUES (?,?,?,?,?)");
-                ps.setString(1, r.exception().getClass().getSimpleName());
-                ps.setString(2, r.exception().getMessage());
-                ps.setString(3, r.origin());
-                ps.setString(4, sourceIp != null ? sourceIp : "");
-                ps.setTimestamp(5, Timestamp.from(r.timestamp()));
+                ps.setString(1, R.exception().getClass().getSimpleName());
+                ps.setString(2, R.exception().getMessage());
+                ps.setString(3, R.origin());
+                ps.setString(4, SOURCEIP != null ? SOURCEIP : "");
+                ps.setTimestamp(5, Timestamp.from(R.timestamp()));
                 ps.executeUpdate(); ps.close();
                 return;
             }
             catch (Exception e) { fail("security_events", e); }
         }
         N21XmlFallback.append("security_events",
-            "event_type", r.exception().getClass().getSimpleName(),
-            "message",    r.exception().getMessage(),
-            "origin",     r.origin(),
-            "source_ip",  sourceIp != null ? sourceIp : "",
-            "recorded_at", r.timestamp().toString());
+            "event_type", R.exception().getClass().getSimpleName(),
+            "message",    R.exception().getMessage(),
+            "origin",     R.origin(),
+            "source_ip",  SOURCEIP != null ? SOURCEIP : "",
+            "recorded_at", R.timestamp().toString());
     }
 
     // ── national_ids ──────────────────────────────────────────────────────────
 
-    public static void storeNationalId(long eightDigit, long sixteenDigit)
+    public static void storeNationalId(final long EIGHTDIGIT, final long SIXTEENDIGIT)
     {
         if (dbOk())
         {
@@ -131,20 +131,20 @@ public class N21Store
             {
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
                     "INSERT IGNORE INTO national_ids (eight_digit_id, sixteen_digit_key) VALUES (?,?)");
-                ps.setLong(1, eightDigit); ps.setLong(2, sixteenDigit);
+                ps.setLong(1, EIGHTDIGIT); ps.setLong(2, SIXTEENDIGIT);
                 ps.executeUpdate(); ps.close();
                 return;
             }
             catch (Exception e) { fail("national_ids", e); }
         }
         N21XmlFallback.append("national_ids",
-            "eight_digit_id",    String.valueOf(eightDigit),
-            "sixteen_digit_key", String.valueOf(sixteenDigit));
+            "eight_digit_id",    String.valueOf(EIGHTDIGIT),
+            "sixteen_digit_key", String.valueOf(SIXTEENDIGIT));
     }
 
     // ── national_finance_ids ──────────────────────────────────────────────────
 
-    public static void storeNationalFinanceID(national.NationalFinanceID n)
+    public static void storeNationalFinanceID(final national.NationalFinanceID N)
     {
         if (dbOk())
         {
@@ -154,7 +154,7 @@ public class N21Store
                 // Uses a placeholder sixteen_digit_key of 0 when none is provided.
                 PreparedStatement pi = N21DataSource.get().prepareStatement(
                     "INSERT IGNORE INTO national_ids (eight_digit_id, sixteen_digit_key) VALUES (?,0)");
-                pi.setLong(1, n.nationalId);
+                pi.setLong(1, N.nationalId);
                 pi.executeUpdate(); pi.close();
 
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
@@ -162,41 +162,41 @@ public class N21Store
                     "(national_id, remote_address, iq, education_level, social_skills, equipment, " +
                     " trust_level, parent_one, parent_two, suspects, social_spotting, promissory_note, created_at) " +
                     "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                ps.setLong(1,   n.nationalId);
-                ps.setString(2, n.remoteAddress != null ? n.remoteAddress : "");
-                ps.setInt(3,    n.iq);
-                ps.setString(4, n.educationLevel != null ? n.educationLevel : "");
-                ps.setInt(5,    n.socialSkills);
-                ps.setString(6, n.equipment != null ? n.equipment : "");
-                ps.setInt(7,    n.trustLevel);
-                ps.setString(8, n.parentOne != null ? n.parentOne : "");
-                ps.setString(9, n.parentTwo != null ? n.parentTwo : "");
-                ps.setString(10, n.suspects != null ? n.suspects : "");
-                ps.setString(11, n.socialSpotting != null ? n.socialSpotting : "");
-                ps.setDouble(12, n.promissoryNote);
-                ps.setTimestamp(13, n.createdAt != null ? new Timestamp(n.createdAt.getTime()) : new Timestamp(System.currentTimeMillis()));
+                ps.setLong(1,   N.nationalId);
+                ps.setString(2, N.remoteAddress != null ? N.remoteAddress : "");
+                ps.setInt(3,    N.iq);
+                ps.setString(4, N.educationLevel != null ? N.educationLevel : "");
+                ps.setInt(5,    N.socialSkills);
+                ps.setString(6, N.equipment != null ? N.equipment : "");
+                ps.setInt(7,    N.trustLevel);
+                ps.setString(8, N.parentOne != null ? N.parentOne : "");
+                ps.setString(9, N.parentTwo != null ? N.parentTwo : "");
+                ps.setString(10, N.suspects != null ? N.suspects : "");
+                ps.setString(11, N.socialSpotting != null ? N.socialSpotting : "");
+                ps.setDouble(12, N.promissoryNote);
+                ps.setTimestamp(13, N.createdAt != null ? new Timestamp(N.createdAt.getTime()) : new Timestamp(System.currentTimeMillis()));
                 ps.executeUpdate(); ps.close();
                 return;
             }
             catch (Exception e) { fail("national_finance_ids", e); }
         }
         N21XmlFallback.append("national_finance_ids",
-            "national_id",     String.valueOf(n.nationalId),
-            "remote_address",  n.remoteAddress != null ? n.remoteAddress : "",
-            "iq",              String.valueOf(n.iq),
-            "education_level", n.educationLevel != null ? n.educationLevel : "",
-            "social_skills",   String.valueOf(n.socialSkills),
-            "equipment",       n.equipment != null ? n.equipment : "",
-            "trust_level",     String.valueOf(n.trustLevel),
-            "parent_one",      n.parentOne != null ? n.parentOne : "",
-            "parent_two",      n.parentTwo != null ? n.parentTwo : "",
-            "suspects",        n.suspects != null ? n.suspects : "",
-            "social_spotting", n.socialSpotting != null ? n.socialSpotting : "",
-            "promissory_note", String.valueOf(n.promissoryNote),
-            "created_at",      n.createdAt != null ? n.createdAt.toString() : "");
+            "national_id",     String.valueOf(N.nationalId),
+            "remote_address",  N.remoteAddress != null ? N.remoteAddress : "",
+            "iq",              String.valueOf(N.iq),
+            "education_level", N.educationLevel != null ? N.educationLevel : "",
+            "social_skills",   String.valueOf(N.socialSkills),
+            "equipment",       N.equipment != null ? N.equipment : "",
+            "trust_level",     String.valueOf(N.trustLevel),
+            "parent_one",      N.parentOne != null ? N.parentOne : "",
+            "parent_two",      N.parentTwo != null ? N.parentTwo : "",
+            "suspects",        N.suspects != null ? N.suspects : "",
+            "social_spotting", N.socialSpotting != null ? N.socialSpotting : "",
+            "promissory_note", String.valueOf(N.promissoryNote),
+            "created_at",      N.createdAt != null ? N.createdAt.toString() : "");
     }
 
-    public static national.NationalFinanceID loadNationalFinanceID(long nationalId)
+    public static national.NationalFinanceID loadNationalFinanceID(final long NATIONALID)
     {
         if (dbOk())
         {
@@ -204,7 +204,7 @@ public class N21Store
             {
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
                     "SELECT * FROM national_finance_ids WHERE national_id=? ORDER BY id DESC LIMIT 1");
-                ps.setLong(1, nationalId);
+                ps.setLong(1, NATIONALID);
                 java.sql.ResultSet rs = ps.executeQuery();
                 if (rs.next())
                 {
@@ -234,7 +234,7 @@ public class N21Store
 
     // ── status_snapshots ──────────────────────────────────────────────────────
 
-    public static void storeStatusSnapshot(int activeConnections, long uptimeSecs, long totalMb, long usedMb)
+    public static void storeStatusSnapshot(final int ACTIVECONNECTIONS, final long UPTIMESECS, final long TOTALMB, final long USEDMB)
     {
         if (dbOk())
         {
@@ -242,18 +242,18 @@ public class N21Store
             {
                 PreparedStatement ps = N21DataSource.get().prepareStatement(
                     "INSERT INTO status_snapshots (active_connections, server_uptime_secs, total_memory_mb, used_memory_mb, local_server_time) VALUES (?,?,?,?,NOW())");
-                ps.setInt(1, activeConnections); ps.setLong(2, uptimeSecs);
-                ps.setLong(3, totalMb);          ps.setLong(4, usedMb);
+                ps.setInt(1, ACTIVECONNECTIONS); ps.setLong(2, UPTIMESECS);
+                ps.setLong(3, TOTALMB);          ps.setLong(4, USEDMB);
                 ps.executeUpdate(); ps.close();
                 return;
             }
             catch (Exception e) { fail("status_snapshots", e); }
         }
         N21XmlFallback.append("status_snapshots",
-            "active_connections", String.valueOf(activeConnections),
-            "uptime_secs",        String.valueOf(uptimeSecs),
-            "total_memory_mb",    String.valueOf(totalMb),
-            "used_memory_mb",     String.valueOf(usedMb));
+            "active_connections", String.valueOf(ACTIVECONNECTIONS),
+            "uptime_secs",        String.valueOf(UPTIMESECS),
+            "total_memory_mb",    String.valueOf(TOTALMB),
+            "used_memory_mb",     String.valueOf(USEDMB));
     }
 
     // ── helpers ───────────────────────────────────────────────────────────────
@@ -271,9 +271,9 @@ public class N21Store
     }
 
     /** Log the failure, mark the datasource down, and let the caller fall through to XML. */
-    private static void fail(String table, Exception e)
+    private static void fail(final String TABLE, final Exception E)
     {
-        System.err.println("[N21Store] DB unavailable for table '" + table + "': " + e.getMessage() + " — routing to XML fallback.");
+        System.err.println("[N21Store] DB unavailable for TABLE '" + TABLE + "': " + E.getMessage() + " — routing to XML fallback.");
         N21DataSource.markFailed();
     }
 }

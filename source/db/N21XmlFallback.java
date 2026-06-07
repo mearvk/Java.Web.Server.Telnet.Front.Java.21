@@ -37,21 +37,21 @@ public class N21XmlFallback
         return xmlFile;
     }
 
-    public static synchronized void append(String table, String... kvPairs)
+    public static synchronized void append(final String TABLE, final String... KVPAIRS)
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("  <record table=\"").append(esc(table)).append("\" ts=\"").append(Instant.now()).append("\">\n");
-        for (int i = 0; i + 1 < kvPairs.length; i += 2)
-            sb.append("    <").append(kvPairs[i]).append(">").append(esc(kvPairs[i + 1])).append("</").append(kvPairs[i]).append(">\n");
+        sb.append("  <record TABLE=\"").append(esc(TABLE)).append("\" ts=\"").append(Instant.now()).append("\">\n");
+        for (int i = 0; i + 1 < KVPAIRS.length; i += 2)
+            sb.append("    <").append(KVPAIRS[i]).append(">").append(esc(KVPAIRS[i + 1])).append("</").append(KVPAIRS[i]).append(">\n");
         sb.append("  </record>\n");
         write(sb.toString());
     }
 
-    private static void write(String text)
+    private static void write(final String TEXT)
     {
         try (FileWriter fw = new FileWriter(file(), true))
         {
-            fw.write(text);
+            fw.write(TEXT);
         }
         catch (Exception e)
         {
@@ -60,10 +60,10 @@ public class N21XmlFallback
     }
 
     /** Minimal XML escaping for attribute and element values. */
-    private static String esc(String s)
+    private static String esc(final String S)
     {
-        if (s == null) return "";
-        return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
+        if (S == null) return "";
+        return S.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
     }
 
     // ── Replay on reboot ──────────────────────────────────────────────────────
@@ -131,11 +131,11 @@ public class N21XmlFallback
 
     // ── replay helpers ────────────────────────────────────────────────────────
 
-    private static boolean tryStore(national.NationalFinanceID n)
+    private static boolean tryStore(final national.NationalFinanceID N)
     {
         try
         {
-            N21Store.storeNationalFinanceID(n);
+            N21Store.storeNationalFinanceID(N);
             // storeNationalFinanceID only falls through to XML on failure;
             // if it threw, the catch below will return false.
             return true;
@@ -143,35 +143,35 @@ public class N21XmlFallback
         catch (Exception e)
         {
             System.err.println("[N21XmlFallback] replay store failed for national_id="
-                + n.nationalId + ": " + e.getMessage());
+                + N.nationalId + ": " + e.getMessage());
             return false;
         }
     }
 
-    private static national.NationalFinanceID fromElement(Element rec)
+    private static national.NationalFinanceID fromElement(final Element REC)
     {
         national.NationalFinanceID n = new national.NationalFinanceID();
-        n.nationalId     = parseLong(child(rec, "national_id"));
-        n.remoteAddress  = child(rec, "remote_address");
-        n.iq             = parseInt(child(rec, "iq"));
-        n.educationLevel = child(rec, "education_level");
-        n.socialSkills   = parseInt(child(rec, "social_skills"));
-        n.equipment      = child(rec, "equipment");
-        n.trustLevel     = parseInt(child(rec, "trust_level"));
-        n.parentOne      = child(rec, "parent_one");
-        n.parentTwo      = child(rec, "parent_two");
-        n.suspects       = child(rec, "suspects");
-        n.socialSpotting = child(rec, "social_spotting");
-        n.promissoryNote = parseDouble(child(rec, "promissory_note"));
+        n.nationalId     = parseLong(child(REC, "national_id"));
+        n.remoteAddress  = child(REC, "remote_address");
+        n.iq             = parseInt(child(REC, "iq"));
+        n.educationLevel = child(REC, "education_level");
+        n.socialSkills   = parseInt(child(REC, "social_skills"));
+        n.equipment      = child(REC, "equipment");
+        n.trustLevel     = parseInt(child(REC, "trust_level"));
+        n.parentOne      = child(REC, "parent_one");
+        n.parentTwo      = child(REC, "parent_two");
+        n.suspects       = child(REC, "suspects");
+        n.socialSpotting = child(REC, "social_spotting");
+        n.promissoryNote = parseDouble(child(REC, "promissory_note"));
         return n;
     }
 
-    private static void rewrite(File xml, List<Element> keep)
+    private static void rewrite(final File XML, final List<Element> KEEP)
     {
-        try (FileWriter fw = new FileWriter(xml, false))
+        try (FileWriter fw = new FileWriter(XML, false))
         {
             fw.write("<N21>\n");
-            for (Element rec : keep)
+            for (Element rec : KEEP)
             {
                 fw.write("  <record table=\"" + rec.getAttribute("table")
                     + "\" ts=\"" + rec.getAttribute("ts") + "\">\n");
@@ -193,27 +193,27 @@ public class N21XmlFallback
     }
 
     /** Appends </N21> if missing so the file is parseable. */
-    private static void ensureClosed(File xml)
+    private static void ensureClosed(final File XML)
     {
         try
         {
-            String content = new String(java.nio.file.Files.readAllBytes(xml.toPath()));
+            String content = new String(java.nio.file.Files.readAllBytes(XML.toPath()));
             if (!content.trim().endsWith("</N21>"))
             {
-                try (FileWriter fw = new FileWriter(xml, true)) { fw.write("</N21>\n"); }
+                try (FileWriter fw = new FileWriter(XML, true)) { fw.write("</N21>\n"); }
             }
         }
         catch (Exception ignored) {}
     }
 
-    private static File[] listDirs(File root)
+    private static File[] listDirs(final File ROOT)
     {
-        File[] dirs = root.listFiles(File::isDirectory);
+        File[] dirs = ROOT.listFiles(File::isDirectory);
         return dirs != null ? dirs : new File[0];
     }
 
-    private static String  child(Element e, String tag) { NodeList nl = e.getElementsByTagName(tag); return nl.getLength() > 0 ? nl.item(0).getTextContent().trim() : ""; }
-    private static long    parseLong(String s)   { try { return Long.parseLong(s); }   catch (Exception e) { return 0L;  } }
-    private static int     parseInt(String s)    { try { return Integer.parseInt(s); } catch (Exception e) { return 0;   } }
-    private static double  parseDouble(String s) { try { return Double.parseDouble(s); } catch (Exception e) { return 0.0; } }
+    private static String  child(final Element E, final String TAG) { NodeList nl = E.getElementsByTagName(TAG); return nl.getLength() > 0 ? nl.item(0).getTextContent().trim() : ""; }
+    private static long    parseLong(final String S)   { try { return Long.parseLong(S); }   catch (Exception e) { return 0L;  } }
+    private static int     parseInt(final String S)    { try { return Integer.parseInt(S); } catch (Exception e) { return 0;   } }
+    private static double  parseDouble(final String S) { try { return Double.parseDouble(S); } catch (Exception e) { return 0.0; } }
 }

@@ -22,22 +22,22 @@ public class Arithmeter
 
     private final String[] thousands = { "", "Thousand", "Million", "Billion" };
 
-    public String convert(int num)
+    public String convert(int NUM)
     {
-        if (num == 0) return "Zero";
+        if (NUM == 0) return "Zero";
 
         StringBuilder words = new StringBuilder();
 
         int i = 0;
 
-        while (num > 0)
+        while (NUM > 0)
         {
-            if (num % 1000 != 0)
+            if (NUM % 1000 != 0)
             {
-                words.insert(0, helper(num % 1000) + thousands[i] + " ");
+                words.insert(0, helper(NUM % 1000) + thousands[i] + " ");
             }
 
-            num /= 1000;
+            NUM /= 1000;
 
             i++;
         }
@@ -45,14 +45,14 @@ public class Arithmeter
         return words.toString().trim();
     }
 
-    protected String helper(int num)
+    protected String helper(final int NUM)
     {
-        if (num == 0) return "";
+        if (NUM == 0) return "";
 
-        else if (num < 20) return units[num] + " ";
+        else if (NUM < 20) return units[NUM] + " ";
 
-        else if (num < 100) return tens[num / 10] + " " + helper(num % 10);
+        else if (NUM < 100) return tens[NUM / 10] + " " + helper(NUM % 10);
 
-        else return units[num / 100] + " Hundred " + helper(num % 100);
+        else return units[NUM / 100] + " Hundred " + helper(NUM % 100);
     }
 }

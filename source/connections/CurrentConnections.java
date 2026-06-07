@@ -39,16 +39,16 @@ public class CurrentConnections
     // CopyOnWriteArrayList: safe for concurrent add (BaseServer) + iterate/remove (ConnectionPoller)
     public CopyOnWriteArrayList<Connection> CURRENT_CONNECTION = new CopyOnWriteArrayList<Connection>();
 
-    public void add(Connection connection)
+    public void add(final Connection CONNECTION)
     {
-        this.CURRENT_CONNECTION.add(connection);
+        this.CURRENT_CONNECTION.add(CONNECTION);
     }
 
-    public void remove(Socket socket)
+    public void remove(final Socket SOCKET)
     {
         for(int i = 0; i < this.CURRENT_CONNECTION.size(); i++)
         {
-            if(this.CURRENT_CONNECTION.get(i).SOCKET == socket)
+            if(this.CURRENT_CONNECTION.get(i).SOCKET == SOCKET)
             {
                 this.CURRENT_CONNECTION.remove(i);
                 break; // remove only first match
@@ -56,9 +56,9 @@ public class CurrentConnections
         }
     }
 
-    public void remove(Connection connection)
+    public void remove(final Connection CONNECTION)
     {
-        this.CURRENT_CONNECTION.remove(connection);
+        this.CURRENT_CONNECTION.remove(CONNECTION);
     }
 
     public Integer size()

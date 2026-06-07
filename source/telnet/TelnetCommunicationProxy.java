@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class TelnetCommunicationProxy
 {
-    protected WebExpress web_express;
+    protected WebExpress WEB_EXPRESS;
 
     protected ProcessBuilder process_builder = new ProcessBuilder();
 
@@ -24,7 +24,7 @@ public class TelnetCommunicationProxy
 
     public BufferedReader reader;
 
-    public TelnetProxyCommunicator telnet_proxy_communicator;
+    public TelnetProxyCommunicator TELNET_COMMUNICATION_PROXY;
 
     public TelnetOutputBuilder OUTPUT_BUILDER;
 
@@ -32,21 +32,21 @@ public class TelnetCommunicationProxy
 
     public TelnetProxyLivenessMonitor liveness_monitor;
 
-    public TelnetCommunicationProxy(WebExpress web_express)
+    public TelnetCommunicationProxy(final WebExpress WEB_EXPRESS)
     {
         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Communicator starts .");
 
-        this.web_express = web_express;
+        this.WEB_EXPRESS = WEB_EXPRESS;
 
-        this.process_builder = this.web_express.TELNET_INSTALLER.process_builder;
+        this.process_builder = this.WEB_EXPRESS.TELNET_INSTALLER.process_builder;
 
-        this.process = this.web_express.TELNET_INSTALLER.process;
+        this.process = this.WEB_EXPRESS.TELNET_INSTALLER.process;
 
-        this.writer = this.web_express.TELNET_INSTALLER.writer;
+        this.writer = this.WEB_EXPRESS.TELNET_INSTALLER.writer;
 
-        this.reader = this.web_express.TELNET_INSTALLER.reader;
+        this.reader = this.WEB_EXPRESS.TELNET_INSTALLER.reader;
 
-        this.telnet_proxy_communicator = new TelnetProxyCommunicator(this);
+        this.TELNET_COMMUNICATION_PROXY = new TelnetProxyCommunicator(this);
 
         this.OUTPUT_BUILDER = new TelnetOutputBuilder(this);
 
@@ -81,11 +81,11 @@ public class TelnetCommunicationProxy
 
     public static class TelnetProxyCommunicator extends Thread
     {
-        protected TelnetCommunicationProxy telnet_communication_proxy;
+        protected TelnetCommunicationProxy TELNET_COMMUNICATION_PROXY;
 
-        public TelnetProxyCommunicator(TelnetCommunicationProxy telnet_communication_proxy)
+        public TelnetProxyCommunicator(final TelnetCommunicationProxy TELNET_COMMUNICATION_PROXY)
         {
-            this.telnet_communication_proxy = telnet_communication_proxy;
+            this.TELNET_COMMUNICATION_PROXY = TELNET_COMMUNICATION_PROXY;
         }
 
         @Override
@@ -99,7 +99,7 @@ public class TelnetCommunicationProxy
                 {
                     TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
 
-                    final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
+                    final TelnetCommunicationProxy proxy = this.TELNET_COMMUNICATION_PROXY;
 
                     String line = proxy.reader.readLine();
 
@@ -141,7 +141,7 @@ public class TelnetCommunicationProxy
 
                     message.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
 
-                    this.telnet_communication_proxy.OUTPUT_BUILDER.TELNET_MESSAGE_QUEUE.add(message);
+                    this.TELNET_COMMUNICATION_PROXY.OUTPUT_BUILDER.TELNET_MESSAGE_QUEUE.add(message);
                 }
                 catch (Exception e)
                 {

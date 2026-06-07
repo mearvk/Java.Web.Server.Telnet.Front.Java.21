@@ -14,11 +14,11 @@ public class BodiSecurityException extends SecurityException
 
     private final StackTraceElement relatedStackCall;
 
-    public BodiSecurityException(final String message, final StackTraceElement relatedStackCall)
+    public BodiSecurityException(final String MESSAGE, final StackTraceElement RELATEDSTACKCALL)
     {
-        super(message);
+        super(MESSAGE);
         this.timestamp = Instant.now();
-        this.relatedStackCall = relatedStackCall;
+        this.relatedStackCall = RELATEDSTACKCALL;
         try
         {
             SecurityExceptionHandler.handle(this);
@@ -28,11 +28,11 @@ public class BodiSecurityException extends SecurityException
         }
     }
 
-    public BodiSecurityException(final String message, final Throwable cause, final StackTraceElement relatedStackCall)
+    public BodiSecurityException(final String MESSAGE, final Throwable CAUSE, final StackTraceElement RELATEDSTACKCALL)
     {
-        super(message, cause);
+        super(MESSAGE, CAUSE);
         this.timestamp = Instant.now();
-        this.relatedStackCall = relatedStackCall;
+        this.relatedStackCall = RELATEDSTACKCALL;
         try
         {
             SecurityExceptionHandler.handle(this);

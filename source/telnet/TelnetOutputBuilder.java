@@ -5,13 +5,13 @@ import exceptions.ExceptionHandler;
 
 public class TelnetOutputBuilder extends Thread
 {
-    public TelnetCommunicationProxy telnet_communication_proxy;
+    public TelnetCommunicationProxy TELNET_COMMUNICATION_PROXY;
 
     public TelnetMessageQueue TELNET_MESSAGE_QUEUE = new TelnetMessageQueue(5000);
 
-    public TelnetOutputBuilder(TelnetCommunicationProxy telnet_communication_proxy)
+    public TelnetOutputBuilder(final TelnetCommunicationProxy TELNET_COMMUNICATION_PROXY)
     {
-        this.telnet_communication_proxy = telnet_communication_proxy;
+        this.TELNET_COMMUNICATION_PROXY = TELNET_COMMUNICATION_PROXY;
     }
 
     @Override
@@ -30,15 +30,15 @@ public class TelnetOutputBuilder extends Thread
                         try { queue.wait(); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); return; }
                     }
 
-                    while (queue.messages.size() > 0)
+                    while (queue.MESSAGES.size() > 0)
                     {
                         try
                         {
-                            final TelnetMessageQueue.Message message = queue.messages.get(0);
+                            final TelnetMessageQueue.Message message = queue.MESSAGES.get(0);
 
                             final String value = message.MESSAGE_BUFFER.toString();
 
-                            final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
+                            final TelnetCommunicationProxy proxy = this.TELNET_COMMUNICATION_PROXY;
 
                             if(!value.isEmpty())
                             {
@@ -50,13 +50,13 @@ public class TelnetOutputBuilder extends Thread
                                 if(CommonRails.isConnected(proxy.writer))
                                     proxy.writer.flush();
 
-                                queue.messages.removeFirst();
+                                queue.MESSAGES.removeFirst();
                             }
                             else
                             {
                                 CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> removing sorted-simple message.");
 
-                                queue.messages.remove(0);
+                                queue.MESSAGES.remove(0);
                             }
                         }
                         catch (Exception e)

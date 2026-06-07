@@ -1,7 +1,7 @@
 package messaging;
 
 import commons.CommonRails;
-import commons.transition.english.EnglishArithemeter;
+import commons.EnglishArithemeter;
 import connections.CurrentConnections;
 import exceptions.ExceptionHandler;
 import server.nitro.WebExpress;
@@ -18,7 +18,7 @@ public class MessageQueueSorter extends Thread
 
     protected WebExpress WEBEXPRESS;
 
-    public MessageQueueSorter(WebExpress WEBEXPRESS)
+    public MessageQueueSorter(final WebExpress WEBEXPRESS)
     {
         this.WEBEXPRESS = WEBEXPRESS;
 
@@ -170,13 +170,13 @@ public class MessageQueueSorter extends Thread
         }
     }
 
-    public synchronized void addMessage(MessageQueue.Message message)
+    public synchronized void addMessage(final MessageQueue.Message MESSAGE)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage message queue size before "+this.getMessageQueueSize()+" .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage MESSAGE queue size before "+this.getMessageQueueSize()+" .");
 
-        this.WEBEXPRESS.MESSAGE_QUEUE.add(message);
+        this.WEBEXPRESS.MESSAGE_QUEUE.add(MESSAGE);
 
-        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage message queue size after "+this.getMessageQueueSize()+" .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage MESSAGE queue size after "+this.getMessageQueueSize()+" .");
     }
 
     public synchronized MessageQueue getMessageQueue()

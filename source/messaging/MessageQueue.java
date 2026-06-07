@@ -25,11 +25,11 @@ public class MessageQueue
 
     public ArrayList<Message> MESSAGES;
 
-    protected BaseServer base_server;
+    protected BaseServer BASE_SERVER;
 
-    public MessageQueue(BaseServer base_server)
+    public MessageQueue(final BaseServer BASE_SERVER)
     {
-        this.base_server = base_server;
+        this.BASE_SERVER = BASE_SERVER;
 
         this.MESSAGES = new ArrayList<>(5000);
     }
@@ -41,47 +41,47 @@ public class MessageQueue
         this.MESSAGES = new ArrayList<>(5000);
     }
 
-    public synchronized void send(Message message)
+    public synchronized void send(final Message MESSAGE)
     {
         BufferedWriter writer;
 
-        if (message == null || message.SOCKET == null || message.MESSAGE_BUFFER == null)
+        if (MESSAGE == null || MESSAGE.SOCKET == null || MESSAGE.MESSAGE_BUFFER == null)
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue::TelnetQuickSend >> null message, socket, or buffer; skipping send.");
+            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue::TelnetQuickSend >> null MESSAGE, socket, or buffer; skipping send.");
 
             return;
         }
 
         try
         {
-            writer = new BufferedWriter(new OutputStreamWriter(message.SOCKET.getOutputStream()));
+            writer = new BufferedWriter(new OutputStreamWriter(MESSAGE.SOCKET.getOutputStream()));
 
-            writer.write(message.MESSAGE_BUFFER.toString(), 0, message.MESSAGE_BUFFER.length());
+            writer.write(MESSAGE.MESSAGE_BUFFER.toString(), 0, MESSAGE.MESSAGE_BUFFER.length());
 
             writer.flush();
 
-            message.MESSAGE_BUFFER = new StringBuffer();
+            MESSAGE.MESSAGE_BUFFER = new StringBuffer();
 
-            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue TelnetQuickSend >> writing initial handshake to Telnet Remote System ["+message.SOCKET +"].");
+            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue TelnetQuickSend >> writing initial handshake to Telnet Remote System ["+MESSAGE.SOCKET +"].");
         }
         catch (Exception e)
         {
             ExceptionHandler.dispatch(e);
-            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue TelnetQuickSend >> attempted writing initial handshake to Telnet Remote System ["+message.SOCKET +"].");
+            CommonRails.printSystemComponent(this, this.hashCode(), "MessageQueue TelnetQuickSend >> attempted writing initial handshake to Telnet Remote System ["+MESSAGE.SOCKET +"].");
         }
     }
 
-    public synchronized void add(Message message)
+    public synchronized void add(final Message MESSAGE)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),"MessageQueue add >> receives ["+message.MESSAGE_BUFFER.toString()+"].");
+        CommonRails.printSystemComponent(this, this.hashCode(),"MessageQueue add >> receives ["+MESSAGE.MESSAGE_BUFFER.toString()+"].");
 
-        this.MESSAGES.add(message);
+        this.MESSAGES.add(MESSAGE);
         this.notifyAll();
     }
 
-    public synchronized void remove(Message message)
+    public synchronized void remove(final Message MESSAGE)
     {
-        this.MESSAGES.remove(message);
+        this.MESSAGES.remove(MESSAGE);
     }
 
     public synchronized Integer size()

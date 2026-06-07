@@ -13,21 +13,21 @@ public class SecurityExceptionHandler implements ExceptionListener
     }
 
     @Override
-    public void onException(ExceptionRecord record)
+    public void onException(final ExceptionRecord RECORD)
     {
 
-        if (!isSecurityEvent(record)) {
+        if (!isSecurityEvent(RECORD)) {
             return;
         }
 
-        logSecurityEvent(record);
+        logSecurityEvent(RECORD);
 
-        triggerSecurityAlert(record);
+        triggerSecurityAlert(RECORD);
     }
 
-    private boolean isSecurityEvent(ExceptionRecord record)
+    private boolean isSecurityEvent(final ExceptionRecord RECORD)
     {
-        Throwable ex = record.exception();
+        Throwable ex = RECORD.exception();
 
         if (ex instanceof SecurityException)
         {
@@ -46,12 +46,12 @@ public class SecurityExceptionHandler implements ExceptionListener
         return msg != null && msg.toLowerCase().contains("unauthorized");
     }
 
-    private void logSecurityEvent(ExceptionRecord record)
+    private void logSecurityEvent(final ExceptionRecord RECORD)
     {
-        System.err.println("[SECURITY] " + Instant.now() + " | " + "Type=" + record.exception().getClass().getSimpleName() + " | " + "Message=" + record.exception().getMessage() + " | " + "Origin=" + record.origin());
+        System.err.println("[SECURITY] " + Instant.now() + " | " + "Type=" + RECORD.exception().getClass().getSimpleName() + " | " + "Message=" + RECORD.exception().getMessage() + " | " + "Origin=" + RECORD.origin());
     }
 
-    private void triggerSecurityAlert(ExceptionRecord record)
+    private void triggerSecurityAlert(final ExceptionRecord RECORD)
     {
 
     }

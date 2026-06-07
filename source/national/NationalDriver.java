@@ -15,28 +15,28 @@ public class NationalDriver
     /**
      * Record a printed reference line from CommonRails. Stored as-is.
      */
-    public static synchronized void record(String reference)
+    public static synchronized void record(final String REFERENCE)
     {
-        if (reference == null) return;
+        if (REFERENCE == null) return;
 
-        STARTUP_REFERENCES.add(reference);
+        STARTUP_REFERENCES.add(REFERENCE);
     }
 
-    protected static String extractClassName(String reference)
+    protected static String extractClassName(final String REFERENCE)
     {
-        if (reference == null) return "";
+        if (REFERENCE == null) return "";
 
-        int idx = reference.indexOf("[Current:");
+        int idx = REFERENCE.indexOf("[Current:");
 
         if (idx < 0) return "";
 
         int start = idx + "[Current:".length();
 
-        int end = reference.indexOf(']', start);
+        int end = REFERENCE.indexOf(']', start);
 
-        if (end < 0) end = Math.min(reference.length(), start + 200);
+        if (end < 0) end = Math.min(REFERENCE.length(), start + 200);
 
-        String inner = reference.substring(start, end).trim();
+        String inner = REFERENCE.substring(start, end).trim();
 
         int firstSpace = inner.indexOf(' ');
 
@@ -232,21 +232,21 @@ public class NationalDriver
     /**
      * Extract epoch millis from the reference's Date field. Returns -1 on failure.
      */
-    protected static long extractTimestamp(String reference)
+    protected static long extractTimestamp(final String REFERENCE)
     {
-        if (reference == null) return -1;
+        if (REFERENCE == null) return -1;
 
-        int idx = reference.indexOf("[Date:");
+        int idx = REFERENCE.indexOf("[Date:");
 
         if (idx < 0) return -1;
 
         int start = idx + "[Date:".length();
 
-        int end = reference.indexOf(']', start);
+        int end = REFERENCE.indexOf(']', start);
 
         if (end < 0) return -1;
 
-        String dateText = reference.substring(start, end).trim();
+        String dateText = REFERENCE.substring(start, end).trim();
 
         try
         {

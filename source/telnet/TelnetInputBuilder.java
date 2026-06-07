@@ -9,11 +9,11 @@ public class TelnetInputBuilder extends Thread
 
     protected TelnetMessageQueue telnet_message_queue;
 
-    protected StringBuffer buffer = new StringBuffer();
+    protected StringBuffer BUFFER = new StringBuffer();
 
-    public TelnetInputBuilder(TelnetCommunicationProxy telnet_proxy_communicator)
+    public TelnetInputBuilder(final TelnetCommunicationProxy TELNET_PROXY_COMMUNICATOR)
     {
-        this.telnet_communication_proxy = telnet_proxy_communicator;
+        this.telnet_communication_proxy = TELNET_PROXY_COMMUNICATOR;
 
         this.telnet_message_queue = new TelnetMessageQueue(5000);
     }
@@ -39,7 +39,7 @@ public class TelnetInputBuilder extends Thread
                     {
                         try
                         {
-                            final String message = queue.messages.get(0).MESSAGE_BUFFER.toString();
+                            final String message = queue.MESSAGES.get(0).MESSAGE_BUFFER.toString();
 
                             final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 
@@ -49,7 +49,7 @@ public class TelnetInputBuilder extends Thread
 
                             proxy.writer.flush();
 
-                            queue.messages.remove(0);
+                            queue.MESSAGES.remove(0);
                         }
                         catch (Exception e)
                         {
@@ -67,8 +67,8 @@ public class TelnetInputBuilder extends Thread
         }
     }
 
-    public void setBuffer(StringBuffer buffer)
+    public void setBuffer(final StringBuffer BUFFER)
     {
-        this.buffer = buffer;
+        this.BUFFER = BUFFER;
     }
 }

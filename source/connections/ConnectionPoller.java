@@ -1,7 +1,7 @@
 package connections;
 
 import commons.CommonRails;
-import commons.transition.english.EnglishArithemeter;
+import commons.EnglishArithemeter;
 import exceptions.ExceptionHandler;
 import messaging.MessageQueue;
 import server.base.BaseServer;
@@ -35,7 +35,7 @@ public class ConnectionPoller extends Thread
     protected static final int PROXY_READ_TIMEOUT_MS  = 5000;
     protected static final int PROXY_WALL_TIMEOUT_MS  = 20_000;
 
-    public ConnectionPoller(BaseServer BASESERVER, String HOST, Integer PORT)
+    public ConnectionPoller(final BaseServer BASESERVER, final String HOST, final Integer PORT)
     {
         this.BASESERVER = BASESERVER;
 
@@ -48,7 +48,7 @@ public class ConnectionPoller extends Thread
         this.setName("ConnectionPoller");
     }
 
-    public ConnectionPoller(WebExpress WEBEXPRESS, BaseServer BASESERVER)
+    public ConnectionPoller(final WebExpress WEBEXPRESS, final BaseServer BASESERVER)
     {
         this.BASESERVER = BASESERVER;
 
@@ -57,7 +57,7 @@ public class ConnectionPoller extends Thread
 
     // ── Per-connection session handler ────────────────────────────────────────
 
-    private void handleSession(Connection CONNECTION, CurrentConnections CONNECTIONS)
+    private void handleSession(final Connection CONNECTION, final CurrentConnections CONNECTIONS)
     {
         try
         {

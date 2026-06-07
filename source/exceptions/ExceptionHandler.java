@@ -49,20 +49,20 @@ public class ExceptionHandler
         return INSTANCE;
     }
 
-    public static void dispatch(Exception e)
+    public static void dispatch(final Exception E)
     {
-        INSTANCE.dispatcher.dispatch(e);
+        INSTANCE.dispatcher.dispatch(E);
     }
 
-    public static void dispatch(Throwable t)
+    public static void dispatch(final Throwable T)
     {
-        if (t instanceof Exception e)
+        if (T instanceof Exception e)
         {
             INSTANCE.dispatcher.dispatch(e);
         }
         else
         {
-            INSTANCE.dispatcher.dispatch(new RuntimeException(t));
+            INSTANCE.dispatcher.dispatch(new RuntimeException(T));
         }
     }
 }

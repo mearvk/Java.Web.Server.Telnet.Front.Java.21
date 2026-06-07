@@ -54,14 +54,14 @@ public class IPGeoParser
 
     }
 
-    public GeoInfo lookup(final String ip) throws IOException
+    public GeoInfo lookup(final String IP) throws IOException
     {
-        if (ip == null || ip.isEmpty())
+        if (IP == null || IP.isEmpty())
         {
             return null;
         }
 
-        final String query = API_URL + ip;
+        final String query = API_URL + IP;
 
         CommonRails.printSystemComponent(this, this.hashCode(), ". IPGeoParser::lookup >> querying " + query);
 
@@ -115,41 +115,41 @@ public class IPGeoParser
         }
     }
 
-    public GeoInfo parseJson(final String json)
+    public GeoInfo parseJson(final String JSON)
     {
-        if (json == null || json.isEmpty()) return null;
+        if (JSON == null || JSON.isEmpty()) return null;
 
         GeoInfo info = new GeoInfo();
 
-        info.status = extractString(json, "status");
+        info.status = extractString(JSON, "status");
 
         if (info.status == null || !"success".equalsIgnoreCase(info.status))
         {
             return info;
         }
 
-        info.country = extractString(json, "country");
+        info.country = extractString(JSON, "country");
 
-        info.countryCode = extractString(json, "countryCode");
+        info.countryCode = extractString(JSON, "countryCode");
 
-        info.regionName = extractString(json, "regionName");
+        info.regionName = extractString(JSON, "regionName");
 
-        info.city = extractString(json, "city");
+        info.city = extractString(JSON, "city");
 
-        info.isp = extractString(json, "isp");
+        info.isp = extractString(JSON, "isp");
 
-        info.lat = extractDouble(json, "lat");
+        info.lat = extractDouble(JSON, "lat");
 
-        info.lon = extractDouble(json, "lon");
+        info.lon = extractDouble(JSON, "lon");
 
         return info;
     }
 
-    protected String extractString(final String json, final String key)
+    protected String extractString(final String JSON, final String KEY)
     {
-        final Pattern p = Pattern.compile("\"" + key + "\"\s*:\s*\"([^\"]*)\"");
+        final Pattern p = Pattern.compile("\"" + KEY + "\"\s*:\s*\"([^\"]*)\"");
 
-        final Matcher m = p.matcher(json);
+        final Matcher m = p.matcher(JSON);
 
         if (m.find())
         {
@@ -159,11 +159,11 @@ public class IPGeoParser
         return null;
     }
 
-    protected double extractDouble(final String json, final String key)
+    protected double extractDouble(final String JSON, final String KEY)
     {
-        final Pattern p = Pattern.compile("\"" + key + "\"\s*:\s*([-0-9\\.]+)");
+        final Pattern p = Pattern.compile("\"" + KEY + "\"\s*:\s*([-0-9\\.]+)");
 
-        final Matcher m = p.matcher(json);
+        final Matcher m = p.matcher(JSON);
 
         if (m.find())
         {
@@ -180,11 +180,11 @@ public class IPGeoParser
         return 0.0;
     }
 
-    public GeoInfo parseConnection(final Connection connection)
+    public GeoInfo parseConnection(final Connection CONNECTION)
     {
-        if (connection == null) return null;
+        if (CONNECTION == null) return null;
 
-        String remote = connection.remote_address;
+        String remote = CONNECTION.remote_address;
 
         if (remote == null) return null;
 

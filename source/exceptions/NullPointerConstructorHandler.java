@@ -13,38 +13,38 @@ public class NullPointerConstructorHandler implements ExceptionListener
     }
 
     @Override
-    public void onException(ExceptionRecord record)
+    public void onException(final ExceptionRecord RECORD)
     {
 
-        if (!isConstructorNPE(record)) {
+        if (!isConstructorNPE(RECORD)) {
             return;
         }
 
-        logConstructorFailure(record);
+        logConstructorFailure(RECORD);
 
-        annotateForDiagnostics(record);
+        annotateForDiagnostics(RECORD);
     }
 
-    private boolean isConstructorNPE(ExceptionRecord record)
+    private boolean isConstructorNPE(final ExceptionRecord RECORD)
     {
-        Throwable ex = record.exception();
+        Throwable ex = RECORD.exception();
 
         if (!(ex instanceof NullPointerException))
         {
             return false;
         }
 
-        String origin = record.origin();
+        String origin = RECORD.origin();
 
         return origin != null && origin.contains("<init>");
     }
 
-    private void logConstructorFailure(ExceptionRecord record)
+    private void logConstructorFailure(final ExceptionRecord RECORD)
     {
-        System.err.println("[CONSTRUCTOR-NPE] " + Instant.now() + " | " + "Origin=" + record.origin() + " | " + "Message=" + record.exception().getMessage());
+        System.err.println("[CONSTRUCTOR-NPE] " + Instant.now() + " | " + "Origin=" + RECORD.origin() + " | " + "Message=" + RECORD.exception().getMessage());
     }
 
-    private void annotateForDiagnostics(ExceptionRecord record)
+    private void annotateForDiagnostics(final ExceptionRecord RECORD)
     {
 
     }
