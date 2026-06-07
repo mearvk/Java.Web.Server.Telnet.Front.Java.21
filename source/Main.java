@@ -90,7 +90,7 @@ public class Main
 
             NITRO.BRIDGE.CONNECTION_STATUS = new NitroWebExpress.Aspect.ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
-            NITRO.BRIDGE.MODULE_INSTALLATION = new NitroWebExpress.Aspect.ModuleInstallationService("localhost");
+            NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService("localhost");
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
 

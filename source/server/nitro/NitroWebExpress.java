@@ -93,13 +93,13 @@ public class NitroWebExpress extends WebExpress
 
         public MySQLComponent MYSQL_COMPONENT = new MySQLComponent();
 
-        public ModuleInstallationService MODULE_INSTALLATION;
+        public ModuleInstallationService MODULE_INSTALLER_SERVICE;
 
         /** Start CONNECTION_STATUS and NitroWebExpress.SELF together. */
         public void start()
         {
             if (CONNECTION_STATUS    != null) CONNECTION_STATUS.start();
-            if (MODULE_INSTALLATION  != null) MODULE_INSTALLATION.start();
+            if (MODULE_INSTALLER_SERVICE != null) MODULE_INSTALLER_SERVICE.start();
             if (NitroWebExpress.SELF != null) NitroWebExpress.SELF.start();
         }
 
