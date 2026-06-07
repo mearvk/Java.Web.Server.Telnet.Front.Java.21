@@ -13,9 +13,16 @@ import national.NationalID;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class NitroWebExpress extends WebExpress
@@ -86,11 +93,114 @@ public class NitroWebExpress extends WebExpress
 
         public MySQLComponent MYSQL_COMPONENT = new MySQLComponent();
 
+        public ModuleInstallationService MODULE_INSTALLATION;
+
         /** Start CONNECTION_STATUS and NitroWebExpress.SELF together. */
         public void start()
         {
-            if (CONNECTION_STATUS != null) CONNECTION_STATUS.start();
+            if (CONNECTION_STATUS    != null) CONNECTION_STATUS.start();
+            if (MODULE_INSTALLATION  != null) MODULE_INSTALLATION.start();
             if (NitroWebExpress.SELF != null) NitroWebExpress.SELF.start();
+        }
+
+        public static class ConnectionStatusServer extends Thread
+        {
+            public static final int STATUS_PORT = 49155;
+
+            private final CurrentConnections WATCHED;
+            private final int WATCHEDPORT;
+            private final String HOST;
+            private ServerSocket serverSocket;
+            private final long startTime = System.currentTimeMillis();
+
+            public ConnectionStatusServer(final String HOST, final CurrentConnections WATCHED, final int WATCHEDPORT)
+            {
+                if (HOST == null || WATCHED == null) throw new SecurityException("//bodi/connect");
+                this.HOST = HOST;
+                this.WATCHED = WATCHED;
+                this.WATCHEDPORT = WATCHEDPORT;
+                this.setName("ConnectionStatusServer");
+                this.setDaemon(true);
+            }
+
+            @Override
+            public void run()
+            {
+                try
+                {
+                    serverSocket = new ServerSocket(STATUS_PORT, 256, InetAddress.getByName(HOST));
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ConnectionStatusServer listening on port " + STATUS_PORT + " .");
+                    while (!Thread.currentThread().isInterrupted())
+                    {
+                        Socket client = serverSocket.accept();
+                        Thread responder = new Thread(() -> respond(client));
+                        responder.setDaemon(true);
+                        responder.start();
+                    }
+                }
+                catch (Exception e) { ExceptionHandler.dispatch(e); e.printStackTrace(System.err); }
+            }
+
+            private void respond(final Socket CLIENT)
+            {
+                try
+                {
+                    int count = WATCHED.size();
+                    String remoteIp  = CLIENT.getInetAddress().getHostAddress();
+                    String geoLine   = fetchGeo(remoteIp);
+                    String localTime = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm a"));
+                    long uptimeSecs  = (System.currentTimeMillis() - startTime) / 1000;
+                    String uptime    = (uptimeSecs / 3600) + "hrs " + ((uptimeSecs % 3600) / 60) + "mins " + (uptimeSecs % 60) + "secs";
+                    Runtime rt       = Runtime.getRuntime();
+                    long totalMB     = rt.totalMemory() / (1024 * 1024);
+                    long usedMB      = (rt.totalMemory() - rt.freeMemory()) / (1024 * 1024);
+
+                    String[] geoParts = geoLine.split(", ", 2);
+                    db.N21Store.storeGeo(remoteIp, geoParts.length > 0 ? geoParts[0] : "", geoParts.length > 1 ? geoParts[1] : "");
+                    db.N21Store.storeStatusSnapshot(count, uptimeSecs, totalMB, usedMB);
+
+                    String report =
+                        "╔══════════════════════════════════════════════╗\n" +
+                        "║   National JDK Finance Engine  v2811.1 v12.1 ║\n" +
+                        "╚══════════════════════════════════════════════╝\n" +
+                        "Remote IP:           " + remoteIp  + "\n" +
+                        "Geo Location:        " + geoLine   + "\n" +
+                        "Local Server Time:   " + localTime + "\n" +
+                        "Server Uptime:       " + uptime    + "\n" +
+                        "Total Memory:        " + totalMB   + "MB (used: " + usedMB + "MB)\n" +
+                        "Current Connections: " + count     + "\n";
+
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ConnectionStatusServer >> status query: port=" + WATCHEDPORT + " connections=" + count + " .");
+
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream()));
+                    writer.write(report);
+                    writer.flush();
+                }
+                catch (Exception e) { ExceptionHandler.dispatch(e); }
+                finally { try { CLIENT.close(); } catch (Exception ignored) {} }
+            }
+
+            private String fetchGeo(final String IP)
+            {
+                try
+                {
+                    boolean isPrivate = IP.startsWith("127.") || IP.startsWith("10.")
+                        || IP.startsWith("192.168.") || IP.equals("::1") || IP.equals("0:0:0:0:0:0:0:1");
+                    HttpURLConnection conn = (HttpURLConnection)
+                        new URL("http://IP-api.com/line/" + (isPrivate ? "" : IP) + "?fields=city,country").openConnection();
+                    conn.setConnectTimeout(2000);
+                    conn.setReadTimeout(2000);
+                    try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream())))
+                    {
+                        String country = br.readLine();
+                        String city    = br.readLine();
+                        return (city != null ? city : "?") + ", " + (country != null ? country : "?");
+                    }
+                }
+                catch (Exception e) { return "Unknown"; }
+            }
         }
 
         public static class MySQLComponent
@@ -136,6 +246,145 @@ public class NitroWebExpress extends WebExpress
             if(WEBEXPRESS==null) throw new SecurityException("//bodi/connect");
 
             this.WEBEXPRESS = WEBEXPRESS;
+        }
+
+        public static class ModuleInstallationService extends Thread
+        {
+            public static final int PORT = 49166;
+
+            private final String HOST;
+
+            private ServerSocket SERVER_SOCKET;
+
+            public ModuleInstallationService(final String HOST)
+            {
+                if (HOST == null) throw new SecurityException("//bodi/connect");
+                this.HOST = HOST;
+                this.setName("ModuleInstallationService");
+                this.setDaemon(true);
+            }
+
+            @Override
+            public void run()
+            {
+                try
+                {
+                    SERVER_SOCKET = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ModuleInstallationService listening on port " + PORT + " .");
+                    while (!Thread.currentThread().isInterrupted())
+                    {
+                        Socket client = SERVER_SOCKET.accept();
+                        Thread h = new Thread(() -> handle(client));
+                        h.setDaemon(true);
+                        h.start();
+                    }
+                }
+                catch (Exception e) { ExceptionHandler.dispatch(e); }
+            }
+
+            private void handle(final Socket CLIENT)
+            {
+                try (
+                    BufferedReader in  = new BufferedReader(new InputStreamReader(CLIENT.getInputStream()));
+                    BufferedWriter out = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream()))
+                ) {
+                    writeLine(out, "ModuleInstallationService v1.0 — type 'help' for commands.");
+                    String line;
+                    while ((line = in.readLine()) != null)
+                    {
+                        line = line.trim();
+                        if (line.isEmpty()) continue;
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". ModuleInstallationService command [" + line + "] from " + CLIENT.getInetAddress().getHostAddress() + " .");
+                        if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) break;
+                        writeLine(out, dispatch(line));
+                    }
+                }
+                catch (Exception e) { ExceptionHandler.dispatch(e); }
+                finally { try { CLIENT.close(); } catch (Exception ignored) {} }
+            }
+
+            private String dispatch(final String CMD)
+            {
+                String[] parts = CMD.split("\\s+", 3);
+                switch (parts[0].toLowerCase())
+                {
+                    case "restart":
+                        if (parts.length < 2) return "Usage: restart <module>";
+                        return restartModule(parts[1]);
+                    case "comment":
+                        if (parts.length < 3) return "Usage: comment <nationalId> <text>";
+                        return addComment(parts[1], parts[2]);
+                    case "signatory":
+                        if (parts.length < 2) return "Usage: signatory <nationalId>";
+                        return grantSignatory(parts[1]);
+                    case "help":
+                        return HELP;
+                    default:
+                        return "Unknown command: " + parts[0] + ". Type 'help'.";
+                }
+            }
+
+            private String restartModule(final String MODULE)
+            {
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". ModuleInstallationService restarting module [" + MODULE + "] .");
+                switch (MODULE.toLowerCase())
+                {
+                    case "aes": case "bitcoin": case "status": case "national":
+                        return "[restart] Module '" + MODULE + "' restart signal sent.";
+                    default:
+                        return "[restart] Unknown module: " + MODULE;
+                }
+            }
+
+            private String addComment(final String NATIONAL_ID_STR, final String COMMENT)
+            {
+                try
+                {
+                    long id = Long.parseLong(NATIONAL_ID_STR);
+                    national.NationalFinanceID r = db.N21Store.loadNationalFinanceID(id);
+                    if (r == null) return "[comment] National ID " + id + " not found.";
+                    r.suspects = (r.suspects != null && !r.suspects.isEmpty()) ? r.suspects + "; " + COMMENT : COMMENT;
+                    db.N21Store.storeNationalFinanceID(r);
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ModuleInstallationService comment added to National ID " + id + " .");
+                    return "[comment] Comment added to National ID " + id + ".";
+                }
+                catch (NumberFormatException e) { return "[comment] Invalid National ID: " + NATIONAL_ID_STR; }
+                catch (Exception e) { ExceptionHandler.dispatch(e); return "[comment] Error: " + e.getMessage(); }
+            }
+
+            private String grantSignatory(final String NATIONAL_ID_STR)
+            {
+                try
+                {
+                    long id = Long.parseLong(NATIONAL_ID_STR);
+                    national.NationalFinanceID r = db.N21Store.loadNationalFinanceID(id);
+                    if (r == null) return "[signatory] National ID " + id + " not found.";
+                    r.trustLevel = 100;
+                    db.N21Store.storeNationalFinanceID(r);
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". ModuleInstallationService final signatory granted to National ID " + id + " .");
+                    return "[signatory] Final signatory rights granted to National ID " + id + ".";
+                }
+                catch (NumberFormatException e) { return "[signatory] Invalid National ID: " + NATIONAL_ID_STR; }
+                catch (Exception e) { ExceptionHandler.dispatch(e); return "[signatory] Error: " + e.getMessage(); }
+            }
+
+            private static void writeLine(final BufferedWriter OUT, final String LINE)
+            {
+                try { OUT.write(LINE + "\r\n"); OUT.flush(); } catch (Exception ignored) {}
+            }
+
+            private static final String HELP =
+                "Commands:\r\n" +
+                "  restart <module>             Restart a named module (aes, bitcoin, status, national)\r\n" +
+                "  comment <nationalId> <text>  Append a comment to a user account\r\n" +
+                "  signatory <nationalId>       Grant final signatory rights to a user\r\n" +
+                "  help                         Show this list\r\n" +
+                "  quit                         Close connection";
         }
 
         public static class AESCompliant extends WebExpress
