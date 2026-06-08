@@ -22,15 +22,17 @@ public class ExceptionPersistenceService
      */
     public void persist(final ExceptionRecord RECORD)
     {
-        try
+        File file = new File(FILEPATH);
+
+        File parent = file.getParentFile();
+        if (parent != null && !parent.exists() && !parent.mkdirs())
         {
-            new File(FILEPATH).getParentFile().mkdirs();
+            System.err.println("[PERSISTENCE-ERROR] Cannot create log directory: " + parent.getAbsolutePath());
+            return;
         }
-        catch (Exception ignored) {}
 
-        try (FileWriter writer = new FileWriter(FILEPATH, true))
+        try (FileWriter writer = new FileWriter(file, true))
         {
-
             writer.write("[EXCEPTION] " + Instant.now() + System.lineSeparator() +
                             "Type: " + RECORD.EXCEPTION().getClass().getName() + System.lineSeparator() +
                             "Message: " + RECORD.EXCEPTION().getMessage() + System.lineSeparator() +
@@ -40,8 +42,8 @@ public class ExceptionPersistenceService
                             "------------------------------------------------------------" +
                             System.lineSeparator()
             );
-
-        } catch (IOException ioEx)
+        }
+        catch (IOException ioEx)
         {
             System.err.println("[PERSISTENCE-ERROR] Failed to write exception RECORD: " + ioEx.getMessage());
         }

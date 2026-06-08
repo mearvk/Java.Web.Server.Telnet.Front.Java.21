@@ -30,13 +30,16 @@ public class PersistenceListener implements ExceptionListener
 
     private void writeRecordToFile(final ExceptionRecord RECORD)
     {
-        try
-        {
-            new File(FILEPATH).getParentFile().mkdirs();
-        }
-        catch (Exception ignored) {}
+        File file = new File(FILEPATH);
 
-        try (FileWriter writer = new FileWriter(FILEPATH, true))
+        File parent = file.getParentFile();
+        if (parent != null && !parent.exists() && !parent.mkdirs())
+        {
+            System.err.println("[PERSISTENCE-ERROR] Cannot create log directory: " + parent.getAbsolutePath());
+            return;
+        }
+
+        try (FileWriter writer = new FileWriter(file, true))
         {
             writer.write("[EXCEPTION] " + Instant.now() + System.lineSeparator() + "Type: " + RECORD.EXCEPTION().getClass().getName() + System.lineSeparator() + "Message: " + RECORD.EXCEPTION().getMessage() + System.lineSeparator() + "Origin: " + RECORD.ORIGIN() + System.lineSeparator() + "StackTrace: " + RECORD.STACKTRACE() + System.lineSeparator() + "------------------------------------------------------------" + System.lineSeparator());
         }
