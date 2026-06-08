@@ -173,8 +173,37 @@ public class NitroWebExpress extends WebExpress
             {
                 try
                 {
+                    String remoteIp = CLIENT.getInetAddress().getHostAddress();
+
+                    // ── Language negotiation via simple line protocol ─────────
+                    // Send language menu; client may send "lang <code>" or empty/any to proceed.
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream(), java.nio.charset.StandardCharsets.UTF_8));
+                    BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(CLIENT.getInputStream(), java.nio.charset.StandardCharsets.UTF_8));
+
+                    writer.write(languages.LanguagePack.t(remoteIp, "label.lang_menu") + "\n");
+                    writer.write(languages.LanguagePack.t(remoteIp, "label.lang_prompt") + "\n");
+                    writer.flush();
+
+                    CLIENT.setSoTimeout(4000); // short timeout for lang selection
+                    try
+                    {
+                        String line = reader.readLine();
+                        if (line != null)
+                        {
+                            line = line.trim();
+                            if (line.toLowerCase().startsWith("lang "))
+                            {
+                                String reply = languages.LanguagePack.handleLangCommand(remoteIp, line.substring(5).trim());
+                                writer.write(reply + "\n");
+                                writer.flush();
+                            }
+                        }
+                    }
+                    catch (java.net.SocketTimeoutException ignored) {} // no lang command — proceed with current
+                    CLIENT.setSoTimeout(0);
+
+                    // ── Build translated report ───────────────────────────────
                     int count = WATCHED.size();
-                    String remoteIp  = CLIENT.getInetAddress().getHostAddress();
                     String geoLine   = fetchGeo(remoteIp);
                     String localTime = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm a"));
                     long uptimeSecs  = (System.currentTimeMillis() - startTime) / 1000;
@@ -187,21 +216,23 @@ public class NitroWebExpress extends WebExpress
                     db.N21Store.storeGeo(remoteIp, geoParts.length > 0 ? geoParts[0] : "", geoParts.length > 1 ? geoParts[1] : "");
                     db.N21Store.storeStatusSnapshot(count, uptimeSecs, totalMB, usedMB);
 
+                    java.util.function.Function<String,String> L = k -> languages.LanguagePack.t(remoteIp, k);
+
                     String report =
                         "╔══════════════════════════════════════════════╗\n" +
-                        "║   National JDK Finance Engine  v2811.1 v12.1 ║\n" +
+                        "║  " + L.apply("header") + " ║\n" +
                         "╚══════════════════════════════════════════════╝\n" +
-                        "Remote IP:           " + remoteIp  + "\n" +
-                        "Geo Location:        " + geoLine   + "\n" +
-                        "Local Server Time:   " + localTime + "\n" +
-                        "Server Uptime:       " + uptime    + "\n" +
-                        "Total Memory:        " + totalMB   + "MB (used: " + usedMB + "MB)\n" +
-                        "Current Connections: " + count     + "\n";
+                        L.apply("label.remote_ip")    + "           " + remoteIp  + "\n" +
+                        L.apply("label.geo")          + "        " + geoLine   + "\n" +
+                        L.apply("label.time")         + "   " + localTime + "\n" +
+                        L.apply("label.uptime")       + "       " + uptime    + "\n" +
+                        L.apply("label.memory")       + "        " + totalMB   + "MB (used: " + usedMB + "MB)\n" +
+                        L.apply("label.connections")  + " " + count     + "\n" +
+                        "\n" + L.apply("label.lang_revert") + "\n";
 
                     CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ConnectionStatusServer >> status query: port=" + WATCHEDPORT + " connections=" + count + " .");
+                        ". ConnectionStatusServer >> status query: port=" + WATCHEDPORT + " connections=" + count + " lang=" + languages.LanguagePack.langOf(remoteIp) + " .");
 
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream()));
                     writer.write(report);
                     writer.flush();
                 }
@@ -439,6 +470,9 @@ public class NitroWebExpress extends WebExpress
                         return grantSignatory(parts[1]);
                     case "help":
                         return HELP;
+                    case "lang":
+                        if (parts.length < 2) return "Usage: lang <code>  (" + languages.LanguagePack.SUPPORTED + ")";
+                        return languages.LanguagePack.handleLangCommand(SESSION.remoteIp, parts[1]);
                     default:
                         return "Unknown command: " + parts[0] + ". Type 'help'.";
                 }
@@ -786,8 +820,12 @@ public class NitroWebExpress extends WebExpress
                                 if (parts.length < 2) { writeLine(out, "Usage: view <nationalId>"); break; }
                                 writeLine(out, handleView(parts[1]));
                                 break;
+                            case "lang":
+                                if (parts.length < 2) { writeLine(out, "Usage: lang <code>  (" + languages.LanguagePack.SUPPORTED + ")"); break; }
+                                writeLine(out, languages.LanguagePack.handleLangCommand(CLIENT.getInetAddress().getHostAddress(), parts[1]));
+                                break;
                             default:
-                                writeLine(out, "Unknown command. Use: request <nationalId> | view <nationalId> | quit");
+                                writeLine(out, "Unknown command. Use: request <nationalId> | view <nationalId> | lang <code> | quit");
                         }
                     }
                 }

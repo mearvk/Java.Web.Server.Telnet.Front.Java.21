@@ -175,6 +175,10 @@ public class ModuleLoaderDaemon extends Thread
                 if (!SESSION.authorised()) return "[replicate] Token required.";
                 return cmdReplicate(p[1], p[2], SESSION);
 
+            case "lang":
+                if (p.length < 2) return "Usage: lang <code>  (" + languages.LanguagePack.SUPPORTED + ")";
+                return languages.LanguagePack.handleLangCommand(SESSION.remoteIp, p[1]);
+
             case "help":
                 return HELP;
 
