@@ -242,8 +242,31 @@ db.N21Store  (all methods static)
   - storeNationalId(long,long)
   - storeNationalFinanceID(NationalFinanceID)
   - loadNationalFinanceID(long)   Returns NationalFinanceID or null.
+  - createAsciiSignaturesTable()  DDL: ascii_signatures
+  - nextAsciiSigId()
+  - storeAsciiSignature(long,int,String)
+  - loadAsciiSignature(long)      Returns ResultSet or null.
+  - createModuleLoaderTable()     DDL: module_loader
+  - storeModuleAction(...)
+  - createBitcoinTradesTable()    DDL: bitcoin_trades
+  - storeBitcoinTrade(action,wallet,detail,result)
+                                  Persists every Bitcoin operation (start/stop/
+                                  load/unload/send) to bitcoin_trades table.
   - storeStatusSnapshot(int,long,long,long)
   (all methods fall through to N21XmlFallback if MySQL is unavailable)
+
+  MySQL tables managed by N21Store:
+    connections           inbound connection records
+    geo_locations         IP → city/country (upsert)
+    exceptions            exception log
+    security_events       security exception log
+    national_ids          eight/sixteen digit IDs
+    national_finance_ids  full NationalFinanceID records
+    ascii_signatures      binary ASCII signatures
+    module_loader         module install/unload/push actions
+    bitcoin_trades        BTC lifecycle & trade records
+                            (action, wallet, detail, result, recorded_at)
+    status_snapshots      periodic server health snapshots
 
 db.N21XmlFallback
   - append(String table, String...kvPairs)
@@ -341,7 +364,24 @@ encryption.module.aes.two.EncryptionModule
 BITCOIN  (source/bitcoin/)
 ================================================================================
 
-bitcoin.base.BitcoinBase         Core Bitcoin protocol base.
+bitcoin.base.BitcoinBase
+  RPC config:  regtest  port=2222  user=root  (mirrors bitcoin/bash/btc24-query.sh)
+  Wallet:      "United States"
+  Methods:
+    start_bitcoind()              Start local bitcoind in regtest+daemon mode.
+    stop_bitcoind()               RPC stop.
+    load_wallet()                 loadwallet "United States".
+    unload_wallet()               unloadwallet "United States".
+    create_wallet(name)           createwallet <name>.
+    get_wallet_info()             getwalletinfo (JSON).
+    get_balance()                 getbalance.
+    get_new_address()             getnewaddress.
+    get_blockchain_info()         getblockchaininfo (JSON).
+    get_block_count()             getblockcount.
+    send(toAddress, amount)       sendtoaddress — records trade to MySQL.
+  All mutating ops persist to db.N21Store.storeBitcoinTrade() → bitcoin_trades table.
+  Process execution uses String[] arrays (no shell injection).
+
 bitcoin.module.TraderModule
   - TraderModule(Aspect,String)  Lightweight Bitcoin trading module; wired to
                                  the NitroWebExpress Aspect bridge.
