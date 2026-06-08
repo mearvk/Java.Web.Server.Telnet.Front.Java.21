@@ -118,6 +118,8 @@ public class NitroWebExpress extends WebExpress
 
         public loader.ModuleLoaderDaemon MODULE_LOADER_DAEMON;
 
+        public communicator.Communicator COMMUNICATOR;
+
         /** Start CONNECTION_STATUS and NitroWebExpress.SELF together. */
         public void start()
         {
@@ -127,6 +129,7 @@ public class NitroWebExpress extends WebExpress
             if (MODULE_INSTALLER_SERVICE != null) MODULE_INSTALLER_SERVICE.start();
             if (ASCII_CREATOR_SERVER     != null) ASCII_CREATOR_SERVER.start();
             if (MODULE_LOADER_DAEMON     != null) MODULE_LOADER_DAEMON.start();
+            if (COMMUNICATOR             != null) COMMUNICATOR.start();
             if (NitroWebExpress.SELF     != null) NitroWebExpress.SELF.start();
         }
 

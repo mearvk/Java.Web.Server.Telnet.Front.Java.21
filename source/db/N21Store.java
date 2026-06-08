@@ -400,6 +400,125 @@ public class N21Store
             "result",       RESULT       != null ? RESULT       : "");
     }
 
+    // ── communicator_messages / communicator_scheduled ────────────────────────
+
+    public static void createCommunicatorTables()
+    {
+        if (!dbOk()) return;
+        try
+        {
+            java.sql.Statement st = N21DataSource.get().createStatement();
+            st.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS communicator_messages (" +
+                "  id               BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                "  from_national_id BIGINT          NOT NULL," +
+                "  to_national_id   BIGINT          NOT NULL," +   // -1 = broadcast
+                "  message          TEXT            NOT NULL," +
+                "  type             VARCHAR(16)     NOT NULL DEFAULT 'direct'," +
+                "  sent_at          DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                "  INDEX idx_cm_from    (from_national_id)," +
+                "  INDEX idx_cm_to      (to_national_id)," +
+                "  INDEX idx_cm_sent    (sent_at)" +
+                ") ENGINE=InnoDB");
+            st.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS communicator_scheduled (" +
+                "  id               BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                "  from_national_id BIGINT          NOT NULL," +
+                "  to_national_id   BIGINT          NOT NULL," +   // -1 = broadcast
+                "  message          TEXT            NOT NULL," +
+                "  scheduled_time   VARCHAR(5)      NOT NULL," +   // HH:mm
+                "  delivered        TINYINT(1)      NOT NULL DEFAULT 0," +
+                "  created_at       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                "  delivered_at     DATETIME," +
+                "  INDEX idx_cs_pending (delivered, scheduled_time)" +
+                ") ENGINE=InnoDB");
+            st.close();
+        }
+        catch (Exception e) { fail("communicator_tables", e); }
+    }
+
+    public static void storeChatMessage(final long FROM, final long TO,
+                                         final String MESSAGE, final String TYPE)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "INSERT INTO communicator_messages (from_national_id, to_national_id, message, type) VALUES (?,?,?,?)");
+                ps.setLong(1, FROM); ps.setLong(2, TO);
+                ps.setString(3, MESSAGE != null ? MESSAGE : ""); ps.setString(4, TYPE != null ? TYPE : "direct");
+                ps.executeUpdate(); ps.close();
+                return;
+            }
+            catch (Exception e) { fail("communicator_messages", e); }
+        }
+        N21XmlFallback.append("communicator_messages",
+            "from", String.valueOf(FROM), "to", String.valueOf(TO), "message", MESSAGE, "type", TYPE);
+    }
+
+    public static void storeScheduledMessage(final long FROM, final long TO,
+                                              final String MESSAGE, final String SCHED_TIME)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "INSERT INTO communicator_scheduled (from_national_id, to_national_id, message, scheduled_time) VALUES (?,?,?,?)");
+                ps.setLong(1, FROM); ps.setLong(2, TO);
+                ps.setString(3, MESSAGE != null ? MESSAGE : ""); ps.setString(4, SCHED_TIME);
+                ps.executeUpdate(); ps.close();
+                return;
+            }
+            catch (Exception e) { fail("communicator_scheduled", e); }
+        }
+        N21XmlFallback.append("communicator_scheduled",
+            "from", String.valueOf(FROM), "to", String.valueOf(TO),
+            "message", MESSAGE, "scheduled_time", SCHED_TIME);
+    }
+
+    /** Returns all undelivered scheduled messages as an open ResultSet (caller must close). */
+    public static java.sql.ResultSet loadDueScheduledMessages()
+    {
+        if (!dbOk()) return null;
+        try
+        {
+            PreparedStatement ps = N21DataSource.get().prepareStatement(
+                "SELECT id, from_national_id, to_national_id, message, scheduled_time " +
+                "FROM communicator_scheduled WHERE delivered=0 ORDER BY created_at ASC");
+            return ps.executeQuery();
+        }
+        catch (Exception e) { fail("communicator_scheduled", e); return null; }
+    }
+
+    /** Returns last N chat messages as an open ResultSet (caller must close). */
+    public static java.sql.ResultSet loadRecentChatMessages(final int limit)
+    {
+        if (!dbOk()) return null;
+        try
+        {
+            PreparedStatement ps = N21DataSource.get().prepareStatement(
+                "SELECT from_national_id, to_national_id, message, sent_at " +
+                "FROM communicator_messages ORDER BY sent_at DESC LIMIT ?");
+            ps.setInt(1, limit);
+            return ps.executeQuery();
+        }
+        catch (Exception e) { fail("communicator_messages", e); return null; }
+    }
+
+    public static void markScheduledDelivered(final long ID)
+    {
+        if (!dbOk()) return;
+        try
+        {
+            PreparedStatement ps = N21DataSource.get().prepareStatement(
+                "UPDATE communicator_scheduled SET delivered=1, delivered_at=NOW() WHERE id=?");
+            ps.setLong(1, ID); ps.executeUpdate(); ps.close();
+        }
+        catch (Exception e) { fail("communicator_scheduled", e); }
+    }
+
     // ── bitcoin_trades ────────────────────────────────────────────────────────
 
     public static void createBitcoinTradesTable()

@@ -59,6 +59,10 @@ public class Main
 
     protected static final String MODULE_LOADER_DAEMON_HOST = "localhost";
 
+    protected static final Integer COMMUNICATOR_PORT = communicator.Communicator.PORT;
+
+    protected static final String COMMUNICATOR_HOST = "localhost";
+
     public static void main(String...args)
     {
         Main main = new Main();
@@ -127,6 +131,9 @@ public class Main
 
             if (configuration.NweConfig.isEnabled("MODULE_LOADER_DAEMON"))
                 NITRO.BRIDGE.MODULE_LOADER_DAEMON = new loader.ModuleLoaderDaemon(MODULE_LOADER_DAEMON_HOST);
+
+            if (configuration.NweConfig.isEnabled("COMMUNICATOR"))
+                NITRO.BRIDGE.COMMUNICATOR = new communicator.Communicator(COMMUNICATOR_HOST);
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
 

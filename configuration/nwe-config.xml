@@ -151,6 +151,21 @@
         </port-authority>
     </server>
 
+    <server id="COMMUNICATOR">
+        <enabled>true</enabled>
+        <name>Communicator</name>
+        <thread>Communicator</thread>
+        <host>localhost</host>
+        <port>49199</port>
+        <description>
+            Persistent 1-hour telnet chat server.  Supports direct messaging,
+            broadcast, scheduled delivery (per recipient local timezone), and
+            chat history.  MessagePoller daemon polls MySQL every 60 seconds
+            for due scheduled messages and delivers them to live sessions.
+            Set enabled=false to disable without recompiling.
+        </description>
+    </server>
+
     <!-- ═══════════════════════════════════════════════════════════════════
          HEURISTIC CLASSIFIER
     ════════════════════════════════════════════════════════════════════ -->
