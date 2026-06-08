@@ -152,6 +152,21 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         HEURISTIC CLASSIFIER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="HEURISTIC_CLASSIFIER">
+        <enabled>true</enabled>
+        <name>HeuristicClassifier</name>
+        <description>
+            Classifies every inbound connection across all public ports.
+            Scores IP repetition, port-scan patterns, geo-location concentration,
+            and payload keywords.  Threat connections (score >= 40) are dropped
+            immediately at the accept loop.  Set enabled=false to disable without
+            recompiling.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          REMOTE / EXTERNAL SERVERS  (for outbound connections)
     ════════════════════════════════════════════════════════════════════ -->
     <remote-server id="AES_REMOTE">
