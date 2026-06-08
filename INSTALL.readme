@@ -1,0 +1,107 @@
+INSTALL.readme — NitroWebExpress (NWE)
+Java National Finance Engine v2811.1
+MEARVK LLC — Author: Max Rupplin
+========================================
+
+REQUIREMENTS
+------------
+  - Linux (Ubuntu 22.04+ recommended)
+  - Java 21 JDK          (javac and java on PATH)
+  - sudo access          (for MySQL install only)
+  - Internet access      (for apt package download)
+
+
+QUICK START  (three commands)
+------------------------------
+  1.  bash bash/mysql-setup.sh        # install + configure MySQL
+  2.  bash bash/nwe-install.sh        # compile source, stage classes, chmod scripts
+  3.  bash scripts/startup.sh         # start NitroWebExpress
+
+
+STEP 1 — MySQL
+--------------
+  bash bash/mysql-setup.sh
+
+  What it does:
+    - Checks sudo access (exits with a clear message if not available)
+    - Installs mysql-server via apt  (skipped if already installed)
+    - Enables and starts the MySQL service
+    - Creates database N21 and user 'mearvk' with password from mysql.auth.xml
+    - Runs scripts/N21.table.builder.sh to create all application tables
+    - Writes authentication/mysql.auth.xml (chmod 600) if not already present
+
+  Override the app-user password:
+    bash bash/mysql-setup.sh --password MyNewPassword
+
+  Sudo note:
+    The script requires sudo for apt and mysql administration.
+    If sudo is not available it will print a clear error and exit.
+    Run as a user with sudo, or:
+      sudo -E bash bash/mysql-setup.sh
+
+
+STEP 2 — Build / Install
+-------------------------
+  bash bash/nwe-install.sh
+
+  What it does:
+    - Sets executable permission (chmod +x) on all .sh files in bash/ and scripts/
+    - Compiles all source/*.java files to out/  (skips if classes are up-to-date)
+    - Moves any stray .class files left in source/ to their correct path in out/
+
+  Force a full recompile:
+    bash bash/nwe-install.sh --force
+
+
+STEP 3 — Start
+--------------
+  bash scripts/startup.sh
+
+  Starts the JVM with G1GC, 512 MB min heap, 4 GB max heap, classpath out/.
+  On startup NweConfig reads configuration/nwe-config.xml and enables/disables
+  each service according to the <enabled> flags.
+
+
+STOP
+----
+  bash scripts/shutdown.sh
+
+  Sends SIGTERM then SIGKILL to any process bound to an NWE port.
+
+
+CONFIGURATION
+-------------
+  configuration/nwe-config.xml     Enable/disable individual services; set ports.
+  authentication/mysql.auth.xml    MySQL host, port, username, password.
+
+  Admin login (ModuleInstallationService / ModuleLoaderDaemon TCP sessions):
+    Username and password are set in the <admin> block of nwe-config.xml.
+    Default: username=mearvk  password=n21admin
+    Change the password in nwe-config.xml before first production use.
+
+
+SERVICE PORTS (default)
+-----------------------
+  49152   NitroWebExpress main
+   5512   AES 2.0 server
+   7743   RSA server
+   7744   DSA server
+   6682   Bitcoin server
+  49155   Connection status server
+  49177   ASCII creator server
+  49166   Module installation service
+  49188   Module loader daemon
+
+
+CONNECTING (telnet / nc)
+------------------------
+  telnet localhost 49152          # main NWE prompt
+  nc    localhost 49155           # status report
+  nc    localhost 49166           # module installation service
+  nc    localhost 49188           # module loader daemon
+
+
+LOGS
+----
+  logging/exceptions.log          Runtime exception log.
+  db/fallback/                    XML fallback records when MySQL is unavailable.
