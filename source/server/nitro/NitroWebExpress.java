@@ -518,6 +518,33 @@ public class NitroWebExpress extends WebExpress
                     CommonRails.printSystemComponent(this, this.hashCode(),
                         ". ModuleInstallationService security passed [" + NAME + "] type=" + detectedType + " .");
 
+                    // Heuristics check — score the module before writing to disk
+                    try
+                    {
+                        Path tmp = Files.createTempFile("nwe-heuristic-", "." + detectedType);
+                        Files.write(tmp, data);
+                        heuristics.ModuleHeuristics.Result hr = heuristics.ModuleHeuristics.evaluate(tmp);
+                        Files.deleteIfExists(tmp);
+
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". ModuleInstallationService heuristics [" + NAME + "] score=" + hr.score + " suitable=" + hr.suitable + " .");
+                        writeLine(OUT, "[heuristics] " + hr.summary());
+
+                        if (!hr.suitable)
+                        {
+                            db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject",
+                                SESSION.remoteIp, detectedType, byteCount, SIG_HEX, "", "heuristics-fail score=" + hr.score);
+                            return "[install] REJECTED — heuristics score " + hr.score + "/100 is below threshold ("
+                                + heuristics.ModuleHeuristics.PASS_THRESHOLD + "). See findings above.";
+                        }
+                    }
+                    catch (Exception hEx)
+                    {
+                        // Heuristics failure must not block install — log and continue
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". ModuleInstallationService heuristics error [" + NAME + "]: " + hEx.getMessage() + " — proceeding .");
+                    }
+
                     String filename = NAME.replaceAll("[^a-zA-Z0-9._-]", "_") + "." + detectedType;
                     Path dest = INSTALL_DIR.resolve(filename);
                     Files.write(dest, data);
