@@ -417,6 +417,29 @@ configuration/nwe-config.xml     Master NWE configuration file.
 source/configuration/config.xml  Legacy runtime configuration (XML).
 
 ================================================================================
+SCRIPTS & INSTALLATION  (bash/  scripts/)
+================================================================================
+
+bash/nwe-install.sh              Main installer — run this first.
+                                   Step 1: chmod +x all .sh files in bash/ and scripts/
+                                   Step 2: compile source/ → out/  (skips if up-to-date)
+                                   Step 3: move stray .class files from source/ to out/
+                                 Usage:
+                                   bash bash/nwe-install.sh           # incremental
+                                   bash bash/nwe-install.sh --force   # full recompile
+
+bash/mysql-setup.sh              MySQL installer and configurator (requires sudo).
+                                   Step 0: verify sudo access (fails fast if absent)
+                                   Step 1: apt install mysql-server  (skips if present)
+                                   Step 2: systemctl enable + start mysql
+                                   Step 3: CREATE DATABASE N21; CREATE USER mearvk
+                                   Step 4: run scripts/N21.table.builder.sh
+                                   Step 5: write authentication/mysql.auth.xml (if absent)
+                                 Usage:
+                                   bash bash/mysql-setup.sh
+                                   bash bash/mysql-setup.sh --password <custom-password>
+
+================================================================================
 KNOWN INTEGRITY NOTES (post-commit repairs)
 ================================================================================
 
