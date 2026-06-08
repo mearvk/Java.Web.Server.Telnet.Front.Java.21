@@ -266,6 +266,8 @@ db.N21Store  (all methods static)
     module_loader         module install/unload/push actions
     bitcoin_trades        BTC lifecycle & trade records
                             (action, wallet, detail, result, recorded_at)
+    communicator_messages chat message log (direct + broadcast)
+    communicator_scheduled scheduled messages with per-recipient local-time delivery
     status_snapshots      periodic server health snapshots
 
 db.N21XmlFallback
@@ -406,6 +408,51 @@ sim.stochastic                   Stochastic simulation base.
 sim.InputQueue                   Input queue for simulation events.
 
 ================================================================================
+COMMUNICATOR  (source/communicator/)
+================================================================================
+
+communicator.Communicator  (extends Thread, daemon, port 49199)
+  Session limit: 1 hour per connection.
+  Commands (after identify <nationalId>):
+    list                                  List all live sessions (NID, IP, geo, TZ, uptime)
+    msg <nationalId> <text>               Direct message; stored to MySQL; delivered live or pending
+    broadcast <text>                      Message all live sessions; stored to MySQL
+    schedule <nationalId|broadcast> <HH:mm> <text>
+                                          Schedule delivery at HH:mm in recipient's local timezone
+    history                               Last 20 chat messages from MySQL
+    lang <code>                           Switch language via LanguagePack
+    quit                                  Disconnect
+
+  LIVE (static ConcurrentHashMap)         nationalId → Session  (all live sessions)
+
+  Session (inner static)                  ip, nationalId, geoCity, geoCountry, timezone,
+                                          connectedAt, out (BufferedWriter)
+                                          expired() — true after 1 hour
+
+  communicator.Communicator.MessagePoller (static inner)
+    start()                               Starts ScheduledExecutorService (daemon, 60s period)
+    poll()                                Queries communicator_scheduled WHERE delivered=0;
+                                          checks localTimeMatches(tz, HH:mm) for each recipient;
+                                          delivers to live Session.writeLine(); marks delivered.
+    localTimeMatches(tz, HH:mm)           ZonedDateTime.now(ZoneId.of(tz)) matches HH:mm string.
+
+  MySQL tables:
+    communicator_messages     (from_national_id, to_national_id, message, type, sent_at)
+    communicator_scheduled    (from_national_id, to_national_id, message, scheduled_time,
+                               delivered, created_at, delivered_at)
+
+  N21Store methods added:
+    createCommunicatorTables()
+    storeChatMessage(from, to, message, type)
+    storeScheduledMessage(from, to, message, schedTime)
+    loadDueScheduledMessages()   → ResultSet WHERE delivered=0
+    loadRecentChatMessages(n)    → ResultSet ORDER BY sent_at DESC LIMIT n
+    markScheduledDelivered(id)
+
+  Wired in NitroWebExpress.Aspect as COMMUNICATOR field;
+  started via Aspect.start(); gated by NweConfig isEnabled("COMMUNICATOR").
+
+================================================================================
 MODULE LOADER  (source/loader/)
 ================================================================================
 
@@ -450,6 +497,7 @@ configuration/nwe-config.xml     Master NWE configuration file.
                                    CONNECTION_STATUS    49155
                                    ASCII_CREATOR        49177
                                    MODULE_INSTALLATION  49166
+                                   COMMUNICATOR         49199
                                    MODULE_LOADER_DAEMON 49188
                                    AES_REMOTE           45.32.31.139 (mearvk.us)
                                    BITCOIN_REMOTE       45.32.31.139 (mearvk.us)
