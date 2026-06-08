@@ -26,7 +26,17 @@ public class ExceptionEventDispatcher
 
         for (ExceptionListener listener : LISTENERS)
         {
-            listener.onException(record);
+            try
+            {
+                listener.onException(record);
+            }
+            catch (Exception listenerEx)
+            {
+                // Listener itself threw — print directly to stderr, do NOT re-dispatch
+                // (re-dispatching here is what causes the infinite loop).
+                System.err.println("[DISPATCHER] Listener " + listener.getClass().getSimpleName()
+                    + " threw: " + listenerEx.getMessage());
+            }
         }
 
         if (SETTINGS.isPersistExceptions())
