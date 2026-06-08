@@ -400,6 +400,63 @@ public class N21Store
             "result",       RESULT       != null ? RESULT       : "");
     }
 
+    // ── bitcoin_trades ────────────────────────────────────────────────────────
+
+    public static void createBitcoinTradesTable()
+    {
+        if (!dbOk()) return;
+        try
+        {
+            java.sql.Statement st = N21DataSource.get().createStatement();
+            st.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS bitcoin_trades (" +
+                "  id          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                "  action      VARCHAR(64)  NOT NULL," +
+                "  wallet      VARCHAR(255) NOT NULL DEFAULT ''," +
+                "  detail      TEXT         NOT NULL," +
+                "  result      TEXT         NOT NULL," +
+                "  recorded_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                "  INDEX idx_bt_action   (action)," +
+                "  INDEX idx_bt_recorded (recorded_at)" +
+                ") ENGINE=InnoDB");
+            st.close();
+        }
+        catch (Exception e) { fail("bitcoin_trades", e); }
+    }
+
+    /**
+     * Persist a Bitcoin operation record.
+     *
+     * @param action   e.g. "send", "load_wallet", "start_bitcoind"
+     * @param wallet   wallet name involved (empty string if N/A)
+     * @param detail   human-readable detail: address, amount, args, etc.
+     * @param result   raw output returned by bitcoin-cli or error string
+     */
+    public static void storeBitcoinTrade(final String action, final String wallet,
+                                          final String detail, final String result)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "INSERT INTO bitcoin_trades (action, wallet, detail, result) VALUES (?,?,?,?)");
+                ps.setString(1, action  != null ? action  : "");
+                ps.setString(2, wallet  != null ? wallet  : "");
+                ps.setString(3, detail  != null ? detail  : "");
+                ps.setString(4, result  != null ? result  : "");
+                ps.executeUpdate(); ps.close();
+                return;
+            }
+            catch (Exception e) { fail("bitcoin_trades", e); }
+        }
+        N21XmlFallback.append("bitcoin_trades",
+            "action",  action  != null ? action  : "",
+            "wallet",  wallet  != null ? wallet  : "",
+            "detail",  detail  != null ? detail  : "",
+            "result",  result  != null ? result  : "");
+    }
+
     // ── status_snapshots ──────────────────────────────────────────────────────
 
     public static void storeStatusSnapshot(final int ACTIVECONNECTIONS, final long UPTIMESECS, final long TOTALMB, final long USEDMB)
