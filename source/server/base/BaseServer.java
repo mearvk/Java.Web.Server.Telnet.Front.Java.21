@@ -1,8 +1,10 @@
 package server.base;
 
 import commons.CommonRails;
+import configuration.NweConfig;
 import connections.*;
 import exceptions.ExceptionHandler;
+import heuristics.HeuristicClassifier;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,6 +38,9 @@ public abstract class BaseServer extends Thread
     private final RecordedConnections RECORDED_CONNECTIONS = new RecordedConnections();
 
     private final InternationalConnections INTERNATIONAL_CONNECTIONS = new InternationalConnections();
+
+    /** Shared classifier — one instance per server so rate/geo state is pooled per port. */
+    private final HeuristicClassifier HEURISTIC = new HeuristicClassifier();
 
     public BaseServer()
     {
@@ -159,6 +164,25 @@ public abstract class BaseServer extends Thread
                 connection.internet_address = connection.SOCKET.getInetAddress();
 
                 connection.SERVER = this;
+
+                // ── Heuristic classification ──────────────────────────────────
+                if (NweConfig.isEnabled("HEURISTIC_CLASSIFIER"))
+                {
+                    String remoteIp = connection.SOCKET.getInetAddress().getHostAddress();
+                    HeuristicClassifier.ConnectionEvent event =
+                        new HeuristicClassifier.ConnectionEvent.Builder()
+                            .ip(remoteIp)
+                            .port(this.PORT)
+                            .build();
+                    HeuristicClassifier.Classification result = HEURISTIC.classify(event);
+                    CommonRails.printSystemComponent(this, this.hashCode(), result.summary());
+                    if (result.threat)
+                    {
+                        connection.SOCKET.close();
+                        continue;
+                    }
+                }
+                // ─────────────────────────────────────────────────────────────
 
                 CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress BaseServer] [New remote connection established [remote-ephemeral: "+connection.remote_address+" : local: "+this.PORT +"]]");
 
