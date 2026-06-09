@@ -164,6 +164,7 @@ public class NitroWebExpress extends WebExpress
                     while (!Thread.currentThread().isInterrupted())
                     {
                         Socket client = serverSocket.accept();
+                        client.setSoTimeout(20 * 60 * 1000); // 20-minute session limit
                         Thread responder = new Thread(() -> respond(client));
                         responder.setDaemon(true);
                         responder.start();
@@ -183,11 +184,12 @@ public class NitroWebExpress extends WebExpress
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream(), java.nio.charset.StandardCharsets.UTF_8));
                     BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(CLIENT.getInputStream(), java.nio.charset.StandardCharsets.UTF_8));
 
+                    writer.write("[ NWE port " + STATUS_PORT + " — Connection Status & Server Health Report  |  20-minute session ]\n");
                     writer.write(languages.LanguagePack.t(remoteIp, "label.lang_menu") + "\n");
                     writer.write(languages.LanguagePack.t(remoteIp, "label.lang_prompt") + "\n");
                     writer.flush();
 
-                    CLIENT.setSoTimeout(4000); // short timeout for lang selection
+                    CLIENT.setSoTimeout(20 * 60 * 1000); // 20-minute language selection window
                     try
                     {
                         String line = reader.readLine();
@@ -219,6 +221,26 @@ public class NitroWebExpress extends WebExpress
                     db.N21Store.storeGeo(remoteIp, geoParts.length > 0 ? geoParts[0] : "", geoParts.length > 1 ? geoParts[1] : "");
                     db.N21Store.storeStatusSnapshot(count, uptimeSecs, totalMB, usedMB);
 
+                    // ── Geo list for all live connections ─────────────────────
+                    StringBuilder geoList = new StringBuilder();
+                    for (connections.Connection c : WATCHED.CURRENT_CONNECTION)
+                    {
+                        if (c.internet_address != null)
+                        {
+                            String ip = c.internet_address.getHostAddress();
+                            geoList.append("    ").append(ip)
+                                   .append("  ").append(fetchGeo(ip)).append("\n");
+                        }
+                    }
+
+                    // ── Running JVM threads (server executables) ──────────────
+                    StringBuilder threads = new StringBuilder();
+                    Thread.getAllStackTraces().keySet().stream()
+                        .filter(t -> t.getState() == Thread.State.RUNNABLE || t.getState() == Thread.State.TIMED_WAITING)
+                        .sorted(java.util.Comparator.comparing(Thread::getName))
+                        .forEach(t -> threads.append("    [").append(t.getState()).append("] ")
+                                             .append(t.getName()).append("\n"));
+
                     java.util.function.Function<String,String> L = k -> languages.LanguagePack.t(remoteIp, k);
 
                     String report =
@@ -230,7 +252,9 @@ public class NitroWebExpress extends WebExpress
                         L.apply("label.time")         + "   " + localTime + "\n" +
                         L.apply("label.uptime")       + "       " + uptime    + "\n" +
                         L.apply("label.memory")       + "        " + totalMB   + "MB (used: " + usedMB + "MB)\n" +
-                        L.apply("label.connections")  + " " + count     + "\n" +
+                        L.apply("label.connections")  + " " + count + " current\n" +
+                        "\nConnected IPs & Geo:\n" + (geoList.length() > 0 ? geoList : "    (none)\n") +
+                        "\nRunning Server Threads:\n" + (threads.length() > 0 ? threads : "    (none)\n") +
                         "\n" + L.apply("label.lang_revert") + "\n";
 
                     CommonRails.printSystemComponent(this, this.hashCode(),
@@ -405,6 +429,7 @@ public class NitroWebExpress extends WebExpress
                     BufferedReader in  = new BufferedReader(new InputStreamReader(CLIENT.getInputStream()));
                     BufferedWriter out = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream()))
                 ) {
+                    writeLine(out, "[ NWE port " + PORT + " — Module Installation Service  |  install, unload, and manage NWE modules ]");
                     writeLine(out, "ModuleInstallationService v2.0");
                     writeLine(out, "Type 'identify <nationalId>' first, then 'help' for commands.");
 
@@ -802,6 +827,7 @@ public class NitroWebExpress extends WebExpress
                     BufferedReader in  = new BufferedReader(new InputStreamReader(CLIENT.getInputStream()));
                     BufferedWriter out = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream()))
                 ) {
+                    writeLine(out, "[ NWE port " + PORT + " — ASCII Signature Service  |  issues unique binary ASCII signatures per National ID ]");
                     writeLine(out, "ASCIICreatorServer — Binary ASCII Signature Service");
                     writeLine(out, "Commands: request <nationalId>  |  view <nationalId>  |  quit");
 

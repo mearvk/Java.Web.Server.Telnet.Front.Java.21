@@ -110,6 +110,7 @@ public class ModuleLoaderDaemon extends Thread
             BufferedReader in  = new BufferedReader(new InputStreamReader(CLIENT.getInputStream()));
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream()))
         ) {
+            writeLine(out, "[ NWE port " + PORT + " — Module Loader Daemon  |  push, pull, list, remove, and replicate installed modules ]");
             writeLine(out, "ModuleLoaderDaemon v1.0 — MEARVK NWE");
             writeLine(out, "Identify: identify <nationalId>   Token: token <port-registry-token>");
 
