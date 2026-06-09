@@ -135,6 +135,12 @@ public class Main
             if (configuration.NweConfig.isEnabled("COMMUNICATOR"))
                 NITRO.BRIDGE.COMMUNICATOR = new communicator.Communicator(COMMUNICATOR_HOST);
 
+            if (configuration.NweConfig.isEnabled("BINARY_HTTP"))
+                NITRO.BRIDGE.BINARY_HTTP_SERVER = new http.BinaryHttpServer("localhost");
+
+            if (configuration.NweConfig.isEnabled("WEATHER"))
+                NITRO.BRIDGE.WEATHER_SERVER = new weather.WeatherServer("localhost");
+
             if (configuration.NweConfig.isEnabled("ANTIVIRUS"))
                 new antivirus.AntivirusScanner(
                     configuration.NweConfig.antivirusSchedule(),

@@ -7,6 +7,8 @@ Source root: source/
 PORT REGISTRY  (authoritative reference)
 ================================================================================
 
+  49133   WeatherServer                     Current weather by city or lat,lon (wttr.in)
+  49144   BinaryHttpServer                  Binary data → HTTP link (PUT/GET to Apache2 dir)
   49152   NitroWebExpress (WebExpress)      Telnet proxy / main entry point
   49155   ConnectionStatusServer            Server health, geo, threads, live IPs
   49166   ModuleInstallationService         Install / unload / manage NWE modules
@@ -28,6 +30,7 @@ ENTRY POINT
 Main (source/Main.java)
   Port constants:
     WEBEXPRESS_PORT               = 49152
+    BINARY_HTTP_SERVER_PORT       = http.BinaryHttpServer.PORT (49144)
     AES2_WEBEXPRESS_SERVER_SOCKET = 5512
     BITCOIN_WEBEXPRESS_SERVER_SOCKET = 6682
     RSA_WEBEXPRESS_SERVER_SOCKET  = NitroWebExpress.Aspect.RSACompliant.DEFAULT_PORT
@@ -51,6 +54,8 @@ Main (source/Main.java)
       ASCII_CREATOR          → ASCIICreatorServer (49177)
       MODULE_LOADER_DAEMON   → ModuleLoaderDaemon (49188)
       COMMUNICATOR           → Communicator (49199)
+      BINARY_HTTP            → BinaryHttpServer (49144)
+      WEATHER                → WeatherServer (49133)
       ANTIVIRUS              → AntivirusScanner (no port; scheduled daemon)
     MySQLComponent → N21Store init
     N21XmlFallback.replayFallback()
@@ -187,6 +192,45 @@ connections.ConnectionPoller  (extends Thread)
 connections.logic.IPGeoParser   IP → GeoInfo (city, country, region, lat, lon, isp)
 connections.RecordedConnections / InternationalConnections / NationalConnections
 connections.GalacticConnections / MexicoConnections
+
+================================================================================
+WEATHER SERVER  (source/weather/)
+================================================================================
+
+weather.WeatherServer  (extends Thread, daemon)  PORT = 49133
+  Banner: "[ NWE port 49133 — Weather Service ]"
+  Backend: wttr.in?format=3  (no API key; plain-text one-liner response)
+  Commands:
+    <city>          Current weather for a city name (e.g. "Tokyo")
+    <lat,lon>       Current weather by coordinates (e.g. "35.68,139.69")
+    lang <code>     LanguagePack language switch
+    help            Show command list
+    quit            Disconnect
+
+================================================================================
+BINARY HTTP SERVER  (source/http/)
+================================================================================
+
+http.BinaryHttpServer  (extends Thread, daemon)  PORT = 49144
+  Apache dir: /var/www/html/nwe  (override via <apache-root> in nwe-config.xml)
+  Public URL: http://localhost/nwe  (override via <apache-url> in nwe-config.xml)
+
+  Protocol (raw TCP, newline-framed header then binary payload):
+
+    PUT <filename>\n
+    <4-byte big-endian length><binary bytes>
+      → writes file to apache-root/<8-char-uuid>-<filename>
+      → returns: OK http://localhost/nwe/<uuid>-<filename>
+
+    GET <url>\n
+      → downloads http/https URL (10s connect / 30s read timeout)
+      → saves to apache-root/<8-char-uuid>-<basename>
+      → returns: OK http://localhost/nwe/<uuid>-<basename>
+
+  Security:
+    - Only http/https GET URLs accepted (no file://, no arbitrary schemes)
+    - Filenames stripped to [a-zA-Z0-9._-] via safeName()
+    - Path.getFileName() used to prevent directory traversal on both PUT and GET
 
 ================================================================================
 COMMUNICATOR  (source/communicator/)
@@ -398,6 +442,8 @@ NWE opens 10 public TCP ports at startup (all gated by nwe-config.xml):
 
   PORT   SERVICE                   PURPOSE
   ─────  ────────────────────────  ─────────────────────────────────────────────
+  49133  WeatherServer             Current weather by city or lat,lon via wttr.in
+  49144  BinaryHttpServer          Binary → HTTP link; PUT binary or GET URL → Apache2 dir
   49152  NitroWebExpress           Main entry; telnet proxy; AES/BTC bridge hub
    5512  AESCompliant              AES 2.0 DSS 5.0 encryption sub-server
    6682  BitcoinCompliant          Bitcoin lightweight trading sub-server

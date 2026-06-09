@@ -61,6 +61,23 @@ public class NweConfig
     public static String antivirusSchedule()    { return get().ANTIVIRUS_SCHEDULE; }
     public static String antivirusScanPath()    { return get().ANTIVIRUS_SCAN_PATH; }
 
+    /** Return the text content of the first top-level &lt;key&gt; element, or null. */
+    public static String get(final String KEY)
+    {
+        if (INSTANCE == null) load();
+        try
+        {
+            Document doc = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder().parse(new File(CONFIG_FILE));
+            doc.getDocumentElement().normalize();
+            NodeList nl = doc.getDocumentElement().getElementsByTagName(KEY);
+            if (nl.getLength() == 0) return null;
+            String v = nl.item(0).getTextContent().trim();
+            return v.isEmpty() ? null : v;
+        }
+        catch (Exception e) { return null; }
+    }
+
     /** Load (or reload) configuration from disk.  Called once from Main(). */
     public static synchronized NweConfig load()
     {
