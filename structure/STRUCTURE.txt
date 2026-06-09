@@ -4,528 +4,421 @@ Author: Max Rupplin
 Source root: source/
 
 ================================================================================
+PORT REGISTRY  (authoritative reference)
+================================================================================
+
+  49152   NitroWebExpress (WebExpress)      Telnet proxy / main entry point
+  49155   ConnectionStatusServer            Server health, geo, threads, live IPs
+  49166   ModuleInstallationService         Install / unload / manage NWE modules
+  49177   ASCIICreatorServer                Binary ASCII signature issuance
+  49188   ModuleLoaderDaemon                Push / pull / replicate modules (OS daemon)
+  49199   Communicator                      Persistent 1-hour telnet chat
+   5512   AES 2.0 WebExpress sub-server     AES 2.0 DSS 5.0 encryption layer
+   6682   Bitcoin WebExpress sub-server     Bitcoin lightweight trading
+   7743   RSA Compliant sub-server          RSA encryption
+   7744   DSA Compliant sub-server          DSA encryption
+   2222   bitcoind RPC (local)              Bitcoin Core regtest (not bound by NWE)
+   3306   MySQL (local)                     N21 database (not bound by NWE)
+  Remote  45.32.31.139 (mearvk.us)          AES + Bitcoin production targets
+
+================================================================================
 ENTRY POINT
 ================================================================================
 
 Main (source/Main.java)
-  - main(String...args)         Entry point; instantiates Main.
-  - Main()                      Constructor; registers shutdown hook, starts
-                                NationalDriver, builds NitroWebExpress and wires
-                                its AES, Bitcoin, ConnectionStatus, and MySQL
-                                bridge components, then starts the bridge.
+  Port constants:
+    WEBEXPRESS_PORT               = 49152
+    AES2_WEBEXPRESS_SERVER_SOCKET = 5512
+    BITCOIN_WEBEXPRESS_SERVER_SOCKET = 6682
+    RSA_WEBEXPRESS_SERVER_SOCKET  = NitroWebExpress.Aspect.RSACompliant.DEFAULT_PORT
+    DSA_WEBEXPRESS_SERVER_SOCKET  = NitroWebExpress.Aspect.DSACompliant.DEFAULT_PORT
+    CONNECTION_STATUS_SERVER_PORT = NitroWebExpress.Aspect.ConnectionStatusServer.STATUS_PORT (49155)
+    MODULE_INSTALLER_SERVICE_PORT = NitroWebExpress.Aspect.ModuleInstallationService.PORT (49166)
+    ASCII_CREATOR_SERVER_PORT     = NitroWebExpress.Aspect.ASCIICreatorServer.PORT (49177)
+    MODULE_LOADER_DAEMON_PORT     = loader.ModuleLoaderDaemon.PORT (49188)
+    COMMUNICATOR_PORT             = communicator.Communicator.PORT (49199)
+
+  Startup sequence (each gated by NweConfig.isEnabled(<ID>)):
+    NweConfig.load()
+    NationalDriver.printOrderedComponents()
+    NitroWebExpress (49152) + Aspect bridge:
+      AES_COMPLIANT          → AESCompliant (5512)
+      BITCOIN_COMPLIANT      → BitcoinCompliant (6682)
+      RSA_COMPLIANT          → RSACompliant (7743)
+      DSA_COMPLIANT          → DSACompliant (7744)
+      CONNECTION_STATUS      → ConnectionStatusServer (49155)
+      MODULE_INSTALLATION    → ModuleInstallationService (49166)
+      ASCII_CREATOR          → ASCIICreatorServer (49177)
+      MODULE_LOADER_DAEMON   → ModuleLoaderDaemon (49188)
+      COMMUNICATOR           → Communicator (49199)
+      ANTIVIRUS              → AntivirusScanner (no port; scheduled daemon)
+    MySQLComponent → N21Store init
+    N21XmlFallback.replayFallback()
+    Aspect.start()
 
 ================================================================================
 SERVER LAYER  (source/server/)
 ================================================================================
 
 server.base.BaseServer  (abstract, extends Thread)
-  - BaseServer()                Default constructor.
   - BaseServer(String,Integer)  Binds ServerSocket on host:port.
   - BaseServer(Integer)         Binds ServerSocket on localhost:port.
-  - run()                       Accept loop: creates Connection, sets up
-                                reader/writer, spawns ConnectionPoller thread,
-                                adds connection to CURRENT_CONNECTIONS.
+  - run()                       Accept loop: HeuristicClassifier gate (gated by
+                                NweConfig "HEURISTIC_CLASSIFIER"), then creates
+                                Connection, spawns ConnectionPoller, records to
+                                N21Store.
+  Port awareness: binds whatever PORT is passed; heuristic classifier reads
+                  this.PORT on every accept.
 
 server.nitro.WebExpress  (extends BaseServer)
-  - WebExpress()                No-arg constructor.
-  - WebExpress(host,port,name,  Wires TelnetInstaller, TelnetCommunicationProxy,
-    telnetEnabled)              MessageQueueSorter; starts sorter thread.
+  REMOTE_PORT = "80"            Outbound proxy target port.
+  - WebExpress(host,port,name,telnetEnabled)
+                                Wires TelnetInstaller, TelnetCommunicationProxy,
+                                MessageQueueSorter; starts sorter thread.
 
 server.nitro.NitroWebExpress  (extends WebExpress)
-  - NitroWebExpress(port,host,  Full constructor; calls WebExpress super,
-    threadName)                 initialises NationalID, sets static SELF ref.
+  BASE_PORT            = 49152  (static, updated at construction)
+  AES_COMPLIANT_PORT   = 5512
+  BITCOIN_COMPLIANT_PORT = 6682
 
-  NitroWebExpress.Aspect        Bridge holder for AES and Bitcoin components.
-    - Aspect(WebExpress)
-    - AES_COMPONENT             AESCompliant instance (wired from Main).
-    - BITCOIN_COMPONENT         BitcoinCompliant instance (wired from Main).
+  NitroWebExpress.Aspect  (bridge holder)
+    Fields (all null until wired in Main):
+      AES_COMPONENT        AESCompliant   (5512)
+      BITCOIN_COMPONENT    BitcoinCompliant (6682)
+      RSA_COMPONENT        RSACompliant   (7743)
+      DSA_COMPONENT        DSACompliant   (7744)
+      CONNECTION_STATUS    ConnectionStatusServer (49155)
+      MODULE_INSTALLER_SERVICE ModuleInstallationService (49166)
+      ASCII_CREATOR_SERVER ASCIICreatorServer (49177)
+      MODULE_LOADER_DAEMON loader.ModuleLoaderDaemon (49188)
+      COMMUNICATOR         communicator.Communicator (49199)
+    - start()  Starts all non-null components then NitroWebExpress.SELF.
 
-  NitroWebExpress.Aspect.AESCompliant  (extends WebExpress)
-    - AESCompliant(host,port,   Starts AES WebExpress sub-server.
-      threadName,telnetEnabled)
-    - MessageOutputHandler
-        send_message(StringBuffer)
-        send_message(String)    Routes outbound AES messages.
+  NitroWebExpress.Aspect.AESCompliant  (extends WebExpress, port 5512)
+    Banner: none (raw telnet proxy)
 
-  NitroWebExpress.Aspect.BitcoinCompliant  (extends WebExpress)
-    - BitcoinCompliant(host,    Starts Bitcoin WebExpress sub-server.
-      port,threadName,enabled)
-    - MessageOutputHandler
-        send_message(StringBuffer)
-        send_message(String)    Routes outbound Bitcoin messages.
-    - MessageQueueSorter (inner Thread)
-        run()                   Drains MESSAGE_QUEUE; writes to Telnet proxy
-                                writer; cleans disconnected clients from
-                                CURRENT_CONNECTIONS.
-        addMessage(Message)
-        getMessageQueue()
-        getMessageQueueSize()
+  NitroWebExpress.Aspect.BitcoinCompliant  (extends WebExpress, port 6682)
+    Banner: none (raw telnet proxy)
 
-server.nitro.ConnectionStatusServer  (extends Thread)
-  - ConnectionStatusServer(host, watched, watchedPort)
-  - run()                       Binds port 49155; accepts status queries.
-  - respond(Socket)             Returns plain-text report: remote IP, geo,
-                                uptime, memory, connection count. Persists
-                                geo + snapshot to N21Store.
-  - fetchGeo(String ip)         HTTP lookup via ip-api.com; returns "City, Country".
+  NitroWebExpress.Aspect.RSACompliant  (extends WebExpress)
+    DEFAULT_PORT  (resolved from encryption DSA/RSA module, ~7743)
+
+  NitroWebExpress.Aspect.DSACompliant  (extends WebExpress)
+    DEFAULT_PORT  (~7744)
+
+  NitroWebExpress.Aspect.ConnectionStatusServer  (extends Thread)  PORT = 49155
+    Banner: "[ NWE port 49155 — Connection Status & Server Health Report  |  20-minute session ]"
+    - run()       Binds 49155; setSoTimeout(20*60*1000) on each accepted socket.
+    - respond()   Language selection window: 20 minutes (SocketTimeoutException = proceed).
+                  Builds translated report:
+                    Remote IP, Geo, Local Time, Uptime, Memory,
+                    Current connections count,
+                    Connected IPs & Geo (all live CurrentConnections),
+                    Running Server Threads (RUNNABLE + TIMED_WAITING JVM threads).
+                  Persists geo + snapshot to N21Store.
+    - fetchGeo()  ip-api.com HTTP lookup → "City, Country".
+
+  NitroWebExpress.Aspect.ModuleInstallationService  (extends Thread)  PORT = 49166
+    Banner: "[ NWE port 49166 — Module Installation Service  |  install, unload, and manage NWE modules ]"
+    Commands: identify | admin | install | unload | list | restart | comment | signatory | lang | help | quit
+
+  NitroWebExpress.Aspect.ASCIICreatorServer  (extends Thread)  PORT = 49177
+    Banner: "[ NWE port 49177 — ASCII Signature Service  |  issues unique binary ASCII signatures per National ID ]"
+    Commands: request <nationalId> | view <nationalId> | lang <code> | quit
+
+  NitroWebExpress.Aspect.MySQLComponent
+    Checks N21 DB status at startup; prints colored result via CommonRails.
+
+================================================================================
+HEURISTIC CLASSIFIER  (source/heuristics/)
+================================================================================
+
+heuristics.HeuristicClassifier
+  PUBLIC_PORTS = {49152, 5512, 6682, 49155, 49188}
+  Gated by NweConfig.isEnabled("HEURISTIC_CLASSIFIER") in BaseServer.run().
+  Per-instance state (one classifier per BaseServer):
+    ipTimestamps   IP → rolling list of epoch-second timestamps (60s window)
+    ipPorts        IP → set of distinct ports probed
+    countryCount   countryCode → connection count
+  Built-in rules (score 0–100, threat ≥ 40 → socket closed immediately):
+    checkIpRate()           IP repetition: ≥20 conn/60s → +40; ≥10 → +15
+    checkPortScan()         ≥3 distinct ports from same IP → +30
+    checkGeoConcentration() single country ≥30% of total (min 5 sample) → +20
+    checkPayload()          bad keywords +15 each; large-alloc patterns +20;
+                            spin-loop patterns +25; system binary paths +30;
+                            constructor-loop pattern +20
+  Extensibility:
+    implements IHeuristicModule   — register independent scoring module
+    extends AbstractHeuristic     — inherits port helpers + warn()/pass() API
+    register(IHeuristicModule)    — add at runtime
+
+heuristics.ModuleHeuristics
+  evaluate(Path) → Result (score 0–100, suitable if ≥70)
+  Checks: file type (+20), non-empty (+10), size ≤50MB (+10), name safe (+5)
+  Type-specific:
+    checkJar()         MANIFEST.MF (+15), .class files (+25)
+    checkZip()         entry count (+30)
+    checkJavaSource()  public type (+20), package (+10), no exec (+10),
+                       then checkSourceSecurity():
+                         large array allocation  (−20)
+                         spin loop               (−25 / −10 if exit present)
+                         system binary exec path (−30)
+                         constructor loop no exit(−20)
 
 ================================================================================
 CONNECTIONS  (source/connections/)
 ================================================================================
 
 connections.Connection
-  Fields: SOCKET, inputstream, outputstream, reader, writer, server,
+  Fields: SOCKET, inputstream, outputstream, reader, writer, SERVER,
           remote_address, internet_address, inception_date,
           IS_TELNET_EXCELSIOR_CONNECTED
-  - Connection()
-  - Connection(BaseServer)
 
 connections.CurrentConnections
-  Fields: CURRENT_CONNECTION (ArrayList<Connection>)
-  - add(Connection)
-  - remove(Socket)
-  - remove(Connection)
-  - size()
+  CURRENT_CONNECTION  CopyOnWriteArrayList<Connection>  (thread-safe)
+  - add(Connection) / remove(Socket) / remove(Connection) / size()
+  Used by ConnectionStatusServer to enumerate live IPs for geo report.
 
 connections.ConnectionPoller  (extends Thread)
-  - ConnectionPoller(BaseServer,String,Integer)
-  - ConnectionPoller(WebExpress,BaseServer)
-  - handleSession(Connection,CurrentConnections)
-                                Greeted by NationalFinanceIDFeeder; reads client
-                                input; proxies HTTP GET to tacobell.phd:80;
-                                enqueues MessageQueue.Message for audit trail.
-  - run()                       Polls CURRENT_CONNECTIONS; marks new connections
-                                IS_TELNET_EXCELSIOR_CONNECTED; spawns per-connection
-                                SessionHandler threads; cleans closed sockets.
+  - handleSession()   Greeted by NationalFinanceIDFeeder; proxies HTTP;
+                      enqueues MessageQueue.Message.
+  - run()             Polls connections; marks telnet state; spawns sessions.
 
-connections.RecordedConnections   Archive of all historical connections.
-connections.InternationalConnections  International connection tracking list.
-connections.NationalConnections   National connection tracking list.
-connections.GalacticConnections   Extended connection tracking list.
-connections.MexicoConnections     Regional connection tracking list.
-connections.InternationalConnections
-connections.logic.IPGeoParser     Parses IP geolocation data.
+connections.logic.IPGeoParser   IP → GeoInfo (city, country, region, lat, lon, isp)
+connections.RecordedConnections / InternationalConnections / NationalConnections
+connections.GalacticConnections / MexicoConnections
 
 ================================================================================
-MESSAGING  (source/messaging/)
+COMMUNICATOR  (source/communicator/)
 ================================================================================
 
-messaging.MessageQueue
-  - MessageQueue(BaseServer)
-  - clear()                     Reinitialises MESSAGES list.
-  - send(Message)               Writes MESSAGE_BUFFER to Message.SOCKET.
-  - add(Message)                Adds message; notifies waiting threads.
-  - remove(Message)
-  - size()
-  Message (inner static class)
-    Fields: CONNECTION, SOCKET, TIME_STAMP, MESSAGE_BUFFER, INTERNET_ADDRESS
+communicator.Communicator  (extends Thread, daemon)  PORT = 49199
+  Banner:
+    "[ NWE port 49199 — Communicator ]"
+    "Persistent chat  |  direct msg  |  broadcast  |  Scheduled delivery  |  1-hour session"
+  Session limit: 1 hour (Session.expired() checked per command).
+  Geo + timezone resolved from ip-api.com at connect time.
+  Commands (after identify <nationalId>):
+    list                                  Live roster: NID, IP, geo, TZ, online-time
+    msg <nationalId> <text>               Direct; stored MySQL; delivered live or pending
+    broadcast <text>                      All live sessions; stored MySQL
+    schedule <nationalId|broadcast> <HH:mm> <text>
+                                          Stored; delivered at HH:mm recipient local time
+    history                               Last 20 rows from communicator_messages
+    lang <code>                           LanguagePack switch
+    quit
 
-messaging.MessageQueueSorter  (extends Thread)
-  - MessageQueueSorter(WebExpress)
-  - run()                       Drains MESSAGE_QUEUE; forwards each message to
-                                TelnetCommunicationProxy writer; reads Telnet
-                                reply and proxies back to client socket; removes
-                                disconnected clients from CURRENT_CONNECTIONS.
-  - addMessage(Message)
-  - getMessageQueue()
-  - getMessageQueueSize()
-
-messaging.MessageOutputHandler
-  - MessageOutputHandler(Socket,StringBuffer)
-  - MessageOutputHandler(Socket,String)
-  - run()                       Writes buffer/string to socket output stream.
+  Communicator.MessagePoller  (static inner, ScheduledExecutorService, 60s)
+    poll()  loadDueScheduledMessages() → check localTimeMatches(ZoneId,HH:mm)
+            → Session.writeLine() → markScheduledDelivered(id)
 
 ================================================================================
-TELNET  (source/telnet/)
+MODULE LOADER  (source/loader/)
 ================================================================================
 
-telnet.TelnetInstaller
-  - TelnetInstaller(WebExpress)  Starts OS telnet process to REMOTE_SITE:REMOTE_PORT;
-                                 wires process_builder, process, reader, writer.
-
-telnet.TelnetCommunicationProxy
-  - TelnetCommunicationProxy(WebExpress)
-                                Borrows streams from TelnetInstaller; creates
-                                TelnetProxyCommunicator, TelnetOutputBuilder,
-                                TelnetInputBuilder; starts all three.
-  TelnetProxyCommunicator (inner Thread)
-    - run()                     Reads lines from telnet process; enqueues to
-                                input_builder.telnet_message_queue; also builds
-                                outbound messages for OUTPUT_BUILDER queue.
-
-telnet.TelnetOutputBuilder  (extends Thread)
-  - TelnetOutputBuilder(TelnetCommunicationProxy)
-  - run()                       Drains TELNET_MESSAGE_QUEUE; writes each message
-                                to proxy.writer (telnet process stdin).
-
-telnet.TelnetInputBuilder  (extends Thread)
-  - TelnetInputBuilder(TelnetCommunicationProxy)
-  - run()                       Drains telnet_message_queue; writes each message
-                                to proxy.writer.
-  - setBuffer(StringBuffer)
-
-telnet.TelnetMessageQueue
-  - TelnetMessageQueue(Integer size)
-  - TelnetMessageQueue(BaseServer)
-  - add(Message)
-  - remove(Message)
-  - sleep(Message)              Alias of add; enqueues and notifies.
-  - size()
-  - delete(Message)             Nulls the messages list (destructive).
-  Message (inner static class)
-    Fields: PORT, protocol, SOCKET, TIMESTAMP, MESSAGE_BUFFER, internet_address
-
-telnet.TelnetProxyLivenessMonitor  (extends Thread, daemon)
-  - TelnetProxyLivenessMonitor(TelnetCommunicationProxy)
-  - run()                       Probes proxy every 15s when clients connected;
-                                idles every 5s when no clients; calls reconnect()
-                                on failure.
-  - isProxyAlive()              Checks process.isAlive() and flushes writer.
-  - reconnect()                 Destroys dead process; runs TelnetInstaller;
-                                rewires proxy streams.
+loader.ModuleLoaderDaemon  (extends Thread, daemon)  PORT = 49188
+  Banner: "[ NWE port 49188 — Module Loader Daemon  |  push, pull, list, remove, and replicate installed modules ]"
+  Commands: identify | token | push | pull | list | remove | replicate | lang | help | quit
+  registerPortToken(token, nationalId)   Called by national port-authority DB.
+  DaemonModule  NAME, PATH, SHA256, SIZE, INSTALLED_AT
 
 ================================================================================
-NATIONAL  (source/national/)
+LANGUAGES  (source/languages/)
 ================================================================================
 
-national.NationalID
-  Fields: EIGHT_DIGITS, SIXTEEN_DIGITS   Randomly generated IDs.
-
-national.NationalFinanceID
-  Fields: nationalId, remoteAddress, iq, educationLevel, socialSkills,
-          equipment, trustLevel, parentOne, parentTwo, suspects,
-          socialSpotting, promissoryNote, createdAt
-
-national.NationalFinanceIDFeeder
-  - greet(Connection)           Interactive Telnet prompt: collects/loads
-                                NationalFinanceID; persists via N21Store;
-                                enters finance command loop.
-  - financePrompt(Connection,   Finance REPL: buy / sell / balance / id /
-    NationalFinanceID)          status / help / quit commands.
-  - trade(String,               Processes one REPL command; returns reply.
-    NationalFinanceID)
-
-national.NationalDriver
-  - record(String)              Records a CommonRails startup print line.
-  - printOrderedComponents()    Groups and sorts startup references by subsystem
-                                (NITRO, WEBEXPRESS, BASESERVER, TELNET, AES,
-                                BITCOIN, REMAINDER); stores grouped result.
-  - getGroupedStartupReferences()
-  - getGroupNames()
-  - clear()                     Clears recorded startup references.
-  - extractClassName(String)    Parses class name from reference string.
-  - extractTimestamp(String)    Parses epoch millis from reference string.
-
-national.NationalTellus          National telemetry/state tracking.
+languages.LanguagePack
+  Supported: en ja cn ru th es fr de it
+  Pack files: languages/<code>.properties  (UTF-8)
+  PREFS  ConcurrentHashMap<String,String>  IP → language code
+  - t(ip, key)                  Translate key for IP's preferred language.
+  - setLang(ip, code)           Set preference; returns false if unsupported.
+  - revert(ip)                  Reset to English.
+  - handleLangCommand(ip, code) Parse "lang <code>" from any port handler;
+                                returns confirmation in new language.
+  Available on every public port: 49155, 49166, 49177, 49188, 49199.
 
 ================================================================================
-DATABASE  (source/db/)
+ANTIVIRUS  (source/antivirus/)
 ================================================================================
 
-db.N21DataSource
-  - get()                       Returns live java.sql.Connection (MySQL).
-  - isAvailable()               Returns current DB availability flag.
-  - markFailed()                Marks datasource as unavailable.
-
-db.N21AuthConfig
-  Fields: host, port, username, password, useSudo
-  ANSI colors: COLOR_LIME_GREEN, COLOR_YELLOW, COLOR_STANDARD_RED, COLOR_RESET
-  - get()                       Singleton; loads from authentication/mysql.auth.xml.
-  - ensureMysqlRunning()        systemctl status/start mysql; JDBC login test;
-                                prints results in colour via CommonRails.
-
-db.N21Store  (all methods static)
-  - storeConnection(Connection,int)
-  - storeGeo(String ip,city,country)
-  - storeException(ExceptionRecord,boolean)
-  - storeSecurityEvent(ExceptionRecord,String)
-  - storeNationalId(long,long)
-  - storeNationalFinanceID(NationalFinanceID)
-  - loadNationalFinanceID(long)   Returns NationalFinanceID or null.
-  - createAsciiSignaturesTable()  DDL: ascii_signatures
-  - nextAsciiSigId()
-  - storeAsciiSignature(long,int,String)
-  - loadAsciiSignature(long)      Returns ResultSet or null.
-  - createModuleLoaderTable()     DDL: module_loader
-  - storeModuleAction(...)
-  - createBitcoinTradesTable()    DDL: bitcoin_trades
-  - storeBitcoinTrade(action,wallet,detail,result)
-                                  Persists every Bitcoin operation (start/stop/
-                                  load/unload/send) to bitcoin_trades table.
-  - storeStatusSnapshot(int,long,long,long)
-  (all methods fall through to N21XmlFallback if MySQL is unavailable)
-
-  MySQL tables managed by N21Store:
-    connections           inbound connection records
-    geo_locations         IP → city/country (upsert)
-    exceptions            exception log
-    security_events       security exception log
-    national_ids          eight/sixteen digit IDs
-    national_finance_ids  full NationalFinanceID records
-    ascii_signatures      binary ASCII signatures
-    module_loader         module install/unload/push actions
-    bitcoin_trades        BTC lifecycle & trade records
-                            (action, wallet, detail, result, recorded_at)
-    communicator_messages chat message log (direct + broadcast)
-    communicator_scheduled scheduled messages with per-recipient local-time delivery
-    status_snapshots      periodic server health snapshots
-
-db.N21XmlFallback
-  - append(String table, String...kvPairs)
-                                Appends a record to fallback XML file.
-  - replayFallback()            Replays buffered XML records into MySQL on startup.
-
-db.N21Status                    Tracks DB status flags and last-error state.
-
-================================================================================
-EXCEPTIONS  (source/exceptions/)
-================================================================================
-
-exceptions.ExceptionHandler
-  - dispatch(Exception)         Routes through ExceptionEventDispatcher pipeline.
-  - dispatch(Throwable)
-  - getInstance()
-
-exceptions.ExceptionEventDispatcher
-  - dispatch(Exception)         Fans out to all registered ExceptionListeners;
-                                forwards to ExceptionPersistenceService.
-
-exceptions.ExceptionPersistenceService
-  - persist(ExceptionRecord)    Writes exception to exceptions.log.
-
-exceptions.ExceptionRecord      Value type: exception, origin, stackTrace, timestamp.
-exceptions.ExceptionListener    Interface: onException(ExceptionRecord).
-exceptions.N21ExceptionListener Implementation of ExceptionListener.
-exceptions.SecurityExceptionHandler  Handles SecurityException subclass.
-exceptions.NullPointerConstructorHandler  Handles NullPointerException.
-exceptions.PersistenceListener  Writes to persistence log on exception.
-exceptions.BackendSettings      Config: enabled flag, log path, listener list.
-
-================================================================================
-COMMONS  (source/commons/)
-================================================================================
-
-commons.CommonRails
-  Fields: USE_COLORED_OUTPUT (default true)
-  - printSystemComponent(Object,Integer,String)
-                                Formats and prints a dated, hashed component
-                                log line via delayableFinePrinter.
-  - delayableFinePrinter(String,int)
-                                Animates text through a greyscale ANSI ramp,
-                                then prints the final line.
-  - registerProcess(ProcessBuilder,Process,Object)
-                                Registers an OS Process; attaches onExit
-                                listener (or watcher thread fallback).
-  - getRegisteredProcesses()
-  - size(ArrayList)
-  - _long(String,WebExpress,Integer)
-                                Sleeps then dispatches named lifecycle hooks
-                                (e.g. TelnetCommunicator Close Hook).
-  SocketUtils (inner static)
-    - isSocketConnected(Socket) Write-probe; returns true if socket is live.
-    - isSocketClosed(Socket)    Write-probe; returns true if socket is closed.
-  TelnetCallOnComplete (inner static, implements Runnable)
-    - run()                     Waits for TELNET_COMMUNICATION_PROXY process exit.
-  IranianWedding (inner static)
-    - printBurgundyPresentation(Object,String)
-                                Prints text in ANSI burgundy (code 88).
-    - printInternationalGregorianRhetoric(Object,String)
-                                Delegates to printBurgundyPresentation.
-
-commons.InternationalCommonRails
-  IranianWedding (inner static)
-    - printSystemComponent(Object)
-                                Prints the US/Iranian Wedding startup rhetoric
-                                via CommonRails.IranianWedding.
-                                printInternationalGregorianRhetoric.
-
-commons.IranianWedding           Standalone burgundy print utility.
-
-commons.transition.english.EnglishArithemeter
-  - EnglishArithemeter(int)     Converts integer to English word + numeral result.
-  result.arithemetic            English word form (e.g. "three").
-  result.numeral                Numeric string form (e.g. "3").
-
-commons.transition.english.Arithmeter
-  Base arithmetic-to-word conversion.
-
-commons.security.BodiSecurityException   Custom security exception with stack context.
-commons.security.SecurityExceptionHandler
-commons.security.SecurityExceptionHandlerTest
-
-================================================================================
-ENCRYPTION  (source/encryption/)
-================================================================================
-
-encryption.module.aes.two.EncryptionModule
-  - EncryptionModule(Random,String,String)
-                                AES 2.0 DSS 5.0 encryption module; initialised
-                                with a seeded Random and descriptor strings.
+antivirus.AntivirusScanner  (no port; scheduled daemon)
+  Gated by NweConfig.isEnabled("ANTIVIRUS").
+  schedule  read from nwe-config.xml <schedule>: hourly|daily|weekly|monthly|yearly
+  scan-path read from nwe-config.xml <scan-path> (default ".")
+  - start()        Launches ScheduledExecutorService daemon at configured period.
+  - scan()         Calls runClamScan() then runIntegrityCheck().
+  - runClamScan()  clamscan -r --suppress-ok-results <path>; logs CLEAN or ALERT.
+                   Degrades gracefully if clamscan not on PATH.
+  - runIntegrityCheck()
+                   SHA-256 baseline over *.java *.class *.jar *.sh *.xml *.properties.
+                   First run: captures baseline.
+                   Subsequent runs: reports CHANGED and NEW files.
 
 ================================================================================
 BITCOIN  (source/bitcoin/)
 ================================================================================
 
 bitcoin.base.BitcoinBase
-  RPC config:  regtest  port=2222  user=root  (mirrors bitcoin/bash/btc24-query.sh)
-  Wallet:      "United States"
-  Methods:
-    start_bitcoind()              Start local bitcoind in regtest+daemon mode.
-    stop_bitcoind()               RPC stop.
-    load_wallet()                 loadwallet "United States".
-    unload_wallet()               unloadwallet "United States".
-    create_wallet(name)           createwallet <name>.
-    get_wallet_info()             getwalletinfo (JSON).
-    get_balance()                 getbalance.
-    get_new_address()             getnewaddress.
-    get_blockchain_info()         getblockchaininfo (JSON).
-    get_block_count()             getblockcount.
-    send(toAddress, amount)       sendtoaddress — records trade to MySQL.
-  All mutating ops persist to db.N21Store.storeBitcoinTrade() → bitcoin_trades table.
-  Process execution uses String[] arrays (no shell injection).
+  RPC:    regtest  port=2222  user=root  pw=5n5SgKPNPvO0WGr5XcKETuJYydwkXPkdtjNFjJ8bc7s=
+  Wallet: "United States"
+  Methods: start_bitcoind | stop_bitcoind | load_wallet | unload_wallet |
+           create_wallet | get_wallet_info | get_balance | get_new_address |
+           get_blockchain_info | get_block_count | send(toAddress,amount)
+  All mutating ops → db.N21Store.storeBitcoinTrade() → bitcoin_trades table.
+  String[] exec (no shell injection).
 
-bitcoin.module.TraderModule
-  - TraderModule(Aspect,String)  Lightweight Bitcoin trading module; wired to
-                                 the NitroWebExpress Aspect bridge.
-bitcoin.messaging.MessageOrderer  Orders outbound Bitcoin messages.
-bitcoin.time.BitcoinAmericaAndNewYorkDate   NY-timezone date for Bitcoin.
-bitcoin.time.BitcoinAmericaAndLosAngelesDate  LA-timezone date.
-bitcoin.time.BitcoinAsiaAndTokyoDate          Tokyo-timezone date.
+bitcoin.module.TraderModule       Wired to Aspect bridge.
+bitcoin.messaging.MessageOrderer  Orders outbound BTC messages.
+bitcoin.time.*                    NY / LA / Tokyo timezone date helpers.
 
 ================================================================================
-SECURITY  (source/security/)
+DATABASE  (source/db/)
 ================================================================================
 
-security.PortAdministrator       Port access administration.
-security.PortKnockKnock          Port-knock detection.
-security.PortStealth             Port stealth/hiding utility.
-
-================================================================================
-SIMULATION  (source/sim/)
-================================================================================
-
-sim.stochastic                   Stochastic simulation base.
-sim.InputQueue                   Input queue for simulation events.
-
-================================================================================
-COMMUNICATOR  (source/communicator/)
-================================================================================
-
-communicator.Communicator  (extends Thread, daemon, port 49199)
-  Session limit: 1 hour per connection.
-  Commands (after identify <nationalId>):
-    list                                  List all live sessions (NID, IP, geo, TZ, uptime)
-    msg <nationalId> <text>               Direct message; stored to MySQL; delivered live or pending
-    broadcast <text>                      Message all live sessions; stored to MySQL
-    schedule <nationalId|broadcast> <HH:mm> <text>
-                                          Schedule delivery at HH:mm in recipient's local timezone
-    history                               Last 20 chat messages from MySQL
-    lang <code>                           Switch language via LanguagePack
-    quit                                  Disconnect
-
-  LIVE (static ConcurrentHashMap)         nationalId → Session  (all live sessions)
-
-  Session (inner static)                  ip, nationalId, geoCity, geoCountry, timezone,
-                                          connectedAt, out (BufferedWriter)
-                                          expired() — true after 1 hour
-
-  communicator.Communicator.MessagePoller (static inner)
-    start()                               Starts ScheduledExecutorService (daemon, 60s period)
-    poll()                                Queries communicator_scheduled WHERE delivered=0;
-                                          checks localTimeMatches(tz, HH:mm) for each recipient;
-                                          delivers to live Session.writeLine(); marks delivered.
-    localTimeMatches(tz, HH:mm)           ZonedDateTime.now(ZoneId.of(tz)) matches HH:mm string.
+db.N21Store  (all static)
+  storeConnection / storeGeo / storeException / storeSecurityEvent
+  storeNationalId / storeNationalFinanceID / loadNationalFinanceID
+  createAsciiSignaturesTable / nextAsciiSigId / storeAsciiSignature / loadAsciiSignature
+  createModuleLoaderTable / storeModuleAction
+  createBitcoinTradesTable / storeBitcoinTrade
+  createCommunicatorTables / storeChatMessage / storeScheduledMessage
+  loadDueScheduledMessages / loadRecentChatMessages / markScheduledDelivered
+  storeStatusSnapshot
+  (MySQL primary; XML fallback on any failure)
 
   MySQL tables:
-    communicator_messages     (from_national_id, to_national_id, message, type, sent_at)
-    communicator_scheduled    (from_national_id, to_national_id, message, scheduled_time,
-                               delivered, created_at, delivered_at)
+    connections             inbound connection records
+    geo_locations           IP → city/country (upsert)
+    exceptions              exception log
+    security_events         security exception log
+    national_ids            eight/sixteen digit IDs
+    national_finance_ids    full NationalFinanceID records
+    ascii_signatures        binary ASCII signatures per National ID
+    module_loader           module install/unload/push actions
+    bitcoin_trades          BTC lifecycle & trade records
+    communicator_messages   chat messages (direct + broadcast)
+    communicator_scheduled  scheduled messages with local-time delivery
+    status_snapshots        periodic server health snapshots
 
-  N21Store methods added:
-    createCommunicatorTables()
-    storeChatMessage(from, to, message, type)
-    storeScheduledMessage(from, to, message, schedTime)
-    loadDueScheduledMessages()   → ResultSet WHERE delivered=0
-    loadRecentChatMessages(n)    → ResultSet ORDER BY sent_at DESC LIMIT n
-    markScheduledDelivered(id)
-
-  Wired in NitroWebExpress.Aspect as COMMUNICATOR field;
-  started via Aspect.start(); gated by NweConfig isEnabled("COMMUNICATOR").
-
-================================================================================
-MODULE LOADER  (source/loader/)
-================================================================================
-
-loader.ModuleLoaderDaemon  (extends Thread, daemon)
-  PORT = 49188
-
-  Standalone OS-installable module loader.  Runs independently of NWE on any
-  server that carries the install mat.  Port privilege is granted externally
-  by the national port-authority database before clients may push or replicate.
-
-  Commands (TCP text protocol):
-    identify <nationalId>               Identify via N21Store lookup
-    token    <port-registry-token>      Present national port-authority token
-    push     <name> <sha256> <bytes>    Install a module (binary follows inline)
-    pull     <name>                     Download an installed module
-    list                                List all installed modules + SHA-256 + size
-    remove   <name>                     Remove a module (token required)
-    replicate <host:port> <name>        Duplicate module to remote ModuleLoaderDaemon
-    quit                                Close connection
-
-  Static:
-    registerPortToken(token, nationalId)  Register a port-registry token
-                                          (called by national port-authority DB)
-
-  DaemonModule (inner static)             NAME, PATH, SHA256, SIZE, INSTALLED_AT
-
-  Wired into NitroWebExpress.Aspect as MODULE_LOADER_DAEMON field;
-  started via Aspect.start() alongside all other NWE services.
+db.N21DataSource    Live MySQL connection; markFailed() routes to XML fallback.
+db.N21AuthConfig    Loads authentication/mysql.auth.xml; ensureMysqlRunning().
+db.N21XmlFallback   append() / replayFallback() — offline record buffer.
+db.N21Status        DB status flags + last-error state.
 
 ================================================================================
-CONFIGURATION  (configuration/)
+CONFIGURATION  (source/configuration/  configuration/)
 ================================================================================
 
-configuration/nwe-config.xml     Master NWE configuration file.
-                                 Documents all ports, threads, hosts, and service
-                                 descriptions for every NWE component:
-                                   NITRO_WEB_EXPRESS    49152
-                                   AES_COMPLIANT         5512
-                                   RSA_COMPLIANT         7743
-                                   DSA_COMPLIANT         7744
-                                   BITCOIN_COMPLIANT     6682
-                                   CONNECTION_STATUS    49155
-                                   ASCII_CREATOR        49177
-                                   MODULE_INSTALLATION  49166
-                                   COMMUNICATOR         49199
-                                   MODULE_LOADER_DAEMON 49188
-                                   AES_REMOTE           45.32.31.139 (mearvk.us)
-                                   BITCOIN_REMOTE       45.32.31.139 (mearvk.us)
+configuration.NweConfig
+  Loads configuration/nwe-config.xml.
+  - isEnabled(id)           Server block enabled/disabled (default true).
+  - adminUsername/Password  Admin credentials → ModuleAdmin.setPassword().
+  - antivirusSchedule()     <schedule> from ANTIVIRUS block.
+  - antivirusScanPath()     <scan-path> from ANTIVIRUS block.
 
-source/configuration/config.xml  Legacy runtime configuration (XML).
+configuration/nwe-config.xml  (master runtime config)
+  Services defined:
+    NITRO_WEB_EXPRESS      49152   enabled
+    AES_COMPLIANT           5512   enabled
+    RSA_COMPLIANT           7743   enabled
+    DSA_COMPLIANT           7744   enabled
+    BITCOIN_COMPLIANT       6682   enabled
+    CONNECTION_STATUS      49155   enabled  (20-min session; geo+thread report)
+    ASCII_CREATOR          49177   enabled
+    MODULE_INSTALLATION    49166   enabled
+    MODULE_LOADER_DAEMON   49188   enabled
+    COMMUNICATOR           49199   enabled  (1-hour chat; scheduled delivery)
+    ANTIVIRUS              (none)  enabled  schedule=daily  scan-path=.
+    HEURISTIC_CLASSIFIER   (none)  enabled
+  Remote servers: AES_REMOTE / BITCOIN_REMOTE → 45.32.31.139 (mearvk.us)
 
 ================================================================================
-SCRIPTS & INSTALLATION  (bash/  scripts/)
+NATIONAL  (source/national/)
 ================================================================================
 
-bash/nwe-install.sh              Main installer — run this first.
-                                   Step 1: chmod +x all .sh files in bash/ and scripts/
-                                   Step 2: compile source/ → out/  (skips if up-to-date)
-                                   Step 3: move stray .class files from source/ to out/
-                                 Usage:
-                                   bash bash/nwe-install.sh           # incremental
-                                   bash bash/nwe-install.sh --force   # full recompile
+national.NationalID               Eight + sixteen digit randomly generated IDs.
+national.NationalFinanceID        Full finance profile record.
+national.NationalFinanceIDFeeder  Interactive telnet greeting + finance REPL.
+national.NationalDriver           Startup reference recorder + grouped printer.
+national.NationalTellus           National telemetry state.
 
-bash/mysql-setup.sh              MySQL installer and configurator (requires sudo).
-                                   Step 0: verify sudo access (fails fast if absent)
-                                   Step 1: apt install mysql-server  (skips if present)
-                                   Step 2: systemctl enable + start mysql
-                                   Step 3: CREATE DATABASE N21; CREATE USER mearvk
-                                   Step 4: run scripts/N21.table.builder.sh
-                                   Step 5: write authentication/mysql.auth.xml (if absent)
-                                 Usage:
-                                   bash bash/mysql-setup.sh
-                                   bash bash/mysql-setup.sh --password <custom-password>
+================================================================================
+COMMONS / TELNET / MESSAGING / EXCEPTIONS / SECURITY / SIM / ENCRYPTION
+================================================================================
+
+commons.CommonRails               printSystemComponent, delayableFinePrinter,
+                                  registerProcess, SocketUtils, IranianWedding.
+commons.InternationalCommonRails  Startup rhetoric printer.
+commons.transition.english.*      EnglishArithemeter, Arithmeter.
+commons.security.*                BodiSecurityException, SecurityExceptionHandler.
+
+telnet.TelnetInstaller            Spawns OS telnet process.
+telnet.TelnetCommunicationProxy   Proxies streams; TelnetProxyCommunicator inner thread.
+telnet.TelnetOutputBuilder        Drains queue → telnet stdin.
+telnet.TelnetInputBuilder         Drains queue → proxy writer.
+telnet.TelnetMessageQueue         Bounded message queue for telnet pipeline.
+telnet.TelnetProxyLivenessMonitor Probes proxy every 15s; reconnects on failure.
+
+messaging.MessageQueue            Socket-backed message queue.
+messaging.MessageQueueSorter      Drains queue → TelnetCommunicationProxy.
+messaging.MessageOutputHandler    Writes buffer/string to socket.
+
+exceptions.ExceptionHandler       Routes via ExceptionEventDispatcher.
+exceptions.ExceptionPersistenceService  Writes to exceptions.log.
+exceptions.ExceptionRecord        Value: exception, origin, stackTrace, timestamp.
+exceptions.SecurityExceptionHandler / NullPointerConstructorHandler
+exceptions.PersistenceListener / N21ExceptionListener / BackendSettings
+
+security.PortAdministrator / PortKnockKnock / PortStealth
+sim.stochastic / sim.InputQueue
+encryption.module.aes.two.EncryptionModule   AES 2.0 DSS 5.0.
+
+================================================================================
+SCRIPTS & INSTALLATION
+================================================================================
+
+bash/nwe-install.sh
+  Step 1: chmod +x bash/ + scripts/
+  Step 2: compile source/ → out/ (incremental; --force for full recompile)
+  Step 3: move stray .class from source/ to out/
+  Step 4: ClamAV install (Linux only)
+            apt-get: clamav clamav-daemon + systemctl enable clamav-freshclam
+            yum:     clamav clamav-update + freshclam
+            Skips if clamscan already on PATH.
+
+bash/mysql-setup.sh
+  apt install mysql-server → systemctl enable/start → CREATE DATABASE N21 →
+  CREATE USER mearvk → N21.table.builder.sh → write mysql.auth.xml
+
+================================================================================
+SUMMARY
+================================================================================
+
+NWE opens 10 public TCP ports at startup (all gated by nwe-config.xml):
+
+  PORT   SERVICE                   PURPOSE
+  ─────  ────────────────────────  ─────────────────────────────────────────────
+  49152  NitroWebExpress           Main entry; telnet proxy; AES/BTC bridge hub
+   5512  AESCompliant              AES 2.0 DSS 5.0 encryption sub-server
+   6682  BitcoinCompliant          Bitcoin lightweight trading sub-server
+   7743  RSACompliant              RSA encryption sub-server
+   7744  DSACompliant              DSA encryption sub-server
+  49155  ConnectionStatusServer    Health report: geo, threads, live IPs, memory
+                                   Language selection (20-min window); 20-min session
+  49166  ModuleInstallationService Install/unload/restart NWE modules; admin auth
+  49177  ASCIICreatorServer        Issue/view binary ASCII signatures (National ID)
+  49188  ModuleLoaderDaemon        OS-level push/pull/replicate module daemon
+  49199  Communicator              1-hour persistent chat; scheduled geo-delivery
+
+All ports share:
+  • HeuristicClassifier gate (rate, port-scan, geo, payload — drops threats ≥40)
+  • LanguagePack (ja cn ru th es fr de it en) via "lang <code>" command
+  • N21Store MySQL persistence (XML fallback when DB unavailable)
+
+Background daemons (no port):
+  • AntivirusScanner   ClamAV scan + SHA-256 integrity check (hourly–yearly)
+  • Communicator.MessagePoller  Scheduled message delivery (60s poll)
+  • TelnetProxyLivenessMonitor  Telnet process health + auto-reconnect (15s)
 
 ================================================================================
 KNOWN INTEGRITY NOTES (post-commit repairs)
@@ -533,14 +426,13 @@ KNOWN INTEGRITY NOTES (post-commit repairs)
 
 - commons.EnglishArithemeter import corrected to
   commons.transition.english.EnglishArithemeter in ConnectionPoller.
-- messaging.MessageQueue null-check corrected from message.socket to
-  message.SOCKET.
+- messaging.MessageQueue null-check corrected from message.socket to message.SOCKET.
 - ConnectionPoller.BASESERVER.SUPERCLASS corrected to BASESERVER.INHERITOR.
-- CURRENT_CONNECTIONS renamed from current_connections across all source files
-  (BaseServer, ConnectionPoller, MessageQueueSorter, NitroWebExpress,
-  TelnetProxyLivenessMonitor).
+- CURRENT_CONNECTIONS renamed from current_connections across all source files.
 - CommonRails.USE_COLORED_OUTPUT field added (was referenced but missing).
 - CommonRails.IranianWedding.printInternationalGregorianRhetoric restored.
-- N21AuthConfig ANSI color constants added; printSystemComponent calls corrected
-  to embed color in message string (no 4-arg overload exists).
+- N21AuthConfig ANSI color constants added.
 - configureBridge / startNitroWebExpress dead methods removed from Main.java.
+- ConnectionStatusServer lang-selection timeout raised from 4s to 20 minutes.
+- BaseServer.run() HeuristicClassifier gate added (gated by NweConfig).
+- NweConfig constructor extended: ANTIVIRUS_SCHEDULE, ANTIVIRUS_SCAN_PATH fields.

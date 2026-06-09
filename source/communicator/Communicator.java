@@ -123,9 +123,11 @@ public class Communicator extends Thread
             session.out = out;
             resolveGeo(session);
 
-            writeLine(out, "╔══════════════════════════════════╗");
-            writeLine(out, "║  NWE Communicator — port " + PORT + "   ║");
-            writeLine(out, "╚══════════════════════════════════╝");
+            writeLine(out, "╔══════════════════════════════════════════════════════╗");
+            writeLine(out, "║  NWE port " + PORT + " — Communicator                        ║");
+            writeLine(out, "║  Persistent chat  |  direct msg  |  broadcast        ║");
+            writeLine(out, "║  Scheduled delivery  |  1-hour session limit          ║");
+            writeLine(out, "╚══════════════════════════════════════════════════════╝");
             writeLine(out, "identify <nationalId>  to begin  |  Session limit: 1 hour");
             writeLine(out, "Geo: " + session.geoCity + ", " + session.geoCountry + "  TZ: " + session.timezone);
 
