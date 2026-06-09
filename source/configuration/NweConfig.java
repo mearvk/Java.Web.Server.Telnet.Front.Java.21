@@ -31,14 +31,20 @@ public class NweConfig
     private final Map<String, Boolean> ENABLED = new HashMap<>();
     private final String ADMIN_USERNAME;
     private final String ADMIN_PASSWORD;
+    private final String ANTIVIRUS_SCHEDULE;  // hourly|daily|weekly|monthly|yearly
+    private final String ANTIVIRUS_SCAN_PATH;
 
     private NweConfig(final Map<String, Boolean> ENABLED,
                       final String ADMIN_USERNAME,
-                      final String ADMIN_PASSWORD)
+                      final String ADMIN_PASSWORD,
+                      final String ANTIVIRUS_SCHEDULE,
+                      final String ANTIVIRUS_SCAN_PATH)
     {
         this.ENABLED.putAll(ENABLED);
-        this.ADMIN_USERNAME = ADMIN_USERNAME;
-        this.ADMIN_PASSWORD = ADMIN_PASSWORD;
+        this.ADMIN_USERNAME       = ADMIN_USERNAME;
+        this.ADMIN_PASSWORD       = ADMIN_PASSWORD;
+        this.ANTIVIRUS_SCHEDULE   = ANTIVIRUS_SCHEDULE;
+        this.ANTIVIRUS_SCAN_PATH  = ANTIVIRUS_SCAN_PATH;
     }
 
     // ── Public API ────────────────────────────────────────────────────────────
@@ -50,8 +56,10 @@ public class NweConfig
         return get().ENABLED.getOrDefault(SERVER_ID, true);
     }
 
-    public static String adminUsername() { return get().ADMIN_USERNAME; }
-    public static String adminPassword() { return get().ADMIN_PASSWORD; }
+    public static String adminUsername()        { return get().ADMIN_USERNAME; }
+    public static String adminPassword()        { return get().ADMIN_PASSWORD; }
+    public static String antivirusSchedule()    { return get().ANTIVIRUS_SCHEDULE; }
+    public static String antivirusScanPath()    { return get().ANTIVIRUS_SCAN_PATH; }
 
     /** Load (or reload) configuration from disk.  Called once from Main(). */
     public static synchronized NweConfig load()
@@ -96,7 +104,8 @@ public class NweConfig
                     adminPass = text(adminEl, "password", adminPass);
                 }
 
-                INSTANCE = new NweConfig(enabled, adminUser, adminPass);
+                INSTANCE = new NweConfig(enabled, adminUser, adminPass,
+                    antivirusSchedule(doc), antivirusScanPath(doc));
 
                 CommonRails.printSystemComponent(
                     NweConfig.class, NweConfig.class.hashCode(),

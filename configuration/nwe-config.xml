@@ -167,6 +167,25 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         ANTIVIRUS SCANNER
+         schedule: hourly | daily | weekly | monthly | yearly
+         scan-path: root directory to scan (defaults to project root)
+         Requires ClamAV (clamscan) installed on the host system.
+         Set enabled=false to disable without recompiling.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="ANTIVIRUS">
+        <enabled>true</enabled>
+        <name>AntivirusScanner</name>
+        <schedule>daily</schedule>
+        <scan-path>.</scan-path>
+        <description>
+            Runs clamscan on NWE contents and file integrity check on a
+            configurable schedule.  Results are printed to the system log.
+            Valid schedules: hourly | daily | weekly | monthly | yearly.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          HEURISTIC CLASSIFIER
     ════════════════════════════════════════════════════════════════════ -->
     <server id="HEURISTIC_CLASSIFIER">
