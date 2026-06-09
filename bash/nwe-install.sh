@@ -81,5 +81,30 @@ while IFS= read -r -d '' class_file; do
 done < <(find "$SRC" -name "*.class" -print0)
 echo "      Moved $MOVED file(s)."
 
+# ── 4. ClamAV install (Linux only) ───────────────────────────────────────────
+if [[ "$(uname -s)" == "Linux" ]]; then
+    echo "[4/4] Checking ClamAV..."
+    if command -v clamscan &>/dev/null; then
+        echo "      ClamAV already installed: $(clamscan --version 2>&1 | head -1)"
+    else
+        if command -v apt-get &>/dev/null; then
+            echo "      Installing ClamAV via apt-get (requires sudo)..."
+            sudo apt-get install -y clamav clamav-daemon
+            sudo systemctl enable clamav-freshclam || true
+            sudo systemctl start  clamav-freshclam || true
+            echo "      ClamAV installed and freshclam service started."
+        elif command -v yum &>/dev/null; then
+            echo "      Installing ClamAV via yum (requires sudo)..."
+            sudo yum install -y clamav clamav-update
+            sudo freshclam || true
+            echo "      ClamAV installed."
+        else
+            echo "      WARN: Cannot detect package manager — install ClamAV manually."
+        fi
+    fi
+else
+    echo "[4/4] Non-Linux system detected — skipping ClamAV install."
+fi
+
 echo ""
 echo "=== Install complete. Run: bash scripts/startup.sh ==="
