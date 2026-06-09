@@ -7,7 +7,6 @@ Source root: source/
 PORT REGISTRY  (authoritative reference)
 ================================================================================
 
-  49122   WhiteAuditorTasking             Secure task-assignment server
   49133   WeatherServer                     Current weather by city or lat,lon (wttr.in)
   49144   BinaryHttpServer                  Binary data → HTTP link (PUT/GET to Apache2 dir)
   49152   NitroWebExpress (WebExpress)      Telnet proxy / main entry point
@@ -41,7 +40,6 @@ Main (source/Main.java)
     ASCII_CREATOR_SERVER_PORT     = NitroWebExpress.Aspect.ASCIICreatorServer.PORT (49177)
     MODULE_LOADER_DAEMON_PORT     = loader.ModuleLoaderDaemon.PORT (49188)
     COMMUNICATOR_PORT             = communicator.Communicator.PORT (49199)
-    WHITE_AUDITOR_TASKING_PORT    = whiteauditor.WhiteAuditorTasking.PORT (49122)
 
   Startup sequence (each gated by NweConfig.isEnabled(<ID>)):
     NweConfig.load()
@@ -56,7 +54,6 @@ Main (source/Main.java)
       ASCII_CREATOR          → ASCIICreatorServer (49177)
       MODULE_LOADER_DAEMON   → ModuleLoaderDaemon (49188)
       COMMUNICATOR           → Communicator (49199)
-      WHITE_AUDITOR_TASKING  → WhiteAuditorTasking (49122)
       BINARY_HTTP            → BinaryHttpServer (49144)
       WEATHER                → WeatherServer (49133)
       ANTIVIRUS              → AntivirusScanner (no port; scheduled daemon)
@@ -100,7 +97,6 @@ server.nitro.NitroWebExpress  (extends WebExpress)
       ASCII_CREATOR_SERVER ASCIICreatorServer (49177)
       MODULE_LOADER_DAEMON loader.ModuleLoaderDaemon (49188)
       COMMUNICATOR         communicator.Communicator (49199)
-      WHITE_AUDITOR_TASKING whiteauditor.WhiteAuditorTasking (49122)
     - start()  Starts all non-null components then NitroWebExpress.SELF.
 
   NitroWebExpress.Aspect.AESCompliant  (extends WebExpress, port 5512)
@@ -196,39 +192,6 @@ connections.ConnectionPoller  (extends Thread)
 connections.logic.IPGeoParser   IP → GeoInfo (city, country, region, lat, lon, isp)
 connections.RecordedConnections / InternationalConnections / NationalConnections
 connections.GalacticConnections / MexicoConnections
-
-
-================================================================================
-WHITE AUDITOR TASKING  (source/whiteauditor/)
-================================================================================
-
-whiteauditor.WhiteAuditorTasking  (extends Thread, daemon)  PORT = 49122
-
-  Banner:
-    "WhiteAuditorTasking server on port 49122"
-    "identify <nationalId> to begin"
-
-  Session limit: 1 hour
-
-  Commands:
-    identify <nationalId>
-    assign-file <toId> <filename> <base64>
-    assign-bits <toId> <size> <base64>
-    assign-signatory <toId> <symbol>
-    list-tasks <toId>
-    get-task <taskId>
-    remove-task <taskId>
-    quit
-
-  Persistence:
-    createWhiteAuditorTables()
-    storeAssignedFile()
-    storeAssignedBits()
-    storeAssignedSignatory()
-    loadTasksFor()
-    loadTask()
-    deleteTask()
-
 
 ================================================================================
 WEATHER SERVER  (source/weather/)
@@ -345,7 +308,7 @@ bitcoin.base.BitcoinBase
   Methods: start_bitcoind | stop_bitcoind | load_wallet | unload_wallet |
            create_wallet | get_wallet_info | get_balance | get_new_address |
            get_blockchain_info | get_block_count | send(toAddress,amount)
-  All mutating ops → database.N21Store.storeBitcoinTrade() → bitcoin_trades table.
+  All mutating ops → db.N21Store.storeBitcoinTrade() → bitcoin_trades table.
   String[] exec (no shell injection).
 
 bitcoin.module.TraderModule       Wired to Aspect bridge.
@@ -353,10 +316,10 @@ bitcoin.messaging.MessageOrderer  Orders outbound BTC messages.
 bitcoin.time.*                    NY / LA / Tokyo timezone date helpers.
 
 ================================================================================
-DATABASE  (source/database/)
+DATABASE  (source/db/)
 ================================================================================
 
-database.N21Store  (all static)
+db.N21Store  (all static)
   storeConnection / storeGeo / storeException / storeSecurityEvent
   storeNationalId / storeNationalFinanceID / loadNationalFinanceID
   createAsciiSignaturesTable / nextAsciiSigId / storeAsciiSignature / loadAsciiSignature
@@ -365,8 +328,6 @@ database.N21Store  (all static)
   createCommunicatorTables / storeChatMessage / storeScheduledMessage
   loadDueScheduledMessages / loadRecentChatMessages / markScheduledDelivered
   storeStatusSnapshot
-  createWhiteAuditorTables / storeAssignedFile / storeAssignedBits
-  storeAssignedSignatory / loadTasksFor / loadTask / deleteTask
   (MySQL primary; XML fallback on any failure)
 
   MySQL tables:
@@ -382,18 +343,17 @@ database.N21Store  (all static)
     communicator_messages   chat messages (direct + broadcast)
     communicator_scheduled  scheduled messages with local-time delivery
     status_snapshots        periodic server health snapshots
-    whiteauditor_tasks      assigned files, bits, signatories and task records
 
-database.N21DataSource    Live MySQL connection; markFailed() routes to XML fallback.
-database.N21AuthConfig    Loads authentication/mysql.auth.xml; ensureMysqlRunning().
-database.N21XmlFallback   append() / replayFallback() — offline record buffer.
-database.N21Status        DB status flags + last-error state.
+db.N21DataSource    Live MySQL connection; markFailed() routes to XML fallback.
+db.N21AuthConfig    Loads authentication/mysql.auth.xml; ensureMysqlRunning().
+db.N21XmlFallback   append() / replayFallback() — offline record buffer.
+db.N21Status        DB status flags + last-error state.
 
 ================================================================================
 CONFIGURATION  (source/configuration/  configuration/)
 ================================================================================
 
-configuration.NitroWebExpressConfig
+configuration.NweConfig
   Loads configuration/nwe-config.xml.
   - isEnabled(id)           Server block enabled/disabled (default true).
   - adminUsername/Password  Admin credentials → ModuleAdmin.setPassword().
@@ -412,7 +372,6 @@ configuration/nwe-config.xml  (master runtime config)
     MODULE_INSTALLATION    49166   enabled
     MODULE_LOADER_DAEMON   49188   enabled
     COMMUNICATOR           49199   enabled  (1-hour chat; scheduled delivery)
-    WHITE_AUDITOR_TASKING  49122   enabled
     ANTIVIRUS              (none)  enabled  schedule=daily  scan-path=.
     HEURISTIC_CLASSIFIER   (none)  enabled
   Remote servers: AES_REMOTE / BITCOIN_REMOTE → 45.32.31.139 (mearvk.us)
@@ -479,12 +438,10 @@ bash/mysql-setup.sh
 SUMMARY
 ================================================================================
 
-NWE opens 11 public TCP ports at startup (all gated by nwe-config.xml):
+NWE opens 10 public TCP ports at startup (all gated by nwe-config.xml):
 
   PORT   SERVICE                   PURPOSE
   ─────  ────────────────────────  ─────────────────────────────────────────────
-  49122  WhiteAuditorTasking       Secure task assignment, file delivery,
-                                   binary delivery, signatory delivery
   49133  WeatherServer             Current weather by city or lat,lon via wttr.in
   49144  BinaryHttpServer          Binary → HTTP link; PUT binary or GET URL → Apache2 dir
   49152  NitroWebExpress           Main entry; telnet proxy; AES/BTC bridge hub
@@ -503,7 +460,6 @@ All ports share:
   • HeuristicClassifier gate (rate, port-scan, geo, payload — drops threats ≥40)
   • LanguagePack (ja cn ru th es fr de it en) via "lang <code>" command
   • N21Store MySQL persistence (XML fallback when DB unavailable)
-  • WhiteAuditorTasking task persistence through N21Store
 
 Background daemons (no port):
   • AntivirusScanner   ClamAV scan + SHA-256 integrity check (hourly–yearly)
