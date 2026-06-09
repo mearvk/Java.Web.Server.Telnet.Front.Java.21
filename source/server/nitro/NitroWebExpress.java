@@ -120,6 +120,10 @@ public class NitroWebExpress extends WebExpress
 
         public communicator.Communicator COMMUNICATOR;
 
+        public http.BinaryHttpServer BINARY_HTTP_SERVER;
+
+        public weather.WeatherServer WEATHER_SERVER;
+
         /** Start CONNECTION_STATUS and NitroWebExpress.SELF together. */
         public void start()
         {
@@ -130,6 +134,8 @@ public class NitroWebExpress extends WebExpress
             if (ASCII_CREATOR_SERVER     != null) ASCII_CREATOR_SERVER.start();
             if (MODULE_LOADER_DAEMON     != null) MODULE_LOADER_DAEMON.start();
             if (COMMUNICATOR             != null) COMMUNICATOR.start();
+            if (BINARY_HTTP_SERVER       != null) BINARY_HTTP_SERVER.start();
+            if (WEATHER_SERVER           != null) WEATHER_SERVER.start();
             if (NitroWebExpress.SELF     != null) NitroWebExpress.SELF.start();
         }
 

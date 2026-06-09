@@ -83,7 +83,7 @@ echo "      Moved $MOVED file(s)."
 
 # ── 4. ClamAV install (Linux only) ───────────────────────────────────────────
 if [[ "$(uname -s)" == "Linux" ]]; then
-    echo "[4/4] Checking ClamAV..."
+    echo "[4/5] Checking ClamAV..."
     if command -v clamscan &>/dev/null; then
         echo "      ClamAV already installed: $(clamscan --version 2>&1 | head -1)"
     else
@@ -103,7 +103,40 @@ if [[ "$(uname -s)" == "Linux" ]]; then
         fi
     fi
 else
-    echo "[4/4] Non-Linux system detected — skipping ClamAV install."
+    echo "[4/5] Non-Linux system detected — skipping ClamAV install."
+fi
+
+# ── 5. Apache2 install (Linux only) ──────────────────────────────────────────
+NWE_APACHE_DIR="/var/www/html/nwe"
+if [[ "$(uname -s)" == "Linux" ]]; then
+    echo "[5/5] Checking Apache2..."
+    if command -v apache2 &>/dev/null || command -v httpd &>/dev/null; then
+        echo "      Apache2 already installed."
+    else
+        if command -v apt-get &>/dev/null; then
+            echo "      Installing Apache2 via apt-get (requires sudo)..."
+            sudo apt-get install -y apache2
+            sudo systemctl enable apache2
+            sudo systemctl start  apache2
+            echo "      Apache2 installed and started."
+        elif command -v yum &>/dev/null; then
+            echo "      Installing Apache2 (httpd) via yum (requires sudo)..."
+            sudo yum install -y httpd
+            sudo systemctl enable httpd
+            sudo systemctl start  httpd
+            echo "      httpd installed and started."
+        else
+            echo "      WARN: Cannot detect package manager — install Apache2 manually."
+        fi
+    fi
+    echo "      Ensuring NWE Apache directory: $NWE_APACHE_DIR"
+    sudo mkdir -p "$NWE_APACHE_DIR"
+    sudo chown -R www-data:www-data "$NWE_APACHE_DIR" 2>/dev/null \
+        || sudo chown -R apache:apache "$NWE_APACHE_DIR" 2>/dev/null || true
+    sudo chmod -R 755 "$NWE_APACHE_DIR"
+    echo "      Done."
+else
+    echo "[5/5] Non-Linux system detected — skipping Apache2 install."
 fi
 
 echo ""

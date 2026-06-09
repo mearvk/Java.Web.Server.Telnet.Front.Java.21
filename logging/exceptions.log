@@ -1811,3 +1811,17 @@ java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
 java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
 server.nitro.ConnectionStatusServer.run(ConnectionStatusServer.java:58)
 ------------------------------------------------------------
+[EXCEPTION] 2026-06-09T05:09:52.559519953Z
+Type: java.nio.file.AccessDeniedException
+Message: /var/www
+Origin: java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:90)
+StackTrace:
+java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:90)
+java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106)
+java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
+java.base/sun.nio.fs.UnixFileSystemProvider.createDirectory(UnixFileSystemProvider.java:418)
+java.base/java.nio.file.Files.createDirectory(Files.java:647)
+java.base/java.nio.file.Files.createAndCheckIsDirectory(Files.java:734)
+java.base/java.nio.file.Files.createDirectories(Files.java:720)
+http.BinaryHttpServer.run(BinaryHttpServer.java:52)
+------------------------------------------------------------

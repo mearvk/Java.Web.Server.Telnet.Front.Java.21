@@ -167,6 +167,41 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         WEATHER SERVER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="WEATHER">
+        <enabled>true</enabled>
+        <name>WeatherServer</name>
+        <thread>WeatherServer</thread>
+        <host>localhost</host>
+        <port>49133</port>
+        <description>
+            Telnet weather service. Send a city name or lat,lon; returns
+            current conditions from wttr.in. Supports lang command.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BINARY HTTP SERVER
+         apache-root: Apache2 document root subdirectory for stored files.
+         apache-url:  Public base URL served by Apache2.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="BINARY_HTTP">
+        <enabled>true</enabled>
+        <name>BinaryHttpServer</name>
+        <thread>BinaryHttpServer</thread>
+        <host>localhost</host>
+        <port>49144</port>
+        <description>
+            Binary data → HTTP link server.  PUT: accepts length-prefixed binary,
+            writes file to apache-root, returns HTTP URL.
+            GET: downloads a URL, saves to apache-root, returns HTTP URL.
+        </description>
+    </server>
+    <apache-root>/var/www/html/nwe</apache-root>
+    <apache-url>http://localhost/nwe</apache-url>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          ANTIVIRUS SCANNER
          schedule: hourly | daily | weekly | monthly | yearly
          scan-path: root directory to scan (defaults to project root)

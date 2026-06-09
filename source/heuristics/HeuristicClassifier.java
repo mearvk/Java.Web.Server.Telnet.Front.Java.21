@@ -34,7 +34,9 @@ public class HeuristicClassifier
         6682,   // Bitcoin WebExpress
         49155,  // ConnectionStatusServer
         49188,  // ModuleLoaderDaemon
-        49199   // Communicator
+        49199,  // Communicator
+        49144,  // BinaryHttpServer
+        49133   // WeatherServer
         // RSA / DSA ports resolved at runtime via NitroWebExpress.Aspect constants
     );
 
