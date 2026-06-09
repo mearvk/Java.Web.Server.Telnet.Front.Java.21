@@ -135,6 +135,11 @@ public class Main
             if (configuration.NweConfig.isEnabled("COMMUNICATOR"))
                 NITRO.BRIDGE.COMMUNICATOR = new communicator.Communicator(COMMUNICATOR_HOST);
 
+            if (configuration.NweConfig.isEnabled("ANTIVIRUS"))
+                new antivirus.AntivirusScanner(
+                    configuration.NweConfig.antivirusSchedule(),
+                    configuration.NweConfig.antivirusScanPath()).start();
+
             NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
 
             NITRO.BRIDGE.MYSQL_COMPONENT.print(this);

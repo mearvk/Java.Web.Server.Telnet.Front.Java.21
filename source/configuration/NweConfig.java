@@ -138,7 +138,33 @@ public class NweConfig
 
     private static NweConfig defaults()
     {
-        return new NweConfig(new HashMap<>(), "mearvk", "n21admin");
+        return new NweConfig(new HashMap<>(), "mearvk", "n21admin", "daily", ".");
+    }
+
+    /** Extract &lt;schedule&gt; from the ANTIVIRUS server block, default "daily". */
+    private static String antivirusSchedule(final Document DOC)
+    {
+        NodeList servers = DOC.getElementsByTagName("server");
+        for (int i = 0; i < servers.getLength(); i++)
+        {
+            Element el = (Element) servers.item(i);
+            if ("ANTIVIRUS".equals(el.getAttribute("id")))
+                return text(el, "schedule", "daily");
+        }
+        return "daily";
+    }
+
+    /** Extract &lt;scan-path&gt; from the ANTIVIRUS server block, default ".". */
+    private static String antivirusScanPath(final Document DOC)
+    {
+        NodeList servers = DOC.getElementsByTagName("server");
+        for (int i = 0; i < servers.getLength(); i++)
+        {
+            Element el = (Element) servers.item(i);
+            if ("ANTIVIRUS".equals(el.getAttribute("id")))
+                return text(el, "scan-path", ".");
+        }
+        return ".";
     }
 
     private static String text(final Element EL, final String TAG, final String DEF)
