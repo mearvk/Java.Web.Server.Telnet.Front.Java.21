@@ -242,6 +242,23 @@ public class HeuristicClassifier
         "<script>", "SELECT ", "DROP TABLE", "UNION SELECT"
     );
 
+    // Patterns indicating large memory allocation attempts in submitted source/payload
+    private static final List<String> LARGE_ALLOC_PATTERNS = List.of(
+        "new byte[", "new int[", "new long[", "new char[", "new Object[",
+        "Integer.MAX_VALUE", "Long.MAX_VALUE", "1<<30", "1 << 30", "1<<31", "1 << 31"
+    );
+
+    // Patterns indicating spin loops
+    private static final List<String> SPIN_LOOP_PATTERNS = List.of(
+        "while(true)", "while (true)", "for(;;)", "for ( ; ; )", "for(; ;)",
+        "}while(true)", "} while (true)"
+    );
+
+    // System binary execution paths
+    private static final List<String> SYS_BINARY_PATTERNS = List.of(
+        "\"/usr/bin/", "\"/bin/", "\"/sbin/", "\"/usr/sbin/", "\"/usr/local/bin/", "exec(\"/"
+    );
+
     private int checkPayload(final ConnectionEvent event, final List<String> findings)
     {
         if (event.payload == null || event.payload.isBlank())
@@ -252,6 +269,8 @@ public class HeuristicClassifier
 
         String lower = event.payload.toLowerCase();
         int penalty = 0;
+
+        // ── Standard bad keywords ─────────────────────────────────────────────
         for (String kw : BAD_KEYWORDS)
         {
             if (lower.contains(kw.toLowerCase()))
@@ -260,6 +279,48 @@ public class HeuristicClassifier
                 penalty += 15;
             }
         }
+
+        // ── Large memory allocation ───────────────────────────────────────────
+        for (String pat : LARGE_ALLOC_PATTERNS)
+        {
+            if (event.payload.contains(pat))
+            {
+                findings.add("WARN  payload contains large-allocation pattern: [" + pat + "] — possible memory exhaustion");
+                penalty += 20;
+                break;
+            }
+        }
+
+        // ── Spin loop ─────────────────────────────────────────────────────────
+        for (String pat : SPIN_LOOP_PATTERNS)
+        {
+            if (event.payload.contains(pat))
+            {
+                findings.add("WARN  payload contains spin-loop pattern: [" + pat + "] — possible CPU exhaustion");
+                penalty += 25;
+                break;
+            }
+        }
+
+        // ── System binary execution ───────────────────────────────────────────
+        for (String pat : SYS_BINARY_PATTERNS)
+        {
+            if (event.payload.contains(pat))
+            {
+                findings.add("WARN  payload references system binary path: [" + pat + "] — possible privilege escalation");
+                penalty += 30;
+                break;
+            }
+        }
+
+        // ── Constructor with loop (source-level pattern in payload) ───────────
+        if (event.payload.matches("(?s).*public\\s+\\w+\\s*\\([^)]*\\)\\s*\\{[^}]*(while|for\\s*\\(|do\\s*\\{)[^}]*\\}.*")
+            && !event.payload.contains("break") && !event.payload.contains("return"))
+        {
+            findings.add("WARN  payload contains a constructor with a loop and no visible exit — possible constructor hang");
+            penalty += 20;
+        }
+
         if (penalty == 0) findings.add("PASS  payload keyword scan clean");
         return penalty;
     }
