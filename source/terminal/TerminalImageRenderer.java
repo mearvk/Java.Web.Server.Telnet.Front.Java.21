@@ -56,7 +56,8 @@ public class TerminalImageRenderer
         int srcWidth = src.getWidth();
         int srcHeight = src.getHeight();
 
-        if (srcWidth <= targetWidth) {
+        if (srcWidth <= targetWidth)
+        {
             return src; // no scaling needed
         }
 
