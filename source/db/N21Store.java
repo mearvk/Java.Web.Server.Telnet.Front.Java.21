@@ -1,10 +1,12 @@
 package db;
 
 import connections.Connection;
+import exceptions.ExceptionHandler;
 import exceptions.ExceptionRecord;
 
-import java.sql.PreparedStatement;
-import java.sql.Timestamp;
+import java.sql.*;
+
+import static java.sql.DriverManager.getConnection;
 
 /**
  * Static store methods — one per N21 table.
@@ -437,8 +439,162 @@ public class N21Store
         catch (Exception e) { fail("communicator_tables", e); }
     }
 
-    public static void storeChatMessage(final long FROM, final long TO,
-                                         final String MESSAGE, final String TYPE)
+    // ---------------------------------------------------------------------
+    // TABLE CREATION
+    // ---------------------------------------------------------------------
+
+    public static void createWhiteAuditorTables() {
+        try (Connection c = getConnection()) {
+
+            ((java.sql.Connection) c).createStatement().execute("""
+                CREATE TABLE IF NOT EXISTS wat_tasks (
+                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                    from_national_id BIGINT NOT NULL,
+                    to_national_id   BIGINT NOT NULL,
+                    type VARCHAR(32) NOT NULL,
+                    filename VARCHAR(255),
+                    size INT,
+                    payload LONGTEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """);
+
+        } catch (Exception e) { ExceptionHandler.dispatch(e); }
+    }
+
+    // ---------------------------------------------------------------------
+    // STORE FILE
+    // ---------------------------------------------------------------------
+
+    public static void storeAssignedFile(long fromId, long toId, String filename, String base64) throws Exception
+    {
+        try (Connection c = getConnection();
+             PreparedStatement ps = ((java.sql.Connection) c).prepareStatement("""
+                 INSERT INTO wat_tasks (from_national_id, to_national_id, type, filename, payload)
+                 VALUES (?, ?, 'file', ?, ?)
+             """)) {
+
+            ps.setLong(1, fromId);
+            ps.setLong(2, toId);
+            ps.setString(3, filename);
+            ps.setString(4, base64);
+            ps.executeUpdate();
+
+        } catch (Exception e) { ExceptionHandler.dispatch(e); }
+    }
+
+    // ---------------------------------------------------------------------
+    // STORE BITS
+    // ---------------------------------------------------------------------
+
+    public static void storeAssignedBits(long fromId, long toId, int size, String base64) {
+        try (Connection c = getConnection();
+             PreparedStatement ps = ((java.sql.Connection) c).prepareStatement(
+                     """
+                     INSERT INTO wat_tasks (from_national_id, to_national_id, type, size, payload)
+                     VALUES (?, ?, 'bits', ?, ?)
+                     """
+             )) {
+
+            ps.setLong(1, fromId);
+            ps.setLong(2, toId);
+            ps.setInt(3, size);
+            ps.setString(4, base64);
+            ps.executeUpdate();
+        } catch (SQLException ex)
+        {
+            throw new RuntimeException(ex);
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // STORE SIGNATORY
+    // ---------------------------------------------------------------------
+
+    public static void storeAssignedSignatory(long fromId, long toId, String symbol) {
+        try (Connection c = getConnection();
+             PreparedStatement ps = ((java.sql.Connection) c).prepareStatement("""
+                 INSERT INTO wat_tasks (from_national_id, to_national_id, type, payload)
+                 VALUES (?, ?, 'signatory', ?)
+             """)) {
+
+            ps.setLong(1, fromId);
+            ps.setLong(2, toId);
+            ps.setString(3, symbol);
+            ps.executeUpdate();
+
+        } catch (Exception e) { ExceptionHandler.dispatch(e); }
+    }
+
+    // ---------------------------------------------------------------------
+    // LIST TASKS FOR USER
+    // ---------------------------------------------------------------------
+
+    public static ResultSet loadTasksFor(long toId) {
+        try {
+            Connection c = getConnection();
+            PreparedStatement ps = ((java.sql.Connection) c).prepareStatement("""
+                SELECT id, type, from_national_id, created_at
+                FROM wat_tasks
+                WHERE to_national_id = ?
+                ORDER BY created_at DESC
+            """);
+            ps.setLong(1, toId);
+            return ps.executeQuery();
+
+        } catch (Exception e) { ExceptionHandler.dispatch(e); return null; }
+    }
+
+    // ---------------------------------------------------------------------
+    // GET SINGLE TASK
+    // ---------------------------------------------------------------------
+
+    public static ResultSet loadTask(long taskId) {
+        try {
+            Connection c = getConnection();
+            PreparedStatement ps = ((java.sql.Connection) c).prepareStatement("""
+                SELECT *
+                FROM wat_tasks
+                WHERE id = ?
+            """);
+            ps.setLong(1, taskId);
+            return ps.executeQuery();
+
+        } catch (Exception e) { ExceptionHandler.dispatch(e); return null; }
+    }
+
+    // ---------------------------------------------------------------------
+    // DELETE TASK
+    // ---------------------------------------------------------------------
+
+    public static void deleteTask(long taskId) {
+        try (Connection c = getConnection();
+             PreparedStatement ps = ((java.sql.Connection) c).prepareStatement("""
+                 DELETE FROM wat_tasks WHERE id = ?
+             """)) {
+
+            ps.setLong(1, taskId);
+            ps.executeUpdate();
+
+        } catch (Exception e) { ExceptionHandler.dispatch(e); }
+    }
+
+
+    public static Connection getConnection() throws Exception
+    {
+        String url  = "jdbc:mysql://localhost:3306/n21db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
+        String user = "root";        // change if needed
+        String pass = "password";    // change if needed
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        return (Connection) DriverManager.getConnection(url, user, pass);
+    }
+
+    public static void storeChatMessage(final long FROM, final long TO, final String MESSAGE, final String TYPE)
     {
         if (dbOk())
         {

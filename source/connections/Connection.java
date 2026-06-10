@@ -17,7 +17,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Date;
 
-public class Connection
+public class Connection implements AutoCloseable
 {
     protected String hash = "0xDA717018470E213F";
 
@@ -54,4 +54,14 @@ public class Connection
 
         this.SERVER = SERVER;
     }
+
+    @Override
+    public void close()
+    {
+        for(Connection connection : this.SERVER.CURRENT_CONNECTIONS.CURRENT_CONNECTION)
+        {
+            connection.close();
+        }
+    }
+
 }
