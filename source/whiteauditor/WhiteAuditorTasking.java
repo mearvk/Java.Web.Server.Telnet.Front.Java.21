@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * Sessions expire after 1 hour.
  *
- * @author
+ * @author Max Rupplin
  * @date June 2026
  */
 public class WhiteAuditorTasking extends Thread {
