@@ -124,6 +124,9 @@ public class NitroWebExpress extends WebExpress
 
         public weather.WeatherServer WEATHER_SERVER;
 
+        public whiteauditor.WhiteAuditorTasking WHITE_AUDITOR_TASKING;
+
+
         /** Start CONNECTION_STATUS and NitroWebExpress.SELF together. */
         public void start()
         {
@@ -136,6 +139,7 @@ public class NitroWebExpress extends WebExpress
             if (COMMUNICATOR             != null) COMMUNICATOR.start();
             if (BINARY_HTTP_SERVER       != null) BINARY_HTTP_SERVER.start();
             if (WEATHER_SERVER           != null) WEATHER_SERVER.start();
+            if (WHITE_AUDITOR_TASKING    != null) WHITE_AUDITOR_TASKING.start();
             if (NitroWebExpress.SELF     != null) NitroWebExpress.SELF.start();
         }
 
@@ -251,7 +255,7 @@ public class NitroWebExpress extends WebExpress
 
                     String report =
                         "╔══════════════════════════════════════════════╗\n" +
-                        "║  " + L.apply("header") + " ║\n" +
+                        "║  " + L.apply("header") + "                ║\n" +
                         "╚══════════════════════════════════════════════╝\n" +
                         L.apply("label.remote_ip")    + "           " + remoteIp  + "\n" +
                         L.apply("label.geo")          + "        " + geoLine   + "\n" +
@@ -337,6 +341,9 @@ public class NitroWebExpress extends WebExpress
             if(WEBEXPRESS==null) throw new SecurityException("//bodi/connect");
 
             this.WEBEXPRESS = WEBEXPRESS;
+
+            this.WHITE_AUDITOR_TASKING = new whiteauditor.WhiteAuditorTasking(NitroWebExpress.WEBEXPRESS_COMPLIANT_HOSTNAME);
+
         }
 
         // ── Module loading infrastructure ─────────────────────────────────────

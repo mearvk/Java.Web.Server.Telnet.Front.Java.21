@@ -1,484 +1,53 @@
 Java National Finance Engine v2811.1
-====================================
-Author: Max Rupplin
-Source root: source/
 
-================================================================================
-PORT REGISTRY  (authoritative reference)
-================================================================================
+Author: Max Rupplin Source root: source/
 
-  49133   WeatherServer                     Current weather by city or lat,lon (wttr.in)
-  49144   BinaryHttpServer                  Binary data → HTTP link (PUT/GET to Apache2 dir)
-  49152   NitroWebExpress (WebExpress)      Telnet proxy / main entry point
-  49155   ConnectionStatusServer            Server health, geo, threads, live IPs
-  49166   ModuleInstallationService         Install / unload / manage NWE modules
-  49177   ASCIICreatorServer                Binary ASCII signature issuance
-  49188   ModuleLoaderDaemon                Push / pull / replicate modules (OS daemon)
-  49199   Communicator                      Persistent 1-hour telnet chat
-   5512   AES 2.0 WebExpress sub-server     AES 2.0 DSS 5.0 encryption layer
-   6682   Bitcoin WebExpress sub-server     Bitcoin lightweight trading
-   7743   RSA Compliant sub-server          RSA encryption
-   7744   DSA Compliant sub-server          DSA encryption
-   2222   bitcoind RPC (local)              Bitcoin Core regtest (not bound by NWE)
-   3306   MySQL (local)                     N21 database (not bound by NWE)
-  Remote  45.32.31.139 (mearvk.us)          AES + Bitcoin production targets
+================================================================================ PORT REGISTRY  (authoritative reference)
 
-================================================================================
-ENTRY POINT
-================================================================================
+49122   WhiteAuditorTasking               Secure task assignment (files, bits, signatories) 49133   WeatherServer                     Current weather by city or lat,lon (wttr.in) 49144   BinaryHttpServer                  Binary data → HTTP link (PUT/GET to Apache2 dir) 49152   NitroWebExpress (WebExpress)      Telnet proxy / main entry point 49155   ConnectionStatusServer            Server health, geo, threads, live IPs 49166   ModuleInstallationService         Install / unload / manage NWE modules 49177   ASCIICreatorServer                Binary ASCII signature issuance 49188   ModuleLoaderDaemon                Push / pull / replicate modules (OS daemon) 49199   Communicator                      Persistent 1-hour telnet chat 5512   AES 2.0 WebExpress sub-server     AES 2.0 DSS 5.0 encryption layer 6682   Bitcoin WebExpress sub-server     Bitcoin lightweight trading 7743   RSA Compliant sub-server          RSA encryption 7744   DSA Compliant sub-server          DSA encryption 2222   bitcoind RPC (local)              Bitcoin Core regtest (not bound by NWE) 3306   MySQL (local)                     N21 database (not bound by NWE) Remote  45.32.31.139 (mearvk.us)          AES + Bitcoin production targets
 
-Main (source/Main.java)
-  Port constants:
-    WEBEXPRESS_PORT               = 49152
-    BINARY_HTTP_SERVER_PORT       = http.BinaryHttpServer.PORT (49144)
-    AES2_WEBEXPRESS_SERVER_SOCKET = 5512
-    BITCOIN_WEBEXPRESS_SERVER_SOCKET = 6682
-    RSA_WEBEXPRESS_SERVER_SOCKET  = NitroWebExpress.Aspect.RSACompliant.DEFAULT_PORT
-    DSA_WEBEXPRESS_SERVER_SOCKET  = NitroWebExpress.Aspect.DSACompliant.DEFAULT_PORT
-    CONNECTION_STATUS_SERVER_PORT = NitroWebExpress.Aspect.ConnectionStatusServer.STATUS_PORT (49155)
-    MODULE_INSTALLER_SERVICE_PORT = NitroWebExpress.Aspect.ModuleInstallationService.PORT (49166)
-    ASCII_CREATOR_SERVER_PORT     = NitroWebExpress.Aspect.ASCIICreatorServer.PORT (49177)
-    MODULE_LOADER_DAEMON_PORT     = loader.ModuleLoaderDaemon.PORT (49188)
-    COMMUNICATOR_PORT             = communicator.Communicator.PORT (49199)
+================================================================================ ENTRY POINT
 
-  Startup sequence (each gated by NweConfig.isEnabled(<ID>)):
-    NweConfig.load()
-    NationalDriver.printOrderedComponents()
-    NitroWebExpress (49152) + Aspect bridge:
-      AES_COMPLIANT          → AESCompliant (5512)
-      BITCOIN_COMPLIANT      → BitcoinCompliant (6682)
-      RSA_COMPLIANT          → RSACompliant (7743)
-      DSA_COMPLIANT          → DSACompliant (7744)
-      CONNECTION_STATUS      → ConnectionStatusServer (49155)
-      MODULE_INSTALLATION    → ModuleInstallationService (49166)
-      ASCII_CREATOR          → ASCIICreatorServer (49177)
-      MODULE_LOADER_DAEMON   → ModuleLoaderDaemon (49188)
-      COMMUNICATOR           → Communicator (49199)
-      BINARY_HTTP            → BinaryHttpServer (49144)
-      WEATHER                → WeatherServer (49133)
-      ANTIVIRUS              → AntivirusScanner (no port; scheduled daemon)
-    MySQLComponent → N21Store init
-    N21XmlFallback.replayFallback()
-    Aspect.start()
+Main (source/Main.java) Port constants: WEBEXPRESS_PORT               = 49152 BINARY_HTTP_SERVER_PORT       = http.BinaryHttpServer.PORT (49144) AES2_WEBEXPRESS_SERVER_SOCKET = 5512 BITCOIN_WEBEXPRESS_SERVER_SOCKET = 6682 RSA_WEBEXPRESS_SERVER_SOCKET  = NitroWebExpress.Aspect.RSACompliant.DEFAULT_PORT DSA_WEBEXPRESS_SERVER_SOCKET  = NitroWebExpress.Aspect.DSACompliant.DEFAULT_PORT CONNECTION_STATUS_SERVER_PORT = NitroWebExpress.Aspect.ConnectionStatusServer.STATUS_PORT (49155) MODULE_INSTALLER_SERVICE_PORT = NitroWebExpress.Aspect.ModuleInstallationService.PORT (49166) ASCII_CREATOR_SERVER_PORT     = NitroWebExpress.Aspect.ASCIICreatorServer.PORT (49177) MODULE_LOADER_DAEMON_PORT     = loader.ModuleLoaderDaemon.PORT (49188) COMMUNICATOR_PORT             = communicator.Communicator.PORT (49199) WHITE_AUDITOR_TASKING_PORT    = whiteauditor.WhiteAuditorTasking.PORT (49122)
 
-================================================================================
-SERVER LAYER  (source/server/)
-================================================================================
+Startup sequence (each gated by NweConfig.isEnabled(<ID>)): NweConfig.load() NationalDriver.printOrderedComponents() NitroWebExpress (49152) + Aspect bridge: AES_COMPLIANT          → AESCompliant (5512) BITCOIN_COMPLIANT      → BitcoinCompliant (6682) RSA_COMPLIANT          → RSACompliant (7743) DSA_COMPLIANT          → DSACompliant (7744) CONNECTION_STATUS      → ConnectionStatusServer (49155) MODULE_INSTALLATION    → ModuleInstallationService (49166) ASCII_CREATOR          → ASCIICreatorServer (49177) MODULE_LOADER_DAEMON   → ModuleLoaderDaemon (49188) COMMUNICATOR           → Communicator (49199) WHITE_AUDITOR_TASKING  → WhiteAuditorTasking (49122) BINARY_HTTP            → BinaryHttpServer (49144) WEATHER                → WeatherServer (49133) ANTIVIRUS              → AntivirusScanner (no port; scheduled daemon) MySQLComponent → N21Store init N21XmlFallback.replayFallback() Aspect.start()
+
+================================================================================ SERVER LAYER  (source/server/)
 
 server.base.BaseServer  (abstract, extends Thread)
-  - BaseServer(String,Integer)  Binds ServerSocket on host:port.
-  - BaseServer(Integer)         Binds ServerSocket on localhost:port.
-  - run()                       Accept loop: HeuristicClassifier gate (gated by
-                                NweConfig "HEURISTIC_CLASSIFIER"), then creates
-                                Connection, spawns ConnectionPoller, records to
-                                N21Store.
-  Port awareness: binds whatever PORT is passed; heuristic classifier reads
-                  this.PORT on every accept.
-
-server.nitro.WebExpress  (extends BaseServer)
-  REMOTE_PORT = "80"            Outbound proxy target port.
-  - WebExpress(host,port,name,telnetEnabled)
-                                Wires TelnetInstaller, TelnetCommunicationProxy,
-                                MessageQueueSorter; starts sorter thread.
-
-server.nitro.NitroWebExpress  (extends WebExpress)
-  BASE_PORT            = 49152  (static, updated at construction)
-  AES_COMPLIANT_PORT   = 5512
-  BITCOIN_COMPLIANT_PORT = 6682
-
-  NitroWebExpress.Aspect  (bridge holder)
-    Fields (all null until wired in Main):
-      AES_COMPONENT        AESCompliant   (5512)
-      BITCOIN_COMPONENT    BitcoinCompliant (6682)
-      RSA_COMPONENT        RSACompliant   (7743)
-      DSA_COMPONENT        DSACompliant   (7744)
-      CONNECTION_STATUS    ConnectionStatusServer (49155)
-      MODULE_INSTALLER_SERVICE ModuleInstallationService (49166)
-      ASCII_CREATOR_SERVER ASCIICreatorServer (49177)
-      MODULE_LOADER_DAEMON loader.ModuleLoaderDaemon (49188)
-      COMMUNICATOR         communicator.Communicator (49199)
-    - start()  Starts all non-null components then NitroWebExpress.SELF.
-
-  NitroWebExpress.Aspect.AESCompliant  (extends WebExpress, port 5512)
-    Banner: none (raw telnet proxy)
-
-  NitroWebExpress.Aspect.BitcoinCompliant  (extends WebExpress, port 6682)
-    Banner: none (raw telnet proxy)
-
-  NitroWebExpress.Aspect.RSACompliant  (extends WebExpress)
-    DEFAULT_PORT  (resolved from encryption DSA/RSA module, ~7743)
-
-  NitroWebExpress.Aspect.DSACompliant  (extends WebExpress)
-    DEFAULT_PORT  (~7744)
-
-  NitroWebExpress.Aspect.ConnectionStatusServer  (extends Thread)  PORT = 49155
-    Banner: "[ NWE port 49155 — Connection Status & Server Health Report  |  20-minute session ]"
-    - run()       Binds 49155; setSoTimeout(20*60*1000) on each accepted socket.
-    - respond()   Language selection window: 20 minutes (SocketTimeoutException = proceed).
-                  Builds translated report:
-                    Remote IP, Geo, Local Time, Uptime, Memory,
-                    Current connections count,
-                    Connected IPs & Geo (all live CurrentConnections),
-                    Running Server Threads (RUNNABLE + TIMED_WAITING JVM threads).
-                  Persists geo + snapshot to N21Store.
-    - fetchGeo()  ip-api.com HTTP lookup → "City, Country".
-
-  NitroWebExpress.Aspect.ModuleInstallationService  (extends Thread)  PORT = 49166
-    Banner: "[ NWE port 49166 — Module Installation Service  |  install, unload, and manage NWE modules ]"
-    Commands: identify | admin | install | unload | list | restart | comment | signatory | lang | help | quit
-
-  NitroWebExpress.Aspect.ASCIICreatorServer  (extends Thread)  PORT = 49177
-    Banner: "[ NWE port 49177 — ASCII Signature Service  |  issues unique binary ASCII signatures per National ID ]"
-    Commands: request <nationalId> | view <nationalId> | lang <code> | quit
-
-  NitroWebExpress.Aspect.MySQLComponent
-    Checks N21 DB status at startup; prints colored result via CommonRails.
-
-================================================================================
-HEURISTIC CLASSIFIER  (source/heuristics/)
-================================================================================
-
-heuristics.HeuristicClassifier
-  PUBLIC_PORTS = {49152, 5512, 6682, 49155, 49188}
-  Gated by NweConfig.isEnabled("HEURISTIC_CLASSIFIER") in BaseServer.run().
-  Per-instance state (one classifier per BaseServer):
-    ipTimestamps   IP → rolling list of epoch-second timestamps (60s window)
-    ipPorts        IP → set of distinct ports probed
-    countryCount   countryCode → connection count
-  Built-in rules (score 0–100, threat ≥ 40 → socket closed immediately):
-    checkIpRate()           IP repetition: ≥20 conn/60s → +40; ≥10 → +15
-    checkPortScan()         ≥3 distinct ports from same IP → +30
-    checkGeoConcentration() single country ≥30% of total (min 5 sample) → +20
-    checkPayload()          bad keywords +15 each; large-alloc patterns +20;
-                            spin-loop patterns +25; system binary paths +30;
-                            constructor-loop pattern +20
-  Extensibility:
-    implements IHeuristicModule   — register independent scoring module
-    extends AbstractHeuristic     — inherits port helpers + warn()/pass() API
-    register(IHeuristicModule)    — add at runtime
-
-heuristics.ModuleHeuristics
-  evaluate(Path) → Result (score 0–100, suitable if ≥70)
-  Checks: file type (+20), non-empty (+10), size ≤50MB (+10), name safe (+5)
-  Type-specific:
-    checkJar()         MANIFEST.MF (+15), .class files (+25)
-    checkZip()         entry count (+30)
-    checkJavaSource()  public type (+20), package (+10), no exec (+10),
-                       then checkSourceSecurity():
-                         large array allocation  (−20)
-                         spin loop               (−25 / −10 if exit present)
-                         system binary exec path (−30)
-                         constructor loop no exit(−20)
-
-================================================================================
-CONNECTIONS  (source/connections/)
-================================================================================
-
-connections.Connection
-  Fields: SOCKET, inputstream, outputstream, reader, writer, SERVER,
-          remote_address, internet_address, inception_date,
-          IS_TELNET_EXCELSIOR_CONNECTED
-
-connections.CurrentConnections
-  CURRENT_CONNECTION  CopyOnWriteArrayList<Connection>  (thread-safe)
-  - add(Connection) / remove(Socket) / remove(Connection) / size()
-  Used by ConnectionStatusServer to enumerate live IPs for geo report.
-
-connections.ConnectionPoller  (extends Thread)
-  - handleSession()   Greeted by NationalFinanceIDFeeder; proxies HTTP;
-                      enqueues MessageQueue.Message.
-  - run()             Polls connections; marks telnet state; spawns sessions.
-
-connections.logic.IPGeoParser   IP → GeoInfo (city, country, region, lat, lon, isp)
-connections.RecordedConnections / InternationalConnections / NationalConnections
-connections.GalacticConnections / MexicoConnections
-
-================================================================================
-WEATHER SERVER  (source/weather/)
-================================================================================
-
-weather.WeatherServer  (extends Thread, daemon)  PORT = 49133
-  Banner: "[ NWE port 49133 — Weather Service ]"
-  Backend: wttr.in?format=3  (no API key; plain-text one-liner response)
-  Commands:
-    <city>          Current weather for a city name (e.g. "Tokyo")
-    <lat,lon>       Current weather by coordinates (e.g. "35.68,139.69")
-    lang <code>     LanguagePack language switch
-    help            Show command list
-    quit            Disconnect
-
-================================================================================
-BINARY HTTP SERVER  (source/http/)
-================================================================================
-
-http.BinaryHttpServer  (extends Thread, daemon)  PORT = 49144
-  Apache dir: /var/www/html/nwe  (override via <apache-root> in nwe-config.xml)
-  Public URL: http://localhost/nwe  (override via <apache-url> in nwe-config.xml)
-
-  Protocol (raw TCP, newline-framed header then binary payload):
-
-    PUT <filename>\n
-    <4-byte big-endian length><binary bytes>
-      → writes file to apache-root/<8-char-uuid>-<filename>
-      → returns: OK http://localhost/nwe/<uuid>-<filename>
-
-    GET <url>\n
-      → downloads http/https URL (10s connect / 30s read timeout)
-      → saves to apache-root/<8-char-uuid>-<basename>
-      → returns: OK http://localhost/nwe/<uuid>-<basename>
-
-  Security:
-    - Only http/https GET URLs accepted (no file://, no arbitrary schemes)
-    - Filenames stripped to [a-zA-Z0-9._-] via safeName()
-    - Path.getFileName() used to prevent directory traversal on both PUT and GET
-
-================================================================================
-COMMUNICATOR  (source/communicator/)
-================================================================================
-
-communicator.Communicator  (extends Thread, daemon)  PORT = 49199
-  Banner:
-    "[ NWE port 49199 — Communicator ]"
-    "Persistent chat  |  direct msg  |  broadcast  |  Scheduled delivery  |  1-hour session"
-  Session limit: 1 hour (Session.expired() checked per command).
-  Geo + timezone resolved from ip-api.com at connect time.
-  Commands (after identify <nationalId>):
-    list                                  Live roster: NID, IP, geo, TZ, online-time
-    msg <nationalId> <text>               Direct; stored MySQL; delivered live or pending
-    broadcast <text>                      All live sessions; stored MySQL
-    schedule <nationalId|broadcast> <HH:mm> <text>
-                                          Stored; delivered at HH:mm recipient local time
-    history                               Last 20 rows from communicator_messages
-    lang <code>                           LanguagePack switch
-    quit
-
-  Communicator.MessagePoller  (static inner, ScheduledExecutorService, 60s)
-    poll()  loadDueScheduledMessages() → check localTimeMatches(ZoneId,HH:mm)
-            → Session.writeLine() → markScheduledDelivered(id)
-
-================================================================================
-MODULE LOADER  (source/loader/)
-================================================================================
-
-loader.ModuleLoaderDaemon  (extends Thread, daemon)  PORT = 49188
-  Banner: "[ NWE port 49188 — Module Loader Daemon  |  push, pull, list, remove, and replicate installed modules ]"
-  Commands: identify | token | push | pull | list | remove | replicate | lang | help | quit
-  registerPortToken(token, nationalId)   Called by national port-authority DB.
-  DaemonModule  NAME, PATH, SHA256, SIZE, INSTALLED_AT
-
-================================================================================
-LANGUAGES  (source/languages/)
-================================================================================
-
-languages.LanguagePack
-  Supported: en ja cn ru th es fr de it
-  Pack files: languages/<code>.properties  (UTF-8)
-  PREFS  ConcurrentHashMap<String,String>  IP → language code
-  - t(ip, key)                  Translate key for IP's preferred language.
-  - setLang(ip, code)           Set preference; returns false if unsupported.
-  - revert(ip)                  Reset to English.
-  - handleLangCommand(ip, code) Parse "lang <code>" from any port handler;
-                                returns confirmation in new language.
-  Available on every public port: 49155, 49166, 49177, 49188, 49199.
-
-================================================================================
-ANTIVIRUS  (source/antivirus/)
-================================================================================
-
-antivirus.AntivirusScanner  (no port; scheduled daemon)
-  Gated by NweConfig.isEnabled("ANTIVIRUS").
-  schedule  read from nwe-config.xml <schedule>: hourly|daily|weekly|monthly|yearly
-  scan-path read from nwe-config.xml <scan-path> (default ".")
-  - start()        Launches ScheduledExecutorService daemon at configured period.
-  - scan()         Calls runClamScan() then runIntegrityCheck().
-  - runClamScan()  clamscan -r --suppress-ok-results <path>; logs CLEAN or ALERT.
-                   Degrades gracefully if clamscan not on PATH.
-  - runIntegrityCheck()
-                   SHA-256 baseline over *.java *.class *.jar *.sh *.xml *.properties.
-                   First run: captures baseline.
-                   Subsequent runs: reports CHANGED and NEW files.
-
-================================================================================
-BITCOIN  (source/bitcoin/)
-================================================================================
-
-bitcoin.base.BitcoinBase
-  RPC:    regtest  port=2222  user=root  pw=5n5SgKPNPvO0WGr5XcKETuJYydwkXPkdtjNFjJ8bc7s=
-  Wallet: "United States"
-  Methods: start_bitcoind | stop_bitcoind | load_wallet | unload_wallet |
-           create_wallet | get_wallet_info | get_balance | get_new_address |
-           get_blockchain_info | get_block_count | send(toAddress,amount)
-  All mutating ops → db.N21Store.storeBitcoinTrade() → bitcoin_trades table.
-  String[] exec (no shell injection).
-
-bitcoin.module.TraderModule       Wired to Aspect bridge.
-bitcoin.messaging.MessageOrderer  Orders outbound BTC messages.
-bitcoin.time.*                    NY / LA / Tokyo timezone date helpers.
-
-================================================================================
-DATABASE  (source/db/)
-================================================================================
-
-db.N21Store  (all static)
-  storeConnection / storeGeo / storeException / storeSecurityEvent
-  storeNationalId / storeNationalFinanceID / loadNationalFinanceID
-  createAsciiSignaturesTable / nextAsciiSigId / storeAsciiSignature / loadAsciiSignature
-  createModuleLoaderTable / storeModuleAction
-  createBitcoinTradesTable / storeBitcoinTrade
-  createCommunicatorTables / storeChatMessage / storeScheduledMessage
-  loadDueScheduledMessages / loadRecentChatMessages / markScheduledDelivered
-  storeStatusSnapshot
-  (MySQL primary; XML fallback on any failure)
-
-  MySQL tables:
-    connections             inbound connection records
-    geo_locations           IP → city/country (upsert)
-    exceptions              exception log
-    security_events         security exception log
-    national_ids            eight/sixteen digit IDs
-    national_finance_ids    full NationalFinanceID records
-    ascii_signatures        binary ASCII signatures per National ID
-    module_loader           module install/unload/push actions
-    bitcoin_trades          BTC lifecycle & trade records
-    communicator_messages   chat messages (direct + broadcast)
-    communicator_scheduled  scheduled messages with local-time delivery
-    status_snapshots        periodic server health snapshots
-
-db.N21DataSource    Live MySQL connection; markFailed() routes to XML fallback.
-db.N21AuthConfig    Loads authentication/mysql.auth.xml; ensureMysqlRunning().
-db.N21XmlFallback   append() / replayFallback() — offline record buffer.
-db.N21Status        DB status flags + last-error state.
-
-================================================================================
-CONFIGURATION  (source/configuration/  configuration/)
-================================================================================
-
-configuration.NweConfig
-  Loads configuration/nwe-config.xml.
-  - isEnabled(id)           Server block enabled/disabled (default true).
-  - adminUsername/Password  Admin credentials → ModuleAdmin.setPassword().
-  - antivirusSchedule()     <schedule> from ANTIVIRUS block.
-  - antivirusScanPath()     <scan-path> from ANTIVIRUS block.
-
-configuration/nwe-config.xml  (master runtime config)
-  Services defined:
-    NITRO_WEB_EXPRESS      49152   enabled
-    AES_COMPLIANT           5512   enabled
-    RSA_COMPLIANT           7743   enabled
-    DSA_COMPLIANT           7744   enabled
-    BITCOIN_COMPLIANT       6682   enabled
-    CONNECTION_STATUS      49155   enabled  (20-min session; geo+thread report)
-    ASCII_CREATOR          49177   enabled
-    MODULE_INSTALLATION    49166   enabled
-    MODULE_LOADER_DAEMON   49188   enabled
-    COMMUNICATOR           49199   enabled  (1-hour chat; scheduled delivery)
-    ANTIVIRUS              (none)  enabled  schedule=daily  scan-path=.
-    HEURISTIC_CLASSIFIER   (none)  enabled
-  Remote servers: AES_REMOTE / BITCOIN_REMOTE → 45.32.31.139 (mearvk.us)
-
-================================================================================
-NATIONAL  (source/national/)
-================================================================================
-
-national.NationalID               Eight + sixteen digit randomly generated IDs.
-national.NationalFinanceID        Full finance profile record.
-national.NationalFinanceIDFeeder  Interactive telnet greeting + finance REPL.
-national.NationalDriver           Startup reference recorder + grouped printer.
-national.NationalTellus           National telemetry state.
-
-================================================================================
-COMMONS / TELNET / MESSAGING / EXCEPTIONS / SECURITY / SIM / ENCRYPTION
-================================================================================
-
-commons.CommonRails               printSystemComponent, delayableFinePrinter,
-                                  registerProcess, SocketUtils, IranianWedding.
-commons.InternationalCommonRails  Startup rhetoric printer.
-commons.transition.english.*      EnglishArithemeter, Arithmeter.
-commons.security.*                BodiSecurityException, SecurityExceptionHandler.
-
-telnet.TelnetInstaller            Spawns OS telnet process.
-telnet.TelnetCommunicationProxy   Proxies streams; TelnetProxyCommunicator inner thread.
-telnet.TelnetOutputBuilder        Drains queue → telnet stdin.
-telnet.TelnetInputBuilder         Drains queue → proxy writer.
-telnet.TelnetMessageQueue         Bounded message queue for telnet pipeline.
-telnet.TelnetProxyLivenessMonitor Probes proxy every 15s; reconnects on failure.
-
-messaging.MessageQueue            Socket-backed message queue.
-messaging.MessageQueueSorter      Drains queue → TelnetCommunicationProxy.
-messaging.MessageOutputHandler    Writes buffer/string to socket.
-
-exceptions.ExceptionHandler       Routes via ExceptionEventDispatcher.
-exceptions.ExceptionPersistenceService  Writes to exceptions.log.
-exceptions.ExceptionRecord        Value: exception, origin, stackTrace, timestamp.
-exceptions.SecurityExceptionHandler / NullPointerConstructorHandler
-exceptions.PersistenceListener / N21ExceptionListener / BackendSettings
-
-security.PortAdministrator / PortKnockKnock / PortStealth
-sim.stochastic / sim.InputQueue
-encryption.module.aes.two.EncryptionModule   AES 2.0 DSS 5.0.
-
-================================================================================
-SCRIPTS & INSTALLATION
-================================================================================
-
-bash/nwe-install.sh
-  Step 1: chmod +x bash/ + scripts/
-  Step 2: compile source/ → out/ (incremental; --force for full recompile)
-  Step 3: move stray .class from source/ to out/
-  Step 4: ClamAV install (Linux only)
-            apt-get: clamav clamav-daemon + systemctl enable clamav-freshclam
-            yum:     clamav clamav-update + freshclam
-            Skips if clamscan already on PATH.
-
-bash/mysql-setup.sh
-  apt install mysql-server → systemctl enable/start → CREATE DATABASE N21 →
-  CREATE USER mearvk → N21.table.builder.sh → write mysql.auth.xml
-
-================================================================================
-SUMMARY
-================================================================================
-
-NWE opens 10 public TCP ports at startup (all gated by nwe-config.xml):
-
-  PORT   SERVICE                   PURPOSE
-  ─────  ────────────────────────  ─────────────────────────────────────────────
-  49133  WeatherServer             Current weather by city or lat,lon via wttr.in
-  49144  BinaryHttpServer          Binary → HTTP link; PUT binary or GET URL → Apache2 dir
-  49152  NitroWebExpress           Main entry; telnet proxy; AES/BTC bridge hub
-   5512  AESCompliant              AES 2.0 DSS 5.0 encryption sub-server
-   6682  BitcoinCompliant          Bitcoin lightweight trading sub-server
-   7743  RSACompliant              RSA encryption sub-server
-   7744  DSACompliant              DSA encryption sub-server
-  49155  ConnectionStatusServer    Health report: geo, threads, live IPs, memory
-                                   Language selection (20-min window); 20-min session
-  49166  ModuleInstallationService Install/unload/restart NWE modules; admin auth
-  49177  ASCIICreatorServer        Issue/view binary ASCII signatures (National ID)
-  49188  ModuleLoaderDaemon        OS-level push/pull/replicate module daemon
-  49199  Communicator              1-hour persistent chat; scheduled geo-delivery
-
-All ports share:
-  • HeuristicClassifier gate (rate, port-scan, geo, payload — drops threats ≥40)
-  • LanguagePack (ja cn ru th es fr de it en) via "lang <code>" command
-  • N21Store MySQL persistence (XML fallback when DB unavailable)
-
-Background daemons (no port):
-  • AntivirusScanner   ClamAV scan + SHA-256 integrity check (hourly–yearly)
-  • Communicator.MessagePoller  Scheduled message delivery (60s poll)
-  • TelnetProxyLivenessMonitor  Telnet process health + auto-reconnect (15s)
-
-================================================================================
-KNOWN INTEGRITY NOTES (post-commit repairs)
-================================================================================
-
-- commons.EnglishArithemeter import corrected to
-  commons.transition.english.EnglishArithemeter in ConnectionPoller.
-- messaging.MessageQueue null-check corrected from message.socket to message.SOCKET.
-- ConnectionPoller.BASESERVER.SUPERCLASS corrected to BASESERVER.INHERITOR.
-- CURRENT_CONNECTIONS renamed from current_connections across all source files.
-- CommonRails.USE_COLORED_OUTPUT field added (was referenced but missing).
-- CommonRails.IranianWedding.printInternationalGregorianRhetoric restored.
-- N21AuthConfig ANSI color constants added.
-- configureBridge / startNitroWebExpress dead methods removed from Main.java.
-- ConnectionStatusServer lang-selection timeout raised from 4s to 20 minutes.
-- BaseServer.run() HeuristicClassifier gate added (gated by NweConfig).
-- NweConfig constructor extended: ANTIVIRUS_SCHEDULE, ANTIVIRUS_SCAN_PATH fields.
+
+BaseServer(String,Integer)  Binds ServerSocket on host:port.
+
+BaseServer(Integer)         Binds ServerSocket on localhost:port.
+
+run()                       Accept loop: HeuristicClassifier gate (gated by NweConfig "HEURISTIC_CLASSIFIER"), then creates Connection, spawns ConnectionPoller, records to N21Store. Port awareness: binds whatever PORT is passed; heuristic classifier reads this.PORT on every accept.
+
+server.nitro.WebExpress  (extends BaseServer) REMOTE_PORT = "80"            Outbound proxy target port.
+
+WebExpress(host,port,name,telnetEnabled) Wires TelnetInstaller, TelnetCommunicationProxy, MessageQueueSorter; starts sorter thread.
+
+server.nitro.NitroWebExpress  (extends WebExpress) BASE_PORT            = 49152  (static, updated at construction) AES_COMPLIANT_PORT   = 5512 BITCOIN_COMPLIANT_PORT = 6682
+
+NitroWebExpress.Aspect  (bridge holder) Fields (all null until wired in Main): AES_COMPONENT        AESCompliant   (5512) BITCOIN_COMPONENT    BitcoinCompliant (6682) RSA_COMPONENT        RSACompliant   (7743) DSA_COMPONENT        DSACompliant   (7744) CONNECTION_STATUS    ConnectionStatusServer (49155) MODULE_INSTALLER_SERVICE ModuleInstallationService (49166) ASCII_CREATOR_SERVER ASCIICreatorServer (49177) MODULE_LOADER_DAEMON loader.ModuleLoaderDaemon (49188) COMMUNICATOR         communicator.Communicator (49199) WHITE_AUDITOR_TASKING whiteauditor.WhiteAuditorTasking (49122) - start()  Starts all non-null components then NitroWebExpress.SELF.
+
+NitroWebExpress.Aspect.AESCompliant  (extends WebExpress, port 5512) Banner: none (raw telnet proxy)
+
+NitroWebExpress.Aspect.BitcoinCompliant  (extends WebExpress, port 6682) Banner: none (raw telnet proxy)
+
+NitroWebExpress.Aspect.RSACompliant  (extends WebExpress) DEFAULT_PORT  (resolved from encryption DSA/RSA module, ~7743)
+
+NitroWebExpress.Aspect.DSACompliant  (extends WebExpress) DEFAULT_PORT  (~7744)
+
+NitroWebExpress.Aspect.ConnectionStatusServer  (extends Thread)  PORT = 49155 Banner: "[ NWE port 49155 — Connection Status & Server Health Report  |  20-minute session ]" - run()       Binds 49155; setSoTimeout(20601000) on each accepted socket. - respond()   Language selection window: 20 minutes (SocketTimeoutException = proceed). Builds translated report: Remote IP, Geo, Local Time, Uptime, Memory, Current connections count, Connected IPs & Geo (all live CurrentConnections), Running Server Threads (RUNNABLE + TIMED_WAITING JVM threads). Persists geo + snapshot to N21Store. - fetchGeo()  ip-api.com HTTP lookup → "City, Country".
+
+NitroWebExpress.Aspect.ModuleInstallationService  (extends Thread)  PORT = 49166 Banner: "[ NWE port 49166 — Module Installation Service  |  install, unload, and manage NWE modules ]" Commands: identify | admin | install | unload | list | restart | comment | signatory | lang | help | quit
+
+NitroWebExpress.Aspect.ASCIICreatorServer  (extends Thread)  PORT = 49177 Banner: "[ NWE port 49177 — ASCII Signature Service  |  issues unique binary ASCII signatures per National ID ]" Commands: request <nationalId> | view <nationalId> | lang <code> | quit
+
+NitroWebExpress.Aspect.MySQLComponent Checks N21 DB status at startup; prints colored result via CommonRails.
+
+whiteauditor.WhiteAuditorTasking  (extends Thread, daemon)  PORT = 49122 Banner: "[ NWE port 49122 — WhiteAuditor Tasking ]" "Secure task assignment  |  files  |  bits (binary up to 8MB)  |  signatories" "1-hour session limit" Commands (after identify <nationalId>): assign-file <toId> <filename> <base64>       Store file task assign-bits <toId> <size> <base64>           Store binary payload (max 8MB) assign-signatory <toId> <symbol>             Store cryptographic signatory list-tasks <toId>                            List tasks assigned to user get-task <taskId>                            Retrieve task payload remove-task <taskId>                         Delete task lang <code>                                  LanguagePack switch quit                                         Disconnect
+
+Session limit: 1 hour (Session.expired() checked per command). Persistence: wat_tasks table (MySQL) via N21Store.
+
+================================================================================ HEURISTIC CLASSIFIER  (source/heuristics/)
