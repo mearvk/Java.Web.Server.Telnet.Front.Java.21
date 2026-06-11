@@ -101,7 +101,7 @@ public class WhiteAuditorTasking extends Thread
             try
             {
                 this.OUT.write(line + "\r\n");
-                
+
                 this.OUT.flush();
             }
             catch (Exception ignored)
@@ -110,10 +110,6 @@ public class WhiteAuditorTasking extends Thread
             }
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Connection handler
-    // -------------------------------------------------------------------------
 
     private void handle(final Socket client)
     {
@@ -213,7 +209,8 @@ public class WhiteAuditorTasking extends Thread
         }
     }
 
-    private String cmdIdentify(String idStr, Session session) {
+    private String cmdIdentify(String idStr, Session session)
+    {
         try
         {
             long id = Long.parseLong(idStr);
