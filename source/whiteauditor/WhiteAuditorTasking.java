@@ -55,7 +55,7 @@ public class WhiteAuditorTasking extends Thread
     {
         try
         {
-            database.N21Store.createWhiteAuditorTables();
+            db.N21Store.createWhiteAuditorTables();
 
             this.SERVERSOCKET = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
 
@@ -101,7 +101,7 @@ public class WhiteAuditorTasking extends Thread
             try
             {
                 this.OUT.write(line + "\r\n");
-
+                
                 this.OUT.flush();
             }
             catch (Exception ignored)
@@ -110,6 +110,10 @@ public class WhiteAuditorTasking extends Thread
             }
         }
     }
+
+    // -------------------------------------------------------------------------
+    // Connection handler
+    // -------------------------------------------------------------------------
 
     private void handle(final Socket client)
     {
@@ -209,13 +213,12 @@ public class WhiteAuditorTasking extends Thread
         }
     }
 
-    private String cmdIdentify(String idStr, Session session)
-    {
+    private String cmdIdentify(String idStr, Session session) {
         try
         {
             long id = Long.parseLong(idStr);
 
-            var profile = database.N21Store.loadNationalFinanceID(id);
+            var profile = db.N21Store.loadNationalFinanceID(id);
 
             if (profile == null) return "[identify] National ID not found.";
 
@@ -244,7 +247,7 @@ public class WhiteAuditorTasking extends Thread
 
         String base64 = raw.substring(raw.indexOf(filename) + filename.length()).trim();
 
-        database.N21Store.storeAssignedFile(from.NATIONALID, Long.parseLong(toId), filename, base64);
+        db.N21Store.storeAssignedFile(from.NATIONALID, Long.parseLong(toId), filename, base64);
 
         return "[assign-file] Stored file for " + toId + ".";
     }
@@ -264,7 +267,7 @@ public class WhiteAuditorTasking extends Thread
 
         String base64 = raw.substring(raw.indexOf(parts[2]) + parts[2].length()).trim();
 
-        database.N21Store.storeAssignedBits(from.NATIONALID, Long.parseLong(toId), size, base64);
+        db.N21Store.storeAssignedBits(from.NATIONALID, Long.parseLong(toId), size, base64);
 
         return "[assign-bits] Stored " + size + " bytes for " + toId + ".";
     }
@@ -280,7 +283,7 @@ public class WhiteAuditorTasking extends Thread
 
         String symbol = raw.substring(raw.indexOf(toId) + toId.length()).trim();
 
-        database.N21Store.storeAssignedSignatory(from.NATIONALID, Long.parseLong(toId), symbol);
+        db.N21Store.storeAssignedSignatory(from.NATIONALID, Long.parseLong(toId), symbol);
 
         return "[assign-signatory] Stored signatory for " + toId + ".";
     }
@@ -291,7 +294,7 @@ public class WhiteAuditorTasking extends Thread
 
         try
         {
-            ResultSet rs = database.N21Store.loadTasksFor(Long.parseLong(parts[1]));
+            ResultSet rs = db.N21Store.loadTasksFor(Long.parseLong(parts[1]));
 
             if (rs == null) return "[list-tasks] No tasks.";
 
@@ -321,7 +324,7 @@ public class WhiteAuditorTasking extends Thread
 
         try
         {
-            ResultSet rs = database.N21Store.loadTask(Long.parseLong(parts[1]));
+            ResultSet rs = db.N21Store.loadTask(Long.parseLong(parts[1]));
 
             if (rs == null || !rs.next()) return "[get-task] Not found.";
 
@@ -339,7 +342,7 @@ public class WhiteAuditorTasking extends Thread
 
         try
         {
-            database.N21Store.deleteTask(Long.parseLong(parts[1]));
+            db.N21Store.deleteTask(Long.parseLong(parts[1]));
 
             return "[remove-task] Removed.";
         }
@@ -381,6 +384,10 @@ public class WhiteAuditorTasking extends Thread
             ExceptionHandler.dispatch(ignored);
         }
     }
+
+    // -------------------------------------------------------------------------
+    // Help
+    // -------------------------------------------------------------------------
 
     private static final String HELP =
             "Commands:\r\n" +
