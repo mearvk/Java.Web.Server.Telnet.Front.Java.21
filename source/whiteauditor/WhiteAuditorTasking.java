@@ -382,10 +382,6 @@ public class WhiteAuditorTasking extends Thread
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Help
-    // -------------------------------------------------------------------------
-
     private static final String HELP =
             "Commands:\r\n" +
                     "  assign-file <toId> <filename> <base64>\r\n" +
