@@ -1,0 +1,20 @@
+<N21>
+  <record TABLE="exceptions" ts="2026-06-11T00:58:42.354763019Z">
+    <exception_type>SQLException</exception_type>
+    <message>Access denied for user 'root'@'localhost'</message>
+    <origin>com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)</origin>
+    <stack_trace>com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114)
+com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:840)
+com.mysql.cj.jdbc.ConnectionImpl.&lt;init&gt;(ConnectionImpl.java:416)
+com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
+com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
+java.sql/java.sql.DriverManager.getConnection(DriverManager.java:613)
+java.sql/java.sql.DriverManager.getConnection(DriverManager.java:199)
+db.N21Store.getConnection(N21Store.java:594)
+db.N21Store.createWhiteAuditorTables(N21Store.java:447)
+whiteauditor.WhiteAuditorTasking.run(WhiteAuditorTasking.java:53)</stack_trace>
+    <security>false</security>
+    <recorded_at>2026-06-11T00:58:42.352255352Z</recorded_at>
+  </record>
+</N21>
