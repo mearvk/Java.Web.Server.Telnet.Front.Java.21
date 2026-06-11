@@ -12,9 +12,7 @@ import national.NationalID;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -146,16 +144,21 @@ public class NitroWebExpress extends WebExpress
             private final CurrentConnections WATCHED;
             private final int WATCHEDPORT;
             private final String HOST;
-            private ServerSocket serverSocket;
+            private ServerSocket SERVERSOCKET;
             private final long startTime = System.currentTimeMillis();
 
             public ConnectionStatusServer(final String HOST, final CurrentConnections WATCHED, final int WATCHEDPORT)
             {
                 if (HOST == null || WATCHED == null) throw new SecurityException("//bodi/connect");
+
                 this.HOST = HOST;
+
                 this.WATCHED = WATCHED;
+
                 this.WATCHEDPORT = WATCHEDPORT;
+
                 this.setName("ConnectionStatusServer");
+
                 this.setDaemon(true);
             }
 
@@ -164,15 +167,20 @@ public class NitroWebExpress extends WebExpress
             {
                 try
                 {
-                    serverSocket = new ServerSocket(STATUS_PORT, 256, InetAddress.getByName(HOST));
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ConnectionStatusServer listening on port " + STATUS_PORT + " .");
+                    this.SERVERSOCKET = new ServerSocket(STATUS_PORT, 256, InetAddress.getByName(HOST));
+
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". ConnectionStatusServer listening on port " + STATUS_PORT + " .");
+
                     while (!Thread.currentThread().isInterrupted())
                     {
-                        Socket client = serverSocket.accept();
-                        client.setSoTimeout(20 * 60 * 1000); // 20-minute session limit
+                        Socket client = SERVERSOCKET.accept();
+
+                        client.setSoTimeout(20 * 60 * 1000);
+
                         Thread responder = new Thread(() -> respond(client));
+
                         responder.setDaemon(true);
+
                         responder.start();
                     }
                 }
@@ -185,62 +193,81 @@ public class NitroWebExpress extends WebExpress
                 {
                     String remoteIp = CLIENT.getInetAddress().getHostAddress();
 
-                    // ── Language negotiation via simple line protocol ─────────
-                    // Send language menu; client may send "lang <code>" or empty/any to proceed.
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(CLIENT.getOutputStream(), java.nio.charset.StandardCharsets.UTF_8));
+
                     BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(CLIENT.getInputStream(), java.nio.charset.StandardCharsets.UTF_8));
 
                     writer.write("[ NWE port " + STATUS_PORT + " — Connection Status & Server Health Report  |  20-minute session ]\n");
+
                     writer.write(languages.LanguagePack.t(remoteIp, "label.lang_menu") + "\n");
+
                     writer.write(languages.LanguagePack.t(remoteIp, "label.lang_prompt") + "\n");
+
                     writer.flush();
 
-                    CLIENT.setSoTimeout(20 * 60 * 1000); // 20-minute language selection window
+                    CLIENT.setSoTimeout(20 * 60 * 1000);
+
                     try
                     {
                         String line = reader.readLine();
+
                         if (line != null)
                         {
                             line = line.trim();
+
                             if (line.toLowerCase().startsWith("lang "))
                             {
                                 String reply = languages.LanguagePack.handleLangCommand(remoteIp, line.substring(5).trim());
+
                                 writer.write(reply + "\n");
+
                                 writer.flush();
                             }
                         }
                     }
-                    catch (java.net.SocketTimeoutException ignored) {} // no lang command — proceed with current
+                    catch (java.net.SocketTimeoutException ignored)
+                    {
+
+                    }
+
                     CLIENT.setSoTimeout(0);
 
-                    // ── Build translated report ───────────────────────────────
                     int count = WATCHED.size();
+
                     String geoLine   = fetchGeo(remoteIp);
+
                     String localTime = LocalTime.now().format(DateTimeFormatter.ofPattern("h:mm a"));
+
                     long uptimeSecs  = (System.currentTimeMillis() - startTime) / 1000;
+
                     String uptime    = (uptimeSecs / 3600) + "hrs " + ((uptimeSecs % 3600) / 60) + "mins " + (uptimeSecs % 60) + "secs";
+
                     Runtime rt       = Runtime.getRuntime();
+
                     long totalMB     = rt.totalMemory() / (1024 * 1024);
+
                     long usedMB      = (rt.totalMemory() - rt.freeMemory()) / (1024 * 1024);
 
                     String[] geoParts = geoLine.split(", ", 2);
+
                     db.N21Store.storeGeo(remoteIp, geoParts.length > 0 ? geoParts[0] : "", geoParts.length > 1 ? geoParts[1] : "");
+
                     db.N21Store.storeStatusSnapshot(count, uptimeSecs, totalMB, usedMB);
 
-                    // ── Geo list for all live connections ─────────────────────
                     StringBuilder geoList = new StringBuilder();
+
                     for (connections.Connection c : WATCHED.CURRENT_CONNECTION)
                     {
                         if (c.internet_address != null)
                         {
                             String ip = c.internet_address.getHostAddress();
-                            geoList.append("    ").append(ip)
-                                   .append("  ").append(fetchGeo(ip)).append("\n");
+
+                            geoList.append("    ").append(ip).append("  ").append(fetchGeo(ip)).append("\n");
                         }
                     }
 
-                    // ── Running JVM threads (server executables) ──────────────
                     StringBuilder threads = new StringBuilder();
+
                     Thread.getAllStackTraces().keySet().stream()
                         .filter(t -> t.getState() == Thread.State.RUNNABLE || t.getState() == Thread.State.TIMED_WAITING)
                         .sorted(java.util.Comparator.comparing(Thread::getName))
@@ -392,8 +419,11 @@ public class NitroWebExpress extends WebExpress
             public ModuleInstallationService(final String HOST)
             {
                 if (HOST == null) throw new SecurityException("//bodi/connect");
+
                 this.HOST = HOST;
+
                 this.setName("ModuleInstallationService");
+
                 this.setDaemon(true);
             }
 
