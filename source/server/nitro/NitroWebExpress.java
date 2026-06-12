@@ -447,12 +447,18 @@ public class NitroWebExpress extends WebExpress
                     while (!Thread.currentThread().isInterrupted())
                     {
                         Socket client = SERVER_SOCKET.accept();
+
                         Thread h = new Thread(() -> handle(client));
+
                         h.setDaemon(true);
+
                         h.start();
                     }
                 }
-                catch (Exception e) { ExceptionHandler.dispatch(e); }
+                catch (Exception e)
+                {
+                    ExceptionHandler.dispatch(e);
+                }
             }
 
             /** Per-connection session state. */
@@ -486,17 +492,22 @@ public class NitroWebExpress extends WebExpress
                     while ((line = in.readLine()) != null)
                     {
                         line = line.trim();
+
                         if (line.isEmpty()) continue;
+
                         if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) break;
 
-                        CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". ModuleInstallationService [" + session.remoteIp + "] cmd: " + line + " .");
+                        CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService [" + session.remoteIp + "] cmd: " + line + " .");
 
                         String response = dispatch(line, CLIENT.getInputStream(), out, session);
+
                         if (response != null) writeLine(out, response);
                     }
                 }
-                catch (Exception e) { ExceptionHandler.dispatch(e); }
+                catch (Exception e)
+                {
+                    ExceptionHandler.dispatch(e);
+                }
                 finally
                 {
                     if (session.adminToken != null) admin.ModuleAdmin.logout(session.adminToken);
@@ -504,10 +515,10 @@ public class NitroWebExpress extends WebExpress
                 }
             }
 
-            private String dispatch(final String CMD, final InputStream RAW,
-                                     final BufferedWriter OUT, final Session SESSION)
+            private String dispatch(final String CMD, final InputStream RAW, final BufferedWriter OUT, final Session SESSION)
             {
                 String[] parts = CMD.split("\\s+", 4);
+
                 switch (parts[0].toLowerCase())
                 {
                     case "identify":
@@ -554,146 +565,172 @@ public class NitroWebExpress extends WebExpress
                 try
                 {
                     long id = Long.parseLong(NATIONAL_ID_STR);
+
                     national.NationalFinanceID r = db.N21Store.loadNationalFinanceID(id);
+
                     if (r == null) return "[identify] National ID " + id + " not found.";
+
                     SESSION.nationalId = id;
-                    db.N21Store.storeModuleAction(id, "", "identify", SESSION.remoteIp,
-                        "", 0, "", "", "identified");
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ModuleInstallationService identified National ID " + id + " .");
+
+                    db.N21Store.storeModuleAction(id, "", "identify", SESSION.remoteIp, "", 0, "", "", "identified");
+
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService identified National ID " + id + " .");
+
                     return "[identify] National ID " + id + " recognised. Welcome.";
                 }
-                catch (NumberFormatException e) { return "[identify] Invalid National ID."; }
+                catch (NumberFormatException e)
+                {
+                    return "[identify] Invalid National ID.";
+                }
             }
 
             private String adminLogin(final String PASSWORD, final Session SESSION)
             {
                 if (SESSION.nationalId < 0) return "[admin] Identify yourself first.";
+
                 String token = admin.ModuleAdmin.login(PASSWORD, SESSION.nationalId);
+
                 if (token == null)
                 {
-                    db.N21Store.storeModuleAction(SESSION.nationalId, "", "admin-login-fail",
-                        SESSION.remoteIp, "", 0, "", "", "failed");
+                    db.N21Store.storeModuleAction(SESSION.nationalId, "", "admin-login-fail", SESSION.remoteIp, "", 0, "", "", "failed");
+
                     return "[admin] Authentication failed.";
                 }
+
                 SESSION.adminToken = token;
-                db.N21Store.storeModuleAction(SESSION.nationalId, "", "admin-login",
-                    SESSION.remoteIp, "", 0, "", token, "success");
+
+                db.N21Store.storeModuleAction(SESSION.nationalId, "", "admin-login", SESSION.remoteIp, "", 0, "", token, "success");
+
                 return "[admin] Authenticated. You may now unload modules and grant signatories.";
             }
 
-            private String installModule(final String NAME, final String SIG_HEX,
-                                          final String BYTE_COUNT_STR, final InputStream RAW,
-                                          final BufferedWriter OUT, final Session SESSION)
+            private String installModule(final String NAME, final String SIG_HEX, final String BYTE_COUNT_STR, final InputStream RAW, final BufferedWriter OUT, final Session SESSION)
             {
                 try
                 {
                     int byteCount = Integer.parseInt(BYTE_COUNT_STR);
+
                     if (byteCount <= 0 || byteCount > 50 * 1024 * 1024)
                         return "[install] Invalid byte count: " + byteCount;
 
                     writeLine(OUT, "[install] Ready to receive " + byteCount + " bytes for '" + NAME + "'.");
 
                     byte[] data = new byte[byteCount];
+
                     new DataInputStream(RAW).readFully(data);
 
                     // Security check 1: SHA-256
                     String actualHex = sha256hex(data);
+
                     if (!actualHex.equalsIgnoreCase(SIG_HEX))
                     {
                         String result = "sig-mismatch expected=" + SIG_HEX + " got=" + actualHex;
-                        db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject",
-                            SESSION.remoteIp, "", byteCount, SIG_HEX, "", result);
-                        CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". ModuleInstallationService SECURITY FAIL sig mismatch [" + NAME + "] .");
+
+                        db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject", SESSION.remoteIp, "", byteCount, SIG_HEX, "", result);
+
+                        CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService SECURITY FAIL sig mismatch [" + NAME + "] .");
+
                         return "[install] REJECTED — signature mismatch.";
                     }
 
                     // Security check 2: file type
                     String detectedType = detectType(data);
+
                     if (detectedType == null)
                     {
-                        db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject",
-                            SESSION.remoteIp, "unknown", byteCount, SIG_HEX, "", "bad-type");
-                        CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". ModuleInstallationService SECURITY FAIL unsupported type [" + NAME + "] .");
+                        db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject", SESSION.remoteIp, "unknown", byteCount, SIG_HEX, "", "bad-type");
+
+                        CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService SECURITY FAIL unsupported type [" + NAME + "] .");
+
                         return "[install] REJECTED — unsupported file type (must be .jar, .zip, or .java).";
                     }
 
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ModuleInstallationService security passed [" + NAME + "] type=" + detectedType + " .");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService security passed [" + NAME + "] type=" + detectedType + " .");
 
                     // Heuristics check — score the module before writing to disk
                     try
                     {
                         Path tmp = Files.createTempFile("nwe-heuristic-", "." + detectedType);
+
                         Files.write(tmp, data);
+
                         heuristics.ModuleHeuristics.Result hr = heuristics.ModuleHeuristics.evaluate(tmp);
+
                         Files.deleteIfExists(tmp);
 
-                        CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". ModuleInstallationService heuristics [" + NAME + "] score=" + hr.score + " suitable=" + hr.suitable + " .");
+                        CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService heuristics [" + NAME + "] score=" + hr.score + " suitable=" + hr.suitable + " .");
+
                         writeLine(OUT, "[heuristics] " + hr.summary());
 
                         if (!hr.suitable)
                         {
-                            db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject",
-                                SESSION.remoteIp, detectedType, byteCount, SIG_HEX, "", "heuristics-fail score=" + hr.score);
-                            return "[install] REJECTED — heuristics score " + hr.score + "/100 is below threshold ("
-                                + heuristics.ModuleHeuristics.PASS_THRESHOLD + "). See findings above.";
+                            db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject", SESSION.remoteIp, detectedType, byteCount, SIG_HEX, "", "heuristics-fail score=" + hr.score);
+
+                            return "[install] REJECTED — heuristics score " + hr.score + "/100 is below threshold (" + heuristics.ModuleHeuristics.PASS_THRESHOLD + "). See findings above.";
                         }
                     }
                     catch (Exception hEx)
                     {
                         // Heuristics failure must not block install — log and continue
-                        CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". ModuleInstallationService heuristics error [" + NAME + "]: " + hEx.getMessage() + " — proceeding .");
+                        CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService heuristics error [" + NAME + "]: " + hEx.getMessage() + " — proceeding .");
                     }
 
                     String filename = NAME.replaceAll("[^a-zA-Z0-9._-]", "_") + "." + detectedType;
+
                     Path dest = INSTALL_DIR.resolve(filename);
+
                     Files.write(dest, data);
 
                     URLClassLoader loader = null;
+
                     if (detectedType.equals("jar"))
                     {
-                        loader = new URLClassLoader(new URL[]{ dest.toUri().toURL() },
-                            Thread.currentThread().getContextClassLoader());
+                        loader = new URLClassLoader(new URL[]{ dest.toUri().toURL() }, Thread.currentThread().getContextClassLoader());
                     }
                     else if (detectedType.equals("zip"))
                     {
                         Path unzipDir = INSTALL_DIR.resolve(NAME);
+
                         Files.createDirectories(unzipDir);
+
                         unzip(data, unzipDir);
-                        loader = new URLClassLoader(new URL[]{ unzipDir.toUri().toURL() },
-                            Thread.currentThread().getContextClassLoader());
+
+                        loader = new URLClassLoader(new URL[]{ unzipDir.toUri().toURL() }, Thread.currentThread().getContextClassLoader());
                     }
                     else
                     {
                         javax.tools.JavaCompiler compiler = javax.tools.ToolProvider.getSystemJavaCompiler();
+
                         if (compiler == null) return "[install] No system compiler available (JDK required).";
+
                         Path srcFile = INSTALL_DIR.resolve(NAME + ".java");
+
                         Files.write(srcFile, data);
+
                         if (compiler.run(null, null, null, srcFile.toString()) != 0)
                             return "[install] Compilation failed for " + NAME + ".java";
-                        loader = new URLClassLoader(new URL[]{ INSTALL_DIR.toUri().toURL() },
-                            Thread.currentThread().getContextClassLoader());
+
+                        loader = new URLClassLoader(new URL[]{ INSTALL_DIR.toUri().toURL() }, Thread.currentThread().getContextClassLoader());
                     }
 
                     ModuleRegistry.register(new InstalledModule(NAME, dest, loader));
 
                     String result = "installed " + detectedType + " " + byteCount + "B";
-                    db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install",
-                        SESSION.remoteIp, detectedType, byteCount, SIG_HEX, "", result);
 
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ModuleInstallationService installed [" + NAME + "] for National ID "
-                        + SESSION.nationalId + " .");
+                    db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install", SESSION.remoteIp, detectedType, byteCount, SIG_HEX, "", result);
+
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService installed [" + NAME + "] for National ID " + SESSION.nationalId + " .");
 
                     return "[install] Module '" + NAME + "' installed (" + detectedType + ", " + byteCount + " bytes).";
                 }
-                catch (NumberFormatException e) { return "[install] Invalid byte count."; }
-                catch (Exception e) { ExceptionHandler.dispatch(e); return "[install] Error: " + e.getMessage(); }
+                catch (NumberFormatException e)
+                {
+                    return "[install] Invalid byte count.";
+                }
+                catch (Exception e)
+                {
+                    ExceptionHandler.dispatch(e); return "[install] Error: " + e.getMessage();
+                }
             }
 
             private String unloadModule(final String NAME, final Session SESSION)
