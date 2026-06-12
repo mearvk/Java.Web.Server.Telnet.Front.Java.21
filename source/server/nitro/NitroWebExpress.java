@@ -736,21 +736,26 @@ public class NitroWebExpress extends WebExpress
             private String unloadModule(final String NAME, final Session SESSION)
             {
                 boolean removed = ModuleRegistry.unload(NAME);
+
                 String result = removed ? "unloaded" : "not-found";
-                db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "unload",
-                    SESSION.remoteIp, "", 0, "", SESSION.adminToken, result);
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". ModuleInstallationService admin unload [" + NAME + "] result=" + result + " .");
+
+                db.N21Store.storeModuleAction(SESSION.nationalId, NAME, "unload", SESSION.remoteIp, "", 0, "", SESSION.adminToken, result);
+
+                CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService admin unload [" + NAME + "] result=" + result + " .");
+
                 return removed ? "[unload] Module '" + NAME + "' unloaded." : "[unload] Module not found: " + NAME;
             }
 
             private String listModules()
             {
                 ConcurrentHashMap<String, InstalledModule> all = ModuleRegistry.all();
+
                 if (all.isEmpty()) return "[list] No modules loaded.";
+
                 StringBuilder sb = new StringBuilder("[list] Loaded modules:\r\n");
-                all.forEach((name, m) -> sb.append("  ").append(name)
-                    .append(" — ").append(m.SOURCE).append("\r\n"));
+
+                all.forEach((name, m) -> sb.append("  ").append(name).append(" — ").append(m.SOURCE).append("\r\n"));
+
                 return sb.toString().stripTrailing();
             }
 
