@@ -3,6 +3,7 @@ import national.NationalDriver;
 import server.nitro.NitroWebExpress;
 import server.nitro.modules.ConnectionStatusServer;
 import server.nitro.modules.MySQLComponent;
+import server.nitro.modules.ModuleInstallationService;
 
 /**
  * @author Max Rupplin
@@ -49,7 +50,7 @@ public class Main
 
     protected static final String CONNECTION_STATUS_SERVER_HOST = "localhost";
 
-    protected static final Integer MODULE_INSTALLER_SERVICE_PORT = NitroWebExpress.Aspect.ModuleInstallationService.PORT;
+    protected static final Integer MODULE_INSTALLER_SERVICE_PORT = ModuleInstallationService.PORT;
 
     protected static final String MODULE_INSTALLER_SERVICE_HOST = "localhost";
 
@@ -126,7 +127,7 @@ public class Main
                 NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
             if (configuration.NweConfig.isEnabled("MODULE_INSTALLATION"))
-                NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
+                NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
 
             if (configuration.NweConfig.isEnabled("ASCII_CREATOR"))
                 NITRO.BRIDGE.ASCII_CREATOR_SERVER = new NitroWebExpress.Aspect.ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
