@@ -353,7 +353,7 @@ database.N21Status        DB status flags + last-error state.
 CONFIGURATION  (source/configuration/  configuration/)
 ================================================================================
 
-configuration.NweConfig
+configuration.NitroWebExpressConfig
   Loads configuration/nwe-config.xml.
   - isEnabled(id)           Server block enabled/disabled (default true).
   - adminUsername/Password  Admin credentials → ModuleAdmin.setPassword().
