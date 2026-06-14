@@ -109,52 +109,53 @@ public class ConnectionPoller extends Thread
             try(java.net.Socket proxy = new java.net.Socket())
             {
                 proxy.connect(new java.net.InetSocketAddress(WebExpress.REMOTE_SITE, Integer.parseInt(WebExpress.REMOTE_PORT)), PROXY_READ_TIMEOUT_MS);
+
                 proxy.setSoTimeout(PROXY_READ_TIMEOUT_MS);
 
                 java.io.OutputStream proxyOut = proxy.getOutputStream();
+
                 String httpRequest = "GET / HTTP/1.0\r\nHost: " + WebExpress.REMOTE_SITE + "\r\nConnection: close\r\n\r\n";
+
                 proxyOut.write(httpRequest.getBytes());
+
                 proxyOut.flush();
 
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    "WebExpress SessionHandler >> forwarded HTTP GET to " + WebExpress.REMOTE_SITE + ":" + WebExpress.REMOTE_PORT + ".");
+                CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress SessionHandler >> forwarded HTTP GET to " + WebExpress.REMOTE_SITE + ":" + WebExpress.REMOTE_PORT + ".");
 
                 java.io.OutputStream clientOut = CONNECTION.SOCKET.getOutputStream();
+
                 byte[] chunk = new byte[4096];
                 int read;
+
                 long deadline = System.currentTimeMillis() + PROXY_WALL_TIMEOUT_MS;
 
                 while(System.currentTimeMillis() < deadline && (read = proxy.getInputStream().read(chunk)) != -1)
                 {
                     clientOut.write(chunk, 0, read);
+
                     clientOut.flush();
 
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        "WebExpress SessionHandler >> proxied [" + read + " bytes] to client.");
+                    CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress SessionHandler >> proxied [" + read + " bytes] to client.");
                 }
             }
 
             // Enqueue for MessageQueueSorter audit trail
-            MessageQueue.Message MSG = new MessageQueue.Message();
-            MSG.CONNECTION       = CONNECTION;
-            MSG.SOCKET           = CONNECTION.SOCKET;
-            MSG.INTERNET_ADDRESS = CONNECTION.SOCKET.getInetAddress();
-            MSG.TIME_STAMP       = new Date();
-            MSG.MESSAGE_BUFFER   = new StringBuffer(BUFFER);
+            MessageQueue.Message MESSAGE = new MessageQueue.Message();
+            MESSAGE.CONNECTION       = CONNECTION;
+            MESSAGE.SOCKET           = CONNECTION.SOCKET;
+            MESSAGE.INTERNET_ADDRESS = CONNECTION.SOCKET.getInetAddress();
+            MESSAGE.TIME_STAMP       = new Date();
+            MESSAGE.MESSAGE_BUFFER   = new StringBuffer(BUFFER);
 
-            this.WEBEXPRESS.MESSAGE_QUEUE.add(MSG);
+            this.WEBEXPRESS.MESSAGE_QUEUE.add(MESSAGE);
         }
         catch(Exception e)
         {
             ExceptionHandler.dispatch(e);
 
-            CommonRails.printSystemComponent(this, this.hashCode(),
-                "WebExpress SessionHandler >> exception [" + e.getMessage() + "].");
+            CommonRails.printSystemComponent(this, this.hashCode(), "WebExpress SessionHandler >> exception [" + e.getMessage() + "].");
         }
-        // Do NOT remove from CONNECTIONS here — BaseServer.run() cleans up on socket close
     }
-
-    // ── Poller loop: accepts new connections, marks them, spawns handler ──────
 
     @Override
     public void run()
@@ -208,7 +209,6 @@ public class ConnectionPoller extends Thread
                         H.start();
                     }
 
-                    // Clean up closed sockets
                     if(SocketUtils.isConnected(CONNECTION.SOCKET))
                     {
                         CONNECTIONS.remove(CONNECTION);
