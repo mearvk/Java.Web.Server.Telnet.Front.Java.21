@@ -3,6 +3,7 @@ package server.nitro;
 import communicator.Communicator;
 import database.N21Store;
 import http.BinaryHttpServer;
+import server.nitro.modules.DSACompliant;
 import server.nitro.modules.ModuleInstallationService;
 import server.nitro.modules.MySQLComponent;
 import server.nitro.modules.ConnectionStatusServer;
@@ -232,7 +233,7 @@ public class NitroWebExpress extends WebExpress
             {
                 try
                 {
-                    database.N21Store.createAsciiSignaturesTable();
+                    N21Store.createAsciiSignaturesTable();
                     SERVER_SOCKET = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
                     CommonRails.printSystemComponent(this, this.hashCode(),
                         ". ASCIICreatorServer listening on port " + PORT + " .");
@@ -455,64 +456,6 @@ public class NitroWebExpress extends WebExpress
                 public MessageOutputHandler()
                 {
                     CommonRails.printSystemComponent(this, this.hashCode(), ". RSACompliant MessageOutputHandler starts .");
-                }
-
-                public void send_message(final String MESSAGE)
-                {
-                    if (MESSAGE == null) throw new SecurityException("//bodi/connect");
-                    messaging.MessageOutputHandler h = new messaging.MessageOutputHandler(SOCKET, MESSAGE);
-                    h.run();
-                }
-
-                public void send_message(final StringBuffer BUFFER)
-                {
-                    if (BUFFER == null) throw new SecurityException("//bodi/connect");
-                    messaging.MessageOutputHandler h = new messaging.MessageOutputHandler(SOCKET, BUFFER);
-                    h.run();
-                }
-            }
-        }
-
-        public static class DSACompliant extends WebExpress
-        {
-            public static final Integer DEFAULT_PORT   = 7744;
-            public static final String  DEFAULT_THREAD = "WEBEXPRESS_DSA_SERVER";
-
-            protected final DSACompliant.MessageOutputHandler DSA_MESSAGE_OUTPUT_HANDLER = new DSACompliant.MessageOutputHandler();
-
-            public messaging.MessageQueueSorter MESSAGE_QUEUE_SORTER;
-            public messaging.MessageQueue       MESSAGE_QUEUE;
-            public java.net.Socket              SOCKET;
-
-            public final encryption.module.dsa.EncryptionModuleDSA ENCRYPTION_MODULE =
-                new encryption.module.dsa.EncryptionModuleDSA();
-
-            public DSACompliant(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
-            {
-                if (HOST == null || PORT == null || THREAD_NAME == null || TELNET_PROXY_ENABLED == null)
-                    throw new SecurityException("//bodi/connect");
-
-                super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
-
-                this.HOST              = HOST;
-                this.PORT              = PORT;
-                this.MESSAGE_QUEUE        = new messaging.MessageQueue(this);
-                this.MESSAGE_QUEUE_SORTER = new messaging.MessageQueueSorter(this);
-                this.setName(THREAD_NAME);
-
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". DSACompliant starting on " + HOST + ":" + PORT + " .");
-            }
-
-            public DSACompliant() {}
-
-            protected static class MessageOutputHandler
-            {
-                public java.net.Socket SOCKET;
-
-                public MessageOutputHandler()
-                {
-                    CommonRails.printSystemComponent(this, this.hashCode(), ". DSACompliant MessageOutputHandler starts .");
                 }
 
                 public void send_message(final String MESSAGE)

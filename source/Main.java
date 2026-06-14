@@ -6,6 +6,7 @@ import loader.ModuleLoaderDaemon;
 import national.NationalDriver;
 import server.nitro.NitroWebExpress;
 import server.nitro.modules.ConnectionStatusServer;
+import server.nitro.modules.DSACompliant;
 import server.nitro.modules.MySQLComponent;
 import server.nitro.modules.ModuleInstallationService;
 import shutdown.ShutdownHooks;
@@ -40,11 +41,11 @@ public class Main
 
     protected static final String RSA_WEBEXPRESS_SERVER_THREAD_NAME = NitroWebExpress.Aspect.RSACompliant.DEFAULT_THREAD;
 
-    protected static final Integer DSA_WEBEXPRESS_SERVER_SOCKET = NitroWebExpress.Aspect.DSACompliant.DEFAULT_PORT;
+    protected static final Integer DSA_WEBEXPRESS_SERVER_SOCKET = DSACompliant.DEFAULT_PORT;
 
     protected static final String DSA_WEBEXPRESS_REMOTE_HOST = "localhost";
 
-    protected static final String DSA_WEBEXPRESS_SERVER_THREAD_NAME = NitroWebExpress.Aspect.DSACompliant.DEFAULT_THREAD;
+    protected static final String DSA_WEBEXPRESS_SERVER_THREAD_NAME = DSACompliant.DEFAULT_THREAD;
 
     protected static final String WEBEXPRESS_HOSTNAME = "localhost";
 
@@ -130,7 +131,7 @@ public class Main
                 NITRO.BRIDGE.RSA_COMPONENT = new NitroWebExpress.Aspect.RSACompliant(RSA_WEBEXPRESS_REMOTE_HOST, RSA_WEBEXPRESS_SERVER_SOCKET, RSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             if (NitroWebExpressConfig.isEnabled("DSA_COMPLIANT"))
-                NITRO.BRIDGE.DSA_COMPONENT = new NitroWebExpress.Aspect.DSACompliant(DSA_WEBEXPRESS_REMOTE_HOST, DSA_WEBEXPRESS_SERVER_SOCKET, DSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+                NITRO.BRIDGE.DSA_COMPONENT = new DSACompliant(DSA_WEBEXPRESS_REMOTE_HOST, DSA_WEBEXPRESS_SERVER_SOCKET, DSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             if (NitroWebExpressConfig.isEnabled("CONNECTION_STATUS"))
                 NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
