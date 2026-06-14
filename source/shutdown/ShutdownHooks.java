@@ -1,7 +1,6 @@
 package shutdown;
 
 import commons.CommonRails;
-import exceptions.ExceptionHandler;
 
 import java.io.File;
 import java.net.Socket;
@@ -13,7 +12,7 @@ import java.net.Socket;
  */
 public class ShutdownHooks
 {
-    public static final int[] PORTS = { 49152, 49155, 49188, 49199, 49144, 49133, 5512, 6682 };
+    public static final int[] PORTS = { 49152, 49155, 49166, 49177, 5512, 6682, 7743 };
 
     public static void register()
     {
@@ -24,7 +23,7 @@ public class ShutdownHooks
     {
         ShutdownHooks owner = new ShutdownHooks();
 
-        CommonRails.printSystemComponent(owner, owner.hashCode(), "[shutdown] Closing server ports: 49152 49155 49188 49199 49144 49133 5512 6682");
+        CommonRails.printSystemComponent(owner, owner.hashCode(), "[shutdown] Closing server ports: 49152 49155 5512 6682");
 
         for (int port : PORTS)
             CommonRails.printShutdownSignal(owner, port, "SIGTERM");
@@ -32,16 +31,8 @@ public class ShutdownHooks
         // run script silently — it performs the actual kills
         try
         {
-            File scriptFile = new File("scripts/bash/Shutdown.sh");
-
-            if (!scriptFile.exists())
-            {
-                ExceptionHandler.dispatchShutdown(
-                    new java.io.FileNotFoundException("Shutdown script not found: " + scriptFile.getAbsolutePath()));
-                return;
-            }
-
-            Process proc = new ProcessBuilder("bash", scriptFile.getAbsolutePath())
+            String script = new File("scripts/shutdown.sh").getAbsolutePath();
+            Process proc = new ProcessBuilder("bash", script)
                     .redirectOutput(ProcessBuilder.Redirect.DISCARD)
                     .redirectError(ProcessBuilder.Redirect.DISCARD)
                     .start();
@@ -60,7 +51,7 @@ public class ShutdownHooks
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatchShutdown(e);
+            //CommonRails.EXCEPTION_SINK.accept(e);
         }
 
         CommonRails.printSystemComponent(owner, owner.hashCode(), "[shutdown] Done.");
