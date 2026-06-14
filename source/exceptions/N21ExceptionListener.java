@@ -1,6 +1,6 @@
 package exceptions;
 
-import db.N21Store;
+import database.N21Store;
 
 /**
  * Persists every dispatched exception (and security events) to the N21 MySQL database.

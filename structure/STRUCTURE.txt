@@ -345,7 +345,7 @@ bitcoin.base.BitcoinBase
   Methods: start_bitcoind | stop_bitcoind | load_wallet | unload_wallet |
            create_wallet | get_wallet_info | get_balance | get_new_address |
            get_blockchain_info | get_block_count | send(toAddress,amount)
-  All mutating ops → db.N21Store.storeBitcoinTrade() → bitcoin_trades table.
+  All mutating ops → database.N21Store.storeBitcoinTrade() → bitcoin_trades table.
   String[] exec (no shell injection).
 
 bitcoin.module.TraderModule       Wired to Aspect bridge.
@@ -353,10 +353,10 @@ bitcoin.messaging.MessageOrderer  Orders outbound BTC messages.
 bitcoin.time.*                    NY / LA / Tokyo timezone date helpers.
 
 ================================================================================
-DATABASE  (source/db/)
+DATABASE  (source/database/)
 ================================================================================
 
-db.N21Store  (all static)
+database.N21Store  (all static)
   storeConnection / storeGeo / storeException / storeSecurityEvent
   storeNationalId / storeNationalFinanceID / loadNationalFinanceID
   createAsciiSignaturesTable / nextAsciiSigId / storeAsciiSignature / loadAsciiSignature
@@ -384,10 +384,10 @@ db.N21Store  (all static)
     status_snapshots        periodic server health snapshots
     whiteauditor_tasks      assigned files, bits, signatories and task records
 
-db.N21DataSource    Live MySQL connection; markFailed() routes to XML fallback.
-db.N21AuthConfig    Loads authentication/mysql.auth.xml; ensureMysqlRunning().
-db.N21XmlFallback   append() / replayFallback() — offline record buffer.
-db.N21Status        DB status flags + last-error state.
+database.N21DataSource    Live MySQL connection; markFailed() routes to XML fallback.
+database.N21AuthConfig    Loads authentication/mysql.auth.xml; ensureMysqlRunning().
+database.N21XmlFallback   append() / replayFallback() — offline record buffer.
+database.N21Status        DB status flags + last-error state.
 
 ================================================================================
 CONFIGURATION  (source/configuration/  configuration/)

@@ -12,8 +12,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -75,7 +73,7 @@ public class Communicator extends Thread
     {
         try
         {
-            db.N21Store.createCommunicatorTables();
+            database.N21Store.createCommunicatorTables();
             serverSocket = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
             CommonRails.printSystemComponent(this, this.hashCode(),
                 ". Communicator listening on port " + PORT + " .");
@@ -186,7 +184,7 @@ public class Communicator extends Thread
         try
         {
             long id = Long.parseLong(idStr);
-            national.NationalFinanceID profile = db.N21Store.loadNationalFinanceID(id);
+            national.NationalFinanceID profile = database.N21Store.loadNationalFinanceID(id);
             if (profile == null) return "[identify] National ID " + id + " not found.";
             session.nationalId = id;
             LIVE.put(idStr, session);
@@ -215,7 +213,7 @@ public class Communicator extends Thread
     {
         Session target = LIVE.get(toId);
         String stored  = "[" + from.nationalId + " → " + toId + "] " + text;
-        db.N21Store.storeChatMessage(from.nationalId, Long.parseLong(toId), text, "direct");
+        database.N21Store.storeChatMessage(from.nationalId, Long.parseLong(toId), text, "direct");
         if (target == null) return "[msg] User " + toId + " not connected. Message stored.";
         target.writeLine("[MSG from " + from.nationalId + "] " + text);
         return "[msg] Delivered to " + toId + ".";
@@ -223,7 +221,7 @@ public class Communicator extends Thread
 
     private String cmdBroadcast(final String text, final Session from)
     {
-        db.N21Store.storeChatMessage(from.nationalId, -1L, text, "broadcast");
+        database.N21Store.storeChatMessage(from.nationalId, -1L, text, "broadcast");
         int count = 0;
         for (Session s : LIVE.values())
         {
@@ -242,7 +240,7 @@ public class Communicator extends Thread
         if (!timeStr.matches("\\d{2}:\\d{2}")) return "[schedule] Time must be HH:mm (24h).";
 
         long toId = target.equalsIgnoreCase("broadcast") ? -1L : Long.parseLong(target);
-        db.N21Store.storeScheduledMessage(from.nationalId, toId, text, timeStr);
+        database.N21Store.storeScheduledMessage(from.nationalId, toId, text, timeStr);
         return "[schedule] Message scheduled at " + timeStr + " local time for " +
                (toId < 0 ? "all users" : "National ID " + toId) + ".";
     }
@@ -251,7 +249,7 @@ public class Communicator extends Thread
     {
         try
         {
-            ResultSet rs = db.N21Store.loadRecentChatMessages(20);
+            ResultSet rs = database.N21Store.loadRecentChatMessages(20);
             if (rs == null) return "[history] No history available.";
             StringBuilder sb = new StringBuilder("[history] Last messages:\r\n");
             while (rs.next())
@@ -352,7 +350,7 @@ public class Communicator extends Thread
         {
             try
             {
-                ResultSet rs = db.N21Store.loadDueScheduledMessages();
+                ResultSet rs = database.N21Store.loadDueScheduledMessages();
                 if (rs == null) return;
                 while (rs.next())
                 {
@@ -369,7 +367,7 @@ public class Communicator extends Thread
                             if (localTimeMatches(s.timezone, schedTime))
                             {
                                 s.writeLine("[SCHEDULED from " + fromId + "] " + text);
-                                db.N21Store.markScheduledDelivered(msgId);
+                                database.N21Store.markScheduledDelivered(msgId);
                                 break; // mark once; all recipients get it
                             }
                     }
@@ -379,7 +377,7 @@ public class Communicator extends Thread
                         if (target != null && localTimeMatches(target.timezone, schedTime))
                         {
                             target.writeLine("[SCHEDULED from " + fromId + "] " + text);
-                            db.N21Store.markScheduledDelivered(msgId);
+                            database.N21Store.markScheduledDelivered(msgId);
                         }
                     }
                 }

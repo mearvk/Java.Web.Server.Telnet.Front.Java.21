@@ -124,7 +124,7 @@ public class AIProctorModule extends Thread
     private String cmdIdentify(String idStr, Session session) {
         try {
             long id = Long.parseLong(idStr);
-            var profile = db.N21Store.loadNationalFinanceID(id);
+            var profile = database.N21Store.loadNationalFinanceID(id);
             if (profile == null) return "[identify] National ID not found.";
 
             session.nationalId = id;

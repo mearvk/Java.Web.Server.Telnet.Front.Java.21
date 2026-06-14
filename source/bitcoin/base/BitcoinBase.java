@@ -8,7 +8,6 @@ import exceptions.ExceptionHandler;
 import server.nitro.NitroWebExpress;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
@@ -65,7 +64,7 @@ public class BitcoinBase
         CommonRails.printSystemComponent(this, this.hashCode(),
             ". WebExpress Bitcoin >> opens in Japan on Date " + JAPANDate.PACIFIC_Time + " . ");
 
-        db.N21Store.createBitcoinTradesTable();
+        database.N21Store.createBitcoinTradesTable();
     }
 
     // ── Daemon lifecycle ──────────────────────────────────────────────────────
@@ -77,7 +76,7 @@ public class BitcoinBase
             "-rpcport="    + RPC_PORT,
             "-rpcuser="    + RPC_USER,
             "-rpcpassword="+ RPC_PASSWORD });
-        db.N21Store.storeBitcoinTrade("start_bitcoind", "", "", result);
+        database.N21Store.storeBitcoinTrade("start_bitcoind", "", "", result);
         return result;
     }
 
@@ -85,7 +84,7 @@ public class BitcoinBase
     public String stop_bitcoind()
     {
         String result = cli("stop");
-        db.N21Store.storeBitcoinTrade("stop_bitcoind", "", "", result);
+        database.N21Store.storeBitcoinTrade("stop_bitcoind", "", "", result);
         return result;
     }
 
@@ -94,21 +93,21 @@ public class BitcoinBase
     public String load_wallet()
     {
         String result = cli("loadwallet", WALLET_NAME);
-        db.N21Store.storeBitcoinTrade("load_wallet", WALLET_NAME, "", result);
+        database.N21Store.storeBitcoinTrade("load_wallet", WALLET_NAME, "", result);
         return result;
     }
 
     public String unload_wallet()
     {
         String result = cli("unloadwallet", WALLET_NAME);
-        db.N21Store.storeBitcoinTrade("unload_wallet", WALLET_NAME, "", result);
+        database.N21Store.storeBitcoinTrade("unload_wallet", WALLET_NAME, "", result);
         return result;
     }
 
     public String create_wallet(final String name)
     {
         String result = cli("createwallet", name);
-        db.N21Store.storeBitcoinTrade("create_wallet", name, "", result);
+        database.N21Store.storeBitcoinTrade("create_wallet", name, "", result);
         return result;
     }
 
@@ -155,7 +154,7 @@ public class BitcoinBase
     public String send(final String toAddress, final String amount)
     {
         String result = walletCli("sendtoaddress", toAddress, amount);
-        db.N21Store.storeBitcoinTrade("send", WALLET_NAME, toAddress + " " + amount + " BTC", result);
+        database.N21Store.storeBitcoinTrade("send", WALLET_NAME, toAddress + " " + amount + " BTC", result);
         return result;
     }
 

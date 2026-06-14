@@ -8,7 +8,6 @@ import java.net.*;
 import java.nio.file.*;
 import java.security.MessageDigest;
 import java.util.HexFormat;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -195,7 +194,7 @@ public class ModuleLoaderDaemon extends Thread
         try
         {
             long id = Long.parseLong(ID_STR);
-            national.NationalFinanceID profile = db.N21Store.loadNationalFinanceID(id);
+            national.NationalFinanceID profile = database.N21Store.loadNationalFinanceID(id);
             if (profile == null) return "[identify] National ID " + id + " not found.";
             SESSION.nationalId = id;
             CommonRails.printSystemComponent(this, this.hashCode(),

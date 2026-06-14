@@ -104,4 +104,4 @@ CONNECTING (telnet / nc)
 LOGS
 ----
   logging/exceptions.log          Runtime exception log.
-  db/fallback/                    XML fallback records when MySQL is unavailable.
+  database/fallback/                    XML fallback records when MySQL is unavailable.

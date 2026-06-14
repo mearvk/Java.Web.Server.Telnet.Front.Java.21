@@ -1,4 +1,4 @@
-package db;
+package database;
 
 import commons.CommonRails;
 import javax.xml.parsers.DocumentBuilder;

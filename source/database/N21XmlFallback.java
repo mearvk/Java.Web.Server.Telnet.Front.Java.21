@@ -1,13 +1,11 @@
-package db;
+package database;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -24,7 +22,7 @@ public class N21XmlFallback
     {
         if (xmlFile == null)
         {
-            File dir = new File("db/fallback/" + LocalDate.now());
+            File dir = new File("database/fallback/" + LocalDate.now());
             dir.mkdirs();
             xmlFile = new File(dir, "N21.xml");
 
@@ -75,7 +73,7 @@ public class N21XmlFallback
      */
     public static void replayFallback()
     {
-        File root = new File("db/fallback");
+        File root = new File("database/fallback");
         if (!root.exists()) return;
 
         for (File dayDir : listDirs(root))

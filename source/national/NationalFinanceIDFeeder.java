@@ -1,7 +1,7 @@
 package national;
 
 import connections.Connection;
-import db.N21Store;
+import database.N21Store;
 
 import java.io.BufferedWriter;
 

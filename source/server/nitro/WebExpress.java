@@ -4,6 +4,7 @@ import commons.CommonRails;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import server.base.BaseServer;
+import server.nitro.modules.ConnectionStatusServer;
 import telnet.TelnetCommunicationProxy;
 import telnet.TelnetInstaller;
 
@@ -38,7 +39,7 @@ public class WebExpress extends BaseServer
     public BaseServer BASESERVER;
 
     /** Status server on port 49155 reporting live connection count for this WebExpress instance. */
-    public NitroWebExpress.Aspect.ConnectionStatusServer CONNECTION_STATUS_SERVER;
+    public ConnectionStatusServer CONNECTION_STATUS_SERVER;
 
     public WebExpress()
     {

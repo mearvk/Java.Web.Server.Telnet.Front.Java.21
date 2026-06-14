@@ -58,7 +58,7 @@ SOURCE PACKAGES  (source/)
     RecordedConnections
     logic/IPGeoParser
 
-  db/
+  database/
     N21AuthConfig         — Loads MySQL credentials from authentication/mysql.auth.xml;
                             ensureMysqlRunning() checks / starts MySQL via systemctl.
     N21DataSource         — Shared JDBC connection; auto-fallback to XML on failure.
