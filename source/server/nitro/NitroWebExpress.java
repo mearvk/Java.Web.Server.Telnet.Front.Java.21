@@ -763,11 +763,15 @@ public class NitroWebExpress extends WebExpress
             {
                 db.N21Store.storeModuleAction(SESSION.nationalId, MODULE, "restart",
                     SESSION.remoteIp, "", 0, "", "", "signal-sent");
+
                 CommonRails.printSystemComponent(this, this.hashCode(),
                     ". ModuleInstallationService restart [" + MODULE + "] .");
+
                 InstalledModule m = ModuleRegistry.get(MODULE);
+
                 if (m != null || MODULE.matches("aes|bitcoin|status|national"))
                     return "[restart] Module '" + MODULE + "' restart signal sent.";
+
                 return "[restart] Unknown module: " + MODULE;
             }
 

@@ -19,22 +19,40 @@ public class CommonRails
     protected String hash = "0xDA717018470E213F";
 
     /** Pluggable exception sink — set by ExceptionHandler at startup to avoid circular import. */
-    public static java.util.function.Consumer<Exception> EXCEPTION_SINK = e -> {};
 
-    /** Called by ExceptionHandler once to wire itself in. */
+    public static final String COLOR_LIME_GREEN     = "\033[38;5;118m";
+    public static final String COLOR_TANGERINE      = "\033[38;5;214m";
+    public static final String COLOR_STANDARD_RED   = "\033[38;5;160m";
+    public static final String COLOR_YELLOW         = "\033[38;5;226m";
+
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_WHITE        = "\033[38;5;15m";
+    private static final String ANSI_DEEP_RED     = "\033[38;5;160m";
+    private static final String ANSI_SILVER       = "\033[38;5;250m";
+    private static final String ANSI_IMPERIAL_GRAY= "\u001B[38;5;242m";
+    private static final String ANSI_RESET        = "\u001B[0m";
+    private static final String OID_SECURITY    = "\033[38;5;196m"; // bright red
+    private static final String OID_TELNET      = "\033[38;5;51m";  // cyan
+    private static final String OID_ENCRYPTION  = "\033[38;5;208m"; // orange
+    private static final String OID_BITCOIN     = "\033[38;5;220m"; // gold
+    private static final String OID_LOGGING     = "\033[38;5;147m"; // lavender
+    private static final String OID_MESSAGING   = "\033[38;5;118m"; // lime green
+    private static final String OID_CONNECTIONS = "\033[38;5;75m";  // sky blue
+    private static final String OID_SERVER      = "\033[38;5;214m"; // amber
+    private static final String OID_LIVENESS    = "\033[38;5;46m";  // bright green
+    private static final String OID_DEFAULT     = "\033[38;5;250m"; // silver
+
+    protected static final int CLASSNAME_TOTAL_WIDTH = 39;
+
+    public static boolean USE_COLORED_OUTPUT = true;
+
+    public static java.util.function.Consumer<Exception> EXCEPTION_SINK = e -> {e.printStackTrace(System.err);};
+
     public static void setExceptionSink(final java.util.function.Consumer<Exception> SINK)
     {
         if (SINK != null) EXCEPTION_SINK = SINK;
     }
 
-    // Desired total width for the text inside the [Current: ...] brackets
-    protected static final int CLASSNAME_TOTAL_WIDTH = 39;
-
-    /**
-     * If true, CommonRails will emit ANSI-coloured animated output in delayableFinePrinter.
-     * Can be overridden with system property `commonrails.color` or env var `COMMONRAILS_COLOR`.
-     */
-    public static boolean USE_COLORED_OUTPUT = true;
     static
     {
         try
@@ -57,39 +75,11 @@ public class CommonRails
         }
         catch (Throwable t)
         {
-            // best-effort; keep default
+            t.printStackTrace(System.err);
         }
     }
 
-    public CommonRails()
-    {
-
-    }
-
-    // Color constants
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_WHITE        = "\033[38;5;15m";
-    private static final String ANSI_DEEP_RED     = "\033[38;5;160m";
-    private static final String ANSI_SILVER       = "\033[38;5;250m";
-    private static final String ANSI_IMPERIAL_GRAY= "\u001B[38;5;242m";
-    private static final String ANSI_RESET        = "\u001B[0m";
-
-    // Object-ID category colors (applied to the numeric digits only)
-    private static final String OID_SECURITY    = "\033[38;5;196m"; // bright red
-    private static final String OID_TELNET      = "\033[38;5;51m";  // cyan
-    private static final String OID_ENCRYPTION  = "\033[38;5;208m"; // orange
-    private static final String OID_BITCOIN     = "\033[38;5;220m"; // gold
-    private static final String OID_LOGGING     = "\033[38;5;147m"; // lavender
-    private static final String OID_MESSAGING   = "\033[38;5;118m"; // lime green
-    private static final String OID_CONNECTIONS = "\033[38;5;75m";  // sky blue
-    private static final String OID_SERVER      = "\033[38;5;214m"; // amber
-    private static final String OID_LIVENESS    = "\033[38;5;46m";  // bright green
-    private static final String OID_DEFAULT     = "\033[38;5;250m"; // silver
-
-    /**
-     * Resolve which Object-ID color to use based on the owner's simple class name.
-     */
-    private static String resolveOidColor(final String SIMPLECLASSNAME)
+    private static String resolveOIDColor(final String SIMPLECLASSNAME)
     {
         if (SIMPLECLASSNAME == null) return OID_DEFAULT;
 
@@ -133,26 +123,6 @@ public class CommonRails
         return OID_DEFAULT;
     }
 
-    /**
-     * Maps a class name to a grayscale ANSI 256 shade based on its proximity to US law.
-     * ANSI 256 grayscale ramp: 232 (near-black) → 255 (near-white).
-     *
-     * Theory of term:
-     *   - Classes that embody or enforce US law (security, national ID, auth, exceptions,
-     *     encryption, admin, signatory) are most lawful → darkest (toward black, 232).
-     *   - Classes that are pure infrastructure / utility with no legal character
-     *     (messaging, timing, sim, telnet I/O) → lightest (toward white, 255).
-     *   - All others fall in between proportionally.
-     *
-     * Scale (ANSI grayscale code):
-     *   232  most lawful   — security, national authority, authentication
-     *   236                — encryption, admin, exceptions
-     *   240                — database, finance, bitcoin
-     *   245                — connections, server infrastructure
-     *   250                — commons, output, printing
-     *   255  least lawful  — messaging, timing, sim, telnet I/O
-     */
-    /** Two shades darker than terminal reset (255); used for [Current: @ClassName] field. */
     private static final String ANSI_NEAR_RESET_DARK2 = "\033[38;5;253m";
 
     /**
@@ -347,7 +317,7 @@ public class CommonRails
 
         // Color the numeric digits by OBJECT category when color output is enabled
         String colored_hashcode = USE_COLORED_OUTPUT
-            ? resolveOidColor(OBJECT.getClass().getSimpleName()) + compliant_hashcode + ANSI_RESET
+            ? resolveOIDColor(OBJECT.getClass().getSimpleName()) + compliant_hashcode + ANSI_RESET
             : compliant_hashcode;
 
         String object_id = "-- : [Object ID: "+colored_hashcode+"]";
@@ -829,20 +799,19 @@ public class CommonRails
      */
     public static void printShutdownSignal(final Object OWNER, final int PORT, final String PHASE)
     {
-        String module;
-        switch (PORT)
+        String module = switch (PORT)
         {
-            case 49152: module = "WebExpress";               break;
-            case 49155: module = "ConnectionStatusServer";   break;
-            case 49166: module = "ModuleInstallationService";break;
-            case 49177: module = "ASCIICreatorServer";       break;
-            case  5512: module = "AES";                      break;
-            case  6682: module = "Bitcoin";                  break;
-            case  7743: module = "RSA";                      break;
-            default:    module = "Unknown";                  break;
-        }
-        printSystemComponent(OWNER, OWNER.hashCode(),
-            "[shutdown] " + PHASE + " " + module + " port " + PORT);
+            case 49152 -> "WebExpress";
+            case 49155 -> "ConnectionStatusServer";
+            case 49166 -> "ModuleInstallationService";
+            case 49177 -> "ASCIICreatorServer";
+            case 5512 -> "AES";
+            case 6682 -> "Bitcoin";
+            case 7743 -> "RSA";
+            default -> "Unknown";
+        };
+
+        printSystemComponent(OWNER, OWNER.hashCode(), "[shutdown] " + PHASE + " " + module + " port " + PORT);
     }
 
     /**
@@ -856,12 +825,15 @@ public class CommonRails
         // whose class name maps to a known color — instead, we patch at the reference level directly.
 
         String simpleName2 = OBJECT.getClass().getSimpleName();
+
         int    innerPad  = Math.max(0, CLASSNAME_TOTAL_WIDTH - ("Current: @" + simpleName2).length());
+
         String classnamePadded = USE_COLORED_OUTPUT
             ? "[Current: " + resolveLawfulnessDark2(simpleName2) + "@" + simpleName2 + ANSI_RESET + " ".repeat(innerPad) + "]"
             : "[Current: @" + simpleName2 + " ".repeat(innerPad) + "]";
 
         String compliant_hashcode = String.format("%010d", HASHCODE);
+
         String colored_hashcode   = USE_COLORED_OUTPUT
             ? OIDCOLOR + compliant_hashcode + ANSI_RESET
             : compliant_hashcode;
@@ -869,7 +841,9 @@ public class CommonRails
         String object_id = "-- : [Object ID: " + colored_hashcode + "]";
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+
         formatter.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+
         String date = "[Date: " + formatter.format(new Date()) + "]";
 
         // Run the same token-uppercasing and keyword pipeline as the standard method
@@ -890,23 +864,33 @@ public class CommonRails
             try
             {
                 lineFixed = lineFixed.replaceAll("(?i)\\bJAVA\\b", ANSI_WHITE + "JAVA" + ANSI_RESET);
+
                 lineFixed = lineFixed.replaceAll("™", ANSI_DEEP_RED + "™" + ANSI_RESET);
+
                 lineFixed = lineFixed.replaceAll("(?i)\\bNitroExpress\\b", ANSI_SILVER + "NitroExpress" + ANSI_RESET);
+
                 lineFixed = lineFixed.replaceAll("(?i)National Finance", ANSI_SILVER + "National Finance" + ANSI_RESET);
             }
-            catch (Throwable ignored) {}
+            catch
+            (Throwable ignored)
+            {
+                ignored.printStackTrace(System.err);
+            }
         }
 
         String reference = object_id + " " + date + " " + classnamePadded + " " + lineFixed;
 
-        try { NationalDriver.record(reference); } catch (Throwable ignored) {}
+        try
+        {
+            NationalDriver.record(reference);
+        }
+        catch (Throwable ignored)
+        {
+            ignored.printStackTrace(System.err);
+        }
 
         CommonRails.delayableFinePrinter(reference, 21);
     }
 
-    // Expose OID color constants for external callers (e.g. DB status)
-    public static final String COLOR_LIME_GREEN     = "\033[38;5;118m";  // connected
-    public static final String COLOR_TANGERINE      = "\033[38;5;214m";  // XML fallback
-    public static final String COLOR_STANDARD_RED   = "\033[38;5;160m";  // full failure
-    public static final String COLOR_YELLOW         = "\033[38;5;226m";  // warning / stopped
+
 }
