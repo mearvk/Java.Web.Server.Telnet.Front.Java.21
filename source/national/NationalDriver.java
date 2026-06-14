@@ -6,16 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Backend to record CommonRails startup print order and re-print in a corrected order.
- */
 public class NationalDriver
 {
     protected static final List<String> STARTUP_REFERENCES = Collections.synchronizedList(new ArrayList<>());
 
-    /**
-     * Record a printed reference line from CommonRails. Stored as-is.
-     */
     public static synchronized void record(final String REFERENCE)
     {
         if (REFERENCE == null) return;
@@ -49,10 +43,6 @@ public class NationalDriver
         return inner;
     }
 
-    /**
-     * Print registered startup references in corrected order using CommonRails.delayableFinePrinter.
-     * Desired order: NitroWebExpress, WebExpress, BaseServer, Telnet module, AES module, Bitcoin module, remainder
-     */
     protected static List<List<String>> GROUPED_STARTUP_REFERENCES = null;
     protected static List<String> GROUP_NAMES = null;
 
@@ -91,13 +81,18 @@ public class NationalDriver
             String low = cn.toLowerCase();
             long ts = extractTimestamp(ref); // may be -1 on parse failure
 
-            // treat any mention of "nitro" as NitroWebExpress group to ensure they print first
             if (low.contains("nitro")) nitro.add(new Entry(ref, ts, index, cn));
+
             else if (cn.equalsIgnoreCase("WebExpress") || low.contains("webexpress")) web.add(new Entry(ref, ts, index, cn));
+
             else if (cn.equalsIgnoreCase("BaseServer") || low.contains("baseserver")) base.add(new Entry(ref, ts, index, cn));
+
             else if (low.contains("telnet")) telnet.add(new Entry(ref, ts, index, cn));
+
             else if (low.contains("aes") || low.contains("aesc") || low.contains("aesen")) aes.add(new Entry(ref, ts, index, cn));
+
             else if (low.contains("bitcoin")) bitcoin.add(new Entry(ref, ts, index, cn));
+
             else remainder.add(new Entry(ref, ts, index, cn));
 
             index++;
