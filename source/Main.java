@@ -1,9 +1,14 @@
 import commons.CommonRails;
+import communicator.Communicator;
+import configuration.NweConfig;
+import http.BinaryHttpServer;
+import loader.ModuleLoaderDaemon;
 import national.NationalDriver;
 import server.nitro.NitroWebExpress;
 import server.nitro.modules.ConnectionStatusServer;
 import server.nitro.modules.MySQLComponent;
 import server.nitro.modules.ModuleInstallationService;
+import weather.WeatherServer;
 
 /**
  * @author Max Rupplin
@@ -44,6 +49,7 @@ public class Main
 
     protected static final String AES_WEBEXPRESS_REMOTE_HOST = "localhost";
 
+    protected static final String BINARY_HTTP_SERVER_HOST = "localhost";
     protected static final String BITCOIN_WEBEXPRESS_REMOTE_HOST = "localhost";
 
     protected static final Integer CONNECTION_STATUS_SERVER_PORT = ConnectionStatusServer.STATUS_PORT;
@@ -58,13 +64,15 @@ public class Main
 
     protected static final String ASCII_CREATOR_SERVER_HOST = "localhost";
 
-    protected static final Integer MODULE_LOADER_DAEMON_PORT = loader.ModuleLoaderDaemon.PORT;
+    protected static final Integer MODULE_LOADER_DAEMON_PORT = ModuleLoaderDaemon.PORT;
 
     protected static final String MODULE_LOADER_DAEMON_HOST = "localhost";
 
-    protected static final Integer COMMUNICATOR_PORT = communicator.Communicator.PORT;
+    protected static final Integer COMMUNICATOR_PORT = Communicator.PORT;
 
     protected static final String COMMUNICATOR_HOST = "localhost";
+
+    protected static final String WEATHER_SERVER_HOST = "localhost";
 
     public static void main(String...args)
     {
@@ -136,18 +144,16 @@ public class Main
                 NITRO.BRIDGE.MODULE_LOADER_DAEMON = new ModuleInstallationService(MODULE_LOADER_DAEMON_HOST);
 
             if (configuration.NweConfig.isEnabled("COMMUNICATOR"))
-                NITRO.BRIDGE.COMMUNICATOR = new communicator.Communicator(COMMUNICATOR_HOST);
+                NITRO.BRIDGE.COMMUNICATOR = new Communicator(COMMUNICATOR_HOST);
 
             if (configuration.NweConfig.isEnabled("BINARY_HTTP"))
-                NITRO.BRIDGE.BINARY_HTTP_SERVER = new http.BinaryHttpServer("localhost");
+                NITRO.BRIDGE.BINARY_HTTP_SERVER = new BinaryHttpServer(BINARY_HTTP_SERVER_HOST);
 
             if (configuration.NweConfig.isEnabled("WEATHER"))
-                NITRO.BRIDGE.WEATHER_SERVER = new weather.WeatherServer("localhost");
+                NITRO.BRIDGE.WEATHER_SERVER = new WeatherServer(WEATHER_SERVER_HOST);
 
             if (configuration.NweConfig.isEnabled("ANTIVIRUS"))
-                new antivirus.AntivirusScanner(
-                    configuration.NweConfig.antivirusSchedule(),
-                    configuration.NweConfig.antivirusScanPath()).start();
+                new antivirus.AntivirusScanner(NweConfig.antivirusSchedule(), NweConfig.antivirusScanPath()).start();
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();
 
