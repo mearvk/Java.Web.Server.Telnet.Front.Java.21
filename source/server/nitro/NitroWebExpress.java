@@ -1,5 +1,6 @@
 package server.nitro;
 
+import database.N21Store;
 import server.nitro.modules.MySQLComponent;
 import server.nitro.modules.ConnectionStatusServer;
 import bitcoin.module.TraderModule;
@@ -192,7 +193,7 @@ public class NitroWebExpress extends WebExpress
                 }
                 catch (Exception ignored)
                 {
-                    ignored.printStackTrace(System);
+                    ignored.printStackTrace(System.err);
                 }
 
                 CommonRails.printSystemComponent(m, m.hashCode(), ". ModuleRegistry unloaded module [" + NAME + "] .");
@@ -231,7 +232,9 @@ public class NitroWebExpress extends WebExpress
                 try
                 {
                     Files.createDirectories(INSTALL_DIR);
-                    database.N21Store.createModuleLoaderTable();
+
+                    N21Store.createModuleLoaderTable();
+
                     SERVER_SOCKET = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
                     CommonRails.printSystemComponent(this, this.hashCode(),
                         ". ModuleInstallationService listening on port " + PORT + " .");
@@ -263,6 +266,7 @@ public class NitroWebExpress extends WebExpress
             private void handle(final Socket CLIENT)
             {
                 Session session = new Session();
+
                 session.remoteIp = CLIENT.getInetAddress().getHostAddress();
 
                 try (
