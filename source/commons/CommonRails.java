@@ -24,23 +24,23 @@ public class CommonRails
     public static final String COLOR_TANGERINE      = "\033[38;5;214m";
     public static final String COLOR_STANDARD_RED   = "\033[38;5;160m";
     public static final String COLOR_YELLOW         = "\033[38;5;226m";
-
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_WHITE        = "\033[38;5;15m";
-    private static final String ANSI_DEEP_RED     = "\033[38;5;160m";
-    private static final String ANSI_SILVER       = "\033[38;5;250m";
-    private static final String ANSI_IMPERIAL_GRAY= "\u001B[38;5;242m";
-    private static final String ANSI_RESET        = "\u001B[0m";
-    private static final String OID_SECURITY    = "\033[38;5;196m"; // bright red
-    private static final String OID_TELNET      = "\033[38;5;51m";  // cyan
-    private static final String OID_ENCRYPTION  = "\033[38;5;208m"; // orange
-    private static final String OID_BITCOIN     = "\033[38;5;220m"; // gold
-    private static final String OID_LOGGING     = "\033[38;5;147m"; // lavender
-    private static final String OID_MESSAGING   = "\033[38;5;118m"; // lime green
-    private static final String OID_CONNECTIONS = "\033[38;5;75m";  // sky blue
-    private static final String OID_SERVER      = "\033[38;5;214m"; // amber
-    private static final String OID_LIVENESS    = "\033[38;5;46m";  // bright green
-    private static final String OID_DEFAULT     = "\033[38;5;250m"; // silver
+    public static final String ANSI_YELLOW          = "\u001B[33m";
+    public static final String ANSI_WHITE           = "\033[38;5;15m";
+    public static final String ANSI_DEEP_RED        = "\033[38;5;160m";
+    public static final String ANSI_SILVER          = "\033[38;5;250m";
+    public static final String ANSI_IMPERIAL_GRAY   = "\u001B[38;5;242m";
+    public static final String ANSI_RESET           = "\u001B[0m";
+    public static final String OID_SECURITY         = "\033[38;5;196m";
+    public static final String OID_TELNET           = "\033[38;5;51m";
+    public static final String OID_ENCRYPTION       = "\033[38;5;208m";
+    public static final String OID_BITCOIN          = "\033[38;5;220m";
+    public static final String OID_LOGGING          = "\033[38;5;147m";
+    public static final String OID_MESSAGING        = "\033[38;5;118m";
+    public static final String OID_CONNECTIONS      = "\033[38;5;75m";
+    public static final String OID_SERVER           = "\033[38;5;214m";
+    public static final String OID_LIVENESS         = "\033[38;5;46m";
+    public static final String OID_DEFAULT          = "\033[38;5;250m";
+    public static final String ANSI_NEAR_RESET_DARK = "\033[38;5;253m";
 
     protected static final int CLASSNAME_TOTAL_WIDTH = 39;
 
@@ -123,44 +123,6 @@ public class CommonRails
         return OID_DEFAULT;
     }
 
-    private static final String ANSI_NEAR_RESET_DARK2 = "\033[38;5;253m";
-
-    /**
-     * Scores a class name across four concern axes and maps the sum to an ANSI-256 grayscale color.
-     *
-     * AXES & MAX POINTS (total = 13):
-     *
-     * 1. Platonic Form proximity (0–4):
-     *    How near to the Form of the Good (Republic).
-     *    4 = Philosopher-King (sovereign, guardian, identity)
-     *    3 = Episteme / anamnesis (knowledge, record, truth-preservation)
-     *    2 = Demiourgoi / sophrosyne (commerce, material stewardship)
-     *    1 = Auxiliaries / andreia (infrastructure, coordination)
-     *    0 = Eikasia / shadow (raw conduit, simulation, I/O)
-     *
-     * 2. Etymology — civic rootedness (0–3):
-     *    3 = Latin/Greek civic origin: nationalis, securitas, authentikos, signatorius
-     *    2 = Latin disciplinary origin: exceptio, persistere, kryptos
-     *    1 = Romance/Germanic utility: connectere, servire, communis
-     *    0 = Modern portmanteau or purely technical: queue, telnet, sim
-     *
-     * 3. Social program — contribution to the polis (0–3):
-     *    3 = Direct: state protection, lawful identity, civic record
-     *    2 = Indirect: economic participation, infrastructure enabling cooperation
-     *    1 = Facilitative: shared language, utilities all classes depend on
-     *    0 = Neutral conduit: carries meaning without producing civic value
-     *
-     * 4. Ethics — weight of obligation (0–3):
-     *    3 = Deontological duty (justice, protection of the governed)
-     *    2 = Stewardship (proportional exchange, accountability)
-     *    1 = Virtue of reliability (service, accessibility)
-     *    0 = Instrumental (value from what is conveyed, not the conveying)
-     *
-     * SPECTRUM:
-     *    score 0  → ANSI 238 (darkest in range — least normative, pure shadow)
-     *    score 13 → ANSI 255 (pure white / at reset — most lawful, nearest Form of the Good)
-     *    intermediate scores interpolate linearly across 238–255 (17-step range, ~1.31 per point)
-     */
     private static String resolveLawfulness(final String SIMPLECLASSNAME)
     {
         if (SIMPLECLASSNAME == null || !USE_COLORED_OUTPUT) return "";

@@ -98,7 +98,6 @@ public class NationalDriver
             index++;
         }
 
-        // Sort each group by timestamp (ascending). If timestamp unknown (-1), preserve original index ordering.
         java.util.Comparator<Entry> cmp = (a,b) -> {
             if (a.ts != -1 && b.ts != -1)
             {
@@ -108,7 +107,6 @@ public class NationalDriver
             else if (a.ts != -1) return -1;
             else if (b.ts != -1) return 1;
 
-            // secondary: class name alphabetical to group similar subentries, then original index
             int cn = a.className.compareToIgnoreCase(b.className);
             if (cn != 0) return cn;
             return Integer.compare(a.idx, b.idx);
@@ -128,7 +126,6 @@ public class NationalDriver
 
         remainder.sort(cmp);
 
-        // Convert to lists of strings and store grouped arrays
         List<String> nitroRefs = new ArrayList<>();
 
         for (Entry e: nitro) nitroRefs.add(e.ref);
