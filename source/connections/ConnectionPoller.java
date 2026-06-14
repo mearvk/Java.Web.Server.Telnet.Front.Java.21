@@ -5,6 +5,7 @@ import commons.EnglishArithemeter;
 import commons.socket.SocketUtils;
 import exceptions.ExceptionHandler;
 import messaging.MessageQueue;
+import national.NationalFinanceIDFeeder;
 import server.base.BaseServer;
 import server.webexpress.WebExpress;
 import telnet.TelnetMessageQueue;
@@ -65,12 +66,11 @@ public class ConnectionPoller extends Thread
             if(!SocketUtils.isConnected(CONNECTION.SOCKET)) return;
 
             // ── National Finance ID: prompt on first connect ──────────────────
-            CONNECTION.reader = new java.io.BufferedReader(
-                new InputStreamReader(CONNECTION.SOCKET.getInputStream()));
-            CONNECTION.writer = new java.io.BufferedWriter(
-                new java.io.OutputStreamWriter(CONNECTION.SOCKET.getOutputStream()));
+            CONNECTION.reader = new java.io.BufferedReader(new InputStreamReader(CONNECTION.SOCKET.getInputStream()));
 
-            national.NationalFinanceIDFeeder.greet(CONNECTION);
+            CONNECTION.writer = new java.io.BufferedWriter(new java.io.OutputStreamWriter(CONNECTION.SOCKET.getOutputStream()));
+
+            NationalFinanceIDFeeder.greet(CONNECTION);
 
             // 1. Read remaining client input with bounded timeout
             StringBuilder BUFFER = new StringBuilder();
