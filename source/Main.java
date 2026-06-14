@@ -133,7 +133,7 @@ public class Main
                 NITRO.BRIDGE.ASCII_CREATOR_SERVER = new NitroWebExpress.Aspect.ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
 
             if (configuration.NweConfig.isEnabled("MODULE_LOADER_DAEMON"))
-                NITRO.BRIDGE.MODULE_LOADER_DAEMON = new loader.ModuleLoaderDaemon(MODULE_LOADER_DAEMON_HOST);
+                NITRO.BRIDGE.MODULE_LOADER_DAEMON = new ModuleInstallationService(MODULE_LOADER_DAEMON_HOST);
 
             if (configuration.NweConfig.isEnabled("COMMUNICATOR"))
                 NITRO.BRIDGE.COMMUNICATOR = new communicator.Communicator(COMMUNICATOR_HOST);

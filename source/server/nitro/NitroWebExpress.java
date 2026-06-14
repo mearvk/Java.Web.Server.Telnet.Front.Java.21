@@ -1,6 +1,8 @@
 package server.nitro;
 
+import communicator.Communicator;
 import database.N21Store;
+import http.BinaryHttpServer;
 import server.nitro.modules.ModuleInstallationService;
 import server.nitro.modules.MySQLComponent;
 import server.nitro.modules.ConnectionStatusServer;
@@ -16,6 +18,8 @@ import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import national.NationalID;
 import server.webexpress.WebExpress;
+import weather.WeatherServer;
+import whiteauditor.WhiteAuditorTasking;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -119,18 +123,16 @@ public class NitroWebExpress extends WebExpress
 
         public ASCIICreatorServer ASCII_CREATOR_SERVER;
 
-        public loader.ModuleLoaderDaemon MODULE_LOADER_DAEMON;
+        public ModuleInstallationService MODULE_LOADER_DAEMON;
 
-        public communicator.Communicator COMMUNICATOR;
+        public Communicator COMMUNICATOR;
 
-        public http.BinaryHttpServer BINARY_HTTP_SERVER;
+        public BinaryHttpServer BINARY_HTTP_SERVER;
 
-        public weather.WeatherServer WEATHER_SERVER;
+        public WeatherServer WEATHER_SERVER;
 
-        public whiteauditor.WhiteAuditorTasking WHITE_AUDITOR_TASKING;
+        public WhiteAuditorTasking WHITE_AUDITOR_TASKING;
 
-
-        /** Start CONNECTION_STATUS and NitroWebExpress.SELF together. */
         public void start()
         {
             if (RSA_COMPONENT            != null) RSA_COMPONENT.start();
