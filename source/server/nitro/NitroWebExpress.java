@@ -101,7 +101,6 @@ public class NitroWebExpress extends WebExpress
 
         protected TraderModule TRADER_MODULE = new TraderModule(this, "Bitcoin Remote Module 2.0 ADS5.0");
 
-        // Do not eagerly instantiate components that bind sockets; create on-demand to avoid accidental double binds
         public AESCompliant AES_COMPONENT;
 
         public BitcoinCompliant BITCOIN_COMPONENT;
@@ -145,11 +144,6 @@ public class NitroWebExpress extends WebExpress
             if (NitroWebExpress.SELF     != null) NitroWebExpress.SELF.start();
         }
 
-
-
-
-
-
         public Aspect(final WebExpress WEBEXPRESS)
         {
             if(WEBEXPRESS==null) throw new SecurityException("//bodi/connect");
@@ -159,8 +153,6 @@ public class NitroWebExpress extends WebExpress
             this.WHITE_AUDITOR_TASKING = new whiteauditor.WhiteAuditorTasking(NitroWebExpress.WEBEXPRESS_COMPLIANT_HOSTNAME);
 
         }
-
-        // ── Module loading infrastructure ─────────────────────────────────────
 
         public static class InstalledModule
         {
