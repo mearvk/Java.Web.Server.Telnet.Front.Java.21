@@ -28,9 +28,14 @@ public final class CommonRails
         String module = switch (PORT)
         {
             case 49152  -> "WebExpress";
+            case 49122  -> "WhiteAuditorTasking";
+            case 49133  -> "WeatherServer";
+            case 49144  -> "BinaryHttpServer";
             case 49155  -> "ConnectionStatusServer";
             case 49166  -> "ModuleInstallationService";
             case 49177  -> "ASCIICreatorServer";
+            case 49188  -> "ModuleLoaderDaemon";
+            case 49199  -> "Communicator";
             case 5512   -> "AES";
             case 6682   -> "Bitcoin";
             case 7743   -> "RSA";
