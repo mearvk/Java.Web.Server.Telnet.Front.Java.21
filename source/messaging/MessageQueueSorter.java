@@ -3,7 +3,7 @@ package messaging;
 import commons.CommonRails;
 import commons.socket.SocketUtils;
 import exceptions.ExceptionHandler;
-import server.nitro.WebExpress;
+import server.webexpress.WebExpress;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

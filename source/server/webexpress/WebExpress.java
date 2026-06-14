@@ -1,4 +1,4 @@
-package server.nitro;
+package server.webexpress;
 
 import commons.CommonRails;
 import messaging.MessageQueue;
@@ -74,7 +74,7 @@ public class WebExpress extends BaseServer
 
             this.TELNET_COMMUNICATION_PROXY.OUTPUT_BUILDER.setName("TelnetCommunicationProxy.Builder.Output");
 
-            this.TELNET_COMMUNICATION_PROXY.input_builder.setName("TelnetCommunicationProxy.Builder.Input");
+            this.TELNET_COMMUNICATION_PROXY.INPUT_BUILDER.setName("TelnetCommunicationProxy.Builder.Input");
         }
         else
         {

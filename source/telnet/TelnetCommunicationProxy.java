@@ -2,13 +2,12 @@ package telnet;
 
 import commons.CommonRails;
 import exceptions.ExceptionHandler;
-import server.nitro.WebExpress;
+import server.webexpress.WebExpress;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Date;
 
 public class TelnetCommunicationProxy
 {
@@ -28,7 +27,7 @@ public class TelnetCommunicationProxy
 
     public TelnetOutputBuilder OUTPUT_BUILDER;
 
-    public TelnetInputBuilder input_builder;
+    public TelnetInputBuilder INPUT_BUILDER;
 
     public TelnetProxyLivenessMonitor liveness_monitor;
 
@@ -50,11 +49,11 @@ public class TelnetCommunicationProxy
 
         this.OUTPUT_BUILDER = new TelnetOutputBuilder(this);
 
-        this.input_builder = new TelnetInputBuilder(this);
+        this.INPUT_BUILDER = new TelnetInputBuilder(this);
 
         this.OUTPUT_BUILDER.start();
 
-        this.input_builder.start();
+        this.INPUT_BUILDER.start();
 
         this.liveness_monitor = new TelnetProxyLivenessMonitor(this);
 
@@ -121,7 +120,7 @@ public class TelnetCommunicationProxy
                         proxy.reader.mark(1);
                     }
 
-                    proxy.input_builder.telnet_message_queue.add(inbound);
+                    proxy.INPUT_BUILDER.telnet_message_queue.add(inbound);
 
                     // ── Outbound: re-enqueue a status ping so OUTPUT_BUILDER stays active ──
                     TelnetMessageQueue.Message outbound = new TelnetMessageQueue.Message();

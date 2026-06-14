@@ -13,6 +13,7 @@ import encryption.module.aes.two.EncryptionModule;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import national.NationalID;
+import server.webexpress.WebExpress;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

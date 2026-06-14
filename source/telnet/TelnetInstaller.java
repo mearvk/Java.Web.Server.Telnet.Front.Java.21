@@ -2,7 +2,7 @@ package telnet;
 
 import commons.CommonRails;
 import exceptions.ExceptionHandler;
-import server.nitro.WebExpress;
+import server.webexpress.WebExpress;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,11 +36,13 @@ public class TelnetInstaller
 
             this.process = process_builder.start();
 
-            // register process with CommonRails so it can monitor exit/finish events
-            try {
+            try
+            {
                 CommonRails.registerProcess(this.process_builder, this.process, this);
-            } catch (Exception ignore) {
-                // best-effort: don't let registration prevent initialization
+            }
+            catch (Exception ignore)
+            {
+                ignore.printStackTrace(System.err);
             }
 
             this.reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
