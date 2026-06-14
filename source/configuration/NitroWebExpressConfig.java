@@ -23,11 +23,11 @@ import java.util.Map;
  * instantiated.  ModuleAdmin.PASSWORD is updated from the XML value so the
  * admin may log in to any TCP service with the configured credentials.
  */
-public class NweConfig
+public class NitroWebExpressConfig
 {
     private static final String CONFIG_FILE = "configuration/nwe-config.xml";
 
-    private static NweConfig INSTANCE;
+    private static NitroWebExpressConfig INSTANCE;
 
     private final Map<String, Boolean> ENABLED = new HashMap<>();
     private final String ADMIN_USERNAME;
@@ -35,11 +35,11 @@ public class NweConfig
     private final String ANTIVIRUS_SCHEDULE;  // hourly|daily|weekly|monthly|yearly
     private final String ANTIVIRUS_SCAN_PATH;
 
-    private NweConfig(final Map<String, Boolean> ENABLED,
-                      final String ADMIN_USERNAME,
-                      final String ADMIN_PASSWORD,
-                      final String ANTIVIRUS_SCHEDULE,
-                      final String ANTIVIRUS_SCAN_PATH)
+    private NitroWebExpressConfig(final Map<String, Boolean> ENABLED,
+                                  final String ADMIN_USERNAME,
+                                  final String ADMIN_PASSWORD,
+                                  final String ANTIVIRUS_SCHEDULE,
+                                  final String ANTIVIRUS_SCAN_PATH)
     {
         this.ENABLED.putAll(ENABLED);
         this.ADMIN_USERNAME       = ADMIN_USERNAME;
@@ -80,14 +80,14 @@ public class NweConfig
     }
 
     /** Load (or reload) configuration from disk.  Called once from Main(). */
-    public static synchronized NweConfig load()
+    public static synchronized NitroWebExpressConfig load()
     {
         File file = new File(CONFIG_FILE);
 
         if (!file.exists())
         {
             CommonRails.printSystemComponent(
-                NweConfig.class, NweConfig.class.hashCode(),
+                NitroWebExpressConfig.class, NitroWebExpressConfig.class.hashCode(),
                 ". NweConfig — " + CONFIG_FILE + " not found; all servers enabled, default admin .",
                 ColorPalette.COLOR_YELLOW);
             INSTANCE = defaults();
@@ -122,18 +122,18 @@ public class NweConfig
                     adminPass = text(adminEl, "password", adminPass);
                 }
 
-                INSTANCE = new NweConfig(enabled, adminUser, adminPass,
+                INSTANCE = new NitroWebExpressConfig(enabled, adminUser, adminPass,
                     antivirusSchedule(doc), antivirusScanPath(doc));
 
                 CommonRails.printSystemComponent(
-                    NweConfig.class, NweConfig.class.hashCode(),
+                    NitroWebExpressConfig.class, NitroWebExpressConfig.class.hashCode(),
                     ". NweConfig loaded — " + enabled.size() + " server entries, admin='" + adminUser + "' .",
                     ColorPalette.COLOR_LIME_GREEN);
             }
             catch (Exception e)
             {
                 CommonRails.printSystemComponent(
-                    NweConfig.class, NweConfig.class.hashCode(),
+                    NitroWebExpressConfig.class, NitroWebExpressConfig.class.hashCode(),
                     ". NweConfig parse error: " + e.getMessage() + " — using defaults .",
                     ColorPalette.COLOR_STANDARD_RED);
                 INSTANCE = defaults();
@@ -148,15 +148,15 @@ public class NweConfig
 
     // ── Internals ─────────────────────────────────────────────────────────────
 
-    private static NweConfig get()
+    private static NitroWebExpressConfig get()
     {
         if (INSTANCE == null) load();
         return INSTANCE;
     }
 
-    private static NweConfig defaults()
+    private static NitroWebExpressConfig defaults()
     {
-        return new NweConfig(new HashMap<>(), "mearvk", "n21admin", "daily", ".");
+        return new NitroWebExpressConfig(new HashMap<>(), "mearvk", "n21admin", "daily", ".");
     }
 
     /** Extract &lt;schedule&gt; from the ANTIVIRUS server block, default "daily". */

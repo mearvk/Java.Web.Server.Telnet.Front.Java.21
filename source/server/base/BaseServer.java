@@ -1,7 +1,7 @@
 package server.base;
 
 import commons.CommonRails;
-import configuration.NweConfig;
+import configuration.NitroWebExpressConfig;
 import connections.*;
 import exceptions.ExceptionHandler;
 import heuristics.HeuristicClassifier;
@@ -166,7 +166,7 @@ public abstract class BaseServer extends Thread
                 connection.SERVER = this;
 
                 // ── Heuristic classification ──────────────────────────────────
-                if (NweConfig.isEnabled("HEURISTIC_CLASSIFIER"))
+                if (NitroWebExpressConfig.isEnabled("HEURISTIC_CLASSIFIER"))
                 {
                     String remoteIp = connection.SOCKET.getInetAddress().getHostAddress();
                     HeuristicClassifier.ConnectionEvent event =

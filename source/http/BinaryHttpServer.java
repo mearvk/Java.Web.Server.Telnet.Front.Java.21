@@ -1,6 +1,7 @@
 package http;
 
 import commons.CommonRails;
+import configuration.NitroWebExpressConfig;
 import exceptions.ExceptionHandler;
 
 import java.io.*;
@@ -174,7 +175,7 @@ public class BinaryHttpServer extends Thread
     private static Path resolveApacheDir()
     {
         String configured = null;
-        try { configured = configuration.NweConfig.get("apache-root"); } catch (Exception ignored) {}
+        try { configured = NitroWebExpressConfig.get("apache-root"); } catch (Exception ignored) {}
         Path preferred = Paths.get(configured != null && !configured.isBlank() ? configured : "/var/www/html/nwe");
         try
         {
@@ -201,7 +202,7 @@ public class BinaryHttpServer extends Thread
     {
         try
         {
-            String v = configuration.NweConfig.get("apache-url");
+            String v = NitroWebExpressConfig.get("apache-url");
             return (v != null && !v.isBlank()) ? v : "http://localhost/nwe";
         }
         catch (Exception e) { return "http://localhost/nwe"; }
