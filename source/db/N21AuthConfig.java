@@ -3,6 +3,8 @@ package db;
 import commons.CommonRails;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import commons.color.ColorPalette;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.io.BufferedReader;
@@ -97,20 +99,20 @@ public class N21AuthConfig
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
                     ". systemctl status mysql — MySQL NOT INSTALLED on this system .",
-                    CommonRails.COLOR_STANDARD_RED);
+                    ColorPalette.OID_DEFAULT ) ;
                 return;
             }
             else if (running)
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
                     ". systemctl status mysql — active (running) .",
-                    CommonRails.COLOR_LIME_GREEN);
+                    ColorPalette.COLOR_LIME_GREEN);
             }
             else
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
                     ". systemctl status mysql — inactive / stopped .",
-                    CommonRails.COLOR_YELLOW);
+                    ColorPalette.COLOR_YELLOW);
 
                 if (USESUDO)
                 {
@@ -122,7 +124,7 @@ public class N21AuthConfig
 
                     CommonRails.printSystemComponent(this, this.hashCode(),
                         ". systemctl start mysql — " + (nowRunning ? "now running ." : "FAILED to start ."),
-                        nowRunning ? CommonRails.COLOR_LIME_GREEN : CommonRails.COLOR_STANDARD_RED);
+                        nowRunning ? ColorPalette.COLOR_LIME_GREEN : ColorPalette.COLOR_STANDARD_RED);
                 }
             }
         }
@@ -130,7 +132,7 @@ public class N21AuthConfig
         {
             CommonRails.printSystemComponent(this, this.hashCode(),
                 ". systemctl status mysql — check failed: " + e.getMessage() + " .",
-                CommonRails.COLOR_STANDARD_RED);
+                ColorPalette.COLOR_STANDARD_RED);
         }
 
         // ── 2. JDBC login test using credentials from mysql.auth.xml ──────────
@@ -145,14 +147,14 @@ public class N21AuthConfig
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
                     ". MySQL JDBC login — user '" + USERNAME + "' authenticated successfully .",
-                    CommonRails.COLOR_LIME_GREEN);
+                    ColorPalette.COLOR_LIME_GREEN);
             }
         }
         catch (Exception e)
         {
             CommonRails.printSystemComponent(this, this.hashCode(),
                 ". MySQL JDBC login — user '" + USERNAME + "' FAILED: " + e.getMessage() + " .",
-                CommonRails.COLOR_STANDARD_RED);
+                ColorPalette.COLOR_STANDARD_RED);
         }
     }
 

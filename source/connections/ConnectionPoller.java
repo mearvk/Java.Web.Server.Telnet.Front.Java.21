@@ -2,6 +2,7 @@ package connections;
 
 import commons.CommonRails;
 import commons.EnglishArithemeter;
+import commons.socket.SocketUtils;
 import exceptions.ExceptionHandler;
 import messaging.MessageQueue;
 import server.base.BaseServer;
@@ -61,7 +62,7 @@ public class ConnectionPoller extends Thread
     {
         try
         {
-            if(!CommonRails.SocketUtils.isSocketConnected(CONNECTION.SOCKET)) return;
+            if(!SocketUtils.isConnected(CONNECTION.SOCKET)) return;
 
             // ── National Finance ID: prompt on first connect ──────────────────
             CONNECTION.reader = new java.io.BufferedReader(
@@ -208,7 +209,7 @@ public class ConnectionPoller extends Thread
                     }
 
                     // Clean up closed sockets
-                    if(CommonRails.SocketUtils.isSocketClosed(CONNECTION.SOCKET))
+                    if(SocketUtils.isConnected(CONNECTION.SOCKET))
                     {
                         CONNECTIONS.remove(CONNECTION);
 

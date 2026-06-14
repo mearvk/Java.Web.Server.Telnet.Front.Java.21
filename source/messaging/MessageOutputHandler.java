@@ -8,6 +8,7 @@
 package messaging;
 
 import commons.CommonRails;
+import commons.socket.SocketUtils;
 import exceptions.ExceptionHandler;
 import encryption.module.aes.two.EncryptionModule;
 
@@ -49,7 +50,7 @@ public class MessageOutputHandler implements Runnable
     @Override
     public void run()
     {
-        if(SOCKET!=null && CommonRails.SocketUtils.isSocketConnected(SOCKET))
+        if(SOCKET!=null && SocketUtils.isConnected(SOCKET))
         {
             try
             {
@@ -64,7 +65,7 @@ public class MessageOutputHandler implements Runnable
             catch (Exception e)
             {
                 ExceptionHandler.dispatch(e);
-                if(CommonRails.SocketUtils.isSocketClosed(SOCKET))
+                if(SocketUtils.isConnected(SOCKET))
                 {
                     try
                     {
@@ -73,6 +74,7 @@ public class MessageOutputHandler implements Runnable
                     catch (Exception xe)
                     {
                         ExceptionHandler.dispatch(xe);
+
                         CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress MessageOutputHandler >> closes on try-exception to close ["+SOCKET.toString()+"]");
                     }
                     finally

@@ -51,7 +51,7 @@ public class ShutdownHooks
         }
         catch (Exception e)
         {
-            CommonRails.EXCEPTION_SINK.accept(e);
+            //CommonRails.EXCEPTION_SINK.accept(e);
         }
 
         CommonRails.printSystemComponent(owner, owner.hashCode(), "[shutdown] Done.");

@@ -74,7 +74,7 @@ public class Main
 
         configuration.NweConfig.load();
 
-        CommonRails.printStartRecipeSpinner();
+        //CommonRails.printStartRecipeSpinner();
 
             System.out.println("\033[38;5;74m[ Java National Finance Engine v.28.1.1 Software Processes Starting ]\033[0m");
 
@@ -86,11 +86,11 @@ public class Main
 
             System.out.println(". ND51 North Carolina Labors & Standards A5501 ANationals Standards of Cary, NC 2807 .\n");
 
-        CommonRails.International.IranWedding.printSystemComponent(this);
+        //CommonRails.International.IranWedding.printSystemComponent(this);
 
-            System.out.print("\033[31m");
+            //System.out.print(CommonRails.COLOR_TANGERINE);
             CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
-            System.out.print("\033[0m");
+            //System.out.print(CommonRails.ANSI_NEAR_RESET_DARK);
 
         NationalDriver DRIVER = new NationalDriver();
 

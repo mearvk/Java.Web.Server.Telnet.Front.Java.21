@@ -1,6 +1,7 @@
 package messaging;
 
 import commons.CommonRails;
+import commons.socket.SocketUtils;
 import exceptions.ExceptionHandler;
 import server.nitro.WebExpress;
 
@@ -52,7 +53,7 @@ public class MessageQueueSorter extends Thread
                         // already delivered its response and is now idle/closed.
                         try
                         {
-                            if (CommonRails.SocketUtils.isSocketConnected(message.SOCKET)
+                            if (SocketUtils.isConnected(message.SOCKET)
                                     && this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY != null
                                     && this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.writer != null)
                             {

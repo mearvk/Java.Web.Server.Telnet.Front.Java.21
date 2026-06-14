@@ -1,6 +1,7 @@
 package telnet;
 
 import commons.CommonRails;
+import commons.socket.SocketUtils;
 import exceptions.ExceptionHandler;
 
 public class TelnetOutputBuilder extends Thread
@@ -44,10 +45,10 @@ public class TelnetOutputBuilder extends Thread
                             {
                                 CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> sending message ["+value+"]");
 
-                                if(CommonRails.isConnected(proxy.writer))
+                                if(SocketUtils.isConnected(proxy.writer))
                                     proxy.writer.write(value);
 
-                                if(CommonRails.isConnected(proxy.writer))
+                                if(SocketUtils.isConnected(proxy.writer))
                                     proxy.writer.flush();
 
                                 queue.MESSAGES.removeFirst();

@@ -3,6 +3,8 @@ package server.nitro;
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
+import commons.color.ColorPalette;
+import commons.socket.SocketUtils;
 import connections.CurrentConnections;
 import exceptions.ExceptionHandler;
 import encryption.module.aes.two.EncryptionModule;
@@ -71,7 +73,6 @@ public class NitroWebExpress extends WebExpress
 
     public NitroWebExpress(final Integer PORT, final String HOST, final String THREAD_NAME)
     {
-        // Initialize BaseServer/WebExpress so SERVER_SOCKET is created and run() will not NPE
         super(HOST, PORT, THREAD_NAME, Boolean.TRUE);
 
         CommonRails.printSystemComponent(this, 8, ". National ID initialized: "+this.NATIONALID.EIGHT_DIGITS+" .");
@@ -294,8 +295,7 @@ public class NitroWebExpress extends WebExpress
                         "\nRunning Server Threads:\n" + (threads.length() > 0 ? threads : "    (none)\n") +
                         "\n" + L.apply("label.lang_revert") + "\n";
 
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ConnectionStatusServer >> status query: port=" + WATCHEDPORT + " connections=" + count + " lang=" + languages.LanguagePack.langOf(remoteIp) + " .");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". ConnectionStatusServer >> status query: port=" + WATCHEDPORT + " connections=" + count + " lang=" + languages.LanguagePack.langOf(remoteIp) + " .");
 
                     writer.write(report);
                     writer.flush();
@@ -341,17 +341,17 @@ public class NitroWebExpress extends WebExpress
                     String host     = db.N21Status.dbHost();
                     int    port     = db.N21Status.dbPort();
                     String locality = (host.equals("localhost") || host.equals("127.0.0.1")) ? "Local" : "Remote";
-                    this.oidColor  = CommonRails.COLOR_LIME_GREEN;
+                    this.oidColor  = ColorPalette.OID_DEFAULT; // COLOR_LIME_GREEN;
                     this.statusMsg = ". MySQL N21 Connected — " + locality + " — Port " + port + " .";
                 }
                 else if (dbStatus.tcpReachable() || dbStatus.pingable())
                 {
-                    this.oidColor  = CommonRails.COLOR_TANGERINE;
+                    this.oidColor  = ColorPalette.OID_DEFAULT; //CommonRails.COLOR_TANGERINE;
                     this.statusMsg = ". MySQL Unreachable or Auth Failed — XML Fallback Storage Active .";
                 }
                 else
                 {
-                    this.oidColor  = CommonRails.COLOR_STANDARD_RED;
+                    this.oidColor  = ColorPalette.OID_DEFAULT; //CommonRails.COLOR_STANDARD_RED;
                     this.statusMsg = ". MySQL Not Found or Not Running — XML Fallback Storage Active .";
                 }
             }
@@ -1297,7 +1297,7 @@ public class NitroWebExpress extends WebExpress
 
                                     try
                                     {
-                                        if(CommonRails.SocketUtils.isSocketConnected(message.SOCKET))
+                                        if(SocketUtils.isConnected(message.SOCKET))
                                         {
                                             BufferedWriter writer = this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.writer;
 
@@ -1354,7 +1354,7 @@ public class NitroWebExpress extends WebExpress
                                     {
                                         BufferedReader reader = this.WEB_EXPRESS.TELNET_COMMUNICATION_PROXY.reader;
 
-                                        if(CommonRails.SocketUtils.isSocketConnected(message.SOCKET))
+                                        if(SocketUtils.isConnected(message.SOCKET))
                                         {
                                             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(message.SOCKET.getOutputStream()));
 
@@ -1362,7 +1362,7 @@ public class NitroWebExpress extends WebExpress
 
                                             while((line=reader.readLine())!=null)
                                             {
-                                                if(CommonRails.SocketUtils.isSocketConnected(message.SOCKET))
+                                                if(SocketUtils.isConnected(message.SOCKET))
                                                 {
                                                     CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter received from active Telnet session "+ WebExpress.REMOTE_SITE+":"+ WebExpress.REMOTE_PORT+" message "+line+" .");
 

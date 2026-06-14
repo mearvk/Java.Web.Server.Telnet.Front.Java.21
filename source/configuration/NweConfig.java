@@ -1,6 +1,7 @@
 package configuration;
 
 import commons.CommonRails;
+import commons.color.ColorPalette;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -88,7 +89,7 @@ public class NweConfig
             CommonRails.printSystemComponent(
                 NweConfig.class, NweConfig.class.hashCode(),
                 ". NweConfig — " + CONFIG_FILE + " not found; all servers enabled, default admin .",
-                CommonRails.COLOR_YELLOW);
+                ColorPalette.COLOR_YELLOW);
             INSTANCE = defaults();
         }
         else
@@ -127,14 +128,14 @@ public class NweConfig
                 CommonRails.printSystemComponent(
                     NweConfig.class, NweConfig.class.hashCode(),
                     ". NweConfig loaded — " + enabled.size() + " server entries, admin='" + adminUser + "' .",
-                    CommonRails.COLOR_LIME_GREEN);
+                    ColorPalette.COLOR_LIME_GREEN);
             }
             catch (Exception e)
             {
                 CommonRails.printSystemComponent(
                     NweConfig.class, NweConfig.class.hashCode(),
                     ". NweConfig parse error: " + e.getMessage() + " — using defaults .",
-                    CommonRails.COLOR_STANDARD_RED);
+                    ColorPalette.COLOR_STANDARD_RED);
                 INSTANCE = defaults();
             }
         }

@@ -8,7 +8,7 @@ public class InternationalCommonRails
         {
             String message = ". THE US (USA) WERE FINE AND IN FACT RELATED TO AN IRANIAN WEDDING OF REMARKABLE PRECEDENT .\n";
 
-            CommonRails.IranianWedding.printInternationalGregorianRhetoric(OWNER, message);
+            //CommonRails.IranianWedding.printInternationalGregorianRhetoric(OWNER, message);
         }
     }
 }
