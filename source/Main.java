@@ -1,6 +1,8 @@
 import commons.CommonRails;
 import national.NationalDriver;
 import server.nitro.NitroWebExpress;
+import server.nitro.modules.ConnectionStatusServer;
+import server.nitro.modules.MySQLComponent;
 
 /**
  * @author Max Rupplin
@@ -43,7 +45,7 @@ public class Main
 
     protected static final String BITCOIN_WEBEXPRESS_REMOTE_HOST = "localhost";
 
-    protected static final Integer CONNECTION_STATUS_SERVER_PORT = NitroWebExpress.Aspect.ConnectionStatusServer.STATUS_PORT;
+    protected static final Integer CONNECTION_STATUS_SERVER_PORT = ConnectionStatusServer.STATUS_PORT;
 
     protected static final String CONNECTION_STATUS_SERVER_HOST = "localhost";
 
@@ -121,7 +123,7 @@ public class Main
                 NITRO.BRIDGE.DSA_COMPONENT = new NitroWebExpress.Aspect.DSACompliant(DSA_WEBEXPRESS_REMOTE_HOST, DSA_WEBEXPRESS_SERVER_SOCKET, DSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             if (configuration.NweConfig.isEnabled("CONNECTION_STATUS"))
-                NITRO.BRIDGE.CONNECTION_STATUS = new NitroWebExpress.Aspect.ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
+                NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
             if (configuration.NweConfig.isEnabled("MODULE_INSTALLATION"))
                 NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
@@ -146,11 +148,11 @@ public class Main
                     configuration.NweConfig.antivirusSchedule(),
                     configuration.NweConfig.antivirusScanPath()).start();
 
-            NITRO.BRIDGE.MYSQL_COMPONENT = new NitroWebExpress.Aspect.MySQLComponent();
+            NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();
 
             NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
 
-            db.N21XmlFallback.replayFallback();
+            database.N21XmlFallback.replayFallback();
 
             NITRO.BRIDGE.start();
     }
