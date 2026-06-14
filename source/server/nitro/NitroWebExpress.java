@@ -164,7 +164,9 @@ public class NitroWebExpress extends WebExpress
             public InstalledModule(final String NAME, final Path SOURCE, final URLClassLoader LOADER)
             {
                 this.NAME   = NAME;
+
                 this.SOURCE = SOURCE;
+
                 this.LOADER = LOADER;
             }
         }
@@ -182,9 +184,19 @@ public class NitroWebExpress extends WebExpress
             public static boolean unload(final String NAME)
             {
                 InstalledModule m = MODULES.remove(NAME);
+
                 if (m == null) return false;
-                try { m.LOADER.close(); } catch (Exception ignored) {}
+
+                try
+                { m.LOADER.close();
+                }
+                catch (Exception ignored)
+                {
+                    ignored.printStackTrace(System);
+                }
+
                 CommonRails.printSystemComponent(m, m.hashCode(), ". ModuleRegistry unloaded module [" + NAME + "] .");
+
                 return true;
             }
 
