@@ -5,7 +5,6 @@ import commons.process.ProcessRegistry;
 
 public final class CommonRails
 {
-
     public static java.util.function.Consumer<Exception> EXCEPTION_SINK = e -> {e.printStackTrace(System.err);};
 
     private static final Boolean USE_COLORED_OUTPUT = true;
@@ -28,14 +27,14 @@ public final class CommonRails
     {
         String module = switch (PORT)
         {
-            case 49152 -> "WebExpress";
-            case 49155 -> "ConnectionStatusServer";
-            case 49166 -> "ModuleInstallationService";
-            case 49177 -> "ASCIICreatorServer";
-            case 5512 -> "AES";
-            case 6682 -> "Bitcoin";
-            case 7743 -> "RSA";
-            default -> "Unknown";
+            case 49152  -> "WebExpress";
+            case 49155  -> "ConnectionStatusServer";
+            case 49166  -> "ModuleInstallationService";
+            case 49177  -> "ASCIICreatorServer";
+            case 5512   -> "AES";
+            case 6682   -> "Bitcoin";
+            case 7743   -> "RSA";
+            default     -> "Unknown";
         };
 
         printSystemComponent(OWNER, OWNER.hashCode(), "[shutdown] " + PHASE + " " + module + " port " + PORT);
