@@ -60,7 +60,7 @@ public class Main
 
     protected static final String MODULE_INSTALLER_SERVICE_HOST = "localhost";
 
-    protected static final Integer ASCII_CREATOR_SERVER_PORT = NitroWebExpress.Aspect.ASCIICreatorServer.PORT;
+    protected static final Integer ASCII_CREATOR_SERVER_PORT = ASCIICreatorServer.PORT;
 
     protected static final String ASCII_CREATOR_SERVER_HOST = "localhost";
 
@@ -138,7 +138,7 @@ public class Main
                 NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
 
             if (NitroWebExpressConfig.isEnabled("ASCII_CREATOR"))
-                NITRO.BRIDGE.ASCII_CREATOR_SERVER = new NitroWebExpress.Aspect.ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
+                NITRO.BRIDGE.ASCII_CREATOR_SERVER = new ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
 
             if (NitroWebExpressConfig.isEnabled("MODULE_LOADER_DAEMON"))
                 NITRO.BRIDGE.MODULE_LOADER_DAEMON = new ModuleInstallationService(MODULE_LOADER_DAEMON_HOST);
