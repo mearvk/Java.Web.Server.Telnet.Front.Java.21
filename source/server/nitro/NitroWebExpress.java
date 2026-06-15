@@ -3,10 +3,7 @@ package server.nitro;
 import communicator.Communicator;
 import database.N21Store;
 import http.BinaryHttpServer;
-import server.nitro.modules.DSACompliant;
-import server.nitro.modules.ModuleInstallationService;
-import server.nitro.modules.MySQLComponent;
-import server.nitro.modules.ConnectionStatusServer;
+import server.nitro.modules.*;
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
@@ -412,64 +409,6 @@ public class NitroWebExpress extends WebExpress
                     messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, MESSAGE);
 
                     message_output_handler.run();
-                }
-            }
-        }
-
-        public static class RSACompliant extends WebExpress
-        {
-            public static final Integer DEFAULT_PORT   = 7743;
-            public static final String  DEFAULT_THREAD = "WEBEXPRESS_RSA_SERVER";
-
-            protected final RSACompliant.MessageOutputHandler RSA_MESSAGE_OUTPUT_HANDLER = new RSACompliant.MessageOutputHandler();
-
-            public messaging.MessageQueueSorter MESSAGE_QUEUE_SORTER;
-            public messaging.MessageQueue       MESSAGE_QUEUE;
-            public java.net.Socket              SOCKET;
-
-            public final encryption.module.rsa.EncryptionModuleRSA ENCRYPTION_MODULE =
-                new encryption.module.rsa.EncryptionModuleRSA();
-
-            public RSACompliant(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
-            {
-                if (HOST == null || PORT == null || THREAD_NAME == null || TELNET_PROXY_ENABLED == null)
-                    throw new SecurityException("//bodi/connect");
-
-                super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
-
-                this.HOST        = HOST;
-                this.PORT        = PORT;
-                this.MESSAGE_QUEUE        = new messaging.MessageQueue(this);
-                this.MESSAGE_QUEUE_SORTER = new messaging.MessageQueueSorter(this);
-                this.setName(THREAD_NAME);
-
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". RSACompliant starting on " + HOST + ":" + PORT + " .");
-            }
-
-            public RSACompliant() {}
-
-            protected static class MessageOutputHandler
-            {
-                public java.net.Socket SOCKET;
-
-                public MessageOutputHandler()
-                {
-                    CommonRails.printSystemComponent(this, this.hashCode(), ". RSACompliant MessageOutputHandler starts .");
-                }
-
-                public void send_message(final String MESSAGE)
-                {
-                    if (MESSAGE == null) throw new SecurityException("//bodi/connect");
-                    messaging.MessageOutputHandler h = new messaging.MessageOutputHandler(SOCKET, MESSAGE);
-                    h.run();
-                }
-
-                public void send_message(final StringBuffer BUFFER)
-                {
-                    if (BUFFER == null) throw new SecurityException("//bodi/connect");
-                    messaging.MessageOutputHandler h = new messaging.MessageOutputHandler(SOCKET, BUFFER);
-                    h.run();
                 }
             }
         }
