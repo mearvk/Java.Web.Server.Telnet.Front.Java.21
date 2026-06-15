@@ -198,6 +198,121 @@ public class N21Store
             "created_at",      N.createdAt != null ? N.createdAt.toString() : "");
     }
 
+    // ── user keypairs ────────────────────────────────────────────────────────
+
+    public static void storeKeypair(final long NATIONAL_ID, final national.NationalKeypairGenerator K)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "INSERT INTO user_keypairs (national_id, rsa_public_key, rsa_private_key, dsa_public_key, dsa_private_key, aes_key) " +
+                    "VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE rsa_public_key=VALUES(rsa_public_key), rsa_private_key=VALUES(rsa_private_key), " +
+                    "dsa_public_key=VALUES(dsa_public_key), dsa_private_key=VALUES(dsa_private_key), aes_key=VALUES(aes_key)");
+                ps.setLong(1, NATIONAL_ID);
+                ps.setString(2, K.rsaPublicKey);
+                ps.setString(3, K.rsaPrivateKey);
+                ps.setString(4, K.dsaPublicKey);
+                ps.setString(5, K.dsaPrivateKey);
+                ps.setString(6, K.aesKey);
+                ps.executeUpdate(); ps.close();
+                return;
+            }
+            catch (Exception e) { fail("user_keypairs", e); }
+        }
+        N21XmlFallback.append("user_keypairs",
+            "national_id", String.valueOf(NATIONAL_ID),
+            "rsa_public_key", K.rsaPublicKey, "rsa_private_key", K.rsaPrivateKey,
+            "dsa_public_key", K.dsaPublicKey, "dsa_private_key", K.dsaPrivateKey,
+            "aes_key", K.aesKey);
+    }
+
+    public static String[] loadKeypair(final long NATIONAL_ID, final String TYPE)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "SELECT rsa_public_key, rsa_private_key, dsa_public_key, dsa_private_key, aes_key FROM user_keypairs WHERE national_id=?");
+                ps.setLong(1, NATIONAL_ID);
+                java.sql.ResultSet rs = ps.executeQuery();
+                if (rs.next())
+                {
+                    String[] result = switch (TYPE.toLowerCase()) {
+                        case "rsa" -> new String[]{rs.getString("rsa_public_key"), rs.getString("rsa_private_key")};
+                        case "dsa" -> new String[]{rs.getString("dsa_public_key"), rs.getString("dsa_private_key")};
+                        case "aes" -> new String[]{rs.getString("aes_key")};
+                        default    -> null;
+                    };
+                    rs.close(); ps.close();
+                    return result;
+                }
+                rs.close(); ps.close();
+            }
+            catch (Exception e) { fail("user_keypairs", e); }
+        }
+        return null;
+    }
+
+    public static boolean deleteKeypair(final long NATIONAL_ID, final String TYPE)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                String sql = switch (TYPE.toLowerCase()) {
+                    case "rsa" -> "UPDATE user_keypairs SET rsa_public_key='', rsa_private_key='' WHERE national_id=?";
+                    case "dsa" -> "UPDATE user_keypairs SET dsa_public_key='', dsa_private_key='' WHERE national_id=?";
+                    case "aes" -> "UPDATE user_keypairs SET aes_key='' WHERE national_id=?";
+                    default    -> "DELETE FROM user_keypairs WHERE national_id=?";
+                };
+                PreparedStatement ps = N21DataSource.get().prepareStatement(sql);
+                ps.setLong(1, NATIONAL_ID);
+                int rows = ps.executeUpdate(); ps.close();
+                return rows > 0;
+            }
+            catch (Exception e) { fail("user_keypairs", e); }
+        }
+        return false;
+    }
+
+    public static boolean replaceKeypair(final long NATIONAL_ID, final String TYPE)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                national.NationalKeypairGenerator gen = new national.NationalKeypairGenerator();
+                String sql;
+                PreparedStatement ps;
+                switch (TYPE.toLowerCase()) {
+                    case "rsa" -> {
+                        sql = "UPDATE user_keypairs SET rsa_public_key=?, rsa_private_key=? WHERE national_id=?";
+                        ps = N21DataSource.get().prepareStatement(sql);
+                        ps.setString(1, gen.rsaPublicKey); ps.setString(2, gen.rsaPrivateKey); ps.setLong(3, NATIONAL_ID);
+                    }
+                    case "dsa" -> {
+                        sql = "UPDATE user_keypairs SET dsa_public_key=?, dsa_private_key=? WHERE national_id=?";
+                        ps = N21DataSource.get().prepareStatement(sql);
+                        ps.setString(1, gen.dsaPublicKey); ps.setString(2, gen.dsaPrivateKey); ps.setLong(3, NATIONAL_ID);
+                    }
+                    case "aes" -> {
+                        sql = "UPDATE user_keypairs SET aes_key=? WHERE national_id=?";
+                        ps = N21DataSource.get().prepareStatement(sql);
+                        ps.setString(1, gen.aesKey); ps.setLong(2, NATIONAL_ID);
+                    }
+                    default -> { return false; }
+                }
+                int rows = ps.executeUpdate(); ps.close();
+                return rows > 0;
+            }
+            catch (Exception e) { fail("user_keypairs", e); }
+        }
+        return false;
+    }
+
     public static national.NationalFinanceID loadNationalFinanceID(final long NATIONALID)
     {
         if (dbOk())

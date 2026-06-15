@@ -135,8 +135,13 @@ public class NationalFinanceIDFeeder
             // Persist
             N21Store.storeNationalFinanceID(nfid);
 
+            // Generate per-user cryptographic keypairs (RSA, DSA, AES)
+            NationalKeypairGenerator keypair = new NationalKeypairGenerator();
+            N21Store.storeKeypair(nfid.nationalId, keypair);
+
             write(CONN, "");
             write(CONN, "  ✔  National Finance ID " + nfid.nationalId + " registered and stored.");
+            write(CONN, "  ✔  RSA-2048, DSA-2048, AES-256 keypairs generated and stored.");
             write(CONN, "");
 
             financePrompt(CONN, nfid);
@@ -164,7 +169,15 @@ public class NationalFinanceIDFeeder
             String input = prompt(CONN, line + " > ");
             if (input == null || input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) break;
 
-            write(CONN, line + " < " + trade(input, NFID));
+            if (input.trim().toLowerCase().startsWith("crypto"))
+            {
+                cryptoPrompt(CONN, NFID);
+                write(CONN, line + " < Returned from crypto management.");
+            }
+            else
+            {
+                write(CONN, line + " < " + trade(input, NFID));
+            }
             line++;
         }
     }
@@ -183,6 +196,7 @@ public class NationalFinanceIDFeeder
         if (cmd.startsWith("balance"))              return "Promissory balance: $" + String.format("%.2f", NFID.promissoryNote) + " USD.";
         if (cmd.startsWith("id"))                   return "National ID: " + NFID.nationalId + "  Trust: " + NFID.trustLevel + "  Education: " + NFID.educationLevel + ".";
         if (cmd.startsWith("status"))               return "National ID " + NFID.nationalId + " active.  Trust " + NFID.trustLevel + "/100.  Promissory $" + String.format("%.2f", NFID.promissoryNote) + ".";
+        if (cmd.equals("crypto"))                   return "Entering crypto key management...";
         return "Received: [" + INPUT + "]  — National ID " + NFID.nationalId + " logged.";
     }
 
@@ -195,9 +209,97 @@ public class NationalFinanceIDFeeder
         "  balance         Show your promissory note balance (USD)\r\n" +
         "  id              Show your National ID and profile summary\r\n" +
         "  status          Show full account status and trust level\r\n" +
+        "  crypto          Manage cryptographic keys (RSA/DSA/AES)\r\n" +
         "  help            Show this command list\r\n" +
         "  quit / exit     End this session\r\n" +
         "  ────────────────────────────────────────────────────";
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Crypto key management sub-prompt
+    // ─────────────────────────────────────────────────────────────────────────
+
+    private static void cryptoPrompt(final Connection CONN, final NationalFinanceID NFID)
+    {
+        write(CONN, "");
+        write(CONN, "  ╔════════════════════════════════════════╗");
+        write(CONN, "  ║      CRYPTO KEY MANAGEMENT             ║");
+        write(CONN, "  ╚════════════════════════════════════════╝");
+        write(CONN, "");
+        write(CONN, "  Commands:  create <type>  | replace <type>");
+        write(CONN, "             check  <type>  | delete  <type>");
+        write(CONN, "  Types:     rsa  |  dsa  |  aes");
+        write(CONN, "  back       Return to finance prompt");
+        write(CONN, "");
+
+        for (;;)
+        {
+            String input = prompt(CONN, "  crypto> ");
+            if (input == null || input.equalsIgnoreCase("back") || input.equalsIgnoreCase("exit")) break;
+
+            String[] parts = input.trim().toLowerCase().split("\\s+", 2);
+            String action = parts[0];
+            String type = parts.length > 1 ? parts[1] : "";
+
+            if (!type.matches("rsa|dsa|aes") && !action.equals("help"))
+            {
+                write(CONN, "  Usage: <create|replace|check|delete> <rsa|dsa|aes>");
+                continue;
+            }
+
+            switch (action)
+            {
+                case "create" -> {
+                    String[] existing = N21Store.loadKeypair(NFID.nationalId, type);
+                    if (existing != null && existing.length > 0 && !existing[0].isEmpty())
+                    {
+                        write(CONN, "  ✗  " + type.toUpperCase() + " key already exists. Use 'replace " + type + "' to regenerate.");
+                    }
+                    else
+                    {
+                        NationalKeypairGenerator gen = new NationalKeypairGenerator();
+                        N21Store.storeKeypair(NFID.nationalId, gen);
+                        write(CONN, "  ✔  " + type.toUpperCase() + " keypair created and stored.");
+                    }
+                }
+                case "replace" -> {
+                    boolean ok = N21Store.replaceKeypair(NFID.nationalId, type);
+                    if (ok) write(CONN, "  ✔  " + type.toUpperCase() + " keypair replaced with new keys.");
+                    else    write(CONN, "  ✗  No existing keypair to replace. Use 'create " + type + "' first.");
+                }
+                case "check" -> {
+                    String[] keys = N21Store.loadKeypair(NFID.nationalId, type);
+                    if (keys == null || keys.length == 0 || keys[0].isEmpty())
+                    {
+                        write(CONN, "  ✗  No " + type.toUpperCase() + " key found for National ID " + NFID.nationalId + ".");
+                    }
+                    else
+                    {
+                        write(CONN, "  ✔  " + type.toUpperCase() + " key present for National ID " + NFID.nationalId + ".");
+                        if (type.equals("aes"))
+                        {
+                            write(CONN, "     AES-256 key: " + keys[0].substring(0, Math.min(12, keys[0].length())) + "...");
+                        }
+                        else
+                        {
+                            write(CONN, "     Public:  " + keys[0].substring(0, Math.min(20, keys[0].length())) + "...");
+                            write(CONN, "     Private: " + keys[1].substring(0, Math.min(20, keys[1].length())) + "...");
+                        }
+                    }
+                }
+                case "delete" -> {
+                    boolean ok = N21Store.deleteKeypair(NFID.nationalId, type);
+                    if (ok) write(CONN, "  ✔  " + type.toUpperCase() + " key deleted for National ID " + NFID.nationalId + ".");
+                    else    write(CONN, "  ✗  No " + type.toUpperCase() + " key found to delete.");
+                }
+                case "help" -> {
+                    write(CONN, "  Commands:  create <type>  | replace <type>");
+                    write(CONN, "             check  <type>  | delete  <type>");
+                    write(CONN, "  Types:     rsa  |  dsa  |  aes");
+                }
+                default -> write(CONN, "  Unknown command. Try: create, replace, check, delete, help, back");
+            }
+        }
+    }
 
     // ─────────────────────────────────────────────────────────────────────────
     // Helpers
