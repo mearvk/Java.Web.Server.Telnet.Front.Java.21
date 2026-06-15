@@ -3,6 +3,10 @@
 # The server uses a polling loop (500ms) + session handler to send banner.
 # The ConnectionPoller needs to poll CURRENT_CONNECTIONS before greet() fires.
 # Keep stdin open with sleep so the server has time to respond.
+#
+# REQUIREMENT: Server must be running (see scripts/bash/Startup.sh)
+#   java -cp "target/classes:jars/mysql/mysql-connector-j-9.7.0.jar" Main
+#
 set -e
 HOST="${1:-localhost}"
 PORT=49152
@@ -22,5 +26,6 @@ elif [ -n "$RESPONSE" ]; then
     exit 0
 else
     echo "[FAIL] No response from $HOST:$PORT within ${TIMEOUT}s."
+    echo "       Ensure server is running: java -cp target/classes:jars/mysql/mysql-connector-j-9.7.0.jar Main"
     exit 1
 fi

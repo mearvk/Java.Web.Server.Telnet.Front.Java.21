@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 # Test: Check if port 49152 is open and accepting TCP connections
+#
+# REQUIREMENT: Server must be running (see scripts/bash/Startup.sh)
+#
 set -e
 HOST="${1:-localhost}"
 PORT=49152

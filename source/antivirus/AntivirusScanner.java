@@ -5,10 +5,14 @@ import configuration.NitroWebExpressConfig;
 import exceptions.ExceptionHandler;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HexFormat;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -82,6 +86,9 @@ public class AntivirusScanner
         CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner initialized — schedule=" + this.schedule + " path=" + this.scanPath + " .");
     }
 
+    /** Log file for ClamAV update/shutdown warnings. */
+    private static final Path CLAMAV_LOG = Path.of("logging/clamav.log");
+
     /** Start the scheduled executor. Returns immediately; scans run in background. */
     public void start()
     {
@@ -97,6 +104,71 @@ public class AntivirusScanner
             return t;
 
         }).scheduleAtFixedRate(this::scan, 0, period, TimeUnit.SECONDS);
+
+        // Schedule a freshclam database update 20 seconds after server load
+        Executors.newSingleThreadScheduledExecutor(r ->
+        {
+            Thread t = new Thread(r, "ClamAV-Updater");
+
+            t.setDaemon(true);
+
+            return t;
+
+        }).schedule(this::updateDefinitions, 20, TimeUnit.SECONDS);
+    }
+
+    /** Run freshclam to update ClamAV virus definitions; log warnings to logging/clamav.log. */
+    private void updateDefinitions()
+    {
+        CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> freshclam database update starting .");
+
+        try
+        {
+            Files.createDirectories(CLAMAV_LOG.getParent());
+
+            Process p = new ProcessBuilder("freshclam")
+                .redirectErrorStream(true)
+                .start();
+
+            String output = new BufferedReader(new InputStreamReader(p.getInputStream()))
+                .lines()
+                .collect(java.util.stream.Collectors.joining("\n"));
+
+            int exit = p.waitFor();
+
+            // Write all output (including warnings) to the clamav log
+            try (PrintWriter pw = new PrintWriter(new FileWriter(CLAMAV_LOG.toFile(), true)))
+            {
+                pw.println("[" + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "] freshclam update (exit=" + exit + ")");
+                pw.println(output);
+                pw.println();
+            }
+
+            if (exit == 0)
+                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> freshclam update completed successfully .");
+            else
+                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> freshclam update finished with warnings (exit=" + exit + ") — see logging/clamav.log .");
+        }
+        catch (Exception e)
+        {
+            logClamWarning("freshclam update failed: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
+        }
+    }
+
+    /** Append a warning line to the ClamAV log file. */
+    public static void logClamWarning(final String message)
+    {
+        try
+        {
+            Files.createDirectories(CLAMAV_LOG.getParent());
+
+            try (PrintWriter pw = new PrintWriter(new FileWriter(CLAMAV_LOG.toFile(), true)))
+            {
+                pw.println("[" + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "] " + message);
+            }
+        }
+        catch (Exception ignored) {}
     }
 
     private void scan()
@@ -112,6 +184,8 @@ public class AntivirusScanner
     {
         if (!clamAvailable())
         {
+            logClamWarning("clamscan not found on PATH — skipping AV scan");
+
             CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> clamscan not found on PATH — skipping AV scan .");
 
             return;
@@ -132,11 +206,14 @@ public class AntivirusScanner
             }
             else
             {
-                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> ClamAV ALERT (exit=" + exit + "):\n" + out + "\n" + err + " .");
+                logClamWarning("ClamAV ALERT (exit=" + exit + "): " + out + " " + err);
+
+                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> ClamAV ALERT (exit=" + exit + ") — see logging/clamav.log .");
             }
         }
         catch (Exception e)
         {
+            logClamWarning("ClamAV scan exception: " + e.getMessage());
             ExceptionHandler.dispatch(e);
         }
     }

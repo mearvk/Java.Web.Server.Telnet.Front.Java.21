@@ -1,5 +1,6 @@
 package shutdown;
 
+import antivirus.AntivirusScanner;
 import commons.CommonRails;
 import exceptions.ExceptionHandler;
 
@@ -63,7 +64,35 @@ public class ShutdownHooks
             ExceptionHandler.dispatchShutdown(e);
         }
 
+        stopClamAV();
+
         CommonRails.printSystemComponent(owner, owner.hashCode(), "[shutdown] Done.");
+    }
+
+    /** Stop freshclam daemon gracefully during shutdown; log warnings to logging/clamav.log. */
+    private static void stopClamAV()
+    {
+        try
+        {
+            Process p = new ProcessBuilder("systemctl", "stop", "clamav-freshclam")
+                .redirectErrorStream(true)
+                .start();
+
+            String output = new java.io.BufferedReader(new java.io.InputStreamReader(p.getInputStream()))
+                .lines()
+                .collect(java.util.stream.Collectors.joining("\n"));
+
+            int exit = p.waitFor();
+
+            if (exit != 0 || !output.isBlank())
+                AntivirusScanner.logClamWarning("[shutdown] clamav-freshclam stop (exit=" + exit + "): " + output);
+            else
+                AntivirusScanner.logClamWarning("[shutdown] clamav-freshclam stopped cleanly");
+        }
+        catch (Exception e)
+        {
+            AntivirusScanner.logClamWarning("[shutdown] clamav-freshclam stop failed: " + e.getMessage());
+        }
     }
 
     private static boolean portStillOpen(final int PORT)
