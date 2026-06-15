@@ -136,13 +136,13 @@ public class Main
                 NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
             if (NitroWebExpressConfig.isEnabled("MODULE_INSTALLATION"))
-                NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
+                NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
 
             if (NitroWebExpressConfig.isEnabled("ASCII_CREATOR"))
                 NITRO.BRIDGE.ASCII_CREATOR_SERVER = new NitroWebExpress.Aspect.ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
 
             if (NitroWebExpressConfig.isEnabled("MODULE_LOADER_DAEMON"))
-                NITRO.BRIDGE.MODULE_LOADER_DAEMON = new ModuleInstallationService(MODULE_LOADER_DAEMON_HOST);
+                NITRO.BRIDGE.MODULE_LOADER_DAEMON = new ModuleLoaderDaemon(MODULE_LOADER_DAEMON_HOST);
 
             if (NitroWebExpressConfig.isEnabled("COMMUNICATOR"))
                 NITRO.BRIDGE.COMMUNICATOR = new Communicator(COMMUNICATOR_HOST);
@@ -154,7 +154,7 @@ public class Main
                 NITRO.BRIDGE.WEATHER_SERVER = new WeatherServer(WEATHER_SERVER_HOST);
 
             if (NitroWebExpressConfig.isEnabled("ANTIVIRUS"))
-                new antivirus.AntivirusScanner(NitroWebExpressConfig.antivirusSchedule(), NitroWebExpressConfig.antivirusScanPath()).start();
+                new antivirus.AntivirusScanner().start();
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();
 
