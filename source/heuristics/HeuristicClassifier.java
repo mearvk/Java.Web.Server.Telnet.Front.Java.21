@@ -152,7 +152,9 @@ public class HeuristicClassifier
             try
             {
                 int delta = module.evaluate(event, findings);
+
                 score += Math.max(0, Math.min(delta, 100));
+
                 findings.add("MOD   [" + module.moduleName() + "] returned delta=" + delta);
             }
             catch (Exception e)
@@ -185,13 +187,14 @@ public class HeuristicClassifier
 
             if (count >= RATE_LIMIT)
             {
-                findings.add("WARN  IP " + event.ip + " made " + count + " connections in the last "
-                    + RATE_WINDOW_SECS + "s (threshold=" + RATE_LIMIT + ") — rate limited");
+                findings.add("WARN  IP " + event.ip + " made " + count + " connections in the last " + RATE_WINDOW_SECS + "s (threshold=" + RATE_LIMIT + ") — rate limited");
+
                 return 40;
             }
             else if (count >= RATE_LIMIT / 2)
             {
                 findings.add("INFO  IP " + event.ip + " connection count approaching limit (" + count + "/" + RATE_LIMIT + ")");
+
                 return 15;
             }
         }
@@ -203,16 +206,20 @@ public class HeuristicClassifier
     private int checkPortScan(final ConnectionEvent event, final List<String> findings)
     {
         Set<Integer> ports = ipPorts.computeIfAbsent(event.ip, k -> ConcurrentHashMap.newKeySet());
+
         ports.add(event.port);
+
         int distinct = ports.size();
 
         if (distinct >= PORT_SCAN_THRESHOLD)
         {
-            findings.add("WARN  IP " + event.ip + " has probed " + distinct + " distinct ports " + ports
-                + " — possible port scan");
+            findings.add("WARN  IP " + event.ip + " has probed " + distinct + " distinct ports " + ports + " — possible port scan");
+
             return 30;
         }
+
         findings.add("PASS  IP " + event.ip + " port probe count normal (" + distinct + ")");
+
         return 0;
     }
 
@@ -222,20 +229,25 @@ public class HeuristicClassifier
         if (event.countryCode == null || event.countryCode.isBlank())
         {
             findings.add("INFO  no geo-location data available for " + event.ip);
+
             return 0;
         }
 
         int total = totalConnections + 1; // +1 for current event
+
         int fromCountry = countryCount.getOrDefault(event.countryCode, 0) + 1;
+
         int pct = (fromCountry * 100) / total;
 
         if (pct >= GEO_CONCENTRATION && total > 5) // require minimum sample
         {
-            findings.add("WARN  " + pct + "% of connections originate from " + event.countryCode
-                + " (" + fromCountry + "/" + total + ") — geo concentration flag");
+            findings.add("WARN  " + pct + "% of connections originate from " + event.countryCode + " (" + fromCountry + "/" + total + ") — geo concentration flag");
+
             return 20;
         }
+
         findings.add("PASS  geo distribution normal for " + event.countryCode + " (" + pct + "%)");
+
         return 0;
     }
 
