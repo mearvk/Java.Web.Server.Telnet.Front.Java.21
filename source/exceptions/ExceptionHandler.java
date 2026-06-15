@@ -1,5 +1,9 @@
 package exceptions;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import commons.CommonRails;
@@ -12,6 +16,8 @@ import commons.CommonRails;
 public class ExceptionHandler
 {
     private static final ExceptionHandler INSTANCE = new ExceptionHandler();
+
+    private static final String SHUTDOWN_LOG = "logging/shutdown.log";
 
     private final ExceptionEventDispatcher dispatcher;
 
@@ -62,6 +68,28 @@ public class ExceptionHandler
         else
         {
             INSTANCE.dispatcher.dispatch(new RuntimeException(T));
+        }
+    }
+
+    /**
+     * Logs shutdown-phase exceptions to logging/shutdown.log.
+     * Called from ShutdownHooks when file-not-found or other errors
+     * occur during the shutdown sequence.
+     */
+    public static void dispatchShutdown(final Exception E)
+    {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(SHUTDOWN_LOG, true)))
+        {
+            pw.printf("[%s] [shutdown] %s: %s%n",
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                E.getClass().getSimpleName(),
+                E.getMessage());
+            E.printStackTrace(pw);
+            pw.println();
+        }
+        catch (Exception ignored)
+        {
+            E.printStackTrace(System.err);
         }
     }
 }
