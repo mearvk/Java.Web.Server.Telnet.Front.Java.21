@@ -66,11 +66,7 @@ public class AntivirusScanner
 
             if (!Files.exists(p) || !Files.isDirectory(p))
             {
-                CommonRails.printSystemComponent(
-                        this, this.hashCode(),
-                        ". AntivirusScanner >> WARNING: scan-path does not exist or is not a directory: "
-                                + rawPath + " — falling back to '.' ."
-                );
+                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> WARNING: scan-path does not exist or is not a directory: " + rawPath + " — falling back to '.' .");
 
                 p = Path.of(".").toAbsolutePath().normalize();
             }
@@ -80,14 +76,11 @@ public class AntivirusScanner
         catch (Exception e)
         {
             ExceptionHandler.dispatch(e);
+
             this.scanPath = Path.of(".").toAbsolutePath().normalize();
         }
 
-        CommonRails.printSystemComponent(
-                this, this.hashCode(),
-                ". AntivirusScanner initialized — schedule=" + this.schedule
-                        + " path=" + this.scanPath + " ."
-        );
+        CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner initialized — schedule=" + this.schedule + " path=" + this.scanPath + " .");
     }
 
     /** Start the scheduled executor. Returns immediately; scans run in background. */
