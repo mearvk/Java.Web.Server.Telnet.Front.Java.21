@@ -190,7 +190,7 @@ public class BinaryHttpServer extends Thread
         if (!apacheInstalled)
             System.out.println("[BinaryHttpServer] Apache2 not installed — run: bash bash/nwe-install.sh");
         else
-            System.out.println("[BinaryHttpServer] " + preferred + " not writable — start NWE via: bash scripts/startup.sh (auto-escalates to sudo)");
+            System.out.println("[BinaryHttpServer] " + preferred + " not writable — start NWE via: bash scripts/Startup.sh (auto-escalates to sudo)");
 
         Path fallback = Paths.get("nwe-files");
         try { Files.createDirectories(fallback); } catch (Exception ignored) {}

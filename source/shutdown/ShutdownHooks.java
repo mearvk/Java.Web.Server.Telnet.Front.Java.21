@@ -31,7 +31,7 @@ public class ShutdownHooks
         // run script silently — it performs the actual kills
         try
         {
-            String script = new File("scripts/shutdown.sh").getAbsolutePath();
+            String script = new File("scripts/Shutdown.sh").getAbsolutePath();
             Process proc = new ProcessBuilder("bash", script)
                     .redirectOutput(ProcessBuilder.Redirect.DISCARD)
                     .redirectError(ProcessBuilder.Redirect.DISCARD)

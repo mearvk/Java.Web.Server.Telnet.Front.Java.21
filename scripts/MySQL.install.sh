@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# mysql.install.sh — install MySQL Server via apt-get
+# MySQL.install.sh — install MySQL Server via apt-get
 
 set -e
 

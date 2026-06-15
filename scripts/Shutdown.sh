@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shutdown.sh — kill processes on server ports silently (printing handled by ShutdownHooks via CommonRails)
+# Shutdown.sh — kill processes on server ports silently (printing handled by ShutdownHooks via CommonRails)
 
 PORTS=(49152 49155 49166 49177 5512 6682)
 
