@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# mysql-setup.sh — download, install, and configure MySQL for NitroWebExpress
+# MySQL.setup.sh — download, install, and configure MySQL for NitroWebExpress
 #
 # What this script does:
 #   1. Verifies sudo access upfront (fails fast if not available)
@@ -10,8 +10,8 @@
 #   6. Writes authentication/mysql.auth.xml if it does not already exist
 #
 # Usage:
-#   bash bash/mysql-setup.sh
-#   bash bash/mysql-setup.sh --password <app-user-password>
+#   bash bash/MySQL.setup.sh
+#   bash bash/MySQL.setup.sh --password <app-user-password>
 #
 # The default app-user password matches authentication/mysql.auth.xml.
 # Override with --password if you want a different credential.

@@ -188,7 +188,7 @@ public class BinaryHttpServer extends Thread
         boolean apacheInstalled = new java.io.File("/usr/sbin/apache2").exists()
             || new java.io.File("/usr/sbin/httpd").exists();
         if (!apacheInstalled)
-            System.out.println("[BinaryHttpServer] Apache2 not installed — run: bash bash/nwe-install.sh");
+            System.out.println("[BinaryHttpServer] Apache2 not installed — run: bash bash/NWE.install.sh");
         else
             System.out.println("[BinaryHttpServer] " + preferred + " not writable — start NWE via: bash scripts/Startup.sh (auto-escalates to sudo)");
 

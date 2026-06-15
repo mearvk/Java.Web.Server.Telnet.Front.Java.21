@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# nwe-install.sh — NitroWebExpress installer
+# NWE.install.sh — NitroWebExpress installer
 # Compiles source (if needed), stages classes to out/, chmod's scripts.
-# Usage: bash bash/nwe-install.sh [--force]   (--force recompiles even if up-to-date)
+# Usage: bash bash/NWE.install.sh [--force]   (--force recompiles even if up-to-date)
 
 set -euo pipefail
 
