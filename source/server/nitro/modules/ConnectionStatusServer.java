@@ -11,7 +11,6 @@ import java.io.OutputStreamWriter;
 import java.net.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 import java.util.concurrent.*;
 
 public class ConnectionStatusServer extends Thread

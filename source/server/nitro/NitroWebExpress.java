@@ -1,51 +1,28 @@
 package server.nitro;
 
-import communicator.Communicator;
-import database.N21Store;
-import http.BinaryHttpServer;
-import server.nitro.modules.*;
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
-import commons.color.ColorPalette;
 import commons.socket.SocketUtils;
+import communicator.Communicator;
 import connections.CurrentConnections;
-import exceptions.ExceptionHandler;
+import database.N21Store;
 import encryption.module.aes.two.EncryptionModule;
+import exceptions.ExceptionHandler;
+import http.BinaryHttpServer;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import national.NationalID;
+import server.nitro.modules.*;
 import server.webexpress.WebExpress;
 import weather.WeatherServer;
 import whiteauditor.WhiteAuditorTasking;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.Files;
+import java.io.*;
+import java.net.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HexFormat;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class NitroWebExpress extends WebExpress
 {
