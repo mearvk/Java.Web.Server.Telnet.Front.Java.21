@@ -208,8 +208,14 @@ public class AntivirusScanner
 
     private static boolean clamAvailable()
     {
-        try { return Runtime.getRuntime().exec(new String[]{"which", "clamscan"}).waitFor() == 0; }
-        catch (Exception e) { return false; }
+        try
+        {
+            return Runtime.getRuntime().exec(new String[]{"which", "clamscan"}).waitFor() == 0;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 
     private static String sha256(final byte[] data) throws Exception
