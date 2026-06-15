@@ -40,3 +40,7 @@ build/
 /resources/ibm-sdks/
 
 ### mirvktnbuntu ###
+
+### Large logs ###
+logging/exceptions.log
+logging/archive/

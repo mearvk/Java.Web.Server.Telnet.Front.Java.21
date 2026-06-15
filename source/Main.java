@@ -162,6 +162,8 @@ public class Main
 
             database.N21XmlFallback.replayFallback();
 
+            new lanterna.TerminalMenu().start();
+
             NITRO.BRIDGE.start();
     }
 }
