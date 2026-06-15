@@ -213,9 +213,12 @@ public class Communicator extends Thread
 
     private String cmdMsg(final String toId, final String text, final Session from)
     {
+        long targetId;
+        try { targetId = Long.parseLong(toId); }
+        catch (NumberFormatException e) { return "[msg] Invalid National ID: " + toId; }
+
         Session target = LIVE.get(toId);
-        String stored  = "[" + from.nationalId + " → " + toId + "] " + text;
-        database.N21Store.storeChatMessage(from.nationalId, Long.parseLong(toId), text, "direct");
+        database.N21Store.storeChatMessage(from.nationalId, targetId, text, "direct");
         if (target == null) return "[msg] User " + toId + " not connected. Message stored.";
         target.writeLine("[MSG from " + from.nationalId + "] " + text);
         return "[msg] Delivered to " + toId + ".";
@@ -276,7 +279,7 @@ public class Communicator extends Thread
             java.net.HttpURLConnection c = (java.net.HttpURLConnection)
                 new java.net.URL("http://ip-api.com/json/" + (priv ? "" : session.ip)
                     + "?fields=city,country,timezone").openConnection();
-            c.setConnectTimeout(2000); c.setConnectTimeout(2000);
+            c.setConnectTimeout(2000); c.setReadTimeout(2000);
             try (BufferedReader r = new BufferedReader(new InputStreamReader(c.getInputStream())))
             {
                 String body = r.lines().collect(java.util.stream.Collectors.joining());

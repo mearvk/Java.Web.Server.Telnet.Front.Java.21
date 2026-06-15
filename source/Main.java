@@ -142,7 +142,7 @@ public class Main
                 NITRO.BRIDGE.ASCII_CREATOR_SERVER = new ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
 
             if (NitroWebExpressConfig.isEnabled("MODULE_LOADER_DAEMON"))
-                NITRO.BRIDGE.MODULE_LOADER_DAEMON = new ModuleInstallationService(MODULE_LOADER_DAEMON_HOST);
+                NITRO.BRIDGE.MODULE_LOADER_DAEMON = new loader.ModuleLoaderDaemon(MODULE_LOADER_DAEMON_HOST);
 
             if (NitroWebExpressConfig.isEnabled("COMMUNICATOR"))
                 NITRO.BRIDGE.COMMUNICATOR = new Communicator(COMMUNICATOR_HOST);
@@ -159,7 +159,8 @@ public class Main
             if(NitroWebExpressConfig.isEnabled("MYSQL"))
                 NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();
 
-            NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
+            if(NitroWebExpressConfig.isEnabled("MYSQL"))
+                NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
 
             N21XmlFallback.replayFallback();
 

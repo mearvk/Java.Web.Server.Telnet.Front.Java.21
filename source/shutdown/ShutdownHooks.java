@@ -12,7 +12,7 @@ import java.net.Socket;
  */
 public class ShutdownHooks
 {
-    public static final int[] PORTS = { 49152, 49155, 49166, 49177, 5512, 6682, 7743 };
+    public static final int[] PORTS = { 49152, 49155, 49188, 49199, 49144, 49133, 5512, 6682 };
 
     public static void register()
     {
@@ -23,7 +23,7 @@ public class ShutdownHooks
     {
         ShutdownHooks owner = new ShutdownHooks();
 
-        CommonRails.printSystemComponent(owner, owner.hashCode(), "[shutdown] Closing server ports: 49152 49155 5512 6682");
+        CommonRails.printSystemComponent(owner, owner.hashCode(), "[shutdown] Closing server ports: 49152 49155 49188 49199 49144 49133 5512 6682");
 
         for (int port : PORTS)
             CommonRails.printShutdownSignal(owner, port, "SIGTERM");

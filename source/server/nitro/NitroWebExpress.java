@@ -94,7 +94,7 @@ public class NitroWebExpress extends WebExpress
 
         public ASCIICreatorServer ASCII_CREATOR_SERVER;
 
-        public ModuleInstallationService MODULE_LOADER_DAEMON;
+        public loader.ModuleLoaderDaemon MODULE_LOADER_DAEMON;
 
         public Communicator COMMUNICATOR;
 
