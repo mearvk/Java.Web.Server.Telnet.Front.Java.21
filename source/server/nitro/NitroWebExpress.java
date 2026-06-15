@@ -119,6 +119,8 @@ public class NitroWebExpress extends WebExpress
             if (COMMUNICATOR             != null) COMMUNICATOR.start();
             if (BINARY_HTTP_SERVER       != null) BINARY_HTTP_SERVER.start();
             if (WEATHER_SERVER           != null) WEATHER_SERVER.start();
+            //if (ENCRYPTION_MODULE        != null) ENCRYPTION_MODULE.start();
+            //if (TRADER_MODULE            != null) TRADER_MODULE.start();
             if (WHITE_AUDITOR_TASKING    != null) WHITE_AUDITOR_TASKING.start();
             if (NitroWebExpress.SELF     != null) NitroWebExpress.SELF.start();
         }
@@ -134,10 +136,10 @@ public class NitroWebExpress extends WebExpress
 
         public static class InstalledModule
         {
-            public final String       NAME;
-            public final Path         SOURCE;
+            public final String         NAME;
+            public final Path           SOURCE;
             public final URLClassLoader LOADER;
-            public final long         INSTALLED_AT = System.currentTimeMillis();
+            public final long           INSTALLED_AT = System.currentTimeMillis();
 
             public InstalledModule(final String NAME, final Path SOURCE, final URLClassLoader LOADER)
             {
