@@ -1,6 +1,7 @@
 package communicator;
 
 import commons.CommonRails;
+import database.N21Store;
 import exceptions.ExceptionHandler;
 
 import java.io.BufferedReader;
@@ -73,7 +74,8 @@ public class Communicator extends Thread
     {
         try
         {
-            database.N21Store.createCommunicatorTables();
+            N21Store.createCommunicatorTables();
+
             serverSocket = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
             CommonRails.printSystemComponent(this, this.hashCode(),
                 ". Communicator listening on port " + PORT + " .");
