@@ -94,23 +94,25 @@ public class AntivirusScanner
     public void start()
     {
         long period = periodSeconds(schedule);
-        CommonRails.printSystemComponent(this, this.hashCode(),
-            ". AntivirusScanner starting — schedule=" + schedule
-            + " (" + period + "s) path=" + scanPath + " .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner starting — schedule=" + schedule + " (" + period + "s) path=" + scanPath + " .");
 
         Executors.newSingleThreadScheduledExecutor(r ->
         {
             Thread t = new Thread(r, "AntivirusScanner");
+
             t.setDaemon(true);
+
             return t;
+
         }).scheduleAtFixedRate(this::scan, 0, period, TimeUnit.SECONDS);
     }
 
     private void scan()
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),
-            ". AntivirusScanner >> starting scan of " + scanPath + " .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> starting scan of " + scanPath + " .");
+
         runClamScan();
+
         runIntegrityCheck();
     }
 
@@ -118,8 +120,8 @@ public class AntivirusScanner
     {
         if (!clamAvailable())
         {
-            CommonRails.printSystemComponent(this, this.hashCode(),
-                ". AntivirusScanner >> clamscan not found on PATH — skipping AV scan .");
+            CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> clamscan not found on PATH — skipping AV scan .");
+
             return;
         }
         try
