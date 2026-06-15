@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# github.binary.classes.sh
+# Github.binary.classes.sh
 # Moves all .class files from /source to the corresponding /out directory.
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
