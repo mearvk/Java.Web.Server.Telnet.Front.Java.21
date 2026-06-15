@@ -6,7 +6,7 @@ import commons.socket.SocketUtils;
 import exceptions.ExceptionHandler;
 import messaging.MessageQueue;
 import server.base.BaseServer;
-import server.nitro.WebExpress;
+import server.webexpress.WebExpress;
 import telnet.TelnetMessageQueue;
 
 import java.io.BufferedReader;
