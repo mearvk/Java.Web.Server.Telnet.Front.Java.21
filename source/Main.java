@@ -154,7 +154,7 @@ public class Main
                 NITRO.BRIDGE.WEATHER_SERVER = new WeatherServer(WEATHER_SERVER_HOST);
 
             if (NitroWebExpressConfig.isEnabled("ANTIVIRUS"))
-                NITRO.BRIDGE.ANTIVIRUS_SCANNER = new AntivirusScanner(NitroWebExpressConfig.antivirusSchedule(), NitroWebExpressConfig.antivirusScanPath());
+                NITRO.BRIDGE.ANTIVIRUS_SCANNER = new AntivirusScanner();
 
             if(NitroWebExpressConfig.isEnabled("MYSQL"))
                 NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();

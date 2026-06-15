@@ -1,6 +1,7 @@
 package antivirus;
 
 import commons.CommonRails;
+import configuration.NitroWebExpressConfig;
 import exceptions.ExceptionHandler;
 
 import java.io.BufferedReader;
@@ -33,16 +34,60 @@ import java.util.stream.Stream;
  */
 public class AntivirusScanner
 {
-    private final String schedule;
-    private final Path   scanPath;
+    private String schedule = null;
+    private Path   scanPath = null;
 
     /** SHA-256 baseline: relative-path → hex digest captured on first scan. */
     private final Map<String, String> baseline = new ConcurrentHashMap<>();
 
-    public AntivirusScanner(final String schedule, final String scanPath)
+    public AntivirusScanner()
     {
-        this.schedule = schedule == null ? "daily" : schedule.trim().toLowerCase();
-        this.scanPath = Paths.get(scanPath == null ? "." : scanPath).toAbsolutePath().normalize();
+        String rawSchedule = NitroWebExpressConfig.antivirusSchedule();
+
+        if (rawSchedule == null || rawSchedule.isBlank())
+            this.schedule = "daily";
+        else
+            this.schedule = rawSchedule.trim().toLowerCase();
+
+        String rawPath = NitroWebExpressConfig.antivirusScanPath();
+
+        try
+        {
+            Path p;
+
+            if (rawPath == null || rawPath.isBlank())
+            {
+                p = Path.of(".").toAbsolutePath().normalize();
+            }
+            else
+            {
+                p = Path.of(rawPath).toAbsolutePath().normalize();
+            }
+
+            if (!Files.exists(p) || !Files.isDirectory(p))
+            {
+                CommonRails.printSystemComponent(
+                        this, this.hashCode(),
+                        ". AntivirusScanner >> WARNING: scan-path does not exist or is not a directory: "
+                                + rawPath + " — falling back to '.' ."
+                );
+
+                p = Path.of(".").toAbsolutePath().normalize();
+            }
+
+            this.scanPath = p;
+        }
+        catch (Exception e)
+        {
+            ExceptionHandler.dispatch(e);
+            this.scanPath = Path.of(".").toAbsolutePath().normalize();
+        }
+
+        CommonRails.printSystemComponent(
+                this, this.hashCode(),
+                ". AntivirusScanner initialized — schedule=" + this.schedule
+                        + " path=" + this.scanPath + " ."
+        );
     }
 
     /** Start the scheduled executor. Returns immediately; scans run in background. */
@@ -60,8 +105,6 @@ public class AntivirusScanner
             return t;
         }).scheduleAtFixedRate(this::scan, 0, period, TimeUnit.SECONDS);
     }
-
-    // ── Scan ──────────────────────────────────────────────────────────────────
 
     private void scan()
     {
@@ -81,27 +124,27 @@ public class AntivirusScanner
         }
         try
         {
-            Process p = Runtime.getRuntime().exec(new String[]{
-                "clamscan", "-r", "--suppress-ok-results", scanPath.toString()
-            });
-            String out = new BufferedReader(new InputStreamReader(p.getInputStream()))
-                .lines().collect(java.util.stream.Collectors.joining("\n"));
-            String err = new BufferedReader(new InputStreamReader(p.getErrorStream()))
-                .lines().collect(java.util.stream.Collectors.joining("\n"));
+            Process p = Runtime.getRuntime().exec(new String[]{"clamscan", "-r", "--suppress-ok-results", scanPath.toString()});
+
+            String out = new BufferedReader(new InputStreamReader(p.getInputStream())).lines().collect(java.util.stream.Collectors.joining("\n"));
+
+            String err = new BufferedReader(new InputStreamReader(p.getErrorStream())).lines().collect(java.util.stream.Collectors.joining("\n"));
+
             int exit = p.waitFor();
 
             if (exit == 0)
             {
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". AntivirusScanner >> ClamAV scan CLEAN .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> ClamAV scan CLEAN .");
             }
             else
             {
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". AntivirusScanner >> ClamAV ALERT (exit=" + exit + "):\n" + out + "\n" + err + " .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> ClamAV ALERT (exit=" + exit + "):\n" + out + "\n" + err + " .");
             }
         }
-        catch (Exception e) { ExceptionHandler.dispatch(e); }
+        catch (Exception e)
+        {
+            ExceptionHandler.dispatch(e);
+        }
     }
 
     private void runIntegrityCheck()
@@ -109,6 +152,7 @@ public class AntivirusScanner
         try
         {
             boolean firstRun = baseline.isEmpty();
+
             int changed = 0; int added = 0;
 
             try (Stream<Path> walk = Files.walk(scanPath))
@@ -125,26 +169,29 @@ public class AntivirusScanner
                 for (Path f : files)
                 {
                     String key    = scanPath.relativize(f).toString();
+
                     String digest = sha256(Files.readAllBytes(f));
 
                     if (firstRun)
                     {
                         baseline.put(key, digest);
+
                         added++;
                     }
                     else
                     {
                         String prev = baseline.put(key, digest);
+
                         if (prev == null)
                         {
-                            CommonRails.printSystemComponent(this, this.hashCode(),
-                                ". AntivirusScanner >> INTEGRITY NEW FILE: " + key + " .");
+                            CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> INTEGRITY NEW FILE: " + key + " .");
+
                             added++;
                         }
                         else if (!prev.equals(digest))
                         {
-                            CommonRails.printSystemComponent(this, this.hashCode(),
-                                ". AntivirusScanner >> INTEGRITY CHANGED: " + key + " .");
+                            CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> INTEGRITY CHANGED: " + key + " .");
+
                             changed++;
                         }
                     }
@@ -152,17 +199,13 @@ public class AntivirusScanner
             }
 
             if (firstRun)
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". AntivirusScanner >> integrity baseline captured (" + added + " files) .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> integrity baseline captured (" + added + " files) .");
             else
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". AntivirusScanner >> integrity check complete — changed=" + changed + " new=" + added + " .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> integrity check complete — changed=" + changed + " new=" + added + " .");
         }
         catch (Exception e) { ExceptionHandler.dispatch(e); }
     }
-
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
+    
     private static boolean clamAvailable()
     {
         try { return Runtime.getRuntime().exec(new String[]{"which", "clamscan"}).waitFor() == 0; }
