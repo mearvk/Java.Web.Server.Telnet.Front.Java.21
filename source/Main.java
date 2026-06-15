@@ -1,3 +1,4 @@
+import antivirus.AntivirusScanner;
 import commons.CommonRails;
 import communicator.Communicator;
 import configuration.NitroWebExpressConfig;
@@ -120,10 +121,10 @@ public class Main
             NITRO.TELNET_PROXY_ENABLED = Boolean.TRUE;
 
             if (NitroWebExpressConfig.isEnabled("AES_COMPLIANT"))
-                NITRO.BRIDGE.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_REMOTE_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+                NITRO.BRIDGE.AES_COMPONENT = new AESCompliant(AES_WEBEXPRESS_REMOTE_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             if (NitroWebExpressConfig.isEnabled("BITCOIN_COMPLIANT"))
-                NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
+                NITRO.BRIDGE.BITCOIN_COMPONENT = new BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
             if (NitroWebExpressConfig.isEnabled("RSA_COMPLIANT"))
                 NITRO.BRIDGE.RSA_COMPONENT = new RSACompliant(RSA_WEBEXPRESS_REMOTE_HOST, RSA_WEBEXPRESS_SERVER_SOCKET, RSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
@@ -153,9 +154,10 @@ public class Main
                 NITRO.BRIDGE.WEATHER_SERVER = new WeatherServer(WEATHER_SERVER_HOST);
 
             if (NitroWebExpressConfig.isEnabled("ANTIVIRUS"))
-                new antivirus.AntivirusScanner(NitroWebExpressConfig.antivirusSchedule(), NitroWebExpressConfig.antivirusScanPath()).start();
+                NITRO.BRIDGE.ANTIVIRUS_SCANNER = new AntivirusScanner(NitroWebExpressConfig.antivirusSchedule(), NitroWebExpressConfig.antivirusScanPath());
 
-            NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();
+            if(NitroWebExpressConfig.isEnabled("MYSQL"))
+                NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();
 
             NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
 
