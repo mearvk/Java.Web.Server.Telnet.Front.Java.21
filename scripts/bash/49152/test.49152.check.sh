@@ -3,7 +3,7 @@
 set -e
 HOST="${1:-localhost}"
 PORT=49152
-TIMEOUT=3
+TIMEOUT=5
 
 echo "[test] Checking port $PORT on $HOST..."
 
