@@ -1,6 +1,7 @@
 import commons.CommonRails;
 import communicator.Communicator;
 import configuration.NitroWebExpressConfig;
+import database.N21XmlFallback;
 import http.BinaryHttpServer;
 import loader.ModuleLoaderDaemon;
 import national.NationalDriver;
@@ -158,7 +159,7 @@ public class Main
 
             NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
 
-            database.N21XmlFallback.replayFallback();
+            N21XmlFallback.replayFallback();
 
             NITRO.BRIDGE.start();
     }

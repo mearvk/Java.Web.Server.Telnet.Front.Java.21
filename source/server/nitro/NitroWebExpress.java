@@ -130,7 +130,6 @@ public class NitroWebExpress extends WebExpress
             this.WEBEXPRESS = WEBEXPRESS;
 
             this.WHITE_AUDITOR_TASKING = new whiteauditor.WhiteAuditorTasking(NitroWebExpress.WEBEXPRESS_COMPLIANT_HOSTNAME);
-
         }
 
         public static class InstalledModule
@@ -157,6 +156,7 @@ public class NitroWebExpress extends WebExpress
             public static void register(final InstalledModule M)
             {
                 MODULES.put(M.NAME, M);
+
                 CommonRails.printSystemComponent(M, M.hashCode(), ". ModuleRegistry registered module [" + M.NAME + "] .");
             }
 
@@ -167,7 +167,8 @@ public class NitroWebExpress extends WebExpress
                 if (m == null) return false;
 
                 try
-                { m.LOADER.close();
+                {
+                    m.LOADER.close();
                 }
                 catch (Exception ignored)
                 {
@@ -197,8 +198,11 @@ public class NitroWebExpress extends WebExpress
             public ASCIICreatorServer(final String HOST)
             {
                 if (HOST == null) throw new SecurityException("//bodi/connect");
+
                 this.HOST = HOST;
+
                 this.setName("ASCIICreatorServer");
+
                 this.setDaemon(true);
             }
 
@@ -208,18 +212,26 @@ public class NitroWebExpress extends WebExpress
                 try
                 {
                     N21Store.createAsciiSignaturesTable();
+
                     SERVER_SOCKET = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ASCIICreatorServer listening on port " + PORT + " .");
+
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". ASCIICreatorServer listening on port " + PORT + " .");
+
                     while (!Thread.currentThread().isInterrupted())
                     {
                         Socket client = SERVER_SOCKET.accept();
+
                         Thread h = new Thread(() -> handle(client));
+
                         h.setDaemon(true);
+
                         h.start();
                     }
                 }
-                catch (Exception e) { ExceptionHandler.dispatch(e); }
+                catch (Exception e)
+                {
+                    ExceptionHandler.dispatch(e);
+                }
             }
 
             private void handle(final Socket CLIENT)
@@ -270,11 +282,11 @@ public class NitroWebExpress extends WebExpress
                     long nationalId = Long.parseLong(NATIONAL_ID_STR);
 
                     // Verify national ID exists
-                    national.NationalFinanceID profile = database.N21Store.loadNationalFinanceID(nationalId);
+                    national.NationalFinanceID profile = N21Store.loadNationalFinanceID(nationalId);
                     if (profile == null) return "[request] National ID " + nationalId + " not found.";
 
                     // Check for existing valid (non-expired) signature
-                    java.sql.ResultSet existing = database.N21Store.loadAsciiSignature(nationalId);
+                    java.sql.ResultSet existing = N21Store.loadAsciiSignature(nationalId);
                     if (existing != null)
                     {
                         String grid    = existing.getString("ascii_grid");
@@ -284,12 +296,12 @@ public class NitroWebExpress extends WebExpress
                     }
 
                     // Assign the next available unique sig_id
-                    int sigId = database.N21Store.nextAsciiSigId();
+                    int sigId = N21Store.nextAsciiSigId();
                     if (sigId >= (1 << 21))
                         return "[request] Signature space exhausted — contact administrator.";
 
                     String grid = ascii.creator.ASCIICreator.generateAsciiCode(sigId);
-                    database.N21Store.storeAsciiSignature(nationalId, sigId, grid);
+                    N21Store.storeAsciiSignature(nationalId, sigId, grid);
 
                     CommonRails.printSystemComponent(this, this.hashCode(),
                         ". ASCIICreatorServer issued sig_id=" + sigId
@@ -527,6 +539,7 @@ public class NitroWebExpress extends WebExpress
                                         catch (Exception e)
                                         {
                                             ExceptionHandler.dispatch(e);
+
                                             CurrentConnections connections = this.WEB_EXPRESS.CURRENT_CONNECTIONS;
 
                                             connections.remove(message.CONNECTION);
@@ -543,6 +556,7 @@ public class NitroWebExpress extends WebExpress
                                     catch (IOException e)
                                     {
                                         ExceptionHandler.dispatch(e);
+
                                         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter socket connection closed Socket: " + message.INTERNET_ADDRESS + " .");
                                     }
 
@@ -584,6 +598,7 @@ public class NitroWebExpress extends WebExpress
                                     catch (Exception e)
                                     {
                                         ExceptionHandler.dispatch(e);
+
                                         CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress MessageQueueSorter >> dropped connection "+message.SOCKET +" .");
                                     }
                                 }
@@ -592,6 +607,7 @@ public class NitroWebExpress extends WebExpress
                         catch (Exception e)
                         {
                             ExceptionHandler.dispatch(e);
+
                             e.printStackTrace(System.err);
                         }
                     }
