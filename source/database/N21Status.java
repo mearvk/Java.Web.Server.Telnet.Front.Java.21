@@ -98,7 +98,7 @@ public class N21Status
         if (!TCP && !PING)  return "MySQL unreachable at " + dbHost() + ":" + dbPort() + " — XML fallback active.";
         if (!TCP)           return "MySQL port " + dbPort() + " closed (host pingable) — XML fallback active.";
         if (!JDBC)          return "MySQL TCP open but JDBC auth/connect failed — XML fallback active.";
-        if (!N21)           return "MySQL connected but database N21 not found — run N21.table.builder.sh.";
+        if (!N21)           return "MySQL connected but database N21 not found — run N21.SQL.Table.Builder.sh.";
         return               "MySQL connected. Database N21 ready at " + dbHost() + ":" + dbPort() + ".";
     }
 }

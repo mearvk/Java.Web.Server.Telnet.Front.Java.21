@@ -6,7 +6,7 @@
 #   2. Installs mysql-server via apt if not already installed
 #   3. Ensures the MySQL service is enabled and running
 #   4. Creates the N21 database and application user (mearvk)
-#   5. Runs N21.table.builder.sh to create all application tables
+#   5. Runs N21.SQL.Table.Builder.sh to create all application tables
 #   6. Writes authentication/mysql.auth.xml if it does not already exist
 #
 # Usage:

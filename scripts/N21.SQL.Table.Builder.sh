@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# N21.table.builder.sh — create database N21 and all application tables
+# N21.SQL.Table.Builder.sh — create database N21 and all application tables
 
 set -e
 
