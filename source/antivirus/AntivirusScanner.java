@@ -205,7 +205,7 @@ public class AntivirusScanner
         }
         catch (Exception e) { ExceptionHandler.dispatch(e); }
     }
-    
+
     private static boolean clamAvailable()
     {
         try { return Runtime.getRuntime().exec(new String[]{"which", "clamscan"}).waitFor() == 0; }
