@@ -1,0 +1,90 @@
+OLLAMA & LLM ENGINE REFERENCE — BBEA DEPLOYMENT GUIDE
+═══════════════════════════════════════════════════════════════════════════════
+
+1. OLLAMA (Primary — Local Inference)
+──────────────────────────────────────
+  What:     Local LLM runtime. Runs GGUF-quantized models on consumer GPUs.
+  Install:  curl -fsSL https://ollama.com/install.sh | sh
+  Models:   llama3.1:8b, llama3.1:70b, mistral, codellama, phi3
+  API:      REST on localhost:11434
+  Use case: Development, local testing, air-gapped deployment
+
+  Key commands:
+    ollama pull llama3.1:8b          # download base model
+    ollama create bbea -f Modelfile  # create custom model from Modelfile
+    ollama run bbea                  # interactive chat
+    ollama serve                     # start API server (background)
+
+  API call (from Java / curl):
+    POST http://localhost:11434/api/generate
+    {"model":"bbea","prompt":"<input>","stream":false}
+
+2. vLLM (Production — High-Throughput Serving)
+──────────────────────────────────────────────
+  What:     High-performance inference engine with PagedAttention.
+  Install:  pip install vllm
+  Use case: Production API, multiple concurrent users, batched requests
+  Hardware: Requires CUDA GPU (A100/H100 for 70B models)
+
+  Launch:
+    python -m vllm.entrypoints.openai.api_server \
+      --model meta-llama/Llama-3.1-70B-Instruct \
+      --tensor-parallel-size 2
+
+  API: OpenAI-compatible endpoint on port 8000
+
+3. llama.cpp (Quantization & Edge Deployment)
+─────────────────────────────────────────────
+  What:     C++ inference for GGUF models. CPU or GPU. Minimal dependencies.
+  Install:  git clone https://github.com/ggerganov/llama.cpp && make
+  Use case: Edge deployment, Raspberry Pi, quantization pipeline
+
+  Quantize merged LoRA adapter:
+    python convert_hf_to_gguf.py ./merged-model --outtype q4_k_m
+
+4. Unsloth (Fine-Tuning — Fast LoRA)
+─────────────────────────────────────
+  What:     2x faster LoRA/QLoRA fine-tuning for Llama, Mistral, Phi.
+  Install:  pip install unsloth
+  Use case: Training BBEA adapter on dataset.us.jsonl
+
+  Example:
+    from unsloth import FastLanguageModel
+    model, tokenizer = FastLanguageModel.from_pretrained("unsloth/llama-3.1-8b-bnb-4bit")
+    model = FastLanguageModel.get_peft_model(model, r=16, lora_alpha=32,
+              target_modules=["q_proj","v_proj","k_proj","o_proj"])
+    # ... train with SFTTrainer on dataset.us.jsonl ...
+    model.save_pretrained_merged("bbea-merged", tokenizer)
+
+5. Axolotl (Fine-Tuning — Config-Driven)
+─────────────────────────────────────────
+  What:     YAML-config-driven fine-tuning framework. Supports LoRA, full-FT.
+  Install:  pip install axolotl
+  Use case: Reproducible training runs, multi-GPU setups
+
+  Config snippet (axolotl.yml):
+    base_model: meta-llama/Llama-3.1-8B-Instruct
+    adapter: lora
+    lora_r: 16
+    lora_alpha: 32
+    datasets:
+      - path: ./dataset.us.jsonl
+        type: sharegpt
+    sequence_len: 4096
+    num_epochs: 3
+    micro_batch_size: 4
+    learning_rate: 0.0002
+
+6. INTEGRATION WITH N21 SERVER
+──────────────────────────────
+  The AIProctorModule (source/ai/AIProctorModule.java, port 49111) connects
+  to Ollama's REST API to run BBEA evaluations triggered by:
+    • New connection with National ID (auto-profile assessment)
+    • Admin-initiated audit commands via ModuleInstallationService
+    • Scheduled batch audits via Communicator's message scheduler
+
+  Flow:
+    Client → telnet 49111 → AIProctorModule
+    → HTTP POST localhost:11434/api/generate {"model":"bbea",...}
+    → Parse JSON response → Store in N21 DB (national_finance_ids)
+    → Return audit report to client
