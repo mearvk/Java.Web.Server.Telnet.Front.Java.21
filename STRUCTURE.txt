@@ -1,14 +1,14 @@
 JAVA NATIONAL FINANCE ENGINE — STRUCTURE
 =========================================
-Version:  2811.2.1
-Date:     2026-06-07
+Version:  2811.3.1
+Date:     2026-06-15
 Owner:    Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
 
 
 VERSION RATIONALE
 -----------------
   2811   — Matches the engine version printed at startup (v.2811.1); major release series.
-     2   — Second minor: module installation, ASCII signature, and admin layers added this session.
+     3   — Third minor: Lanterna terminal menu GUI with port bridging on 49200.
      1   — First patch of this minor series.
 
 Full semver: 2811.2.1
@@ -137,6 +137,16 @@ SOURCE PACKAGES  (source/)
   sim/
     InputQueue, stochastic
 
+  lanterna/
+    TerminalMenu          — Lanterna GUI menu on port 49200; presents bordered buttons for
+                            each service in the 49152 port series. Telnet clients connect,
+                            select a service, and are transparently bridged to that port.
+    TerminalMenuBridge    — Support class for TerminalMenu port bridging:
+      ├─ SocketExtractor       — Reflection utility; extracts private Socket from TelnetTerminal.
+      ├─ ServiceConnector      — Opens TCP connection to localhost:<port> for target service.
+      └─ Relay                 — Bidirectional byte pump (two daemon threads) between client
+                                 socket and service socket; closes both on EOF or error.
+
   telnet/
     TelnetCommunicationProxy
     TelnetInputBuilder
@@ -185,6 +195,11 @@ PORTS SUMMARY
   49155   ConnectionStatusServer
   49166   ModuleInstallationService
   49177   ASCIICreatorServer
+  49188   ModuleLoaderDaemon
+  49199   Communicator
+  49200   TerminalMenu (Lanterna GUI → bridges to selected service)
+  49144   BinaryHttpServer
+  49133   WeatherServer
    5512   AES 2.0 Compliant WebExpress
    6682   Bitcoin Compliant WebExpress
 

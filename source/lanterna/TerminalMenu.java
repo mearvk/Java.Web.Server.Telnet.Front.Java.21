@@ -3,6 +3,7 @@ package lanterna;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
+import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -56,7 +57,14 @@ public class TerminalMenu extends Thread
                 TelnetTerminal telnetTerminal = server.acceptConnection();
 
                 Thread handler = new Thread(() -> {
-                    try { runGui(telnetTerminal); }
+                    try
+                    {
+                        int port = runGui(telnetTerminal);
+                        if (port > 0)
+                            TerminalMenuBridge.bridge(telnetTerminal, port);
+                        else
+                            telnetTerminal.close();
+                    }
                     catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
                 });
                 handler.setDaemon(true);
@@ -124,7 +132,10 @@ public class TerminalMenu extends Thread
         String text = "[" + port + "] " + label;
         Button button = new Button(text, () -> { chosen[0] = port; window.close(); });
         button.setTheme(new SimpleTheme(BLACK, YELLOW, SGR.BOLD));
-        panel.addComponent(button);
+        Panel wrapper = new Panel();
+        wrapper.addComponent(button);
+        wrapper.setTheme(new SimpleTheme(BLACK, YELLOW));
+        panel.addComponent(wrapper.withBorder(Borders.singleLine()));
     }
 
     /** Returns the last selected port, or -1. */
