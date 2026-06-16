@@ -54,6 +54,12 @@ public class Connection implements AutoCloseable
     /** Active HTTP method (GET, POST) — null means raw binary passthrough. */
     public String httpMethod;
 
+    /** Active Bitcoin wallet version (24-30) — 0 means no version selected. */
+    public int btcVersion = 0;
+
+    /** Active Bitcoin wallet name — null means no wallet selected. */
+    public String btcWallet = null;
+
     public telnet.TelnetLineEditor lineEditor;
 
     public Connection()
