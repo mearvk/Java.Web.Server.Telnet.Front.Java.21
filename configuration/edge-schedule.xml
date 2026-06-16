@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Middle Director — Weighted Edge Schedule
+    ==========================================
+    Defines the processing weight (priority/edge) for each director module.
+    Higher weight = later in the pipeline, more refinement expected.
+
+    These weights are LOCKED to central NWE approval (github.com/mearvk).
+    Independent/non-central NWE installations may NOT alter these values
+    without explicit approval from the central authority via access token.
+
+    To modify: requires valid central NWE access token verification.
+-->
+<edge-schedule locked="true" authority="github.com/mearvk">
+    <weight module="ShortHops"       value="1"/>
+    <weight module="MediumHops"      value="4"/>
+    <weight module="ThoughtsAsGoals" value="6"/>
+    <weight module="GamesAsGoals"    value="8"/>
+    <weight module="AuditorContent"  value="19"/>
+</edge-schedule>

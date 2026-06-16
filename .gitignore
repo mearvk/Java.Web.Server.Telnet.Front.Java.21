@@ -41,6 +41,9 @@ build/
 
 ### mirvktnbuntu ###
 
+### Secrets ###
+psychiatry/secrets/secret.key
+
 ### Large logs ###
 logging/exceptions.log
 logging/archive/
