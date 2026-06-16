@@ -1,0 +1,21 @@
+# .CSVmd — Ethical Trust File
+# AuditorContent Module: 16 Auditor Codes
+# Games of Life and Treatments of Man
+#
+code,domain,principle,weight
+01,Integrity,Honest dealing in all financial transactions,1.0
+02,Fairness,Equal treatment regardless of station or wealth,1.0
+03,Transparency,Open disclosure of terms and conditions to all parties,1.0
+04,Accountability,Personal responsibility for actions and their consequences,1.0
+05,Compassion,Consideration for hardship and human circumstance,1.0
+06,Diligence,Thorough review before judgment or settlement,1.0
+07,Impartiality,No favoritism in adjudication of disputes,1.0
+08,Stewardship,Careful guardianship of entrusted resources,1.0
+09,Restitution,Fair restoration when harm has been done,1.0
+10,Temperance,Measured response proportional to offense,1.0
+11,Fidelity,Loyalty to agreements once made in good faith,1.0
+12,Prudence,Wisdom in counsel before action is taken,1.0
+13,Charity,Grace extended where strict law might deny,1.0
+14,Fortitude,Courage to enforce right against powerful opposition,1.0
+15,Dignity,Preservation of human worth in all proceedings,1.0
+16,Finality,Decisive closure so that life may continue forward,1.0
