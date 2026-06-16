@@ -33,3 +33,20 @@ This software verifies its operational authorization by checking the presence of
 
 **Contact:**
 - Max Rupplin — mearvk@mearvk.us | mearvk@outlook.com
+
+---
+
+## Downloads
+
+- **NWE Key Listener (C, port 80):** [`apache/nwe-key-listener`](apache/nwe-key-listener) — Standalone executable for Linux/Apache. Listens on port 80 for `public.key` POST, sends ACK, 30-minute timeout. Run with `sudo ./nwe-key-listener`.
+- **NWE Module Installer (Java, port 8888):** [`standalone/nwe-module-installer.jar`](standalone/nwe-module-installer.jar) — Standalone JAR. Accepts modules from verified NWE instances. Run with `java -jar nwe-module-installer.jar`.
+- **NWE Apache Module (mod_nwe_key):** [`apache/modules/mod_nwe_key.c`](apache/modules/mod_nwe_key.c) — Drop-in Apache2 module. Install with `sudo bash apache/modules/build-module.sh`. Provides `/nwe-key-listener/handshake` and `/nwe-key-listener/install` endpoints.
+
+### NWE Key Listener — How It Works
+
+1. On startup, fetches `public.key` from this GitHub repository for comparison.
+2. **Phase 1 (Handshake):** Accepts POST on port 80. Strips HTTP headers, compares body byte-for-byte against the GitHub `public.key`. Sends `ACK` only on exact match. Records the verified IP.
+3. **Phase 2 (JAR Install):** Accepts the next binary from the **same verified IP**. Validates JAR signature (PK magic bytes), computes SHA-256, installs to `/opt/nwe/nwe-module-installer.jar`, opens port 8888 via ufw/iptables, and launches the module installer.
+4. Closes after 30 minutes if no valid `public.key` is received.
+
+**Build requirements:** `libcurl4-openssl-dev`, `libssl-dev` (standalone), plus `apache2-dev` (for the module).
