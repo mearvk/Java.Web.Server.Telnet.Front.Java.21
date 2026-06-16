@@ -4,6 +4,10 @@
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
+# ── Pre-flight: XML fallback wellness check ────────────────────────────────
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+bash "$SCRIPT_DIR/N21.XML.Wellness.Check.sh"
+
 # Run as root if apache-root is under /var/www (requires root to create/write).
 # If already root, just exec directly.
 APACHE_DIR=$(grep -oP '(?<=<apache-root>)[^<]+' "$ROOT/configuration/nwe-config.xml" 2>/dev/null || echo "/var/www/html/nwe")

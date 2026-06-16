@@ -42,6 +42,21 @@ public class N21XmlFallback
         for (int i = 0; i + 1 < KVPAIRS.length; i += 2)
             sb.append("    <").append(KVPAIRS[i]).append(">").append(esc(KVPAIRS[i + 1])).append("</").append(KVPAIRS[i]).append(">\n");
         sb.append("  </record>\n");
+
+        // If file ends with </N21>, strip it before appending so records stay inside root
+        File f = file();
+        try
+        {
+            String content = new String(java.nio.file.Files.readAllBytes(f.toPath()));
+            if (content.trim().endsWith("</N21>"))
+            {
+                int idx = content.lastIndexOf("</N21>");
+                java.nio.file.Files.writeString(f.toPath(), content.substring(0, idx) + sb);
+                return;
+            }
+        }
+        catch (Exception ignored) {}
+
         write(sb.toString());
     }
 
@@ -97,7 +112,8 @@ public class N21XmlFallback
                 for (int i = 0; i < records.getLength(); i++)
                 {
                     Element rec = (Element) records.item(i);
-                    String table = rec.getAttribute("table");
+                    String table = rec.getAttribute("TABLE");
+                    if (table.isEmpty()) table = rec.getAttribute("table");
 
                     if ("national_finance_ids".equals(table))
                     {
@@ -190,8 +206,8 @@ public class N21XmlFallback
         }
     }
 
-    /** Appends </N21> if missing so the file is parseable. */
-    private static void ensureClosed(final File XML)
+    /** Appends </N21> if missing so the file is parseable. Returns true if it was added (must be removed after parse). */
+    private static boolean ensureClosed(final File XML)
     {
         try
         {
@@ -199,6 +215,23 @@ public class N21XmlFallback
             if (!content.trim().endsWith("</N21>"))
             {
                 try (FileWriter fw = new FileWriter(XML, true)) { fw.write("</N21>\n"); }
+                return true;
+            }
+        }
+        catch (Exception ignored) {}
+        return false;
+    }
+
+    /** Remove the trailing </N21> tag so append() can continue writing records. */
+    private static void removeClosure(final File XML)
+    {
+        try
+        {
+            String content = new String(java.nio.file.Files.readAllBytes(XML.toPath()));
+            if (content.trim().endsWith("</N21>"))
+            {
+                int idx = content.lastIndexOf("</N21>");
+                java.nio.file.Files.writeString(XML.toPath(), content.substring(0, idx));
             }
         }
         catch (Exception ignored) {}
