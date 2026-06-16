@@ -16,7 +16,8 @@
     <module name="FinalMediumHops" class="middle.director.FinalMediumHopsModule"
             description="Final medium-range hops before national module delivery"/>
     <module name="GamesAsGoals" class="middle.director.GamesAsGoalsModule"
-            description="Gamified goal tracking and achievement synchronization"/>
+            config="configuration/games-as-goals-sketches.xml"
+            description="Angular math roughing sketches (.mdmd), IQ-gated submissions, composure and trade review"/>
     <module name="AuditorContent" class="middle.director.AuditorContentModule"
             description="Auditor content verification and goal compliance"/>
 

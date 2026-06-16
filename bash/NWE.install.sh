@@ -12,10 +12,62 @@ JAR="$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar"
 FORCE=0
 [[ "${1:-}" == "--force" ]] && FORCE=1
 
+echo ""
 echo "=== NitroWebExpress Installer ==="
 echo "ROOT : $ROOT"
 echo "SRC  : $SRC"
 echo "OUT  : $OUT"
+echo ""
+
+# ── 0. Distribution License ──────────────────────────────────────────────────
+echo "═══════════════════════════════════════════════════════════════════"
+echo "  NitroWebExpress — Distribution License Setup"
+echo "  Creator: Max Rupplin"
+echo "  Email:   mearvk@mearvk.us  |  mearvk@outlook.com"
+echo "═══════════════════════════════════════════════════════════════════"
+echo ""
+echo "  This software can be installed as:"
+echo "    1) Personal Executive Edition — Owner of businesses (Rank 8)"
+echo "    2) National Distribution Edition — Full national version (Rank 6)"
+echo "    3) International Edition — Friendly international version (Rank 4)"
+echo "    4) Free Software Edition — Community edition, no PAT needed (Rank 4)"
+echo ""
+read -rp "  Select edition [1/2/3/4] (default: 4): " EDITION_CHOICE
+EDITION_CHOICE="${EDITION_CHOICE:-4}"
+
+NWE_PAT=""
+NWE_REGION="free"
+
+if [[ "$EDITION_CHOICE" == "1" || "$EDITION_CHOICE" == "2" || "$EDITION_CHOICE" == "3" ]]; then
+    read -rsp "  Enter GitHub Personal Access Token (PAT): " NWE_PAT
+    echo ""
+    case "$EDITION_CHOICE" in
+        1) NWE_REGION="personal_executive" ;;
+        2) NWE_REGION="national" ;;
+        3) NWE_REGION="international" ;;
+    esac
+
+    # Verify PAT against github.com/mearvk
+    echo "  Verifying PAT against central repository (github.com/mearvk)..."
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+        -H "Authorization: Bearer $NWE_PAT" \
+        -H "Accept: application/vnd.github+json" \
+        "https://api.github.com/repos/mearvk/Java.Web.Server.Telnet.Front.Java.21")
+
+    if [[ "$HTTP_CODE" == "200" ]]; then
+        echo "  ✔  PAT verified. Edition: $(echo $NWE_REGION | tr '[:lower:]' '[:upper:]')"
+    else
+        echo "  ✗  PAT verification failed (HTTP $HTTP_CODE). Falling back to Free Software Edition."
+        NWE_REGION="free"
+        NWE_PAT=""
+    fi
+else
+    echo "  → Free Software Edition selected."
+fi
+
+# Store edition for Java runtime to read
+mkdir -p "$ROOT/data"
+echo "$NWE_REGION" > "$ROOT/data/distribution-edition.txt"
 echo ""
 
 # ── 1. chmod all scripts ──────────────────────────────────────────────────────

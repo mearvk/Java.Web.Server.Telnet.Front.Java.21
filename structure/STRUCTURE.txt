@@ -137,6 +137,42 @@ SOURCE PACKAGES  (source/)
   sim/
     InputQueue, stochastic
 
+  middle/
+    MiddleDirectorServer  — Port 8888; synchronizes finance and target goals across
+                            middle nodes and forwards to national NWE installations (49152).
+                            Modules loaded from configuration/middle-director-modules.xml.
+
+    middle/director/
+      DirectorModule           — Base interface; process() + recordTrade() + evaluateAndProcess().
+      DirectorPersistence      — CSV persistence to data/middle/director/ (trades + edition/rank).
+      TradeEvaluator           — Evaluates upward/better trades (trust + education grade).
+                                 Approved immediately or held 48hrs for auditor review.
+      EdgeSchedule             — Weighted edge schedule: SHM=1, MHM=4, TAGM=6, GAGM=8, ACM=19.
+                                 Locked to central NWE authority (github.com/mearvk); alteration
+                                 requires valid PAT verification.
+      DistributionLicense      — Edition + immutable rank system:
+                                   Personal Executive (rank 8) → National (rank 6) →
+                                   International (rank 4) → Free (rank 4).
+                                 Stored in MySQL distribution_license table; not alterable.
+      PublicKeyVerifier         — Boot-time check for psychiatry/secrets/public.key on GitHub.
+                                 If present: software authorized to operate. Otherwise: restricted.
+
+      ShortHopsModule          — Short-range finance hops. XML trades: Contract, Legal, Monies,
+                                 Resumes, Willingness, Trades, Quits.
+                                 Config: configuration/short-hops-trades.xml
+      MediumHopsModule         — Medium-range goal synchronization across regional nodes.
+      ThoughtsAsGoalsModule    — Weighted notions, formulations, rated value capture, sex trade.
+                                 Config: configuration/thoughts-as-goals-trades.xml
+      FinalMediumHopsModule    — Science conclusions, postulates, rich research, grain review.
+                                 IQ 120+ / PhD required for structural sign-off.
+                                 Config: configuration/final-medium-hops-commodities.xml
+      GamesAsGoalsModule       — Angular math roughing sketches (.mdmd file type).
+                                 IQ 150+ standard; IQ 125+ with good NationalID (trust ≥ 70).
+                                 Config: configuration/games-as-goals-sketches.xml
+      AuditorContentModule     — Ethical trust codes (.CSVmd, 16 codes). Safe module —
+                                 always approves after annotation. Held trades released here.
+                                 Codes: source/middle/director/auditor-codes.csvmd
+
   lanterna/
     TerminalMenu          — Lanterna GUI menu on port 49200; presents bordered buttons for
                             each service in the 49152 port series. Telnet clients connect,
@@ -168,6 +204,8 @@ DATABASE TABLES  (MySQL — database N21)
   status_snapshots      — Periodic uptime / memory / connection count.
   ascii_signatures      — Unique binary ASCII grid per National ID; 1000-day TTL.
   module_loader         — Audit log of all module install/unload/restart/connect actions.
+  distribution_license  — Edition flag + immutable rank (PEE=8, NDE=6, INT=4, FREE=4).
+                          Verified at boot via GitHub PAT. Not alterable at runtime.
   bitcoin_transactions  — Bitcoin tx records with AES keys and imagograph blob.
   cia                   — Reserved: intelligence-agency integration.
   fbi                   — Reserved: law-enforcement integration.
@@ -202,10 +240,36 @@ PORTS SUMMARY
   49133   WeatherServer
    5512   AES 2.0 Compliant WebExpress
    6682   Bitcoin Compliant WebExpress
+   8888   MiddleDirectorServer (finance/goal synchronization)
 
 
 LOG / DATA PATHS
 ----------------
-  /logging/exceptions.log   — Exception persistence (directory auto-created).
-  modules/                  — Installed module files (.jar / .zip / .java source).
+  /logging/exceptions.log        — Exception persistence (directory auto-created).
+  modules/                       — Installed module files (.jar / .zip / .java source).
   authentication/mysql.auth.xml  — MySQL credentials.
+  data/middle/director/          — Director module trade CSVs (per-module).
+  data/middle/director/holds/    — 48hr auditor hold records.
+  data/distribution-edition.txt  — Install-time edition selection.
+  psychiatry/secrets/public.key  — Public authorization key (pushed to GitHub).
+  psychiatry/secrets/secret.key  — Private key (NEVER pushed; .gitignored).
+
+
+AUTHORIZATION
+-------------
+  At boot, PublicKeyVerifier checks psychiatry/secrets/public.key on GitHub.
+  If present (HTTP 200): software operates within existing guidelines,
+  agreements, and contracts. If absent: restricted mode.
+  Owner retains local copies of both public.key and secret.key.
+
+
+CONFIGURATION FILES
+-------------------
+  configuration/nwe-config.xml                    — Main NWE service toggles.
+  configuration/protocol-handlers.xml             — Well-known port protocol handlers.
+  configuration/middle-director-modules.xml       — Middle director module registry.
+  configuration/edge-schedule.xml                 — Weighted edge schedule (locked).
+  configuration/short-hops-trades.xml             — ShortHops trade definitions.
+  configuration/thoughts-as-goals-trades.xml      — ThoughtsAsGoals trade definitions.
+  configuration/final-medium-hops-commodities.xml — FinalMediumHops research commodities.
+  configuration/games-as-goals-sketches.xml       — GamesAsGoals .mdmd sketch config.

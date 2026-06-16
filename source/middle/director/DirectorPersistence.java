@@ -49,7 +49,7 @@ public class DirectorPersistence
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND))
         {
             if (newFile)
-                w.write("timestamp,tradeType,nationalId,ipAddress,publicKey,signatoryId,signatoryKey,employmentStatus,democratStatus\n");
+                w.write("timestamp,tradeType,nationalId,ipAddress,publicKey,signatoryId,signatoryKey,employmentStatus,democratStatus,edition,rank\n");
 
             StringJoiner row = new StringJoiner(",");
             row.add(LocalDateTime.now().format(FMT));
@@ -61,6 +61,8 @@ public class DirectorPersistence
             row.add(escape(signatoryKey));
             row.add(employed ? "1" : "0");
             row.add(democrat ? "1" : "0");
+            row.add(DistributionLicense.getEdition().name());
+            row.add(String.valueOf(DistributionLicense.getRank()));
             w.write(row + "\n");
         }
         catch (IOException e) { exceptions.ExceptionHandler.dispatch(e); }

@@ -104,6 +104,13 @@ public class Main
             CommonRails.printSystemComponent(this, this.hashCode(),". Java™ National Finance Engine v.2811.1 v.11.1 .");
             //System.out.print(CommonRails.ANSI_NEAR_RESET_DARK);
 
+        middle.director.DistributionLicense.loadFromDatabase();
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            ". " + middle.director.DistributionLicense.editionBanner() + " .");
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            ". Creator: Max Rupplin — mearvk@mearvk.us | mearvk@outlook.com .");
+        middle.director.PublicKeyVerifier.verify();
+
         NationalDriver DRIVER = new NationalDriver();
 
             DRIVER.printOrderedComponents();

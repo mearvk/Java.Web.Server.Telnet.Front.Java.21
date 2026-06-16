@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Games As Goals Module — Angular Math Sketches
+    ===============================================
+    Roughing sketches for angular math (.mdmd file type).
+    Reviewable for composure value and trade value.
+
+    Submissions: IQ 150+ standard, IQ 125+ with good NationalID overall value.
+-->
+<games-as-goals>
+    <sketch-config>
+        <iq-standard value="150" description="Standard minimum IQ for sketch submission"/>
+        <iq-lowered value="125" description="Lowered IQ threshold if NationalID overall value is good"/>
+        <trust-minimum-for-lowered value="70" description="Trust level required to qualify for lowered IQ threshold"/>
+        <filetype extension=".mdmd" description="Angular math roughing sketch file type"/>
+    </sketch-config>
+
+    <trade name="AngularSketch" type="sketch"
+           description="Roughing sketch for angular math formulation"/>
+    <trade name="ComposureReview" type="review"
+           description="Review of sketch for its value as composure"/>
+    <trade name="TradeReview" type="review"
+           description="Review of sketch for its value as trade"/>
+    <trade name="Submission" type="submission"
+           description="IQ-gated submission of angular math work"/>
+</games-as-goals>
