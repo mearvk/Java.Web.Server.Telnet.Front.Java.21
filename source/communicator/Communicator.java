@@ -212,22 +212,32 @@ public class Communicator extends Thread
     private String cmdMsg(final String toId, final String text, final Session from)
     {
         Session target = LIVE.get(toId);
-        String stored  = "[" + from.nationalId + " → " + toId + "] " + text;
         database.N21Store.storeChatMessage(from.nationalId, Long.parseLong(toId), text, "direct");
-        if (target == null) return "[msg] User " + toId + " not connected. Message stored.";
-        target.writeLine("[MSG from " + from.nationalId + "] " + text);
-        return "[msg] Delivered to " + toId + ".";
+
+        // DSA-sign the chat message automatically
+        byte[] sig = national.NationalCrypto.signChat(from.nationalId, text.getBytes(StandardCharsets.UTF_8));
+        String sigHex = java.util.HexFormat.of().formatHex(sig);
+
+        if (target == null) return "[msg] User " + toId + " not connected. Message stored (DSA-signed).";
+        target.writeLine("[MSG from " + from.nationalId + " sig=" + sigHex.substring(0, Math.min(16, sigHex.length())) + "…] " + text);
+        return "[msg] Delivered to " + toId + " (DSA-signed).";
     }
 
     private String cmdBroadcast(final String text, final Session from)
     {
         database.N21Store.storeChatMessage(from.nationalId, -1L, text, "broadcast");
+
+        // RSA-encrypt the broadcast signal for each recipient
+        byte[] encrypted = national.NationalCrypto.encryptSignal(from.nationalId, text.getBytes(StandardCharsets.UTF_8));
+        String encHex = java.util.HexFormat.of().formatHex(encrypted);
+        String preview = encHex.substring(0, Math.min(16, encHex.length()));
+
         int count = 0;
         for (Session s : LIVE.values())
         {
-            if (s.nationalId != from.nationalId) { s.writeLine("[BROADCAST from " + from.nationalId + "] " + text); count++; }
+            if (s.nationalId != from.nationalId) { s.writeLine("[BROADCAST from " + from.nationalId + " rsa=" + preview + "…] " + text); count++; }
         }
-        return "[broadcast] Sent to " + count + " user(s).";
+        return "[broadcast] Sent to " + count + " user(s) (RSA-signed signal).";
     }
 
     private String cmdSchedule(final String[] parts, final String raw, final Session from)

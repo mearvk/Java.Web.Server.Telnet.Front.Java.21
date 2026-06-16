@@ -200,6 +200,29 @@ public class N21Store
 
     // ── user keypairs ────────────────────────────────────────────────────────
 
+    public static void createUserKeypairsTable()
+    {
+        if (!dbOk()) return;
+        try
+        {
+            java.sql.Statement st = N21DataSource.get().createStatement();
+            st.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS user_keypairs (" +
+                "  id              BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                "  national_id     BIGINT UNSIGNED NOT NULL," +
+                "  rsa_public_key  TEXT NOT NULL," +
+                "  rsa_private_key TEXT NOT NULL," +
+                "  dsa_public_key  TEXT NOT NULL," +
+                "  dsa_private_key TEXT NOT NULL," +
+                "  aes_key         TEXT NOT NULL," +
+                "  created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                "  UNIQUE KEY uq_national_id (national_id)" +
+                ") ENGINE=InnoDB");
+            st.close();
+        }
+        catch (Exception e) { fail("user_keypairs", e); }
+    }
+
     public static void storeKeypair(final long NATIONAL_ID, final national.NationalKeypairGenerator K)
     {
         if (dbOk())

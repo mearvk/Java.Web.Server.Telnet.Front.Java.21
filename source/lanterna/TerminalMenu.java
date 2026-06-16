@@ -85,7 +85,9 @@ public class TerminalMenu extends Thread
         UnixTerminal terminal = new UnixTerminal(
             System.in, System.out, Charset.defaultCharset()
         );
-        return runGui(terminal);
+        int port = runGui(terminal);
+        terminal.close();
+        return port;
     }
 
     private int runGui(Terminal terminal) throws IOException
@@ -122,7 +124,6 @@ public class TerminalMenu extends Thread
         gui.addWindowAndWait(window);
 
         screen.stopScreen();
-        terminal.close();
 
         return chosen[0];
     }

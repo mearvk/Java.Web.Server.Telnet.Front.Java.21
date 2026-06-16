@@ -106,11 +106,17 @@ public class BinaryHttpServer extends Thread
 
         byte[] data = new byte[len];
         IN.readFully(data);
+
+        // AES-encrypt file data if a national_id header was provided
+        long nid = extractNationalId(FILENAME);
+        if (nid > 0)
+            data = national.NationalCrypto.encryptFile(nid, data);
+
         Files.write(dest, data);
 
         String url = APACHE_URL + "/" + dest.getFileName();
         CommonRails.printSystemComponent(this, this.hashCode(),
-            ". BinaryHttpServer PUT " + safe + " (" + len + "B) → " + url + " .");
+            ". BinaryHttpServer PUT " + safe + " (" + len + "B" + (nid > 0 ? " AES-encrypted" : "") + ") → " + url + " .");
         return "OK " + url;
     }
 
@@ -152,6 +158,18 @@ public class BinaryHttpServer extends Thread
     {
         String base = Path.of(NAME).getFileName().toString();
         return base.replaceAll("[^a-zA-Z0-9._-]", "_");
+    }
+
+    /** Extract national_id from filename format: NID<digits>-<rest> */
+    private static long extractNationalId(final String FILENAME)
+    {
+        if (FILENAME != null && FILENAME.startsWith("NID"))
+        {
+            int dash = FILENAME.indexOf('-');
+            if (dash > 3)
+                try { return Long.parseLong(FILENAME.substring(3, dash)); } catch (NumberFormatException ignored) {}
+        }
+        return -1;
     }
 
     /** Read a newline-terminated line from a DataInputStream (no buffering of binary). */

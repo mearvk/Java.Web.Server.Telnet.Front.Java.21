@@ -136,6 +136,7 @@ public class NationalFinanceIDFeeder
             N21Store.storeNationalFinanceID(nfid);
 
             // Generate per-user cryptographic keypairs (RSA, DSA, AES)
+            N21Store.createUserKeypairsTable();
             NationalKeypairGenerator keypair = new NationalKeypairGenerator();
             N21Store.storeKeypair(nfid.nationalId, keypair);
 
