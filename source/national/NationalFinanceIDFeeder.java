@@ -161,6 +161,9 @@ public class NationalFinanceIDFeeder
 
     private static void financePrompt(final Connection CONN, final NationalFinanceID NFID)
     {
+        // Ensure proxy table exists
+        N21Store.createUserProxySelectionsTable();
+
         write(CONN, "National ID Finance");
         write(CONN, "");
 
@@ -175,12 +178,70 @@ public class NationalFinanceIDFeeder
                 cryptoPrompt(CONN, NFID);
                 write(CONN, line + " < Returned from crypto management.");
             }
+            else if (input.trim().toLowerCase().startsWith("set proxy"))
+            {
+                write(CONN, line + " < " + handleSetProxy(CONN, input, NFID));
+            }
+            else if (input.trim().toLowerCase().startsWith("clear proxy"))
+            {
+                N21Store.clearProxySelection(NFID.nationalId);
+                write(CONN, line + " < Proxy cleared. Using default (localhost).");
+            }
+            else if (input.trim().toLowerCase().startsWith("show proxy"))
+            {
+                String[] sel = N21Store.loadProxySelection(NFID.nationalId);
+                if (sel != null)
+                    write(CONN, line + " < Proxy: " + sel[0] + ":" + sel[1]);
+                else
+                    write(CONN, line + " < No proxy set (using default localhost).");
+            }
             else
             {
                 write(CONN, line + " < " + trade(input, NFID));
             }
             line++;
         }
+    }
+
+    /**
+     * Handles "set proxy <host> <port>" — validates host resolves and port is connectable,
+     * stores in MySQL if OK, otherwise falls back to default.
+     */
+    private static String handleSetProxy(final Connection CONN, final String INPUT, final NationalFinanceID NFID)
+    {
+        // Parse: "set proxy host port"
+        String[] parts = INPUT.trim().split("\\s+");
+        if (parts.length < 4)
+            return "Usage: set proxy <host> <port>";
+
+        String host = parts[2];
+        int port;
+        try { port = Integer.parseInt(parts[3]); }
+        catch (NumberFormatException e) { return "Invalid port number: " + parts[3]; }
+
+        if (port < 1 || port > 65535)
+            return "Port must be 1–65535.";
+
+        // Validate host resolves
+        try { java.net.InetAddress.getByName(host); }
+        catch (java.net.UnknownHostException e)
+        {
+            return "✗  Host '" + host + "' does not resolve. Keeping default.";
+        }
+
+        // Validate port is connectable (2s timeout)
+        try (java.net.Socket test = new java.net.Socket())
+        {
+            test.connect(new java.net.InetSocketAddress(host, port), 2000);
+        }
+        catch (Exception e)
+        {
+            return "✗  Cannot connect to " + host + ":" + port + " — " + e.getMessage() + ". Keeping default.";
+        }
+
+        // Store selection
+        N21Store.storeProxySelection(NFID.nationalId, host, port);
+        return "✔  Proxy set to " + host + ":" + port + " (verified reachable). Stored.";
     }
 
     /**
@@ -205,14 +266,17 @@ public class NationalFinanceIDFeeder
         "\r\n" +
         "  Commands\r\n" +
         "  ────────────────────────────────────────────────────\r\n" +
-        "  buy  <amount>   Place a BUY order on the market\r\n" +
-        "  sell <amount>   Place a SELL order on the market\r\n" +
-        "  balance         Show your promissory note balance (USD)\r\n" +
-        "  id              Show your National ID and profile summary\r\n" +
-        "  status          Show full account status and trust level\r\n" +
-        "  crypto          Manage cryptographic keys (RSA/DSA/AES)\r\n" +
-        "  help            Show this command list\r\n" +
-        "  quit / exit     End this session\r\n" +
+        "  buy  <amount>             Place a BUY order on the market\r\n" +
+        "  sell <amount>             Place a SELL order on the market\r\n" +
+        "  balance                   Show your promissory note balance (USD)\r\n" +
+        "  id                        Show your National ID and profile summary\r\n" +
+        "  status                    Show full account status and trust level\r\n" +
+        "  crypto                    Manage cryptographic keys (RSA/DSA/AES)\r\n" +
+        "  set proxy <host> <port>   Set remote proxy (validated before storing)\r\n" +
+        "  show proxy                Show current proxy selection\r\n" +
+        "  clear proxy               Reset proxy to default (localhost)\r\n" +
+        "  help                      Show this command list\r\n" +
+        "  quit / exit               End this session\r\n" +
         "  ────────────────────────────────────────────────────";
 
     // ─────────────────────────────────────────────────────────────────────────

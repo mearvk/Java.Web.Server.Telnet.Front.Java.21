@@ -894,6 +894,89 @@ public class N21Store
             "used_memory_mb",     String.valueOf(USEDMB));
     }
 
+    // ── user_proxy_selections ─────────────────────────────────────────────────
+
+    public static void createUserProxySelectionsTable()
+    {
+        if (!dbOk()) return;
+        try
+        {
+            java.sql.Statement st = N21DataSource.get().createStatement();
+            st.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS user_proxy_selections (" +
+                "  id          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                "  national_id BIGINT UNSIGNED NOT NULL," +
+                "  proxy_host  VARCHAR(255)    NOT NULL," +
+                "  proxy_port  INT UNSIGNED    NOT NULL," +
+                "  active      TINYINT(1)      NOT NULL DEFAULT 1," +
+                "  created_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                "  updated_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
+                "  UNIQUE KEY uq_national_proxy (national_id)" +
+                ") ENGINE=InnoDB");
+            st.close();
+        }
+        catch (Exception e) { fail("user_proxy_selections", e); }
+    }
+
+    public static void storeProxySelection(final long NATIONAL_ID, final String HOST, final int PORT)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "INSERT INTO user_proxy_selections (national_id, proxy_host, proxy_port) VALUES (?,?,?) " +
+                    "ON DUPLICATE KEY UPDATE proxy_host=VALUES(proxy_host), proxy_port=VALUES(proxy_port), active=1");
+                ps.setLong(1, NATIONAL_ID);
+                ps.setString(2, HOST);
+                ps.setInt(3, PORT);
+                ps.executeUpdate(); ps.close();
+                return;
+            }
+            catch (Exception e) { fail("user_proxy_selections", e); }
+        }
+        N21XmlFallback.append("user_proxy_selections",
+            "national_id", String.valueOf(NATIONAL_ID), "proxy_host", HOST, "proxy_port", String.valueOf(PORT));
+    }
+
+    public static String[] loadProxySelection(final long NATIONAL_ID)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "SELECT proxy_host, proxy_port FROM user_proxy_selections WHERE national_id=? AND active=1");
+                ps.setLong(1, NATIONAL_ID);
+                java.sql.ResultSet rs = ps.executeQuery();
+                if (rs.next())
+                {
+                    String[] result = { rs.getString("proxy_host"), String.valueOf(rs.getInt("proxy_port")) };
+                    rs.close(); ps.close();
+                    return result;
+                }
+                rs.close(); ps.close();
+            }
+            catch (Exception e) { fail("user_proxy_selections", e); }
+        }
+        return null;
+    }
+
+    public static void clearProxySelection(final long NATIONAL_ID)
+    {
+        if (dbOk())
+        {
+            try
+            {
+                PreparedStatement ps = N21DataSource.get().prepareStatement(
+                    "UPDATE user_proxy_selections SET active=0 WHERE national_id=?");
+                ps.setLong(1, NATIONAL_ID);
+                ps.executeUpdate(); ps.close();
+            }
+            catch (Exception e) { fail("user_proxy_selections", e); }
+        }
+    }
+
     // ── helpers ───────────────────────────────────────────────────────────────
 
     /** Returns true only if a live DB connection can be obtained. */
