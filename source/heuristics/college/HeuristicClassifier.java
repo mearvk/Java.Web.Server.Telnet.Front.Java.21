@@ -18,7 +18,7 @@
  * @author Max Rupplin
  * @date June 08 2026 EST
  */
-package heuristics;
+package heuristics.college;
 
 import java.time.Instant;
 import java.util.*;
@@ -158,7 +158,9 @@ public class HeuristicClassifier
             try
             {
                 int delta = module.evaluate(event, findings);
+
                 score += Math.max(0, Math.min(delta, 100));
+
                 findings.add("MOD   [" + module.moduleName() + "] returned delta=" + delta);
             }
             catch (Exception e)
@@ -191,13 +193,14 @@ public class HeuristicClassifier
 
             if (count >= RATE_LIMIT)
             {
-                findings.add("WARN  IP " + event.ip + " made " + count + " connections in the last "
-                    + RATE_WINDOW_SECS + "s (threshold=" + RATE_LIMIT + ") — rate limited");
+                findings.add("WARN  IP " + event.ip + " made " + count + " connections in the last " + RATE_WINDOW_SECS + "s (threshold=" + RATE_LIMIT + ") — rate limited");
+
                 return 40;
             }
             else if (count >= RATE_LIMIT / 2)
             {
                 findings.add("INFO  IP " + event.ip + " connection count approaching limit (" + count + "/" + RATE_LIMIT + ")");
+
                 return 15;
             }
         }
@@ -209,16 +212,20 @@ public class HeuristicClassifier
     private int checkPortScan(final ConnectionEvent event, final List<String> findings)
     {
         Set<Integer> ports = ipPorts.computeIfAbsent(event.ip, k -> ConcurrentHashMap.newKeySet());
+
         ports.add(event.port);
+
         int distinct = ports.size();
 
         if (distinct >= PORT_SCAN_THRESHOLD)
         {
-            findings.add("WARN  IP " + event.ip + " has probed " + distinct + " distinct ports " + ports
-                + " — possible port scan");
+            findings.add("WARN  IP " + event.ip + " has probed " + distinct + " distinct ports " + ports + " — possible port scan");
+
             return 30;
         }
+
         findings.add("PASS  IP " + event.ip + " port probe count normal (" + distinct + ")");
+
         return 0;
     }
 
@@ -228,20 +235,25 @@ public class HeuristicClassifier
         if (event.countryCode == null || event.countryCode.isBlank())
         {
             findings.add("INFO  no geo-location data available for " + event.ip);
+
             return 0;
         }
 
         int total = totalConnections + 1; // +1 for current event
+
         int fromCountry = countryCount.getOrDefault(event.countryCode, 0) + 1;
+
         int pct = (fromCountry * 100) / total;
 
         if (pct >= GEO_CONCENTRATION && total > 5) // require minimum sample
         {
-            findings.add("WARN  " + pct + "% of connections originate from " + event.countryCode
-                + " (" + fromCountry + "/" + total + ") — geo concentration flag");
+            findings.add("WARN  " + pct + "% of connections originate from " + event.countryCode + " (" + fromCountry + "/" + total + ") — geo concentration flag");
+
             return 20;
         }
+
         findings.add("PASS  geo distribution normal for " + event.countryCode + " (" + pct + "%)");
+
         return 0;
     }
 
@@ -249,6 +261,23 @@ public class HeuristicClassifier
     private static final List<String> BAD_KEYWORDS = List.of(
         "exec(", "Runtime.getRuntime", "ProcessBuilder", "../", "passwd", "shadow",
         "<script>", "SELECT ", "DROP TABLE", "UNION SELECT"
+    );
+
+    // Patterns indicating large memory allocation attempts in submitted source/payload
+    private static final List<String> LARGE_ALLOC_PATTERNS = List.of(
+        "new byte[", "new int[", "new long[", "new char[", "new Object[",
+        "Integer.MAX_VALUE", "Long.MAX_VALUE", "1<<30", "1 << 30", "1<<31", "1 << 31"
+    );
+
+    // Patterns indicating spin loops
+    private static final List<String> SPIN_LOOP_PATTERNS = List.of(
+        "while(true)", "while (true)", "for(;;)", "for ( ; ; )", "for(; ;)",
+        "}while(true)", "} while (true)"
+    );
+
+    // System binary execution paths
+    private static final List<String> SYS_BINARY_PATTERNS = List.of(
+        "\"/usr/bin/", "\"/bin/", "\"/sbin/", "\"/usr/sbin/", "\"/usr/local/bin/", "exec(\"/"
     );
 
     private int checkPayload(final ConnectionEvent event, final List<String> findings)
@@ -261,6 +290,8 @@ public class HeuristicClassifier
 
         String lower = event.payload.toLowerCase();
         int penalty = 0;
+
+        // ── Standard bad keywords ─────────────────────────────────────────────
         for (String kw : BAD_KEYWORDS)
         {
             if (lower.contains(kw.toLowerCase()))
@@ -269,6 +300,48 @@ public class HeuristicClassifier
                 penalty += 15;
             }
         }
+
+        // ── Large memory allocation ───────────────────────────────────────────
+        for (String pat : LARGE_ALLOC_PATTERNS)
+        {
+            if (event.payload.contains(pat))
+            {
+                findings.add("WARN  payload contains large-allocation pattern: [" + pat + "] — possible memory exhaustion");
+                penalty += 20;
+                break;
+            }
+        }
+
+        // ── Spin loop ─────────────────────────────────────────────────────────
+        for (String pat : SPIN_LOOP_PATTERNS)
+        {
+            if (event.payload.contains(pat))
+            {
+                findings.add("WARN  payload contains spin-loop pattern: [" + pat + "] — possible CPU exhaustion");
+                penalty += 25;
+                break;
+            }
+        }
+
+        // ── System binary execution ───────────────────────────────────────────
+        for (String pat : SYS_BINARY_PATTERNS)
+        {
+            if (event.payload.contains(pat))
+            {
+                findings.add("WARN  payload references system binary path: [" + pat + "] — possible privilege escalation");
+                penalty += 30;
+                break;
+            }
+        }
+
+        // ── Constructor with loop (source-level pattern in payload) ───────────
+        if (event.payload.matches("(?s).*public\\s+\\w+\\s*\\([^)]*\\)\\s*\\{[^}]*(while|for\\s*\\(|do\\s*\\{)[^}]*\\}.*")
+            && !event.payload.contains("break") && !event.payload.contains("return"))
+        {
+            findings.add("WARN  payload contains a constructor with a loop and no visible exit — possible constructor hang");
+            penalty += 20;
+        }
+
         if (penalty == 0) findings.add("PASS  payload keyword scan clean");
         return penalty;
     }
@@ -355,6 +428,6 @@ public class HeuristicClassifier
         }
 
         /** Returns the individual finding lines (PASS / INFO / FAIL). */
-        public List<String> findings() { return findings; }
+        public java.util.List<String> findings() { return findings; }
     }
 }

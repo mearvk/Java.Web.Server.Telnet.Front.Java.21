@@ -3,6 +3,7 @@ package server.nitro.modules;
 import commons.CommonRails;
 import database.N21Store;
 import exceptions.ExceptionHandler;
+import heuristics.college.ModuleHeuristics;
 import server.nitro.NitroWebExpress;
 
 import java.io.*;
@@ -267,7 +268,7 @@ public class ModuleInstallationService extends Thread
 
                 Files.write(tmp, data);
 
-                heuristics.ModuleHeuristics.Result hr = heuristics.ModuleHeuristics.evaluate(tmp);
+                ModuleHeuristics.Result hr = ModuleHeuristics.evaluate(tmp);
 
                 Files.deleteIfExists(tmp);
 
@@ -279,7 +280,7 @@ public class ModuleInstallationService extends Thread
                 {
                     database.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject", SESSION.remoteIp, detectedType, byteCount, SIG_HEX, "", "heuristics-fail score=" + hr.score);
 
-                    return "[install] REJECTED — heuristics score " + hr.score + "/100 is below threshold (" + heuristics.ModuleHeuristics.PASS_THRESHOLD + "). See findings above.";
+                    return "[install] REJECTED — heuristics score " + hr.score + "/100 is below threshold (" + ModuleHeuristics.PASS_THRESHOLD + "). See findings above.";
                 }
             }
             catch (Exception hEx)

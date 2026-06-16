@@ -1,11 +1,11 @@
 package server.nitro;
 
+import heuristics.college.ModuleHeuristics;
 import server.nitro.modules.MySQLComponent;
 import server.nitro.modules.ConnectionStatusServer;
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
-import commons.color.ColorPalette;
 import commons.socket.SocketUtils;
 import connections.CurrentConnections;
 import exceptions.ExceptionHandler;
@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -35,8 +34,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HexFormat;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
@@ -441,7 +438,7 @@ public class NitroWebExpress extends WebExpress
 
                         Files.write(tmp, data);
 
-                        heuristics.ModuleHeuristics.Result hr = heuristics.ModuleHeuristics.evaluate(tmp);
+                        ModuleHeuristics.Result hr = ModuleHeuristics.evaluate(tmp);
 
                         Files.deleteIfExists(tmp);
 
@@ -453,7 +450,7 @@ public class NitroWebExpress extends WebExpress
                         {
                             database.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject", SESSION.remoteIp, detectedType, byteCount, SIG_HEX, "", "heuristics-fail score=" + hr.score);
 
-                            return "[install] REJECTED — heuristics score " + hr.score + "/100 is below threshold (" + heuristics.ModuleHeuristics.PASS_THRESHOLD + "). See findings above.";
+                            return "[install] REJECTED — heuristics score " + hr.score + "/100 is below threshold (" + ModuleHeuristics.PASS_THRESHOLD + "). See findings above.";
                         }
                     }
                     catch (Exception hEx)

@@ -1,4 +1,4 @@
-package heuristics;
+package heuristics.college;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,8 +16,7 @@ import java.util.zip.ZipInputStream;
  * findings.  A score >= PASS_THRESHOLD (70) is considered suitable for install.
  * Callers may also call the individual check methods directly.
  *
- * Supported types: .jar  .zip  .java  .exe  .bat  .sh  .py
- * Executable modules (.exe, .bat, .sh, .py) are always run as non-root.
+ * Supported types: .jar  .zip  .java  (raw source)
  * The C companion (linux/c/heuristics/ModuleHeuristics.c) handles binary/native
  * module inspection before they are wrapped and submitted from C-side tooling.
  */
@@ -43,7 +42,7 @@ public class ModuleHeuristics
         }
         else
         {
-            findings.add("FAIL unrecognised file type — must be .jar, .zip, .java, .exe, .bat, .sh, or .py");
+            findings.add("FAIL unrecognised file type — must be .jar, .zip, or .java");
             return new Result(0, findings); // no point continuing
         }
 
@@ -72,13 +71,9 @@ public class ModuleHeuristics
         // ── 4. Type-specific content checks ───────────────────────────────────
         switch (type)
         {
-            case "jar"  -> score += checkJar(data, findings);
-            case "zip"  -> score += checkZip(data, findings);
+            case "jar" -> score += checkJar(data, findings);
+            case "zip" -> score += checkZip(data, findings);
             case "java" -> score += checkJavaSource(data, findings);
-            case "exe"  -> score += checkExecutable(name, findings);
-            case "bat"  -> score += checkScript(data, name, findings);
-            case "sh"   -> score += checkScript(data, name, findings);
-            case "py"   -> score += checkScript(data, name, findings);
         }
 
         // ── 5. Name is sane (+5) ──────────────────────────────────────────────
@@ -197,78 +192,123 @@ public class ModuleHeuristics
             FINDINGS.add("OK   no obvious process-execution patterns");
         }
 
+        // ── Security checks (source-level) ────────────────────────────────────
+        bonus += checkSourceSecurity(src, FINDINGS);
+
         return bonus;
     }
-
-    /** Returns bonus score for a .exe binary (PE format). */
-    private static int checkExecutable(final String NAME, final List<String> FINDINGS)
-    {
-        int bonus = 20;
-        FINDINGS.add("OK   PE executable detected: " + NAME);
-        FINDINGS.add("INFO will execute as non-root user");
-        return bonus;
-    }
-
-    /** Returns bonus score for script files (.bat, .sh, .py). */
-    private static int checkScript(final byte[] DATA, final String NAME, final List<String> FINDINGS)
-    {
-        int bonus = 0;
-        String src = new String(DATA, 0, Math.min(DATA.length, 4096));
-
-        if (!src.isBlank())
-        {
-            bonus += 20;
-            FINDINGS.add("OK   script has content: " + NAME);
-        }
-        else
-        {
-            FINDINGS.add("WARN script is blank");
-        }
-
-        // Flag dangerous patterns
-        if (src.contains("rm -rf") || src.contains("mkfs") || src.contains("dd if=") || src.contains(":(){"))
-        {
-            FINDINGS.add("WARN script contains potentially destructive commands — review before installing");
-        }
-        else
-        {
-            bonus += 10;
-            FINDINGS.add("OK   no obvious destructive patterns");
-        }
-
-        FINDINGS.add("INFO will execute as non-root user");
-        return bonus;
-    }
-
-    // ── Execution helper ──────────────────────────────────────────────────────
 
     /**
-     * Launches a module file as a non-root subprocess.
-     * All executable types (.exe via wine, .bat via cmd, .sh via bash, .py via python3)
-     * are run under the current non-root user — never elevated.
-     *
-     * @return the started Process (caller manages lifecycle)
+     * Four security checks applied to raw Java source text.
+     * Returns score bonus (positive = safer); each failure subtracts from the
+     * outer score by returning a negative delta clamped at the call site.
      */
-    public static Process executeAsNonRoot(final Path PATH) throws IOException
+    private static int checkSourceSecurity(final String SRC, final List<String> FINDINGS)
     {
-        String name = PATH.getFileName().toString().toLowerCase();
-        String abs  = PATH.toAbsolutePath().toString();
+        int delta = 0;
 
-        String[] cmd;
-        if (name.endsWith(".exe"))       cmd = new String[]{"wine", abs};
-        else if (name.endsWith(".bat"))   cmd = new String[]{"cmd", "/c", abs};
-        else if (name.endsWith(".sh"))    cmd = new String[]{"bash", abs};
-        else if (name.endsWith(".py"))    cmd = new String[]{"python3", abs};
-        else throw new IOException("Unsupported executable type: " + name);
-
-        ProcessBuilder pb = new ProcessBuilder(cmd);
-        pb.redirectErrorStream(true);
-        // Ensure we never run as root
-        if ("root".equals(System.getProperty("user.name")))
+        // ── 1. Large memory allocation ────────────────────────────────────────
+        // Flag new byte/int/long arrays > 100 MB expressed as literals, and
+        // patterns like new byte[Integer.MAX_VALUE] or allocation sizes > 1<<26.
+        if (SRC.contains("new byte[") || SRC.contains("new int[") || SRC.contains("new long[")
+            || SRC.contains("new char[") || SRC.contains("new Object["))
         {
-            throw new SecurityException("Refusing to execute module as root — switch to a non-root user");
+            // Look for literals ≥ 100_000_000 or MAX_VALUE patterns
+            if (SRC.matches("(?s).*new\\s+\\w+\\[\\s*(\\d{9,}|Integer\\.MAX_VALUE|Long\\.MAX_VALUE)\\s*].*")
+                || SRC.contains("1 << 30") || SRC.contains("1<<30")
+                || SRC.contains("1 << 31") || SRC.contains("1<<31"))
+            {
+                FINDINGS.add("WARN source allocates a very large array (possible memory exhaustion)");
+                delta -= 20;
+            }
+            else
+            {
+                FINDINGS.add("OK   no large-literal array allocations detected");
+            }
         }
-        return pb.start();
+        else
+        {
+            FINDINGS.add("OK   no large array allocation patterns detected");
+        }
+
+        // ── 2. Spin-loop detection ────────────────────────────────────────────
+        // Patterns: while(true), for(;;), do{...}while(true), Thread.sleep(0)
+        // inside a tight loop — flag any of these without an obvious break/return.
+        boolean hasSpinLoop =
+            SRC.contains("while(true)") || SRC.contains("while (true)")
+            || SRC.contains("for(;;)")  || SRC.contains("for ( ; ; )")
+            || SRC.contains("for(; ;)") || SRC.contains("while(1)")
+            || (SRC.contains("do {") && SRC.contains("} while (true)"))
+            || (SRC.contains("do{")  && SRC.contains("}while(true)"));
+
+        if (hasSpinLoop)
+        {
+            // Slightly less severe if a break or return is also present nearby
+            if (SRC.contains("break") || SRC.contains("return") || SRC.contains("Thread.sleep"))
+            {
+                FINDINGS.add("INFO source contains a bounded loop construct — verify it terminates");
+                delta -= 10;
+            }
+            else
+            {
+                FINDINGS.add("WARN source contains an unconditional spin loop with no obvious exit — possible CPU exhaustion");
+                delta -= 25;
+            }
+        }
+        else
+        {
+            FINDINGS.add("OK   no obvious spin-loop patterns");
+        }
+
+        // ── 3. System binary execution (exec /usr/bin/... etc.) ───────────────
+        // Catches: exec("/usr/bin/"), exec("/bin/"), exec("/sbin/"),
+        //          new ProcessBuilder("/usr/bin/"), Runtime.exec with path literals.
+        if (SRC.contains("\"/usr/bin/") || SRC.contains("\"/bin/")
+            || SRC.contains("\"/sbin/") || SRC.contains("\"/usr/sbin/")
+            || SRC.contains("\"/usr/local/bin/") || SRC.contains("exec(\"/")
+            || SRC.matches("(?s).*Runtime\\.getRuntime\\(\\)\\.exec\\(\\s*\"[/\\\\].*"))
+        {
+            FINDINGS.add("WARN source references system binary execution paths — potential privilege escalation");
+            delta -= 30;
+        }
+        else
+        {
+            FINDINGS.add("OK   no system binary execution paths detected");
+        }
+
+        // ── 4. Expensive / near-infinite constructor loops ────────────────────
+        // Look for loop constructs directly inside a constructor body:
+        // pattern: public ClassName(...) { ... while/for ... }
+        // We scan for constructors that contain loop keywords without breaks.
+        boolean constructorWithLoop = false;
+        java.util.regex.Matcher ctorMatcher = java.util.regex.Pattern
+            .compile("public\\s+\\w+\\s*\\([^)]*\\)\\s*\\{([^}]{0,2000})", java.util.regex.Pattern.DOTALL)
+            .matcher(SRC);
+        while (ctorMatcher.find())
+        {
+            String body = ctorMatcher.group(1);
+            boolean hasLoop =  body.contains("while") || body.contains("for(")
+                             || body.contains("for (") || body.contains("do {");
+            boolean hasExit = body.contains("break") || body.contains("return")
+                             || body.contains("throw") || body.contains("Thread.sleep");
+            if (hasLoop && !hasExit)
+            {
+                constructorWithLoop = true;
+                break;
+            }
+        }
+
+        if (constructorWithLoop)
+        {
+            FINDINGS.add("WARN source has a constructor containing a loop with no visible exit — possible constructor hang");
+            delta -= 20;
+        }
+        else
+        {
+            FINDINGS.add("OK   no dangerous constructor loop patterns detected");
+        }
+
+        return delta;
     }
 
     // ── Type detection ────────────────────────────────────────────────────────
@@ -283,14 +323,6 @@ public class ModuleHeuristics
             String header = new String(DATA, 0, Math.min(DATA.length, 512));
             return header.contains("META-INF") ? "jar" : "zip";
         }
-
-        // PE executable magic: MZ
-        if (DATA[0] == 0x4D && DATA[1] == 0x5A && NAME.endsWith(".exe")) return "exe";
-
-        // Script types by extension
-        if (NAME.endsWith(".bat")) return "bat";
-        if (NAME.endsWith(".sh"))  return "sh";
-        if (NAME.endsWith(".py"))  return "py";
 
         // Java source — check extension and content
         if (NAME.endsWith(".java"))

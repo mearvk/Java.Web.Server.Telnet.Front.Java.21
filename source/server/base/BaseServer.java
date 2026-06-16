@@ -4,7 +4,7 @@ import commons.CommonRails;
 import configuration.NitroWebExpressConfig;
 import connections.*;
 import exceptions.ExceptionHandler;
-import heuristics.HeuristicClassifier;
+import heuristics.college.HeuristicClassifier;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
