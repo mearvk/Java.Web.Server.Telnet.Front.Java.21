@@ -239,6 +239,15 @@ public class NationalFinanceIDFeeder
                 write(CONN, line + " < Disconnected from proxy relay. Back to local.");
                 logSessionEvent(NFID.nationalId, "disconnect", "", 0);
             }
+            else if (cmd.startsWith("set method http"))
+            {
+                write(CONN, line + " < " + handleSetHttpMethod(CONN, input));
+            }
+            else if (cmd.equals("break method"))
+            {
+                CONN.httpMethod = null;
+                write(CONN, line + " < ✔  HTTP method unset — reverted to raw binary passthrough.");
+            }
             else if (cmd.startsWith("set protocol"))
             {
                 write(CONN, line + " < " + handleSetProtocol(CONN, input));
@@ -250,9 +259,11 @@ public class NationalFinanceIDFeeder
             }
             else
             {
-                // Wrap message in selected protocol before sending
+                // Wrap message in selected protocol or HTTP method before sending
                 String outMsg = input;
-                if (CONN.protocol != null)
+                if (CONN.httpMethod != null)
+                    outMsg = wrapInHttpMethod(CONN.httpMethod, input, CONN);
+                else if (CONN.protocol != null)
                     outMsg = wrapInProtocol(CONN.protocol, input, CONN);
                 write(CONN, line + " < " + trade(outMsg, NFID));
             }
@@ -483,6 +494,9 @@ public class NationalFinanceIDFeeder
         "  id                        Show your National ID and profile summary\r\n" +
         "  status                    Show full account status and trust level\r\n" +
         "  crypto                    Manage cryptographic keys (RSA/DSA/AES)\r\n" +
+        "  set method http get       Wrap messages in HTTP GET packets\r\n" +
+        "  set method http post      Wrap messages in HTTP POST packets\r\n" +
+        "  break method              Unset HTTP method, revert to raw binary\r\n" +
         "  set proxy <host> <port>   Set remote proxy (validated before storing)\r\n" +
         "  show proxy                Show current proxy selection\r\n" +
         "  clear proxy               Reset proxy to default (localhost)\r\n" +
@@ -626,6 +640,43 @@ public class NationalFinanceIDFeeder
     private static final java.util.Set<String> SUPPORTED_PROTOCOLS = java.util.Set.of(
         "HTTP", "HTTPS", "FTP", "SSH", "SMTP", "POP3", "IMAP", "RAW"
     );
+
+    /**
+     * Handles "set method http get" / "set method http post".
+     */
+    private static String handleSetHttpMethod(final Connection CONN, final String INPUT)
+    {
+        String[] parts = INPUT.trim().split("\\s+");
+        if (parts.length < 4)
+            return "Usage: set method http <get|post>";
+
+        String method = parts[3].toUpperCase();
+        if (!method.equals("GET") && !method.equals("POST"))
+            return "✗  Unsupported HTTP method '" + parts[3] + "'. Use: get | post";
+
+        CONN.httpMethod = method;
+        return "✔  HTTP method set to " + method + ". Messages will be encapsulated in HTTP " + method + " packets. Use 'break method' to revert.";
+    }
+
+    /**
+     * Wraps user message inside an HTTP GET or POST packet.
+     */
+    private static String wrapInHttpMethod(final String METHOD, final String MESSAGE, final Connection CONN)
+    {
+        String host = "localhost";
+        if (CONN.internet_address != null)
+            host = CONN.internet_address.getHostAddress();
+
+        if ("GET".equals(METHOD))
+        {
+            return "GET / HTTP/1.1\r\nHost: " + host + "\r\nConnection: keep-alive\r\n\r\n";
+        }
+        else // POST
+        {
+            int len = MESSAGE.length();
+            return "POST / HTTP/1.1\r\nHost: " + host + "\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: " + len + "\r\nConnection: keep-alive\r\n\r\n" + MESSAGE;
+        }
+    }
 
     /**
      * Handles "set protocol <name>" — sets the session protocol for message wrapping.

@@ -51,6 +51,9 @@ public class Connection implements AutoCloseable
     /** Active session protocol (HTTP, HTTPS, FTP, etc.) — null means RAW/no wrapping. */
     public String protocol;
 
+    /** Active HTTP method (GET, POST) — null means raw binary passthrough. */
+    public String httpMethod;
+
     public telnet.TelnetLineEditor lineEditor;
 
     public Connection()

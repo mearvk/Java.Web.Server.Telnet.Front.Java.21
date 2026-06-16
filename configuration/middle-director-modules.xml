@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Middle Director Module Configuration
+    =====================================
+    Defines the synchronization modules for finance and target goals
+    consumed on port 8888.
+-->
+<middle-director port="8888">
+    <module name="ShortHops" class="middle.director.ShortHopsModule"
+            description="Short-range finance synchronization hops between middle nodes"/>
+    <module name="MediumHops" class="middle.director.MediumHopsModule"
+            description="Medium-range goal synchronization across regional nodes"/>
+    <module name="ThoughtsAsGoals" class="middle.director.ThoughtsAsGoalsModule"
+            description="Converts thought patterns into actionable finance goals"/>
+    <module name="FinalMediumHops" class="middle.director.FinalMediumHopsModule"
+            description="Final medium-range hops before national module delivery"/>
+    <module name="GamesAsGoals" class="middle.director.GamesAsGoalsModule"
+            description="Gamified goal tracking and achievement synchronization"/>
+    <module name="AuditorContent" class="middle.director.AuditorContentModule"
+            description="Auditor content verification and goal compliance"/>
+
+    <targets>
+        <target type="middle" description="Forward to other middle nodes on port 8888"/>
+        <target type="national" description="Forward to final NWE installations on port 49152"/>
+    </targets>
+</middle-director>
