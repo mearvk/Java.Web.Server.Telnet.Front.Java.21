@@ -281,3 +281,43 @@ CONFIGURATION FILES
   configuration/final-medium-hops-commodities.xml — FinalMediumHops research commodities.
   configuration/games-as-goals-sketches.xml       — GamesAsGoals .mdmd sketch config.
   configuration/transfer-contacts.xml             — Transfer of Summary contact registry.
+
+
+STANDALONE COMPONENTS  (not part of NWE — independently downloadable)
+----------------------------------------------------------------------
+  standalone/
+    nwe-module-installer.jar   — Standalone module installer. Listens on port 8888.
+                                 Accepts modules only from verified NWE (public.key check).
+                                 SHA-256 verified before install. COPY feature for replication.
+    NWEModuleInstaller.java    — Source.
+    build.sh / run.sh          — Build and run scripts.
+
+  apache/
+    nwe-key-listener           — Standalone C executable. Listens port 80.
+    nwe-key-listener.c         — Source (requires libcurl + libssl).
+                                 Phase 1: Accepts public.key POST, verifies against GitHub.
+                                 Phase 2: Accepts JAR from verified IP, checks PK magic + SHA-256,
+                                          installs to /opt/nwe/, opens port 8888, launches JAR.
+                                 30-minute timeout if no valid key received.
+
+    modules/
+      mod_nwe_key.c            — Apache2 drop-in module (same logic as standalone).
+      mod_nwe_key.so           — Compiled shared object (.libs/).
+      build-module.sh          — Build + install + enable script (requires sudo).
+                                 Endpoints: POST /nwe-key-listener/handshake
+                                            POST /nwe-key-listener/install
+
+  suggestions/
+    TECHNICAL.md               — Technical architecture suggestions.
+    SECURITY.md                — Security recommendations.
+    MANAGEMENT.md              — Management and operations suggestions.
+    COMPLETION.md              — Session work completed / remaining items.
+
+
+DATABASE TABLES — BITCOIN
+--------------------------
+  bitcoin_wallets_v24..v30    — Indexed wallet files (name, size, BTC, USD, blob, SHA-256).
+                                Original data. Never modified by trades.
+  bitcoin_trades_v24..v30     — Trade records (national_id, wallet, amount, USD, date, author).
+  bitcoin_wallet_sessions     — Active wallet selection per NationalID (session persistence).
+  distribution_license        — Edition flag + immutable rank (PEE=8, NDE=6, INT=4, FREE=4).
