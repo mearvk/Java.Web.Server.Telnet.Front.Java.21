@@ -11,7 +11,8 @@
     <module name="MediumHops" class="middle.director.MediumHopsModule"
             description="Medium-range goal synchronization across regional nodes"/>
     <module name="ThoughtsAsGoals" class="middle.director.ThoughtsAsGoalsModule"
-            description="Converts thought patterns into actionable finance goals"/>
+            config="configuration/thoughts-as-goals-trades.xml"
+            description="Trades about weights and notions that cool to formulations; rated weighted value capture"/>
     <module name="FinalMediumHops" class="middle.director.FinalMediumHopsModule"
             description="Final medium-range hops before national module delivery"/>
     <module name="GamesAsGoals" class="middle.director.GamesAsGoalsModule"

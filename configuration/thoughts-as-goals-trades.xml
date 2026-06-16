@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Thoughts As Goals Module — Trade Captures
+    ===========================================
+    Trades about weights and notions that cool to formulations
+    for further review. Thought capture and weighted value rating.
+-->
+<thoughts-as-goals>
+    <trade name="WeightedNotion" type="formulation"
+           description="Weighted notion that cools to a formulation for further review"/>
+    <trade name="Formulation" type="formulation"
+           description="Exact formulation derived from weighted trade notion"/>
+    <trade name="SexTrade" type="rated"
+           description="Women as they trade in sex — rated and weighted value captured"/>
+    <trade name="RatedValue" type="rated"
+           description="Weighted value rating upon a captured thought or trade"/>
+    <trade name="ThoughtCapture" type="capture"
+           description="Raw thought captured for goal conversion and persistence"/>
+    <trade name="CoolNotion" type="formulation"
+           description="Notion that has exactly cooled to stable formulation state"/>
+</thoughts-as-goals>
