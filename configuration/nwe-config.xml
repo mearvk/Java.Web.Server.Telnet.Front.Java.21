@@ -311,6 +311,22 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         TRANSFER SUMMARY MAILER
+         Sends Transfer of Summary document to registered contacts.
+         Requires sendmail or mailutils+postfix on the server.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="TRANSFER_SUMMARY_MAILER">
+        <enabled>true</enabled>
+        <name>TransferSummaryMailer</name>
+        <contacts-file>configuration/transfer-contacts.xml</contacts-file>
+        <description>
+            Sends the Transfer of Summary (transfer.document.title) to all
+            contacts in the contacts XML via sendmail/mailx. Run manually
+            via scripts/send-transfer-summary.sh or enabled at boot.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          OBJECT HASHCODE OVERRIDES
          Admins may set fixed Object IDs for well-known classes.
          These appear in the [Object ID: XXXXXXXXXX] field of system output.
