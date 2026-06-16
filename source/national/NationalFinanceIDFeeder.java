@@ -263,10 +263,13 @@ public class NationalFinanceIDFeeder
         logSessionEvent(NFID.nationalId, "connect_proxy", host, port);
         write(CONN, "  Connected to proxy " + host + ":" + port + ". Type 'disconnect' to return.");
 
-        try (java.net.Socket proxy = new java.net.Socket())
+        java.net.Socket proxy = null;
+        try
         {
-            proxy.connect(new java.net.InetSocketAddress(host, port), 3000);
-            proxy.setSoTimeout(3000);
+            proxy = new java.net.Socket();
+            proxy.connect(new java.net.InetSocketAddress(host, port), 5000);
+            proxy.setKeepAlive(true);
+            proxy.setSoTimeout(2000);
 
             java.io.OutputStream proxyOut = proxy.getOutputStream();
             java.io.InputStream proxyIn = proxy.getInputStream();
@@ -286,13 +289,12 @@ public class NationalFinanceIDFeeder
                 proxyOut.write(toSend.getBytes());
                 proxyOut.flush();
 
-                // Read response (up to 4096 bytes, with timeout)
-                Thread.sleep(200); // brief wait for response
-                byte[] buf = new byte[4096];
-                int avail = proxyIn.available();
-                if (avail > 0)
+                // Read response — keep trying until timeout (normal, not fatal)
+                Thread.sleep(200);
+                try
                 {
-                    int n = proxyIn.read(buf, 0, Math.min(avail, buf.length));
+                    byte[] buf = new byte[4096];
+                    int n = proxyIn.read(buf);
                     if (n > 0)
                     {
                         String ts = java.time.Instant.now().toString();
@@ -302,11 +304,16 @@ public class NationalFinanceIDFeeder
                             write(CONN, "    " + line);
                         logSessionEvent(NFID.nationalId, "proxy_response", host, port);
                     }
+                    else if (n == -1)
+                    {
+                        write(CONN, "  [remote closed connection]");
+                        logSessionEvent(NFID.nationalId, "proxy_remote_closed", host, port);
+                        break;
+                    }
                 }
-                else
+                catch (java.net.SocketTimeoutException timeout)
                 {
-                    write(CONN, "  [no response]");
-                    logSessionEvent(NFID.nationalId, "proxy_no_response", host, port);
+                    write(CONN, "  [no response within timeout — connection still open]");
                 }
             }
         }
@@ -314,6 +321,10 @@ public class NationalFinanceIDFeeder
         {
             logSessionEvent(NFID.nationalId, "proxy_error", host, port);
             return "✗  Proxy connection lost: " + e.getMessage();
+        }
+        finally
+        {
+            try { if (proxy != null && !proxy.isClosed()) proxy.close(); } catch (Exception ignored) {}
         }
 
         return "✔  Disconnected from proxy. Back to local.";
@@ -402,7 +413,7 @@ public class NationalFinanceIDFeeder
             proxy.connect(new java.net.InetSocketAddress(host, port), 3000);
             proxy.setSoTimeout(3000);
             java.io.OutputStream out = proxy.getOutputStream();
-            out.write(("GET / HTTP/1.0\r\nHost: " + host + "\r\nConnection: close\r\n\r\n").getBytes());
+            out.write(("GET / HTTP/1.1\r\nHost: " + host + "\r\nConnection: keep-alive\r\n\r\n").getBytes());
             out.flush();
 
             java.io.InputStream in = proxy.getInputStream();

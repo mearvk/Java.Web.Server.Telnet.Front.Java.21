@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    NWE Protocol Handlers Registry
+    ===============================
+    Maps well-known ports to their expected protocol and provides
+    request templates so user messages are wrapped automatically.
+
+    Updated at runtime when new well-known ports are discovered.
+-->
+<protocol-handlers>
+    <handler port="80" protocol="HTTP" tls="false">
+        <probe>HEAD / HTTP/1.0\r\nHost: {host}\r\nConnection: close\r\n\r\n</probe>
+        <expect>HTTP/</expect>
+        <template>GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n</template>
+    </handler>
+    <handler port="443" protocol="HTTPS" tls="true">
+        <probe>HEAD / HTTP/1.0\r\nHost: {host}\r\nConnection: close\r\n\r\n</probe>
+        <expect>HTTP/</expect>
+        <template>GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n</template>
+    </handler>
+    <handler port="21" protocol="FTP" tls="false">
+        <probe></probe>
+        <expect>220</expect>
+        <template>USER {user}\r\nPASS {pass}\r\n</template>
+    </handler>
+    <handler port="22" protocol="SSH" tls="false">
+        <probe></probe>
+        <expect>SSH-</expect>
+        <template></template>
+    </handler>
+    <handler port="25" protocol="SMTP" tls="false">
+        <probe></probe>
+        <expect>220</expect>
+        <template>EHLO {host}\r\nMAIL FROM:&lt;{from}&gt;\r\nRCPT TO:&lt;{to}&gt;\r\nDATA\r\n{message}\r\n.\r\nQUIT\r\n</template>
+    </handler>
+    <handler port="110" protocol="POP3" tls="false">
+        <probe></probe>
+        <expect>+OK</expect>
+        <template>USER {user}\r\nPASS {pass}\r\nLIST\r\nQUIT\r\n</template>
+    </handler>
+    <handler port="143" protocol="IMAP" tls="false">
+        <probe></probe>
+        <expect>* OK</expect>
+        <template>a1 LOGIN {user} {pass}\r\na2 SELECT INBOX\r\na3 LOGOUT\r\n</template>
+    </handler>
+    <handler port="3306" protocol="MySQL" tls="false">
+        <probe></probe>
+        <expect>\x00</expect>
+        <template></template>
+    </handler>
+    <handler port="6379" protocol="Redis" tls="false">
+        <probe>PING\r\n</probe>
+        <expect>+PONG</expect>
+        <template>{command}\r\n</template>
+    </handler>
+    <handler port="8080" protocol="HTTP-ALT" tls="false">
+        <probe>HEAD / HTTP/1.0\r\nHost: {host}\r\nConnection: close\r\n\r\n</probe>
+        <expect>HTTP/</expect>
+        <template>GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n</template>
+    </handler>
+</protocol-handlers>
