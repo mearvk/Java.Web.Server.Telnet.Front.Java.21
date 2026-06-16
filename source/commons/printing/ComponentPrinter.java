@@ -18,7 +18,8 @@ public final class ComponentPrinter {
         String simple = owner.getClass().getSimpleName();
         String padded = padClassname(simple);
 
-        String hashStr = String.format("%010d", hash);
+        int resolvedHash = configuration.HashCodeRegistry.resolve(owner);
+        String hashStr = String.format("%010d", resolvedHash);
         String coloredHash = ColorResolver.resolveCategoryColor(simple) + hashStr + ColorPalette.OID_DEFAULT;
 
         String date = timestamp();

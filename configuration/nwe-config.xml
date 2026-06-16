@@ -252,4 +252,21 @@
         <description>Production Bitcoin remote target.</description>
     </remote-server>
 
+    <!-- ═══════════════════════════════════════════════════════════════════
+         OBJECT HASHCODE OVERRIDES
+         Admins may set fixed Object IDs for well-known classes.
+         These appear in the [Object ID: XXXXXXXXXX] field of system output.
+         Format: <entry class="SimpleClassName">integer_value</entry>
+    ════════════════════════════════════════════════════════════════════ -->
+    <hashcodes>
+        <entry class="NitroWebExpress">0195600860</entry>
+        <entry class="MessageQueueSorter">1343441044</entry>
+        <entry class="MessageQueue">0762660330</entry>
+        <entry class="HeuristicClassifier">0481230099</entry>
+        <entry class="ConnectionPoller">0553219871</entry>
+        <entry class="Communicator">0617340022</entry>
+        <entry class="BinaryHttpServer">0889912345</entry>
+        <entry class="WeatherServer">0721100456</entry>
+    </hashcodes>
+
 </nwe-config>

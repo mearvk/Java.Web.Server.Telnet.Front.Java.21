@@ -191,6 +191,9 @@ public class NationalFinanceIDFeeder
                 write(CONN, "  ║  Your effort today builds a better tomorrow.             ║");
                 write(CONN, "  ╚══════════════════════════════════════════════════════════╝");
                 write(CONN, "");
+                // Close the telnet session
+                try { if (CONN.SOCKET != null && !CONN.SOCKET.isClosed()) CONN.SOCKET.close(); }
+                catch (Exception ignored) {}
                 break;
             }
 
@@ -277,8 +280,10 @@ public class NationalFinanceIDFeeder
                     break;
                 }
 
-                // Send to proxy
-                proxyOut.write((userInput + "\r\n").getBytes());
+                // Send to proxy — wrap in protocol framing if well-known port
+                String toSend = configuration.ProtocolHandlerRegistry.wrapMessage(
+                    port, userInput, java.util.Map.of("host", host, "path", "/"));
+                proxyOut.write(toSend.getBytes());
                 proxyOut.flush();
 
                 // Read response (up to 4096 bytes, with timeout)
@@ -373,6 +378,18 @@ public class NationalFinanceIDFeeder
         catch (Exception e)
         {
             return "✗  Cannot connect to " + host + ":" + port + " — " + e.getMessage() + ". Keeping default.";
+        }
+
+        // Verify the remote is running the expected protocol for well-known ports
+        configuration.ProtocolHandlerRegistry.ProtocolHandler ph =
+            configuration.ProtocolHandlerRegistry.get(port);
+        if (ph != null)
+        {
+            boolean protocolOk = configuration.ProtocolHandlerRegistry.verify(host, port);
+            if (protocolOk)
+                write(CONN, "  ✔  Protocol verified: " + ph.protocol + " on port " + port);
+            else
+                write(CONN, "  ⚠  Port " + port + " connected but did not confirm " + ph.protocol + " protocol.");
         }
 
         // Store selection
