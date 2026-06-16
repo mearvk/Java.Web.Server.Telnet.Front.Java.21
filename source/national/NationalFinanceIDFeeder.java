@@ -248,6 +248,10 @@ public class NationalFinanceIDFeeder
                 CONN.httpMethod = null;
                 write(CONN, line + " < ✔  HTTP method unset — reverted to raw binary passthrough.");
             }
+            else if (bitcoin.module.BitcoinWalletSession.isBitcoinCommand(cmd))
+            {
+                write(CONN, line + " < " + bitcoin.module.BitcoinWalletSession.handle(input, CONN, NFID));
+            }
             else if (cmd.startsWith("set protocol"))
             {
                 write(CONN, line + " < " + handleSetProtocol(CONN, input));
@@ -494,6 +498,12 @@ public class NationalFinanceIDFeeder
         "  id                        Show your National ID and profile summary\r\n" +
         "  status                    Show full account status and trust level\r\n" +
         "  crypto                    Manage cryptographic keys (RSA/DSA/AES)\r\n" +
+        "  bitcoin                   Show available Bitcoin wallet versions\r\n" +
+        "  bitcoin <version>         List wallets for version (24-30)\r\n" +
+        "  set wallet.name <name>    Select a wallet for trading\r\n" +
+        "  unset wallet.name         Deselect wallet\r\n" +
+        "  show wallet               Show active wallet selection\r\n" +
+        "  trade btc <amount>        Trade BTC from selected wallet\r\n" +
         "  set method http get       Wrap messages in HTTP GET packets\r\n" +
         "  set method http post      Wrap messages in HTTP POST packets\r\n" +
         "  break method              Unset HTTP method, revert to raw binary\r\n" +
