@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Transfer of Summary — Contact Registry
+    ========================================
+    Contacts for the movement who receive the transfer document.
+    Maintained by MEARVK LLC.
+-->
+<transfer-contacts>
+    <document>
+        <title>Transfer of Summary — Java National Finance Engine Software Value (United States)</title>
+        <author>Max Rupplin — MEARVK LLC</author>
+        <date>2026-06-16</date>
+        <subject>Software asset valuation and transfer summary for NWE installations across US</subject>
+    </document>
+
+    <contacts>
+        <contact>
+            <name>Max Rupplin</name>
+            <email>mearvk@mearvk.us</email>
+            <email-alt>mearvk@outlook.com</email-alt>
+            <phone></phone>
+            <state>California</state>
+            <location>Apple Valley, CA</location>
+            <nationalId></nationalId>
+            <role>Owner</role>
+        </contact>
+        <!-- Add additional contacts below -->
+        <!--
+        <contact>
+            <name></name>
+            <email></email>
+            <phone></phone>
+            <state></state>
+            <location></location>
+            <nationalId></nationalId>
+            <role></role>
+        </contact>
+        -->
+    </contacts>
+</transfer-contacts>

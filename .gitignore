@@ -44,6 +44,10 @@ build/
 ### Secrets ###
 psychiatry/secrets/secret.key
 
+### Transfer Documents ###
+source/confermary/transfer.document.title
+source/confermary/
+
 ### Large logs ###
 logging/exceptions.log
 logging/archive/
