@@ -49,6 +49,7 @@ public class MessageQueueSorter extends Thread
                         {
                             if (SocketUtils.isConnected(message.SOCKET)
                                     && this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY != null
+                                    && this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.isProxyAlive()
                                     && this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.writer != null)
                             {
                                 BufferedWriter writer = this.WEBEXPRESS.TELNET_COMMUNICATION_PROXY.writer;

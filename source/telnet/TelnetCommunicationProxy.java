@@ -63,19 +63,8 @@ public class TelnetCommunicationProxy
     /** Returns true when the backing process is alive and the writer pipe is open. */
     public boolean isProxyAlive()
     {
-        try
-        {
-            if (this.process == null || !this.process.isAlive()) return false;
-
-            if (this.writer != null) this.writer.flush();
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            ExceptionHandler.dispatch(e);
-            return false;
-        }
+        if (this.process == null || !this.process.isAlive()) return false;
+        return this.writer != null;
     }
 
     public static class TelnetProxyCommunicator extends Thread

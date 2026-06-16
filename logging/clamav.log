@@ -5517,3 +5517,9 @@ ERROR: Update failed.
 LibClamAV Warning: ***  The virus database is older than 7 days!  ***
 LibClamAV Warning: ***   Please update it as soon as possible.    ***
 LibClamAV Warning: **************************************************
+[2026-06-15T23:25:29.750897902] freshclam update (exit=10)
+ClamAV update process started at Mon Jun 15 23:25:29 2026
+ERROR: Can't create temporary directory /usr/local/share/clamav/tmp.64678089c8
+Hint: The database directory must be writable for UID 1000 or GID 1000
+ERROR: Update failed.
+
