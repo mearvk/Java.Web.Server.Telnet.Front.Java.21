@@ -163,6 +163,9 @@ public class Main
             if (NitroWebExpressConfig.isEnabled("ANTIVIRUS"))
                 new antivirus.AntivirusScanner().start();
 
+            if (NitroWebExpressConfig.isEnabled("BITCOIN_WALLET_INDEXER"))
+                Thread.ofVirtual().name("BitcoinWalletIndexer").start(() -> new bitcoin.module.BitcoinWalletIndexer().indexAll());
+
             NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();
 
             NITRO.BRIDGE.MYSQL_COMPONENT.print(this);

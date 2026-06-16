@@ -293,6 +293,24 @@
     </remote-server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         BITCOIN WALLET INDEXER
+         Scans /bitcoin/{24-30} wallet directories, computes values
+         (100 BTC per ~2MB @ $20T USD each), signs with SHA-256
+         (secret.key as salt), and inserts into version-specific MySQL tables.
+         Enable for installers/admins/business executives who need wallet indexing.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="BITCOIN_WALLET_INDEXER">
+        <enabled>true</enabled>
+        <name>BitcoinWalletIndexer</name>
+        <description>
+            Indexes all wallet data in /bitcoin/{24-30} into MySQL tables
+            (bitcoin_wallets_v24 through bitcoin_wallets_v30). Each ~2MB of
+            wallet equates to $20T USD. SHA-256 signed with secret.key salt.
+            Author: Max Ruppln - Clear 21 Branch US Military.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          OBJECT HASHCODE OVERRIDES
          Admins may set fixed Object IDs for well-known classes.
          These appear in the [Object ID: XXXXXXXXXX] field of system output.
