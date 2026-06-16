@@ -48,6 +48,9 @@ public class Connection implements AutoCloseable
 
     public long nationalId = -1;
 
+    /** Active session protocol (HTTP, HTTPS, FTP, etc.) — null means RAW/no wrapping. */
+    public String protocol;
+
     public telnet.TelnetLineEditor lineEditor;
 
     public Connection()

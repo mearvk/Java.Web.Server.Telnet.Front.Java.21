@@ -239,9 +239,22 @@ public class NationalFinanceIDFeeder
                 write(CONN, line + " < Disconnected from proxy relay. Back to local.");
                 logSessionEvent(NFID.nationalId, "disconnect", "", 0);
             }
+            else if (cmd.startsWith("set protocol"))
+            {
+                write(CONN, line + " < " + handleSetProtocol(CONN, input));
+            }
+            else if (cmd.equals("show protocol"))
+            {
+                String p = CONN.protocol != null ? CONN.protocol : "RAW (no protocol wrapping)";
+                write(CONN, line + " < Protocol: " + p);
+            }
             else
             {
-                write(CONN, line + " < " + trade(input, NFID));
+                // Wrap message in selected protocol before sending
+                String outMsg = input;
+                if (CONN.protocol != null)
+                    outMsg = wrapInProtocol(CONN.protocol, input, CONN);
+                write(CONN, line + " < " + trade(outMsg, NFID));
             }
             line++;
         }
@@ -607,4 +620,82 @@ public class NationalFinanceIDFeeder
     private static int    parseInt(final String S, final int DEF)     { try { return Integer.parseInt(S.replaceAll("[^\\d]","")); } catch (Exception e) { return DEF; } }
     private static double parseDouble(final String S, final double D) { try { return Double.parseDouble(S); }                       catch (Exception e) { return D;   } }
     private static String defaultStr(final String S, final String D)  { return (S == null || S.isEmpty()) ? D : S; }
+
+    // ── Protocol selection ────────────────────────────────────────────────────
+
+    private static final java.util.Set<String> SUPPORTED_PROTOCOLS = java.util.Set.of(
+        "HTTP", "HTTPS", "FTP", "SSH", "SMTP", "POP3", "IMAP", "RAW"
+    );
+
+    /**
+     * Handles "set protocol <name>" — sets the session protocol for message wrapping.
+     * Supported: HTTP, HTTPS, FTP, SSH, SMTP, POP3, IMAP, RAW (no wrapping).
+     */
+    private static String handleSetProtocol(final Connection CONN, final String INPUT)
+    {
+        String[] parts = INPUT.trim().split("\\s+");
+        if (parts.length < 3)
+            return "Usage: set protocol <HTTP|HTTPS|FTP|SSH|SMTP|POP3|IMAP|RAW>";
+
+        String proto = parts[2].toUpperCase();
+        if (!SUPPORTED_PROTOCOLS.contains(proto))
+            return "✗  Unknown protocol '" + proto + "'. Supported: " + SUPPORTED_PROTOCOLS;
+
+        if ("RAW".equals(proto))
+        {
+            CONN.protocol = null;
+            return "✔  Protocol cleared — messages sent raw (no wrapping).";
+        }
+
+        CONN.protocol = proto;
+        return "✔  Protocol set to " + proto + ". All messages will be wrapped accordingly.";
+    }
+
+    /**
+     * Wraps user message in the selected protocol framing.
+     * HTTP/HTTPS: GET / HTTP/1.1\r\nHost: {host}\r\n\r\n{message}\r\n\r\n
+     * Others: delegated to ProtocolHandlerRegistry template.
+     */
+    private static String wrapInProtocol(final String PROTOCOL, final String MESSAGE, final Connection CONN)
+    {
+        String host = "localhost";
+        if (CONN.internet_address != null)
+            host = CONN.internet_address.getHostAddress();
+
+        switch (PROTOCOL)
+        {
+            case "HTTP", "HTTPS" ->
+            {
+                return "GET / HTTP/1.1\r\nHost: " + host + "\r\n\r\n" + MESSAGE + "\r\n\r\n";
+            }
+            default ->
+            {
+                // Use ProtocolHandlerRegistry template if available
+                java.util.Map<String, String> params = new java.util.HashMap<>();
+                params.put("host", host);
+                params.put("path", "/");
+                params.put("command", MESSAGE);
+                // Find port for this protocol from the registry
+                configuration.ProtocolHandlerRegistry.ProtocolHandler ph = findByProtocol(PROTOCOL);
+                if (ph != null)
+                    return configuration.ProtocolHandlerRegistry.wrapMessage(ph.port, MESSAGE, params);
+                return MESSAGE;
+            }
+        }
+    }
+
+    /** Lookup a protocol handler by protocol name rather than port. */
+    private static configuration.ProtocolHandlerRegistry.ProtocolHandler findByProtocol(final String PROTOCOL)
+    {
+        // Check well-known port mappings
+        int port = switch (PROTOCOL) {
+            case "FTP"  -> 21;
+            case "SSH"  -> 22;
+            case "SMTP" -> 25;
+            case "POP3" -> 110;
+            case "IMAP" -> 143;
+            default     -> -1;
+        };
+        return port > 0 ? configuration.ProtocolHandlerRegistry.get(port) : null;
+    }
 }

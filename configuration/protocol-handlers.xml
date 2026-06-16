@@ -58,4 +58,22 @@
         <expect>HTTP/</expect>
         <template>GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n</template>
     </handler>
+    <!--
+        HTTP Method Commands
+        ====================
+        "set method http get"  - wraps subsequent user messages in an HTTP GET request
+        "set method http post" - wraps subsequent user messages in an HTTP POST request body
+        "break method"         - unsets HTTP method, reverts to raw binary passthrough
+    -->
+    <method-commands>
+        <command name="set method http get">
+            <template>GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: keep-alive\r\n\r\n</template>
+        </command>
+        <command name="set method http post">
+            <template>POST {path} HTTP/1.1\r\nHost: {host}\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: {content-length}\r\nConnection: keep-alive\r\n\r\n{message}</template>
+        </command>
+        <command name="break method">
+            <description>Unsets active HTTP method, returns to raw binary passthrough</description>
+        </command>
+    </method-commands>
 </protocol-handlers>
