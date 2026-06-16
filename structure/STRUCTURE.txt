@@ -1,17 +1,18 @@
 JAVA NATIONAL FINANCE ENGINE — STRUCTURE
 =========================================
-Version:  2811.3.1
-Date:     2026-06-15
+Version:  2911.14.1
+Date:     2026-06-16
 Owner:    Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
 
 
 VERSION RATIONALE
 -----------------
-  2811   — Matches the engine version printed at startup (v.2811.1); major release series.
-     3   — Third minor: Lanterna terminal menu GUI with port bridging on 49200.
+  2911   — Major release series.
+    14   — Minor: Middle director modules, Bitcoin wallet indexer, standalone
+           installer components, Apache key listener, distribution licensing.
      1   — First patch of this minor series.
 
-Full semver: 2811.2.1
+Full semver: 2911.14.1
 
 
 SOURCE PACKAGES  (source/)
