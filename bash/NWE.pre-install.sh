@@ -111,6 +111,12 @@ else
     warn "python3 not found — XML wellness check script will not work"
 fi
 
+if command -v sendmail &>/dev/null || command -v mail &>/dev/null; then
+    ok "Mail agent found (sendmail/mailx)"
+else
+    warn "No mail agent — TransferSummaryMailer requires: sudo apt install mailutils postfix"
+fi
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
 echo "=== Pre-Install Summary ==="

@@ -173,6 +173,12 @@ SOURCE PACKAGES  (source/)
                                  always approves after annotation. Held trades released here.
                                  Codes: source/middle/director/auditor-codes.csvmd
 
+  communicator/
+    Communicator
+    TransferSummaryMailer — Sends Transfer of Summary to contacts via sendmail/mailx.
+                            Contacts loaded from configuration/transfer-contacts.xml.
+                            Script: scripts/send-transfer-summary.sh
+
   lanterna/
     TerminalMenu          — Lanterna GUI menu on port 49200; presents bordered buttons for
                             each service in the 49152 port series. Telnet clients connect,
@@ -218,6 +224,7 @@ SCRIPTS  (scripts/)
 --------------------
   startup.sh            — Start the server.
   shutdown.sh           — Silent SIGTERM → sleep 2 → SIGKILL on all server ports.
+  send-transfer-summary.sh — Send Transfer of Summary to contacts (requires mail agent).
   N21.table.builder.sh  — Create database N21 and all application tables.
   mysql.install.sh      — MySQL installation helper.
   github.binary.classes.sh
@@ -273,3 +280,4 @@ CONFIGURATION FILES
   configuration/thoughts-as-goals-trades.xml      — ThoughtsAsGoals trade definitions.
   configuration/final-medium-hops-commodities.xml — FinalMediumHops research commodities.
   configuration/games-as-goals-sketches.xml       — GamesAsGoals .mdmd sketch config.
+  configuration/transfer-contacts.xml             — Transfer of Summary contact registry.
