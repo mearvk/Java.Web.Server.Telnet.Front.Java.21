@@ -165,6 +165,8 @@ public class Main
 
             if (NitroWebExpressConfig.isEnabled("BITCOIN_WALLET_INDEXER"))
                 Thread.ofVirtual().name("BitcoinWalletIndexer").start(() -> new bitcoin.module.BitcoinWalletIndexer().indexAll());
+            else
+                bitcoin.module.BitcoinWalletIndexer.seedDefaults();
 
             NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();
 
