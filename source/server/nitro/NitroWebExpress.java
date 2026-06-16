@@ -149,7 +149,6 @@ public class NitroWebExpress extends WebExpress
             this.WEBEXPRESS = WEBEXPRESS;
 
             this.WHITE_AUDITOR_TASKING = new whiteauditor.WhiteAuditorTasking(NitroWebExpress.WEBEXPRESS_COMPLIANT_HOSTNAME);
-
         }
 
         // ── Module loading infrastructure ─────────────────────────────────────
@@ -219,10 +218,13 @@ public class NitroWebExpress extends WebExpress
                 try
                 {
                     Files.createDirectories(INSTALL_DIR);
+
                     database.N21Store.createModuleLoaderTable();
+
                     SERVER_SOCKET = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". ModuleInstallationService listening on port " + PORT + " .");
+
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService listening on port " + PORT + " .");
+
                     while (!Thread.currentThread().isInterrupted())
                     {
                         Socket client = SERVER_SOCKET.accept();
