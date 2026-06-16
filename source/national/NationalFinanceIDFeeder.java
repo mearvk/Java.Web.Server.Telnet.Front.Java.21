@@ -175,7 +175,24 @@ public class NationalFinanceIDFeeder
         for (;;)
         {
             String input = prompt(CONN, line + " > ");
-            if (input == null || input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) break;
+            if (input == null || input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit"))
+            {
+                // Clean shutdown: log disconnect, clear proxy state, print MOTD
+                logSessionEvent(NFID.nationalId, "quit", "", 0);
+                N21Store.clearProxySelection(NFID.nationalId);
+                write(CONN, "");
+                write(CONN, "  ╔══════════════════════════════════════════════════════════╗");
+                write(CONN, "  ║  Thank you for using the N21 National Finance System.    ║");
+                write(CONN, "  ║                                                          ║");
+                write(CONN, "  ║  \"The strength of a nation lies in the homes of its      ║");
+                write(CONN, "  ║   people.\" — Abraham Lincoln                             ║");
+                write(CONN, "  ║                                                          ║");
+                write(CONN, "  ║  Stay focused. Work hard. Help your neighbor.            ║");
+                write(CONN, "  ║  Your effort today builds a better tomorrow.             ║");
+                write(CONN, "  ╚══════════════════════════════════════════════════════════╝");
+                write(CONN, "");
+                break;
+            }
 
             // Single system component print per input received (green/OID_MESSAGING)
             commons.CommonRails.printSystemComponent(MSG_OWNER, MSG_OWNER.hashCode(),
