@@ -35,6 +35,9 @@ public final class ColorResolver {
         if (low.contains("liveness") || low.contains("monitor"))
             return ColorPalette.OID_LIVENESS;
 
+        if (low.contains("heuristic") || low.contains("classifier"))
+            return ColorPalette.COLOR_YELLOW;
+
         return ColorPalette.OID_DEFAULT;
     }
 }

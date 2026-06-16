@@ -159,6 +159,10 @@ public class NationalFinanceIDFeeder
     // National ID Finance prompt — runs after login for both new and returning users
     // ─────────────────────────────────────────────────────────────────────────
 
+    // Named class so ColorResolver sees "MessageHandler" → OID_MESSAGING (green)
+    private static final class MessageHandler { }
+    private static final MessageHandler MSG_OWNER = new MessageHandler();
+
     private static void financePrompt(final Connection CONN, final NationalFinanceID NFID)
     {
         // Ensure proxy table exists
@@ -172,6 +176,10 @@ public class NationalFinanceIDFeeder
         {
             String input = prompt(CONN, line + " > ");
             if (input == null || input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) break;
+
+            // Single system component print per input received (green/OID_MESSAGING)
+            commons.CommonRails.printSystemComponent(MSG_OWNER, MSG_OWNER.hashCode(),
+                "49152 >> receives [" + input.trim() + "] from NID " + NFID.nationalId + ".");
 
             String cmd = input.trim().toLowerCase();
 

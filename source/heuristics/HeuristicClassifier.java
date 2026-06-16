@@ -413,13 +413,15 @@ public class HeuristicClassifier
         public String summary()
         {
             StringBuilder sb = new StringBuilder();
-            sb.append("HeuristicClassifier [IP=").append(event.ip)
+            sb.append("HEURISTICCLASSIFIER [IP=").append(event.ip)
               .append(" port=").append(event.port)
               .append(" country=").append(event.countryCode)
               .append("] score=").append(score).append("/100 — ")
-              .append(threat ? "THREAT" : "CLEAR").append('\n');
-            for (String f : findings) sb.append("  ").append(f).append('\n');
-            return sb.toString().stripTrailing();
+              .append(threat ? "THREAT" : "CLEAR");
+            return sb.toString();
         }
+
+        /** Returns the individual finding lines (PASS / INFO / FAIL). */
+        public java.util.List<String> findings() { return findings; }
     }
 }

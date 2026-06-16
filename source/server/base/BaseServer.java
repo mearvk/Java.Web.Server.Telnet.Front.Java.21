@@ -176,6 +176,8 @@ public abstract class BaseServer extends Thread
                             .build();
                     HeuristicClassifier.Classification result = HEURISTIC.classify(event);
                     CommonRails.printSystemComponent(this, this.hashCode(), result.summary());
+                    for (String finding : result.findings())
+                        CommonRails.printSystemComponent(HEURISTIC, HEURISTIC.hashCode(), finding);
                     if (result.threat)
                     {
                         connection.SOCKET.close();

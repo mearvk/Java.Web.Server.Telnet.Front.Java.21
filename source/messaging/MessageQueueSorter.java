@@ -45,12 +45,6 @@ public class MessageQueueSorter extends Thread
                     {
                         MessageQueue.Message message = message_queue.MESSAGES.remove(0);
 
-                        // Audit trail: log the message to the telnet proxy writer.
-                        // ConnectionPoller.handleSession() has already completed the full
-                        // HTTP round-trip directly (Socket → tacobell.phd:80 → client), so
-                        // the sorter must NOT attempt a second read from the shared proxy
-                        // reader here — doing so would block waiting on a stream that has
-                        // already delivered its response and is now idle/closed.
                         try
                         {
                             if (SocketUtils.isConnected(message.SOCKET)
@@ -64,13 +58,10 @@ public class MessageQueueSorter extends Thread
                                 writer.write("[IP Address]: "+ message.INTERNET_ADDRESS + "\n");
                                 writer.write("[Socket]: "   + message.SOCKET            + "\n");
                                 writer.flush();
-
-                                CommonRails.printSystemComponent(this, this.hashCode(),
-                                    ". MessageQueueSorter >> audit logged to proxy writer for "
-                                    + message.INTERNET_ADDRESS + " .");
                             }
 
-                            message_queue.remove(message);
+                            CommonRails.printSystemComponent(this, this.hashCode(),
+                                ". MessageQueueSorter >> processed [" + message.MESSAGE_BUFFER.toString().trim() + "] from " + message.INTERNET_ADDRESS + " .");
                         }
                         catch (SocketTimeoutException ste)
                         {
@@ -80,8 +71,6 @@ public class MessageQueueSorter extends Thread
                         catch (IOException e)
                         {
                             ExceptionHandler.dispatch(e);
-                            CommonRails.printSystemComponent(this, this.hashCode(),
-                                ". MessageQueueSorter socket closed for " + message.INTERNET_ADDRESS + " .");
                         }
                     }
                 }
@@ -96,11 +85,7 @@ public class MessageQueueSorter extends Thread
 
     public synchronized void addMessage(final MessageQueue.Message MESSAGE)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage MESSAGE queue size before "+this.getMessageQueueSize()+" .");
-
         this.WEBEXPRESS.MESSAGE_QUEUE.add(MESSAGE);
-
-        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage MESSAGE queue size after "+this.getMessageQueueSize()+" .");
     }
 
     public synchronized MessageQueue getMessageQueue()

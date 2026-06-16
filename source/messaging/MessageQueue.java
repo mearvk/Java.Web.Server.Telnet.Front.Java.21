@@ -73,7 +73,8 @@ public class MessageQueue
 
     public synchronized void add(final Message MESSAGE)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),"MessageQueue add >> receives ["+MESSAGE.MESSAGE_BUFFER.toString()+"].");
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            "MESSAGEQUEUE add >> receives [" + MESSAGE.MESSAGE_BUFFER.toString().trim() + "].");
 
         this.MESSAGES.add(MESSAGE);
         this.notifyAll();
