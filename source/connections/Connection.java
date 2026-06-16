@@ -43,6 +43,8 @@ public class Connection implements AutoCloseable
 
     public Boolean IS_TELNET_EXCELSIOR_CONNECTED = Boolean.FALSE;
 
+    public long nationalId = -1;
+
     public Connection()
     {
         this.inception_date = new Date();

@@ -70,7 +70,8 @@ public class ConnectionPoller extends Thread
             CONNECTION.writer = new java.io.BufferedWriter(
                 new java.io.OutputStreamWriter(CONNECTION.SOCKET.getOutputStream()));
 
-            national.NationalFinanceIDFeeder.greet(CONNECTION);
+            national.NationalFinanceID nfid = national.NationalFinanceIDFeeder.greet(CONNECTION);
+            if (nfid != null) CONNECTION.nationalId = nfid.nationalId;
 
             // 1. Read remaining client input with bounded timeout
             StringBuilder BUFFER = new StringBuilder();
@@ -105,19 +106,32 @@ public class ConnectionPoller extends Thread
 
             if(BUFFER.length() == 0) return;
 
-            // 2. Send a sample HTTP GET to tacobell.phd:80 and stream the reply back to the client
+            // 2. Send a sample HTTP GET — use per-user proxy if set, otherwise default
+            String proxyHost = WebExpress.REMOTE_SITE;
+            int    proxyPort = Integer.parseInt(WebExpress.REMOTE_PORT);
+
+            if (CONNECTION.nationalId > 0)
+            {
+                String[] userProxy = database.N21Store.loadProxySelection(CONNECTION.nationalId);
+                if (userProxy != null)
+                {
+                    proxyHost = userProxy[0];
+                    proxyPort = Integer.parseInt(userProxy[1]);
+                }
+            }
+
             try(java.net.Socket proxy = new java.net.Socket())
             {
-                proxy.connect(new java.net.InetSocketAddress(WebExpress.REMOTE_SITE, Integer.parseInt(WebExpress.REMOTE_PORT)), PROXY_READ_TIMEOUT_MS);
+                proxy.connect(new java.net.InetSocketAddress(proxyHost, proxyPort), PROXY_READ_TIMEOUT_MS);
                 proxy.setSoTimeout(PROXY_READ_TIMEOUT_MS);
 
                 java.io.OutputStream proxyOut = proxy.getOutputStream();
-                String httpRequest = "GET / HTTP/1.0\r\nHost: " + WebExpress.REMOTE_SITE + "\r\nConnection: close\r\n\r\n";
+                String httpRequest = "GET / HTTP/1.0\r\nHost: " + proxyHost + "\r\nConnection: close\r\n\r\n";
                 proxyOut.write(httpRequest.getBytes());
                 proxyOut.flush();
 
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    "WebExpress SessionHandler >> forwarded HTTP GET to " + WebExpress.REMOTE_SITE + ":" + WebExpress.REMOTE_PORT + ".");
+                    "WebExpress SessionHandler >> forwarded HTTP GET to " + proxyHost + ":" + proxyPort + ".");
 
                 java.io.OutputStream clientOut = CONNECTION.SOCKET.getOutputStream();
                 byte[] chunk = new byte[4096];
