@@ -230,7 +230,7 @@ public class ConnectionPoller extends Thread
                 for(int i = 0; i < CURRENT_CONNECTIONS.size(); i++)
                 {
                     if(this.WEBEXPRESS == null || this.WEBEXPRESS.CURRENT_CONNECTIONS == null)
-                        throw new SecurityException("//bodi/exceptions");
+                        throw new commons.security.BodiSecurityException("//bodi/exceptions", Thread.currentThread().getStackTrace()[1]);
 
                     CurrentConnections CONNECTIONS = this.WEBEXPRESS.CURRENT_CONNECTIONS;
 

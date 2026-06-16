@@ -39,7 +39,7 @@ public class BinaryHttpServer extends Thread
 
     public BinaryHttpServer(final String HOST)
     {
-        if (HOST == null) throw new SecurityException("//bodi/connect");
+        if (HOST == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
         this.HOST = HOST;
         this.setName("BinaryHttpServer");
         this.setDaemon(true);

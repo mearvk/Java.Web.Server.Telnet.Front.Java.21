@@ -33,7 +33,7 @@ public class DSACompliant extends WebExpress {
         super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
 
         if (HOST == null || PORT == null || THREAD_NAME == null || TELNET_PROXY_ENABLED == null)
-            throw new SecurityException("//bodi/connect");
+            throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         this.HOST = HOST;
         this.PORT = PORT;
@@ -70,14 +70,14 @@ public class DSACompliant extends WebExpress {
         }
 
         public void send_message(final String MESSAGE) {
-            if (MESSAGE == null) throw new SecurityException("//bodi/connect");
+            if (MESSAGE == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
             messaging.MessageOutputHandler h =
                     new messaging.MessageOutputHandler(SOCKET, MESSAGE);
             h.run();
         }
 
         public void send_message(final StringBuffer BUFFER) {
-            if (BUFFER == null) throw new SecurityException("//bodi/connect");
+            if (BUFFER == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
             messaging.MessageOutputHandler h =
                     new messaging.MessageOutputHandler(SOCKET, BUFFER);
             h.run();

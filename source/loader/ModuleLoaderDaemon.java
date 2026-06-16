@@ -60,7 +60,7 @@ public class ModuleLoaderDaemon extends Thread
 
     public ModuleLoaderDaemon(final String HOST)
     {
-        if (HOST == null) throw new SecurityException("//bodi/connect");
+        if (HOST == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
         this.HOST = HOST;
         this.setName(THREAD_NAME);
         this.setDaemon(true);

@@ -27,7 +27,7 @@ public class BitcoinCompliant extends WebExpress
 
     public BitcoinCompliant(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
     {
-        if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED==null) throw new SecurityException("//bodi/connect");
+        if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
 
@@ -62,7 +62,7 @@ public class BitcoinCompliant extends WebExpress
 
         public void send_message(final StringBuffer BUFFER)
         {
-            if(BUFFER==null) throw new SecurityException("//bodi/connect");
+            if(BUFFER==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
             messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, BUFFER);
 
@@ -71,7 +71,7 @@ public class BitcoinCompliant extends WebExpress
 
         public void send_message(final String MESSAGE)
         {
-            if(MESSAGE==null) throw new SecurityException("//bodi/connect");
+            if(MESSAGE==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
             messaging.MessageOutputHandler message_output_handler = new messaging.MessageOutputHandler(SOCKET, MESSAGE);
 
@@ -87,7 +87,7 @@ public class BitcoinCompliant extends WebExpress
 
         public MessageQueueSorter(final WebExpress WEB_EXPRESS)
         {
-            if(WEB_EXPRESS==null) throw new SecurityException("//bodi/connect");
+            if(WEB_EXPRESS==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
             this.WEB_EXPRESS = WEB_EXPRESS;
 
@@ -228,7 +228,7 @@ public class BitcoinCompliant extends WebExpress
 
         public synchronized void addMessage(final MessageQueue.Message MESSAGE)
         {
-            if(MESSAGE==null) throw new SecurityException("//bodi/connect");
+            if(MESSAGE==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
             CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress addMessage MESSAGE queue size before "+this.getMessageQueueSize()+" .");
 

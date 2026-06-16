@@ -51,7 +51,7 @@ public class ConnectionStatusServer extends Thread
                                   final int WATCHEDPORT)
     {
         if (HOST == null || WATCHED == null)
-            throw new SecurityException("//bodi/connect");
+            throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         if (WATCHEDPORT <= 0 || WATCHEDPORT > 65535)
             throw new IllegalArgumentException("Invalid WATCHEDPORT: " + WATCHEDPORT);

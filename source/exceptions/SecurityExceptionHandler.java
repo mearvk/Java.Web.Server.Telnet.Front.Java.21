@@ -48,7 +48,12 @@ public class SecurityExceptionHandler implements ExceptionListener
 
     private void logSecurityEvent(final ExceptionRecord RECORD)
     {
-        System.err.println("[SECURITY] " + Instant.now() + " | " + "Type=" + RECORD.EXCEPTION().getClass().getSimpleName() + " | " + "Message=" + RECORD.EXCEPTION().getMessage() + " | " + "Origin=" + RECORD.ORIGIN());
+        Throwable ex = RECORD.EXCEPTION();
+        String type = ex.getClass().getSimpleName();
+        String detail = (ex instanceof commons.security.BodiSecurityException bse)
+            ? type + " at=" + bse.getRelatedStackCall() + " time=" + bse.getTimestamp()
+            : type;
+        System.err.println("[SECURITY] " + Instant.now() + " | " + "Type=" + detail + " | " + "Message=" + ex.getMessage() + " | " + "Origin=" + RECORD.ORIGIN());
     }
 
     private void triggerSecurityAlert(final ExceptionRecord RECORD)

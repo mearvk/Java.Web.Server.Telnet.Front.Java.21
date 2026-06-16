@@ -29,7 +29,7 @@ public class WeatherServer extends Thread
 
     public WeatherServer(final String HOST)
     {
-        if (HOST == null) throw new SecurityException("//bodi/connect");
+        if (HOST == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
         this.HOST = HOST;
         this.setName("WeatherServer");
         this.setDaemon(true);

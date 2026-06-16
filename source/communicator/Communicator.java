@@ -60,7 +60,7 @@ public class Communicator extends Thread
 
     public Communicator(final String host)
     {
-        if (host == null) throw new SecurityException("//bodi/connect");
+        if (host == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
         this.HOST = host;
         this.setName("Communicator");
         this.setDaemon(true);

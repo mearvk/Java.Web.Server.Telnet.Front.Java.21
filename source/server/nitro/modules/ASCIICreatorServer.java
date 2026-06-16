@@ -20,7 +20,7 @@ public class ASCIICreatorServer extends Thread
 
     public ASCIICreatorServer(final String HOST)
     {
-        if (HOST == null) throw new SecurityException("//bodi/connect");
+        if (HOST == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         this.HOST = HOST;
 

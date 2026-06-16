@@ -49,7 +49,7 @@ public abstract class BaseServer extends Thread
 
     public BaseServer(final String HOST, final Integer PORT)
     {
-        if(HOST==null || PORT ==null) throw new SecurityException("//bodi/connect");
+        if(HOST==null || PORT ==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         this.HOST = HOST;
 
@@ -97,7 +97,7 @@ public abstract class BaseServer extends Thread
 
     public BaseServer(final Integer PORT)
     {
-        if(PORT ==null) throw new SecurityException("//bodi/connect");
+        if(PORT ==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         this.PORT = PORT;
 

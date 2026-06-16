@@ -34,7 +34,7 @@ public class AIProctorModule extends Thread
     private ServerSocket serverSocket;
 
     public AIProctorModule(final String host) {
-        if (host == null) throw new SecurityException("//bodi/connect");
+        if (host == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
         this.HOST = host;
         this.setName("AIProctorModule");
         this.setDaemon(true);

@@ -142,11 +142,6 @@ public class NitroWebExpress extends WebExpress
             if (NitroWebExpress.SELF     != null) NitroWebExpress.SELF.start();
         }
 
-
-
-
-
-
         public Aspect(final WebExpress WEBEXPRESS)
         {
             if(WEBEXPRESS==null) throw new SecurityException("//bodi/connect");

@@ -23,7 +23,7 @@ public class AESCompliant extends WebExpress
     public AESCompliant(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
     {
         if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED==null)
-            throw new SecurityException("//bodi/connect");
+            throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         super(HOST, PORT, THREAD_NAME, TELNET_PROXY_ENABLED);
 
@@ -56,7 +56,7 @@ public class AESCompliant extends WebExpress
 
         public void send_message(final StringBuffer BUFFER)
         {
-            if(BUFFER==null) throw new SecurityException("//bodi/connect");
+            if(BUFFER==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
             messaging.MessageOutputHandler message_output_handler =
                     new messaging.MessageOutputHandler(SOCKET, BUFFER);

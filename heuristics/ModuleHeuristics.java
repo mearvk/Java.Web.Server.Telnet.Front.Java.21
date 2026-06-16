@@ -266,7 +266,7 @@ public class ModuleHeuristics
         // Ensure we never run as root
         if ("root".equals(System.getProperty("user.name")))
         {
-            throw new SecurityException("Refusing to execute module as root — switch to a non-root user");
+            throw new commons.security.BodiSecurityException("Refusing to execute module as root — switch to a non-root user", Thread.currentThread().getStackTrace()[1]);
         }
         return pb.start();
     }

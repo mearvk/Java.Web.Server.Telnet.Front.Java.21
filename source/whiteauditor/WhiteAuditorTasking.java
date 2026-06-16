@@ -41,7 +41,7 @@ public class WhiteAuditorTasking extends Thread
 
     public WhiteAuditorTasking(final String host)
     {
-        if (host == null) throw new SecurityException("//bodi/connect");
+        if (host == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         this.HOST = host;
 

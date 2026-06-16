@@ -28,7 +28,7 @@ public class ModuleInstallationService extends Thread
 
     public ModuleInstallationService(final String HOST)
     {
-        if (HOST == null) throw new SecurityException("//bodi/connect");
+        if (HOST == null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         this.HOST = HOST;
 
