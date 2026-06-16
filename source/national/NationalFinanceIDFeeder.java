@@ -173,21 +173,23 @@ public class NationalFinanceIDFeeder
             String input = prompt(CONN, line + " > ");
             if (input == null || input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) break;
 
-            if (input.trim().toLowerCase().startsWith("crypto"))
+            String cmd = input.trim().toLowerCase();
+
+            if (cmd.startsWith("crypto"))
             {
                 cryptoPrompt(CONN, NFID);
                 write(CONN, line + " < Returned from crypto management.");
             }
-            else if (input.trim().toLowerCase().startsWith("set proxy"))
+            else if (cmd.startsWith("set proxy"))
             {
                 write(CONN, line + " < " + handleSetProxy(CONN, input, NFID));
             }
-            else if (input.trim().toLowerCase().startsWith("clear proxy"))
+            else if (cmd.startsWith("clear proxy"))
             {
                 N21Store.clearProxySelection(NFID.nationalId);
                 write(CONN, line + " < Proxy cleared. Using default (localhost).");
             }
-            else if (input.trim().toLowerCase().startsWith("show proxy"))
+            else if (cmd.startsWith("show proxy"))
             {
                 String[] sel = N21Store.loadProxySelection(NFID.nationalId);
                 if (sel != null)
@@ -195,12 +197,121 @@ public class NationalFinanceIDFeeder
                 else
                     write(CONN, line + " < No proxy set (using default localhost).");
             }
+            else if (cmd.equals("connect proxy"))
+            {
+                write(CONN, line + " < " + enterProxyMode(CONN, NFID));
+            }
+            else if (cmd.equals("connect local"))
+            {
+                write(CONN, line + " < Mode: local (49152 server). All input handled here.");
+                logSessionEvent(NFID.nationalId, "connect_local", "localhost", 49152);
+            }
+            else if (cmd.equals("disconnect"))
+            {
+                write(CONN, line + " < Disconnected from proxy relay. Back to local.");
+                logSessionEvent(NFID.nationalId, "disconnect", "", 0);
+            }
             else
             {
                 write(CONN, line + " < " + trade(input, NFID));
             }
             line++;
         }
+    }
+
+    /**
+     * Enter proxy relay mode — forwards all user input to the remote proxy
+     * and streams responses back until user types "disconnect".
+     */
+    private static String enterProxyMode(final Connection CONN, final NationalFinanceID NFID)
+    {
+        String[] sel = N21Store.loadProxySelection(NFID.nationalId);
+        if (sel == null)
+            return "✗  No proxy configured. Use 'set proxy <host> <port>' first.";
+
+        String host = sel[0];
+        int port = Integer.parseInt(sel[1]);
+
+        logSessionEvent(NFID.nationalId, "connect_proxy", host, port);
+        write(CONN, "  Connected to proxy " + host + ":" + port + ". Type 'disconnect' to return.");
+
+        try (java.net.Socket proxy = new java.net.Socket())
+        {
+            proxy.connect(new java.net.InetSocketAddress(host, port), 3000);
+            proxy.setSoTimeout(3000);
+
+            java.io.OutputStream proxyOut = proxy.getOutputStream();
+            java.io.InputStream proxyIn = proxy.getInputStream();
+
+            for (;;)
+            {
+                String userInput = prompt(CONN, "proxy> ");
+                if (userInput == null || userInput.equalsIgnoreCase("disconnect"))
+                {
+                    logSessionEvent(NFID.nationalId, "disconnect", host, port);
+                    break;
+                }
+
+                // Send to proxy
+                proxyOut.write((userInput + "\r\n").getBytes());
+                proxyOut.flush();
+
+                // Read response (up to 4096 bytes, with timeout)
+                Thread.sleep(200); // brief wait for response
+                byte[] buf = new byte[4096];
+                int avail = proxyIn.available();
+                if (avail > 0)
+                {
+                    int n = proxyIn.read(buf, 0, Math.min(avail, buf.length));
+                    if (n > 0)
+                    {
+                        String ts = java.time.Instant.now().toString();
+                        String response = new String(buf, 0, n);
+                        write(CONN, "  [" + ts + "] (" + n + " bytes)");
+                        for (String line : response.split("\r?\n"))
+                            write(CONN, "    " + line);
+                        logSessionEvent(NFID.nationalId, "proxy_response", host, port);
+                    }
+                }
+                else
+                {
+                    write(CONN, "  [no response]");
+                    logSessionEvent(NFID.nationalId, "proxy_no_response", host, port);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            logSessionEvent(NFID.nationalId, "proxy_error", host, port);
+            return "✗  Proxy connection lost: " + e.getMessage();
+        }
+
+        return "✔  Disconnected from proxy. Back to local.";
+    }
+
+    /** Log a session routing event to MySQL or XML fallback. */
+    private static void logSessionEvent(long nationalId, String action, String host, int port)
+    {
+        if (database.N21DataSource.isAvailable())
+        {
+            try
+            {
+                java.sql.PreparedStatement ps = database.N21DataSource.get().prepareStatement(
+                    "INSERT INTO session_routing_log (national_id, action, proxy_host, proxy_port) VALUES (?,?,?,?)");
+                ps.setLong(1, nationalId);
+                ps.setString(2, action);
+                ps.setString(3, host != null ? host : "");
+                ps.setInt(4, port);
+                ps.executeUpdate(); ps.close();
+                return;
+            }
+            catch (Exception ignored) {}
+        }
+        database.N21XmlFallback.append("session_routing_log",
+            "national_id", String.valueOf(nationalId),
+            "action", action,
+            "proxy_host", host != null ? host : "",
+            "proxy_port", String.valueOf(port));
     }
 
     /**
@@ -241,7 +352,41 @@ public class NationalFinanceIDFeeder
 
         // Store selection
         N21Store.storeProxySelection(NFID.nationalId, host, port);
-        return "✔  Proxy set to " + host + ":" + port + " (verified reachable). Stored.";
+
+        // Send HTTP GET to proxy and report response
+        write(CONN, "  ✔  Proxy set to " + host + ":" + port + ". Sending test request...");
+        try (java.net.Socket proxy = new java.net.Socket())
+        {
+            proxy.connect(new java.net.InetSocketAddress(host, port), 3000);
+            proxy.setSoTimeout(3000);
+            java.io.OutputStream out = proxy.getOutputStream();
+            out.write(("GET / HTTP/1.0\r\nHost: " + host + "\r\nConnection: close\r\n\r\n").getBytes());
+            out.flush();
+
+            java.io.InputStream in = proxy.getInputStream();
+            byte[] buf = new byte[4096];
+            int n = in.read(buf);
+            if (n > 0)
+            {
+                String ts = java.time.Instant.now().toString();
+                String response = new String(buf, 0, Math.min(n, 512));
+                write(CONN, "  [" + ts + "] Response (" + n + " bytes):");
+                // Print first few lines of response
+                String[] lines = response.split("\r?\n");
+                for (int i = 0; i < Math.min(lines.length, 8); i++)
+                    write(CONN, "    " + lines[i]);
+                if (lines.length > 8) write(CONN, "    ...");
+                return "✔  Proxy " + host + ":" + port + " responded successfully.";
+            }
+            else
+            {
+                return "✗  Proxy " + host + ":" + port + " connected but no response received.";
+            }
+        }
+        catch (Exception e)
+        {
+            return "✗  Proxy " + host + ":" + port + " — no response: " + e.getMessage();
+        }
     }
 
     /**
@@ -275,6 +420,9 @@ public class NationalFinanceIDFeeder
         "  set proxy <host> <port>   Set remote proxy (validated before storing)\r\n" +
         "  show proxy                Show current proxy selection\r\n" +
         "  clear proxy               Reset proxy to default (localhost)\r\n" +
+        "  connect proxy             Relay input to remote proxy until disconnect\r\n" +
+        "  connect local             Explicitly talk to 49152 server (default)\r\n" +
+        "  disconnect                Exit proxy relay, return to local\r\n" +
         "  help                      Show this command list\r\n" +
         "  quit / exit               End this session\r\n" +
         "  ────────────────────────────────────────────────────";
@@ -386,7 +534,7 @@ public class NationalFinanceIDFeeder
     {
         try
         {
-            write(CONN, QUESTION);
+            if (CONN.writer != null) { CONN.writer.write(QUESTION); CONN.writer.flush(); }
             if (CONN.reader == null) return "";
             String line = CONN.reader.readLine();
             return line != null ? line.trim() : "";

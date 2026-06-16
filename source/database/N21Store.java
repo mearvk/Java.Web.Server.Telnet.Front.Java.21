@@ -913,6 +913,17 @@ public class N21Store
                 "  updated_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
                 "  UNIQUE KEY uq_national_proxy (national_id)" +
                 ") ENGINE=InnoDB");
+            st.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS session_routing_log (" +
+                "  id          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                "  national_id BIGINT UNSIGNED NOT NULL," +
+                "  action      VARCHAR(64)     NOT NULL," +
+                "  proxy_host  VARCHAR(255)    NOT NULL DEFAULT ''," +
+                "  proxy_port  INT UNSIGNED    NOT NULL DEFAULT 0," +
+                "  recorded_at DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                "  INDEX idx_srl_national (national_id)," +
+                "  INDEX idx_srl_action   (action)" +
+                ") ENGINE=InnoDB");
             st.close();
         }
         catch (Exception e) { fail("user_proxy_selections", e); }

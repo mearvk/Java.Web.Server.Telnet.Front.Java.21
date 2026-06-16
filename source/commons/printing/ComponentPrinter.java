@@ -24,7 +24,7 @@ public final class ComponentPrinter {
         String date = timestamp();
         String formatted = LineFormatter.normalize(line);
 
-        String ref = "-- : [Object ID: " + coloredHash + "] " + date + " " + padded + " " + formatted;
+        String ref = ColorPalette.OID_DEFAULT + "-- : [Object ID: " + coloredHash + "] " + date + " " + padded + " " + formatted + ColorPalette.OID_DEFAULT;
 
         FinePrinter.fadePrint(ref);
     }

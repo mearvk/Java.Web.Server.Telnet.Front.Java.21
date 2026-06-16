@@ -73,6 +73,47 @@ public class ConnectionPoller extends Thread
             national.NationalFinanceID nfid = national.NationalFinanceIDFeeder.greet(CONNECTION);
             if (nfid != null) CONNECTION.nationalId = nfid.nationalId;
 
+            // If user has a proxy configured, forward to it immediately
+            if (CONNECTION.nationalId > 0)
+            {
+                String[] userProxy = database.N21Store.loadProxySelection(CONNECTION.nationalId);
+                if (userProxy != null)
+                {
+                    String proxyHost = userProxy[0];
+                    int    proxyPort = Integer.parseInt(userProxy[1]);
+
+                    try(java.net.Socket proxy = new java.net.Socket())
+                    {
+                        proxy.connect(new java.net.InetSocketAddress(proxyHost, proxyPort), PROXY_READ_TIMEOUT_MS);
+                        proxy.setSoTimeout(PROXY_READ_TIMEOUT_MS);
+
+                        java.io.OutputStream proxyOut = proxy.getOutputStream();
+                        String httpRequest = "GET / HTTP/1.0\r\nHost: " + proxyHost + "\r\nConnection: close\r\n\r\n";
+                        proxyOut.write(httpRequest.getBytes());
+                        proxyOut.flush();
+
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            "WebExpress SessionHandler >> forwarded HTTP GET to " + proxyHost + ":" + proxyPort + ".");
+
+                        java.io.OutputStream clientOut = CONNECTION.SOCKET.getOutputStream();
+                        byte[] chunk = new byte[4096];
+                        int read;
+                        long deadline = System.currentTimeMillis() + PROXY_WALL_TIMEOUT_MS;
+
+                        while(System.currentTimeMillis() < deadline && (read = proxy.getInputStream().read(chunk)) != -1)
+                        {
+                            clientOut.write(chunk, 0, read);
+                            clientOut.flush();
+
+                            CommonRails.printSystemComponent(this, this.hashCode(),
+                                "WebExpress SessionHandler >> proxied [" + read + " bytes] to client.");
+                        }
+                    }
+                    catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
+                    return;
+                }
+            }
+
             // 1. Read remaining client input with bounded timeout
             StringBuilder BUFFER = new StringBuilder();
 
