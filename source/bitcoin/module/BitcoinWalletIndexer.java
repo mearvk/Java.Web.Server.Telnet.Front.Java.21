@@ -62,6 +62,56 @@ public class BitcoinWalletIndexer
             ". BitcoinWalletIndexer: all wallet versions indexed .");
     }
 
+    /**
+     * Seed default 100,000 BTC per version if indexer was not run.
+     * Called at boot when BITCOIN_WALLET_INDEXER is disabled.
+     */
+    public static void seedDefaults()
+    {
+        try
+        {
+            java.sql.Connection conn = database.N21DataSource.get();
+            if (conn == null) return;
+
+            for (int version : VERSIONS)
+            {
+                String tableName = "bitcoin_wallets_v" + version;
+                Statement st = conn.createStatement();
+                st.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
+                    "  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                    "  wallet_name VARCHAR(512) NOT NULL," +
+                    "  file_date VARCHAR(64)," +
+                    "  file_size_bytes BIGINT UNSIGNED NOT NULL," +
+                    "  btc_value BIGINT UNSIGNED NOT NULL," +
+                    "  usd_value DOUBLE NOT NULL," +
+                    "  wallet_blob LONGBLOB," +
+                    "  sha256_signature VARCHAR(64) NOT NULL," +
+                    "  insertion_sha256 VARCHAR(64) NOT NULL," +
+                    "  insertion_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                    "  author VARCHAR(256) NOT NULL" +
+                    ") ENGINE=InnoDB");
+
+                // Only seed if table is empty
+                ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM " + tableName);
+                rs.next();
+                if (rs.getInt(1) == 0)
+                {
+                    st.executeUpdate(
+                        "INSERT INTO " + tableName +
+                        " (wallet_name, file_date, file_size_bytes, btc_value, usd_value, sha256_signature, insertion_sha256, author)" +
+                        " VALUES ('default.initial.wallet', NOW(), 0, 100000, " + (100000 * USD_PER_BTC) +
+                        ", 'seed', 'seed', '" + AUTHOR + "')");
+                }
+                rs.close(); st.close();
+            }
+
+            commons.CommonRails.printSystemComponent(new BitcoinWalletIndexer(), 0,
+                ". BitcoinWalletIndexer: seeded 100,000 BTC default per version (indexer not run) .");
+        }
+        catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
+    }
+
     private void createTable(java.sql.Connection conn, String tableName)
     {
         try
