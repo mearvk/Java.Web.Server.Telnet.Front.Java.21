@@ -5,6 +5,7 @@ import configuration.NitroWebExpressConfig;
 import connections.*;
 import exceptions.ExceptionHandler;
 import heuristics.college.HeuristicClassifier;
+import server.base.BaseServer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,7 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Max Rupplin
  * @date June 16 2026 EST
  */
-public abstract class HardenedBaseServer extends Thread
+public abstract class HardenedBaseServer extends BaseServer
 {
     // ── Configuration ─────────────────────────────────────────────────────────
 
@@ -59,13 +60,6 @@ public abstract class HardenedBaseServer extends Thread
 
     // ── State ─────────────────────────────────────────────────────────────────
 
-    public String HOST = "localhost";
-    public InetAddress ADDRESS;
-    public Integer PORT;
-    public ServerSocket SERVER_SOCKET;
-    public volatile boolean RUNNING = true;
-
-    public CurrentConnections CURRENT_CONNECTIONS = new CurrentConnections();
     private final RecordedConnections RECORDED_CONNECTIONS = new RecordedConnections();
     private final InternationalConnections INTERNATIONAL_CONNECTIONS = new InternationalConnections();
     private final HeuristicClassifier HEURISTIC = new HeuristicClassifier();
@@ -80,6 +74,8 @@ public abstract class HardenedBaseServer extends Thread
 
     public HardenedBaseServer(final String HOST, final Integer PORT)
     {
+        super();
+
         if (HOST == null || PORT == null)
             throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
