@@ -45,6 +45,8 @@ public class Connection implements AutoCloseable
 
     public long nationalId = -1;
 
+    public telnet.TelnetLineEditor lineEditor;
+
     public Connection()
     {
         this.inception_date = new Date();

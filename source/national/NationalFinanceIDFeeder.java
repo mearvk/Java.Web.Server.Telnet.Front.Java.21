@@ -587,6 +587,15 @@ public class NationalFinanceIDFeeder
     {
         try
         {
+            // Use TelnetLineEditor for arrow key / history support
+            if (CONN.lineEditor != null && CONN.SOCKET != null && !CONN.SOCKET.isClosed())
+            {
+                String line = CONN.lineEditor.readLine(
+                    CONN.SOCKET.getInputStream(), CONN.SOCKET.getOutputStream(), QUESTION);
+                return line != null ? line.trim() : null;
+            }
+
+            // Fallback: simple BufferedReader readline
             if (CONN.writer != null) { CONN.writer.write(QUESTION); CONN.writer.flush(); }
             if (CONN.reader == null) return "";
             String line = CONN.reader.readLine();

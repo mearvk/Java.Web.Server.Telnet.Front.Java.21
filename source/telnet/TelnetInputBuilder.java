@@ -43,18 +43,19 @@ public class TelnetInputBuilder extends Thread
 
                             final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 
-                            proxy.writer.write(message);
+                            if (proxy.process != null && proxy.process.isAlive() && proxy.writer != null)
+                            {
+                                proxy.writer.write(message);
+                                proxy.writer.flush();
 
-                            CommonRails.printSystemComponent(this, this.hashCode(), "[Object ID: "+this.hashCode()+"] TelnetOutputBuilder Output >> sending message ["+message+"]");
-
-                            proxy.writer.flush();
+                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetInputBuilder >> sending message ["+message+"]");
+                            }
 
                             queue.MESSAGES.remove(0);
                         }
                         catch (Exception e)
                         {
                             ExceptionHandler.dispatch(e);
-                            e.printStackTrace(System.err);
                         }
                     }
                 }

@@ -70,6 +70,10 @@ public class ConnectionPoller extends Thread
             CONNECTION.writer = new java.io.BufferedWriter(
                 new java.io.OutputStreamWriter(CONNECTION.SOCKET.getOutputStream()));
 
+            // Enable telnet line editor with arrow key history
+            CONNECTION.lineEditor = new telnet.TelnetLineEditor();
+            CONNECTION.lineEditor.enableCharMode(CONNECTION.SOCKET.getOutputStream());
+
             national.NationalFinanceID nfid = national.NationalFinanceIDFeeder.greet(CONNECTION);
             if (nfid != null) CONNECTION.nationalId = nfid.nationalId;
 

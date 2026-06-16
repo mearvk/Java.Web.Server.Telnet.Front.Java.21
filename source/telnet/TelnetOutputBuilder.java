@@ -45,11 +45,11 @@ public class TelnetOutputBuilder extends Thread
                             {
                                 CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> sending message ["+value+"]");
 
-                                if(SocketUtils.isConnected(proxy.writer))
+                                if(proxy.process != null && proxy.process.isAlive() && proxy.writer != null)
+                                {
                                     proxy.writer.write(value);
-
-                                if(SocketUtils.isConnected(proxy.writer))
                                     proxy.writer.flush();
+                                }
 
                                 queue.MESSAGES.removeFirst();
                             }

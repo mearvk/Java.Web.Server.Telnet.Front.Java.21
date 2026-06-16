@@ -79,31 +79,11 @@ public class TelnetProxyLivenessMonitor extends Thread
     }
 
     /**
-     * Returns true if the backing process is alive and the writer can be flushed.
+     * Returns true if the backing process is alive.
      */
     private boolean isProxyAlive()
     {
-        try
-        {
-            // Check the OS process is still running
-            if (PROXY.process == null || !PROXY.process.isAlive())
-            {
-                return false;
-            }
-
-            // Attempt a NOP flush — will throw if the pipe is broken
-            if (PROXY.writer != null)
-            {
-                PROXY.writer.flush();
-            }
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            ExceptionHandler.dispatch(e);
-            return false;
-        }
+        return PROXY.process != null && PROXY.process.isAlive();
     }
 
     /**
