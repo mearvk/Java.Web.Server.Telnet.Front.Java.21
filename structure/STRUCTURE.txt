@@ -3,6 +3,7 @@ JAVA NATIONAL FINANCE ENGINE — STRUCTURE
 Version:  2911.14.1
 Date:     2026-06-16
 Owner:    Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
+Reference: NCSU CS, UNCW MSCSIS, Harvard Math, Pro-Counselling
 
 
 VERSION RATIONALE
