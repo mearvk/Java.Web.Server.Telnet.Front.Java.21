@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BBEA Output Schema v2.0",
+  "description": "Structured output from Black Belt Ethical Auditor. This is what the model MUST produce — one JSON object, no prose wrapper.",
+  "type": "object",
+  "required": ["legitimacy_assessment", "ethical_risk_profile", "legal_alignment", "conduct_score", "risk_rating", "closure_summary", "closure_status", "signature_block"],
+  "properties": {
+    "legitimacy_assessment": {
+      "type": "object",
+      "required": ["system", "legitimacy", "organization", "time_in_rank_met"],
+      "properties": {
+        "system":           { "type": "string", "description": "Martial art system evaluated." },
+        "legitimacy":       { "type": "string", "enum": ["recognized_national_or_international", "school_or_federation_specific", "military_combatives_non_civilian"] },
+        "organization":     { "type": "string", "description": "Governing body (e.g. Kukkiwon, IBJJF, USMC)." },
+        "time_in_rank_met": { "type": "boolean", "description": "Whether minimum time-in-rank requirement is satisfied." }
+      }
+    },
+    "ethical_risk_profile": {
+      "type": "object",
+      "required": ["right_to_choose", "non_discrimination", "authority_misuse"],
+      "properties": {
+        "right_to_choose":   { "type": "string", "enum": ["affirmed", "not_affirmed", "unclear"] },
+        "non_discrimination": { "type": "string", "enum": ["compliant", "non_compliant", "unclear"] },
+        "authority_misuse":  { "type": "string", "enum": ["no_indicators", "indicators_present", "confirmed"] }
+      }
+    },
+    "legal_alignment": {
+      "type": "object",
+      "required": ["proportionality", "self_defense"],
+      "properties": {
+        "proportionality": { "type": "string", "enum": ["aligned", "misaligned", "unclear"] },
+        "self_defense":    { "type": "string", "enum": ["aligned", "misaligned", "unclear"] }
+      }
+    },
+    "conduct_score": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Composite conduct score. 'low' = excellent conduct, 'high' = significant concerns."
+    },
+    "risk_rating": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Overall risk rating combining all four pillars."
+    },
+    "closure_summary": {
+      "type": "string",
+      "description": "Plain-text auditor narrative summarizing findings.",
+      "minLength": 20
+    },
+    "closure_status": {
+      "type": "string",
+      "enum": ["closed", "follow_up_required"]
+    },
+    "signature_block": {
+      "type": "object",
+      "required": ["practitioner_signature_line", "auditor_signature_line", "date_line"],
+      "properties": {
+        "practitioner_signature_line": { "type": "string" },
+        "auditor_signature_line":      { "type": "string" },
+        "date_line":                   { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": false
+}
