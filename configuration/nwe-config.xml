@@ -236,6 +236,46 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         BASE SERVER CLASS SELECTION
+         ═══════════════════════════════════════════════════════════════════
+         Selects which server implementation handles inbound connections.
+         Only one may be active at a time.  Set selected="true" on the
+         desired class; all others must be "false".
+
+         BaseServer             — standard server, no connection caps or
+                                  weight balancing. Default.
+         HardenedBaseServer     — connection caps (512), per-IP limit (10),
+                                  reduced timeout (30 min), port whitelist.
+                                  Premium option.
+         NationalAwareHardService — weight-based request balancing, 5040 max
+                                  connections, 1-per-IP, 58-min timeout,
+                                  cost-aware ejection of heavy consumers.
+                                  Premium option.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server-class>
+        <option id="BASE_SERVER" selected="true" premium="false">
+            <class>server.base.BaseServer</class>
+            <description>Standard BaseServer. No connection limits or weight balancing.</description>
+        </option>
+        <option id="HARDENED_BASE_SERVER" selected="false" premium="true">
+            <class>server.experimental.HardenedBaseServer</class>
+            <description>
+                Hardened server with 512 max connections, 10 per-IP limit,
+                30-minute socket timeout, port whitelist, and graceful shutdown.
+            </description>
+        </option>
+        <option id="NATIONAL_AWARE_HARD_SERVICE" selected="false" premium="true">
+            <class>server.hardened.experimental.m.NationalAwareHardService</class>
+            <description>
+                Weight-balanced hardened server. 5040 max connections, 1 per-IP,
+                58-minute timeout. Long/heavy requests cost more weight and are
+                ejected when budget is exceeded — protecting lightweight requests
+                from starvation.
+            </description>
+        </option>
+    </server-class>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          REMOTE / EXTERNAL SERVERS  (for outbound connections)
     ════════════════════════════════════════════════════════════════════ -->
     <remote-server id="AES_REMOTE">

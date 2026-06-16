@@ -62,6 +62,52 @@ public class NitroWebExpressConfig
     public static String antivirusSchedule()    { return get().ANTIVIRUS_SCHEDULE; }
     public static String antivirusScanPath()    { return get().ANTIVIRUS_SCAN_PATH; }
 
+    /** Returns the fully-qualified class name of the selected server-class option.
+     *  Defaults to "server.base.BaseServer" if not configured. */
+    public static String selectedServerClass()
+    {
+        if (INSTANCE == null) load();
+        try
+        {
+            Document doc = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder().parse(new File(CONFIG_FILE));
+            doc.getDocumentElement().normalize();
+            NodeList options = doc.getElementsByTagName("option");
+            for (int i = 0; i < options.getLength(); i++)
+            {
+                Element el = (Element) options.item(i);
+                if ("true".equalsIgnoreCase(el.getAttribute("selected")))
+                {
+                    NodeList cls = el.getElementsByTagName("class");
+                    if (cls.getLength() > 0) return cls.item(0).getTextContent().trim();
+                }
+            }
+        }
+        catch (Exception ignored) {}
+        return "server.base.BaseServer";
+    }
+
+    /** Returns true if the selected server-class option is marked premium="true". */
+    public static boolean isSelectedServerPremium()
+    {
+        if (INSTANCE == null) load();
+        try
+        {
+            Document doc = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder().parse(new File(CONFIG_FILE));
+            doc.getDocumentElement().normalize();
+            NodeList options = doc.getElementsByTagName("option");
+            for (int i = 0; i < options.getLength(); i++)
+            {
+                Element el = (Element) options.item(i);
+                if ("true".equalsIgnoreCase(el.getAttribute("selected")))
+                    return "true".equalsIgnoreCase(el.getAttribute("premium"));
+            }
+        }
+        catch (Exception ignored) {}
+        return false;
+    }
+
     /** Return the text content of the first top-level &lt;key&gt; element, or null. */
     public static String get(final String KEY)
     {
