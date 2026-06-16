@@ -29,15 +29,21 @@ public class HeuristicClassifier
 {
     // ── Known public ports ────────────────────────────────────────────────────
     public static final Set<Integer> PUBLIC_PORTS = Set.of(
-        49152,  // WEBEXPRESS base / telnet proxy
-        5512,   // AES2 WebExpress
-        6682,   // Bitcoin WebExpress
+        49152,  // NitroWebExpress base / telnet proxy
+        5512,   // AES2 WebExpress (EncryptionModule)
+        6682,   // Bitcoin WebExpress (TraderModule)
+        7743,   // RSACompliant
+        7744,   // DSACompliant
+        49111,  // AIProctorModule
+        49122,  // WhiteAuditorTasking
+        49133,  // WeatherServer
+        49144,  // BinaryHttpServer
         49155,  // ConnectionStatusServer
+        49166,  // ModuleInstallationService
+        49177,  // ASCIICreatorServer
         49188,  // ModuleLoaderDaemon
         49199,  // Communicator
-        49144,  // BinaryHttpServer
-        49133   // WeatherServer
-        // RSA / DSA ports resolved at runtime via NitroWebExpress.Aspect constants
+        49200   // TerminalMenu (Lanterna)
     );
 
     // ── Thresholds ────────────────────────────────────────────────────────────
