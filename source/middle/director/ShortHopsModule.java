@@ -27,30 +27,28 @@ public class ShortHopsModule implements DirectorModule
         for (Trade t : trades)
         {
             if (cmd.startsWith(t.name.toLowerCase()))
-            {
-                // Persist the trade — caller supplies identity context via recordTrade()
                 return "[ShortHop:" + t.name + "/" + t.type + "] " + input;
-            }
         }
         return "[ShortHop] " + input;
     }
 
-    /** Process and persist a trade with full identity context. */
+    /** Process, evaluate trade direction, persist, and return result. */
     public String processAndRecord(String input, long nationalId, String ip,
                                    String publicKey, long signatoryId, String signatoryKey,
-                                   boolean employed, boolean democrat)
+                                   boolean employed, boolean democrat,
+                                   int trustLevel, String educationLevel)
+    {
+        String tradeType = resolveTradeType(input);
+        recordTrade(tradeType, nationalId, ip, publicKey, signatoryId, signatoryKey, employed, democrat);
+        return evaluateAndProcess(input, tradeType, nationalId, trustLevel, educationLevel);
+    }
+
+    private String resolveTradeType(String input)
     {
         String cmd = input.trim().toLowerCase();
         for (Trade t : trades)
-        {
-            if (cmd.startsWith(t.name.toLowerCase()))
-            {
-                recordTrade(t.name, nationalId, ip, publicKey, signatoryId, signatoryKey, employed, democrat);
-                return "[ShortHop:" + t.name + "/" + t.type + "] " + input;
-            }
-        }
-        recordTrade("general", nationalId, ip, publicKey, signatoryId, signatoryKey, employed, democrat);
-        return "[ShortHop] " + input;
+            if (cmd.startsWith(t.name.toLowerCase())) return t.name;
+        return "general";
     }
 
     public List<Trade> getTrades() { return trades; }
@@ -81,7 +79,6 @@ public class ShortHopsModule implements DirectorModule
         catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
     }
 
-    /** A loadable trade sub-module. */
     public static class Trade
     {
         public final String name;

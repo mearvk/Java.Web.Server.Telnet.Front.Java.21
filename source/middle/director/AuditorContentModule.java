@@ -5,7 +5,11 @@ import java.nio.file.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 
-/** Auditor content verification and goal compliance using .CSVmd ethical trust codes. */
+/**
+ * Auditor content verification and goal compliance using .CSVmd ethical trust codes.
+ * This module is safe — it only observes and annotates; it does not reject.
+ * Trades held for 48hr review land here for final auditor decision.
+ */
 public class AuditorContentModule implements DirectorModule
 {
     private static final String CODES_FILE = "source/middle/director/auditor-codes.csvmd";
@@ -22,7 +26,6 @@ public class AuditorContentModule implements DirectorModule
     @Override
     public String process(String input)
     {
-        // Evaluate input against all 16 auditor codes
         StringBuilder tags = new StringBuilder();
         for (AuditorCode c : codes)
         {
@@ -33,12 +36,18 @@ public class AuditorContentModule implements DirectorModule
         return prefix + " " + input;
     }
 
+    /**
+     * Auditor module is safe: it always approves after annotation.
+     * Held trades arriving here after 48hrs are released with ethical code tags.
+     */
     public String processAndRecord(String input, long nationalId, String ip,
                                    String publicKey, long signatoryId, String signatoryKey,
-                                   boolean employed, boolean democrat)
+                                   boolean employed, boolean democrat,
+                                   int trustLevel, String educationLevel)
     {
         recordTrade("audit", nationalId, ip, publicKey, signatoryId, signatoryKey, employed, democrat);
-        return process(input);
+        // Auditor is safe — always approves, annotates with ethical codes
+        return process(input) + " [AUDITOR APPROVED — safe]";
     }
 
     public List<AuditorCode> getCodes() { return codes; }
@@ -64,7 +73,6 @@ public class AuditorContentModule implements DirectorModule
         catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
     }
 
-    /** An ethical trust auditor code. */
     public static class AuditorCode
     {
         public final String code;
