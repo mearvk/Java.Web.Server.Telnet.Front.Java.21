@@ -34,6 +34,7 @@ public class TerminalMenu extends Thread
     public TerminalMenu()
     {
         this.setName("TerminalMenu-Lanterna");
+
         this.setDaemon(true);
     }
 
