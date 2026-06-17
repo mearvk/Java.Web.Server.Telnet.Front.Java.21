@@ -81,14 +81,59 @@
         <sanitize-snake-case>true</sanitize-snake-case>
         <sanitize-all-caps>true</sanitize-all-caps>
         <enforce-camel-case>true</enforce-camel-case>
-        <append-trademark>true</append-trademark>
-        <preserved-acronyms>MYSQL,JDBC,SYSTEMCTL,NWECONFIG,CONFIG,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA</preserved-acronyms>
+        <append-trademark>false</append-trademark>
+        <append-trademark-scope>parent-class-prefix</append-trademark-scope>
+        <known-modules>
+            NitroWebExpress,NitroWebExpressConfig,WebExpress,BaseServer,HardenedBaseServer,
+            NationalAwareHardService,
+            AESCompliant,RSACompliant,DSACompliant,BitcoinCompliant,
+            EncryptionModule,EncryptionModuleRSA,EncryptionModuleDSA,
+            ConnectionStatusServer,ModuleInstallationService,ModuleLoaderDaemon,
+            ASCIICreatorServer,ASCIICreator,
+            BinaryHttpServer,WeatherServer,Communicator,
+            AntivirusScanner,HeuristicClassifier,
+            BitcoinWalletIndexer,BitcoinWalletSession,BitcoinBase,
+            TraderModule,MessageOrderer,
+            TelnetProxyLivenessMonitor,TelnetCommunicationProxy,TelnetInstaller,
+            TelnetOutputBuilder,TelnetInputBuilder,TelnetLineEditor,TelnetMessageQueue,
+            MessageOutputHandler,MessageQueueSorter,MessageQueue,
+            TerminalMenu,TerminalMenuBridge,TerminalImageRenderer,
+            TransferSummaryMailer,
+            MiddleDirectorServer,DirectorModule,DirectorPersistence,
+            DistributionLicense,PublicKeyVerifier,EdgeSchedule,TradeEvaluator,
+            ShortHopsModule,MediumHopsModule,ThoughtsAsGoalsModule,
+            FinalMediumHopsModule,GamesAsGoalsModule,AuditorContentModule,
+            AIProctorModule,WhiteAuditorTasking,
+            NationalDriver,NationalID,NationalFinanceID,NationalFinanceIDFeeder,
+            NationalCrypto,NationalKeypairGenerator,NationalTellus,
+            ShutdownHooks,CommonRails,
+            N21AuthConfig,N21DataSource,N21Store,N21Status,N21XmlFallback,MySQLComponent,
+            ModuleAdmin,ModuleHeuristics,
+            ExceptionHandler,ExceptionPersistenceService,
+            ConnectionPoller,CurrentConnections,
+            PortAdministrator,PortKnockKnock,PortStealth,
+            LanguagePack,HashCodeRegistry,ProtocolHandlerRegistry
+        </known-modules>
+        <preserved-acronyms>JDBC,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA</preserved-acronyms>
+        <special-spellings>MySQL,NWEConfig, systemctl</special-spellings>
         <description>
-            Status message enclosed in delimiter characters.
-            Example: . WebExpress™ TelnetInstaller™ starts .
-            All input is sanitized through LineFormatter to enforce CamelCase™
+            Status message enclosed in decorator characters.
+            Example: . AesCompliant™ CommonRails now starting .
+            All input is sanitized through LineFormatter to enforce CamelCase
             naming convention. No UPPER_SNAKE_CASE or raw capitalized keywords
             will appear in output (except preserved acronyms above).
+
+            ™ is applied only to the parent-class-prefix value (see
+            append-trademark-scope). Set append-trademark-scope to change
+            which element receives the treatment symbol.
+
+            special-spellings: comma-separated words with exact casing that
+            override the normal CamelCase/InitialCap sanitization. Any
+            occurrence (case-insensitive) is replaced with the spelling here.
+
+            NOTE: Do NOT repeat the class name in the message body. Block 4
+            [Current: @ClassName] already identifies the owning class. Repeating
+            it causes double-name output (e.g. "AntivirusScanner AntivirusScanner").
         </description>
     </block>
 
@@ -122,10 +167,12 @@
     ════════════════════════════════════════════════════════════════════ -->
     <parent-class-prefix>
         <enabled>true</enabled>
+        <append-trademark>true</append-trademark>
         <separator> </separator>
         <description>
             enabled: if true, the parent/owning class simple name is inserted
             before the module name in Block 5 lifecycle messages.
+            append-trademark: if true, ™ is appended to the parent class name.
             separator: character(s) between parent class and module name.
         </description>
     </parent-class-prefix>

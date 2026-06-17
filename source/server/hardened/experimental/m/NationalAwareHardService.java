@@ -297,7 +297,7 @@ public abstract class NationalAwareHardService extends Thread
         try { if (SERVER_SOCKET != null && !SERVER_SOCKET.isClosed()) SERVER_SOCKET.close(); }
         catch (Exception ignored) {}
         CommonRails.printSystemComponent(this, this.hashCode(),
-            ". NationalAwareHardService shutdown port=" + PORT + " .");
+            ". NationalAwareHardService shutdown port=" + PORT + " .", commons.color.ColorPalette.COLOR_SHUTDOWN);
     }
 
     // ── Internals ─────────────────────────────────────────────────────────────

@@ -26,49 +26,30 @@ public final class LineFormatter {
     private static String STARTS_CANONICAL = "starts";
     private static String[] STARTS_ALTERNATIVES = {"starting", "started", "is starting", "now starting"};
 
-    static { loadStartsConfig(); }
-
     /** Returns the canonical lifecycle verb from print-method.xml. */
     public static String starts() { return STARTS_CANONICAL; }
 
-    // Acronyms/abbreviations that stay uppercase
-    private static final Set<String> PRESERVE_UPPER = Set.of(
-        "MYSQL", "JDBC", "SYSTEMCTL", "NWECONFIG", "CONFIG", "SQL", "TCP", "UDP",
+    // Acronyms/abbreviations that stay uppercase (loaded from print-method.xml preserved-acronyms)
+    private static Set<String> PRESERVE_UPPER = Set.of(
+        "JDBC", "SQL", "TCP", "UDP",
         "HTTP", "HTTPS", "SSH", "SSL", "TLS", "AES", "RSA", "DSA", "DSS", "IP",
         "USA", "EDT", "EST", "UTC", "XML", "JSON", "JAR", "SHA", "MD5", "ACK",
         "FATAL", "FAILED", "OK", "ID", "NWE", "JAVA"
     );
 
-    // CamelCase + ™ module/service replacements (longest match first)
-    private static final String[][] MODULES = {
-        {"telnetproxylivenessmonitor", "TelnetProxyLivenessMonitor™"},
-        {"telnetcommunicationproxy", "TelnetCommunicationProxy™"},
-        {"messageoutputhandler", "MessageOutputHandler™"},
-        {"messagequeuesorter", "MessageQueueSorter™"},
-        {"messagequeuehandler", "MessageQueueHandler™"},
-        {"telnetoutputbuilder", "TelnetOutputBuilder™"},
-        {"telnetinputbuilder", "TelnetInputBuilder™"},
-        {"telnetmessagequeue", "TelnetMessageQueue™"},
-        {"telnetlineeditor", "TelnetLineEditor™"},
-        {"telnetinstaller", "TelnetInstaller™"},
-        {"nitrowebexpress", "NitroWebExpress™"},
-        {"connectionstatus", "ConnectionStatus™"},
-        {"moduleinstallation", "ModuleInstallation™"},
-        {"moduleloaderdaemon", "ModuleLoaderDaemon™"},
-        {"heuristicclassifier", "HeuristicClassifier™"},
-        {"bitcoinwalletindexer", "BitcoinWalletIndexer™"},
-        {"bitcoincompliant", "BitcoinCompliant™"},
-        {"asciicreator", "AsciiCreator™"},
-        {"aescompliant", "AesCompliant™"},
-        {"rsacompliant", "RsaCompliant™"},
-        {"dsacompliant", "DsaCompliant™"},
-        {"binaryhttp", "BinaryHttp™"},
-        {"webexpress", "WebExpress™"},
-        {"serversocket", "ServerSocket™"},
-        {"communicator", "Communicator™"},
-        {"antivirus", "Antivirus™"},
-        {"weather", "Weather™"},
-    };
+    // CamelCase + ™ module/service replacements (loaded from print-method.xml, longest first)
+    private static String[][] MODULES;
+    private static boolean APPEND_TRADEMARK = true;
+
+    // Special spellings: words with exact casing that override normal sanitization
+    private static String[][] SPECIAL_SPELLINGS = new String[0][];
+
+    static {
+        loadPreservedAcronyms();
+        loadStartsConfig();
+        loadModulesConfig();
+        loadSpecialSpellings();
+    }
 
     public static String normalize(String line) {
         if (line == null || line.isEmpty()) return line;
@@ -81,9 +62,33 @@ public final class LineFormatter {
         // 2. Convert remaining ALL_CAPS words to CamelCase (unless preserved)
         result = convertAllCaps(result);
 
-        // 3. Apply known module CamelCase™ replacements
+        // 2b. Apply special spellings (exact casing from XML)
+        for (String[] sp : SPECIAL_SPELLINGS) {
+            result = Pattern.compile("(?i)\\b" + Pattern.quote(sp[0]) + "\\b").matcher(result).replaceAll(sp[1]);
+        }
+
+        // 3. Apply known module CamelCase™ replacement to FIRST occurrence only
+        boolean tmApplied = false;
         for (String[] m : MODULES) {
-            result = result.replaceAll("(?i)\\b" + Pattern.quote(m[0]) + "\\b", m[1]);
+            Matcher modMatcher = Pattern.compile("(?i)\\b" + Pattern.quote(m[0]) + "\\b(?!™)").matcher(result);
+            if (modMatcher.find()) {
+                if (!tmApplied) {
+                    result = modMatcher.replaceFirst(m[1]);
+                    tmApplied = true;
+                } else {
+                    // Subsequent matches get CamelCase but no ™
+                    result = modMatcher.replaceAll(m[1].replace("™", ""));
+                }
+            }
+        }
+        // If ™ was already applied, strip any additional ™ beyond the first
+        if (tmApplied) {
+            int firstTm = result.indexOf("™");
+            if (firstTm >= 0) {
+                String before = result.substring(0, firstTm + 1);
+                String after = result.substring(firstTm + 1).replace("™", "");
+                result = before + after;
+            }
         }
 
         // 4. Normalize lifecycle verbs to canonical form (longest match first; skip if alt is substring of canonical)
@@ -144,6 +149,21 @@ public final class LineFormatter {
         return sb.toString();
     }
 
+    private static void loadPreservedAcronyms() {
+        try {
+            File file = new File("configuration/print-method.xml");
+            if (!file.exists()) return;
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+            doc.getDocumentElement().normalize();
+            NodeList nl = doc.getElementsByTagName("preserved-acronyms");
+            if (nl.getLength() == 0) return;
+            String raw = nl.item(0).getTextContent().trim();
+            if (!raw.isEmpty()) {
+                PRESERVE_UPPER = Set.of(raw.split(","));
+            }
+        } catch (Exception ignored) {}
+    }
+
     private static void loadStartsConfig() {
         try {
             File file = new File("configuration/print-method.xml");
@@ -163,6 +183,59 @@ public final class LineFormatter {
                 String v = an.item(0).getTextContent().trim();
                 if (!v.isEmpty()) STARTS_ALTERNATIVES = v.split(",");
             }
+        } catch (Exception ignored) {}
+    }
+
+    private static void loadModulesConfig() {
+        try {
+            File file = new File("configuration/print-method.xml");
+            if (!file.exists()) { MODULES = new String[0][]; return; }
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+            doc.getDocumentElement().normalize();
+
+            // Check append-trademark toggle
+            NodeList at = doc.getElementsByTagName("append-trademark");
+            if (at.getLength() > 0) {
+                APPEND_TRADEMARK = Boolean.parseBoolean(at.item(0).getTextContent().trim());
+            }
+
+            if (!APPEND_TRADEMARK) { MODULES = new String[0][]; return; }
+
+            // Load known-modules list
+            NodeList km = doc.getElementsByTagName("known-modules");
+            if (km.getLength() == 0) { MODULES = new String[0][]; return; }
+
+            String raw = km.item(0).getTextContent().trim();
+            String[] names = raw.split("[,\\s]+");
+            java.util.List<String[]> list = new java.util.ArrayList<>();
+            for (String name : names) {
+                if (name.isEmpty()) continue;
+                list.add(new String[]{name.toLowerCase(), name + "™"});
+            }
+            // Sort longest first to avoid partial matches
+            list.sort((a, b) -> b[0].length() - a[0].length());
+            MODULES = list.toArray(new String[0][]);
+        } catch (Exception e) {
+            MODULES = new String[0][];
+        }
+    }
+
+    private static void loadSpecialSpellings() {
+        try {
+            File file = new File("configuration/print-method.xml");
+            if (!file.exists()) return;
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+            doc.getDocumentElement().normalize();
+            NodeList nl = doc.getElementsByTagName("special-spellings");
+            if (nl.getLength() == 0) return;
+            String raw = nl.item(0).getTextContent().trim();
+            String[] words = raw.split("[,\\s]+");
+            java.util.List<String[]> list = new java.util.ArrayList<>();
+            for (String w : words) {
+                if (!w.isEmpty()) list.add(new String[]{w, w});
+            }
+            list.sort((a, b) -> b[0].length() - a[0].length());
+            SPECIAL_SPELLINGS = list.toArray(new String[0][]);
         } catch (Exception ignored) {}
     }
 }

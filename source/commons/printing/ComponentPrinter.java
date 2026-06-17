@@ -36,6 +36,7 @@ public final class ComponentPrinter {
     private static boolean COLORED_OUTPUT = true;
     private static boolean RESET_AFTER_LINE = true;
     private static boolean PARENT_CLASS_PREFIX = false;
+    private static boolean PARENT_CLASS_TRADEMARK = false;
     private static String PARENT_CLASS_SEPARATOR = " ";
 
     static { loadConfig(); }
@@ -70,7 +71,8 @@ public final class ComponentPrinter {
         formatted = formatted.replaceFirst("^\\.", DECORATOR_START);
         formatted = formatted.replaceFirst("\\.$", DECORATOR_END);
         if (PARENT_CLASS_PREFIX) {
-            formatted = DECORATOR_START + " " + simple + PARENT_CLASS_SEPARATOR + formatted.replaceFirst("^\\Q" + DECORATOR_START + "\\E ?", "");
+            String parentName = PARENT_CLASS_TRADEMARK ? simple + "™" : simple;
+            formatted = DECORATOR_START + " " + parentName + PARENT_CLASS_SEPARATOR + formatted.replaceFirst("^\\Q" + DECORATOR_START + "\\E ?", "");
         }
 
         // Assemble
@@ -145,6 +147,7 @@ public final class ComponentPrinter {
             if (pcp.getLength() > 0) {
                 Element p = (Element) pcp.item(0);
                 PARENT_CLASS_PREFIX = Boolean.parseBoolean(text(p, "enabled", "false"));
+                PARENT_CLASS_TRADEMARK = Boolean.parseBoolean(text(p, "append-trademark", "false"));
                 PARENT_CLASS_SEPARATOR = text(p, "separator", " ");
             }
         } catch (Exception ignored) {}

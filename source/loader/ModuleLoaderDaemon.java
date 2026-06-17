@@ -76,7 +76,7 @@ public class ModuleLoaderDaemon extends Thread
             Files.createDirectories(INSTALL_DIR);
             SERVER_SOCKET = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". ModuleLoaderDaemon listening on port " + PORT + " .");
+                ". listening on port " + PORT + " .");
 
             while (!Thread.currentThread().isInterrupted())
             {
@@ -114,7 +114,7 @@ public class ModuleLoaderDaemon extends Thread
             writeLine(out, "Identify: identify <nationalId>   Token: token <port-registry-token>");
 
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". ModuleLoaderDaemon connection from " + session.remoteIp + " .");
+                ". connection from " + session.remoteIp + " .");
 
             String line;
             while ((line = in.readLine()) != null)
