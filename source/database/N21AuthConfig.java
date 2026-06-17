@@ -9,9 +9,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 /**
@@ -99,20 +102,21 @@ public class N21AuthConfig
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
                     ". systemctl status mysql — MySQL NOT INSTALLED on this system .",
-                    ColorPalette.OID_DEFAULT ) ;
+                    ColorPalette.COLOR_STANDARD_RED);
+                haltWithException(new RuntimeException("MySQL not installed — systemctl reports not-found"));
                 return;
             }
             else if (running)
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". systemctl status mysql — active (running) .",
+                    ". SYSTEMCTL status mysql — active (running) .",
                     ColorPalette.COLOR_LIME_GREEN);
             }
             else
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". systemctl status mysql — inactive / stopped .",
-                    ColorPalette.COLOR_YELLOW);
+                    ". SYSTEMCTL status mysql — inactive / stopped .",
+                    ColorPalette.COLOR_STANDARD_RED);
 
                 if (USESUDO)
                 {
@@ -122,17 +126,32 @@ public class N21AuthConfig
                     recheck.waitFor();
                     boolean nowRunning = (recheck.exitValue() == 0);
 
-                    CommonRails.printSystemComponent(this, this.hashCode(),
-                        ". systemctl start mysql — " + (nowRunning ? "now running ." : "FAILED to start ."),
-                        nowRunning ? ColorPalette.COLOR_LIME_GREEN : ColorPalette.COLOR_STANDARD_RED);
+                    if (nowRunning)
+                    {
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". SYSTEMCTL start mysql — now running .",
+                            ColorPalette.COLOR_LIME_GREEN);
+                    }
+                    else
+                    {
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". SYSTEMCTL start mysql — FAILED to start .",
+                            ColorPalette.COLOR_STANDARD_RED);
+                        haltWithException(new RuntimeException("systemctl start mysql failed — service did not become active"));
+                    }
+                }
+                else
+                {
+                    haltWithException(new RuntimeException("MySQL inactive/stopped and use-sudo=false — cannot auto-start"));
                 }
             }
         }
         catch (Exception e)
         {
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". systemctl status mysql — check failed: " + e.getMessage() + " .",
+                ". SYSTEMCTL status mysql — check failed: " + e.getMessage() + " .",
                 ColorPalette.COLOR_STANDARD_RED);
+            haltWithException(e);
         }
 
         // ── 2. JDBC login test using credentials from mysql.auth.xml ──────────
@@ -146,16 +165,28 @@ public class N21AuthConfig
             try (Connection conn = DriverManager.getConnection(url, USERNAME, PASSWORD))
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". MySQL JDBC login — user '" + USERNAME + "' authenticated successfully .",
+                    ". MYSQL JDBC login — user '" + USERNAME + "' authenticated successfully .",
                     ColorPalette.COLOR_LIME_GREEN);
             }
         }
         catch (Exception e)
         {
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". MySQL JDBC login — user '" + USERNAME + "' FAILED: " + e.getMessage() + " .",
+                ". MYSQL JDBC login — user '" + USERNAME + "' FAILED: " + e.getMessage() + " .",
                 ColorPalette.COLOR_STANDARD_RED);
+            haltWithException(e);
         }
+    }
+
+    private void haltWithException(Exception cause)
+    {
+        try (PrintWriter pw = new PrintWriter(new FileWriter("exception.log", true)))
+        {
+            pw.println("[" + LocalDateTime.now() + "] FATAL — N21AuthConfig startup failure");
+            cause.printStackTrace(pw);
+        }
+        catch (Exception ignored) {}
+        System.exit(1);
     }
 
     private static String text(final Element ROOT, final String TAG, final String DEF)

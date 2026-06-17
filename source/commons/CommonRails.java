@@ -17,7 +17,7 @@ public final class CommonRails
     }
 
     public static void printSystemComponent(Object owner, int hash, String line, String oidColor) {
-        ComponentPrinter.print(owner, hash, line);
+        ComponentPrinter.print(owner, hash, line, oidColor);
     }
 
     public static void registerProcess(ProcessBuilder pb, Process p, Object owner) {
@@ -28,20 +28,20 @@ public final class CommonRails
     {
         String module = switch (PORT)
         {
-            case 49152 -> "NitroWebExpress";
-            case 49155 -> "ConnectionStatusServer";
-            case 49166 -> "ModuleInstallationService";
-            case 49177 -> "ASCIICreatorServer";
-            case 49188 -> "ModuleLoaderDaemon";
-            case 49199 -> "Communicator";
-            case 49200 -> "TerminalMenu";
-            case 49144 -> "BinaryHttpServer";
-            case 49133 -> "WeatherServer";
-            case 5512 -> "AES 2.0 DSS5.0 Server";
-            case 6682 -> "Bitcoin v24.0+ Masterthread";
-            case 7743 -> "RSA Compliant Server";
-            case 7744 -> "DSA Compliant Server";
-            case 8888 -> "MiddleDirectorServer";
+            case 49152 -> "NitroWebExpress™";
+            case 49155 -> "ConnectionStatus™";
+            case 49166 -> "ModuleInstallation™";
+            case 49177 -> "AsciiCreator™";
+            case 49188 -> "ModuleLoaderDaemon™";
+            case 49199 -> "Communicator™";
+            case 49200 -> "TerminalMenu™";
+            case 49144 -> "BinaryHttp™";
+            case 49133 -> "Weather™";
+            case 5512 -> "AesCompliant™";
+            case 6682 -> "BitcoinCompliant™";
+            case 7743 -> "RsaCompliant™";
+            case 7744 -> "DsaCompliant™";
+            case 8888 -> "MiddleDirectorServer™";
             default -> "Port-" + PORT;
         };
 

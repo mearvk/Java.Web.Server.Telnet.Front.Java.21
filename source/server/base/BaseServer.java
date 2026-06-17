@@ -166,7 +166,7 @@ public abstract class BaseServer extends Thread
                 connection.SERVER = this;
 
                 // ── Heuristic classification ──────────────────────────────────
-                if (NitroWebExpressConfig.isEnabled("HEURISTIC_CLASSIFIER"))
+                if (NitroWebExpressConfig.isEnabled("HeuristicClassifier"))
                 {
                     String remoteIp = connection.SOCKET.getInetAddress().getHostAddress();
                     HeuristicClassifier.ConnectionEvent event =

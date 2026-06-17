@@ -175,7 +175,7 @@ public abstract class NationalAwareHardService extends Thread
                 }
 
                 // ── 4. Heuristic classification ───────────────────────────────
-                if (NitroWebExpressConfig.isEnabled("HEURISTIC_CLASSIFIER"))
+                if (NitroWebExpressConfig.isEnabled("HeuristicClassifier"))
                 {
                     HeuristicClassifier.ConnectionEvent event =
                         new HeuristicClassifier.ConnectionEvent.Builder()

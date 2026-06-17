@@ -3,6 +3,8 @@ package server.nitro.modules;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import commons.CommonRails;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import server.webexpress.WebExpress;
 
 public class RSACompliant extends WebExpress {
@@ -39,7 +41,7 @@ public class RSACompliant extends WebExpress {
 
         public MessageOutputHandler() {
             CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". RSACompliant MessageOutputHandler starts .");
+                    ". RSACompliant MessageOutputHandler " + LineFormatter.starts() + " .");
         }
 
         public void send_message(final String MESSAGE) {

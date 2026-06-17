@@ -1,6 +1,8 @@
 package telnet;
 
 import commons.CommonRails;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import exceptions.ExceptionHandler;
 import server.webexpress.WebExpress;
 
@@ -24,9 +26,10 @@ public class TelnetInstaller
 
     protected BufferedReader reader;
 
+    @StartsCanonical
     public TelnetInstaller(final WebExpress WEB_EXPRESS)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Installer starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Installer " + LineFormatter.starts() + " .");
 
         try
         {

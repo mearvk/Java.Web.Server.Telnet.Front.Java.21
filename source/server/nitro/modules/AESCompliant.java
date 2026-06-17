@@ -1,6 +1,8 @@
 package server.nitro.modules;
 
 import commons.CommonRails;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import commons.socket.SocketUtils;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
@@ -51,7 +53,7 @@ public class AESCompliant extends WebExpress
 
         public MessageOutputHandler()
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), ". AESCompliant MessageOutputHandler starts .");
+            CommonRails.printSystemComponent(this, this.hashCode(), ". AESCompliant MessageOutputHandler " + LineFormatter.starts() + " .");
         }
 
         public void send_message(final StringBuffer BUFFER)

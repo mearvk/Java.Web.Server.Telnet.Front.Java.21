@@ -1,6 +1,8 @@
 package server.nitro.modules;
 
 import commons.CommonRails;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import commons.socket.SocketUtils;
 import commons.transition.english.EnglishArithemeter;
 import connections.CurrentConnections;
@@ -40,7 +42,7 @@ public class BitcoinCompliant extends WebExpress
 
     public BitcoinCompliant()
     {
-        CommonRails.printSystemComponent(this, this.hashCode(), ". BitcoinCompliant starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". BitcoinCompliant " + LineFormatter.starts() + " .");
     }
 
     protected static class MessageOutputRecord
@@ -57,7 +59,7 @@ public class BitcoinCompliant extends WebExpress
 
         public MessageOutputHandler()
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), ". BitcoinCompliant MessageOutputHandler starts .");
+            CommonRails.printSystemComponent(this, this.hashCode(), ". BitcoinCompliant MessageOutputHandler " + LineFormatter.starts() + " .");
         }
 
         public void send_message(final StringBuffer BUFFER)
@@ -97,7 +99,7 @@ public class BitcoinCompliant extends WebExpress
         @Override
         public void run()
         {
-            CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter starts .");
+            CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter " + LineFormatter.starts() + " .");
 
             while(true)
             {

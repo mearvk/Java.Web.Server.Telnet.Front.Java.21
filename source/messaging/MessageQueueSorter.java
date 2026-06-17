@@ -1,6 +1,8 @@
 package messaging;
 
 import commons.CommonRails;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import commons.socket.SocketUtils;
 import exceptions.ExceptionHandler;
 import server.webexpress.WebExpress;
@@ -22,10 +24,11 @@ public class MessageQueueSorter extends Thread
         this.setName("MessageQueueSorter");
     }
 
+    @StartsCanonical
     @Override
     public void run()
     {
-        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter " + LineFormatter.starts() + " .");
 
         while(true)
         {
