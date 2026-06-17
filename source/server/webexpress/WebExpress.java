@@ -1,6 +1,8 @@
 package server.webexpress;
 
 import commons.CommonRails;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
 import server.base.BaseServer;
@@ -46,6 +48,7 @@ public class WebExpress extends BaseServer
         this.setName("United States D500 WebExpress");
     }
 
+    @StartsCanonical
     public WebExpress(final String HOST, final Integer PORT, final String THREAD_NAME, final Boolean TELNET_PROXY_ENABLED)
     {
         if(HOST==null || PORT==null || THREAD_NAME==null || TELNET_PROXY_ENABLED==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
@@ -58,7 +61,7 @@ public class WebExpress extends BaseServer
 
         this.THREAD_NAME = THREAD_NAME;
 
-        CommonRails.printSystemComponent(this, this.hashCode(), ". CommonRails starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". CommonRails " + LineFormatter.starts() + " .");
 
         if(TELNET_PROXY_ENABLED)
         {

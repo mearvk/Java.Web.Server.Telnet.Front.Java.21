@@ -8,6 +8,9 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,8 +137,9 @@ public class NitroWebExpressConfig
         {
             CommonRails.printSystemComponent(
                 NitroWebExpressConfig.class, NitroWebExpressConfig.class.hashCode(),
-                ". NweConfig — " + CONFIG_FILE + " not found; all servers enabled, default admin .",
-                ColorPalette.COLOR_YELLOW);
+                ". NweConfig — " + CONFIG_FILE + " not found; cannot start .",
+                ColorPalette.COLOR_STANDARD_RED);
+            haltWithException(new RuntimeException("NweConfig — " + CONFIG_FILE + " not found"));
             INSTANCE = defaults();
         }
         else
@@ -173,15 +177,16 @@ public class NitroWebExpressConfig
 
                 CommonRails.printSystemComponent(
                     NitroWebExpressConfig.class, NitroWebExpressConfig.class.hashCode(),
-                    ". NweConfig loaded — " + enabled.size() + " server entries, admin='" + adminUser + "' .",
+                    ". NWECONFIG loaded — " + enabled.size() + " server entries, admin='" + adminUser + "' .",
                     ColorPalette.COLOR_LIME_GREEN);
             }
             catch (Exception e)
             {
                 CommonRails.printSystemComponent(
                     NitroWebExpressConfig.class, NitroWebExpressConfig.class.hashCode(),
-                    ". NweConfig parse error: " + e.getMessage() + " — using defaults .",
+                    ". NweConfig parse error: " + e.getMessage() + " — cannot start .",
                     ColorPalette.COLOR_STANDARD_RED);
+                haltWithException(e);
                 INSTANCE = defaults();
             }
         }
@@ -212,7 +217,7 @@ public class NitroWebExpressConfig
         for (int i = 0; i < servers.getLength(); i++)
         {
             Element el = (Element) servers.item(i);
-            if ("ANTIVIRUS".equals(el.getAttribute("id")))
+            if ("Antivirus".equals(el.getAttribute("id")))
                 return text(el, "schedule", "daily");
         }
         return "daily";
@@ -225,7 +230,7 @@ public class NitroWebExpressConfig
         for (int i = 0; i < servers.getLength(); i++)
         {
             Element el = (Element) servers.item(i);
-            if ("ANTIVIRUS".equals(el.getAttribute("id")))
+            if ("Antivirus".equals(el.getAttribute("id")))
                 return text(el, "scan-path", ".");
         }
         return ".";
@@ -237,5 +242,16 @@ public class NitroWebExpressConfig
         if (nl.getLength() == 0) return DEF;
         String v = nl.item(0).getTextContent().trim();
         return v.isEmpty() ? DEF : v;
+    }
+
+    private static void haltWithException(Exception cause)
+    {
+        try (PrintWriter pw = new PrintWriter(new FileWriter("exception.log", true)))
+        {
+            pw.println("[" + LocalDateTime.now() + "] FATAL — NweConfig startup failure");
+            cause.printStackTrace(pw);
+        }
+        catch (Exception ignored) {}
+        System.exit(1);
     }
 }

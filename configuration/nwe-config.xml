@@ -38,9 +38,9 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          MAIN SERVER
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="NITRO_WEB_EXPRESS">
+    <server id="NitroWebExpress">
         <enabled>true</enabled>
-        <name>NitroWebExpress</name>
+        <name>NitroWebExpress™</name>
         <thread>WEBEXPRESS_TELNET_PROXY_SERVER</thread>
         <host>localhost</host>
         <port>49152</port>
@@ -51,9 +51,9 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          ENCRYPTION SERVERS
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="AES_COMPLIANT">
+    <server id="AesCompliant">
         <enabled>true</enabled>
-        <name>AES 2.0 DSS5.0 Server</name>
+        <name>AesCompliant™</name>
         <thread>WEBEXPRESS_AES2_SERVER</thread>
         <host>localhost</host>
         <port>5512</port>
@@ -61,9 +61,9 @@
         <description>AES 2.0 compliant sub-server. Cryptographic compliance layer.</description>
     </server>
 
-    <server id="RSA_COMPLIANT">
+    <server id="RsaCompliant">
         <enabled>true</enabled>
-        <name>RSA Compliant Server</name>
+        <name>RsaCompliant™</name>
         <thread>WEBEXPRESS_RSA_SERVER</thread>
         <host>localhost</host>
         <port>7743</port>
@@ -71,9 +71,9 @@
         <description>RSA encryption sub-server.</description>
     </server>
 
-    <server id="DSA_COMPLIANT">
+    <server id="DsaCompliant">
         <enabled>true</enabled>
-        <name>DSA Compliant Server</name>
+        <name>DsaCompliant™</name>
         <thread>WEBEXPRESS_DSA_SERVER</thread>
         <host>localhost</host>
         <port>7744</port>
@@ -84,9 +84,9 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          BITCOIN SERVER
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="BITCOIN_COMPLIANT">
+    <server id="BitcoinCompliant">
         <enabled>true</enabled>
-        <name>Bitcoin v24.0+ Masterthread</name>
+        <name>BitcoinCompliant™</name>
         <thread>WEBEXPRESS_BITCOIN_SERVER</thread>
         <host>localhost</host>
         <port>6682</port>
@@ -97,18 +97,18 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          STATUS AND UTILITY SERVERS
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="CONNECTION_STATUS">
+    <server id="ConnectionStatus">
         <enabled>true</enabled>
-        <name>ConnectionStatusServer</name>
+        <name>ConnectionStatus™</name>
         <thread>ConnectionStatusServer</thread>
         <host>localhost</host>
         <port>49155</port>
         <description>Returns server status: IP, geo, uptime, memory, connection count.</description>
     </server>
 
-    <server id="ASCII_CREATOR">
+    <server id="AsciiCreator">
         <enabled>true</enabled>
-        <name>ASCIICreatorServer</name>
+        <name>AsciiCreator™</name>
         <thread>ASCIICreatorServer</thread>
         <host>localhost</host>
         <port>49177</port>
@@ -118,9 +118,9 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          MODULE SERVICES
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="MODULE_INSTALLATION">
+    <server id="ModuleInstallation">
         <enabled>true</enabled>
-        <name>ModuleInstallationService</name>
+        <name>ModuleInstallation™</name>
         <thread>ModuleInstallationService</thread>
         <host>localhost</host>
         <port>49166</port>
@@ -130,9 +130,9 @@
         </description>
     </server>
 
-    <server id="MODULE_LOADER_DAEMON">
+    <server id="ModuleLoaderDaemon">
         <enabled>true</enabled>
-        <name>ModuleLoaderDaemon</name>
+        <name>ModuleLoaderDaemon™</name>
         <thread>ModuleLoaderDaemon</thread>
         <host>localhost</host>
         <port>49188</port>
@@ -151,9 +151,9 @@
         </port-authority>
     </server>
 
-    <server id="COMMUNICATOR">
+    <server id="Communicator">
         <enabled>true</enabled>
-        <name>Communicator</name>
+        <name>Communicator™</name>
         <thread>Communicator</thread>
         <host>localhost</host>
         <port>49199</port>
@@ -169,9 +169,9 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          WEATHER SERVER
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="WEATHER">
+    <server id="Weather">
         <enabled>true</enabled>
-        <name>WeatherServer</name>
+        <name>Weather™</name>
         <thread>WeatherServer</thread>
         <host>localhost</host>
         <port>49133</port>
@@ -186,9 +186,9 @@
          apache-root: Apache2 document root subdirectory for stored files.
          apache-url:  Public base URL served by Apache2.
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="BINARY_HTTP">
+    <server id="BinaryHttp">
         <enabled>true</enabled>
-        <name>BinaryHttpServer</name>
+        <name>BinaryHttp™</name>
         <thread>BinaryHttpServer</thread>
         <host>localhost</host>
         <port>49144</port>
@@ -208,9 +208,9 @@
          Requires ClamAV (clamscan) installed on the host system.
          Set enabled=false to disable without recompiling.
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="ANTIVIRUS">
+    <server id="Antivirus">
         <enabled>true</enabled>
-        <name>AntivirusScanner</name>
+        <name>Antivirus™</name>
         <schedule>daily</schedule>
         <scan-path>.</scan-path>
         <description>
@@ -223,9 +223,9 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          HEURISTIC CLASSIFIER
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="HEURISTIC_CLASSIFIER">
+    <server id="HeuristicClassifier">
         <enabled>true</enabled>
-        <name>HeuristicClassifier</name>
+        <name>HeuristicClassifier™</name>
         <description>
             Classifies every inbound connection across all public ports.
             Scores IP repetition, port-scan patterns, geo-location concentration,
@@ -299,9 +299,9 @@
          (secret.key as salt), and inserts into version-specific MySQL tables.
          Enable for installers/admins/business executives who need wallet indexing.
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="BITCOIN_WALLET_INDEXER">
+    <server id="BitcoinWalletIndexer">
         <enabled>true</enabled>
-        <name>BitcoinWalletIndexer</name>
+        <name>BitcoinWalletIndexer™</name>
         <description>
             Indexes all wallet data in /bitcoin/{24-30} into MySQL tables
             (bitcoin_wallets_v24 through bitcoin_wallets_v30). Each ~2MB of
@@ -315,9 +315,9 @@
          Sends Transfer of Summary document to registered contacts.
          Requires sendmail or mailutils+postfix on the server.
     ════════════════════════════════════════════════════════════════════ -->
-    <server id="TRANSFER_SUMMARY_MAILER">
+    <server id="TransferSummaryMailer">
         <enabled>true</enabled>
-        <name>TransferSummaryMailer</name>
+        <name>TransferSummaryMailer™</name>
         <contacts-file>configuration/transfer-contacts.xml</contacts-file>
         <description>
             Sends the Transfer of Summary (transfer.document.title) to all

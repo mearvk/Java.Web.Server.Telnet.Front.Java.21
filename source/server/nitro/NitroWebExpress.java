@@ -6,6 +6,8 @@ import server.nitro.modules.ConnectionStatusServer;
 import bitcoin.module.TraderModule;
 import commons.CommonRails;
 import commons.EnglishArithemeter;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import commons.socket.SocketUtils;
 import connections.CurrentConnections;
 import exceptions.ExceptionHandler;
@@ -838,7 +840,7 @@ public class NitroWebExpress extends WebExpress
 
                 public MessageOutputHandler()
                 {
-                    CommonRails.printSystemComponent(this, this.hashCode(), ". AESCompliant MessageOutputHandler starts .");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". AESCompliant MessageOutputHandler " + LineFormatter.starts() + " .");
                 }
 
                 public void send_message(final StringBuffer BUFFER)
@@ -898,7 +900,7 @@ public class NitroWebExpress extends WebExpress
 
                 public MessageOutputHandler()
                 {
-                    CommonRails.printSystemComponent(this, this.hashCode(), ". RSACompliant MessageOutputHandler starts .");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". RSACompliant MessageOutputHandler " + LineFormatter.starts() + " .");
                 }
 
                 public void send_message(final String MESSAGE)
@@ -956,7 +958,7 @@ public class NitroWebExpress extends WebExpress
 
                 public MessageOutputHandler()
                 {
-                    CommonRails.printSystemComponent(this, this.hashCode(), ". DSACompliant MessageOutputHandler starts .");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". DSACompliant MessageOutputHandler " + LineFormatter.starts() + " .");
                 }
 
                 public void send_message(final String MESSAGE)
@@ -1000,7 +1002,7 @@ public class NitroWebExpress extends WebExpress
 
             public BitcoinCompliant()
             {
-                CommonRails.printSystemComponent(this, this.hashCode(), ". BitcoinCompliant starts .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". BitcoinCompliant " + LineFormatter.starts() + " .");
             }
 
             protected static class MessageOutputRecord
@@ -1017,7 +1019,7 @@ public class NitroWebExpress extends WebExpress
 
                 public MessageOutputHandler()
                 {
-                    CommonRails.printSystemComponent(this, this.hashCode(), ". BitcoinCompliant MessageOutputHandler starts .");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". BitcoinCompliant MessageOutputHandler " + LineFormatter.starts() + " .");
                 }
 
                 public void send_message(final StringBuffer BUFFER)
@@ -1057,7 +1059,7 @@ public class NitroWebExpress extends WebExpress
                 @Override
                 public void run()
                 {
-                    CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter starts .");
+                    CommonRails.printSystemComponent(this, this.hashCode(), ". WebExpress MessageQueueSorter " + LineFormatter.starts() + " .");
 
                     while(true)
                     {

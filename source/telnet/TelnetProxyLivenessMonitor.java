@@ -1,6 +1,8 @@
 package telnet;
 
 import commons.CommonRails;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import exceptions.ExceptionHandler;
 
 import java.util.concurrent.TimeUnit;
@@ -32,10 +34,11 @@ public class TelnetProxyLivenessMonitor extends Thread
         this.setDaemon(true);
     }
 
+    @StartsCanonical
     @Override
     public void run()
     {
-        CommonRails.printSystemComponent(this, this.hashCode(), ". TelnetProxyLivenessMonitor starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". TelnetProxyLivenessMonitor " + LineFormatter.starts() + " .");
 
         while (!Thread.currentThread().isInterrupted())
         {

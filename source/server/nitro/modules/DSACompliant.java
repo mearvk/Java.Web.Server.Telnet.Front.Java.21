@@ -1,6 +1,8 @@
 package server.nitro.modules;
 
 import commons.CommonRails;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import encryption.module.dsa.EncryptionModuleDSA;
 import messaging.MessageQueue;
 import messaging.MessageQueueSorter;
@@ -65,7 +67,7 @@ public class DSACompliant extends WebExpress {
             CommonRails.printSystemComponent(
                     this,
                     this.hashCode(),
-                    ". DSACompliant MessageOutputHandler starts ."
+                    ". DSACompliant MessageOutputHandler " + LineFormatter.starts() + " ."
             );
         }
 

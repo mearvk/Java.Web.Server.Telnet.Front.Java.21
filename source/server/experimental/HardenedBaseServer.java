@@ -139,7 +139,7 @@ public abstract class HardenedBaseServer extends BaseServer
                 }
 
                 // ── 3. Heuristic classification ───────────────────────────────
-                if (NitroWebExpressConfig.isEnabled("HEURISTIC_CLASSIFIER"))
+                if (NitroWebExpressConfig.isEnabled("HeuristicClassifier"))
                 {
                     HeuristicClassifier.ConnectionEvent event =
                         new HeuristicClassifier.ConnectionEvent.Builder()

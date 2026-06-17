@@ -84,10 +84,26 @@ public class Main
     {
         ShutdownHooks.register();
 
+        database.N21AuthConfig.get().ensureMysqlRunning();
+
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            ". CONFIG loaded — authentication/mysql.auth.xml .",
+            commons.color.ColorPalette.COLOR_LIME_GREEN);
+
         NitroWebExpressConfig.load();
+
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            ". CONFIG loaded — configuration/nwe-config.xml .",
+            commons.color.ColorPalette.COLOR_LIME_GREEN);
+
+        // MySQL N21 connector — early init so DB is available for all boot operations
+        MySQLComponent mysqlComponent = new MySQLComponent();
+        mysqlComponent.print(this);
+        database.N21XmlFallback.replayFallback();
 
         //CommonRails.printStartRecipeSpinner();
 
+            System.out.println();
             System.out.println("\033[38;5;74m[ Java National Finance Engine v.28.1.1 Software Processes Starting ]\033[0m");
 
             System.out.println(". Cryptography/Cryptology AES 2.0 National Cryptolograph Enabled DSS (DeepSonaGraphoSophons) 5.0 .");
@@ -127,52 +143,48 @@ public class Main
 
             NITRO.TELNET_PROXY_ENABLED = Boolean.TRUE;
 
-            if (NitroWebExpressConfig.isEnabled("AES_COMPLIANT"))
+            if (NitroWebExpressConfig.isEnabled("AesCompliant"))
                 NITRO.BRIDGE.AES_COMPONENT = new NitroWebExpress.Aspect.AESCompliant(AES_WEBEXPRESS_REMOTE_HOST, AES2_WEBEXPRESS_SERVER_SOCKET, AES2_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            if (NitroWebExpressConfig.isEnabled("BITCOIN_COMPLIANT"))
+            if (NitroWebExpressConfig.isEnabled("BitcoinCompliant"))
                 NITRO.BRIDGE.BITCOIN_COMPONENT = new NitroWebExpress.Aspect.BitcoinCompliant(BITCOIN_WEBEXPRESS_REMOTE_HOST, BITCOIN_WEBEXPRESS_SERVER_SOCKET, BITCOIN_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            if (NitroWebExpressConfig.isEnabled("RSA_COMPLIANT"))
+            if (NitroWebExpressConfig.isEnabled("RsaCompliant"))
                 NITRO.BRIDGE.RSA_COMPONENT = new NitroWebExpress.Aspect.RSACompliant(RSA_WEBEXPRESS_REMOTE_HOST, RSA_WEBEXPRESS_SERVER_SOCKET, RSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            if (NitroWebExpressConfig.isEnabled("DSA_COMPLIANT"))
+            if (NitroWebExpressConfig.isEnabled("DsaCompliant"))
                 NITRO.BRIDGE.DSA_COMPONENT = new NitroWebExpress.Aspect.DSACompliant(DSA_WEBEXPRESS_REMOTE_HOST, DSA_WEBEXPRESS_SERVER_SOCKET, DSA_WEBEXPRESS_SERVER_THREAD_NAME, Boolean.TRUE);
 
-            if (NitroWebExpressConfig.isEnabled("CONNECTION_STATUS"))
+            if (NitroWebExpressConfig.isEnabled("ConnectionStatus"))
                 NITRO.BRIDGE.CONNECTION_STATUS = new ConnectionStatusServer(CONNECTION_STATUS_SERVER_HOST, NITRO.CURRENT_CONNECTIONS, NITRO.PORT);
 
-            if (NitroWebExpressConfig.isEnabled("MODULE_INSTALLATION"))
+            if (NitroWebExpressConfig.isEnabled("ModuleInstallation"))
                 NITRO.BRIDGE.MODULE_INSTALLER_SERVICE = new NitroWebExpress.Aspect.ModuleInstallationService(MODULE_INSTALLER_SERVICE_HOST);
 
-            if (NitroWebExpressConfig.isEnabled("ASCII_CREATOR"))
+            if (NitroWebExpressConfig.isEnabled("AsciiCreator"))
                 NITRO.BRIDGE.ASCII_CREATOR_SERVER = new NitroWebExpress.Aspect.ASCIICreatorServer(ASCII_CREATOR_SERVER_HOST);
 
-            if (NitroWebExpressConfig.isEnabled("MODULE_LOADER_DAEMON"))
+            if (NitroWebExpressConfig.isEnabled("ModuleLoaderDaemon"))
                 NITRO.BRIDGE.MODULE_LOADER_DAEMON = new ModuleLoaderDaemon(MODULE_LOADER_DAEMON_HOST);
 
-            if (NitroWebExpressConfig.isEnabled("COMMUNICATOR"))
+            if (NitroWebExpressConfig.isEnabled("Communicator"))
                 NITRO.BRIDGE.COMMUNICATOR = new Communicator(COMMUNICATOR_HOST);
 
-            if (NitroWebExpressConfig.isEnabled("BINARY_HTTP"))
+            if (NitroWebExpressConfig.isEnabled("BinaryHttp"))
                 NITRO.BRIDGE.BINARY_HTTP_SERVER = new BinaryHttpServer(BINARY_HTTP_SERVER_HOST);
 
-            if (NitroWebExpressConfig.isEnabled("WEATHER"))
+            if (NitroWebExpressConfig.isEnabled("Weather"))
                 NITRO.BRIDGE.WEATHER_SERVER = new WeatherServer(WEATHER_SERVER_HOST);
 
-            if (NitroWebExpressConfig.isEnabled("ANTIVIRUS"))
+            if (NitroWebExpressConfig.isEnabled("Antivirus"))
                 new antivirus.AntivirusScanner().start();
 
-            if (NitroWebExpressConfig.isEnabled("BITCOIN_WALLET_INDEXER"))
+            if (NitroWebExpressConfig.isEnabled("BitcoinWalletIndexer"))
                 Thread.ofVirtual().name("BitcoinWalletIndexer").start(() -> new bitcoin.module.BitcoinWalletIndexer().indexAll());
             else
                 bitcoin.module.BitcoinWalletIndexer.seedDefaults();
 
-            NITRO.BRIDGE.MYSQL_COMPONENT = new MySQLComponent();
-
-            NITRO.BRIDGE.MYSQL_COMPONENT.print(this);
-
-            database.N21XmlFallback.replayFallback();
+            NITRO.BRIDGE.MYSQL_COMPONENT = mysqlComponent;
 
             new lanterna.TerminalMenu().start();
 

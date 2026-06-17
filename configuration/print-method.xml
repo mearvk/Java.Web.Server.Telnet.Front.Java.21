@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    CommonRails Print Method Configuration
+    =======================================
+    MEARVK LLC — NitroWebExpress™
+
+    Defines the visual structure of every system component print line.
+    Each <block> is rendered left-to-right in sequence order.
+
+    Output example:
+      [prefix] [Object ID: 0925308434] [Date: 2026-06-16 22:17:55 EDT] [Current: @Main] . WebExpress™ TelnetInstaller™ starts .
+-->
+<print-method>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BLOCK 1 — PREFIX
+         The static text that begins every component print line.
+    ════════════════════════════════════════════════════════════════════ -->
+    <block sequence="1" name="Prefix">
+        <value>-- : </value>
+        <description>Fixed prefix at column 0 of every printed line.</description>
+    </block>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BLOCK 2 — OBJECT ID
+         Unique numeric identifier for the owning object instance.
+    ════════════════════════════════════════════════════════════════════ -->
+    <block sequence="2" name="ObjectId">
+        <label>Object ID</label>
+        <format>%010d</format>
+        <bracket>true</bracket>
+        <color-source>category</color-source>
+        <description>
+            10-digit zero-padded hashcode. Resolved via HashCodeRegistry
+            (admin-overridable in nwe-config.xml). Colored per category.
+        </description>
+    </block>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BLOCK 3 — DATE
+         Timestamp of when the line was printed.
+    ════════════════════════════════════════════════════════════════════ -->
+    <block sequence="3" name="Date">
+        <label>Date</label>
+        <format>yyyy-MM-dd HH:mm:ss z</format>
+        <timezone>America/New_York</timezone>
+        <bracket>true</bracket>
+        <description>Wall-clock time at print invocation.</description>
+    </block>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BLOCK 4 — CURRENT CLASS
+         The simple class name of the calling/owning object.
+    ════════════════════════════════════════════════════════════════════ -->
+    <block sequence="4" name="Current">
+        <label>Current</label>
+        <prefix>@</prefix>
+        <pad-width>39</pad-width>
+        <bracket>true</bracket>
+        <description>
+            Simple class name prefixed with @, right-padded to pad-width
+            for columnar alignment across all output lines.
+        </description>
+    </block>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BLOCK 5 — MESSAGE
+         The actual status/event text.
+         Sanitization pipeline (applied in order):
+           1. UPPER_SNAKE_CASE → CamelCase  (e.g. MODULE_LOADER_DAEMON → ModuleLoaderDaemon)
+           2. ALL_CAPS → InitialCap          (e.g. TELNET → Telnet, PROXY → Proxy)
+              Exception: preserved acronyms (MYSQL, JDBC, SYSTEMCTL, AES, RSA, etc.)
+           3. Known module names → CamelCase™ (e.g. webexpress → WebExpress™)
+           4. ™ symbol rendered in trademark-color (red)
+    ════════════════════════════════════════════════════════════════════ -->
+    <block sequence="5" name="Message">
+        <delimiter>.</delimiter>
+        <decorator-start>.</decorator-start>
+        <decorator-end>.</decorator-end>
+        <spacing>1</spacing>
+        <sanitize-snake-case>true</sanitize-snake-case>
+        <sanitize-all-caps>true</sanitize-all-caps>
+        <enforce-camel-case>true</enforce-camel-case>
+        <append-trademark>true</append-trademark>
+        <preserved-acronyms>MYSQL,JDBC,SYSTEMCTL,NWECONFIG,CONFIG,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA</preserved-acronyms>
+        <description>
+            Status message enclosed in delimiter characters.
+            Example: . WebExpress™ TelnetInstaller™ starts .
+            All input is sanitized through LineFormatter to enforce CamelCase™
+            naming convention. No UPPER_SNAKE_CASE or raw capitalized keywords
+            will appear in output (except preserved acronyms above).
+        </description>
+    </block>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STARTS — lifecycle verb framing
+         Controls the canonical verb form used when a module/service announces
+         its lifecycle transition.  All raw variations (starts, starting,
+         started, is starting, now starting) are normalized to the selected
+         framing form at print time.
+    ════════════════════════════════════════════════════════════════════ -->
+    <starts>
+        <canonical>now starting</canonical>
+        <alternatives>starting,started,is starting,now starting</alternatives>
+        <description>
+            canonical: the output form printed in all component lines.
+            alternatives: comma-separated input forms that get replaced
+            by the canonical form during message sanitization.
+            Change canonical to alter how all lifecycle prints read.
+            Examples: "starts" → ". WebExpress™ starts ."
+                      "is starting" → ". WebExpress™ is starting ."
+                      "now starting" → ". WebExpress™ now starting ."
+        </description>
+    </starts>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PARENT CLASS PREFIX
+         Controls whether the owning/parent class name is prepended to the
+         message body before the module name in lifecycle prints.
+         When true:  ". AesCompliant™ CommonRails now starting ."
+         When false: ". CommonRails now starting ."
+    ════════════════════════════════════════════════════════════════════ -->
+    <parent-class-prefix>
+        <enabled>true</enabled>
+        <separator> </separator>
+        <description>
+            enabled: if true, the parent/owning class simple name is inserted
+            before the module name in Block 5 lifecycle messages.
+            separator: character(s) between parent class and module name.
+        </description>
+    </parent-class-prefix>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         GRACE — fade animation timing
+    ════════════════════════════════════════════════════════════════════ -->
+    <grace>
+        <fade-steps>20</fade-steps>
+        <fade-delay-ms>20</fade-delay-ms>
+        <post-fade-delay-ms>200</post-fade-delay-ms>
+        <description>
+            Controls the grayscale fade-in animation before the final line print.
+            fade-steps: number of ANSI 256-color grades (236..255).
+            fade-delay-ms: pause between each grade.
+            post-fade-delay-ms: pause after fade completes before final print.
+        </description>
+    </grace>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         CONTROL — runtime print behavior
+    ════════════════════════════════════════════════════════════════════ -->
+    <control>
+        <colored-output>true</colored-output>
+        <reset-after-line>true</reset-after-line>
+        <default-color>OID_DEFAULT</default-color>
+        <trademark-color>COLOR_STANDARD_RED</trademark-color>
+        <description>
+            colored-output: master toggle for ANSI color sequences.
+            reset-after-line: emit ANSI reset at end of each line.
+            default-color: ColorPalette constant for non-highlighted text.
+            trademark-color: ColorPalette constant for ™ symbol rendering.
+        </description>
+    </control>
+
+</print-method>

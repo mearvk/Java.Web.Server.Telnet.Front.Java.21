@@ -1,6 +1,8 @@
 package telnet;
 
 import commons.CommonRails;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
 import exceptions.ExceptionHandler;
 import server.webexpress.WebExpress;
 
@@ -31,9 +33,10 @@ public class TelnetCommunicationProxy
 
     public TelnetProxyLivenessMonitor liveness_monitor;
 
+    @StartsCanonical
     public TelnetCommunicationProxy(final WebExpress WEB_EXPRESS)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Communicator starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Communicator " + LineFormatter.starts() + " .");
 
         this.WEB_EXPRESS = WEB_EXPRESS;
 
