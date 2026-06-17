@@ -50,3 +50,29 @@ This software verifies its operational authorization by checking the presence of
 4. Closes after 30 minutes if no valid `public.key` is received.
 
 **Build requirements:** `libcurl4-openssl-dev`, `libssl-dev` (standalone), plus `apache2-dev` (for the module).
+
+---
+
+## Print System Configuration
+
+All terminal output is driven by `configuration/print-method.xml`. No recompile needed to adjust formatting.
+
+**Blocks (left-to-right):**
+| Block | Name | Example |
+|-------|------|---------|
+| 1 | Prefix | `-- : ` |
+| 2 | ObjectId | `[Object ID: 0925308434]` |
+| 3 | Date | `[Date: 2026-06-16 22:17:55 EDT]` |
+| 4 | Current | `[Current: @Main]` |
+| 5 | Message | `. NitroWebExpress™ now starting .` |
+
+**Additional controls in print-method.xml:**
+- `<starts>` — Canonical lifecycle verb (`starts`, `is starting`, `now starting`, etc.)
+- `<parent-class-prefix>` — Prepend owning class to message (enabled/disabled)
+- `<decorator-start>` / `<decorator-end>` — Message framing characters (default `.`)
+- `<grace>` — Fade animation timing (steps, delay, post-delay)
+- `<control>` — Color toggle, reset behavior, trademark color
+
+**Naming convention:** All module/service identifiers use CamelCase with ™ (trademark in red). Configured in `nwe-config.xml` with CamelCase server IDs (e.g. `AesCompliant`, `BitcoinWalletIndexer`).
+
+**Startup failure handling:** If NweConfig, MySQL systemctl, or JDBC login fails, the message prints in red, the cause is appended to `exception.log`, and the process halts.
