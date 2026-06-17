@@ -69,7 +69,7 @@ public class AntivirusScanner
 
             if (!Files.exists(p) || !Files.isDirectory(p))
             {
-                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> WARNING: scan-path does not exist or is not a directory: " + rawPath + " — falling back to '.' .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". WARNING: scan-path does not exist or is not a directory: " + rawPath + " — falling back to '.' .");
 
                 p = Path.of(".").toAbsolutePath().normalize();
             }
@@ -83,7 +83,7 @@ public class AntivirusScanner
             this.scanPath = Path.of(".").toAbsolutePath().normalize();
         }
 
-        CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner initialized — schedule=" + this.schedule + " path=" + this.scanPath + " .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". initialized — schedule=" + this.schedule + " path=" + this.scanPath + " .");
     }
 
     /** Log file for ClamAV update/shutdown warnings. */
@@ -93,7 +93,7 @@ public class AntivirusScanner
     public void start()
     {
         long period = periodSeconds(schedule);
-        CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner starting — schedule=" + schedule + " (" + period + "s) path=" + scanPath + " .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". starting — schedule=" + schedule + " (" + period + "s) path=" + scanPath + " .");
 
         Executors.newSingleThreadScheduledExecutor(r ->
         {
@@ -120,7 +120,7 @@ public class AntivirusScanner
     /** Run freshclam to update ClamAV virus definitions; log warnings to logging/clamav.log. */
     private void updateDefinitions()
     {
-        CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> freshclam database update starting .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". freshclam database update starting .");
 
         try
         {
@@ -145,9 +145,9 @@ public class AntivirusScanner
             }
 
             if (exit == 0)
-                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> freshclam update completed successfully .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". freshclam update completed successfully .");
             else
-                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> freshclam update finished with warnings (exit=" + exit + ") — see logging/clamav.log .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". freshclam update finished with warnings (exit=" + exit + ") — see logging/clamav.log .");
         }
         catch (Exception e)
         {
@@ -173,7 +173,7 @@ public class AntivirusScanner
 
     private void scan()
     {
-        CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> starting scan of " + scanPath + " .");
+        CommonRails.printSystemComponent(this, this.hashCode(), ". starting scan of " + scanPath + " .");
 
         runClamScan();
 
@@ -186,7 +186,7 @@ public class AntivirusScanner
         {
             logClamWarning("clamscan not found on PATH — skipping AV scan");
 
-            CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> clamscan not found on PATH — skipping AV scan .");
+            CommonRails.printSystemComponent(this, this.hashCode(), ". clamscan not found on PATH — skipping AV scan .");
 
             return;
         }
@@ -202,13 +202,13 @@ public class AntivirusScanner
 
             if (exit == 0)
             {
-                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> ClamAV scan CLEAN .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". ClamAV scan CLEAN .");
             }
             else
             {
                 logClamWarning("ClamAV ALERT (exit=" + exit + "): " + out + " " + err);
 
-                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> ClamAV ALERT (exit=" + exit + ") — see logging/clamav.log .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". ClamAV ALERT (exit=" + exit + ") — see logging/clamav.log .");
             }
         }
         catch (Exception e)
@@ -255,13 +255,13 @@ public class AntivirusScanner
 
                         if (prev == null)
                         {
-                            CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> INTEGRITY NEW FILE: " + key + " .");
+                            CommonRails.printSystemComponent(this, this.hashCode(), ". INTEGRITY NEW FILE: " + key + " .");
 
                             added++;
                         }
                         else if (!prev.equals(digest))
                         {
-                            CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> INTEGRITY CHANGED: " + key + " .");
+                            CommonRails.printSystemComponent(this, this.hashCode(), ". INTEGRITY CHANGED: " + key + " .");
 
                             changed++;
                         }
@@ -270,9 +270,9 @@ public class AntivirusScanner
             }
 
             if (firstRun)
-                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> integrity baseline captured (" + added + " files) .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". integrity baseline captured (" + added + " files) .");
             else
-                CommonRails.printSystemComponent(this, this.hashCode(), ". AntivirusScanner >> integrity check complete — changed=" + changed + " new=" + added + " .");
+                CommonRails.printSystemComponent(this, this.hashCode(), ". integrity check complete — changed=" + changed + " new=" + added + " .");
         }
         catch (Exception e) { ExceptionHandler.dispatch(e); }
     }

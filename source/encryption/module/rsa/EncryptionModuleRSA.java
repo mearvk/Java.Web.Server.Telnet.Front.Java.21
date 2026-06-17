@@ -23,7 +23,7 @@ public class EncryptionModuleRSA
             KeyPair pair  = gen.generateKeyPair();
             PUBLIC_KEY    = pair.getPublic();
             PRIVATE_KEY   = pair.getPrivate();
-            CommonRails.printSystemComponent(this, this.hashCode(), ". EncryptionModuleRSA 2048-bit key pair generated .");
+            CommonRails.printSystemComponent(this, this.hashCode(), ". 2048-bit key pair generated .");
         }
         catch (Exception e) { throw new RuntimeException(e); }
     }

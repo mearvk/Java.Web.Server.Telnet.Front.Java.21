@@ -28,24 +28,24 @@ public final class CommonRails
     {
         String module = switch (PORT)
         {
-            case 49152 -> "NitroWebExpress™";
-            case 49155 -> "ConnectionStatus™";
-            case 49166 -> "ModuleInstallation™";
-            case 49177 -> "AsciiCreator™";
-            case 49188 -> "ModuleLoaderDaemon™";
-            case 49199 -> "Communicator™";
-            case 49200 -> "TerminalMenu™";
-            case 49144 -> "BinaryHttp™";
-            case 49133 -> "Weather™";
-            case 5512 -> "AesCompliant™";
-            case 6682 -> "BitcoinCompliant™";
-            case 7743 -> "RsaCompliant™";
-            case 7744 -> "DsaCompliant™";
-            case 8888 -> "MiddleDirectorServer™";
+            case 49152 -> "NitroWebExpress";
+            case 49155 -> "ConnectionStatus";
+            case 49166 -> "ModuleInstallation";
+            case 49177 -> "AsciiCreator";
+            case 49188 -> "ModuleLoaderDaemon";
+            case 49199 -> "Communicator";
+            case 49200 -> "TerminalMenu";
+            case 49144 -> "BinaryHttp";
+            case 49133 -> "Weather";
+            case 5512 -> "AesCompliant";
+            case 6682 -> "BitcoinCompliant";
+            case 7743 -> "RsaCompliant";
+            case 7744 -> "DsaCompliant";
+            case 8888 -> "MiddleDirectorServer";
             default -> "Port-" + PORT;
         };
 
-        printSystemComponent(OWNER, OWNER.hashCode(), ". [shutdown] " + PHASE + " " + module + " port " + PORT + " .");
+        printSystemComponent(OWNER, OWNER.hashCode(), ". [shutdown] " + PHASE + " " + module + " port " + PORT + " .", commons.color.ColorPalette.COLOR_SHUTDOWN);
     }
 
     public static void delayableFinePrinter(final String TEXT, final int DELAY)
