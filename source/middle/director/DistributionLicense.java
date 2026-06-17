@@ -38,6 +38,7 @@ public class DistributionLicense
 
     private static final String CENTRAL_REPO = "mearvk/Java.Web.Server.Telnet.Front.Java.21";
     private static final String GITHUB_API = "https://api.github.com/repos/" + CENTRAL_REPO;
+    private static final String SECRET_KEY_PATH = "psychiatry/secrets/secret.key";
 
     private static Edition CURRENT = Edition.FREE;
 
@@ -85,6 +86,28 @@ public class DistributionLicense
     /** Load edition flag from MySQL on boot. */
     public static void loadFromDatabase()
     {
+        // If secret.key exists locally, this is an owner/dev copy — allow local rank control
+        if (java.nio.file.Files.exists(java.nio.file.Path.of(SECRET_KEY_PATH)))
+        {
+            // Check for local edition override file: data/distribution-edition.txt
+            try
+            {
+                java.nio.file.Path override = java.nio.file.Path.of("data/distribution-edition.txt");
+                if (java.nio.file.Files.exists(override))
+                {
+                    String val = java.nio.file.Files.readString(override).trim().toUpperCase();
+                    try
+                    {
+                        CURRENT = Edition.valueOf(val);
+                        storeFlag(CURRENT);
+                        return;
+                    }
+                    catch (IllegalArgumentException ignored) {}
+                }
+            }
+            catch (Exception ignored) {}
+        }
+
         try
         {
             java.sql.Connection conn = database.N21DataSource.get();
@@ -95,7 +118,7 @@ public class DistributionLicense
                 "CREATE TABLE IF NOT EXISTS distribution_license (" +
                 "  id INT PRIMARY KEY DEFAULT 1," +
                 "  edition VARCHAR(30) NOT NULL DEFAULT 'FREE'," +
-                "  rank INT NOT NULL DEFAULT 4," +
+                "  `rank` INT NOT NULL DEFAULT 4," +
                 "  verified_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                 ") ENGINE=InnoDB");
 
@@ -123,13 +146,13 @@ public class DistributionLicense
                 "CREATE TABLE IF NOT EXISTS distribution_license (" +
                 "  id INT PRIMARY KEY DEFAULT 1," +
                 "  edition VARCHAR(30) NOT NULL DEFAULT 'FREE'," +
-                "  rank INT NOT NULL DEFAULT 4," +
+                "  `rank` INT NOT NULL DEFAULT 4," +
                 "  verified_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP" +
                 ") ENGINE=InnoDB");
 
             java.sql.PreparedStatement ps = conn.prepareStatement(
-                "INSERT INTO distribution_license (id, edition, rank, verified_at) VALUES (1, ?, ?, NOW()) " +
-                "ON DUPLICATE KEY UPDATE edition=VALUES(edition), rank=VALUES(rank), verified_at=NOW()");
+                "INSERT INTO distribution_license (id, edition, `rank`, verified_at) VALUES (1, ?, ?, NOW()) " +
+                "ON DUPLICATE KEY UPDATE edition=VALUES(edition), `rank`=VALUES(`rank`), verified_at=NOW()");
             ps.setString(1, edition.name());
             ps.setInt(2, edition.rank());
             ps.executeUpdate();

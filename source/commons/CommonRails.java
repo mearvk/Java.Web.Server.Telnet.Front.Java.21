@@ -28,17 +28,24 @@ public final class CommonRails
     {
         String module = switch (PORT)
         {
-            case 49152 -> "WebExpress";
+            case 49152 -> "NitroWebExpress";
             case 49155 -> "ConnectionStatusServer";
             case 49166 -> "ModuleInstallationService";
             case 49177 -> "ASCIICreatorServer";
-            case 5512 -> "AES";
-            case 6682 -> "Bitcoin";
-            case 7743 -> "RSA";
-            default -> "Unknown";
+            case 49188 -> "ModuleLoaderDaemon";
+            case 49199 -> "Communicator";
+            case 49200 -> "TerminalMenu";
+            case 49144 -> "BinaryHttpServer";
+            case 49133 -> "WeatherServer";
+            case 5512 -> "AES 2.0 DSS5.0 Server";
+            case 6682 -> "Bitcoin v24.0+ Masterthread";
+            case 7743 -> "RSA Compliant Server";
+            case 7744 -> "DSA Compliant Server";
+            case 8888 -> "MiddleDirectorServer";
+            default -> "Port-" + PORT;
         };
 
-        printSystemComponent(OWNER, OWNER.hashCode(), "[shutdown] " + PHASE + " " + module + " port " + PORT);
+        printSystemComponent(OWNER, OWNER.hashCode(), ". [shutdown] " + PHASE + " " + module + " port " + PORT + " .");
     }
 
     public static void delayableFinePrinter(final String TEXT, final int DELAY)

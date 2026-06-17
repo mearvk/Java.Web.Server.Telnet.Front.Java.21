@@ -199,7 +199,7 @@ public class NationalFinanceIDFeeder
 
             // Single system component print per input received (green/OID_MESSAGING)
             commons.CommonRails.printSystemComponent(MSG_OWNER, MSG_OWNER.hashCode(),
-                "49152 >> receives [" + input.trim() + "] from NID " + NFID.nationalId + ".");
+                ". 49152 >> receives [" + input.trim() + "] from NID " + NFID.nationalId + " .");
 
             String cmd = input.trim().toLowerCase();
 

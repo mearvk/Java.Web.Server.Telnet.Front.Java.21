@@ -113,7 +113,7 @@ void open_port_8888(void)
 
 /* Launch the JAR on port 8888 */
 void launch_installer(void)
-{
+{TELNETOUTPUTBUILDER
     pid_t pid = fork();
     if (pid == 0)
     {

@@ -327,12 +327,37 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         COLOR MAPPINGS
+         Terminal print color assignments for each component category.
+         These are enforced by commons.color.ColorResolver at runtime.
+         Admins may reference these for log readability.
+    ════════════════════════════════════════════════════════════════════ -->
+    <color-mappings>
+        <mapping category="Main, Security, Auth, Port"      color="red"          ansi="38;5;196"/>
+        <mapping category="Shutdown"                        color="red-orange"   ansi="38;5;208"/>
+        <mapping category="Telnet, Proxy, Communicator"     color="orange"       ansi="38;5;214"/>
+        <mapping category="Crypto, Encrypt, AES, RSA, DSA"  color="lime-green"   ansi="38;5;118"/>
+        <mapping category="Bitcoin, Wallet, Trader"         color="gold"         ansi="38;5;220"/>
+        <mapping category="Module, Loader, Installer"       color="dark-grey"    ansi="38;5;242"/>
+        <mapping category="Config, Configuration"           color="maroon"       ansi="38;5;52"/>
+        <mapping category="Message, Queue, Handler"         color="bold-green"   ansi="1;32"/>
+        <mapping category="Connection, Socket, Poller"      color="sky-blue"     ansi="38;5;75"/>
+        <mapping category="Server, Express, Nitro (NWE)"    color="silver-gray"  ansi="38;5;145"/>
+        <mapping category="Liveness, Monitor"               color="bright-green" ansi="38;5;46"/>
+        <mapping category="Antivirus, Scanner"              color="dark-orange"  ansi="38;5;166"/>
+        <mapping category="Heuristic, Classifier"           color="yellow"       ansi="38;5;226"/>
+        <mapping category="Common, Rail, Logger"            color="lavender"     ansi="38;5;147"/>
+        <mapping category="Default"                         color="silver"       ansi="38;5;250"/>
+    </color-mappings>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          OBJECT HASHCODE OVERRIDES
          Admins may set fixed Object IDs for well-known classes.
          These appear in the [Object ID: XXXXXXXXXX] field of system output.
          Format: <entry class="SimpleClassName">integer_value</entry>
     ════════════════════════════════════════════════════════════════════ -->
     <hashcodes>
+        <entry class="Main">0925308434</entry>
         <entry class="NitroWebExpress">0195600860</entry>
         <entry class="MessageQueueSorter">1343441044</entry>
         <entry class="MessageQueue">0762660330</entry>
