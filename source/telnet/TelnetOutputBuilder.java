@@ -43,7 +43,7 @@ public class TelnetOutputBuilder extends Thread
 
                             if(!value.isEmpty())
                             {
-                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> sending message ["+value+"]");
+                                CommonRails.printSystemComponent(this, this.hashCode(), ". TelnetOutputBuilder Output >> sending message ["+value+"] .");
 
                                 if(proxy.process != null && proxy.process.isAlive() && proxy.writer != null)
                                 {
@@ -55,7 +55,7 @@ public class TelnetOutputBuilder extends Thread
                             }
                             else
                             {
-                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetOutputBuilder Output >> removing sorted-simple message.");
+                                CommonRails.printSystemComponent(this, this.hashCode(), ". TelnetOutputBuilder Output >> removing sorted-simple message .");
 
                                 queue.MESSAGES.remove(0);
                             }

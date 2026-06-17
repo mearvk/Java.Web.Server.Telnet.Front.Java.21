@@ -33,4 +33,9 @@ public final class ColorPalette {
     public static final String WHITE = "\033[38;5;15m";
     public static final String SILVER = "\033[38;5;250m";
     public static final String DEEP_RED = "\033[38;5;160m";
+    public static final String COLOR_MAROON         = "\033[38;5;52m";
+    public static final String COLOR_SILVER_GRAY    = "\033[38;5;145m";
+    public static final String COLOR_BOLD_GREEN     = "\033[1;32m";
+    public static final String COLOR_DARK_ORANGE    = "\033[38;5;166m";
+    public static final String COLOR_DARK_RED_ORANGE = "\033[38;5;202m";
 }

@@ -25,7 +25,7 @@ public class ShutdownHooks
     {
         ShutdownHooks owner = new ShutdownHooks();
 
-        CommonRails.printSystemComponent(owner, owner.hashCode(), "[shutdown] Closing server ports: 49152 49155 49188 49199 49144 49133 5512 6682");
+        CommonRails.printSystemComponent(owner, owner.hashCode(), ". [shutdown] Closing server ports: 49152(WebExpress) 49155(Status) 49188(ModuleLoader) 49199(Communicator) 49144(BinaryHttp) 49133(Weather) 5512(AES) 6682(Bitcoin) .");
 
         for (int port : PORTS)
             CommonRails.printShutdownSignal(owner, port, "SIGTERM");
@@ -66,7 +66,7 @@ public class ShutdownHooks
 
         stopClamAV();
 
-        CommonRails.printSystemComponent(owner, owner.hashCode(), "[shutdown] Done.");
+        CommonRails.printSystemComponent(owner, owner.hashCode(), ". [shutdown] Done .");
     }
 
     /** Stop freshclam daemon gracefully during shutdown; log warnings to logging/clamav.log. */

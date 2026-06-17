@@ -101,7 +101,7 @@ public class HeuristicClassifier
         /** Convenience: add a PASS finding with zero penalty. */
         protected int pass(final String message, final List<String> findings)
         {
-            findings.add("PASS  " + message);
+            findings.add(". PASS  " + message + " .");
             return 0;
         }
     }
@@ -133,11 +133,11 @@ public class HeuristicClassifier
         // ── 1. Port membership check ──────────────────────────────────────────
         if (!PUBLIC_PORTS.contains(event.port))
         {
-            findings.add("INFO  port " + event.port + " not in known public-port set");
+            findings.add(". INFO  port " + event.port + " not in known public-port set .");
         }
         else
         {
-            findings.add("PASS  recognised public port " + event.port);
+            findings.add(". PASS  recognised public port " + event.port + " .");
         }
 
         // ── 2. IP repetition / rate heuristic ────────────────────────────────
@@ -197,11 +197,11 @@ public class HeuristicClassifier
             }
             else if (count >= RATE_LIMIT / 2)
             {
-                findings.add("INFO  IP " + event.ip + " connection count approaching limit (" + count + "/" + RATE_LIMIT + ")");
+                findings.add(". INFO  IP " + event.ip + " connection count approaching limit (" + count + "/" + RATE_LIMIT + ") .");
                 return 15;
             }
         }
-        findings.add("PASS  IP " + event.ip + " within connection rate");
+        findings.add(". PASS  IP " + event.ip + " within connection rate .");
         return 0;
     }
 
@@ -346,11 +346,11 @@ public class HeuristicClassifier
         public String summary()
         {
             StringBuilder sb = new StringBuilder();
-            sb.append("HEURISTICCLASSIFIER [IP=").append(event.ip)
+            sb.append(". HEURISTICCLASSIFIER [IP=").append(event.ip)
               .append(" port=").append(event.port)
               .append(" country=").append(event.countryCode)
               .append("] score=").append(score).append("/100 — ")
-              .append(threat ? "THREAT" : "CLEAR");
+              .append(threat ? "THREAT" : "CLEAR").append(" .");
             return sb.toString();
         }
 
