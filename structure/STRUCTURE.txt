@@ -41,7 +41,27 @@ SOURCE PACKAGES  (source/)
 
   commons/
     CommonRails           — Core print architecture; printSystemComponent / printShutdownSignal /
-                            delayableFinePrinter / ANSI color constants / resolveOidColor.
+                            delayableFinePrinter. Module names use CamelCase™ convention.
+                            Shutdown signals reference modules by CamelCase™ name.
+    color/
+      ColorPalette        — Centralized ANSI 256-color constants.
+      ColorResolver       — Maps class category → OID color (from nwe-config.xml color-mappings).
+    formatting/
+      LineFormatter       — Message sanitizer. Enforces CamelCase™ naming:
+                              1. UPPER_SNAKE_CASE → CamelCase
+                              2. ALL_CAPS → InitialCap (preserves acronyms: MYSQL, JDBC, etc.)
+                              3. Known modules → CamelCase™
+                              4. Lifecycle verb normalization (starts/starting/started → canonical)
+                              5. ™ rendered in red
+                            Config-driven via configuration/print-method.xml <starts> block.
+    printing/
+      ComponentPrinter    — Assembles print lines from 5 configurable blocks (print-method.xml):
+                              Block 1: Prefix, Block 2: ObjectId, Block 3: Date,
+                              Block 4: Current, Block 5: Message (with decorators).
+                            Reads grace/control/parent-class-prefix settings from XML.
+      FinePrinter         — Grayscale fade animation (configurable steps/delay).
+      StartsCanonical     — @annotation marking methods that print lifecycle "starts" messages.
+                            All annotated calls resolve verb from print-method.xml canonical value.
     EnglishArithemeter
     InternationalCommonRails
     IranianWedding
@@ -114,22 +134,31 @@ SOURCE PACKAGES  (source/)
     WebExpress            — Telnet proxy / message queue server base.
 
     NitroWebExpress.Aspect  — Bridge container; holds all service components:
-      ├─ AESCompliant              — AES 2.0 WebExpress on port 5512.
-      ├─ BitcoinCompliant          — Bitcoin WebExpress on port 6682.
-      ├─ ConnectionStatusServer    — Status report server on port 49155.
+      ├─ AesCompliant™             — AES 2.0 WebExpress on port 5512.
+      ├─ BitcoinCompliant™         — Bitcoin WebExpress on port 6682.
+      ├─ RsaCompliant™             — RSA encryption on port 7743.
+      ├─ DsaCompliant™             — DSA encryption on port 7744.
+      ├─ ConnectionStatus™         — Status report server on port 49155.
       │    Reports: connections, geo, uptime, memory; persists to N21Store.
       ├─ MySQLComponent            — Checks MySQL at startup; prints lime/red OID status.
-      ├─ ModuleInstallationService — TCP command service on port 49166.
+      │    Halts with exception.log on failure.
+      ├─ ModuleInstallation™       — TCP command service on port 49166.
       │    install  <name> <sha256> <bytes>  — receive .jar/.zip/.java, verify sig, load.
       │    unload   <name>                   — admin-only classloader close + registry remove.
       │    list / restart / comment / signatory
       │    Logs all actions to module_loader table.
       │    ModuleRegistry          — ConcurrentHashMap of InstalledModule entries.
       │    InstalledModule         — name, Path, URLClassLoader, install timestamp.
-      └─ ASCIICreatorServer        — Binary ASCII signature service on port 49177.
-           request <nationalId>    — issues unique 5×5 grid, 1000-day TTL, stored in DB.
-           view    <nationalId>    — retrieves existing valid signature.
-           Uniqueness enforced: UNIQUE KEY on both national_id and sig_id.
+      ├─ AsciiCreator™             — Binary ASCII signature service on port 49177.
+      │    request <nationalId>    — issues unique 5×5 grid, 1000-day TTL, stored in DB.
+      │    view    <nationalId>    — retrieves existing valid signature.
+      ├─ ModuleLoaderDaemon™       — OS-installable module loader on port 49188.
+      ├─ Communicator™             — Persistent telnet chat server on port 49199.
+      ├─ BinaryHttp™               — Binary data → HTTP link server on port 49144.
+      ├─ Weather™                  — Telnet weather service on port 49133.
+      ├─ Antivirus™                — ClamAV scanner on configurable schedule.
+      ├─ HeuristicClassifier™      — Connection threat classifier (score ≥ 40 = drop).
+      └─ BitcoinWalletIndexer™     — Indexes /bitcoin/{24-30} wallets into MySQL.
 
   shutdown/
     ShutdownHooks         — JVM shutdown hook; prints SIGTERM/SIGKILL signals via CommonRails;
@@ -274,7 +303,10 @@ AUTHORIZATION
 
 CONFIGURATION FILES
 -------------------
-  configuration/nwe-config.xml                    — Main NWE service toggles.
+  configuration/nwe-config.xml                    — Main NWE service toggles (CamelCase IDs).
+  configuration/print-method.xml                  — Print output structure (5 blocks), grace,
+                                                    control, lifecycle verb framing, decorators,
+                                                    parent-class-prefix toggle.
   configuration/protocol-handlers.xml             — Well-known port protocol handlers.
   configuration/middle-director-modules.xml       — Middle director module registry.
   configuration/edge-schedule.xml                 — Weighted edge schedule (locked).
