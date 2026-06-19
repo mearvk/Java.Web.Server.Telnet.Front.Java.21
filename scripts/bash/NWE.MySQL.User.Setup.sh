@@ -21,6 +21,7 @@ CREATE DATABASE IF NOT EXISTS nwe_arctic CHARACTER SET utf8mb4 COLLATE utf8mb4_u
 CREATE DATABASE IF NOT EXISTS nwe_china CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE IF NOT EXISTS nwe_britain CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE IF NOT EXISTS nwe_ukraine CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS nwe_strernary CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 SQL
 
 echo "[DONE] All module databases created. Connecting as: mearvk@localhost"

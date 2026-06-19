@@ -35,24 +35,24 @@ public class StrernaryServer implements Runnable
 
     private final String host;
     private volatile boolean running = true;
-
-    /** Tracks whether the OS port 20000 listener is reachable */
     private volatile boolean osPortAlive = false;
-
-    /** Simple frequency map for best-guess pattern matching */
     private final ConcurrentHashMap<String, String> knowledgeBase = new ConcurrentHashMap<>();
+    private final StrernaryKnowledgeFetcher fetcher;
+    private final StrernaryTranslationLayer translator;
+    private final StrernaryLaborLawFetcher laborLaw;
 
-    /**
-     * Constructs the Strernary server.
-     *
-     * @param host bind address
-     * @javaowner Max Rupplin
-     */
     public StrernaryServer(String host)
     {
         this.host = host;
+        this.fetcher = new StrernaryKnowledgeFetcher();
+        this.translator = new StrernaryTranslationLayer();
+        this.laborLaw = new StrernaryLaborLawFetcher(fetcher);
         probeOsPort();
         Thread.ofVirtual().name(THREAD_NAME).start(this);
+        // Background: fetch labor law data after 1 minute uptime
+        Thread.ofVirtual().name("STRERNARY_LABOR_FETCH").start(() -> {
+            try { Thread.sleep(60_000); laborLaw.fetchAll(); } catch (Exception e) { ExceptionHandler.dispatch(e); }
+        });
         CommonRails.printSystemComponent(this, this.hashCode(),
             ". Strernary™ now starting on port " + PORT + " .");
     }
@@ -74,27 +74,23 @@ public class StrernaryServer implements Runnable
         }
     }
 
-    /**
-     * Handles incoming client requests.
-     *
-     * @javaowner Max Rupplin
-     */
     private void handleClient(Socket client)
     {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
              OutputStream out = client.getOutputStream())
         {
-            // Welcome banner + IQ joke
             out.write(("\n").getBytes(StandardCharsets.UTF_8));
-            out.write(("═══════════════════════════════════════════════════════════\n").getBytes(StandardCharsets.UTF_8));
-            out.write(("  Strernary™ Java Port 20000 — Deep Inference Edition\n").getBytes(StandardCharsets.UTF_8));
-            out.write(("═══════════════════════════════════════════════════════════\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Strernary\u2122 Java Port 20000 \u2014 Deep Inference Edition\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Model: DJL 0.31.0 / PyTorch / DistilBERT Sentiment\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Knowledge: nwe_strernary (Wikipedia + DuckDuckGo + MySQL)\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  Q: Why do people with high IQs make terrible friends?\n").getBytes(StandardCharsets.UTF_8));
-            out.write(("  A: They finish your sentences — and your arguments.\n").getBytes(StandardCharsets.UTF_8));
-            out.write(("═══════════════════════════════════════════════════════════\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  A: They finish your sentences \u2014 and your arguments.\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n").getBytes(StandardCharsets.UTF_8));
             out.write(("\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  Commands: ASK|<text>  RELAY|<text>  STATUS  quit\n").getBytes(StandardCharsets.UTF_8));
-            out.write(("  Or just type naturally — I'll do my best.\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Or just type naturally \u2014 I'll do my best.\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  strernary-deep> ").getBytes(StandardCharsets.UTF_8));
             out.flush();
 
@@ -107,24 +103,13 @@ public class StrernaryServer implements Runnable
 
                 String response;
                 if (request.startsWith("ASK|"))
-                {
-                    String text = request.substring(4).trim();
-                    response = "RESPONSE|" + bestGuess(text);
-                }
+                    response = "RESPONSE|" + bestGuess(request.substring(4).trim());
                 else if (request.startsWith("RELAY|"))
-                {
-                    String text = request.substring(6).trim();
-                    response = "OS_RESPONSE|" + relayToOsPort(text);
-                }
+                    response = "OS_RESPONSE|" + relayToOsPort(request.substring(6).trim());
                 else if ("STATUS".equalsIgnoreCase(request))
-                {
-                    response = "ALIVE|strernary|port=" + PORT + "|os_port_alive=" + osPortAlive;
-                }
+                    response = "ALIVE|strernary|port=" + PORT + "|os_port_alive=" + osPortAlive + "|model=DJL-0.31.0-DistilBERT";
                 else
-                {
-                    // Treat plain text as an ASK
                     response = bestGuess(request);
-                }
 
                 out.write(("  " + response + "\n").getBytes(StandardCharsets.UTF_8));
                 out.write(("  strernary-deep> ").getBytes(StandardCharsets.UTF_8));
@@ -140,131 +125,90 @@ public class StrernaryServer implements Runnable
         }
     }
 
-    /**
-     * Best-guess response engine. Checks local knowledge base first,
-     * then attempts DJL inference if available, then falls back to
-     * keyword heuristics.
-     *
-     * @param input the standard information text
-     * @return best-guess response
-     * @javaowner Max Rupplin
-     */
     private String bestGuess(String input)
     {
-        // Check knowledge base for cached response
         String cached = knowledgeBase.get(normalize(input));
         if (cached != null) return cached;
 
-        // Attempt DJL inference via reflection (avoids hard dependency)
-        String djlResponse = attemptDjlInference(input);
-        if (djlResponse != null)
+        // Check MySQL knowledge base first (factual answers)
+        String dbAnswer = fetcher.lookup(input);
+        if (dbAnswer != null) { knowledgeBase.put(normalize(input), "KB|" + dbAnswer); return "KB|" + dbAnswer; }
+
+        // Check labor law database for labor/employment questions
+        if (isLaborQuestion(input))
         {
-            knowledgeBase.put(normalize(input), djlResponse);
-            return djlResponse;
+            String lawAnswer = laborLaw.queryLaborLaw(input);
+            if (lawAnswer != null) { knowledgeBase.put(normalize(input), "LAW|" + lawAnswer); return "LAW|" + lawAnswer; }
         }
 
-        // Attempt relay to OS port (they sometimes talk)
+        // Try DJL deep inference (reasoning/sentiment)
+        String djlResponse = attemptDjlInference(input);
+        if (djlResponse != null) { knowledgeBase.put(normalize(input), djlResponse); return djlResponse; }
+
+        // Query national signal servers (Japan, Russia, Mexico, Greece) with translation
+        String nationalResponse = translator.queryNationals(input);
+        if (nationalResponse != null) { knowledgeBase.put(normalize(input), "NATL|" + nationalResponse); return "NATL|" + nationalResponse; }
+
+        // Fetch from Wikipedia/search for factual questions
+        String fetched = fetcher.fetchAndStore(input);
+        if (fetched != null) { knowledgeBase.put(normalize(input), "WIKI|" + fetched); return "WIKI|" + fetched; }
+
+        // Try OS port relay
         if (osPortAlive)
         {
             String osResponse = relayToOsPort(input);
             if (osResponse != null && !osResponse.startsWith("ERROR"))
-            {
-                knowledgeBase.put(normalize(input), osResponse);
-                return osResponse;
-            }
+            { knowledgeBase.put(normalize(input), osResponse); return osResponse; }
         }
 
-        // Fallback: keyword heuristic
         String heuristic = heuristicResponse(input);
         knowledgeBase.put(normalize(input), heuristic);
         return heuristic;
     }
 
-    /**
-     * Deep inference using DJL (Deep Java Library) with PyTorch engine.
-     * Performs text classification / sentiment analysis for best-guess routing.
-     * Falls back to null if DJL is unavailable or model fails.
-     *
-     * Jars required (jars/djl/):
-     *   api-0.31.0.jar, basicdataset-0.31.0.jar, model-zoo-0.31.0.jar,
-     *   pytorch-engine-0.31.0.jar, pytorch-model-zoo-0.31.0.jar, tokenizers-0.31.0.jar
-     *
-     * @javaowner Max Rupplin
-     */
     private String attemptDjlInference(String input)
     {
-        try
-        {
-            return DjlInferenceEngine.infer(input);
-        }
-        catch (NoClassDefFoundError | Exception e)
-        {
-            // DJL not on classpath or model unavailable — expected fallback
-            return null;
-        }
+        try { return DjlInferenceEngine.infer(input); }
+        catch (NoClassDefFoundError | Exception e) { return null; }
     }
 
-    /**
-     * Relays text to the OS-level port 20000 listener.
-     * They sometimes talk; sometimes they don't.
-     *
-     * @javaowner Max Rupplin
-     */
     private String relayToOsPort(String text)
     {
         try (Socket os = new Socket())
         {
             os.connect(new InetSocketAddress("127.0.0.1", PORT), 2000);
             os.setSoTimeout(3000);
-
             OutputStream out = os.getOutputStream();
             out.write((text + "\n").getBytes(StandardCharsets.UTF_8));
             out.flush();
-
             BufferedReader in = new BufferedReader(new InputStreamReader(os.getInputStream()));
             String response = in.readLine();
             osPortAlive = true;
             return response != null ? response : "NO_RESPONSE";
         }
-        catch (Exception e)
-        {
-            osPortAlive = false;
-            return "ERROR|OS_PORT_UNREACHABLE";
-        }
+        catch (Exception e) { osPortAlive = false; return "ERROR|OS_PORT_UNREACHABLE"; }
     }
 
-    /**
-     * Probes the OS port 20000 to check if it's alive at startup.
-     *
-     * @javaowner Max Rupplin
-     */
     private void probeOsPort()
     {
         try (Socket probe = new Socket())
         {
             probe.connect(new InetSocketAddress("127.0.0.1", PORT), 1000);
             osPortAlive = true;
-            probe.close();
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". Strernary™ OS port 20000 detected alive .");
+                ". Strernary\u2122 OS port 20000 detected alive .");
         }
         catch (Exception e)
         {
             osPortAlive = false;
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". Strernary™ OS port 20000 not detected .");
+                ". Strernary\u2122 OS port 20000 not detected .");
         }
     }
 
-    /**
-     * Keyword-based heuristic best-guess fallback.
-     *
-     * @javaowner Max Rupplin
-     */
     private String heuristicResponse(String input)
     {
         String lower = input.toLowerCase();
-
         if (lower.contains("weather") || lower.contains("temperature"))
             return "GUESS|weather_related|try port 49133 WeatherServer";
         if (lower.contains("bitcoin") || lower.contains("btc") || lower.contains("crypto"))
@@ -281,30 +225,29 @@ public class StrernaryServer implements Runnable
             return "GUESS|greece_signal|try port 49204 GreeceInternationalSignalServer";
         if (lower.contains("status") || lower.contains("alive") || lower.contains("health"))
             return "GUESS|status_query|try STATUS command on any server";
-
         return "GUESS|unknown|insufficient context for definitive response";
     }
 
-    /** @javaowner Max Rupplin */
-    private String normalize(String input)
+    private String normalize(String input) { return input.toLowerCase().trim().replaceAll("\\s+", " "); }
+
+    private boolean isLaborQuestion(String input)
     {
-        return input.toLowerCase().trim().replaceAll("\\s+", " ");
+        String l = input.toLowerCase();
+        return l.contains("labor") || l.contains("labour") || l.contains("employ") || l.contains("wage")
+            || l.contains("overtime") || l.contains("osha") || l.contains("fmla") || l.contains("flsa")
+            || l.contains("worker") || l.contains("union") || l.contains("discrimination")
+            || l.contains("termination") || l.contains("at-will") || l.contains("minimum wage")
+            || l.contains("working hours") || l.contains("leave") || l.contains("safety");
     }
 
-    /** @javaowner Max Rupplin */
     public void stop() { running = false; }
 
-    /**
-     * Reports unrecognized or suspicious requests as security concerns.
-     *
-     * @javaowner Max Rupplin
-     */
     private void reportSecurityConcern(Socket client, String request)
     {
         String ip = client.getInetAddress().getHostAddress();
-        String msg = "Unrecognized request from " + ip + ":" + client.getPort() + " — \"" + request + "\"";
+        String msg = "Unrecognized request from " + ip + ":" + client.getPort() + " \u2014 \"" + request + "\"";
         CommonRails.printSystemComponent(this, this.hashCode(),
-            ". Strernary™ SECURITY: " + msg + " .", commons.color.ColorPalette.COLOR_STANDARD_RED);
+            ". Strernary\u2122 SECURITY: " + msg + " .", commons.color.ColorPalette.COLOR_STANDARD_RED);
         ExceptionHandler.dispatch(new SecurityException("[Strernary] " + msg));
     }
 }
