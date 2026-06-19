@@ -1781,3 +1781,11 @@ More help is available by typing NET HELPMSG 2185.
 
 More help is available by typing NET HELPMSG 2185.
 
+[2026-06-19T13:10:17.561164] [shutdown] clamd stop (exit=2): The service name is invalid.
+
+More help is available by typing NET HELPMSG 2185.
+
+[2026-06-19T13:11:01.3835134] [shutdown] clamd stop (exit=2): The service name is invalid.
+
+More help is available by typing NET HELPMSG 2185.
+
