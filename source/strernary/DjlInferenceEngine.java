@@ -29,7 +29,6 @@ import ai.djl.repository.zoo.ModelNotFoundException;
 import ai.djl.repository.zoo.ZooModel;
 import ai.djl.training.util.ProgressBar;
 import ai.djl.translate.TranslateException;
-
 import commons.CommonRails;
 import exceptions.ExceptionHandler;
 
