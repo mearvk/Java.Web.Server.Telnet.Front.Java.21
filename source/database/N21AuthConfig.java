@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 /**
  * Loads MySQL credentials from authentication/mysql.auth.xml.
- * ensureMysqlRunning() checks systemctl status, starts if needed, then tests JDBC login.
+ * ensureMysqlRunning() checks Windows service status via sc/net, starts if needed, then tests JDBC login.
  */
 public class N21AuthConfig
 {
@@ -79,77 +79,111 @@ public class N21AuthConfig
     }
 
     /**
-     * 1. systemctl status mysql — printed via CommonRails with lime/yellow/red OID color.
-     * 2. sudo systemctl start mysql if not running and use-sudo=true.
+     * 1. sc query MySQL — checks Windows service status, printed via CommonRails with lime/yellow/red OID color.
+     * 2. net start MySQL if not running and use-sudo=true.
      * 3. JDBC login test using credentials from mysql.auth.xml.
      */
     public void ensureMysqlRunning()
     {
-        // ── 1. systemctl status mysql ─────────────────────────────────────────
+        // ── 1. sc query MySQL (Windows cmd.exe service check) ─────────────────
         try
         {
-            ProcessBuilder pb = new ProcessBuilder("systemctl", "status", "mysql");
+            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "sc", "query", "MySQL");
             pb.redirectErrorStream(true);
             Process proc = pb.start();
             String output = new BufferedReader(new InputStreamReader(proc.getInputStream()))
                 .lines().collect(Collectors.joining("\n"));
             int exit = proc.waitFor();
 
-            boolean notInstalled = output.contains("not-found") || output.contains("could not be found");
-            boolean running      = !notInstalled && ((exit == 0) || output.contains("active (running)"));
+            boolean notInstalled = output.contains("1060") || output.contains("does not exist");
+            boolean running      = !notInstalled && output.contains("RUNNING");
 
             if (notInstalled)
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". systemctl status mysql — MySQL NOT INSTALLED on this system .",
+                    ". sc query MySQL — MySQL service NOT INSTALLED on this system .",
                     ColorPalette.COLOR_STANDARD_RED);
-                haltWithException(new RuntimeException("MySQL not installed — systemctl reports not-found"));
+                haltWithException(new RuntimeException("MySQL not installed — sc query reports service does not exist"));
                 return;
             }
             else if (running)
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". SYSTEMCTL status mysql — active (running) .",
+                    ". SC QUERY MySQL — RUNNING .",
                     ColorPalette.COLOR_LIME_GREEN);
             }
             else
             {
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". SYSTEMCTL status mysql — inactive / stopped .",
+                    ". SC QUERY MySQL — STOPPED .",
                     ColorPalette.COLOR_STANDARD_RED);
 
                 if (USESUDO)
                 {
-                    new ProcessBuilder("sudo", "systemctl", "start", "mysql").inheritIO().start().waitFor();
+                    new ProcessBuilder("cmd.exe", "/c", "net", "start", "MySQL").inheritIO().start().waitFor();
 
-                    Process recheck = new ProcessBuilder("systemctl", "is-active", "--quiet", "mysql").start();
+                    Process recheck = new ProcessBuilder("cmd.exe", "/c", "sc", "query", "MySQL").start();
+                    String recheckOut = new BufferedReader(new InputStreamReader(recheck.getInputStream()))
+                        .lines().collect(Collectors.joining("\n"));
                     recheck.waitFor();
-                    boolean nowRunning = (recheck.exitValue() == 0);
+                    boolean nowRunning = recheckOut.contains("RUNNING");
 
                     if (nowRunning)
                     {
                         CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". SYSTEMCTL start mysql — now running .",
+                            ". NET START MySQL — now running .",
                             ColorPalette.COLOR_LIME_GREEN);
                     }
                     else
                     {
                         CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". SYSTEMCTL start mysql — FAILED to start .",
+                            ". NET START MySQL — FAILED to start .",
                             ColorPalette.COLOR_STANDARD_RED);
-                        haltWithException(new RuntimeException("systemctl start mysql failed — service did not become active"));
+                        haltWithException(new RuntimeException("net start MySQL failed — service did not become RUNNING"));
                     }
                 }
                 else
                 {
-                    haltWithException(new RuntimeException("MySQL inactive/stopped and use-sudo=false — cannot auto-start"));
+                    haltWithException(new RuntimeException("MySQL stopped and use-sudo=false — cannot auto-start"));
                 }
             }
         }
         catch (Exception e)
         {
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". SYSTEMCTL status mysql — check failed: " + e.getMessage() + " .",
+                ". SC QUERY MySQL — check failed: " + e.getMessage() + " .",
+                ColorPalette.COLOR_STANDARD_RED);
+            haltWithException(e);
+        }
+
+        // ── 1b. Verify mysqld process is alive on port 3306 ────────────────────
+        try
+        {
+            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "netstat", "-ano", "|", "findstr", "3306");
+            pb.redirectErrorStream(true);
+            Process proc = pb.start();
+            String output = new BufferedReader(new InputStreamReader(proc.getInputStream()))
+                .lines().collect(Collectors.joining("\n"));
+            proc.waitFor();
+
+            if (output.contains("LISTENING"))
+            {
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". MYSQLD — daemon LISTENING on port 3306 .",
+                    ColorPalette.COLOR_LIME_GREEN);
+            }
+            else
+            {
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". MYSQLD — no daemon listening on port 3306 .",
+                    ColorPalette.COLOR_STANDARD_RED);
+                haltWithException(new RuntimeException("mysqld not listening on port 3306 — daemon may not have started"));
+            }
+        }
+        catch (Exception e)
+        {
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". MYSQLD port check failed: " + e.getMessage() + " .",
                 ColorPalette.COLOR_STANDARD_RED);
             haltWithException(e);
         }

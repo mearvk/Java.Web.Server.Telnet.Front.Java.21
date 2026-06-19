@@ -62,7 +62,7 @@ SOURCE PACKAGES  (source/)
 
   database/
     N21AuthConfig         — Loads MySQL credentials from authentication/mysql.auth.xml;
-                            ensureMysqlRunning() checks / starts MySQL via systemctl.
+                            ensureMysqlRunning() checks / starts MySQL via cmd.exe sc/net.
     N21DataSource         — Shared JDBC connection; auto-fallback to XML on failure.
     N21Status             — Reports MySQL connectivity status with ANSI OID color.
     N21Store              — Static store methods for every N21 table:

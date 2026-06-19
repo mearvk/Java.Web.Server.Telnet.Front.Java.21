@@ -1762,4 +1762,22 @@ ERROR: Update failed.
 /home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.12/blocks/blocks/rev00000.dat: Empty file
 /home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.13/chainstate/chainstate/LOCK: Empty file
 /home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.13/blocks/blocks/index/LOCK: Empty file
-/home/mearvk/IdeaProjects/Java.Web.Serv
+/home/mearvk/IdeaProjects/Java.Web.Serv[2026-06-19T12:30:17.1983533] [shutdown] clamav-freshclam stop failed: Cannot run program "systemctl": CreateProcess error=2, The system cannot find the file specified
+[2026-06-19T12:30:45.3002732] [shutdown] clamav-freshclam stop failed: Cannot run program "systemctl": CreateProcess error=2, The system cannot find the file specified
+[2026-06-19T12:33:25.7534026] [shutdown] clamav-freshclam stop failed: Cannot run program "systemctl": CreateProcess error=2, The system cannot find the file specified
+[2026-06-19T12:33:54.1139602] [shutdown] clamd stop (exit=2): The service name is invalid.
+
+More help is available by typing NET HELPMSG 2185.
+
+[2026-06-19T12:39:22.24545] [shutdown] clamd stop (exit=2): The service name is invalid.
+
+More help is available by typing NET HELPMSG 2185.
+
+[2026-06-19T13:03:54.3243054] [shutdown] clamd stop (exit=2): The service name is invalid.
+
+More help is available by typing NET HELPMSG 2185.
+
+[2026-06-19T13:05:30.8544758] [shutdown] clamd stop (exit=2): The service name is invalid.
+
+More help is available by typing NET HELPMSG 2185.
+

@@ -69,7 +69,7 @@
          Sanitization pipeline (applied in order):
            1. UPPER_SNAKE_CASE → CamelCase  (e.g. MODULE_LOADER_DAEMON → ModuleLoaderDaemon)
            2. ALL_CAPS → InitialCap          (e.g. TELNET → Telnet, PROXY → Proxy)
-              Exception: preserved acronyms (MYSQL, JDBC, SYSTEMCTL, AES, RSA, etc.)
+              Exception: preserved acronyms (MYSQL, JDBC, SC, NET, AES, RSA, etc.)
            3. Known module names → CamelCase™ (e.g. webexpress → WebExpress™)
            4. ™ symbol rendered in trademark-color (red)
     ════════════════════════════════════════════════════════════════════ -->
@@ -121,7 +121,7 @@
             StrernaryTrainingLoader,BrarnerAleteModule
         </known-modules>
         <preserved-acronyms>JDBC,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA</preserved-acronyms>
-        <special-spellings>MySQL,NWEConfig, systemctl</special-spellings>
+        <special-spellings>MySQL,NWEConfig,cmd.exe,sc,net</special-spellings>
         <description>
             Status message enclosed in decorator characters.
             Example: . AesCompliant™ CommonRails now starting .
