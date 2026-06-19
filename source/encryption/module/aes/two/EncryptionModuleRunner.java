@@ -1,8 +1,10 @@
 /**
  * EncryptionModuleRunner — Reads aes2-config.xml to decide whether to run
  * the configurable AES2 module or the original hardcoded version.
+ * On startup, backs up aes2-config.xml and EncryptionModule.java to backups/{date}/.
  *
  * @author Max Rupplin
+ * @javaowner Max Rupplin
  * @date June 18 2026 EST
  */
 
@@ -11,18 +13,34 @@ package encryption.module.aes.two;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.time.LocalDate;
 import java.util.Random;
 
 public class EncryptionModuleRunner
 {
     private static final String CONFIG_PATH = "source/encryption/module/aes2-config.xml";
+    private static final String EM_PATH = "source/encryption/module/aes/two/EncryptionModule.java";
+    private static final String BACKUP_BASE = "source/encryption/module/backups";
 
+    /**
+     * Entry point. Ensures backups exist for today, then runs the appropriate module.
+     *
+     * @param random random seed source
+     * @param title module title
+     * @param plainText plaintext to encrypt
+     * @javaowner Max Rupplin
+     */
     public static void run(Random random, String title, String plainText)
     {
+        ensureBackup();
+
         boolean useConfig = isConfigEnabled();
 
         if (useConfig)
         {
+            backupBeforeConfigRun();
             EncryptionModule module = new EncryptionModule(random, title, plainText);
             executeConfigurable(module);
         }
@@ -36,6 +54,61 @@ public class EncryptionModuleRunner
         }
     }
 
+    /**
+     * On program start: if there is no backups/{date}/aes2-config.xml, copy it there.
+     *
+     * @javaowner Max Rupplin
+     */
+    private static void ensureBackup()
+    {
+        try
+        {
+            String date = LocalDate.now().toString();
+            Path backupDir = Paths.get(BACKUP_BASE, date);
+            Files.createDirectories(backupDir);
+
+            Path configBackup = backupDir.resolve("aes2-config.xml");
+            if (!Files.exists(configBackup))
+            {
+                Files.copy(Paths.get(CONFIG_PATH), configBackup, StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+        catch (IOException e)
+        {
+            System.err.println("[EncryptionModuleRunner] Backup failed: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Before creating new source from config settings, copy existing EM file to backups/{date}/.
+     *
+     * @javaowner Max Rupplin
+     */
+    private static void backupBeforeConfigRun()
+    {
+        try
+        {
+            String date = LocalDate.now().toString();
+            Path backupDir = Paths.get(BACKUP_BASE, date);
+            Files.createDirectories(backupDir);
+
+            Path emBackup = backupDir.resolve("EncryptionModule.java");
+            if (!Files.exists(emBackup))
+            {
+                Files.copy(Paths.get(EM_PATH), emBackup, StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+        catch (IOException e)
+        {
+            System.err.println("[EncryptionModuleRunner] EM backup failed: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Checks if the config XML has enabled=true at the top level.
+     *
+     * @javaowner Max Rupplin
+     */
     private static boolean isConfigEnabled()
     {
         try
@@ -52,6 +125,11 @@ public class EncryptionModuleRunner
         return false;
     }
 
+    /**
+     * Executes passes from aes2-config.xml that are enabled.
+     *
+     * @javaowner Max Rupplin
+     */
     private static void executeConfigurable(EncryptionModule module)
     {
         Document doc;

@@ -4,6 +4,7 @@
  * and future US Communications Modules.
  *
  * @author Max Rupplin
+ * @javaowner Max Rupplin
  * @date June 18 2026 EST
  */
 
@@ -22,6 +23,16 @@ public class KnownUSServerFlag
     private final String authorityLevel;
     private final String message;
 
+    /**
+     * Constructs a flag for a known US server.
+     *
+     * @param destination server hostname or IP
+     * @param port target port
+     * @param protocol TCP or TLS/HTTPS
+     * @param authorityLevel clearance level for this flag
+     * @param message flag message payload
+     * @javaowner Max Rupplin
+     */
     public KnownUSServerFlag(String destination, int port, String protocol, String authorityLevel, String message)
     {
         this.destination = destination;
@@ -31,6 +42,12 @@ public class KnownUSServerFlag
         this.message = message;
     }
 
+    /**
+     * Posts the flag to the known US server.
+     *
+     * @return true if the flag was successfully delivered
+     * @javaowner Max Rupplin
+     */
     public boolean post()
     {
         try

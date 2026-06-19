@@ -4,6 +4,7 @@
  * produced by HypotheticalLengthOfPrecept.
  *
  * @author Max Rupplin
+ * @javaowner Max Rupplin
  * @date June 18 2026 EST
  */
 
@@ -17,6 +18,13 @@ public class PreceptPruner
     private final double minimumConfidence;
     private final boolean requireSource;
 
+    /**
+     * Constructs a pruner with the given thresholds.
+     *
+     * @param minimumConfidence minimum confidence to retain a precept
+     * @param requireSource if true, precepts without a source are removed
+     * @javaowner Max Rupplin
+     */
     public PreceptPruner(double minimumConfidence, boolean requireSource)
     {
         this.minimumConfidence = minimumConfidence;
@@ -26,6 +34,10 @@ public class PreceptPruner
     /**
      * Prune the precept chain in-place. Removes entries below confidence
      * threshold or without a source (if requireSource is true).
+     *
+     * @param precepts the precept chain to prune
+     * @return number of precepts removed
+     * @javaowner Max Rupplin
      */
     public int prune(HypotheticalLengthOfPrecept precepts)
     {

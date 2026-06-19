@@ -4,6 +4,7 @@
  * Port-aware: 21, 443, 8080.
  *
  * @author Max Rupplin
+ * @javaowner Max Rupplin
  * @date June 18 2026 EST
  */
 
@@ -27,6 +28,17 @@ public class ConvergentFieldsInfoManager
 
     private static final int[] AWARE_PORTS = {21, 443, 8080};
 
+    /**
+     * Constructs the info manager with MySQL connection details.
+     * Falls back to file logging if database is unavailable.
+     *
+     * @param mysqlHost MySQL host address
+     * @param mysqlPort MySQL port
+     * @param database database name
+     * @param user MySQL username
+     * @param pass MySQL password
+     * @javaowner Max Rupplin
+     */
     public ConvergentFieldsInfoManager(String mysqlHost, int mysqlPort, String database, String user, String pass)
     {
         this.mysqlUrl = "jdbc:mysql://" + mysqlHost + ":" + mysqlPort + "/" + database;
@@ -36,6 +48,11 @@ public class ConvergentFieldsInfoManager
         initStorage();
     }
 
+    /**
+     * Initializes storage backend — MySQL or file fallback.
+     *
+     * @javaowner Max Rupplin
+     */
     private void initStorage()
     {
         try
@@ -62,6 +79,12 @@ public class ConvergentFieldsInfoManager
 
     /**
      * Fetch information from a URL using an aware port (21, 443, 8080).
+     *
+     * @param url the URL to fetch from
+     * @param category category label (news, stats, weddings, killings, etc.)
+     * @return fetched content as a string
+     * @throws IOException if the connection fails
+     * @javaowner Max Rupplin
      */
     public String fetch(String url, String category) throws IOException
     {
@@ -83,6 +106,13 @@ public class ConvergentFieldsInfoManager
         return result;
     }
 
+    /**
+     * Detects the port from a URL scheme or explicit port.
+     *
+     * @param url the URL string
+     * @return detected port number
+     * @javaowner Max Rupplin
+     */
     private int detectPort(String url)
     {
         try
@@ -97,6 +127,15 @@ public class ConvergentFieldsInfoManager
         catch (Exception e) { return 8080; }
     }
 
+    /**
+     * Stores content to the active backend (MySQL or file).
+     *
+     * @param category category label
+     * @param sourceUrl origin URL
+     * @param port port used
+     * @param content fetched content
+     * @javaowner Max Rupplin
+     */
     public void store(String category, String sourceUrl, int port, String content)
     {
         if (useDatabase)
@@ -109,6 +148,11 @@ public class ConvergentFieldsInfoManager
         }
     }
 
+    /**
+     * Stores to MySQL database.
+     *
+     * @javaowner Max Rupplin
+     */
     private void storeDB(String category, String sourceUrl, int port, String content)
     {
         try (PreparedStatement ps = dbConn.prepareStatement(
@@ -127,6 +171,11 @@ public class ConvergentFieldsInfoManager
         }
     }
 
+    /**
+     * Stores to local data.log.information file.
+     *
+     * @javaowner Max Rupplin
+     */
     private void storeFile(String category, String sourceUrl, int port, String content)
     {
         try (FileWriter fw = new FileWriter(logFilePath, true))
@@ -140,11 +189,24 @@ public class ConvergentFieldsInfoManager
         }
     }
 
+    /**
+     * Checks if a port is in the aware ports list.
+     *
+     * @param port port number to check
+     * @return true if port is 21, 443, or 8080
+     * @javaowner Max Rupplin
+     */
     public boolean isPortAware(int port)
     {
         for (int p : AWARE_PORTS) if (p == port) return true;
         return false;
     }
 
+    /**
+     * Returns the array of aware ports.
+     *
+     * @return int array of ports {21, 443, 8080}
+     * @javaowner Max Rupplin
+     */
     public int[] getAwarePorts() { return AWARE_PORTS; }
 }

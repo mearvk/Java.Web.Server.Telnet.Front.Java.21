@@ -18521,3 +18521,19 @@ ERROR: Can't create temporary directory /usr/local/share/clamav/tmp.63d61b2168
 Hint: The database directory must be writable for UID 1000 or GID 1000
 ERROR: Update failed.
 
+[2026-06-19T00:17:16.150800986] ClamAV ALERT (exit=130): /home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.12/chainstate/chainstate/LOCK: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.12/blocks/blocks/index/LOCK: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.12/blocks/blocks/rev00000.dat: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.13/chainstate/chainstate/LOCK: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.13/blocks/blocks/index/LOCK: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.13/blocks/blocks/rev00000.dat: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.26/chainstate/chainstate/LOCK: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.26/blocks/blocks/index/LOCK: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.26/blocks/blocks/rev00000.dat: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.24/chainstate/chainstate/LOCK: Empty file 
+[2026-06-19T00:17:17.51542969] freshclam update (exit=10)
+ClamAV update process started at Fri Jun 19 00:17:17 2026
+ERROR: Can't create temporary directory /usr/local/share/clamav/tmp.f5bd2ae9a3
+Hint: The database directory must be writable for UID 1000 or GID 1000
+ERROR: Update failed.
+

@@ -1,7 +1,9 @@
 /**
- * File-level Javadoc.
+ * EncryptionModule — AES 2.0 DSS5.0 encryption module with mixed-radix
+ * transformations across 21 configurable rounds.
  *
  * @author Max Rupplin
+ * @javaowner Max Rupplin
  * @date June 03 2026 EST
  */
 
@@ -26,11 +28,27 @@ public class EncryptionModule
 
     public String cipher_text = "";
 
+    /**
+     * Constructs the encryption module with plaintext input.
+     *
+     * @param RANDOM random seed source
+     * @param TITLE module title
+     * @param PLAIN_TEXT plaintext to encrypt
+     * @javaowner Max Rupplin
+     */
     public EncryptionModule(final Random RANDOM,  final String TITLE, final String PLAIN_TEXT)
     {
         this.PLAIN_TEXT = PLAIN_TEXT;
     }
 
+    /**
+     * Constructs the encryption module with file input.
+     *
+     * @param RANDOM random seed source
+     * @param TITLE module title
+     * @param file file containing plaintext
+     * @javaowner Max Rupplin
+     */
     public EncryptionModule(final Random RANDOM, final String TITLE, final File file)
     {
         try
@@ -44,6 +62,11 @@ public class EncryptionModule
         }
     }
 
+    /**
+     * Pass one — Initial padding with base-12 radix conversion.
+     *
+     * @javaowner Max Rupplin
+     */
     public void one()
     {
         int sub = 0x88034321;
@@ -51,6 +74,11 @@ public class EncryptionModule
         this.initial_pad = Integer.toString(sub | Integer.parseInt(Radix12.toBase12(Integer.parseInt(PLAIN_TEXT)), 12));
     }
 
+    /**
+     * Radix12 — Base-12 (duodecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
     public static class Radix12
     {
         private static final String DIGITS = "0123456789AB";
@@ -71,6 +99,11 @@ public class EncryptionModule
         }
     }
 
+    /**
+     * Radix18 — Base-18 (octodecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
     public static class Radix18
     {
         private static final String DIGITS = "0123456789ABCDEFGH";
@@ -91,6 +124,11 @@ public class EncryptionModule
         }
     }
 
+    /**
+     * Radix13 — Base-13 (tridecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
     public static class Radix13
     {
         private static final String DIGITS = "0123456789ABC";
@@ -111,6 +149,11 @@ public class EncryptionModule
         }
     }
 
+    /**
+     * Radix6 — Base-6 (senary) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
     public static class Radix6
     {
         public static String toBase6(int value)
@@ -119,6 +162,11 @@ public class EncryptionModule
         }
     }
 
+    /**
+     * Radix11 — Base-11 (undecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
     public static class Radix11
     {
         public static String toBase11(int value)
@@ -127,6 +175,11 @@ public class EncryptionModule
         }
     }
 
+    /**
+     * Intermix01 — First cipher intermix loop (positions 1, 2, 6, 7).
+     *
+     * @javaowner Max Rupplin
+     */
     public static class Intermix01
     {
         public static String apply(String pre, String r07, String r02, String r06, String r01, StringBuilder builder)
@@ -144,6 +197,11 @@ public class EncryptionModule
         }
     }
 
+    /**
+     * Radix17 — Base-17 (heptadecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
     public static class Radix17
     {
         public static String toBase17(int value)
@@ -152,6 +210,11 @@ public class EncryptionModule
         }
     }
 
+    /**
+     * Intermix02 — Second cipher intermix loop (positions 2, 3, 17).
+     *
+     * @javaowner Max Rupplin
+     */
     public static class Intermix02
     {
         public static String apply(String pre, String r17, String r02, String r03, StringBuilder builder)
@@ -169,10 +232,11 @@ public class EncryptionModule
     }
 
     /**
+     * Pass two — Initial padding field of 12 symmetry rows.
+     * Permutations at base-18, base-13, base-6.
+     *
      * @author Max Rupplin
-     *
-     *
-     * Initial Padding field of 12 symmetry rows
+     * @javaowner Max Rupplin
      */
     public void two()
     {
@@ -230,6 +294,11 @@ public class EncryptionModule
         }
     }
 
+    /**
+     * Pass three — Lightning rounds with base-11, base-12, base-17 intermix.
+     *
+     * @javaowner Max Rupplin
+     */
     //Lightning Rounds
     public void three()
     {
@@ -337,75 +406,93 @@ public class EncryptionModule
         Intermix02.apply(pre, result_2_17, result_2_02, result_2_03, builder);
     }
 
+    /** Pass four. @javaowner Max Rupplin */
     public void four()
     {
         //final mage
     }
 
+    /** Pass five. @javaowner Max Rupplin */
     public void five()
     {
     }
 
+    /** Pass six. @javaowner Max Rupplin */
     public void six()
     {
     }
 
+    /** Pass seven. @javaowner Max Rupplin */
     public void seven()
     {
     }
 
+    /** Pass eight. @javaowner Max Rupplin */
     public void eight()
     {
     }
 
+    /** Pass nine. @javaowner Max Rupplin */
     public void nine()
     {
     }
 
+    /** Pass ten. @javaowner Max Rupplin */
     public void ten()
     {
     }
 
+    /** Pass eleven. @javaowner Max Rupplin */
     public void eleven()
     {
     }
 
+    /** Pass twelve. @javaowner Max Rupplin */
     public void twelve()
     {
     }
 
+    /** Pass thirteen. @javaowner Max Rupplin */
     public void thirteen()
     {
     }
 
+    /** Pass fourteen. @javaowner Max Rupplin */
     public void fourteen()
     {
     }
 
+    /** Pass fifteen. @javaowner Max Rupplin */
     public void fifteen()
     {
     }
 
+    /** Pass sixteen. @javaowner Max Rupplin */
     public void sixteen()
     {
     }
 
+    /** Pass seventeen. @javaowner Max Rupplin */
     public void seventeen()
     {
     }
 
+    /** Pass eighteen. @javaowner Max Rupplin */
     public void eighteen()
     {
     }
 
+    /** Pass nineteen. @javaowner Max Rupplin */
     public void nineteen()
     {
     }
 
+    /** Pass twenty. @javaowner Max Rupplin */
     public void twenty()
     {
     }
 
+    /** Pass twentyone. @javaowner Max Rupplin */
     public void twentyone()
     {
     }

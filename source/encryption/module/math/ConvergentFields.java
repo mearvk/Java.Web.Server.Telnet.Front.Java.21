@@ -6,6 +6,7 @@
  * "Science said it; it was science by a person said science."
  *
  * @author Max Rupplin
+ * @javaowner Max Rupplin
  * @date June 18 2026 EST
  */
 
@@ -22,6 +23,13 @@ public class ConvergentFields
     private final int[] calendarStream;
     private final List<Convergence> matches = new ArrayList<>();
 
+    /**
+     * Constructs a ConvergentFields analyzer with the given streams.
+     *
+     * @param aesStream AES2 cipher output stream
+     * @param calendarStream US Calendar encoded stream
+     * @javaowner Max Rupplin
+     */
     public ConvergentFields(int[] aesStream, int[] calendarStream)
     {
         this.aesStream = aesStream;
@@ -30,6 +38,11 @@ public class ConvergentFields
 
     /**
      * Build a calendar stream from a US date range (day-of-year encoded).
+     *
+     * @param start the starting date
+     * @param days number of days to encode
+     * @return encoded calendar stream as int array
+     * @javaowner Max Rupplin
      */
     public static int[] fromUSCalendar(LocalDate start, int days)
     {
@@ -37,7 +50,6 @@ public class ConvergentFields
         for (int i = 0; i < days; i++)
         {
             LocalDate d = start.plusDays(i);
-            // Encode: year * 1000 + dayOfYear (US ordinal calendar)
             stream[i] = d.getYear() * 1000 + d.get(ChronoField.DAY_OF_YEAR);
         }
         return stream;
@@ -46,6 +58,9 @@ public class ConvergentFields
     /**
      * Analyze convergence — where AES2 output values match calendar-encoded values.
      * Reports probability grain and 'same' classification.
+     *
+     * @return list of convergence points found
+     * @javaowner Max Rupplin
      */
     public List<Convergence> analyze()
     {
@@ -58,14 +73,12 @@ public class ConvergentFields
                 int aVal = aesStream[a];
                 int cVal = calendarStream[c];
 
-                // Exact match
                 if (aVal == cVal)
                 {
                     matches.add(new Convergence(a, c, aVal, cVal, 1.0, "SAME"));
                     continue;
                 }
 
-                // Bitwise proximity — shared high bits
                 int xor = aVal ^ cVal;
                 int sharedBits = Integer.numberOfLeadingZeros(xor);
                 double probability = sharedBits / 32.0;
@@ -81,10 +94,18 @@ public class ConvergentFields
         return matches;
     }
 
+    /**
+     * Returns the list of matches found after analysis.
+     *
+     * @return list of convergence matches
+     * @javaowner Max Rupplin
+     */
     public List<Convergence> getMatches() { return matches; }
 
     /**
      * Convergence record — a single point where AES2 and Calendar fields meet.
+     *
+     * @javaowner Max Rupplin
      */
     public static class Convergence
     {
@@ -93,8 +114,19 @@ public class ConvergentFields
         public final int aesValue;
         public final int calendarValue;
         public final double probability;
-        public final String classification; // "SAME" or "CONVERGENT"
+        public final String classification;
 
+        /**
+         * Constructs a Convergence record.
+         *
+         * @param aesIndex index in the AES stream
+         * @param calendarIndex index in the calendar stream
+         * @param aesValue value from AES stream
+         * @param calendarValue value from calendar stream
+         * @param probability convergence probability (0.0–1.0)
+         * @param classification "SAME" or "CONVERGENT"
+         * @javaowner Max Rupplin
+         */
         public Convergence(int aesIndex, int calendarIndex, int aesValue, int calendarValue, double probability, String classification)
         {
             this.aesIndex = aesIndex;

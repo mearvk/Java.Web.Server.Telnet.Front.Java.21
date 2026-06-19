@@ -1,8 +1,9 @@
 /**
  * EncryptionModuleOriginal — Preserved copy of the original hardcoded AES2 module.
- * Runs when aes2-config.xml <enabled> is false.
+ * Runs when aes2-config.xml enabled is false.
  *
  * @author Max Rupplin
+ * @javaowner Max Rupplin
  * @date June 03 2026 EST
  */
 
