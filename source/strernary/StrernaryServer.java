@@ -84,31 +84,54 @@ public class StrernaryServer implements Runnable
         try (BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
              OutputStream out = client.getOutputStream())
         {
-            String request = in.readLine();
-            if (request == null) return;
+            // Welcome banner + IQ joke
+            out.write(("\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("═══════════════════════════════════════════════════════════\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Strernary™ Java Port 20000 — Deep Inference Edition\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("═══════════════════════════════════════════════════════════\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Q: Why do people with high IQs make terrible friends?\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  A: They finish your sentences — and your arguments.\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("═══════════════════════════════════════════════════════════\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Commands: ASK|<text>  RELAY|<text>  STATUS  quit\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Or just type naturally — I'll do my best.\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  strernary-deep> ").getBytes(StandardCharsets.UTF_8));
+            out.flush();
 
-            if (request.startsWith("ASK|"))
+            String request;
+            while ((request = in.readLine()) != null)
             {
-                String text = request.substring(4).trim();
-                String response = bestGuess(text);
-                out.write(("RESPONSE|" + response + "\n").getBytes(StandardCharsets.UTF_8));
-            }
-            else if (request.startsWith("RELAY|"))
-            {
-                String text = request.substring(6).trim();
-                String osResponse = relayToOsPort(text);
-                out.write(("OS_RESPONSE|" + osResponse + "\n").getBytes(StandardCharsets.UTF_8));
-            }
-            else if ("STATUS".equals(request.trim()))
-            {
-                out.write(("ALIVE|strernary|port=" + PORT + "|os_port_alive=" + osPortAlive + "\n")
-                    .getBytes(StandardCharsets.UTF_8));
-            }
-            else
-            {
-                reportSecurityConcern(client, request);
+                request = request.trim();
+                if (request.equalsIgnoreCase("quit") || request.equalsIgnoreCase("exit")) break;
+                if (request.isEmpty()) { out.write(("  strernary-deep> ").getBytes(StandardCharsets.UTF_8)); out.flush(); continue; }
+
+                String response;
+                if (request.startsWith("ASK|"))
+                {
+                    String text = request.substring(4).trim();
+                    response = "RESPONSE|" + bestGuess(text);
+                }
+                else if (request.startsWith("RELAY|"))
+                {
+                    String text = request.substring(6).trim();
+                    response = "OS_RESPONSE|" + relayToOsPort(text);
+                }
+                else if ("STATUS".equalsIgnoreCase(request))
+                {
+                    response = "ALIVE|strernary|port=" + PORT + "|os_port_alive=" + osPortAlive;
+                }
+                else
+                {
+                    // Treat plain text as an ASK
+                    response = bestGuess(request);
+                }
+
+                out.write(("  " + response + "\n").getBytes(StandardCharsets.UTF_8));
+                out.write(("  strernary-deep> ").getBytes(StandardCharsets.UTF_8));
+                out.flush();
             }
 
+            out.write(("  Goodbye. Think deeply.\n").getBytes(StandardCharsets.UTF_8));
             out.flush();
         }
         catch (Exception e)
@@ -158,8 +181,13 @@ public class StrernaryServer implements Runnable
     }
 
     /**
-     * Attempts inference using DJL (Deep Java Library) if jars are on classpath.
-     * Returns null if DJL is not available.
+     * Deep inference using DJL (Deep Java Library) with PyTorch engine.
+     * Performs text classification / sentiment analysis for best-guess routing.
+     * Falls back to null if DJL is unavailable or model fails.
+     *
+     * Jars required (jars/djl/):
+     *   api-0.31.0.jar, basicdataset-0.31.0.jar, model-zoo-0.31.0.jar,
+     *   pytorch-engine-0.31.0.jar, pytorch-model-zoo-0.31.0.jar, tokenizers-0.31.0.jar
      *
      * @javaowner Max Rupplin
      */
@@ -167,27 +195,11 @@ public class StrernaryServer implements Runnable
     {
         try
         {
-            // Check if DJL is available via reflection
-            Class<?> criteriaClass = Class.forName("ai.djl.repository.zoo.Criteria");
-            Class<?> zooModelClass = Class.forName("ai.djl.repository.zoo.ZooModel");
-            Class<?> predictorClass = Class.forName("ai.djl.inference.Predictor");
-
-            // DJL available — use text classification / QA model
-            // Build criteria for a question-answering model
-            Object criteria = criteriaClass.getMethod("builder")
-                .invoke(null);
-
-            // If we get here, DJL is on classpath but full inference
-            // requires model download — return a signal that DJL is ready
-            return null; // Let the framework handle model loading externally
+            return DjlInferenceEngine.infer(input);
         }
-        catch (ClassNotFoundException e)
+        catch (NoClassDefFoundError | Exception e)
         {
-            // DJL not on classpath — expected fallback
-            return null;
-        }
-        catch (Exception e)
-        {
+            // DJL not on classpath or model unavailable — expected fallback
             return null;
         }
     }
