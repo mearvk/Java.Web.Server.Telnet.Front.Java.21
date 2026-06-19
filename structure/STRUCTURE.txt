@@ -167,6 +167,7 @@ SOURCE PACKAGES  (source/)
       │    view    <nationalId>    — retrieves existing valid signature.
       ├─ ModuleLoaderDaemon™       — OS-installable module loader on port 49188.
       ├─ Communicator™             — Persistent telnet chat server on port 49199.
+      ├─ CalendarD44™             — US Calendar D44 module on port 49200.
       ├─ BinaryHttp™               — Binary data → HTTP link server on port 49144.
       ├─ Weather™                  — Telnet weather service on port 49133.
       ├─ Antivirus™                — ClamAV scanner on configurable schedule.
@@ -222,6 +223,12 @@ SOURCE PACKAGES  (source/)
     TransferSummaryMailer — Sends Transfer of Summary to contacts via sendmail/mailx.
                             Contacts loaded from configuration/transfer-contacts.xml.
                             Script: scripts/send-transfer-summary.sh
+
+  calendar/d44/
+    CalendarD44Server     — US Calendar D44 module on port 49200.
+                            Internet-aware (ports 21, 22, 80, 443, 8080, 8888).
+                            Stores in nwe_calendar_d44 MySQL database.
+                            Uses AES2 module + ConvergentFields for calendar-cipher calculus.
 
   lanterna/
     TerminalMenu          — Lanterna GUI menu on port 49200; presents bordered buttons for
@@ -286,7 +293,7 @@ PORTS SUMMARY
   49177   ASCIICreatorServer
   49188   ModuleLoaderDaemon
   49199   Communicator
-  49200   TerminalMenu (Lanterna GUI → bridges to selected service)
+  49200   CalendarD44Server (US Calendar D44 module)
   49144   BinaryHttpServer
   49133   WeatherServer
    5512   AES 2.0 Compliant WebExpress

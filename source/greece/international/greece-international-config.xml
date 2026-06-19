@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    GreeceInternationalSignalServer Configuration
+    ===============================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Greek and international news sources, signals, and media configuration.
+-->
+<greece-international-config>
+
+    <sources>
+        <source id="kathimerini" url="https://www.ekathimerini.com" category="news" lang="en" />
+        <source id="ana" url="https://www.amna.gr/en" category="news" lang="en" />
+        <source id="naftemporiki" url="https://www.naftemporiki.gr" category="finance" lang="el" />
+        <source id="capitalGR" url="https://www.capital.gr" category="finance" lang="el" />
+        <source id="reuters" url="https://www.reuters.com" category="news" lang="en" />
+        <source id="aljazeera" url="https://www.aljazeera.com" category="news" lang="en" />
+        <source id="bbc" url="https://www.bbc.com/news" category="news" lang="en" />
+        <source id="dw" url="https://www.dw.com/en" category="news" lang="en" />
+    </sources>
+
+    <signals>
+        <signal id="athex_general" url="https://www.athexgroup.gr/en/web/guest/indices" type="market" />
+        <signal id="eurusd" url="https://www.ecb.europa.eu/stats/exchange/eurofxref" type="currency" />
+        <signal id="baltic_dry" url="https://www.balticexchange.com/en/data-services/market-information.html" type="shipping" />
+    </signals>
+
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>webp</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>aac</format>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+        <documents>
+            <format>pdf</format>
+            <format>xml</format>
+            <format>json</format>
+            <format>csv</format>
+        </documents>
+    </acceptable-media>
+
+    <database>
+        <name>nwe_greece_intl</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <username>nwe</username>
+        <password>nwe_greece_intl_pass</password>
+    </database>
+
+</greece-international-config>

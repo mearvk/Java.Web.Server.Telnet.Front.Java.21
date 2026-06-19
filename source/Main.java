@@ -1,4 +1,5 @@
 import commons.CommonRails;
+import calendar.d44.CalendarD44Server;
 import communicator.Communicator;
 import configuration.NitroWebExpressConfig;
 import http.BinaryHttpServer;
@@ -74,6 +75,8 @@ public class Main
     protected static final String COMMUNICATOR_HOST = "localhost";
 
     protected static final String WEATHER_SERVER_HOST = "localhost";
+
+    protected static final String CALENDAR_D44_HOST = "localhost";
 
     public static void main(String...args)
     {
@@ -181,6 +184,9 @@ public class Main
 
             if (NitroWebExpressConfig.isEnabled("Weather"))
                 NITRO.BRIDGE.WEATHER_SERVER = new WeatherServer(WEATHER_SERVER_HOST);
+
+            if (NitroWebExpressConfig.isEnabled("CalendarD44"))
+                NITRO.BRIDGE.CALENDAR_D44_SERVER = new CalendarD44Server(CALENDAR_D44_HOST);
 
             if (NitroWebExpressConfig.isEnabled("Antivirus"))
                 new antivirus.AntivirusScanner().start();

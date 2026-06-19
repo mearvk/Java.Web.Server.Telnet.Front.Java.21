@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    BritainSignalServer Configuration
+    ==================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    British news sources, signals, and media configuration.
+-->
+<britain-config>
+
+    <sources>
+        <source id="bbc" url="https://www.bbc.co.uk/news" category="news" lang="en" />
+        <source id="guardian" url="https://www.theguardian.com/uk" category="news" lang="en" />
+        <source id="telegraph" url="https://www.telegraph.co.uk" category="news" lang="en" />
+        <source id="ft" url="https://www.ft.com" category="finance" lang="en" />
+        <source id="reuters_uk" url="https://www.reuters.com/world/uk/" category="news" lang="en" />
+        <source id="sky" url="https://news.sky.com" category="news" lang="en" />
+        <source id="lse" url="https://www.londonstockexchange.com" category="finance" lang="en" />
+        <source id="metoffice" url="https://www.metoffice.gov.uk" category="weather" lang="en" />
+    </sources>
+
+    <signals>
+        <signal id="ftse100" url="https://www.londonstockexchange.com/indices/ftse-100" type="market" />
+        <signal id="ftse250" url="https://www.londonstockexchange.com/indices/ftse-250" type="market" />
+        <signal id="gbpusd" url="https://www.bankofengland.co.uk/statistics/exchange-rates" type="currency" />
+        <signal id="gilts" url="https://www.dmo.gov.uk/responsibilities/gilt-market/" type="bond" />
+    </signals>
+
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>webp</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>aac</format>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+        <documents>
+            <format>pdf</format>
+            <format>xml</format>
+            <format>json</format>
+            <format>csv</format>
+        </documents>
+    </acceptable-media>
+
+    <database>
+        <name>nwe_britain</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <username>nwe</username>
+        <password>nwe_britain_pass</password>
+    </database>
+
+</britain-config>
