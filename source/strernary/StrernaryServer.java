@@ -50,20 +50,22 @@ public class StrernaryServer implements Runnable
         this.laborLaw = new StrernaryLaborLawFetcher(fetcher);
         probeOsPort();
         Thread.ofVirtual().name(THREAD_NAME).start(this);
-        // Schedule AI training: labor law data after 1 min, general knowledge after 5 min
+        // Schedule AI training: load TSV data immediately, labor law fetch after 1 min
         Thread.ofVirtual().name("STRERNARY_TRAIN").start(() -> {
             try {
+                new StrernaryTrainingLoader(fetcher).loadAll();
                 Thread.sleep(60_000);
                 CommonRails.printSystemComponent(this, this.hashCode(),
                     ". Strernary\u2122 AI training scheduled \u2014 labor laws fetching .");
                 laborLaw.fetchAll();
-                Thread.sleep(240_000);
                 CommonRails.printSystemComponent(this, this.hashCode(),
                     ". Strernary\u2122 AI training complete \u2014 model stored .");
             } catch (Exception e) { ExceptionHandler.dispatch(e); }
         });
         CommonRails.printSystemComponent(this, this.hashCode(),
             ". Strernary\u2122 now starting on port " + PORT + " .");
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            ". Strernary\u2122 registered as @20000 .");
     }
 
     @Override

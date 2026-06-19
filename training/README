@@ -1,0 +1,12 @@
+# Strernary Training Data
+# =======================
+# Training models and datasets for the port 20000 AI inference system.
+#
+# Structure:
+#   training/labor-law/       — US/EU/Asia labor law Q&A pairs
+#   training/general/         — General knowledge Q&A pairs
+#   training/signal-servers/  — Market/news signal interpretation pairs
+#
+# Format: TSV (tab-separated) — input\toutput\tsource
+# Models are saved to MySQL nwe_strernary.model_state after training.
+# DJL loads from jars/djl/ and caches weights here after first download.

@@ -112,7 +112,13 @@
             ExceptionHandler,ExceptionPersistenceService,
             ConnectionPoller,CurrentConnections,
             PortAdministrator,PortKnockKnock,PortStealth,
-            LanguagePack,HashCodeRegistry,ProtocolHandlerRegistry
+            LanguagePack,HashCodeRegistry,ProtocolHandlerRegistry,
+            CalendarD44Server,CalendarFranceServer,
+            JapanSignalServer,RussiaSignalServer,MexicoSignalServer,
+            GreeceInternationalSignalServer,
+            StrernaryServer,StrernaryOsPortModule,DjlInferenceEngine,
+            StrernaryKnowledgeFetcher,StrernaryTranslationLayer,StrernaryLaborLawFetcher,
+            StrernaryTrainingLoader,BrarnerAleteModule
         </known-modules>
         <preserved-acronyms>JDBC,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA</preserved-acronyms>
         <special-spellings>MySQL,NWEConfig, systemctl</special-spellings>
@@ -157,6 +163,23 @@
                       "now starting" → ". WebExpress™ now starting ."
         </description>
     </starts>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PORT ALIASES
+         Maps class names to port-based display identifiers for the
+         [Current: @...] block. When a class matches, the alias is shown
+         instead of the class name. Used for port-aware services.
+    ════════════════════════════════════════════════════════════════════ -->
+    <port-aliases>
+        <alias class="StrernaryServer" display="@20000"/>
+        <alias class="StrernaryOsPortModule" display="@20000.os"/>
+        <alias class="JapanSignalServer" display="@49201"/>
+        <alias class="RussiaSignalServer" display="@49202"/>
+        <alias class="MexicoSignalServer" display="@49203"/>
+        <alias class="GreeceInternationalSignalServer" display="@49204"/>
+        <alias class="CalendarD44Server" display="@49200"/>
+        <alias class="BrarnerAleteModule" display="@BrarnerAlete"/>
+    </port-aliases>
 
     <!-- ═══════════════════════════════════════════════════════════════════
          PARENT CLASS PREFIX
