@@ -1,6 +1,6 @@
 /**
- * RussiaSignalServer — Connects to Russian servers for news, market signals,
- * and internet data. Stores in nwe_russia MySQL database.
+ * ArcticSignalServer — Connects to Antarctic/Arctic research servers for
+ * climate, ice, weather, and station data. Stores in nwe_arctic MySQL database.
  * Port-aware: 21, 22, 80, 443, 8080, 8888.
  *
  * @author Max Rupplin
@@ -8,22 +8,18 @@
  * @date June 19 2026 EST
  */
 
-package russia;
-
-import commons.CommonRails;
-import exceptions.ExceptionHandler;
+package international.radio.arctic;
 
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
-import java.time.Instant;
 import javax.net.ssl.SSLSocketFactory;
 
-public class RussiaSignalServer implements Runnable
+public class ArcticSignalServer implements Runnable
 {
-    public static final int PORT = 49202;
-    public static final String THREAD_NAME = "RUSSIA_SIGNAL_SERVER";
+    public static final int PORT = 49203;
+    public static final String THREAD_NAME = "ARCTIC_SIGNAL_SERVER";
     private static final int[] AWARE_PORTS = {21, 22, 80, 443, 8080, 8888};
 
     private final String host;
@@ -31,22 +27,20 @@ public class RussiaSignalServer implements Runnable
     private volatile boolean running = true;
 
     /**
-     * Constructs the Russia signal server.
+     * Constructs the Arctic signal server.
      *
      * @param host bind address
      * @javaowner Max Rupplin
      */
-    public RussiaSignalServer(String host)
+    public ArcticSignalServer(String host)
     {
         this.host = host;
         initDatabase();
         Thread.ofVirtual().name(THREAD_NAME).start(this);
-        CommonRails.printSystemComponent(this, this.hashCode(),
-            ". RussiaSignalServer™ now starting on port " + PORT + " .");
     }
 
     /**
-     * Initializes the nwe_russia database and tables.
+     * Initializes the nwe_arctic database and tables.
      *
      * @javaowner Max Rupplin
      */
@@ -54,23 +48,23 @@ public class RussiaSignalServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_russia", "mearvk", "$$Ironman1");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_arctic", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS russia_signals (" +
+                    "CREATE TABLE IF NOT EXISTS arctic_signals (" +
                     "  id BIGINT AUTO_INCREMENT PRIMARY KEY," +
                     "  signal_type VARCHAR(32) NOT NULL," +
                     "  source_id VARCHAR(64)," +
                     "  source_url VARCHAR(512)," +
                     "  source_port INT," +
                     "  content LONGTEXT," +
-                    "  lang VARCHAR(8) DEFAULT 'ru'," +
+                    "  lang VARCHAR(8) DEFAULT 'en'," +
                     "  retrieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                     ")"
                 );
                 stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS russia_news (" +
+                    "CREATE TABLE IF NOT EXISTS arctic_stations (" +
                     "  id BIGINT AUTO_INCREMENT PRIMARY KEY," +
                     "  source_id VARCHAR(64)," +
                     "  category VARCHAR(32)," +
@@ -81,14 +75,10 @@ public class RussiaSignalServer implements Runnable
                     ")"
                 );
             }
-            CommonRails.printSystemComponent(this, this.hashCode(),
-                ". RussiaSignalServer™ database nwe_russia initialized .");
         }
         catch (SQLException e)
         {
-            ExceptionHandler.dispatch(e);
-            CommonRails.printSystemComponent(this, this.hashCode(),
-                ". RussiaSignalServer™ database init failed .", commons.color.ColorPalette.COLOR_STANDARD_RED);
+            System.err.println("[ArcticSignalServer] Database init failed: " + e.getMessage());
         }
     }
 
@@ -105,7 +95,7 @@ public class RussiaSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
+            System.err.println("[ArcticSignalServer] Server error: " + e.getMessage());
         }
     }
 
@@ -142,25 +132,21 @@ public class RussiaSignalServer implements Runnable
             }
             else if ("STATUS".equals(request.trim()))
             {
-                out.write(("ALIVE|russia|port=" + PORT + "\n").getBytes(StandardCharsets.UTF_8));
-            }
-            else
-            {
-                reportSecurityConcern(client, request);
+                out.write(("ALIVE|international.radio.arctic|port=" + PORT + "\n").getBytes(StandardCharsets.UTF_8));
             }
 
             out.flush();
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
+            System.err.println("[ArcticSignalServer] Client error: " + e.getMessage());
         }
     }
 
     /**
-     * Fetches content from a Russian news source and stores in russia_news.
+     * Fetches content from an Antarctic research source and stores in arctic_stations.
      *
-     * @param sourceId source identifier from russia-config.xml
+     * @param sourceId source identifier from international.radio.arctic-config.xml
      * @param url URL to fetch
      * @return fetched content
      * @javaowner Max Rupplin
@@ -173,10 +159,10 @@ public class RussiaSignalServer implements Runnable
             if (dbConn != null)
             {
                 try (PreparedStatement ps = dbConn.prepareStatement(
-                    "INSERT INTO russia_news (source_id, category, url, content) VALUES (?, ?, ?, ?)"))
+                    "INSERT INTO arctic_stations (source_id, category, url, content) VALUES (?, ?, ?, ?)"))
                 {
                     ps.setString(1, sourceId);
-                    ps.setString(2, "news");
+                    ps.setString(2, "research");
                     ps.setString(3, url);
                     ps.setString(4, content);
                     ps.executeUpdate();
@@ -186,13 +172,13 @@ public class RussiaSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
+            System.err.println("[ArcticSignalServer] Fetch source failed: " + e.getMessage());
             return "";
         }
     }
 
     /**
-     * Fetches a signal (market, energy, currency) and stores in russia_signals.
+     * Fetches a signal (ice, climate, seismic) and stores in arctic_signals.
      *
      * @param signalUrl signal URL
      * @return fetched content
@@ -207,7 +193,7 @@ public class RussiaSignalServer implements Runnable
             if (dbConn != null)
             {
                 try (PreparedStatement ps = dbConn.prepareStatement(
-                    "INSERT INTO russia_signals (signal_type, source_url, source_port, content) VALUES (?, ?, ?, ?)"))
+                    "INSERT INTO arctic_signals (signal_type, source_url, source_port, content) VALUES (?, ?, ?, ?)"))
                 {
                     ps.setString(1, "signal");
                     ps.setString(2, signalUrl);
@@ -220,20 +206,20 @@ public class RussiaSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
+            System.err.println("[ArcticSignalServer] Fetch signal failed: " + e.getMessage());
             return "";
         }
     }
 
     /**
-     * Connects to a Russian server on an aware port.
+     * Connects to an Antarctic/Arctic server on an aware port.
      *
      * @param host remote host
      * @param port target port
      * @return socket connection
      * @javaowner Max Rupplin
      */
-    public Socket connectRussia(String host, int port) throws IOException
+    public Socket connectArctic(String host, int port) throws IOException
     {
         if (!isPortAware(port)) throw new IOException("Port " + port + " not in aware list.");
         if (port == 443) return SSLSocketFactory.getDefault().createSocket(host, port);
@@ -245,9 +231,9 @@ public class RussiaSignalServer implements Runnable
     {
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
         conn.setRequestMethod("GET");
-        conn.setConnectTimeout(10000);
-        conn.setReadTimeout(10000);
-        conn.setRequestProperty("Accept-Language", "ru,en;q=0.9");
+        conn.setConnectTimeout(15000);
+        conn.setReadTimeout(15000);
+        conn.setRequestProperty("Accept-Language", "en");
 
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)))
@@ -280,18 +266,4 @@ public class RussiaSignalServer implements Runnable
 
     /** @javaowner Max Rupplin */
     public void stop() { running = false; }
-
-    /**
-     * Reports unrecognized or suspicious requests as security concerns.
-     *
-     * @javaowner Max Rupplin
-     */
-    private void reportSecurityConcern(Socket client, String request)
-    {
-        String ip = client.getInetAddress().getHostAddress();
-        String msg = "Unrecognized request from " + ip + ":" + client.getPort() + " — \"" + request + "\"";
-        CommonRails.printSystemComponent(this, this.hashCode(),
-            ". RussiaSignalServer™ SECURITY: " + msg + " .", commons.color.ColorPalette.COLOR_STANDARD_RED);
-        ExceptionHandler.dispatch(new SecurityException("[RussiaSignalServer] " + msg));
-    }
 }

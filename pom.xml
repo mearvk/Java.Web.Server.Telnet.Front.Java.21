@@ -16,6 +16,7 @@
         </dependency>
     </dependencies>
     <build>
+        <sourceDirectory>${project.basedir}/source</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -23,6 +24,8 @@
                 <configuration>
                     <source>25</source>
                     <target>25</target>
+                    <fork>true</fork>
+                    <executable>C:\Users\Max Rupplin\.jdks\graalvm-jdk-25\bin\javac.exe</executable>
                 </configuration>
             </plugin>
         </plugins>

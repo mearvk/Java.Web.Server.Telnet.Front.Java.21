@@ -56,4 +56,24 @@
         <password>nwe_ukraine_pass</password>
     </database>
 
+    <!-- AI Integrative — Ready and Perfect -->
+    <ai-integrative>
+        <enabled>true</enabled>
+        <ready>true</ready>
+        <perfect>true</perfect>
+        <shared-engine>international.radio.AIIntegrativeEngine</shared-engine>
+        <country-id>ukraine</country-id>
+        <feedback-loop>true</feedback-loop>
+        <scouting>true</scouting>
+        <training>true</training>
+        <scoring>true</scoring>
+        <verdict-housing-trust>0.95</verdict-housing-trust>
+        <verdict-local-trust>0.80</verdict-local-trust>
+        <verdict-internet-trust>0.40</verdict-internet-trust>
+        <gain-control>true</gain-control>
+        <scouting-output>source/international/radio/ukraine/scouting/</scouting-output>
+        <review-output>source/international/radio/ukraine/reviews/</review-output>
+        <max-scouting-mb>200</max-scouting-mb>
+    </ai-integrative>
+
 </ukraine-config>

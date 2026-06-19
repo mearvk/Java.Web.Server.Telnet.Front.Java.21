@@ -69,9 +69,9 @@ Country-specific signal servers that connect to international news, market, and 
 **Port-aware:** 21, 22, 80, 443, 8080, 8888 for outbound connections.
 
 **Source directories:**
-- `source/japan/` — Japan config and server
-- `source/russia/` — Russia config and server
-- `source/mexico/` — Mexico config and server
+- `source/international.radio.japan/` — Japan config and server
+- `source/international.radio.russia/` — Russia config and server
+- `source/international.radio.mexico/` — Mexico config and server
 - `source/greece/international/` — Greece/International config and server
 
 ---

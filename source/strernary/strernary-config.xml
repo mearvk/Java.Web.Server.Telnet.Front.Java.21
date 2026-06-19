@@ -8,6 +8,8 @@
     Port 20000 best-guess inference server.
     Public OS port and Java edition port share 20000.
     They sometimes talk; sometimes they don't.
+
+    Definition: Strernary: a term of final decision that leads to final rounding of copacetic imbruilement that allows other to gain on your Misdemeanors; or service about Life and towards treatment of Property and this leads to misdemeanors like Sexy times.
 -->
 <strernary-config>
 
@@ -48,5 +50,17 @@
         <max-entries>10000</max-entries>
         <description>In-memory ConcurrentHashMap for cached best-guess responses.</description>
     </knowledge-base>
+
+    <!-- AI Integrative Bridge — connects Strernary to international.radio AI -->
+    <ai-integrative-bridge>
+        <enabled>true</enabled>
+        <engine-class>international.radio.AIIntegrativeEngine</engine-class>
+        <role>LOCAL_CONNECTOR</role>
+        <description>
+            Strernary serves as a LOCAL verdict source (trust 0.80) for all
+            international.radio AI integrative modules. Queries received on
+            port 20000 may be relayed to country-specific AI handlers.
+        </description>
+    </ai-integrative-bridge>
 
 </strernary-config>

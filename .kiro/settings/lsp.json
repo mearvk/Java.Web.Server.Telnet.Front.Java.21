@@ -113,12 +113,20 @@
       "initialization_options": {
         "settings": {
           "java": {
+            "home": "C:\\Users\\Max Rupplin\\.jdks\\graalvm-jdk-25",
             "compile": {
               "nullAnalysis": {
                 "mode": "automatic"
               }
             },
             "configuration": {
+              "runtimes": [
+                {
+                  "name": "JavaSE-25",
+                  "path": "C:\\Users\\Max Rupplin\\.jdks\\graalvm-jdk-25",
+                  "default": true
+                }
+              ],
               "annotationProcessing": {
                 "enabled": true
               }

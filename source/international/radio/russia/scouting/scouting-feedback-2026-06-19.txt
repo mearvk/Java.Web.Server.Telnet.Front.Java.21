@@ -1,0 +1,41 @@
+==========================================================
+Daily Scouting Feedback — RUSSIA
+Date: 2026-06-19
+Module: international.radio.russia
+==========================================================
+
+SUMMARY OF FINDINGS
+
+This document contains the daily scouting results for the russia international
+radio module. Sources were consulted per the module's XML configuration. Each
+finding was processed through the gain control heuristic to filter explicit or
+harmful content before storage.
+
+VERDICT SOURCING NOTES
+
+All entries in this document originate from INTERNET verdict source (trust level
+0.40). They have passed initial gain control but require further validation by
+the training module before promotion to accepted training data.
+
+INFORMATION SOURCES AND ANGLES
+
+Source: interfax (https://interfax.com)
+Status: Configured and ready for scouting.
+Angle: Independent wire service, business and political news.
+
+Source: moex (https://www.moex.com/en/)
+Status: Configured and ready for scouting.
+Angle: Moscow Exchange data, MOEX index, equity and bond markets.
+
+Source: rt (https://www.rt.com)
+Status: Configured and ready for scouting.
+Angle: State-affiliated international news, English-language Russian perspective.
+
+TOTAL FINDINGS: 0 (initial configuration — scouting thread not yet executed)
+
+INTEGRITY NOTES
+
+This is the initialization document for the Russia scouting subsystem. Channel
+usage: public only. Gain control active.
+
+END OF DAILY SCOUTING FEEDBACK
