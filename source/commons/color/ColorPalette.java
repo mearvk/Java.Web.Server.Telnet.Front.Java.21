@@ -40,4 +40,8 @@ public final class ColorPalette {
     public static final String COLOR_DARK_RED_ORANGE = "\033[38;5;202m";
     public static final String COLOR_CRYPTO_RED     = "\033[38;5;166m";
     public static final String COLOR_SHUTDOWN       = "\033[38;5;214m";
+
+    public static final String COLOR_STANDARD_GREEN  = "\033[38;5;46m";
+    public static final String COLOR_STANDARD_YELLOW = "\033[38;5;226m";
+    public static final String COLOR_STANDARD_BLUE   = "\033[38;5;75m";
 }
