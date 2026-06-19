@@ -74,7 +74,7 @@ public class ShutdownHooks
     {
         try
         {
-            Process p = new ProcessBuilder("systemctl", "stop", "clamav-freshclam")
+            Process p = new ProcessBuilder("cmd.exe", "/c", "net", "stop", "clamd")
                 .redirectErrorStream(true)
                 .start();
 
@@ -85,13 +85,13 @@ public class ShutdownHooks
             int exit = p.waitFor();
 
             if (exit != 0 || !output.isBlank())
-                AntivirusScanner.logClamWarning("[shutdown] clamav-freshclam stop (exit=" + exit + "): " + output);
+                AntivirusScanner.logClamWarning("[shutdown] clamd stop (exit=" + exit + "): " + output);
             else
-                AntivirusScanner.logClamWarning("[shutdown] clamav-freshclam stopped cleanly");
+                AntivirusScanner.logClamWarning("[shutdown] clamd stopped cleanly");
         }
         catch (Exception e)
         {
-            AntivirusScanner.logClamWarning("[shutdown] clamav-freshclam stop failed: " + e.getMessage());
+            AntivirusScanner.logClamWarning("[shutdown] clamd stop failed: " + e.getMessage());
         }
     }
 
