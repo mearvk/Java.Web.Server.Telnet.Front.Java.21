@@ -50,52 +50,38 @@ public final class CommonRails
 
     public static void delayableFinePrinter(final String TEXT, final int DELAY)
     {
-        // When colored output is disabled, just print a single plain line and ensure ANSI reset.
         if (!USE_COLORED_OUTPUT)
         {
             try
             {
                 System.out.println(TEXT);
-
-                // ensure terminal color state is reset
                 System.out.print("\u001B[0m");
             }
             catch (Exception e)
             {
-                //EXCEPTION_SINK.accept(e);
-
                 e.printStackTrace(System.err);
             }
-
             return;
         }
 
-        // Grayscale fade: dark grey -> full white using ANSI 256-color codes 236..255 (20 steps)
+        // Grayscale fade-in: dark grey -> full white using ANSI 256-color codes 236..255 (20 steps)
         int[] codes = new int[20];
-        for (int k = 0; k < 20; k++) codes[k] = 236 + k; // 236..255
+        for (int k = 0; k < 20; k++) codes[k] = 236 + k;
 
         try
         {
-            for(int color : codes)
+            for (int color : codes)
             {
                 System.out.print("\033[38;5;" + color + "m" + TEXT + "\r");
-
-                // per-grade DELAY fixed at 20ms for a smoother, more emotive fade
-                Thread.sleep(20);
+                Thread.sleep(21);
             }
 
             System.out.print("\u001B[0m");
-
-            Thread.sleep(200L);
-
             System.out.println(TEXT);
-
             System.out.print("\u001B[0m");
         }
         catch (Exception e)
         {
-            //EXCEPTION_SINK.accept(e);
-
             e.printStackTrace(System.err);
         }
     }

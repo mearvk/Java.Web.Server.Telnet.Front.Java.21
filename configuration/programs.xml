@@ -856,6 +856,13 @@
     </Program>
 
     <Program>
+        <name>CalendarD44Server</name>
+        <description>US Calendar D44 module. Internet-aware, AES2+Calendar convergent calculus on port 49200.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
         <name>ReceiverTlsListener</name>
         <description>TLS listener for receiver mode on port 443 using RSA certificates.</description>
         <type>Service</type>

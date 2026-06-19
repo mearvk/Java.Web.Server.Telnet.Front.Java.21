@@ -125,6 +125,8 @@ public class NitroWebExpress extends WebExpress
 
         public weather.WeatherServer WEATHER_SERVER;
 
+        public calendar.d44.CalendarD44Server CALENDAR_D44_SERVER;
+
         public whiteauditor.WhiteAuditorTasking WHITE_AUDITOR_TASKING;
 
 

@@ -182,6 +182,23 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         US CALENDAR D44
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="CalendarD44">
+        <enabled>true</enabled>
+        <name>CalendarD44™</name>
+        <thread>CALENDAR_D44_SERVER</thread>
+        <host>localhost</host>
+        <port>49200</port>
+        <description>
+            US Calendar D44 module. Gathers internet information, stores in
+            nwe_calendar_d44 MySQL database. Uses AES2 and ConvergentFields
+            for sophisticated calendar-cipher calculus. Port-aware: 21, 22,
+            80, 443, 8080, 8888 for international server connectivity.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          BINARY HTTP SERVER
          apache-root: Apache2 document root subdirectory for stored files.
          apache-url:  Public base URL served by Apache2.

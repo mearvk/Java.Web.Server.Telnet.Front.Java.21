@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    ArcticSignalServer Configuration
+    =================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Antarctic and Arctic research sources, signals, and media configuration.
+-->
+<arctic-config>
+
+    <sources>
+        <source id="bas" url="https://www.bas.ac.uk" category="research" lang="en" />
+        <source id="usap" url="https://www.usap.gov" category="research" lang="en" />
+        <source id="comnap" url="https://www.comnap.aq" category="stations" lang="en" />
+        <source id="scar" url="https://www.scar.org" category="research" lang="en" />
+        <source id="nsidc" url="https://nsidc.org" category="ice" lang="en" />
+        <source id="awi" url="https://www.awi.de/en/" category="research" lang="en" />
+        <source id="aad" url="https://www.antarctica.gov.au" category="research" lang="en" />
+        <source id="nipr" url="https://www.nipr.ac.jp/english/" category="research" lang="en" />
+    </sources>
+
+    <signals>
+        <signal id="sea_ice_extent" url="https://nsidc.org/data/seaice_index" type="ice" />
+        <signal id="ozone" url="https://ozonewatch.gsfc.nasa.gov" type="atmosphere" />
+        <signal id="seismic_antarctic" url="https://www.iris.edu/hq/programs/polar" type="seismic" />
+    </signals>
+
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>webp</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>aac</format>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+        <documents>
+            <format>pdf</format>
+            <format>xml</format>
+            <format>json</format>
+            <format>csv</format>
+            <format>netcdf</format>
+        </documents>
+    </acceptable-media>
+
+    <database>
+        <name>nwe_arctic</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <username>nwe</username>
+        <password>nwe_arctic_pass</password>
+    </database>
+
+</arctic-config>

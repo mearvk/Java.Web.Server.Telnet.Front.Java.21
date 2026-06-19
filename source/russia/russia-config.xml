@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    RussiaSignalServer Configuration
+    =================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Russian news sources, signals, and media configuration.
+-->
+<russia-config>
+
+    <sources>
+        <source id="tass" url="https://tass.com" category="news" lang="ru" />
+        <source id="ria" url="https://ria.ru" category="news" lang="ru" />
+        <source id="interfax" url="https://interfax.com" category="news" lang="en" />
+        <source id="rbc" url="https://www.rbc.ru" category="finance" lang="ru" />
+        <source id="moex" url="https://www.moex.com/en/" category="finance" lang="en" />
+        <source id="kommersant" url="https://www.kommersant.ru" category="news" lang="ru" />
+        <source id="vedomosti" url="https://www.vedomosti.ru" category="finance" lang="ru" />
+        <source id="rt" url="https://www.rt.com" category="news" lang="en" />
+    </sources>
+
+    <signals>
+        <signal id="moex_index" url="https://www.moex.com/en/index/IMOEX" type="market" />
+        <signal id="rubusd" url="https://www.cbr.ru/eng/currency_base/" type="currency" />
+        <signal id="brent_crude" url="https://www.moex.com/en/contract.aspx?code=BR" type="energy" />
+    </signals>
+
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>webp</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>aac</format>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+        <documents>
+            <format>pdf</format>
+            <format>xml</format>
+            <format>json</format>
+            <format>csv</format>
+        </documents>
+    </acceptable-media>
+
+    <database>
+        <name>nwe_russia</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <username>nwe</username>
+        <password>nwe_russia_pass</password>
+    </database>
+
+</russia-config>
