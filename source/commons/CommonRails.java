@@ -39,6 +39,7 @@ public final class CommonRails
             case 49202 -> "RussiaSignalServer";
             case 49203 -> "MexicoSignalServer";
             case 49204 -> "GreeceInternationalSignalServer";
+            case 20000 -> "Strernary";
             case 49144 -> "BinaryHttp";
             case 49133 -> "Weather";
             case 5512 -> "AesCompliant";

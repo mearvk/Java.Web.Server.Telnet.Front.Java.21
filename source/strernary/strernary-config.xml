@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Strernary Server Configuration
+    ===============================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Port 20000 best-guess inference server.
+    Public OS port and Java edition port share 20000.
+    They sometimes talk; sometimes they don't.
+-->
+<strernary-config>
+
+    <server>
+        <java-port>20000</java-port>
+        <os-port>20000</os-port>
+        <os-port-probe-timeout-ms>1000</os-port-probe-ms>
+        <os-port-relay-timeout-ms>3000</os-port-relay-ms>
+        <description>
+            Java edition binds port 20000. OS-level listener (if present)
+            also occupies port 20000. When OS port is probed alive, the Java
+            server may relay queries to it. Communication is opportunistic —
+            they sometimes talk, sometimes they don't.
+        </description>
+    </server>
+
+    <inference>
+        <!-- DJL (Deep Java Library) for local AI inference -->
+        <djl>
+            <enabled>true</enabled>
+            <engine>PyTorch</engine>
+            <model-url>djl://ai.djl.huggingface.pytorch/distilbert-base-uncased</model-url>
+            <description>
+                Uses DJL for local inference. If DJL jars are not on classpath,
+                falls back to keyword heuristics. Download DJL jars via the
+                download script: scripts/bash/strernary/download-djl.sh
+            </description>
+        </djl>
+
+        <!-- Fallback: relay to OS port or keyword heuristic -->
+        <fallback>
+            <os-relay>true</os-relay>
+            <heuristic>true</heuristic>
+        </fallback>
+    </inference>
+
+    <knowledge-base>
+        <max-entries>10000</max-entries>
+        <description>In-memory ConcurrentHashMap for cached best-guess responses.</description>
+    </knowledge-base>
+
+</strernary-config>

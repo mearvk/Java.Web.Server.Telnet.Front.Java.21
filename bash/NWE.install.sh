@@ -9,6 +9,8 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$ROOT/source"
 OUT="$ROOT/out"
 JAR="$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar"
+DJL_JARS=$(find "$ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$OUT:$JAR:${DJL_JARS}$ROOT/jars/lanterna-3.1.5.jar"
 FORCE=0
 [[ "${1:-}" == "--force" ]] && FORCE=1
 
@@ -109,7 +111,7 @@ else
 
         javac \
             --release 21 \
-            -cp "$OUT:$JAR" \
+            -cp "$CP" \
             -sourcepath "$SRC" \
             -d "$OUT" \
             "@$SOURCE_LIST"
