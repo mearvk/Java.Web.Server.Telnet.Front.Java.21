@@ -66,7 +66,8 @@ public class StrernaryOsPortModule implements Runnable
             // Welcome banner + IQ joke
             out.write(("\n").getBytes(StandardCharsets.UTF_8));
             out.write(("═══════════════════════════════════════════════════════\n").getBytes(StandardCharsets.UTF_8));
-            out.write(("  Strernary™ OS Port 20000 — Metal Linux Edition\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Strernary\u2122 OS Port 20000 \u2014 Metal Linux Edition\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Model: Keyword Heuristic \u2192 DJL 0.31.0 relay (if Java port alive)\n").getBytes(StandardCharsets.UTF_8));
             out.write(("═══════════════════════════════════════════════════════\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  Q: What's the difference between IQ 100 and IQ 150?\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  A: About 50 points and one existential crisis.\n").getBytes(StandardCharsets.UTF_8));

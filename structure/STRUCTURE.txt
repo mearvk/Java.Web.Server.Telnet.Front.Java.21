@@ -282,6 +282,12 @@ SOURCE PACKAGES  (source/)
                             they sometimes talk, sometimes they don't.
                             CommonRails prints, ExceptionHandler dispatch, SecurityException
                             reporting on unrecognized requests.
+    StrernaryOsPortModule — Quick public OS port 20000 listener (keyword routing).
+    StrernaryKnowledgeFetcher — Wikipedia/DuckDuckGo fetcher, MySQL knowledge base.
+    StrernaryTranslationLayer — Translation + national server routing (en↔ja/ru/es/el).
+    StrernaryLaborLawFetcher  — Gathers US/EU/Asia labor law data from internet.
+                            Stores in labor_laws table, trains knowledge base, saves model.
+    DjlInferenceEngine    — DJL 0.31.0 PyTorch DistilBERT sentiment inference.
     strernary-config.xml  — Inference engine, OS port relay, knowledge base config.
 
   lanterna/
@@ -345,6 +351,16 @@ DATABASE TABLES — SIGNAL SERVERS
 
   All signal tables are self-provisioning via initDatabase() at server startup
   and also defined in scripts/bash/Signal.Servers.SQL.Setup.sh.
+
+
+DATABASE TABLES — STRERNARY (nwe_strernary)
+--------------------------------------------
+  knowledge_base        — Cached Q&A pairs (question, answer, source, confidence, access_count).
+  training_pairs        — Input/output for model fine-tuning (input_text, output_text, source).
+  model_state           — Serialized model weights/vocab (model_name, model_data BLOB, vocab, sample_count).
+  labor_laws            — US/EU/Asia labor law summaries (region, country, topic, summary, source_url).
+  translations          — Cached translation pairs (source_lang, target_lang, text, nation).
+  national_inferences   — Cached national server query results (query_en, nation, response_en).
 
 
 SCRIPTS  (scripts/)

@@ -188,6 +188,24 @@ public class Main
             if (NitroWebExpressConfig.isEnabled("CalendarD44"))
                 NITRO.BRIDGE.CALENDAR_D44_SERVER = new CalendarD44Server(CALENDAR_D44_HOST);
 
+            if (NitroWebExpressConfig.isEnabled("JapanSignalServer"))
+                new japan.JapanSignalServer("localhost");
+
+            if (NitroWebExpressConfig.isEnabled("RussiaSignalServer"))
+                new russia.RussiaSignalServer("localhost");
+
+            if (NitroWebExpressConfig.isEnabled("MexicoSignalServer"))
+                new mexico.MexicoSignalServer("localhost");
+
+            if (NitroWebExpressConfig.isEnabled("GreeceInternationalSignalServer"))
+                new greece.international.GreeceInternationalSignalServer("localhost");
+
+            if (NitroWebExpressConfig.isEnabled("Strernary"))
+                new strernary.StrernaryServer("localhost");
+
+            if (NitroWebExpressConfig.isEnabled("BrarnerAlete"))
+                new brarner.m.alete.BrarnerAleteModule();
+
             if (NitroWebExpressConfig.isEnabled("Antivirus"))
                 new antivirus.AntivirusScanner().start();
 
