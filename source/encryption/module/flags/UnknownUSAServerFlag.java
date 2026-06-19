@@ -4,6 +4,7 @@
  * Coordinates with US Calendar module and future US Communications Modules.
  *
  * @author Max Rupplin
+ * @javaowner Max Rupplin
  * @date June 18 2026 EST
  */
 
@@ -23,6 +24,17 @@ public class UnknownUSAServerFlag
     private final String message;
     private final boolean requireAck;
 
+    /**
+     * Constructs a flag for an unknown/unverified USA server.
+     *
+     * @param destination server hostname or IP
+     * @param port target port
+     * @param protocol TCP or TLS/HTTPS
+     * @param authorityLevel clearance level for this flag
+     * @param message flag message payload
+     * @param requireAck if true, waits for ACK response
+     * @javaowner Max Rupplin
+     */
     public UnknownUSAServerFlag(String destination, int port, String protocol, String authorityLevel, String message, boolean requireAck)
     {
         this.destination = destination;
@@ -33,6 +45,13 @@ public class UnknownUSAServerFlag
         this.requireAck = requireAck;
     }
 
+    /**
+     * Posts the flag to the unknown USA server.
+     * If requireAck is true, waits up to 5 seconds for an ACK response.
+     *
+     * @return true if posted (and ACK received if required)
+     * @javaowner Max Rupplin
+     */
     public boolean post()
     {
         try
