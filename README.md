@@ -99,3 +99,20 @@ All terminal output is driven by `configuration/print-method.xml`. No recompile 
 **Naming convention:** All module/service identifiers use CamelCase with ™ (trademark in red). Configured in `nwe-config.xml` with CamelCase server IDs (e.g. `AesCompliant`, `BitcoinWalletIndexer`).
 
 **Startup failure handling:** If NweConfig, MySQL systemctl, or JDBC login fails, the message prints in red, the cause is appended to `exception.log`, and the process halts.
+
+---
+
+## Strernary™ — Best-Guess Inference Server
+
+Port 20000 inference server that accepts standard information and returns best-guess responses.
+
+**Dual-port architecture:** A public OS port and a Java edition port both occupy port 20000. They sometimes talk; sometimes they don't. Communication is opportunistic — the Java server probes the OS listener at startup and relays queries when it's alive.
+
+**Inference stack (priority order):**
+1. **DJL (Deep Java Library)** — Local PyTorch inference via Amazon's open-source DJL framework. Download jars with `scripts/bash/strernary/download-djl.sh`.
+2. **OS port relay** — Forwards to the OS-level listener on 20000 if alive.
+3. **Keyword heuristics** — Routes queries to known NWE services based on content keywords.
+
+**Protocol:** TCP socket — `ASK|<text>`, `RELAY|<text>`, `STATUS`
+
+**Source directory:** `source/strernary/`

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    BrarnerAleteModule Configuration
+    =================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    HTTP communication module with https://github.com/mearvk/Brarner.M.Alete/
+    Pings ~2x/day after 1 hour uptime. Logs to logging/event.social.log.
+-->
+<brarner-alete-config>
+
+    <github>
+        <repo-url>https://github.com/mearvk/Brarner.M.Alete/</repo-url>
+        <api-url>https://api.github.com/repos/mearvk/Brarner.M.Alete</api-url>
+        <raw-url>https://raw.githubusercontent.com/mearvk/Brarner.M.Alete/main/</raw-url>
+        <branch>main</branch>
+    </github>
+
+    <schedule>
+        <!-- Minimum uptime (ms) before first ping: 1 hour -->
+        <startup-grace-ms>3600000</startup-grace-ms>
+        <!-- Interval between pings (ms): 12 hours (~2x/day) -->
+        <ping-interval-ms>43200000</ping-interval-ms>
+    </schedule>
+
+    <contributor>
+        <name>Max Rupplin</name>
+        <email>mearvk@mearvk.us</email>
+        <role>Owner</role>
+    </contributor>
+
+    <theories>
+        <theory id="convergent-signal" active="true">
+            Convergent signal fields applied to social and art vectors.
+        </theory>
+        <theory id="aesthetic-calculus" active="true">
+            Aesthetic calculus — mathematical underpinning of art evaluation.
+        </theory>
+        <theory id="temporal-resonance" active="true">
+            Temporal resonance in repeated signal patterns over calendar days.
+        </theory>
+    </theories>
+
+    <art>
+        <medium>digital</medium>
+        <medium>generative</medium>
+        <medium>mathematical</medium>
+        <style>abstract</style>
+        <style>signal-derived</style>
+    </art>
+
+    <signal-math>
+        <convergent-fields>true</convergent-fields>
+        <frequency-analysis>true</frequency-analysis>
+        <pattern-recognition>true</pattern-recognition>
+        <aes-integration>true</aes-integration>
+    </signal-math>
+
+    <logging>
+        <event-log>logging/event.social.log</event-log>
+        <log-format>[timestamp] [BrarnerAlete] METHOD url — status (bytes)</log-format>
+    </logging>
+
+    <link-checking>
+        <enabled>true</enabled>
+        <timeout-ms>10000</timeout-ms>
+        <log-status>interesting</log-status>
+    </link-checking>
+
+</brarner-alete-config>

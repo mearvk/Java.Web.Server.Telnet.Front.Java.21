@@ -172,6 +172,7 @@ SOURCE PACKAGES  (source/)
       ├─ RussiaSignalServer™     — Russia signal server on port 49202.
       ├─ MexicoSignalServer™     — Mexico signal server on port 49203.
       ├─ GreeceInternationalSignalServer™ — Greece/Intl signal server on port 49204.
+      ├─ Strernary™                — Best-guess inference server on port 20000.
       ├─ BinaryHttp™               — Binary data → HTTP link server on port 49144.
       ├─ Weather™                  — Telnet weather service on port 49133.
       ├─ Antivirus™                — ClamAV scanner on configurable schedule.
@@ -272,6 +273,17 @@ SOURCE PACKAGES  (source/)
                             reporting on unrecognized requests.
     greece-international-config.xml — Sources, signals, media, database credentials.
 
+  strernary/
+    StrernaryServer       — Best-guess inference server on port 20000.
+                            Protocol: ASK|<text>, RELAY|<text>, STATUS.
+                            Uses DJL (Deep Java Library) for local inference when jars present.
+                            Falls back to OS port relay (if alive) or keyword heuristics.
+                            Port 20000 shared: public OS port and Java edition coexist —
+                            they sometimes talk, sometimes they don't.
+                            CommonRails prints, ExceptionHandler dispatch, SecurityException
+                            reporting on unrecognized requests.
+    strernary-config.xml  — Inference engine, OS port relay, knowledge base config.
+
   lanterna/
     TerminalMenu          — Lanterna GUI menu on port 49200; presents bordered buttons for
                             each service in the 49152 port series. Telnet clients connect,
@@ -349,6 +361,7 @@ SCRIPTS  (scripts/)
   bash/49202/*          — RussiaSignalServer port check and status tests.
   bash/49203/*          — MexicoSignalServer port check and status tests.
   bash/49204/*          — GreeceInternationalSignalServer port check and status tests.
+  bash/strernary/*      — Strernary port check, status, ASK tests, and DJL download script.
 
   bash/github.binary.classes.sh
     Moves compiled .class files from source/ to out/ relative to project root.
@@ -367,6 +380,7 @@ PORTS SUMMARY
   49202   RussiaSignalServer
   49203   MexicoSignalServer
   49204   GreeceInternationalSignalServer
+  20000   Strernary (best-guess inference, shared with OS port)
   49144   BinaryHttpServer
   49133   WeatherServer
    5512   AES 2.0 Compliant WebExpress
@@ -412,6 +426,7 @@ CONFIGURATION FILES
   source/russia/russia-config.xml                 — Russia signal server sources/signals/db.
   source/mexico/mexico-config.xml                 — Mexico signal server sources/signals/db.
   source/greece/international/greece-international-config.xml — Greece/Intl sources/signals/db.
+  source/strernary/strernary-config.xml                     — Strernary inference/OS-port config.
 
 
 STANDALONE COMPONENTS  (not part of NWE — independently downloadable)

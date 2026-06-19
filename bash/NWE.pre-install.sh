@@ -34,7 +34,7 @@ fi
 
 # ── 2. Required ports available ───────────────────────────────────────────────
 echo "[2/7] Port availability..."
-PORTS=(49152 49155 49166 49177 49188 49199 49144 49133 49200)
+PORTS=(49152 49155 49166 49177 49188 49199 49144 49133 49200 49201 49202 49203 49204 20000)
 for PORT in "${PORTS[@]}"; do
     if ss -tlnp 2>/dev/null | grep -q ":${PORT} " ; then
         fail "Port $PORT already in use"

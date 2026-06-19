@@ -250,6 +250,33 @@
         </description>
     </server>
 
+    <server id="Strernary">
+        <enabled>true</enabled>
+        <name>Strernary™</name>
+        <thread>STRERNARY_SERVER</thread>
+        <host>localhost</host>
+        <port>20000</port>
+        <description>
+            Best-guess inference server on port 20000. Takes standard information,
+            returns best-guess responses. Uses DJL (Deep Java Library) for local
+            inference when available, keyword heuristics as fallback. Shares port
+            20000 with an OS-level public listener — they sometimes talk, sometimes
+            they don't. Communication is opportunistic.
+        </description>
+    </server>
+
+    <server id="BrarnerAlete">
+        <enabled>true</enabled>
+        <name>BrarnerAlete™</name>
+        <thread>BRARNER_ALETE_MODULE</thread>
+        <description>
+            HTTP communication module with https://github.com/mearvk/Brarner.M.Alete/.
+            Daily GET and POST. Pings ~2x/day after 1 hour uptime. Checks all links
+            in the repository. Logs communication as interesting and successful in
+            logging/event.social.log. Settings: contributor, theories, art, signal math.
+        </description>
+    </server>
+
     <!-- ═══════════════════════════════════════════════════════════════════
          BINARY HTTP SERVER
          apache-root: Apache2 document root subdirectory for stored files.
@@ -417,6 +444,7 @@
         <mapping category="Heuristic, Classifier"           color="yellow"       ansi="38;5;226"/>
         <mapping category="Common, Rail, Logger"            color="lavender"     ansi="38;5;147"/>
         <mapping category="Signal, Japan, Russia, Mexico, Greece" color="cyan"    ansi="38;5;51"/>
+        <mapping category="Strernary, Inference, Guess"  color="magenta"      ansi="38;5;207"/>
         <mapping category="Default"                         color="silver"       ansi="38;5;250"/>
     </color-mappings>
 
@@ -440,6 +468,8 @@
         <entry class="RussiaSignalServer">0831200202</entry>
         <entry class="MexicoSignalServer">0831200303</entry>
         <entry class="GreeceInternationalSignalServer">0831200404</entry>
+        <entry class="StrernaryServer">0831200500</entry>
+        <entry class="BrarnerAleteModule">0831200600</entry>
     </hashcodes>
 
 </nwe-config>

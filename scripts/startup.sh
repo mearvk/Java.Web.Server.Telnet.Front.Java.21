@@ -4,6 +4,10 @@
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
+# Build classpath (include DJL jars if present)
+DJL_CP=$(find "$ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$ROOT/out:$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:${DJL_CP}$ROOT/jars/lanterna-3.1.5.jar"
+
 # Run as root if apache-root is under /var/www (requires root to create/write).
 # If already root, just exec directly.
 APACHE_DIR=$(grep -oP '(?<=<apache-root>)[^<]+' "$ROOT/configuration/nwe-config.xml" 2>/dev/null || echo "/var/www/html/nwe")
@@ -18,7 +22,7 @@ if [[ "$APACHE_DIR" == /var/www/* ]] && [[ "$(id -u)" -ne 0 ]]; then
       -XX:G1HeapRegionSize=16m \
       -XX:+ParallelRefProcEnabled \
       -XX:+DisableExplicitGC \
-      -cp "$ROOT/out" \
+      -cp "$CP" \
       Main
 fi
 
@@ -30,5 +34,5 @@ exec java \
   -XX:G1HeapRegionSize=16m \
   -XX:+ParallelRefProcEnabled \
   -XX:+DisableExplicitGC \
-  -cp "$ROOT/out" \
+  -cp "$CP" \
   Main
