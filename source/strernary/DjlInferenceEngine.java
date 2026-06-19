@@ -12,6 +12,12 @@
  *   pytorch-engine-0.31.0.jar
  *   pytorch-model-zoo-0.31.0.jar
  *   tokenizers-0.31.0.jar
+ *   pytorch-native-cpu-2.5.1-linux-x86_64.jar
+ *   gson-2.11.0.jar
+ *   jna-5.14.0.jar
+ *   commons-compress-1.26.1.jar
+ *   slf4j-api-2.0.12.jar
+ *   slf4j-simple-2.0.12.jar
  *
  * @author Max Rupplin
  * @javaowner Max Rupplin
