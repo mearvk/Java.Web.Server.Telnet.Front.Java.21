@@ -1,0 +1,851 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Programs Print Registry
+    =======================
+    MEARVK LLC — NitroWebExpress™
+
+    Lists classes/programs that produce printed output in the system.
+-->
+<programs>
+
+    <Program>
+        <name>Main</name>
+        <description>Application entry point and lifecycle orchestrator.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>CommonRails</name>
+        <description>Core routing and lifecycle coordination layer for NitroWebExpress™ modules.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>InternationalCommonRails</name>
+        <description>International routing extension of CommonRails.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>ModuleLoaderDaemon</name>
+        <description>Daemon responsible for dynamic module loading at runtime.</description>
+        <type>Daemon</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>AntivirusScanner</name>
+        <description>Antivirus scanning module for uploaded content and module integrity.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>AIProctorModule</name>
+        <description>AI proctoring and monitoring module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>ASCIICreator</name>
+        <description>ASCII art creation utility.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>BitcoinBase</name>
+        <description>Bitcoin base layer operations.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_YELLOW</color>
+    </Program>
+
+    <Program>
+        <name>BitcoinWalletIndexer</name>
+        <description>Bitcoin wallet indexing service.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_YELLOW</color>
+    </Program>
+
+    <Program>
+        <name>BitcoinWalletSession</name>
+        <description>Bitcoin wallet session management.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_YELLOW</color>
+    </Program>
+
+    <Program>
+        <name>TraderModule</name>
+        <description>Bitcoin trading module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_YELLOW</color>
+    </Program>
+
+    <Program>
+        <name>MessageOrderer</name>
+        <description>Bitcoin message ordering service.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_YELLOW</color>
+    </Program>
+
+    <Program>
+        <name>ColorPalette</name>
+        <description>Color palette definitions for terminal output.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>ColorResolver</name>
+        <description>Resolves color names to ANSI escape codes.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>EnglishArithemeter</name>
+        <description>English arithmetic evaluation utility.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>LineFormatter</name>
+        <description>Output line formatting utility.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>ComponentPrinter</name>
+        <description>Component-level print output handler.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>FinePrinter</name>
+        <description>Fine-grained print formatting engine.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>StartsCanonical</name>
+        <description>Canonical lifecycle verb resolver for print output.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>ProcessDescriptor</name>
+        <description>Process metadata descriptor.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>ProcessRegistry</name>
+        <description>Registry of running processes.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>BodiSecurityException</name>
+        <description>Security exception type for body-level violations.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>SecurityExceptionHandler</name>
+        <description>Handles security-related exceptions.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>SocketUtils</name>
+        <description>Socket utility functions.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>Arithmeter</name>
+        <description>Transition arithmetic engine.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>Communicator</name>
+        <description>Core communication and messaging service.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>TransferSummaryMailer</name>
+        <description>Email notification service for transfer summaries.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>NitroWebExpressConfig</name>
+        <description>Configuration loader for NitroWebExpress™.</description>
+        <type>Configuration</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>HashCodeRegistry</name>
+        <description>Registry mapping hash codes to components.</description>
+        <type>Configuration</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>ProtocolHandlerRegistry</name>
+        <description>Registry of protocol handlers.</description>
+        <type>Configuration</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>Connection</name>
+        <description>Base connection abstraction.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>ConnectionPoller</name>
+        <description>Polls and monitors active connections.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>CurrentConnections</name>
+        <description>Tracks current active connections.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>GalacticConnections</name>
+        <description>Galactic-scale connection management.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>InternationalConnections</name>
+        <description>International connection routing.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>MexicoConnections</name>
+        <description>Mexico regional connection handler.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>NationalConnections</name>
+        <description>National connection routing.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>RecordedConnections</name>
+        <description>Connection recording and audit trail.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>IPGeoParser</name>
+        <description>IP geolocation parser for connection logic.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>N21AuthConfig</name>
+        <description>N21 database authentication configuration.</description>
+        <type>Configuration</type>
+        <color>COLOR_STANDARD_BLUE</color>
+    </Program>
+
+    <Program>
+        <name>N21DataSource</name>
+        <description>N21 database data source provider.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_BLUE</color>
+    </Program>
+
+    <Program>
+        <name>N21Status</name>
+        <description>N21 database status monitor.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_BLUE</color>
+    </Program>
+
+    <Program>
+        <name>N21Store</name>
+        <description>N21 primary data store.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_BLUE</color>
+    </Program>
+
+    <Program>
+        <name>N21XmlFallback</name>
+        <description>XML fallback storage when database is unavailable.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_BLUE</color>
+    </Program>
+
+    <Program>
+        <name>EncryptionModule</name>
+        <description>AES encryption module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>EncryptionModuleDSA</name>
+        <description>DSA encryption module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>EncryptionModuleRSA</name>
+        <description>RSA encryption module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>ExceptionHandler</name>
+        <description>Core exception handling service.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>ExceptionEventDispatcher</name>
+        <description>Dispatches exception events to listeners.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>ExceptionPersistenceService</name>
+        <description>Persists exceptions to storage.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>ExceptionRecord</name>
+        <description>Exception record data structure.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>N21ExceptionListener</name>
+        <description>N21-specific exception listener.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>NullPointerConstructorHandler</name>
+        <description>Handles null pointer exceptions in constructors.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>PersistenceListener</name>
+        <description>Listens for persistence events from exception system.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>BackendSettings</name>
+        <description>Backend configuration settings for exception system.</description>
+        <type>Configuration</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>HeuristicClassifier</name>
+        <description>Heuristic classification engine.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>ModuleHeuristics</name>
+        <description>Module-level heuristic analysis.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>BinaryHttpServer</name>
+        <description>Binary HTTP server for raw data transport.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>LanguagePack</name>
+        <description>Language pack loader for internationalization.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>TerminalMenu</name>
+        <description>Lanterna-based terminal menu interface.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>TerminalMenuBridge</name>
+        <description>Bridge between terminal menu and NWE core.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>MessageQueue</name>
+        <description>Core message queue implementation.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>MessageQueueSorter</name>
+        <description>Sorts and prioritizes messages in the queue.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>MessageOutputHandler</name>
+        <description>Handles message output dispatch.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>MiddleDirectorServer</name>
+        <description>Middle director server for module orchestration.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>AuditorContentModule</name>
+        <description>Content auditing module for the director.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>DirectorModule</name>
+        <description>Core director module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>DirectorPersistence</name>
+        <description>Persistence layer for director state.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>DistributionLicense</name>
+        <description>Distribution license verification.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>EdgeSchedule</name>
+        <description>Edge scheduling for distributed tasks.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>FinalMediumHopsModule</name>
+        <description>Final medium-hop routing module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>GamesAsGoalsModule</name>
+        <description>Games-as-goals processing module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>MediumHopsModule</name>
+        <description>Medium-hop routing module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>PublicKeyVerifier</name>
+        <description>Public key verification for authorization.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>ShortHopsModule</name>
+        <description>Short-hop routing module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>ThoughtsAsGoalsModule</name>
+        <description>Thoughts-as-goals processing module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>TradeEvaluator</name>
+        <description>Trade evaluation engine.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>NationalCrypto</name>
+        <description>National-level cryptographic operations.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>NationalDriver</name>
+        <description>National edition driver service.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>NationalFinanceID</name>
+        <description>National finance ID management.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>NationalFinanceIDFeeder</name>
+        <description>National finance ID data feeder.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>NationalID</name>
+        <description>National ID base type.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>NationalKeypairGenerator</name>
+        <description>Keypair generation for national edition.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>NationalTellus</name>
+        <description>National Tellus communications module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>PortAdministrator</name>
+        <description>Port administration and management.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>PortKnockKnock</name>
+        <description>Port-knocking security module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>PortStealth</name>
+        <description>Port stealth/cloaking module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>BaseServer</name>
+        <description>Base server implementation.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>HardenedBaseServer</name>
+        <description>Experimental hardened base server.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>NationalAwareHardService</name>
+        <description>National-aware hardened service layer.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>NitroWebExpress</name>
+        <description>NitroWebExpress™ core server.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>AESCompliant</name>
+        <description>AES-compliant encryption server module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>ASCIICreatorServer</name>
+        <description>ASCII creator server module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>BitcoinCompliant</name>
+        <description>Bitcoin-compliant server module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_YELLOW</color>
+    </Program>
+
+    <Program>
+        <name>ConnectionStatusServer</name>
+        <description>Connection status monitoring server.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>DSACompliant</name>
+        <description>DSA-compliant encryption server module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>ModuleInstallationService</name>
+        <description>Module installation and deployment service.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>MySQLComponent</name>
+        <description>MySQL database component server.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_BLUE</color>
+    </Program>
+
+    <Program>
+        <name>RSACompliant</name>
+        <description>RSA-compliant encryption server module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_MAGENTA</color>
+    </Program>
+
+    <Program>
+        <name>WebExpress</name>
+        <description>WebExpress web server component.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>ShutdownHooks</name>
+        <description>Shutdown hook registration and execution.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_RED</color>
+    </Program>
+
+    <Program>
+        <name>InputQueue</name>
+        <description>Simulation input queue.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>stochastic</name>
+        <description>Stochastic simulation engine.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>TelnetCommunicationProxy</name>
+        <description>Telnet communication proxy layer.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>TelnetInputBuilder</name>
+        <description>Telnet input stream builder.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>TelnetInstaller</name>
+        <description>Telnet module installer.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>TelnetLineEditor</name>
+        <description>Telnet line editing interface.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>TelnetMessageQueue</name>
+        <description>Telnet message queue.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>TelnetOutputBuilder</name>
+        <description>Telnet output stream builder.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>TelnetProxyLivenessMonitor</name>
+        <description>Monitors liveness of telnet proxy connections.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>TerminalImageRenderer</name>
+        <description>Renders images in the terminal.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>WeatherServer</name>
+        <description>Weather data server module.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>WhiteAuditorTasking</name>
+        <description>White auditor task scheduling and execution.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>ModuleAdmin</name>
+        <description>Module administration interface.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_CYAN</color>
+    </Program>
+
+    <Program>
+        <name>IranianWedding</name>
+        <description>Iranian wedding commons module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>DidoClass</name>
+        <description>Marriatiage tech Dido class.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>Maria</name>
+        <description>Marriatiage tech Maria class.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>Menounos</name>
+        <description>Marriatiage tech Menounos class.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_WHITE</color>
+    </Program>
+
+    <Program>
+        <name>BitcoinNewFlatiron108</name>
+        <description>Bitcoin MIDI flatiron module.</description>
+        <type>Module</type>
+        <color>COLOR_STANDARD_YELLOW</color>
+    </Program>
+
+    <Program>
+        <name>BitcoinFactoryTimeDate</name>
+        <description>Bitcoin timezone factory for all regions.</description>
+        <type>Utility</type>
+        <color>COLOR_STANDARD_YELLOW</color>
+    </Program>
+
+</programs>
