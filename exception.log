@@ -57,3 +57,13 @@ java.lang.RuntimeException: MySQL not installed — sc query reports service doe
 	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:106)
 	at Main.<init>(Main.java:91)
 	at Main.main(Main.java:84)
+[2026-06-19T13:10:11.917819200] FATAL — N21AuthConfig startup failure
+java.lang.RuntimeException: MySQL not installed — sc query reports service does not exist
+	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:106)
+	at Main.<init>(Main.java:91)
+	at Main.main(Main.java:84)
+[2026-06-19T13:10:55.757352100] FATAL — N21AuthConfig startup failure
+java.lang.RuntimeException: MySQL not installed — sc query reports service does not exist
+	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:106)
+	at Main.<init>(Main.java:91)
+	at Main.main(Main.java:84)

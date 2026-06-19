@@ -156,36 +156,20 @@ public class N21AuthConfig
             haltWithException(e);
         }
 
-        // ── 1b. Verify mysqld process is alive on port 3306 ────────────────────
-        try
+        // ── 1b. Verify mysqld daemon is reachable on port 3306 ─────────────────
+        try (java.net.Socket sock = new java.net.Socket())
         {
-            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "netstat", "-ano", "|", "findstr", "3306");
-            pb.redirectErrorStream(true);
-            Process proc = pb.start();
-            String output = new BufferedReader(new InputStreamReader(proc.getInputStream()))
-                .lines().collect(Collectors.joining("\n"));
-            proc.waitFor();
-
-            if (output.contains("LISTENING"))
-            {
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". MYSQLD — daemon LISTENING on port 3306 .",
-                    ColorPalette.COLOR_LIME_GREEN);
-            }
-            else
-            {
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". MYSQLD — no daemon listening on port 3306 .",
-                    ColorPalette.COLOR_STANDARD_RED);
-                haltWithException(new RuntimeException("mysqld not listening on port 3306 — daemon may not have started"));
-            }
+            sock.connect(new java.net.InetSocketAddress("127.0.0.1", PORT), 3000);
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". MYSQLD — daemon reachable on port " + PORT + " .",
+                ColorPalette.COLOR_LIME_GREEN);
         }
         catch (Exception e)
         {
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". MYSQLD port check failed: " + e.getMessage() + " .",
+                ". MYSQLD — daemon NOT reachable on port " + PORT + ": " + e.getMessage() + " .",
                 ColorPalette.COLOR_STANDARD_RED);
-            haltWithException(e);
+            haltWithException(new RuntimeException("mysqld not reachable on port " + PORT));
         }
 
         // ── 2. JDBC login test using credentials from mysql.auth.xml ──────────
