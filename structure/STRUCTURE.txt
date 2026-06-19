@@ -92,7 +92,20 @@ SOURCE PACKAGES  (source/)
     N21XmlFallback        — XML-based offline fallback; replayFallback() on startup.
 
   encryption/module/aes/two/
-    EncryptionModule      — AES 2.0 DSS5.0 encryption module.
+    EncryptionModule      — AES 2.0 DSS5.0 encryption module (configurable, 21 passes).
+    EncryptionModuleOriginal — Preserved hardcoded original AES2 module.
+    EncryptionModuleRunner — Reads aes2-config.xml; dispatches configurable or original.
+
+  encryption/module/aes2-config.xml
+    Master config for AES2: 21 passes, radix, loops, signal flags, subpads,
+    output-flags (between passes), presidential note, tech clearance.
+
+  encryption/module/flags/
+    KnownUSServerFlag     — Output flag for posting to known US servers between passes.
+    UnknownUSAServerFlag  — Output flag for unknown/unverified USA servers (requires ACK).
+
+  encryption/module/math/
+    ConvergentFields      — Finds convergence between AES2 streams and US Calendar streams.
 
   exceptions/
     ExceptionRecord       — Record: EXCEPTION, ORIGIN, STACKTRACE, TIMESTAMP.
