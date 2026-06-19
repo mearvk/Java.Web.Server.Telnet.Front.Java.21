@@ -54,7 +54,7 @@ public class JapanSignalServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_japan", "nwe", "nwe_japan_pass");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_japan", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(

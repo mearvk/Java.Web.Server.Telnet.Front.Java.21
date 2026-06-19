@@ -52,7 +52,7 @@
         <host>localhost</host>
         <port>3306</port>
         <username>nwe</username>
-        <password>nwe_russia_pass</password>
+        <password>nwe_receiver_pass</password>
     </database>
 
 </russia-config>

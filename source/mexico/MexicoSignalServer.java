@@ -54,7 +54,7 @@ public class MexicoSignalServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_mexico", "nwe", "nwe_mexico_pass");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_mexico", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(

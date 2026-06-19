@@ -54,7 +54,7 @@ public class RussiaSignalServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_russia", "nwe", "nwe_russia_pass");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_russia", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(

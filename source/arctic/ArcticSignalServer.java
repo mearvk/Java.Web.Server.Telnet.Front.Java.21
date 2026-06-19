@@ -49,7 +49,7 @@ public class ArcticSignalServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_arctic", "nwe", "nwe_arctic_pass");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_arctic", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(

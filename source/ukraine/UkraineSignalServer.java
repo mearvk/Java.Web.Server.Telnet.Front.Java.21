@@ -49,7 +49,7 @@ public class UkraineSignalServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_ukraine", "nwe", "nwe_ukraine_pass");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_ukraine", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(
