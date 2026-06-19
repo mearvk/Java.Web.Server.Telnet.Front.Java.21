@@ -38,6 +38,7 @@ public final class ComponentPrinter {
     private static boolean PARENT_CLASS_PREFIX = false;
     private static boolean PARENT_CLASS_TRADEMARK = false;
     private static String PARENT_CLASS_SEPARATOR = " ";
+    private static final java.util.Map<String, String> PORT_ALIASES = new java.util.HashMap<>();
 
     static { loadConfig(); }
 
@@ -49,6 +50,7 @@ public final class ComponentPrinter {
 
     public static void print(Object owner, int hash, String line, String color) {
         String simple = owner instanceof Class<?> c ? c.getSimpleName() : owner.getClass().getSimpleName();
+        String displayName = PORT_ALIASES.getOrDefault(simple, simple);
 
         // Block 1: Prefix
         String prefix = PREFIX;
@@ -63,7 +65,7 @@ public final class ComponentPrinter {
         String date = "[" + DATE_LABEL + ": " + timestamp() + "]";
 
         // Block 4: Current
-        String padded = padClassname(simple);
+        String padded = padClassname(displayName);
 
         // Block 5: Message
         String formatted = LineFormatter.normalize(line);
@@ -149,6 +151,14 @@ public final class ComponentPrinter {
                 PARENT_CLASS_PREFIX = Boolean.parseBoolean(text(p, "enabled", "false"));
                 PARENT_CLASS_TRADEMARK = Boolean.parseBoolean(text(p, "append-trademark", "false"));
                 PARENT_CLASS_SEPARATOR = text(p, "separator", " ");
+            }
+
+            NodeList aliases = doc.getElementsByTagName("alias");
+            for (int i = 0; i < aliases.getLength(); i++) {
+                Element a = (Element) aliases.item(i);
+                String cls = a.getAttribute("class");
+                String disp = a.getAttribute("display");
+                if (!cls.isEmpty() && !disp.isEmpty()) PORT_ALIASES.put(cls, disp);
             }
         } catch (Exception ignored) {}
     }
