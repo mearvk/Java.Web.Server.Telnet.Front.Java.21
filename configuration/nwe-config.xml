@@ -199,6 +199,58 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         INTERNATIONAL SIGNAL SERVERS
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="JapanSignalServer">
+        <enabled>true</enabled>
+        <name>JapanSignalServer™</name>
+        <thread>JAPAN_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49201</port>
+        <description>
+            Japan signal server. Connects to Japanese news, market, currency,
+            and seismic sources. Stores in nwe_japan MySQL database.
+        </description>
+    </server>
+
+    <server id="RussiaSignalServer">
+        <enabled>true</enabled>
+        <name>RussiaSignalServer™</name>
+        <thread>RUSSIA_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49202</port>
+        <description>
+            Russia signal server. Connects to Russian news, market, currency,
+            and energy sources. Stores in nwe_russia MySQL database.
+        </description>
+    </server>
+
+    <server id="MexicoSignalServer">
+        <enabled>true</enabled>
+        <name>MexicoSignalServer™</name>
+        <thread>MEXICO_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49203</port>
+        <description>
+            Mexico signal server. Connects to Mexican news, market, currency,
+            and energy sources. Stores in nwe_mexico MySQL database.
+        </description>
+    </server>
+
+    <server id="GreeceInternationalSignalServer">
+        <enabled>true</enabled>
+        <name>GreeceInternationalSignalServer™</name>
+        <thread>GREECE_INTL_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49204</port>
+        <description>
+            Greece international signal server. Connects to Greek and international
+            news, market, shipping, and currency sources. Stores in nwe_greece_intl
+            MySQL database.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          BINARY HTTP SERVER
          apache-root: Apache2 document root subdirectory for stored files.
          apache-url:  Public base URL served by Apache2.
@@ -364,6 +416,7 @@
         <mapping category="Antivirus, Scanner"              color="dark-orange"  ansi="38;5;166"/>
         <mapping category="Heuristic, Classifier"           color="yellow"       ansi="38;5;226"/>
         <mapping category="Common, Rail, Logger"            color="lavender"     ansi="38;5;147"/>
+        <mapping category="Signal, Japan, Russia, Mexico, Greece" color="cyan"    ansi="38;5;51"/>
         <mapping category="Default"                         color="silver"       ansi="38;5;250"/>
     </color-mappings>
 
@@ -383,6 +436,10 @@
         <entry class="Communicator">0617340022</entry>
         <entry class="BinaryHttpServer">0889912345</entry>
         <entry class="WeatherServer">0721100456</entry>
+        <entry class="JapanSignalServer">0831200101</entry>
+        <entry class="RussiaSignalServer">0831200202</entry>
+        <entry class="MexicoSignalServer">0831200303</entry>
+        <entry class="GreeceInternationalSignalServer">0831200404</entry>
     </hashcodes>
 
 </nwe-config>

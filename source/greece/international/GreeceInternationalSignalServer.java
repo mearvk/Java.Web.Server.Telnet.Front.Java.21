@@ -10,6 +10,9 @@
 
 package greece.international;
 
+import commons.CommonRails;
+import exceptions.ExceptionHandler;
+
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
@@ -38,6 +41,8 @@ public class GreeceInternationalSignalServer implements Runnable
         this.host = host;
         initDatabase();
         Thread.ofVirtual().name(THREAD_NAME).start(this);
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            ". GreeceInternationalSignalServer™ now starting on port " + PORT + " .");
     }
 
     /**
@@ -76,10 +81,14 @@ public class GreeceInternationalSignalServer implements Runnable
                     ")"
                 );
             }
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". GreeceInternationalSignalServer™ database nwe_greece_intl initialized .");
         }
         catch (SQLException e)
         {
-            System.err.println("[GreeceInternationalSignalServer] Database init failed: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". GreeceInternationalSignalServer™ database init failed .", commons.color.ColorPalette.COLOR_STANDARD_RED);
         }
     }
 
@@ -96,7 +105,7 @@ public class GreeceInternationalSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            System.err.println("[GreeceInternationalSignalServer] Server error: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
         }
     }
 
@@ -135,12 +144,16 @@ public class GreeceInternationalSignalServer implements Runnable
             {
                 out.write(("ALIVE|greece_intl|port=" + PORT + "\n").getBytes(StandardCharsets.UTF_8));
             }
+            else
+            {
+                reportSecurityConcern(client, request);
+            }
 
             out.flush();
         }
         catch (Exception e)
         {
-            System.err.println("[GreeceInternationalSignalServer] Client error: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
         }
     }
 
@@ -173,7 +186,7 @@ public class GreeceInternationalSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            System.err.println("[GreeceInternationalSignalServer] Fetch source failed: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
             return "";
         }
     }
@@ -207,7 +220,7 @@ public class GreeceInternationalSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            System.err.println("[GreeceInternationalSignalServer] Fetch signal failed: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
             return "";
         }
     }
@@ -267,4 +280,18 @@ public class GreeceInternationalSignalServer implements Runnable
 
     /** @javaowner Max Rupplin */
     public void stop() { running = false; }
+
+    /**
+     * Reports unrecognized or suspicious requests as security concerns.
+     *
+     * @javaowner Max Rupplin
+     */
+    private void reportSecurityConcern(Socket client, String request)
+    {
+        String ip = client.getInetAddress().getHostAddress();
+        String msg = "Unrecognized request from " + ip + ":" + client.getPort() + " — \"" + request + "\"";
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            ". GreeceInternationalSignalServer™ SECURITY: " + msg + " .", commons.color.ColorPalette.COLOR_STANDARD_RED);
+        ExceptionHandler.dispatch(new SecurityException("[GreeceInternationalSignalServer] " + msg));
+    }
 }
