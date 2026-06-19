@@ -15,7 +15,6 @@
 
 package strernary;
 
-import commons.CommonRails;
 import exceptions.ExceptionHandler;
 
 import java.io.*;

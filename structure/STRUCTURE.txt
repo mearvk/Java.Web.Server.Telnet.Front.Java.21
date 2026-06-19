@@ -235,25 +235,25 @@ SOURCE PACKAGES  (source/)
                             Stores in nwe_calendar_d44 MySQL database.
                             Uses AES2 module + ConvergentFields for calendar-cipher calculus.
 
-  japan/
+  international.radio.japan/
     JapanSignalServer     — Japan signal server on port 49201.
                             Sources: NHK, Mainichi, Asahi, Nikkei, Kyodo, JPX, JMA.
                             Signals: Nikkei 225, JPY/USD, Seismic.
                             Database: nwe_japan (japan_signals, japan_news).
                             CommonRails prints, ExceptionHandler dispatch, SecurityException
                             reporting on unrecognized requests.
-    japan-config.xml      — Sources, signals, media, database credentials.
+    international.radio.japan-config.xml      — Sources, signals, media, database credentials.
 
-  russia/
+  international.radio.russia/
     RussiaSignalServer    — Russia signal server on port 49202.
                             Sources: TASS, RIA, Interfax, RBC, MOEX, Kommersant, Vedomosti, RT.
                             Signals: MOEX Index, RUB/USD, Brent Crude.
                             Database: nwe_russia (russia_signals, russia_news).
                             CommonRails prints, ExceptionHandler dispatch, SecurityException
                             reporting on unrecognized requests.
-    russia-config.xml     — Sources, signals, media, database credentials.
+    international.radio.russia-config.xml     — Sources, signals, media, database credentials.
 
-  mexico/
+  international.radio.mexico/
     MexicoSignalServer    — Mexico signal server on port 49203.
                             Sources: El Universal, Reforma, Milenio, La Jornada, Expansión,
                             El Financiero, BMV, Excélsior.
@@ -261,7 +261,7 @@ SOURCE PACKAGES  (source/)
                             Database: nwe_mexico (mexico_signals, mexico_news).
                             CommonRails prints, ExceptionHandler dispatch, SecurityException
                             reporting on unrecognized requests.
-    mexico-config.xml     — Sources, signals, media, database credentials.
+    international.radio.mexico-config.xml     — Sources, signals, media, database credentials.
 
   greece/international/
     GreeceInternationalSignalServer — Greece/International signal server on port 49204.
@@ -438,9 +438,9 @@ CONFIGURATION FILES
   configuration/final-medium-hops-commodities.xml — FinalMediumHops research commodities.
   configuration/games-as-goals-sketches.xml       — GamesAsGoals .mdmd sketch config.
   configuration/transfer-contacts.xml             — Transfer of Summary contact registry.
-  source/japan/japan-config.xml                   — Japan signal server sources/signals/db.
-  source/russia/russia-config.xml                 — Russia signal server sources/signals/db.
-  source/mexico/mexico-config.xml                 — Mexico signal server sources/signals/db.
+  source/international.radio.japan/international.radio.japan-config.xml                   — Japan signal server sources/signals/db.
+  source/international.radio.russia/international.radio.russia-config.xml                 — Russia signal server sources/signals/db.
+  source/international.radio.mexico/international.radio.mexico-config.xml                 — Mexico signal server sources/signals/db.
   source/greece/international/greece-international-config.xml — Greece/Intl sources/signals/db.
   source/strernary/strernary-config.xml                     — Strernary inference/OS-port config.
 

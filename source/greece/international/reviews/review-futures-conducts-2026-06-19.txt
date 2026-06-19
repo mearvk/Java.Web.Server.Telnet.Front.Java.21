@@ -1,0 +1,38 @@
+==========================================================
+REVIEW OF FUTURES AND CONDUCTS
+Module: greece.international
+Date: 2026-06-19
+Reviewer: AI_TRAINING_THREAD
+==========================================================
+
+SCORING SUMMARY
+
+Language Grade: 0.000 / 1.000 (awaiting first training cycle)
+Mortality Grade: 0.000 / 1.000 (awaiting first training cycle)
+Composite Score: 0.000 / 1.000 (awaiting first training cycle)
+
+LANGUAGE ASSESSMENT
+
+Pending. English-language content from Kathimerini, Reuters, BBC, and DW will
+form the primary evaluation corpus. Greek-language content from Naftemporiki
+and Capital.gr will be secondary.
+
+MORTALITY ASSESSMENT
+
+Pending. International wire services (Reuters, BBC, Al Jazeera) provide diverse
+perspectives. The moral classifier will assess bias and balance across sources.
+
+FUTURES OUTLOOK
+
+The Greece International module is initialized with the broadest source diversity
+among all international.radio modules. Athens Exchange and Baltic Dry Index
+signals provide specialized financial training data. Cross-referencing Reuters,
+BBC, and Al Jazeera enables multi-angle verification of information.
+
+CONDUCT NOTES
+
+Channel usage configured. Gain control active. The international scope of this
+module requires careful attention to source diversity and bias detection.
+System in initialization state.
+
+END OF REVIEW

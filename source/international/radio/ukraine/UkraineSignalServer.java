@@ -1,6 +1,6 @@
 /**
- * JapanSignalServer — Connects to Japanese servers for news, market signals,
- * and internet data. Stores in nwe_japan MySQL database.
+ * UkraineSignalServer — Connects to Ukrainian servers for news, market signals,
+ * and internet data. Stores in nwe_ukraine MySQL database.
  * Port-aware: 21, 22, 80, 443, 8080, 8888.
  *
  * @author Max Rupplin
@@ -8,22 +8,18 @@
  * @date June 19 2026 EST
  */
 
-package japan;
-
-import commons.CommonRails;
-import exceptions.ExceptionHandler;
+package international.radio.ukraine;
 
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
-import java.time.Instant;
 import javax.net.ssl.SSLSocketFactory;
 
-public class JapanSignalServer implements Runnable
+public class UkraineSignalServer implements Runnable
 {
-    public static final int PORT = 49201;
-    public static final String THREAD_NAME = "JAPAN_SIGNAL_SERVER";
+    public static final int PORT = 49203;
+    public static final String THREAD_NAME = "UKRAINE_SIGNAL_SERVER";
     private static final int[] AWARE_PORTS = {21, 22, 80, 443, 8080, 8888};
 
     private final String host;
@@ -31,22 +27,20 @@ public class JapanSignalServer implements Runnable
     private volatile boolean running = true;
 
     /**
-     * Constructs the Japan signal server.
+     * Constructs the Ukraine signal server.
      *
      * @param host bind address
      * @javaowner Max Rupplin
      */
-    public JapanSignalServer(String host)
+    public UkraineSignalServer(String host)
     {
         this.host = host;
         initDatabase();
         Thread.ofVirtual().name(THREAD_NAME).start(this);
-        CommonRails.printSystemComponent(this, this.hashCode(),
-            ". JapanSignalServer™ now starting on port " + PORT + " .");
     }
 
     /**
-     * Initializes the nwe_japan database and tables.
+     * Initializes the nwe_ukraine database and tables.
      *
      * @javaowner Max Rupplin
      */
@@ -54,23 +48,23 @@ public class JapanSignalServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_japan", "mearvk", "$$Ironman1");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_ukraine", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS japan_signals (" +
+                    "CREATE TABLE IF NOT EXISTS ukraine_signals (" +
                     "  id BIGINT AUTO_INCREMENT PRIMARY KEY," +
                     "  signal_type VARCHAR(32) NOT NULL," +
                     "  source_id VARCHAR(64)," +
                     "  source_url VARCHAR(512)," +
                     "  source_port INT," +
                     "  content LONGTEXT," +
-                    "  lang VARCHAR(8) DEFAULT 'ja'," +
+                    "  lang VARCHAR(8) DEFAULT 'uk'," +
                     "  retrieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                     ")"
                 );
                 stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS japan_news (" +
+                    "CREATE TABLE IF NOT EXISTS ukraine_news (" +
                     "  id BIGINT AUTO_INCREMENT PRIMARY KEY," +
                     "  source_id VARCHAR(64)," +
                     "  category VARCHAR(32)," +
@@ -80,15 +74,20 @@ public class JapanSignalServer implements Runnable
                     "  retrieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                     ")"
                 );
+                stmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS ukraine_market_data (" +
+                    "  id BIGINT AUTO_INCREMENT PRIMARY KEY," +
+                    "  index_name VARCHAR(64) NOT NULL," +
+                    "  value_raw TEXT," +
+                    "  source_url VARCHAR(512)," +
+                    "  retrieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                    ")"
+                );
             }
-            CommonRails.printSystemComponent(this, this.hashCode(),
-                ". JapanSignalServer™ database nwe_japan initialized .");
         }
         catch (SQLException e)
         {
-            ExceptionHandler.dispatch(e);
-            CommonRails.printSystemComponent(this, this.hashCode(),
-                ". JapanSignalServer™ database init failed .", commons.color.ColorPalette.COLOR_STANDARD_RED);
+            System.err.println("[UkraineSignalServer] Database init failed: " + e.getMessage());
         }
     }
 
@@ -105,7 +104,7 @@ public class JapanSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
+            System.err.println("[UkraineSignalServer] Server error: " + e.getMessage());
         }
     }
 
@@ -142,25 +141,21 @@ public class JapanSignalServer implements Runnable
             }
             else if ("STATUS".equals(request.trim()))
             {
-                out.write(("ALIVE|japan|port=" + PORT + "\n").getBytes(StandardCharsets.UTF_8));
-            }
-            else
-            {
-                reportSecurityConcern(client, request);
+                out.write(("ALIVE|international.radio.ukraine|port=" + PORT + "\n").getBytes(StandardCharsets.UTF_8));
             }
 
             out.flush();
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
+            System.err.println("[UkraineSignalServer] Client error: " + e.getMessage());
         }
     }
 
     /**
-     * Fetches content from a Japanese news source and stores in japan_news.
+     * Fetches content from a Ukrainian news source and stores in ukraine_news.
      *
-     * @param sourceId source identifier from japan-config.xml
+     * @param sourceId source identifier from international.radio.ukraine-config.xml
      * @param url URL to fetch
      * @return fetched content
      * @javaowner Max Rupplin
@@ -173,7 +168,7 @@ public class JapanSignalServer implements Runnable
             if (dbConn != null)
             {
                 try (PreparedStatement ps = dbConn.prepareStatement(
-                    "INSERT INTO japan_news (source_id, category, url, content) VALUES (?, ?, ?, ?)"))
+                    "INSERT INTO ukraine_news (source_id, category, url, content) VALUES (?, ?, ?, ?)"))
                 {
                     ps.setString(1, sourceId);
                     ps.setString(2, "news");
@@ -186,13 +181,13 @@ public class JapanSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
+            System.err.println("[UkraineSignalServer] Fetch source failed: " + e.getMessage());
             return "";
         }
     }
 
     /**
-     * Fetches a signal (market, currency, seismic) and stores in japan_signals.
+     * Fetches a signal (market, currency, energy) and stores in ukraine_signals.
      *
      * @param signalUrl signal URL
      * @return fetched content
@@ -207,7 +202,7 @@ public class JapanSignalServer implements Runnable
             if (dbConn != null)
             {
                 try (PreparedStatement ps = dbConn.prepareStatement(
-                    "INSERT INTO japan_signals (signal_type, source_url, source_port, content) VALUES (?, ?, ?, ?)"))
+                    "INSERT INTO ukraine_signals (signal_type, source_url, source_port, content) VALUES (?, ?, ?, ?)"))
                 {
                     ps.setString(1, "signal");
                     ps.setString(2, signalUrl);
@@ -220,20 +215,20 @@ public class JapanSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            ExceptionHandler.dispatch(e);
+            System.err.println("[UkraineSignalServer] Fetch signal failed: " + e.getMessage());
             return "";
         }
     }
 
     /**
-     * Connects to a Japanese server on an aware port.
+     * Connects to a Ukrainian server on an aware port.
      *
      * @param host remote host
      * @param port target port
      * @return socket connection
      * @javaowner Max Rupplin
      */
-    public Socket connectJapan(String host, int port) throws IOException
+    public Socket connectUkraine(String host, int port) throws IOException
     {
         if (!isPortAware(port)) throw new IOException("Port " + port + " not in aware list.");
         if (port == 443) return SSLSocketFactory.getDefault().createSocket(host, port);
@@ -247,7 +242,7 @@ public class JapanSignalServer implements Runnable
         conn.setRequestMethod("GET");
         conn.setConnectTimeout(10000);
         conn.setReadTimeout(10000);
-        conn.setRequestProperty("Accept-Language", "ja,en;q=0.9");
+        conn.setRequestProperty("Accept-Language", "uk,en;q=0.9");
 
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)))
@@ -280,18 +275,4 @@ public class JapanSignalServer implements Runnable
 
     /** @javaowner Max Rupplin */
     public void stop() { running = false; }
-
-    /**
-     * Reports unrecognized or suspicious requests as security concerns.
-     *
-     * @javaowner Max Rupplin
-     */
-    private void reportSecurityConcern(Socket client, String request)
-    {
-        String ip = client.getInetAddress().getHostAddress();
-        String msg = "Unrecognized request from " + ip + ":" + client.getPort() + " — \"" + request + "\"";
-        CommonRails.printSystemComponent(this, this.hashCode(),
-            ". JapanSignalServer™ SECURITY: " + msg + " .", commons.color.ColorPalette.COLOR_STANDARD_RED);
-        ExceptionHandler.dispatch(new SecurityException("[JapanSignalServer] " + msg));
-    }
 }

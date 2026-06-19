@@ -1,0 +1,36 @@
+==========================================================
+REVIEW OF FUTURES AND CONDUCTS
+Module: international.radio.ukraine
+Date: 2026-06-19
+Reviewer: AI_TRAINING_THREAD
+==========================================================
+
+SCORING SUMMARY
+
+Language Grade: 0.000 / 1.000 (awaiting first training cycle)
+Mortality Grade: 0.000 / 1.000 (awaiting first training cycle)
+Composite Score: 0.000 / 1.000 (awaiting first training cycle)
+
+LANGUAGE ASSESSMENT
+
+Pending. English-language content from Kyiv Independent and Ukrinform English
+edition will be primary evaluation targets.
+
+MORTALITY ASSESSMENT
+
+Pending. Conflict-related content requires heightened mortality assessment.
+The gain control layer will exercise additional caution with violence-related
+reporting while preserving factual humanitarian and economic information.
+
+FUTURES OUTLOOK
+
+The Ukraine module is initialized. NBU financial data and PFTS exchange signals
+provide economic training input. Conflict reporting will be carefully filtered
+through the moral classifier before acceptance into training data.
+
+CONDUCT NOTES
+
+Channel usage configured with heightened chapter awareness. Gain control active
+with additional conflict-content sensitivity. System in initialization state.
+
+END OF REVIEW

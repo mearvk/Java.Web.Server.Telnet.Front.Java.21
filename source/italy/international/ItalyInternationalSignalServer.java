@@ -1,6 +1,6 @@
 /**
- * MexicoSignalServer — Connects to Mexican servers for news, market signals,
- * and internet data. Stores in nwe_mexico MySQL database.
+ * ItalyInternationalSignalServer — Connects to Italian and international servers
+ * for news, market signals, and internet data. Stores in nwe_italy_intl MySQL database.
  * Port-aware: 21, 22, 80, 443, 8080, 8888.
  *
  * @author Max Rupplin
@@ -8,7 +8,7 @@
  * @date June 19 2026 EST
  */
 
-package mexico;
+package italy.international;
 
 import commons.CommonRails;
 import exceptions.ExceptionHandler;
@@ -20,10 +20,10 @@ import java.sql.*;
 import java.time.Instant;
 import javax.net.ssl.SSLSocketFactory;
 
-public class MexicoSignalServer implements Runnable
+public class ItalyInternationalSignalServer implements Runnable
 {
-    public static final int PORT = 49203;
-    public static final String THREAD_NAME = "MEXICO_SIGNAL_SERVER";
+    public static final int PORT = 49205;
+    public static final String THREAD_NAME = "ITALY_INTL_SIGNAL_SERVER";
     private static final int[] AWARE_PORTS = {21, 22, 80, 443, 8080, 8888};
 
     private final String host;
@@ -31,22 +31,22 @@ public class MexicoSignalServer implements Runnable
     private volatile boolean running = true;
 
     /**
-     * Constructs the Mexico signal server.
+     * Constructs the Italy international signal server.
      *
      * @param host bind address
      * @javaowner Max Rupplin
      */
-    public MexicoSignalServer(String host)
+    public ItalyInternationalSignalServer(String host)
     {
         this.host = host;
         initDatabase();
         Thread.ofVirtual().name(THREAD_NAME).start(this);
         CommonRails.printSystemComponent(this, this.hashCode(),
-            ". MexicoSignalServer™ now starting on port " + PORT + " .");
+            ". ItalyInternationalSignalServer™ now starting on port " + PORT + " .");
     }
 
     /**
-     * Initializes the nwe_mexico database and tables.
+     * Initializes the nwe_italy_intl database and tables.
      *
      * @javaowner Max Rupplin
      */
@@ -54,23 +54,23 @@ public class MexicoSignalServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_mexico", "mearvk", "$$Ironman1");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_italy_intl", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS mexico_signals (" +
+                    "CREATE TABLE IF NOT EXISTS italy_intl_signals (" +
                     "  id BIGINT AUTO_INCREMENT PRIMARY KEY," +
                     "  signal_type VARCHAR(32) NOT NULL," +
                     "  source_id VARCHAR(64)," +
                     "  source_url VARCHAR(512)," +
                     "  source_port INT," +
                     "  content LONGTEXT," +
-                    "  lang VARCHAR(8) DEFAULT 'es'," +
+                    "  lang VARCHAR(8) DEFAULT 'it'," +
                     "  retrieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                     ")"
                 );
                 stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS mexico_news (" +
+                    "CREATE TABLE IF NOT EXISTS italy_intl_news (" +
                     "  id BIGINT AUTO_INCREMENT PRIMARY KEY," +
                     "  source_id VARCHAR(64)," +
                     "  category VARCHAR(32)," +
@@ -82,13 +82,13 @@ public class MexicoSignalServer implements Runnable
                 );
             }
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". MexicoSignalServer™ database nwe_mexico initialized .");
+                ". ItalyInternationalSignalServer™ database nwe_italy_intl initialized .");
         }
         catch (SQLException e)
         {
             ExceptionHandler.dispatch(e);
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". MexicoSignalServer™ database init failed .", commons.color.ColorPalette.COLOR_STANDARD_RED);
+                ". ItalyInternationalSignalServer™ database init failed .", commons.color.ColorPalette.COLOR_STANDARD_RED);
         }
     }
 
@@ -142,7 +142,7 @@ public class MexicoSignalServer implements Runnable
             }
             else if ("STATUS".equals(request.trim()))
             {
-                out.write(("ALIVE|mexico|port=" + PORT + "\n").getBytes(StandardCharsets.UTF_8));
+                out.write(("ALIVE|italy_intl|port=" + PORT + "\n").getBytes(StandardCharsets.UTF_8));
             }
             else
             {
@@ -158,9 +158,9 @@ public class MexicoSignalServer implements Runnable
     }
 
     /**
-     * Fetches content from a Mexican news source and stores in mexico_news.
+     * Fetches content from an Italian/international news source and stores in italy_intl_news.
      *
-     * @param sourceId source identifier from mexico-config.xml
+     * @param sourceId source identifier from italy-international-config.xml
      * @param url URL to fetch
      * @return fetched content
      * @javaowner Max Rupplin
@@ -173,7 +173,7 @@ public class MexicoSignalServer implements Runnable
             if (dbConn != null)
             {
                 try (PreparedStatement ps = dbConn.prepareStatement(
-                    "INSERT INTO mexico_news (source_id, category, url, content) VALUES (?, ?, ?, ?)"))
+                    "INSERT INTO italy_intl_news (source_id, category, url, content) VALUES (?, ?, ?, ?)"))
                 {
                     ps.setString(1, sourceId);
                     ps.setString(2, "news");
@@ -192,7 +192,7 @@ public class MexicoSignalServer implements Runnable
     }
 
     /**
-     * Fetches a signal (market, energy, currency) and stores in mexico_signals.
+     * Fetches a signal (market, bond, currency) and stores in italy_intl_signals.
      *
      * @param signalUrl signal URL
      * @return fetched content
@@ -207,7 +207,7 @@ public class MexicoSignalServer implements Runnable
             if (dbConn != null)
             {
                 try (PreparedStatement ps = dbConn.prepareStatement(
-                    "INSERT INTO mexico_signals (signal_type, source_url, source_port, content) VALUES (?, ?, ?, ?)"))
+                    "INSERT INTO italy_intl_signals (signal_type, source_url, source_port, content) VALUES (?, ?, ?, ?)"))
                 {
                     ps.setString(1, "signal");
                     ps.setString(2, signalUrl);
@@ -226,14 +226,14 @@ public class MexicoSignalServer implements Runnable
     }
 
     /**
-     * Connects to a Mexican server on an aware port.
+     * Connects to an Italian/international server on an aware port.
      *
      * @param host remote host
      * @param port target port
      * @return socket connection
      * @javaowner Max Rupplin
      */
-    public Socket connectMexico(String host, int port) throws IOException
+    public Socket connectItaly(String host, int port) throws IOException
     {
         if (!isPortAware(port)) throw new IOException("Port " + port + " not in aware list.");
         if (port == 443) return SSLSocketFactory.getDefault().createSocket(host, port);
@@ -247,7 +247,7 @@ public class MexicoSignalServer implements Runnable
         conn.setRequestMethod("GET");
         conn.setConnectTimeout(10000);
         conn.setReadTimeout(10000);
-        conn.setRequestProperty("Accept-Language", "es-MX,es;q=0.9,en;q=0.8");
+        conn.setRequestProperty("Accept-Language", "it,en;q=0.9");
 
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)))
@@ -291,7 +291,7 @@ public class MexicoSignalServer implements Runnable
         String ip = client.getInetAddress().getHostAddress();
         String msg = "Unrecognized request from " + ip + ":" + client.getPort() + " — \"" + request + "\"";
         CommonRails.printSystemComponent(this, this.hashCode(),
-            ". MexicoSignalServer™ SECURITY: " + msg + " .", commons.color.ColorPalette.COLOR_STANDARD_RED);
-        ExceptionHandler.dispatch(new SecurityException("[MexicoSignalServer] " + msg));
+            ". ItalyInternationalSignalServer™ SECURITY: " + msg + " .", commons.color.ColorPalette.COLOR_STANDARD_RED);
+        ExceptionHandler.dispatch(new SecurityException("[ItalyInternationalSignalServer] " + msg));
     }
 }

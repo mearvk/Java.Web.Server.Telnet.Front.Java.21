@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    AI Integrative Configuration — International Radio Modules
+    ===========================================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+    Date: June 19 2026 EST
+
+    Governs the AI interpreter, feedback loop, scouting, training,
+    scoring, and content heuristics for all international.radio modules.
+
+    Architecture Decision:
+    A singular shared DJL model serves all country modules (memory-efficient).
+    Per-country innate knowledge is housed in dedicated XML values below.
+    The training thread consumes scouted data up to 200 MB per module before
+    scoring and model update.
+
+    Verdict Sourcing (moral distinction):
+      HOUSING  — verdict from this module's own innate knowledge XML
+      LOCAL    — verdict from a local NWE connector (Strernary, AIProctor, etc.)
+      INTERNET — verdict from public internet scouting (lower trust)
+
+    Content Gain Control:
+      Heuristics classify content before storage. Explicit content is flagged
+      and quarantined. The gain-control layer ensures only morally acceptable
+      data enters training sets.
+-->
+<ai-integrative-config>
+
+    <!-- Shared Model Architecture -->
+    <model>
+        <type>shared-singleton</type>
+        <engine>DJL-PyTorch</engine>
+        <base-model>djl://ai.djl.huggingface.pytorch/distilbert-base-uncased</base-model>
+        <max-memory-mb>512</max-memory-mb>
+        <thread-pool-size>4</thread-pool-size>
+        <description>
+            Singular AI LLM model shared among all international.radio modules.
+            Memory footprint capped at 512 MB. If exceeded, model is offloaded
+            and modules fall back to heuristic keyword routing.
+        </description>
+    </model>
+
+    <!-- Feedback Loop Configuration -->
+    <feedback-loop>
+        <enabled>true</enabled>
+        <verdict-sources>
+            <source id="HOUSING" trust-level="0.95" description="Own innate knowledge from this module's XML housing" />
+            <source id="LOCAL" trust-level="0.80" description="Local NWE connector (Strernary, AIProctor, other modules)" />
+            <source id="INTERNET" trust-level="0.40" description="Public internet scouting — lower trust, requires validation" />
+        </verdict-sources>
+        <moral-classifier>
+            <enabled>true</enabled>
+            <language-sensitivity>true</language-sensitivity>
+            <mortality-awareness>true</mortality-awareness>
+            <explicit-content-gate>reject</explicit-content-gate>
+        </moral-classifier>
+    </feedback-loop>
+
+    <!-- Heuristics and Gain Control -->
+    <heuristics-gain-control>
+        <content-filter>
+            <explicit-detection>true</explicit-detection>
+            <quarantine-on-explicit>true</quarantine-on-explicit>
+            <channel-awareness>
+                <public-channel careful="true" chapter="verified" />
+                <private-channel careful="true" chapter="internal" />
+            </channel-awareness>
+        </content-filter>
+        <gain-levels>
+            <level id="accept" threshold="0.70" description="Content passes moral and factual checks" />
+            <level id="review" threshold="0.40" description="Content needs human/AI review before training" />
+            <level id="reject" threshold="0.00" description="Content is explicit or harmful — quarantined" />
+        </gain-levels>
+    </heuristics-gain-control>
+
+    <!-- Scouting Configuration -->
+    <scouting>
+        <enabled>true</enabled>
+        <interval-minutes>60</interval-minutes>
+        <max-storage-mb>200</max-storage-mb>
+        <output-format>paragraph-oriented</output-format>
+        <readability-level>college</readability-level>
+        <daily-feedback>true</daily-feedback>
+        <feedback-location>relative-source-folder</feedback-location>
+        <description>
+            Each module scouts the internet daily using its own XML source list.
+            Findings are written as college-readable paragraph documents in the
+            module's source folder. Files grow up to 200 MB before the training
+            thread consumes them.
+        </description>
+    </scouting>
+
+    <!-- Training Module -->
+    <training>
+        <enabled>true</enabled>
+        <thread-name>AI_TRAINING_THREAD</thread-name>
+        <daemon>true</daemon>
+        <input-sources>
+            <source type="scouting" description="Internet scouting data from source XML" />
+            <source type="questions" description="Questions and data received by modules" />
+        </input-sources>
+        <trigger-size-mb>200</trigger-size-mb>
+        <scoring>
+            <grading-mechanism>true</grading-mechanism>
+            <initial-setters>
+                <setter id="language" weight="0.50" description="Language quality and correctness" />
+                <setter id="mortality" weight="0.50" description="Moral/ethical content quality" />
+            </initial-setters>
+            <best-model-storage>true</best-model-storage>
+            <review-documents>true</review-documents>
+            <review-location>relative-source-folder</review-location>
+            <review-type>futures-and-conducts</review-type>
+        </scoring>
+    </training>
+
+    <!-- NWE Interface Connectors -->
+    <connectors>
+        <connector id="strernary" port="20000" protocol="TCP" command="ASK|{query}" />
+        <connector id="ai-proctor" port="49111" protocol="TCP" command="ask {query}" />
+        <connector id="heuristic-classifier" class="heuristics.HeuristicClassifier" />
+        <connector id="knowledge-fetcher" class="strernary.StrernaryKnowledgeFetcher" />
+        <connector id="middle-director" port="49100" protocol="TCP" />
+        <connector id="bitcoin-module" port="49300" protocol="TCP" />
+        <connector id="weather-server" class="weather.WeatherServer" />
+        <connector id="national-driver" class="national.NationalDriver" />
+    </connectors>
+
+    <!-- Per-Country Innate Knowledge Housing -->
+    <country-knowledge>
+
+        <country id="japan" module="international.radio.japan" port="49201" database="nwe_japan">
+            <innate-knowledge>
+                <cultural>Japanese honorifics, seasonal awareness, Shinto and Buddhist calendar</cultural>
+                <financial>Nikkei 225 composition, BOJ monetary policy, JPY safe-haven behavior</financial>
+                <geographic>Seismic zones, prefectures, major cities, Pacific Ring of Fire</geographic>
+                <media>NHK public broadcaster, kisha clubs, press freedom context</media>
+                <language>Japanese (ja), English supplements, keigo formality levels</language>
+                <mortality>Respect for life, natural disaster preparedness, aging society concerns</mortality>
+            </innate-knowledge>
+        </country>
+
+        <country id="russia" module="international.radio.russia" port="49202" database="nwe_russia">
+            <innate-knowledge>
+                <cultural>Orthodox calendar, Soviet historical context, federal subjects</cultural>
+                <financial>MOEX structure, CBR policy, sanctions context, commodity dependence</financial>
+                <geographic>Time zones, Arctic access, resource geography, rail network</geographic>
+                <media>State media landscape, Interfax independence rating, information environment</media>
+                <language>Russian (ru), English supplements, formal vs informal register</language>
+                <mortality>Demographic challenges, healthcare access, conflict awareness</mortality>
+            </innate-knowledge>
+        </country>
+
+        <country id="mexico" module="international.radio.mexico" port="49203" database="nwe_mexico">
+            <innate-knowledge>
+                <cultural>Day of the Dead, indigenous heritage, UNAM academic tradition</cultural>
+                <financial>BMV/IPC structure, Banxico policy, remittance economy, USMCA</financial>
+                <geographic>States, border dynamics, Pacific and Gulf coasts, seismic risk</geographic>
+                <media>Reforma independence, media plurality, security reporting risks</media>
+                <language>Spanish (es), indigenous languages, regional dialects</language>
+                <mortality>Security challenges, migration context, healthcare access</mortality>
+            </innate-knowledge>
+        </country>
+
+        <country id="ukraine" module="international.radio.ukraine" port="49205" database="nwe_ukraine">
+            <innate-knowledge>
+                <cultural>Ukrainian identity, Cossack heritage, Orthodox and Greek Catholic</cultural>
+                <financial>PFTS exchange, NBU policy, wartime economy, grain exports</financial>
+                <geographic>Oblasts, agricultural zones, Black Sea access, energy infrastructure</geographic>
+                <media>Ukrinform state agency, Kyiv Independent, wartime information environment</media>
+                <language>Ukrainian (uk), English supplements, Russian minority context</language>
+                <mortality>Conflict impact, civilian protection, displacement, reconstruction</mortality>
+            </innate-knowledge>
+        </country>
+
+        <country id="greece-international" module="greece.international" port="49204" database="nwe_greece_intl">
+            <innate-knowledge>
+                <cultural>Hellenic heritage, EU membership, Mediterranean identity, maritime tradition</cultural>
+                <financial>Athens Exchange, ECB policy, shipping index correlation, tourism GDP</financial>
+                <geographic>Islands, straits, Aegean/Mediterranean, earthquake zones</geographic>
+                <media>Kathimerini independence, AMNA state agency, international wire services</media>
+                <language>Greek (el), English primary international, French secondary</language>
+                <mortality>Refugee corridor awareness, austerity social impact, island isolation</mortality>
+            </innate-knowledge>
+        </country>
+
+    </country-knowledge>
+
+    <!-- Integrity Verification -->
+    <integrity>
+        <daily-scouting-feedback>true</daily-scouting-feedback>
+        <feedback-format>college-readable-paragraphs</feedback-format>
+        <max-feedback-size-mb>200</max-feedback-size-mb>
+        <review-futures-and-conducts>true</review-futures-and-conducts>
+        <ai-ready>true</ai-ready>
+        <ai-perfect>true</ai-perfect>
+    </integrity>
+
+</ai-integrative-config>

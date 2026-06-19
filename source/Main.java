@@ -52,6 +52,7 @@ public class Main
     protected static final String AES_WEBEXPRESS_REMOTE_HOST = "localhost";
 
     protected static final String BINARY_HTTP_SERVER_HOST = "localhost";
+
     protected static final String BITCOIN_WEBEXPRESS_REMOTE_HOST = "localhost";
 
     protected static final Integer CONNECTION_STATUS_SERVER_PORT = ConnectionStatusServer.STATUS_PORT;
@@ -189,13 +190,13 @@ public class Main
                 NITRO.BRIDGE.CALENDAR_D44_SERVER = new CalendarD44Server(CALENDAR_D44_HOST);
 
             if (NitroWebExpressConfig.isEnabled("JapanSignalServer"))
-                new japan.JapanSignalServer("localhost");
+                new international.radio.japan.JapanSignalServer("localhost");
 
             if (NitroWebExpressConfig.isEnabled("RussiaSignalServer"))
-                new russia.RussiaSignalServer("localhost");
+                new international.radio.russia.RussiaSignalServer("localhost");
 
             if (NitroWebExpressConfig.isEnabled("MexicoSignalServer"))
-                new mexico.MexicoSignalServer("localhost");
+                new international.radio.mexico.MexicoSignalServer("localhost");
 
             if (NitroWebExpressConfig.isEnabled("GreeceInternationalSignalServer"))
                 new greece.international.GreeceInternationalSignalServer("localhost");
