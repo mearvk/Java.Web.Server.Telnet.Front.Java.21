@@ -168,6 +168,10 @@ SOURCE PACKAGES  (source/)
       ├─ ModuleLoaderDaemon™       — OS-installable module loader on port 49188.
       ├─ Communicator™             — Persistent telnet chat server on port 49199.
       ├─ CalendarD44™             — US Calendar D44 module on port 49200.
+      ├─ JapanSignalServer™      — Japan signal server on port 49201.
+      ├─ RussiaSignalServer™     — Russia signal server on port 49202.
+      ├─ MexicoSignalServer™     — Mexico signal server on port 49203.
+      ├─ GreeceInternationalSignalServer™ — Greece/Intl signal server on port 49204.
       ├─ BinaryHttp™               — Binary data → HTTP link server on port 49144.
       ├─ Weather™                  — Telnet weather service on port 49133.
       ├─ Antivirus™                — ClamAV scanner on configurable schedule.
@@ -230,6 +234,44 @@ SOURCE PACKAGES  (source/)
                             Stores in nwe_calendar_d44 MySQL database.
                             Uses AES2 module + ConvergentFields for calendar-cipher calculus.
 
+  japan/
+    JapanSignalServer     — Japan signal server on port 49201.
+                            Sources: NHK, Mainichi, Asahi, Nikkei, Kyodo, JPX, JMA.
+                            Signals: Nikkei 225, JPY/USD, Seismic.
+                            Database: nwe_japan (japan_signals, japan_news).
+                            CommonRails prints, ExceptionHandler dispatch, SecurityException
+                            reporting on unrecognized requests.
+    japan-config.xml      — Sources, signals, media, database credentials.
+
+  russia/
+    RussiaSignalServer    — Russia signal server on port 49202.
+                            Sources: TASS, RIA, Interfax, RBC, MOEX, Kommersant, Vedomosti, RT.
+                            Signals: MOEX Index, RUB/USD, Brent Crude.
+                            Database: nwe_russia (russia_signals, russia_news).
+                            CommonRails prints, ExceptionHandler dispatch, SecurityException
+                            reporting on unrecognized requests.
+    russia-config.xml     — Sources, signals, media, database credentials.
+
+  mexico/
+    MexicoSignalServer    — Mexico signal server on port 49203.
+                            Sources: El Universal, Reforma, Milenio, La Jornada, Expansión,
+                            El Financiero, BMV, Excélsior.
+                            Signals: IPC/BMV, MXN/USD, Pemex Crude.
+                            Database: nwe_mexico (mexico_signals, mexico_news).
+                            CommonRails prints, ExceptionHandler dispatch, SecurityException
+                            reporting on unrecognized requests.
+    mexico-config.xml     — Sources, signals, media, database credentials.
+
+  greece/international/
+    GreeceInternationalSignalServer — Greece/International signal server on port 49204.
+                            Sources: Kathimerini, AMNA, Naftemporiki, Capital.gr, Reuters,
+                            Al Jazeera, BBC, DW.
+                            Signals: Athens Exchange, EUR/USD, Baltic Dry Index.
+                            Database: nwe_greece_intl (greece_intl_signals, greece_intl_news).
+                            CommonRails prints, ExceptionHandler dispatch, SecurityException
+                            reporting on unrecognized requests.
+    greece-international-config.xml — Sources, signals, media, database credentials.
+
   lanterna/
     TerminalMenu          — Lanterna GUI menu on port 49200; presents bordered buttons for
                             each service in the 49152 port series. Telnet clients connect,
@@ -271,15 +313,42 @@ DATABASE TABLES  (MySQL — database N21)
   and also defined in scripts/N21.table.builder.sh.
 
 
+DATABASE TABLES — SIGNAL SERVERS
+---------------------------------
+  nwe_japan:
+    japan_signals         — Market/currency/seismic signals (signal_type, source_url, port, content).
+    japan_news            — News articles (source_id, category, url, headline, content).
+
+  nwe_russia:
+    russia_signals        — Market/energy/currency signals (signal_type, source_url, port, content).
+    russia_news           — News articles (source_id, category, url, headline, content).
+
+  nwe_mexico:
+    mexico_signals        — Market/energy/currency signals (signal_type, source_url, port, content).
+    mexico_news           — News articles (source_id, category, url, headline, content).
+
+  nwe_greece_intl:
+    greece_intl_signals   — Market/shipping/currency signals (signal_type, source_url, port, content).
+    greece_intl_news      — News articles (source_id, category, url, headline, content).
+
+  All signal tables are self-provisioning via initDatabase() at server startup
+  and also defined in scripts/bash/Signal.Servers.SQL.Setup.sh.
+
+
 SCRIPTS  (scripts/)
 --------------------
   startup.sh            — Start the server.
   shutdown.sh           — Silent SIGTERM → sleep 2 → SIGKILL on all server ports.
   send-transfer-summary.sh — Send Transfer of Summary to contacts (requires mail agent).
   N21.table.builder.sh  — Create database N21 and all application tables.
+  Signal.Servers.SQL.Setup.sh — Create databases nwe_japan, nwe_russia, nwe_mexico, nwe_greece_intl.
   mysql.install.sh      — MySQL installation helper.
   github.binary.classes.sh
   bash/bitcoin/*        — Bitcoin node verify/install scripts for versions 24–30.
+  bash/49201/*          — JapanSignalServer port check and status tests.
+  bash/49202/*          — RussiaSignalServer port check and status tests.
+  bash/49203/*          — MexicoSignalServer port check and status tests.
+  bash/49204/*          — GreeceInternationalSignalServer port check and status tests.
 
   bash/github.binary.classes.sh
     Moves compiled .class files from source/ to out/ relative to project root.
@@ -294,6 +363,10 @@ PORTS SUMMARY
   49188   ModuleLoaderDaemon
   49199   Communicator
   49200   CalendarD44Server (US Calendar D44 module)
+  49201   JapanSignalServer
+  49202   RussiaSignalServer
+  49203   MexicoSignalServer
+  49204   GreeceInternationalSignalServer
   49144   BinaryHttpServer
   49133   WeatherServer
    5512   AES 2.0 Compliant WebExpress
@@ -335,6 +408,10 @@ CONFIGURATION FILES
   configuration/final-medium-hops-commodities.xml — FinalMediumHops research commodities.
   configuration/games-as-goals-sketches.xml       — GamesAsGoals .mdmd sketch config.
   configuration/transfer-contacts.xml             — Transfer of Summary contact registry.
+  source/japan/japan-config.xml                   — Japan signal server sources/signals/db.
+  source/russia/russia-config.xml                 — Russia signal server sources/signals/db.
+  source/mexico/mexico-config.xml                 — Mexico signal server sources/signals/db.
+  source/greece/international/greece-international-config.xml — Greece/Intl sources/signals/db.
 
 
 STANDALONE COMPONENTS  (not part of NWE — independently downloadable)

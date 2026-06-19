@@ -53,6 +53,29 @@ This software verifies its operational authorization by checking the presence of
 
 ---
 
+## International Signal Servers
+
+Country-specific signal servers that connect to international news, market, and data sources. Each runs on its own port, uses virtual threads (Java 21), and stores data in a dedicated MySQL database.
+
+| Server | Port | Database | Sources | Signals |
+|--------|------|----------|---------|---------|
+| JapanSignalServer™ | 49201 | `nwe_japan` | NHK, Mainichi, Asahi, Nikkei, Kyodo, JPX, JMA | Nikkei 225, JPY/USD, Seismic |
+| RussiaSignalServer™ | 49202 | `nwe_russia` | TASS, RIA, Interfax, RBC, MOEX, Kommersant, Vedomosti, RT | MOEX Index, RUB/USD, Brent Crude |
+| MexicoSignalServer™ | 49203 | `nwe_mexico` | El Universal, Reforma, Milenio, La Jornada, Expansión, El Financiero, BMV, Excélsior | IPC/BMV, MXN/USD, Pemex Crude |
+| GreeceInternationalSignalServer™ | 49204 | `nwe_greece_intl` | Kathimerini, AMNA, Naftemporiki, Capital.gr, Reuters, Al Jazeera, BBC, DW | Athens Exchange, EUR/USD, Baltic Dry Index |
+
+**Protocol:** TCP socket — `FETCH|<sourceId>|<url>`, `SIGNAL|<url>`, `STATUS`
+
+**Port-aware:** 21, 22, 80, 443, 8080, 8888 for outbound connections.
+
+**Source directories:**
+- `source/japan/` — Japan config and server
+- `source/russia/` — Russia config and server
+- `source/mexico/` — Mexico config and server
+- `source/greece/international/` — Greece/International config and server
+
+---
+
 ## Print System Configuration
 
 All terminal output is driven by `configuration/print-method.xml`. No recompile needed to adjust formatting.

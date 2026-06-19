@@ -10,6 +10,9 @@
 
 package japan;
 
+import commons.CommonRails;
+import exceptions.ExceptionHandler;
+
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
@@ -38,6 +41,8 @@ public class JapanSignalServer implements Runnable
         this.host = host;
         initDatabase();
         Thread.ofVirtual().name(THREAD_NAME).start(this);
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            ". JapanSignalServer™ now starting on port " + PORT + " .");
     }
 
     /**
@@ -76,10 +81,14 @@ public class JapanSignalServer implements Runnable
                     ")"
                 );
             }
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". JapanSignalServer™ database nwe_japan initialized .");
         }
         catch (SQLException e)
         {
-            System.err.println("[JapanSignalServer] Database init failed: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". JapanSignalServer™ database init failed .", commons.color.ColorPalette.COLOR_STANDARD_RED);
         }
     }
 
@@ -96,7 +105,7 @@ public class JapanSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            System.err.println("[JapanSignalServer] Server error: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
         }
     }
 
@@ -135,12 +144,16 @@ public class JapanSignalServer implements Runnable
             {
                 out.write(("ALIVE|japan|port=" + PORT + "\n").getBytes(StandardCharsets.UTF_8));
             }
+            else
+            {
+                reportSecurityConcern(client, request);
+            }
 
             out.flush();
         }
         catch (Exception e)
         {
-            System.err.println("[JapanSignalServer] Client error: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
         }
     }
 
@@ -173,7 +186,7 @@ public class JapanSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            System.err.println("[JapanSignalServer] Fetch source failed: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
             return "";
         }
     }
@@ -207,7 +220,7 @@ public class JapanSignalServer implements Runnable
         }
         catch (Exception e)
         {
-            System.err.println("[JapanSignalServer] Fetch signal failed: " + e.getMessage());
+            ExceptionHandler.dispatch(e);
             return "";
         }
     }
@@ -267,4 +280,18 @@ public class JapanSignalServer implements Runnable
 
     /** @javaowner Max Rupplin */
     public void stop() { running = false; }
+
+    /**
+     * Reports unrecognized or suspicious requests as security concerns.
+     *
+     * @javaowner Max Rupplin
+     */
+    private void reportSecurityConcern(Socket client, String request)
+    {
+        String ip = client.getInetAddress().getHostAddress();
+        String msg = "Unrecognized request from " + ip + ":" + client.getPort() + " — \"" + request + "\"";
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            ". JapanSignalServer™ SECURITY: " + msg + " .", commons.color.ColorPalette.COLOR_STANDARD_RED);
+        ExceptionHandler.dispatch(new SecurityException("[JapanSignalServer] " + msg));
+    }
 }
