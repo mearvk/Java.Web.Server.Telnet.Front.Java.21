@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    NitroWebExpress™ — Receiver-Only Configuration
+    ================================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Use this configuration file to run NWE in receiver-only mode.
+    In this mode, the software listens on port 443 (HTTPS/TLS) for
+    incoming RSA/TLS connections that do NOT require a password.
+    Optionally stores received data to MySQL or a local binary wallet.
+
+    Contact: SSA Durham NC for proof-of-life verification.
+-->
+<receiver-config>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         RECEIVER MODE
+    ════════════════════════════════════════════════════════════════════ -->
+    <mode>receiver-only</mode>
+    <enabled>true</enabled>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         NETWORK — Port 443, RSA/TLS without password
+    ════════════════════════════════════════════════════════════════════ -->
+    <network>
+        <host>0.0.0.0</host>
+        <port>443</port>
+        <protocol>TLS</protocol>
+        <tls-version>TLSv1.3</tls-version>
+        <keystore>psychiatry/secrets/receiver.keystore.jks</keystore>
+        <keystore-password>changeit</keystore-password>
+        <require-client-auth>false</require-client-auth>
+        <require-password>false</require-password>
+        <description>
+            HTTPS receiver on 443. RSA/TLS encrypted channel.
+            No password required for inbound connections — authentication
+            is handled via TLS certificate verification only.
+        </description>
+    </network>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STORAGE — Choose MySQL or Binary Wallet
+         Set <backend> to "mysql" or "binary-wallet"
+    ════════════════════════════════════════════════════════════════════ -->
+    <storage>
+        <backend>mysql</backend>
+
+        <!-- MySQL Configuration (used when backend=mysql) -->
+        <mysql>
+            <host>localhost</host>
+            <port>3306</port>
+            <database>nwe_receiver</database>
+            <username>nwe</username>
+            <password>nwe_receiver_pass</password>
+            <table>received_data</table>
+            <auto-create-table>true</auto-create-table>
+        </mysql>
+
+        <!-- Binary Wallet (used when backend=binary-wallet) -->
+        <binary-wallet>
+            <path>data/receiver.wallet.bin</path>
+            <max-size-mb>512</max-size-mb>
+            <checksum>SHA-256</checksum>
+        </binary-wallet>
+    </storage>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PROOF OF LIFE — SSA Durham NC Contact
+    ════════════════════════════════════════════════════════════════════ -->
+    <proof-of-life>
+        <enabled>true</enabled>
+        <contact>SSA Durham NC</contact>
+        <address>411 W Chapel Hill St, Suite 1200, Durham, NC 27701</address>
+        <phone>1-877-803-6311</phone>
+        <method>HTTP-GET</method>
+        <interval-minutes>60</interval-minutes>
+        <endpoint>https://localhost:443/receiver/heartbeat</endpoint>
+        <description>
+            Periodic heartbeat exposed at /receiver/heartbeat.
+            Contact SSA in Durham NC for proof-of-life verification.
+        </description>
+    </proof-of-life>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         LOGGING
+    ════════════════════════════════════════════════════════════════════ -->
+    <logging>
+        <file>logging/receiver.log</file>
+        <level>INFO</level>
+    </logging>
+
+</receiver-config>

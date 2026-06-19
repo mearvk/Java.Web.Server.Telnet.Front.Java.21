@@ -848,4 +848,25 @@
         <color>COLOR_STANDARD_YELLOW</color>
     </Program>
 
+    <Program>
+        <name>ReceiverMain</name>
+        <description>Receiver-only mode entry point. Listens on 443/TLS, no password required.</description>
+        <type>Server</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>ReceiverTlsListener</name>
+        <description>TLS listener for receiver mode on port 443 using RSA certificates.</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_GREEN</color>
+    </Program>
+
+    <Program>
+        <name>ReceiverStorage</name>
+        <description>Storage backend for receiver (MySQL or binary wallet).</description>
+        <type>Service</type>
+        <color>COLOR_STANDARD_BLUE</color>
+    </Program>
+
 </programs>
