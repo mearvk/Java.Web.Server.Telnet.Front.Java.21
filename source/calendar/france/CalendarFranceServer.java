@@ -57,7 +57,7 @@ public class CalendarFranceServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_calendar_france", "nwe", "nwe_receiver_pass");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_calendar_france", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(

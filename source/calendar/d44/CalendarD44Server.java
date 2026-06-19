@@ -57,7 +57,7 @@ public class CalendarD44Server implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_calendar_d44", "nwe", "nwe_receiver_pass");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_calendar_d44", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(

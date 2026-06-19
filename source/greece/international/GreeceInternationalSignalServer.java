@@ -54,7 +54,7 @@ public class GreeceInternationalSignalServer implements Runnable
     {
         try
         {
-            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_greece_intl", "nwe", "nwe_greece_intl_pass");
+            dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nwe_greece_intl", "mearvk", "$$Ironman1");
             try (Statement stmt = dbConn.createStatement())
             {
                 stmt.executeUpdate(

@@ -18543,3 +18543,14 @@ ERROR: Can't create temporary directory /usr/local/share/clamav/tmp.452e3e9561
 Hint: The database directory must be writable for UID 1000 or GID 1000
 ERROR: Update failed.
 
+[2026-06-19T01:13:31.200379129] freshclam update (exit=10)
+ClamAV update process started at Fri Jun 19 01:13:31 2026
+ERROR: Can't create temporary directory /usr/local/share/clamav/tmp.d326f0227c
+Hint: The database directory must be writable for UID 1000 or GID 1000
+ERROR: Update failed.
+
+[2026-06-19T01:14:12.973897593] ClamAV ALERT (exit=130): /home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.12/chainstate/chainstate/LOCK: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.12/blocks/blocks/index/LOCK: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.12/blocks/blocks/rev00000.dat: Empty file
+/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/bitcoin/28/wallets/2026.04.13/chainstate/chainstate/LOCK: Empty file
+/home/mearvk/IdeaProje

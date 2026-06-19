@@ -34,7 +34,7 @@ public final class CommonRails
             case 49177 -> "AsciiCreator";
             case 49188 -> "ModuleLoaderDaemon";
             case 49199 -> "Communicator";
-            case 49200 -> "TerminalMenu";
+            case 49200 -> "CalendarD44";
             case 49201 -> "JapanSignalServer";
             case 49202 -> "RussiaSignalServer";
             case 49203 -> "MexicoSignalServer";
@@ -42,6 +42,8 @@ public final class CommonRails
             case 20000 -> "Strernary";
             case 49144 -> "BinaryHttp";
             case 49133 -> "Weather";
+            case 49122 -> "WhiteAuditor";
+            case 49111 -> "AIProctorModule";
             case 5512 -> "AesCompliant";
             case 6682 -> "BitcoinCompliant";
             case 7743 -> "RsaCompliant";
