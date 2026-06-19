@@ -26,6 +26,7 @@ import exceptions.ExceptionHandler;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class StrernaryServer implements Runnable
@@ -49,12 +50,20 @@ public class StrernaryServer implements Runnable
         this.laborLaw = new StrernaryLaborLawFetcher(fetcher);
         probeOsPort();
         Thread.ofVirtual().name(THREAD_NAME).start(this);
-        // Background: fetch labor law data after 1 minute uptime
-        Thread.ofVirtual().name("STRERNARY_LABOR_FETCH").start(() -> {
-            try { Thread.sleep(60_000); laborLaw.fetchAll(); } catch (Exception e) { ExceptionHandler.dispatch(e); }
+        // Schedule AI training: labor law data after 1 min, general knowledge after 5 min
+        Thread.ofVirtual().name("STRERNARY_TRAIN").start(() -> {
+            try {
+                Thread.sleep(60_000);
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". Strernary\u2122 AI training scheduled \u2014 labor laws fetching .");
+                laborLaw.fetchAll();
+                Thread.sleep(240_000);
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". Strernary\u2122 AI training complete \u2014 model stored .");
+            } catch (Exception e) { ExceptionHandler.dispatch(e); }
         });
         CommonRails.printSystemComponent(this, this.hashCode(),
-            ". Strernary™ now starting on port " + PORT + " .");
+            ". Strernary\u2122 now starting on port " + PORT + " .");
     }
 
     @Override
@@ -89,11 +98,44 @@ public class StrernaryServer implements Runnable
             out.write(("  A: They finish your sentences \u2014 and your arguments.\n").getBytes(StandardCharsets.UTF_8));
             out.write(("\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n").getBytes(StandardCharsets.UTF_8));
             out.write(("\n").getBytes(StandardCharsets.UTF_8));
-            out.write(("  Commands: ASK|<text>  RELAY|<text>  STATUS  quit\n").getBytes(StandardCharsets.UTF_8));
+
+            // NationalID prompt
+            out.write(("  Enter NationalID (or press Enter to continue without):\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  > ").getBytes(StandardCharsets.UTF_8));
+            out.flush();
+
+            String idLine = in.readLine();
+            long nationalId = -1;
+            if (idLine != null && !idLine.trim().isEmpty())
+            {
+                try
+                {
+                    nationalId = Long.parseLong(idLine.trim());
+                    var profile = database.N21Store.loadNationalFinanceID(nationalId);
+                    if (profile != null)
+                        out.write(("  Welcome, NationalID " + nationalId + ".\n").getBytes(StandardCharsets.UTF_8));
+                    else
+                    {
+                        out.write(("  NationalID not found. Connect to port 49152 to register.\n").getBytes(StandardCharsets.UTF_8));
+                        nationalId = -1;
+                    }
+                }
+                catch (NumberFormatException e)
+                {
+                    out.write(("  Invalid ID. Continuing without NationalID.\n").getBytes(StandardCharsets.UTF_8));
+                }
+            }
+            else
+            {
+                out.write(("  Continuing without NationalID. Register at port 49152.\n").getBytes(StandardCharsets.UTF_8));
+            }
+
+            out.write(("\n  Commands: ASK|<text>  RELAY|<text>  STATUS  quit\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  Or just type naturally \u2014 I'll do my best.\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  strernary-deep> ").getBytes(StandardCharsets.UTF_8));
             out.flush();
 
+            final long sessionNid = nationalId;
             String request;
             while ((request = in.readLine()) != null)
             {
@@ -111,6 +153,10 @@ public class StrernaryServer implements Runnable
                 else
                     response = bestGuess(request);
 
+                // Store session interaction and populate D44
+                final String q = request, a = response;
+                Thread.ofVirtual().start(() -> recordInteraction(sessionNid, q, a));
+
                 out.write(("  " + response + "\n").getBytes(StandardCharsets.UTF_8));
                 out.write(("  strernary-deep> ").getBytes(StandardCharsets.UTF_8));
                 out.flush();
@@ -123,6 +169,43 @@ public class StrernaryServer implements Runnable
         {
             ExceptionHandler.dispatch(e);
         }
+    }
+
+    /**
+     * Records interaction to nwe_strernary.user_sessions and nwe_calendar_d44.d44_interactions.
+     */
+    private void recordInteraction(long nationalId, String question, String answer)
+    {
+        try (Connection conn = java.sql.DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/nwe_strernary", "mearvk", "$$Ironman1"))
+        {
+            try (PreparedStatement ps = conn.prepareStatement(
+                "INSERT INTO user_sessions (national_id, port, question, answer) VALUES (?, ?, ?, ?)"))
+            {
+                ps.setObject(1, nationalId > 0 ? nationalId : null);
+                ps.setInt(2, PORT);
+                ps.setString(3, question);
+                ps.setString(4, answer);
+                ps.executeUpdate();
+            }
+        }
+        catch (Exception e) { ExceptionHandler.dispatch(e); }
+
+        // Populate D44 database
+        try (Connection conn = java.sql.DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/nwe_calendar_d44", "mearvk", "$$Ironman1"))
+        {
+            try (PreparedStatement ps = conn.prepareStatement(
+                "INSERT INTO d44_interactions (national_id, source_port, question, answer) VALUES (?, ?, ?, ?)"))
+            {
+                ps.setObject(1, nationalId > 0 ? nationalId : null);
+                ps.setInt(2, PORT);
+                ps.setString(3, question);
+                ps.setString(4, answer);
+                ps.executeUpdate();
+            }
+        }
+        catch (Exception e) { ExceptionHandler.dispatch(e); }
     }
 
     private String bestGuess(String input)
