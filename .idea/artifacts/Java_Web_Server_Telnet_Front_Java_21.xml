@@ -9,9 +9,9 @@
       <element id="dir-copy" path="$PROJECT_DIR$/configuration" />
       <element id="dir-copy" path="$PROJECT_DIR$/database" />
       <element id="dir-copy" path="$PROJECT_DIR$/db" />
-      <element id="dir-copy" path="$PROJECT_DIR$/authentication" />
       <element id="dir-copy" path="$PROJECT_DIR$/bash" />
       <element id="dir-copy" path="$PROJECT_DIR$/scripts" />
+      <element id="dir-copy" path="$PROJECT_DIR$/authentication" />
     </root>
   </artifact>
 </component>
