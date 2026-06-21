@@ -78,9 +78,11 @@ public class N21AuthConfig
         return INSTANCE;
     }
 
+    private static final boolean IS_WINDOWS = System.getProperty("os.name", "").toLowerCase().startsWith("win");
+
     /**
-     * 1. sc query MySQL — checks Windows service status, printed via CommonRails with lime/yellow/red OID color.
-     * 2. net start MySQL if not running and use-sudo=true.
+     * 1. Checks MySQL service status via sc query (Windows) or systemctl (Linux).
+     * 2. Starts MySQL if not running and use-sudo=true.
      * 3. JDBC login test using credentials from mysql.auth.xml.
      */
     public void ensureMysqlRunning()
@@ -88,83 +90,10 @@ public class N21AuthConfig
         // ── 1. Discover MySQL service name and check status ───────────────────
         try
         {
-            // Find actual service name (MySQL80, MySQL84, etc.) via sc query state= all
-            ProcessBuilder findPb = new ProcessBuilder("cmd.exe", "/c", "sc query state= all");
-            findPb.redirectErrorStream(true);
-            Process findProc = findPb.start();
-            String allServices = new BufferedReader(new InputStreamReader(findProc.getInputStream()))
-                .lines().collect(Collectors.joining("\n"));
-            findProc.waitFor();
-
-            String serviceName = null;
-            for (String line : allServices.split("\n"))
-            {
-                if (line.toUpperCase().contains("SERVICE_NAME") && line.toUpperCase().contains("MYSQL"))
-                {
-                    serviceName = line.split(":")[1].trim();
-                    break;
-                }
-            }
-
-            if (serviceName == null)
-            {
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". sc query state= all — no MySQL service found on this system .",
-                    ColorPalette.COLOR_STANDARD_RED);
-                haltWithException(new RuntimeException("MySQL not installed — no MySQL service registered"));
-                return;
-            }
-
-            // Query the discovered service
-            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "sc", "query", serviceName);
-            pb.redirectErrorStream(true);
-            Process proc = pb.start();
-            String output = new BufferedReader(new InputStreamReader(proc.getInputStream()))
-                .lines().collect(Collectors.joining("\n"));
-            proc.waitFor();
-
-            boolean running = output.contains("RUNNING");
-
-            if (running)
-            {
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". SC QUERY " + serviceName + " — RUNNING .",
-                    ColorPalette.COLOR_LIME_GREEN);
-            }
+            if (IS_WINDOWS)
+                ensureMysqlWindows();
             else
-            {
-                CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". SC QUERY " + serviceName + " — STOPPED .",
-                    ColorPalette.COLOR_STANDARD_RED);
-
-                if (USESUDO)
-                {
-                    new ProcessBuilder("cmd.exe", "/c", "net", "start", serviceName).inheritIO().start().waitFor();
-
-                    Process recheck = new ProcessBuilder("cmd.exe", "/c", "sc", "query", serviceName).start();
-                    String recheckOut = new BufferedReader(new InputStreamReader(recheck.getInputStream()))
-                        .lines().collect(Collectors.joining("\n"));
-                    recheck.waitFor();
-
-                    if (recheckOut.contains("RUNNING"))
-                    {
-                        CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". NET START " + serviceName + " — now running .",
-                            ColorPalette.COLOR_LIME_GREEN);
-                    }
-                    else
-                    {
-                        CommonRails.printSystemComponent(this, this.hashCode(),
-                            ". NET START " + serviceName + " — FAILED to start .",
-                            ColorPalette.COLOR_STANDARD_RED);
-                        haltWithException(new RuntimeException("net start " + serviceName + " failed — service did not become RUNNING"));
-                    }
-                }
-                else
-                {
-                    haltWithException(new RuntimeException(serviceName + " stopped and use-sudo=false — cannot auto-start"));
-                }
-            }
+                ensureMysqlLinux();
         }
         catch (Exception e)
         {
@@ -211,6 +140,141 @@ public class N21AuthConfig
                 ". MYSQL JDBC login — user '" + USERNAME + "' FAILED: " + e.getMessage() + " .",
                 ColorPalette.COLOR_STANDARD_RED);
             haltWithException(e);
+        }
+    }
+
+    private void ensureMysqlWindows() throws Exception
+    {
+        // Find actual service name (MySQL80, MySQL84, etc.) via sc query state= all
+        ProcessBuilder findPb = new ProcessBuilder("cmd.exe", "/c", "sc query state= all");
+        findPb.redirectErrorStream(true);
+        Process findProc = findPb.start();
+        String allServices = new BufferedReader(new InputStreamReader(findProc.getInputStream()))
+            .lines().collect(Collectors.joining("\n"));
+        findProc.waitFor();
+
+        String serviceName = null;
+        for (String line : allServices.split("\n"))
+        {
+            if (line.toUpperCase().contains("SERVICE_NAME") && line.toUpperCase().contains("MYSQL"))
+            {
+                serviceName = line.split(":")[1].trim();
+                break;
+            }
+        }
+
+        if (serviceName == null)
+        {
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". sc query state= all — no MySQL service found on this system .",
+                ColorPalette.COLOR_STANDARD_RED);
+            haltWithException(new RuntimeException("MySQL not installed — no MySQL service registered"));
+            return;
+        }
+
+        ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "sc", "query", serviceName);
+        pb.redirectErrorStream(true);
+        Process proc = pb.start();
+        String output = new BufferedReader(new InputStreamReader(proc.getInputStream()))
+            .lines().collect(Collectors.joining("\n"));
+        proc.waitFor();
+
+        boolean running = output.contains("RUNNING");
+
+        if (running)
+        {
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". SC QUERY " + serviceName + " — RUNNING .",
+                ColorPalette.COLOR_LIME_GREEN);
+        }
+        else
+        {
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". SC QUERY " + serviceName + " — STOPPED .",
+                ColorPalette.COLOR_STANDARD_RED);
+
+            if (USESUDO)
+            {
+                new ProcessBuilder("cmd.exe", "/c", "net", "start", serviceName).inheritIO().start().waitFor();
+
+                Process recheck = new ProcessBuilder("cmd.exe", "/c", "sc", "query", serviceName).start();
+                String recheckOut = new BufferedReader(new InputStreamReader(recheck.getInputStream()))
+                    .lines().collect(Collectors.joining("\n"));
+                recheck.waitFor();
+
+                if (recheckOut.contains("RUNNING"))
+                {
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". NET START " + serviceName + " — now running .",
+                        ColorPalette.COLOR_LIME_GREEN);
+                }
+                else
+                {
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". NET START " + serviceName + " — FAILED to start .",
+                        ColorPalette.COLOR_STANDARD_RED);
+                    haltWithException(new RuntimeException("net start " + serviceName + " failed — service did not become RUNNING"));
+                }
+            }
+            else
+            {
+                haltWithException(new RuntimeException(serviceName + " stopped and use-sudo=false — cannot auto-start"));
+            }
+        }
+    }
+
+    private void ensureMysqlLinux() throws Exception
+    {
+        // Check if mysql/mysqld service is active via systemctl
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", "systemctl is-active mysql || systemctl is-active mysqld");
+        pb.redirectErrorStream(true);
+        Process proc = pb.start();
+        String output = new BufferedReader(new InputStreamReader(proc.getInputStream()))
+            .lines().collect(Collectors.joining("\n")).trim();
+        proc.waitFor();
+
+        boolean running = "active".equals(output);
+
+        if (running)
+        {
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". systemctl is-active mysql — RUNNING .",
+                ColorPalette.COLOR_LIME_GREEN);
+        }
+        else
+        {
+            CommonRails.printSystemComponent(this, this.hashCode(),
+                ". systemctl is-active mysql — STOPPED .",
+                ColorPalette.COLOR_STANDARD_RED);
+
+            if (USESUDO)
+            {
+                new ProcessBuilder("bash", "-c", "sudo systemctl start mysql || sudo systemctl start mysqld")
+                    .inheritIO().start().waitFor();
+
+                Process recheck = new ProcessBuilder("bash", "-c", "systemctl is-active mysql || systemctl is-active mysqld").start();
+                String recheckOut = new BufferedReader(new InputStreamReader(recheck.getInputStream()))
+                    .lines().collect(Collectors.joining("\n")).trim();
+                recheck.waitFor();
+
+                if ("active".equals(recheckOut))
+                {
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". sudo systemctl start mysql — now running .",
+                        ColorPalette.COLOR_LIME_GREEN);
+                }
+                else
+                {
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". sudo systemctl start mysql — FAILED to start .",
+                        ColorPalette.COLOR_STANDARD_RED);
+                    haltWithException(new RuntimeException("systemctl start mysql failed — service did not become active"));
+                }
+            }
+            else
+            {
+                haltWithException(new RuntimeException("mysql stopped and use-sudo=false — cannot auto-start"));
+            }
         }
     }
 
