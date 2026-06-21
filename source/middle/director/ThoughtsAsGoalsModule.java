@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ThoughtsAsGoalsModule implements DirectorModule
 {
-    private static final String CONFIG = "configuration/thoughts-as-goals-trades.xml";
+    private static final String CONFIG = commons.AppRoot.resolveString("configuration/thoughts-as-goals-trades.xml");
 
     private final List<Trade> trades = new CopyOnWriteArrayList<>();
 

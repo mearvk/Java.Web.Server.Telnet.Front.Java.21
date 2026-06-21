@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public final class ProtocolHandlerRegistry
 {
-    private static final String CONFIG_FILE = "configuration/protocol-handlers.xml";
+    private static final String CONFIG_FILE = commons.AppRoot.resolveString("configuration/protocol-handlers.xml");
     private static Map<Integer, ProtocolHandler> HANDLERS;
 
     public static class ProtocolHandler

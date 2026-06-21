@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class NitroWebExpressConfig
 {
-    private static final String CONFIG_FILE = "configuration/nwe-config.xml";
+    private static final String CONFIG_FILE = commons.AppRoot.resolveString("configuration/nwe-config.xml");
 
     private static NitroWebExpressConfig INSTANCE;
 

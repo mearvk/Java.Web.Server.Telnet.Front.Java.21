@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class EdgeSchedule
 {
-    private static final String CONFIG = "configuration/edge-schedule.xml";
+    private static final String CONFIG = commons.AppRoot.resolveString("configuration/edge-schedule.xml");
     private static final String CENTRAL_REPO = "mearvk/Java.Web.Server.Telnet.Front.Java.21";
     private static final String GITHUB_API = "https://api.github.com/repos/" + CENTRAL_REPO;
 

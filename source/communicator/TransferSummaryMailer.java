@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class TransferSummaryMailer
 {
-    private static final String CONTACTS_XML = "configuration/transfer-contacts.xml";
+    private static final String CONTACTS_XML = commons.AppRoot.resolveString("configuration/transfer-contacts.xml");
 
     private String documentTitle = "";
     private String author = "";

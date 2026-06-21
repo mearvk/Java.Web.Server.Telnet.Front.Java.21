@@ -26,6 +26,8 @@ public final class LineFormatter {
     private static String STARTS_CANONICAL = "starts";
     private static String[] STARTS_ALTERNATIVES = {"starting", "started", "is starting", "now starting"};
 
+    private static final File PRINT_METHOD_XML = commons.AppRoot.resolve("configuration/print-method.xml");
+
     /** Returns the canonical lifecycle verb from print-method.xml. */
     public static String starts() { return STARTS_CANONICAL; }
 
@@ -151,7 +153,7 @@ public final class LineFormatter {
 
     private static void loadPreservedAcronyms() {
         try {
-            File file = new File("configuration/print-method.xml");
+            File file = PRINT_METHOD_XML;
             if (!file.exists()) return;
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             doc.getDocumentElement().normalize();
@@ -166,7 +168,7 @@ public final class LineFormatter {
 
     private static void loadStartsConfig() {
         try {
-            File file = new File("configuration/print-method.xml");
+            File file = PRINT_METHOD_XML;
             if (!file.exists()) return;
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             doc.getDocumentElement().normalize();
@@ -188,7 +190,7 @@ public final class LineFormatter {
 
     private static void loadModulesConfig() {
         try {
-            File file = new File("configuration/print-method.xml");
+            File file = PRINT_METHOD_XML;
             if (!file.exists()) { MODULES = new String[0][]; return; }
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             doc.getDocumentElement().normalize();
@@ -222,7 +224,7 @@ public final class LineFormatter {
 
     private static void loadSpecialSpellings() {
         try {
-            File file = new File("configuration/print-method.xml");
+            File file = PRINT_METHOD_XML;
             if (!file.exists()) return;
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             doc.getDocumentElement().normalize();
