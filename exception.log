@@ -77,3 +77,16 @@ java.lang.RuntimeException: MySQL not installed — sc query reports service doe
 	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:106)
 	at Main.<init>(Main.java:91)
 	at Main.main(Main.java:84)
+[2026-06-19T13:18:35.764945700] FATAL — N21AuthConfig startup failure
+java.sql.SQLSyntaxErrorException: Unknown database 'n21'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:112)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:840)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:416)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:613)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:199)
+	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:201)
+	at Main.<init>(Main.java:91)
+	at Main.main(Main.java:84)
