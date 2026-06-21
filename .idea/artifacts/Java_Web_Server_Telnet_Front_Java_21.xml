@@ -6,6 +6,12 @@
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="Web.Server.Front" />
+      <element id="dir-copy" path="$PROJECT_DIR$/configuration" />
+      <element id="dir-copy" path="$PROJECT_DIR$/database" />
+      <element id="dir-copy" path="$PROJECT_DIR$/db" />
+      <element id="dir-copy" path="$PROJECT_DIR$/authentication" />
+      <element id="dir-copy" path="$PROJECT_DIR$/bash" />
+      <element id="dir-copy" path="$PROJECT_DIR$/scripts" />
     </root>
   </artifact>
 </component>
