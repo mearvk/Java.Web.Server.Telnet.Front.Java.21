@@ -1,26 +1,30 @@
-[2026-06-20T21:24:12.209132811] FATAL — N21AuthConfig startup failure
-java.io.IOException: Cannot run program "cmd.exe": Exec failed, error: 2 (No such file or directory) 
-	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1112)
-	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1046)
-	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:94)
+[2026-06-20T21:53:56.395324733] FATAL — N21AuthConfig startup failure
+java.lang.ClassNotFoundException: com.mysql.cj.jdbc.Driver
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:467)
+	at java.base/java.lang.Class.forName(Class.java:458)
+	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:128)
 	at Main.<init>(Main.java:104)
 	at Main.main(Main.java:84)
-Caused by: java.io.IOException: Exec failed, error: 2 (No such file or directory) 
-	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
-	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:300)
-	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:231)
-	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1078)
-	... 4 more
-[2026-06-20T21:27:11.403560017] FATAL — N21AuthConfig startup failure
-java.io.IOException: Cannot run program "cmd.exe": Exec failed, error: 2 (No such file or directory) 
-	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1112)
-	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1046)
-	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:94)
+[2026-06-20T22:00:57.359692294] FATAL — N21AuthConfig startup failure
+java.lang.ClassNotFoundException: com.mysql.cj.jdbc.Driver
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:467)
+	at java.base/java.lang.Class.forName(Class.java:458)
+	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:128)
 	at Main.<init>(Main.java:104)
 	at Main.main(Main.java:84)
-Caused by: java.io.IOException: Exec failed, error: 2 (No such file or directory) 
-	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
-	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:300)
-	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:231)
-	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1078)
-	... 4 more
+[2026-06-20T22:02:03.333762284] FATAL — N21AuthConfig startup failure
+java.lang.ClassNotFoundException: com.mysql.cj.jdbc.Driver
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:467)
+	at java.base/java.lang.Class.forName(Class.java:458)
+	at database.N21AuthConfig.ensureMysqlRunning(N21AuthConfig.java:128)
+	at Main.<init>(Main.java:104)
+	at Main.main(Main.java:84)
