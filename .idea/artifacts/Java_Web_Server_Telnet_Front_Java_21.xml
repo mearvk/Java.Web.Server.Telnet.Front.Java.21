@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Web.Server.Front">
-    <output-path>$PROJECT_DIR$/out/artifacts/Web_Server_Front</output-path>
-    <root id="archive" name="Web.Server.Front.jar">
+  <artifact type="jar" build-on-make="true" name="Java.Web.Server.Telnet.Front.Java.21">
+    <output-path>$PROJECT_DIR$/out/artifacts/Java_Web_Server_Telnet_Front_Java_21</output-path>
+    <root id="archive" name="Java.Web.Server.Telnet.Front.Java.21.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
       </element>
