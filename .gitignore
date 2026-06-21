@@ -38,3 +38,6 @@ build/
 .DS_Store
 /resources/graal-sdks/
 /resources/ibm-sdks/
+
+### PyTorch (>100MB) ###
+jars/djl/pytorch-native-cpu-2.5.1-linux-x86_64.jar
