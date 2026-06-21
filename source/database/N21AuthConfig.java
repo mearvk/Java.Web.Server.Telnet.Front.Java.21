@@ -30,7 +30,7 @@ public class N21AuthConfig
     public final String  PASSWORD;
     public final boolean USESUDO;
 
-    private static final String AUTH_FILE = "authentication/mysql.auth.xml";
+    private static final String AUTH_FILE = commons.AppRoot.resolveString("authentication/mysql.auth.xml");
 
     private static N21AuthConfig INSTANCE = null;
 

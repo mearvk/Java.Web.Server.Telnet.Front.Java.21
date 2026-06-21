@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class GamesAsGoalsModule implements DirectorModule
 {
-    private static final String CONFIG = "configuration/games-as-goals-sketches.xml";
+    private static final String CONFIG = commons.AppRoot.resolveString("configuration/games-as-goals-sketches.xml");
 
     private final List<Trade> trades = new CopyOnWriteArrayList<>();
     private int iqStandard = 150;

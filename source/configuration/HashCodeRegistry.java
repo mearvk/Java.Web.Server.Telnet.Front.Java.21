@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public final class HashCodeRegistry
 {
-    private static final String CONFIG_FILE = "configuration/nwe-config.xml";
+    private static final String CONFIG_FILE = commons.AppRoot.resolveString("configuration/nwe-config.xml");
     private static Map<String, Integer> OVERRIDES;
 
     private HashCodeRegistry() {}

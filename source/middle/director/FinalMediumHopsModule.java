@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class FinalMediumHopsModule implements DirectorModule
 {
-    private static final String CONFIG = "configuration/final-medium-hops-commodities.xml";
+    private static final String CONFIG = commons.AppRoot.resolveString("configuration/final-medium-hops-commodities.xml");
 
     private final List<Commodity> commodities = new CopyOnWriteArrayList<>();
     private int iqThreshold = 120;

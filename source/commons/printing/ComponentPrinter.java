@@ -16,7 +16,7 @@ import java.util.TimeZone;
 
 public final class ComponentPrinter {
 
-    private static final String CONFIG_FILE = "configuration/print-method.xml";
+    private static final String CONFIG_FILE = commons.AppRoot.resolveString("configuration/print-method.xml");
 
     // Defaults (overridden from XML if present)
     private static String PREFIX = "-- : ";

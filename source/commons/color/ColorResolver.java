@@ -11,7 +11,7 @@ import java.util.Map;
 
 public final class ColorResolver {
 
-    private static final String PROGRAMS_XML = "configuration/programs.xml";
+    private static final String PROGRAMS_XML = commons.AppRoot.resolveString("configuration/programs.xml");
     private static final Map<String, String> PROGRAM_COLORS = new HashMap<>();
 
     static { loadPrograms(); }

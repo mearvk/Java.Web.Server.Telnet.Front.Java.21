@@ -9,7 +9,7 @@ import java.util.List;
 /** Short-range finance synchronization hops between middle nodes. */
 public class ShortHopsModule implements DirectorModule
 {
-    private static final String CONFIG = "configuration/short-hops-trades.xml";
+    private static final String CONFIG = commons.AppRoot.resolveString("configuration/short-hops-trades.xml");
 
     private final List<Trade> trades = new CopyOnWriteArrayList<>();
 
