@@ -88,6 +88,19 @@ public class Main
     {
         ShutdownHooks.register();
 
+        // Reassemble PyTorch native JAR from split parts if needed
+        java.io.File pytorchJar = new java.io.File("jars/djl/pytorch-native-cpu-2.5.1-linux-x86_64.jar");
+        if (!pytorchJar.exists()) {
+            try {
+                String os = System.getProperty("os.name").toLowerCase();
+                ProcessBuilder pb = os.contains("win")
+                    ? new ProcessBuilder("cmd", "/c", "jars\\djl\\reassemble-pytorch.bat")
+                    : new ProcessBuilder("bash", "jars/djl/reassemble-pytorch.sh");
+                pb.inheritIO();
+                pb.start().waitFor();
+            } catch (Exception e) { e.printStackTrace(); }
+        }
+
         database.N21AuthConfig.get().ensureMysqlRunning();
 
         CommonRails.printSystemComponent(this, this.hashCode(),
