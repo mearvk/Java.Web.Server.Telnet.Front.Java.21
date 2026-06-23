@@ -9,6 +9,7 @@ Languages:      American, English, French, Spanish, Thai, Italian, German, Japan
 Headquarters:   555 South Mangum St, Durham, NC 27701
 Purpose:        IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
 Sorceress:      Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
+Contact:        https://github.com/ElisabethHarkins5509/Java.Telnet.Options.JDKNatural.21/discussions
 Students:       Available on the 8th Floor after 8
 Reference:      NCSU CS, UNCW MSCSIS, Harvard Math, Pro-Counselling
 
