@@ -10,6 +10,9 @@ Owner of Del Taco in Apple Valley, CA '95
 
 Owner of AtlAtl.phd Brand Clothing US United States
 
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+
 ![Profile views](https://views.igorkowalczyk.dev/api/badge/@mearvk?style=flat)
 
 ---

@@ -1,5 +1,8 @@
 # SECURITY.md — Security Suggestions
 
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+
 ## Key Management
 
 - The `secret.key` (3996 bytes) is used as SHA-256 salt for all wallet signatures. If this file is lost or corrupted, all wallet signatures become unverifiable. Maintain an encrypted backup separate from the repository.

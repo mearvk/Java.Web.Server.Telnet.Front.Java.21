@@ -1,3 +1,5 @@
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
 This document outlines a civic license designed to foster national unity and mutual respect, integrating principles of Therapeutic Jurisprudence to promote well-being, group cooperation,
 and collective responsibility.
 

@@ -3,6 +3,8 @@
 **Source:** Creative Commons Attribution–NonCommercial–NoDerivatives 4.0 International License  
 **Citation (permitted excerpt):** “By exercising the Licensed Rights… You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution‑NonCommercial‑NoDerivatives 4.0 International Public License.”
 
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
 ---
 
 # **1. Purpose & Applicability**

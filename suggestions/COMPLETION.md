@@ -1,5 +1,8 @@
 # COMPLETION.md — What's Done and What Remains
 
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+
 ## Completed (This Session)
 
 ### Port 49152 — Telnet User Interface
