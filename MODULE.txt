@@ -6,7 +6,7 @@ Owner:      Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
 Contact:    https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
 Email:      mearvk@mearvk.us | mearvk@outlook.com
 Phone:      1.919.923.4239 (USA) 
-Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukranian, Turkish
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
 
 
 MODULE RATIONALE
