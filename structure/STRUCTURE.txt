@@ -4,6 +4,8 @@ Version:  2911.14.2
 Date:     2026-06-23
 Owner:    Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
 Contact:  https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+Phone:    1.919.923.4239 (USA)
+Languages: American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
 Reference: NCSU CS, UNCW MSCSIS, Harvard Math, Pro-Counselling
 
 

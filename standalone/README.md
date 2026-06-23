@@ -1,5 +1,8 @@
 # NWE Module Installer — Standalone
 
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+
 A standalone, system-aware JAR that listens on port 8888 and accepts module installations exclusively from verified NWE instances.
 
 ## Build

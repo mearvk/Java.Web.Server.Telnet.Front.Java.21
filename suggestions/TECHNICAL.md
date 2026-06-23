@@ -1,5 +1,8 @@
 # TECHNICAL.md — Technical Suggestions
 
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+
 ## Architecture
 
 - The system runs 12+ services on distinct ports from a single JVM. Consider a service registry pattern to dynamically discover port assignments rather than hardcoding them across Main.java, config XML, and STRUCTURE.txt in triplicate.
