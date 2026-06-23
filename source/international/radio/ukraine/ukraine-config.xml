@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    UkraineSignalServer Configuration
+    ==================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Ukrainian news sources, signals, and media configuration.
+-->
+<ukraine-config>
+
+    <sources>
+        <source id="ukrinform" url="https://www.ukrinform.net" category="news" lang="uk" />
+        <source id="kyivindependent" url="https://kyivindependent.com" category="news" lang="en" />
+        <source id="unian" url="https://www.unian.net/eng" category="news" lang="en" />
+        <source id="interfax_ua" url="https://en.interfax.com.ua" category="news" lang="en" />
+        <source id="pravda" url="https://www.pravda.com.ua/eng/" category="news" lang="en" />
+        <source id="nbu" url="https://bank.gov.ua/en/" category="finance" lang="en" />
+        <source id="pfts" url="https://pfts.ua/en/" category="finance" lang="en" />
+        <source id="meteo_ua" url="https://meteo.gov.ua" category="weather" lang="uk" />
+    </sources>
+
+    <signals>
+        <signal id="pfts_index" url="https://pfts.ua/en/market-data" type="market" />
+        <signal id="uahusd" url="https://bank.gov.ua/en/markets/exchangerates" type="currency" />
+        <signal id="energy_ua" url="https://ua.energy" type="energy" />
+        <signal id="grain_ua" url="https://elevatorist.com/en" type="commodity" />
+    </signals>
+
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>webp</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>aac</format>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+        <documents>
+            <format>pdf</format>
+            <format>xml</format>
+            <format>json</format>
+            <format>csv</format>
+        </documents>
+    </acceptable-media>
+
+    <database>
+        <name>nwe_ukraine</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <username>nwe</username>
+        <password>nwe_ukraine_pass</password>
+    </database>
+
+    <!-- AI Integrative — Ready and Perfect -->
+    <ai-integrative>
+        <enabled>true</enabled>
+        <ready>true</ready>
+        <perfect>true</perfect>
+        <shared-engine>international.radio.AIIntegrativeEngine</shared-engine>
+        <country-id>ukraine</country-id>
+        <feedback-loop>true</feedback-loop>
+        <scouting>true</scouting>
+        <training>true</training>
+        <scoring>true</scoring>
+        <verdict-housing-trust>0.95</verdict-housing-trust>
+        <verdict-local-trust>0.80</verdict-local-trust>
+        <verdict-internet-trust>0.40</verdict-internet-trust>
+        <gain-control>true</gain-control>
+        <scouting-output>source/international/radio/ukraine/scouting/</scouting-output>
+        <review-output>source/international/radio/ukraine/reviews/</review-output>
+        <max-scouting-mb>200</max-scouting-mb>
+    </ai-integrative>
+
+</ukraine-config>

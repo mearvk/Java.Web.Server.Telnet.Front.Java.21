@@ -1,0 +1,87 @@
+package bitcoin.messaging;
+
+import bitcoin.base.BitcoinBase;
+import bitcoin.module.TraderModule;
+
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Date;
+
+public class MessageOrderer extends Thread
+{
+    protected String hash = "0xDA717018470E213F";
+
+    public ArrayList<BitcoinMessage> bitcoin_messages = new ArrayList<BitcoinMessage>(5000);
+
+    public TraderModule BITCOIN;
+
+    public BitcoinBase BASE;
+
+    public MessageOrderer(final TraderModule BITCOIN)
+    {
+        this.BITCOIN = BITCOIN;
+    }
+
+    public MessageOrderer(final BitcoinBase BASE)
+    {
+        this.BASE = BASE;
+    }
+
+    @Override
+    public void run()
+    {
+        while(true)
+        {
+            synchronized (this)
+            {
+                while (this.bitcoin_messages.isEmpty())
+                {
+                    try { this.wait(); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); return; }
+                }
+
+                // process all messages (no-op here; callers add/remove externally)
+                // keep loop to empty list if any
+                while (this.bitcoin_messages.size() > 0)
+                {
+                    // In absence of explicit processing logic, just remove the head
+                    this.bitcoin_messages.remove(0);
+                }
+            }
+        }
+    }
+
+    public synchronized void add(final BitcoinMessage BITCOIN_MESSAGE)
+    {
+        this.bitcoin_messages.add(BITCOIN_MESSAGE);
+        this.notifyAll();
+    }
+
+    public synchronized void remove(final BitcoinMessage BITCOIN_MESSAGE)
+    {
+        this.bitcoin_messages.remove(BITCOIN_MESSAGE);
+        this.notifyAll();
+    }
+
+    public synchronized void clear(final BitcoinMessage BITCOIN_MESSAGE)
+    {
+        this.bitcoin_messages.clear();
+        this.notifyAll();
+    }
+
+    public static class BitcoinMessage
+    {
+        protected Date date;
+
+        protected Socket socket;
+
+        protected InetAddress inet_address;
+
+        protected StringBuffer message_buffer;
+
+        public BitcoinMessage()
+        {
+
+        }
+    }
+}

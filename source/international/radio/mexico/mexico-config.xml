@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    MexicoSignalServer Configuration
+    =================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Mexican news sources, signals, and media configuration.
+-->
+<mexico-config>
+
+    <sources>
+        <source id="eluniversal" url="https://www.eluniversal.com.mx" category="news" lang="es" />
+        <source id="reforma" url="https://www.reforma.com" category="news" lang="es" />
+        <source id="milenio" url="https://www.milenio.com" category="news" lang="es" />
+        <source id="jornada" url="https://www.jornada.com.mx" category="news" lang="es" />
+        <source id="expansion" url="https://expansion.mx" category="finance" lang="es" />
+        <source id="elfinanciero" url="https://www.elfinanciero.com.mx" category="finance" lang="es" />
+        <source id="bmv" url="https://www.bmv.com.mx" category="finance" lang="es" />
+        <source id="excelsior" url="https://www.excelsior.com.mx" category="news" lang="es" />
+    </sources>
+
+    <signals>
+        <signal id="ipc_bmv" url="https://www.bmv.com.mx/es/indices/principales" type="market" />
+        <signal id="mxnusd" url="https://www.banxico.org.mx/tipcamb/main.do" type="currency" />
+        <signal id="pemex_crude" url="https://www.pemex.com/en/investors" type="energy" />
+    </signals>
+
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>webp</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>aac</format>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+        <documents>
+            <format>pdf</format>
+            <format>xml</format>
+            <format>json</format>
+            <format>csv</format>
+        </documents>
+    </acceptable-media>
+
+    <database>
+        <name>nwe_mexico</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <username>nwe</username>
+        <password>nwe_receiver_pass</password>
+    </database>
+
+    <!-- AI Integrative — Ready and Perfect -->
+    <ai-integrative>
+        <enabled>true</enabled>
+        <ready>true</ready>
+        <perfect>true</perfect>
+        <shared-engine>international.radio.AIIntegrativeEngine</shared-engine>
+        <country-id>mexico</country-id>
+        <feedback-loop>true</feedback-loop>
+        <scouting>true</scouting>
+        <training>true</training>
+        <scoring>true</scoring>
+        <verdict-housing-trust>0.95</verdict-housing-trust>
+        <verdict-local-trust>0.80</verdict-local-trust>
+        <verdict-internet-trust>0.40</verdict-internet-trust>
+        <gain-control>true</gain-control>
+        <scouting-output>source/international/radio/mexico/scouting/</scouting-output>
+        <review-output>source/international/radio/mexico/reviews/</review-output>
+        <max-scouting-mb>200</max-scouting-mb>
+    </ai-integrative>
+
+</mexico-config>

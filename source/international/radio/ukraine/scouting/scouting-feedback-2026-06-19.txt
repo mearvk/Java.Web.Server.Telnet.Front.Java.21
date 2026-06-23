@@ -1,0 +1,37 @@
+==========================================================
+Daily Scouting Feedback — UKRAINE
+Date: 2026-06-19
+Module: international.radio.ukraine
+==========================================================
+
+SUMMARY OF FINDINGS
+
+This document contains the daily scouting results for the ukraine international
+radio module. Sources were consulted per the module's XML configuration.
+
+VERDICT SOURCING NOTES
+
+All entries originate from INTERNET verdict source (trust level 0.40).
+
+INFORMATION SOURCES AND ANGLES
+
+Source: ukrinform (https://www.ukrinform.net)
+Status: Configured and ready for scouting.
+Angle: Ukrainian state news agency, national and international affairs.
+
+Source: kyivindependent (https://kyivindependent.com)
+Status: Configured and ready for scouting.
+Angle: Independent Ukrainian journalism, conflict reporting, English-language.
+
+Source: nbu (https://bank.gov.ua/en/)
+Status: Configured and ready for scouting.
+Angle: National Bank of Ukraine, monetary policy, exchange rates.
+
+TOTAL FINDINGS: 0 (initial configuration — scouting thread not yet executed)
+
+INTEGRITY NOTES
+
+Initialization document. Channel usage: public only. Gain control active.
+Special attention to conflict-related content classification.
+
+END OF DAILY SCOUTING FEEDBACK

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    CalendarFrance Configuration
+    =============================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    French news sources, signals, internet sources, and plugin configuration
+    for the France Calendar module.
+-->
+<france-config>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         FRENCH NEWS SOURCES
+    ════════════════════════════════════════════════════════════════════ -->
+    <news-sources>
+        <source id="lemonde" url="https://www.lemonde.fr" category="news" signal="news" />
+        <source id="lefigaro" url="https://www.lefigaro.fr" category="news" signal="news" />
+        <source id="liberation" url="https://www.liberation.fr" category="news" signal="news" />
+        <source id="france24" url="https://www.france24.com/fr" category="international" signal="news" />
+        <source id="rfi" url="https://www.rfi.fr/fr" category="international" signal="radio" />
+        <source id="franceinfo" url="https://www.francetvinfo.fr" category="news" signal="news" />
+        <source id="leparisien" url="https://www.leparisien.fr" category="regional" signal="news" />
+        <source id="lesechos" url="https://www.lesechos.fr" category="finance" signal="news" />
+        <source id="mediapart" url="https://www.mediapart.fr" category="investigative" signal="news" />
+        <source id="courrier-intl" url="https://www.courrierinternational.com" category="international" signal="news" />
+    </news-sources>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         FRENCH GOVERNMENT SOURCES
+    ════════════════════════════════════════════════════════════════════ -->
+    <government-sources>
+        <source id="gouv" url="https://www.gouvernement.fr" category="government" signal="government" />
+        <source id="legifrance" url="https://www.legifrance.gouv.fr" category="law" signal="government" />
+        <source id="assemblee" url="https://www.assemblee-nationale.fr" category="parliament" signal="government" />
+        <source id="senat" url="https://www.senat.fr" category="senate" signal="government" />
+        <source id="elysee" url="https://www.elysee.fr" category="presidency" signal="government" />
+        <source id="insee" url="https://www.insee.fr" category="statistics" signal="government" />
+    </government-sources>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         FRENCH SIGNAL SOURCES (Radio, Academic, Internet)
+    ════════════════════════════════════════════════════════════════════ -->
+    <signal-sources>
+        <source id="radiofrance" url="https://www.radiofrance.fr" category="radio" signal="radio" />
+        <source id="franceculture" url="https://www.radiofrance.fr/franceculture" category="culture" signal="radio" />
+        <source id="cnrs" url="https://www.cnrs.fr" category="science" signal="academic" />
+        <source id="inria" url="https://www.inria.fr" category="technology" signal="academic" />
+        <source id="hal" url="https://hal.science" category="research" signal="academic" />
+        <source id="cnil" url="https://www.cnil.fr" category="privacy" signal="internet" />
+        <source id="anssi" url="https://www.ssi.gouv.fr" category="cybersecurity" signal="internet" />
+        <source id="arcep" url="https://www.arcep.fr" category="telecom" signal="internet" />
+    </signal-sources>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ACCEPTABLE MEDIA TYPES
+    ════════════════════════════════════════════════════════════════════ -->
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>gif</format>
+            <format>webp</format>
+            <format>svg</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>ogg</format>
+            <format>flac</format>
+            <format>aac</format>
+            <max-size-mb>100</max-size-mb>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+
+        <documents>
+            <format>pdf</format>
+            <format>docx</format>
+            <format>txt</format>
+            <format>csv</format>
+            <format>xml</format>
+            <format>json</format>
+            <max-size-mb>50</max-size-mb>
+        </documents>
+
+        <video>
+            <format>mp4</format>
+            <format>webm</format>
+            <max-size-mb>500</max-size-mb>
+        </video>
+    </acceptable-media>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         DATABASE
+    ════════════════════════════════════════════════════════════════════ -->
+    <database>
+        <name>nwe_calendar_france</name>
+        <table>france_entries</table>
+        <user>nwe</user>
+        <host>localhost</host>
+        <port>3306</port>
+    </database>
+
+</france-config>

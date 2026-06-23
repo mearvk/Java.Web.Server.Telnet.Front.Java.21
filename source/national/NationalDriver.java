@@ -1,0 +1,245 @@
+package national;
+
+import commons.CommonRails;
+import exceptions.ExceptionHandler;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class NationalDriver
+{
+    protected static final List<String> STARTUP_REFERENCES = Collections.synchronizedList(new ArrayList<>());
+
+    public static synchronized void record(final String REFERENCE)
+    {
+        if (REFERENCE == null) return;
+
+        STARTUP_REFERENCES.add(REFERENCE);
+    }
+
+    protected static String extractClassName(final String REFERENCE)
+    {
+        if (REFERENCE == null) return "";
+
+        int idx = REFERENCE.indexOf("[Current:");
+
+        if (idx < 0) return "";
+
+        int start = idx + "[Current:".length();
+
+        int end = REFERENCE.indexOf(']', start);
+
+        if (end < 0) end = Math.min(REFERENCE.length(), start + 200);
+
+        String inner = REFERENCE.substring(start, end).trim();
+
+        int firstSpace = inner.indexOf(' ');
+
+        if (firstSpace > 0)
+        {
+            return inner.substring(0, firstSpace).trim();
+        }
+
+        return inner;
+    }
+
+    protected static List<List<String>> GROUPED_STARTUP_REFERENCES = null;
+    protected static List<String> GROUP_NAMES = null;
+
+    public static synchronized List<List<String>> getGroupedStartupReferences()
+    {
+        return GROUPED_STARTUP_REFERENCES;
+    }
+
+    public static synchronized List<String> getGroupNames()
+    {
+        return GROUP_NAMES;
+    }
+
+    public synchronized void printOrderedComponents()
+    {
+        class Entry { String ref; long ts; int idx; String className; Entry(String r,long t,int i,String cn){ref=r;ts=t;idx=i;className=cn;} }
+
+        List<Entry> nitro = new ArrayList<>();
+
+        List<Entry> web = new ArrayList<>();
+
+        List<Entry> base = new ArrayList<>();
+
+        List<Entry> telnet = new ArrayList<>();
+
+        List<Entry> aes = new ArrayList<>();
+
+        List<Entry> bitcoin = new ArrayList<>();
+
+        List<Entry> remainder = new ArrayList<>();
+
+        int index = 0;
+        for (String ref : STARTUP_REFERENCES)
+        {
+            String cn = extractClassName(ref);
+            String low = cn.toLowerCase();
+            long ts = extractTimestamp(ref); // may be -1 on parse failure
+
+            if (low.contains("nitro")) nitro.add(new Entry(ref, ts, index, cn));
+
+            else if (cn.equalsIgnoreCase("WebExpress") || low.contains("webexpress")) web.add(new Entry(ref, ts, index, cn));
+
+            else if (cn.equalsIgnoreCase("BaseServer") || low.contains("baseserver")) base.add(new Entry(ref, ts, index, cn));
+
+            else if (low.contains("telnet")) telnet.add(new Entry(ref, ts, index, cn));
+
+            else if (low.contains("aes") || low.contains("aesc") || low.contains("aesen")) aes.add(new Entry(ref, ts, index, cn));
+
+            else if (low.contains("bitcoin")) bitcoin.add(new Entry(ref, ts, index, cn));
+
+            else remainder.add(new Entry(ref, ts, index, cn));
+
+            index++;
+        }
+
+        java.util.Comparator<Entry> cmp = (a,b) -> {
+            if (a.ts != -1 && b.ts != -1)
+            {
+                int r = Long.compare(a.ts, b.ts);
+                if (r != 0) return r;
+            }
+            else if (a.ts != -1) return -1;
+            else if (b.ts != -1) return 1;
+
+            int cn = a.className.compareToIgnoreCase(b.className);
+            if (cn != 0) return cn;
+            return Integer.compare(a.idx, b.idx);
+        };
+
+        nitro.sort(cmp);
+
+        web.sort(cmp);
+
+        base.sort(cmp);
+
+        telnet.sort(cmp);
+
+        aes.sort(cmp);
+
+        bitcoin.sort(cmp);
+
+        remainder.sort(cmp);
+
+        List<String> nitroRefs = new ArrayList<>();
+
+        for (Entry e: nitro) nitroRefs.add(e.ref);
+
+        List<String> webRefs = new ArrayList<>();
+
+        for (Entry e: web) webRefs.add(e.ref);
+
+        List<String> baseRefs = new ArrayList<>();
+
+        for (Entry e: base) baseRefs.add(e.ref);
+
+        List<String> telnetRefs = new ArrayList<>();
+
+        for (Entry e: telnet) telnetRefs.add(e.ref);
+
+        List<String> aesRefs = new ArrayList<>();
+
+        for (Entry e: aes) aesRefs.add(e.ref);
+
+        List<String> bitcoinRefs = new ArrayList<>();
+
+        for (Entry e: bitcoin) bitcoinRefs.add(e.ref);
+
+        List<String> remainderRefs = new ArrayList<>();
+
+        for (Entry e: remainder) remainderRefs.add(e.ref);
+
+        List<List<String>> grouped = new ArrayList<>();
+
+        grouped.add(nitroRefs);
+
+        grouped.add(telnetRefs);
+
+        grouped.add(aesRefs);
+
+        grouped.add(bitcoinRefs);
+
+        grouped.add(webRefs);
+
+        grouped.add(baseRefs);
+
+        grouped.add(remainderRefs);
+
+        List<String> groupNames = new ArrayList<>();
+
+        groupNames.add("NITRO");
+
+        groupNames.add("TELNET");
+
+        groupNames.add("AES");
+
+        groupNames.add("BITCOIN");
+
+        groupNames.add("WEBEXPRESS");
+
+        groupNames.add("BASESERVER");
+
+        groupNames.add("REMAINDER");
+
+        GROUPED_STARTUP_REFERENCES = grouped;
+
+        GROUP_NAMES = groupNames;
+
+        // Print groups in order; each group's entries are printed through CommonRails
+        for (int gi = 0; gi < grouped.size(); gi++)
+        {
+            List<String> g = grouped.get(gi);
+
+            if (g.isEmpty()) continue;
+
+            for (String s : g) CommonRails.delayableFinePrinter(s, 21);
+        }
+    }
+
+    /**
+     * Extract epoch millis from the reference's Date field. Returns -1 on failure.
+     */
+    protected static long extractTimestamp(final String REFERENCE)
+    {
+        if (REFERENCE == null) return -1;
+
+        int idx = REFERENCE.indexOf("[Date:");
+
+        if (idx < 0) return -1;
+
+        int start = idx + "[Date:".length();
+
+        int end = REFERENCE.indexOf(']', start);
+
+        if (end < 0) return -1;
+
+        String dateText = REFERENCE.substring(start, end).trim();
+
+        try
+        {
+            java.text.SimpleDateFormat fmt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+
+            java.util.Date d = fmt.parse(dateText);
+
+            return d.getTime();
+        }
+        catch (Exception e)
+        {
+            ExceptionHandler.dispatch(e);
+            return -1;
+        }
+    }
+
+    /**
+     * Clear recorded startup references.
+     */
+    public synchronized void clear()
+    {
+        STARTUP_REFERENCES.clear();
+    }
+}
