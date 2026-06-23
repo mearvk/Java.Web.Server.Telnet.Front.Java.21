@@ -132,6 +132,35 @@ Port 20000 inference server that accepts standard information and returns best-g
 
 ---
 
+## Strernary™ Directory Server — Port 2000
+
+Telnet-accessible directory and routing server on port 2000. Provides an interactive menu for discovering known servers and registering new Rank 4 nodes, plus XML packet forwarding for NIO masquerade routing.
+
+**Interactive menu options:**
+| Option | Description | Auth |
+|--------|-------------|------|
+| 1 | List port 20000 server IPs (Strernary™) | NationalID (configurable) |
+| 2 | List port 49152 server IPs (NationalFinanceID) | NationalID required |
+| 3 | Register Rank 4 JWSTNJ21 server | public.key verification |
+| 4 | Quit | — |
+
+**XML forwarding mode:** If the first data received is an `<nwe-route>` XML packet, the server bypasses the interactive menu and forwards the payload directly to the target port via the NIO masquerade engine:
+```xml
+<nwe-route><port>20000</port><payload>ASK|What is life?</payload></nwe-route>
+```
+
+**Rank 4 registration:** Clients submit their `public.key` contents (base64, single line). The server compares byte-for-byte against the GitHub-hosted `public.key`. On match, the client's server address is added to the registered Rank 4 list.
+
+**Configuration:** `configuration/port-2000-directory-config.xml` — Controls which menu options are enabled, NationalID requirements, and XML forwarding toggle.
+
+**Known server lists:**
+- `configuration/known.port.20000.servers.xml` — Strernary™ endpoints
+- `configuration/known.port.49152.servers.xml` — NationalFinanceID endpoints
+
+**Source:** `source/strernary/StrernaryDirectoryServer.java`
+
+---
+
 ## NIO Masquerade Layer
 
 NIO-based front layer that binds local IPs 127.0.0.1 through 127.0.0.17 and bridges non-blocking NIO connections to the existing blocking architecture.
