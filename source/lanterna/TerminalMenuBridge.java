@@ -1,6 +1,5 @@
 package lanterna;
 
-
 import com.googlecode.lanterna.terminal.ansi.TelnetTerminal;
 
 import java.io.IOException;
