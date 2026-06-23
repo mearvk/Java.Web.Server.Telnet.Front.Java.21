@@ -33,6 +33,7 @@ This software verifies its operational authorization by checking the presence of
 
 **Contact:**
 - Max Rupplin — mearvk@mearvk.us | mearvk@outlook.com
+- Discussions / Rank Upgrades / Installer IDs / Public Key Requests: https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
 
 ---
 

@@ -112,6 +112,9 @@ public class StrernaryDirectoryServer implements Runnable
             write(out, "\n══════════════════════════════════════════════════════\n");
             write(out, "  Strernary™ Directory Server — Port 2000\n");
             write(out, "  MEARVK LLC — NitroWebExpress™\n");
+            write(out, "══════════════════════════════════════════════════════\n");
+            write(out, "  Rank Upgrades / Installer IDs / Public Key Requests:\n");
+            write(out, "  https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions\n");
             write(out, "══════════════════════════════════════════════════════\n\n");
 
             boolean authenticated = false;
