@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    NIO Masquerade Configuration
+    ============================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Defines the NIO-based local binding scheme for port forwarding.
+    Port 2000 accepts XML packets specifying a target port; the masquerade
+    layer routes them to the appropriate 127.0.0.X binding.
+
+    Port range modes:
+      standard  = 0-65535 (single 127.0.0.1 binding)
+      extended  = 0-1048576 (distributed across 127.0.0.1 to 127.0.0.17)
+
+    In extended mode, ports are distributed across local IPs:
+      127.0.0.1  = ports 0-65535
+      127.0.0.2  = ports 65536-131071
+      127.0.0.3  = ports 131072-196607
+      ...
+      127.0.0.16 = ports 983040-1048575
+      127.0.0.17 = overflow/control
+
+    Each local IP binding uses Java NIO (ServerSocketChannel + Selector)
+    for non-blocking I/O and forwards to the existing blocking architecture.
+-->
+<nio-masquerade-config>
+
+    <!-- Master enable/disable for the NIO masquerade layer -->
+    <enabled>true</enabled>
+
+    <!-- Port range mode: "standard" (0-65535) or "extended" (0-1048576) -->
+    <port-range-mode>standard</port-range-mode>
+
+    <!-- Local IP bindings -->
+    <bindings>
+        <base-ip>127.0.0.1</base-ip>
+        <max-ip>127.0.0.17</max-ip>
+        <ports-per-ip>65536</ports-per-ip>
+    </bindings>
+
+    <!-- Port 2000 XML packet forwarding -->
+    <port-2000-forwarding>
+        <enabled>true</enabled>
+        <xml-packet-tag>nwe-route</xml-packet-tag>
+        <description>
+            Port 2000 accepts XML: &lt;nwe-route&gt;&lt;port&gt;N&lt;/port&gt;&lt;payload&gt;...&lt;/payload&gt;&lt;/nwe-route&gt;
+            The masquerade layer routes to the correct local IP based on port N.
+        </description>
+    </port-2000-forwarding>
+
+    <!-- NIO selector settings -->
+    <nio>
+        <selector-threads>2</selector-threads>
+        <read-buffer-size>8192</read-buffer-size>
+        <idle-timeout-ms>30000</idle-timeout-ms>
+    </nio>
+
+    <!-- Which existing ports to bind on NIO front (in standard mode) -->
+    <managed-ports>
+        <port>2000</port>
+        <port>20000</port>
+        <port>49152</port>
+    </managed-ports>
+
+</nio-masquerade-config>

@@ -116,3 +116,32 @@ Port 20000 inference server that accepts standard information and returns best-g
 **Protocol:** TCP socket — `ASK|<text>`, `RELAY|<text>`, `STATUS`
 
 **Source directory:** `source/strernary/`
+
+---
+
+## NIO Masquerade Layer
+
+NIO-based front layer that binds local IPs 127.0.0.1 through 127.0.0.17 and bridges non-blocking NIO connections to the existing blocking architecture.
+
+**Port range modes:**
+| Mode | Range | Binding |
+|------|-------|---------|
+| standard (default) | 0–65535 | All managed ports on 127.0.0.1 |
+| extended | 0–1048576 | 65536 ports per IP across 127.0.0.1–17 |
+
+**Module discovery:** At startup, `NioModuleScanner` reads `nwe-config.xml` and `masquerade-modules.xml` to discover all MEARVK LLC modules with their port values (0 to MAX_PORT). Masquerade-aware modules are registered in the NIO routing table automatically.
+
+**Port 2000 XML forwarding:** Clients can send XML packets to port 2000 for direct routing:
+```xml
+<nwe-route><port>20000</port><payload>ASK|What is life?</payload></nwe-route>
+```
+
+**Configuration files:**
+- `configuration/nio-masquerade-config.xml` — NIO settings, port range mode, managed ports
+- `configuration/masquerade-modules.xml` — Module registry with auto-discovery
+- `configuration/port-2000-directory-config.xml` — Port 2000 directory/forwarding settings
+
+**Source files:**
+- `source/strernary/NioMasqueradeEngine.java` — NIO Selector engine with local IP bindings
+- `source/strernary/NioModuleScanner.java` — Startup module discovery and registration
+- `source/strernary/StrernaryDirectoryServer.java` — Port 2000 menu + XML forwarding

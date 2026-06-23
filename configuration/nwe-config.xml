@@ -423,6 +423,51 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         NIO MASQUERADE LAYER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="NioMasquerade">
+        <enabled>true</enabled>
+        <name>NioMasquerade™</name>
+        <thread>NIO_MASQUERADE</thread>
+        <host>127.0.0.1-17</host>
+        <port>0</port>
+        <description>
+            NIO-based masquerade front layer. Binds ServerSocketChannels on
+            127.0.0.1 through 127.0.0.17. Standard mode: 0-65535 on 127.0.0.1.
+            Extended mode: 0-1048576 distributed across all local IPs (65536 per IP).
+            Bridges NIO connections to existing blocking architecture transparently.
+            Config: configuration/nio-masquerade-config.xml
+        </description>
+    </server>
+
+    <server id="StrernaryDirectory">
+        <enabled>true</enabled>
+        <name>StrernaryDirectory™</name>
+        <thread>STRERNARY_DIRECTORY_2000</thread>
+        <host>localhost</host>
+        <port>2000</port>
+        <description>
+            Port 2000 directory/menu server. Provides server IP discovery for
+            ports 20000 and 49152. Accepts XML packets for NIO masquerade
+            forwarding. Supports Rank 4 JWSTNJ21 server registration with
+            public.key verification. NioModuleScanner runs at startup to
+            discover all masquerade-aware modules (0 to MAX_PORT).
+            Config: configuration/port-2000-directory-config.xml
+        </description>
+    </server>
+
+    <server id="NioModuleScanner">
+        <enabled>true</enabled>
+        <name>NioModuleScanner™</name>
+        <description>
+            Startup scanner that discovers all MEARVK LLC modules from
+            nwe-config.xml and masquerade-modules.xml. Extracts port values
+            (0 to MAX_PORT) and registers masquerade-aware modules with the
+            NIO engine routing table. Config: configuration/masquerade-modules.xml
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          COLOR MAPPINGS
          Terminal print color assignments for each component category.
          These are enforced by commons.color.ColorResolver at runtime.
@@ -445,6 +490,7 @@
         <mapping category="Common, Rail, Logger"            color="lavender"     ansi="38;5;147"/>
         <mapping category="Signal, Japan, Russia, Mexico, Greece" color="cyan"    ansi="38;5;51"/>
         <mapping category="Strernary, Inference, Guess"  color="magenta"      ansi="38;5;207"/>
+        <mapping category="NioMasquerade, Module, Scanner, Directory" color="teal" ansi="38;5;30"/>
         <mapping category="Default"                         color="silver"       ansi="38;5;250"/>
     </color-mappings>
 
@@ -470,6 +516,9 @@
         <entry class="GreeceInternationalSignalServer">0831200404</entry>
         <entry class="StrernaryServer">0831200500</entry>
         <entry class="BrarnerAleteModule">0831200600</entry>
+        <entry class="NioMasqueradeEngine">0831200700</entry>
+        <entry class="StrernaryDirectoryServer">0831200800</entry>
+        <entry class="NioModuleScanner">0831200900</entry>
     </hashcodes>
 
 </nwe-config>
