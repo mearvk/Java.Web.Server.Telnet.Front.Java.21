@@ -1,0 +1,325 @@
+JAVA NATIONAL FINANCE ENGINE — STRUCTURE
+=========================================
+Version:  2911.14.1
+Date:     2026-06-16
+Owner:    Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
+Reference: NCSU CS, UNCW MSCSIS, Harvard Math, Pro-Counselling
+
+
+VERSION RATIONALE
+-----------------
+  2911   — Major release series.
+    14   — Minor: Middle director modules, Bitcoin wallet indexer, standalone
+           installer components, Apache key listener, distribution licensing.
+     1   — First patch of this minor series.
+
+Full semver: 2911.14.1
+
+
+SOURCE PACKAGES  (source/)
+---------------------------
+  Main.java
+    Entry point.  Wires NITRO.BRIDGE and starts all services.
+    Ports declared: 49152 (WebExpress), 49155 (Status), 49166 (ModuleInstaller),
+                    49177 (ASCIICreator), 5512 (AES2), 6682 (Bitcoin).
+
+  admin/
+    ModuleAdmin           — Session-token admin authenticator for module unload / signatory ops.
+                            Password via system property module.admin.password or
+                            env MODULE_ADMIN_PASSWORD (default: n21admin).
+
+  ascii/creator/
+    ASCIICreator          — Generates unique 5×5 binary ASCII grid codes (2,097,152 combinations).
+
+  bitcoin/
+    base/BitcoinBase
+    messaging/MessageOrderer
+    module/TraderModule
+    time/  — BitcoinAmericaAndLosAngelesDate, BitcoinAmericaAndNewYorkDate, BitcoinAsiaAndTokyoDate
+    time/flat/  — Full IANA timezone coverage (~400 timezone date classes)
+    time/flat/midi/BitcoinNewFlatiron108
+
+  commons/
+    CommonRails           — Core print architecture; printSystemComponent / printShutdownSignal /
+                            delayableFinePrinter / ANSI color constants / resolveOidColor.
+    EnglishArithemeter
+    InternationalCommonRails
+    IranianWedding
+    security/BodiSecurityException
+    security/SecurityExceptionHandler
+    transition/english/Arithmeter, EnglishArithemeter
+
+  connections/
+    Connection
+    ConnectionPoller
+    CurrentConnections
+    GalacticConnections
+    InternationalConnections
+    MexicoConnections
+    NationalConnections
+    RecordedConnections
+    logic/IPGeoParser
+
+  database/
+    N21AuthConfig         — Loads MySQL credentials from authentication/mysql.auth.xml;
+                            ensureMysqlRunning() checks / starts MySQL via cmd.exe sc/net.
+    N21DataSource         — Shared JDBC connection; auto-fallback to XML on failure.
+    N21Status             — Reports MySQL connectivity status with ANSI OID color.
+    N21Store              — Static store methods for every N21 table:
+                              connections, geo_locations, exceptions, security_events,
+                              national_ids, national_finance_ids, status_snapshots,
+                              ascii_signatures, module_loader.
+    N21XmlFallback        — XML-based offline fallback; replayFallback() on startup.
+
+  encryption/module/aes/two/
+    EncryptionModule      — AES 2.0 DSS5.0 encryption module.
+
+  exceptions/
+    ExceptionRecord       — Record: EXCEPTION, ORIGIN, STACKTRACE, TIMESTAMP.
+    ExceptionListener     — Interface; getPriority() + onException().
+    ExceptionHandler      — Singleton dispatcher; ExceptionHandler.dispatch(e).
+    ExceptionEventDispatcher
+    ExceptionPersistenceService — Writes to /logging/exceptions.log (creates dir if absent).
+    PersistenceListener         — Priority-100 listener; writes to /logging/exceptions.log.
+    N21ExceptionListener        — Persists to MySQL via N21Store; flags security events.
+    NullPointerConstructorHandler
+    SecurityExceptionHandler
+    BackendSettings
+
+  marriatiage/tech/m/marriet/
+    Maria, Menounos
+
+  messaging/
+    MessageOutputHandler
+    MessageQueue
+    MessageQueueSorter
+
+  national/
+    NationalID            — 8-digit + 16-digit key pair.
+    NationalFinanceID     — Full person-aspect profile (IQ, education, trust, parents, etc.)
+    NationalFinanceIDFeeder — Telnet interactive onboarding; stores to MySQL.
+    NationalDriver        — Ordered component printer for startup output.
+    NationalTellus
+
+  security/
+    PortAdministrator
+    PortKnockKnock
+    PortStealth
+
+  server/base/
+    BaseServer            — ServerSocket lifecycle base.
+
+  server/nitro/
+    NitroWebExpress       — Main server class; extends WebExpress.
+    WebExpress            — Telnet proxy / message queue server base.
+
+    NitroWebExpress.Aspect  — Bridge container; holds all service components:
+      ├─ AESCompliant              — AES 2.0 WebExpress on port 5512.
+      ├─ BitcoinCompliant          — Bitcoin WebExpress on port 6682.
+      ├─ ConnectionStatusServer    — Status report server on port 49155.
+      │    Reports: connections, geo, uptime, memory; persists to N21Store.
+      ├─ MySQLComponent            — Checks MySQL at startup; prints lime/red OID status.
+      ├─ ModuleInstallationService — TCP command service on port 49166.
+      │    install  <name> <sha256> <bytes>  — receive .jar/.zip/.java, verify sig, load.
+      │    unload   <name>                   — admin-only classloader close + registry remove.
+      │    list / restart / comment / signatory
+      │    Logs all actions to module_loader table.
+      │    ModuleRegistry          — ConcurrentHashMap of InstalledModule entries.
+      │    InstalledModule         — name, Path, URLClassLoader, install timestamp.
+      └─ ASCIICreatorServer        — Binary ASCII signature service on port 49177.
+           request <nationalId>    — issues unique 5×5 grid, 1000-day TTL, stored in DB.
+           view    <nationalId>    — retrieves existing valid signature.
+           Uniqueness enforced: UNIQUE KEY on both national_id and sig_id.
+
+  shutdown/
+    ShutdownHooks         — JVM shutdown hook; prints SIGTERM/SIGKILL signals via CommonRails;
+                            runs scripts/shutdown.sh silently for OS-level kills.
+    Ports swept: 49152, 49155, 49166, 49177, 5512, 6682.
+
+  sim/
+    InputQueue, stochastic
+
+  middle/
+    MiddleDirectorServer  — Port 8888; synchronizes finance and target goals across
+                            middle nodes and forwards to national NWE installations (49152).
+                            Modules loaded from configuration/middle-director-modules.xml.
+
+    middle/director/
+      DirectorModule           — Base interface; process() + recordTrade() + evaluateAndProcess().
+      DirectorPersistence      — CSV persistence to data/middle/director/ (trades + edition/rank).
+      TradeEvaluator           — Evaluates upward/better trades (trust + education grade).
+                                 Approved immediately or held 48hrs for auditor review.
+      EdgeSchedule             — Weighted edge schedule: SHM=1, MHM=4, TAGM=6, GAGM=8, ACM=19.
+                                 Locked to central NWE authority (github.com/mearvk); alteration
+                                 requires valid PAT verification.
+      DistributionLicense      — Edition + immutable rank system:
+                                   Personal Executive (rank 8) → National (rank 6) →
+                                   International (rank 4) → Free (rank 4).
+                                 Stored in MySQL distribution_license table; not alterable.
+      PublicKeyVerifier         — Boot-time check for psychiatry/secrets/public.key on GitHub.
+                                 If present: software authorized to operate. Otherwise: restricted.
+
+      ShortHopsModule          — Short-range finance hops. XML trades: Contract, Legal, Monies,
+                                 Resumes, Willingness, Trades, Quits.
+                                 Config: configuration/short-hops-trades.xml
+      MediumHopsModule         — Medium-range goal synchronization across regional nodes.
+      ThoughtsAsGoalsModule    — Weighted notions, formulations, rated value capture, sex trade.
+                                 Config: configuration/thoughts-as-goals-trades.xml
+      FinalMediumHopsModule    — Science conclusions, postulates, rich research, grain review.
+                                 IQ 120+ / PhD required for structural sign-off.
+                                 Config: configuration/final-medium-hops-commodities.xml
+      GamesAsGoalsModule       — Angular math roughing sketches (.mdmd file type).
+                                 IQ 150+ standard; IQ 125+ with good NationalID (trust ≥ 70).
+                                 Config: configuration/games-as-goals-sketches.xml
+      AuditorContentModule     — Ethical trust codes (.CSVmd, 16 codes). Safe module —
+                                 always approves after annotation. Held trades released here.
+                                 Codes: source/middle/director/auditor-codes.csvmd
+
+  communicator/
+    Communicator
+    TransferSummaryMailer — Sends Transfer of Summary to contacts via sendmail/mailx.
+                            Contacts loaded from configuration/transfer-contacts.xml.
+                            Script: scripts/send-transfer-summary.sh
+
+  lanterna/
+    TerminalMenu          — Lanterna GUI menu on port 49200; presents bordered buttons for
+                            each service in the 49152 port series. Telnet clients connect,
+                            select a service, and are transparently bridged to that port.
+    TerminalMenuBridge    — Support class for TerminalMenu port bridging:
+      ├─ SocketExtractor       — Reflection utility; extracts private Socket from TelnetTerminal.
+      ├─ ServiceConnector      — Opens TCP connection to localhost:<port> for target service.
+      └─ Relay                 — Bidirectional byte pump (two daemon threads) between client
+                                 socket and service socket; closes both on EOF or error.
+
+  telnet/
+    TelnetCommunicationProxy
+    TelnetInputBuilder
+    TelnetInstaller
+    TelnetMessageQueue
+    TelnetOutputBuilder
+    TelnetProxyLivenessMonitor
+
+
+DATABASE TABLES  (MySQL — database N21)
+----------------------------------------
+  connections           — TCP connection log.
+  geo_locations         — IP → city/country (ip-api.com).
+  exceptions            — Full exception records with stack trace.
+  security_events       — Security-flagged subset of exceptions.
+  national_ids          — 8-digit + 16-digit key pairs.
+  national_finance_ids  — Full person profile (NationalFinanceID fields).
+  users                 — Links national IDs, connections, and geo.
+  status_snapshots      — Periodic uptime / memory / connection count.
+  ascii_signatures      — Unique binary ASCII grid per National ID; 1000-day TTL.
+  module_loader         — Audit log of all module install/unload/restart/connect actions.
+  distribution_license  — Edition flag + immutable rank (PEE=8, NDE=6, INT=4, FREE=4).
+                          Verified at boot via GitHub PAT. Not alterable at runtime.
+  bitcoin_transactions  — Bitcoin tx records with AES keys and imagograph blob.
+  cia                   — Reserved: intelligence-agency integration.
+  fbi                   — Reserved: law-enforcement integration.
+
+  All tables are self-provisioning via N21Store.create*Table() at runtime
+  and also defined in scripts/N21.table.builder.sh.
+
+
+SCRIPTS  (scripts/)
+--------------------
+  startup.sh            — Start the server.
+  shutdown.sh           — Silent SIGTERM → sleep 2 → SIGKILL on all server ports.
+  send-transfer-summary.sh — Send Transfer of Summary to contacts (requires mail agent).
+  N21.table.builder.sh  — Create database N21 and all application tables.
+  mysql.install.sh      — MySQL installation helper.
+  github.binary.classes.sh
+  bash/bitcoin/*        — Bitcoin node verify/install scripts for versions 24–30.
+
+  bash/github.binary.classes.sh
+    Moves compiled .class files from source/ to out/ relative to project root.
+
+
+PORTS SUMMARY
+-------------
+  49152   WebExpress (main Telnet proxy)
+  49155   ConnectionStatusServer
+  49166   ModuleInstallationService
+  49177   ASCIICreatorServer
+  49188   ModuleLoaderDaemon
+  49199   Communicator
+  49200   TerminalMenu (Lanterna GUI → bridges to selected service)
+  49144   BinaryHttpServer
+  49133   WeatherServer
+   5512   AES 2.0 Compliant WebExpress
+   6682   Bitcoin Compliant WebExpress
+   8888   MiddleDirectorServer (finance/goal synchronization)
+
+
+LOG / DATA PATHS
+----------------
+  /logging/exceptions.log        — Exception persistence (directory auto-created).
+  modules/                       — Installed module files (.jar / .zip / .java source).
+  authentication/mysql.auth.xml  — MySQL credentials.
+  data/middle/director/          — Director module trade CSVs (per-module).
+  data/middle/director/holds/    — 48hr auditor hold records.
+  data/distribution-edition.txt  — Install-time edition selection.
+  psychiatry/secrets/public.key  — Public authorization key (pushed to GitHub).
+  psychiatry/secrets/secret.key  — Private key (NEVER pushed; .gitignored).
+
+
+AUTHORIZATION
+-------------
+  At boot, PublicKeyVerifier checks psychiatry/secrets/public.key on GitHub.
+  If present (HTTP 200): software operates within existing guidelines,
+  agreements, and contracts. If absent: restricted mode.
+  Owner retains local copies of both public.key and secret.key.
+
+
+CONFIGURATION FILES
+-------------------
+  configuration/nwe-config.xml                    — Main NWE service toggles.
+  configuration/protocol-handlers.xml             — Well-known port protocol handlers.
+  configuration/middle-director-modules.xml       — Middle director module registry.
+  configuration/edge-schedule.xml                 — Weighted edge schedule (locked).
+  configuration/short-hops-trades.xml             — ShortHops trade definitions.
+  configuration/thoughts-as-goals-trades.xml      — ThoughtsAsGoals trade definitions.
+  configuration/final-medium-hops-commodities.xml — FinalMediumHops research commodities.
+  configuration/games-as-goals-sketches.xml       — GamesAsGoals .mdmd sketch config.
+  configuration/transfer-contacts.xml             — Transfer of Summary contact registry.
+
+
+STANDALONE COMPONENTS  (not part of NWE — independently downloadable)
+----------------------------------------------------------------------
+  standalone/
+    nwe-module-installer.jar   — Standalone module installer. Listens on port 8888.
+                                 Accepts modules only from verified NWE (public.key check).
+                                 SHA-256 verified before install. COPY feature for replication.
+    NWEModuleInstaller.java    — Source.
+    build.sh / run.sh          — Build and run scripts.
+
+  apache/
+    nwe-key-listener           — Standalone C executable. Listens port 80.
+    nwe-key-listener.c         — Source (requires libcurl + libssl).
+                                 Phase 1: Accepts public.key POST, verifies against GitHub.
+                                 Phase 2: Accepts JAR from verified IP, checks PK magic + SHA-256,
+                                          installs to /opt/nwe/, opens port 8888, launches JAR.
+                                 30-minute timeout if no valid key received.
+
+    modules/
+      mod_nwe_key.c            — Apache2 drop-in module (same logic as standalone).
+      mod_nwe_key.so           — Compiled shared object (.libs/).
+      build-module.sh          — Build + install + enable script (requires sudo).
+                                 Endpoints: POST /nwe-key-listener/handshake
+                                            POST /nwe-key-listener/install
+
+  suggestions/
+    TECHNICAL.md               — Technical architecture suggestions.
+    SECURITY.md                — Security recommendations.
+    MANAGEMENT.md              — Management and operations suggestions.
+    COMPLETION.md              — Session work completed / remaining items.
+
+
+DATABASE TABLES — BITCOIN
+--------------------------
+  bitcoin_wallets_v24..v30    — Indexed wallet files (name, size, BTC, USD, blob, SHA-256).
+                                Original data. Never modified by trades.
+  bitcoin_trades_v24..v30     — Trade records (national_id, wallet, amount, USD, date, author).
+  bitcoin_wallet_sessions     — Active wallet selection per NationalID (session persistence).
+  distribution_license        — Edition flag + immutable rank (PEE=8, NDE=6, INT=4, FREE=4).

@@ -1,0 +1,71 @@
+{
+  "style": "Taekwondo WT",
+  "belt_level": "1st Dan Black Belt",
+  "legitimacy": "recognized_national_or_international",
+  "document_type": "Black Belt Conduct & Ethical Decision Form",
+  "jurisdiction_context": "United States",
+  "military_combatives_related": false,
+
+  "conduct_domains": [
+    "technical_discipline",
+    "leadership",
+    "ethical_decision_making",
+    "non_discrimination",
+    "right_to_refuse_misuse_of_skill"
+  ],
+
+  "iq_ethics_profile": {
+    "right_to_choose": {
+      "statement": "The practitioner retains the right to choose non-violent resolution whenever reasonably possible.",
+      "evaluated": true,
+      "auditor_notes_required": true
+    },
+    "supreme_prejudice_awareness": {
+      "statement": "The practitioner acknowledges that prejudice, bias, or discriminatory use of martial skill is incompatible with rank.",
+      "evaluated": true,
+      "risk_flag_if_noncompliant": "high"
+    },
+    "law_alignment": {
+      "statement": "The practitioner agrees to align use of force with local, state, and federal law.",
+      "evaluated": true,
+      "reference": "self-defense and proportionality principles"
+    }
+  },
+
+  "assessment_items": [
+    {
+      "code": "LD-01",
+      "label": "Leadership without coercion",
+      "question": "Does the black belt lead others without abusing authority or pressuring unlawful actions?",
+      "scale": "compliant/non_compliant",
+      "auditor_comment_required_if_non_compliant": true
+    },
+    {
+      "code": "ND-02",
+      "label": "Non-discriminatory conduct",
+      "question": "Has the practitioner avoided discriminatory language or behavior in training and application?",
+      "scale": "compliant/non_compliant",
+      "legal_relevance": "civil_rights"
+    },
+    {
+      "code": "RF-03",
+      "label": "Right to refuse misuse",
+      "question": "Has the practitioner exercised or affirmed the right to refuse participation in unethical or unlawful acts?",
+      "scale": "affirmed/not_affirmed",
+      "closure_required": true
+    }
+  ],
+
+  "closure_section": {
+    "auditor_summary": "Based on observed conduct and responses, the practitioner demonstrates awareness of legal and ethical boundaries and respects the right to choose non-violence.",
+    "risk_rating": "low",
+    "recommendation": "Rank maintained",
+    "closure_status": "closed"
+  },
+
+  "signature_block": {
+    "practitioner_signature_line": "_____________________________",
+    "auditor_signature_line": "_____________________________",
+    "date_line": "Date: ________________________"
+  }
+}

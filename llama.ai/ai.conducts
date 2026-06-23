@@ -1,0 +1,4 @@
+1. GPU Offloading — the #1 speed booster
+Set -ngl to a number higher than your model’s layer count.
+
+-ngl 99

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BBEA Input Schema v2.0",
+  "description": "Structured input for Black Belt Ethical Auditor (Ollama/Llama fine-tune). Each field maps to one or more evaluation pillars.",
+  "type": "object",
+  "required": ["style", "belt_level", "jurisdiction", "conduct_observations", "ethical_responses"],
+  "properties": {
+    "style": {
+      "type": "string",
+      "description": "Martial art or combatives system. Examples: 'Taekwondo WT', 'IBJJF BJJ', 'Shotokan Karate', 'MCMAP'.",
+      "examples": ["Taekwondo WT", "IBJJF BJJ", "Shotokan Karate", "MCMAP", "Hapkido", "Tang Soo Do", "USA Judo"]
+    },
+    "belt_level": {
+      "type": "string",
+      "description": "Rank or level being evaluated. Examples: '1st Dan Black Belt', 'Shodan', 'Black Belt 2nd Degree'.",
+      "examples": ["1st Dan Black Belt", "2nd Dan Black Belt", "Shodan", "Black Belt 1st Degree"]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "const": "United States",
+      "description": "Legal context. Currently scoped exclusively to U.S. self-defense and proportionality law."
+    },
+    "legitimacy_hint": {
+      "type": "string",
+      "enum": ["recognized_national_or_international", "school_or_federation_specific", "military_combatives_non_civilian"],
+      "description": "Optional classification hint. Model performs its own legitimacy assessment regardless."
+    },
+    "conduct_observations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Observed behaviors, incidents, or notes. Feed Pillar 2 (Conduct) evaluation.",
+      "examples": [["Consistently arrives early and assists with warmups", "Intervenes calmly in minor student conflicts"]]
+    },
+    "ethical_responses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Practitioner's answers to ethical/right-to-choose questions. Feed Pillar 3 (Ethics).",
+      "examples": [["States preference for de-escalation before physical engagement", "Affirms refusal to use skills in non-defensive situations"]]
+    },
+    "legal_context": {
+      "type": "string",
+      "description": "Optional self-defense, use-of-force, or local policy context. Feed Pillar 4 (Law)."
+    },
+    "auditor_notes": {
+      "type": "string",
+      "description": "Optional free-text notes from the human auditor or compliance officer."
+    }
+  },
+  "additionalProperties": false
+}

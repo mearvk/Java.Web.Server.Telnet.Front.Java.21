@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    NitroWebExpress Configuration
+    ==============================
+    MEARVK LLC — National Finance Engine v2811.1
+    Author: Max Rupplin
+
+    All ports listed here are the authoritative reference for NWE services.
+    Port privilege for MODULE_LOADER_DAEMON is established externally by the
+    national port-aware program and its database.  All other ports are bound
+    locally on startup.
+
+    Admin credentials below are for the initial administrator.  Change the
+    password before first production deployment.  The admin account governs:
+      - database configuration
+      - server document management
+      - module installation / unload authority
+      - inclusion decisions (enabling / disabling servers at startup)
+-->
+<nwe-config>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         INITIAL ADMINISTRATOR
+         Username and password are loaded by NweConfig at startup.
+         The admin may log in to any TCP service that accepts admin auth
+         (ModuleInstallationService, ModuleLoaderDaemon) using these credentials.
+    ════════════════════════════════════════════════════════════════════ -->
+    <admin>
+        <username>mearvk</username>
+        <password>n21admin</password>
+        <description>
+            Initial NWE administrator.  Responsible for database configuration,
+            server document management, and module authority.
+            Change the password before production deployment.
+        </description>
+    </admin>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MAIN SERVER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="NitroWebExpress">
+        <enabled>true</enabled>
+        <name>NitroWebExpress™</name>
+        <thread>WEBEXPRESS_TELNET_PROXY_SERVER</thread>
+        <host>localhost</host>
+        <port>49152</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>Main NitroWebExpress entry point. Telnet-proxy enabled.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ENCRYPTION SERVERS
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="AesCompliant">
+        <enabled>true</enabled>
+        <name>AesCompliant™</name>
+        <thread>WEBEXPRESS_AES2_SERVER</thread>
+        <host>localhost</host>
+        <port>5512</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>AES 2.0 compliant sub-server. Cryptographic compliance layer.</description>
+    </server>
+
+    <server id="RsaCompliant">
+        <enabled>true</enabled>
+        <name>RsaCompliant™</name>
+        <thread>WEBEXPRESS_RSA_SERVER</thread>
+        <host>localhost</host>
+        <port>7743</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>RSA encryption sub-server.</description>
+    </server>
+
+    <server id="DsaCompliant">
+        <enabled>true</enabled>
+        <name>DsaCompliant™</name>
+        <thread>WEBEXPRESS_DSA_SERVER</thread>
+        <host>localhost</host>
+        <port>7744</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>DSA encryption sub-server.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BITCOIN SERVER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="BitcoinCompliant">
+        <enabled>true</enabled>
+        <name>BitcoinCompliant™</name>
+        <thread>WEBEXPRESS_BITCOIN_SERVER</thread>
+        <host>localhost</host>
+        <port>6682</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>Bitcoin lightweight trading sub-server.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STATUS AND UTILITY SERVERS
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="ConnectionStatus">
+        <enabled>true</enabled>
+        <name>ConnectionStatus™</name>
+        <thread>ConnectionStatusServer</thread>
+        <host>localhost</host>
+        <port>49155</port>
+        <description>Returns server status: IP, geo, uptime, memory, connection count.</description>
+    </server>
+
+    <server id="AsciiCreator">
+        <enabled>true</enabled>
+        <name>AsciiCreator™</name>
+        <thread>ASCIICreatorServer</thread>
+        <host>localhost</host>
+        <port>49177</port>
+        <description>Binary ASCII signature service. Issues unique signatures per National ID.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODULE SERVICES
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="ModuleInstallation">
+        <enabled>true</enabled>
+        <name>ModuleInstallation™</name>
+        <thread>ModuleInstallationService</thread>
+        <host>localhost</host>
+        <port>49166</port>
+        <description>
+            Install, unload, and manage modules via authenticated TCP session.
+            Requires National ID identification and admin password for privileged ops.
+        </description>
+    </server>
+
+    <server id="ModuleLoaderDaemon">
+        <enabled>true</enabled>
+        <name>ModuleLoaderDaemon™</name>
+        <thread>ModuleLoaderDaemon</thread>
+        <host>localhost</host>
+        <port>49188</port>
+        <description>
+            Standalone OS-installable module loader daemon.  Runs independently;
+            can be installed as a systemd/launchd/Windows service.  Supports
+            remote push, pull, and replication to other ModuleLoaderDaemon instances.
+            Port privilege is granted by the national port-aware program and
+            its external database before clients may perform write operations.
+        </description>
+        <port-authority>
+            <!-- Token store is populated at runtime by the national port-authority
+                 database.  If empty, local/trusted access is permitted without token. -->
+            <tokens-required>true</tokens-required>
+            <authority-db>national-port-registry</authority-db>
+        </port-authority>
+    </server>
+
+    <server id="Communicator">
+        <enabled>true</enabled>
+        <name>Communicator™</name>
+        <thread>Communicator</thread>
+        <host>localhost</host>
+        <port>49199</port>
+        <description>
+            Persistent 1-hour telnet chat server.  Supports direct messaging,
+            broadcast, scheduled delivery (per recipient local timezone), and
+            chat history.  MessagePoller daemon polls MySQL every 60 seconds
+            for due scheduled messages and delivers them to live sessions.
+            Set enabled=false to disable without recompiling.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         WEATHER SERVER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="Weather">
+        <enabled>true</enabled>
+        <name>Weather™</name>
+        <thread>WeatherServer</thread>
+        <host>localhost</host>
+        <port>49133</port>
+        <description>
+            Telnet weather service. Send a city name or lat,lon; returns
+            current conditions from wttr.in. Supports lang command.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         US CALENDAR D44
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="CalendarD44">
+        <enabled>true</enabled>
+        <name>CalendarD44™</name>
+        <thread>CALENDAR_D44_SERVER</thread>
+        <host>localhost</host>
+        <port>49200</port>
+        <description>
+            US Calendar D44 module. Gathers internet information, stores in
+            nwe_calendar_d44 MySQL database. Uses AES2 and ConvergentFields
+            for sophisticated calendar-cipher calculus. Port-aware: 21, 22,
+            80, 443, 8080, 8888 for international server connectivity.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         INTERNATIONAL SIGNAL SERVERS
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="JapanSignalServer">
+        <enabled>true</enabled>
+        <name>JapanSignalServer™</name>
+        <thread>JAPAN_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49201</port>
+        <description>
+            Japan signal server. Connects to Japanese news, market, currency,
+            and seismic sources. Stores in nwe_japan MySQL database.
+        </description>
+    </server>
+
+    <server id="RussiaSignalServer">
+        <enabled>true</enabled>
+        <name>RussiaSignalServer™</name>
+        <thread>RUSSIA_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49202</port>
+        <description>
+            Russia signal server. Connects to Russian news, market, currency,
+            and energy sources. Stores in nwe_russia MySQL database.
+        </description>
+    </server>
+
+    <server id="MexicoSignalServer">
+        <enabled>true</enabled>
+        <name>MexicoSignalServer™</name>
+        <thread>MEXICO_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49203</port>
+        <description>
+            Mexico signal server. Connects to Mexican news, market, currency,
+            and energy sources. Stores in nwe_mexico MySQL database.
+        </description>
+    </server>
+
+    <server id="GreeceInternationalSignalServer">
+        <enabled>true</enabled>
+        <name>GreeceInternationalSignalServer™</name>
+        <thread>GREECE_INTL_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49204</port>
+        <description>
+            Greece international signal server. Connects to Greek and international
+            news, market, shipping, and currency sources. Stores in nwe_greece_intl
+            MySQL database.
+        </description>
+    </server>
+
+    <server id="Strernary">
+        <enabled>true</enabled>
+        <name>Strernary™</name>
+        <thread>STRERNARY_SERVER</thread>
+        <host>localhost</host>
+        <port>20000</port>
+        <description>
+            Best-guess inference server on port 20000. Takes standard information,
+            returns best-guess responses. Uses DJL (Deep Java Library) for local
+            inference when available, keyword heuristics as fallback. Shares port
+            20000 with an OS-level public listener — they sometimes talk, sometimes
+            they don't. Communication is opportunistic.
+        </description>
+    </server>
+
+    <server id="BrarnerAlete">
+        <enabled>true</enabled>
+        <name>BrarnerAlete™</name>
+        <thread>BRARNER_ALETE_MODULE</thread>
+        <description>
+            HTTP communication module with https://github.com/mearvk/Brarner.M.Alete/.
+            Daily GET and POST. Pings ~2x/day after 1 hour uptime. Checks all links
+            in the repository. Logs communication as interesting and successful in
+            logging/event.social.log. Settings: contributor, theories, art, signal math.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BINARY HTTP SERVER
+         apache-root: Apache2 document root subdirectory for stored files.
+         apache-url:  Public base URL served by Apache2.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="BinaryHttp">
+        <enabled>true</enabled>
+        <name>BinaryHttp™</name>
+        <thread>BinaryHttpServer</thread>
+        <host>localhost</host>
+        <port>49144</port>
+        <description>
+            Binary data → HTTP link server.  PUT: accepts length-prefixed binary,
+            writes file to apache-root, returns HTTP URL.
+            GET: downloads a URL, saves to apache-root, returns HTTP URL.
+        </description>
+    </server>
+    <apache-root>/var/www/html/nwe</apache-root>
+    <apache-url>http://localhost/nwe</apache-url>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ANTIVIRUS SCANNER
+         schedule: hourly | daily | weekly | monthly | yearly
+         scan-path: root directory to scan (defaults to project root)
+         Requires ClamAV (clamscan) installed on the host system.
+         Set enabled=false to disable without recompiling.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="Antivirus">
+        <enabled>true</enabled>
+        <name>Antivirus™</name>
+        <schedule>daily</schedule>
+        <scan-path>.</scan-path>
+        <description>
+            Runs clamscan on NWE contents and file integrity check on a
+            configurable schedule.  Results are printed to the system log.
+            Valid schedules: hourly | daily | weekly | monthly | yearly.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         HEURISTIC CLASSIFIER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="HeuristicClassifier">
+        <enabled>true</enabled>
+        <name>HeuristicClassifier™</name>
+        <description>
+            Classifies every inbound connection across all public ports.
+            Scores IP repetition, port-scan patterns, geo-location concentration,
+            and payload keywords.  Threat connections (score >= 40) are dropped
+            immediately at the accept loop.  Set enabled=false to disable without
+            recompiling.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BASE SERVER CLASS SELECTION
+         ═══════════════════════════════════════════════════════════════════
+         Selects which server implementation handles inbound connections.
+         Only one may be active at a time.  Set selected="true" on the
+         desired class; all others must be "false".
+
+         BaseServer             — standard server, no connection caps or
+                                  weight balancing. Default.
+         HardenedBaseServer     — connection caps (512), per-IP limit (10),
+                                  reduced timeout (30 min), port whitelist.
+                                  Premium option.
+         NationalAwareHardService — weight-based request balancing, 5040 max
+                                  connections, 1-per-IP, 58-min timeout,
+                                  cost-aware ejection of heavy consumers.
+                                  Premium option.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server-class>
+        <option id="BASE_SERVER" selected="true" premium="false">
+            <class>server.base.BaseServer</class>
+            <description>Standard BaseServer. No connection limits or weight balancing.</description>
+        </option>
+        <option id="HARDENED_BASE_SERVER" selected="false" premium="true">
+            <class>server.experimental.HardenedBaseServer</class>
+            <description>
+                Hardened server with 512 max connections, 10 per-IP limit,
+                30-minute socket timeout, port whitelist, and graceful shutdown.
+            </description>
+        </option>
+        <option id="NATIONAL_AWARE_HARD_SERVICE" selected="false" premium="true">
+            <class>server.hardened.experimental.m.NationalAwareHardService</class>
+            <description>
+                Weight-balanced hardened server. 5040 max connections, 1 per-IP,
+                58-minute timeout. Long/heavy requests cost more weight and are
+                ejected when budget is exceeded — protecting lightweight requests
+                from starvation.
+            </description>
+        </option>
+    </server-class>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         REMOTE / EXTERNAL SERVERS  (for outbound connections)
+    ════════════════════════════════════════════════════════════════════ -->
+    <remote-server id="AES_REMOTE">
+        <name>AES 2.0 Remote Server</name>
+        <domain>mearvk.us</domain>
+        <ip>45.32.31.139</ip>
+        <description>Production AES remote target.</description>
+    </remote-server>
+
+    <remote-server id="BITCOIN_REMOTE">
+        <name>Bitcoin v24.0+ Remote Server</name>
+        <domain>mearvk.us</domain>
+        <ip>45.32.31.139</ip>
+        <description>Production Bitcoin remote target.</description>
+    </remote-server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BITCOIN WALLET INDEXER
+         Scans /bitcoin/{24-30} wallet directories, computes values
+         (100 BTC per ~2MB @ $20T USD each), signs with SHA-256
+         (secret.key as salt), and inserts into version-specific MySQL tables.
+         Enable for installers/admins/business executives who need wallet indexing.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="BitcoinWalletIndexer">
+        <enabled>true</enabled>
+        <name>BitcoinWalletIndexer™</name>
+        <description>
+            Indexes all wallet data in /bitcoin/{24-30} into MySQL tables
+            (bitcoin_wallets_v24 through bitcoin_wallets_v30). Each ~2MB of
+            wallet equates to $20T USD. SHA-256 signed with secret.key salt.
+            Author: Max Ruppln - Clear 21 Branch US Military.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         TRANSFER SUMMARY MAILER
+         Sends Transfer of Summary document to registered contacts.
+         Requires sendmail or mailutils+postfix on the server.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="TransferSummaryMailer">
+        <enabled>true</enabled>
+        <name>TransferSummaryMailer™</name>
+        <contacts-file>configuration/transfer-contacts.xml</contacts-file>
+        <description>
+            Sends the Transfer of Summary (transfer.document.title) to all
+            contacts in the contacts XML via sendmail/mailx. Run manually
+            via scripts/send-transfer-summary.sh or enabled at boot.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         COLOR MAPPINGS
+         Terminal print color assignments for each component category.
+         These are enforced by commons.color.ColorResolver at runtime.
+         Admins may reference these for log readability.
+    ════════════════════════════════════════════════════════════════════ -->
+    <color-mappings>
+        <mapping category="Main, Security, Auth, Port"      color="red"          ansi="38;5;196"/>
+        <mapping category="Shutdown"                        color="red-orange"   ansi="38;5;208"/>
+        <mapping category="Telnet, Proxy, Communicator"     color="orange"       ansi="38;5;214"/>
+        <mapping category="Crypto, Encrypt, AES, RSA, DSA"  color="lime-green"   ansi="38;5;118"/>
+        <mapping category="Bitcoin, Wallet, Trader"         color="gold"         ansi="38;5;220"/>
+        <mapping category="Module, Loader, Installer"       color="dark-grey"    ansi="38;5;242"/>
+        <mapping category="Config, Configuration"           color="maroon"       ansi="38;5;52"/>
+        <mapping category="Message, Queue, Handler"         color="bold-green"   ansi="1;32"/>
+        <mapping category="Connection, Socket, Poller"      color="sky-blue"     ansi="38;5;75"/>
+        <mapping category="Server, Express, Nitro (NWE)"    color="silver-gray"  ansi="38;5;145"/>
+        <mapping category="Liveness, Monitor"               color="bright-green" ansi="38;5;46"/>
+        <mapping category="Antivirus, Scanner"              color="dark-orange"  ansi="38;5;166"/>
+        <mapping category="Heuristic, Classifier"           color="yellow"       ansi="38;5;226"/>
+        <mapping category="Common, Rail, Logger"            color="lavender"     ansi="38;5;147"/>
+        <mapping category="Signal, Japan, Russia, Mexico, Greece" color="cyan"    ansi="38;5;51"/>
+        <mapping category="Strernary, Inference, Guess"  color="magenta"      ansi="38;5;207"/>
+        <mapping category="Default"                         color="silver"       ansi="38;5;250"/>
+    </color-mappings>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         OBJECT HASHCODE OVERRIDES
+         Admins may set fixed Object IDs for well-known classes.
+         These appear in the [Object ID: XXXXXXXXXX] field of system output.
+         Format: <entry class="SimpleClassName">integer_value</entry>
+    ════════════════════════════════════════════════════════════════════ -->
+    <hashcodes>
+        <entry class="Main">0925308434</entry>
+        <entry class="NitroWebExpress">0195600860</entry>
+        <entry class="MessageQueueSorter">1343441044</entry>
+        <entry class="MessageQueue">0762660330</entry>
+        <entry class="HeuristicClassifier">0481230099</entry>
+        <entry class="ConnectionPoller">0553219871</entry>
+        <entry class="Communicator">0617340022</entry>
+        <entry class="BinaryHttpServer">0889912345</entry>
+        <entry class="WeatherServer">0721100456</entry>
+        <entry class="JapanSignalServer">0831200101</entry>
+        <entry class="RussiaSignalServer">0831200202</entry>
+        <entry class="MexicoSignalServer">0831200303</entry>
+        <entry class="GreeceInternationalSignalServer">0831200404</entry>
+        <entry class="StrernaryServer">0831200500</entry>
+        <entry class="BrarnerAleteModule">0831200600</entry>
+    </hashcodes>
+
+</nwe-config>

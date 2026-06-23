@@ -1,0 +1,64 @@
+4. Compliance manual for instructors using the model
+4.1 Purpose
+Ensure the Black Belt Ethical Auditor is used to support human judgment, not replace it.
+
+Standardize conduct and ethics reviews across schools, federations, and units.
+
+4.2 Roles and responsibilities
+Instructor / Auditor:
+
+Collect accurate observations and practitioner responses.
+
+Input data according to the JSON schema.
+
+Review model output and make final decisions.
+
+Practitioner:
+
+Provide honest ethical responses.
+
+Sign final forms acknowledging understanding.
+
+4.3 Acceptable use
+Rank maintenance reviews (e.g., annual black belt conduct checks).
+
+Incident follow‑up (non‑criminal disputes, dojo conflicts).
+
+Ethics training reinforcement (right to choose, non‑discrimination).
+
+The model’s output is advisory, not legally binding.
+
+4.4 Data entry standards
+Use neutral, factual language in conduct_observations.
+
+Avoid speculation or diagnoses.
+
+Record both positive and negative behaviors.
+
+Capture practitioner’s own words in ethical_responses where possible.
+
+4.5 Interpreting model outputs
+Low risk / closed:
+
+Practitioner is aligned with conduct, ethics, and legal norms.
+
+Rank may be maintained; file stored as reference.
+
+Medium risk / follow_up_required:
+
+Schedule coaching, ethics discussion, or additional observation.
+
+Document corrective actions.
+
+High risk / follow_up_required:
+
+Consider temporary suspension or formal review per school policy.
+
+Escalate if behavior suggests legal or safety concerns.
+
+4.6 Safeguards
+Always have a human auditor sign off.
+
+Do not use the model as the sole basis for punitive action.
+
+For serious incidents (injury, criminal behavior), follow legal and organizational procedures first; model output is secondary documentation.

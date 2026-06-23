@@ -1,0 +1,3 @@
+This reduces memory reads/writes during attention and can double prompt‑processing speed.
+
+--flash-attn
