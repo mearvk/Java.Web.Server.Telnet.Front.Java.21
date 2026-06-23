@@ -20,6 +20,12 @@
 <nwe-config>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         CONTACT / DISCUSSIONS
+         Rank Upgrades, Installer IDs, and Public Key Requests:
+         https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+    ════════════════════════════════════════════════════════════════════ -->
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          INITIAL ADMINISTRATOR
          Username and password are loaded by NweConfig at startup.
          The admin may log in to any TCP service that accepts admin auth
