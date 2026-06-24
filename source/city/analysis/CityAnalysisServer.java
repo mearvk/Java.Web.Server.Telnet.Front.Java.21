@@ -25,8 +25,8 @@ public class CityAnalysisServer
 {
     protected String hash = "0xCA717018470E913F";
 
-    protected static final String CONFIG_PATH = "source/city/analysis/city-analysis-config.xml";
-    protected static final String PRESUMES_PATH = "source/city/analysis/legalice.presumes.xml";
+    protected static final String CONFIG_PATH = "source/city/analysis/configuration/city-analysis-config.xml";
+    protected static final String PRESUMES_PATH = "source/city/analysis/configuration/legalice.presumes.xml";
     protected static final String CERTS_DIR = "source/city/analysis/certs/";
 
     protected static final int[] SUPPORTED_PORTS = {21, 22, 80, 443, 8080};

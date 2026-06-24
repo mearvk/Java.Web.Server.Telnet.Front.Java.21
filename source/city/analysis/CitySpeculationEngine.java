@@ -252,7 +252,7 @@ public class CitySpeculationEngine
         try
         {
             javax.xml.parsers.DocumentBuilder builder = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            org.w3c.dom.Document doc = builder.parse(new File("source/city/analysis/cse-allowance-config.xml"));
+            org.w3c.dom.Document doc = builder.parse(new File("source/city/analysis/configuration/cse-allowance-config.xml"));
             org.w3c.dom.NodeList nodes = doc.getElementsByTagName("recursive-speculation");
             if (nodes.getLength() > 0)
             {

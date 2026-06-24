@@ -23,7 +23,7 @@ import org.w3c.dom.*;
  */
 public class CityAnalysisMain
 {
-    protected static final String CONFIG_PATH = "source/city/analysis/city-analysis-config.xml";
+    protected static final String CONFIG_PATH = "source/city/analysis/configuration/city-analysis-config.xml";
 
     public static void main(String[] args)
     {

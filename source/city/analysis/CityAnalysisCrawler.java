@@ -25,7 +25,7 @@ public class CityAnalysisCrawler
 {
     protected String hash = "0xCA717018470E914C";
 
-    protected static final String CONFIG_PATH = "source/city/analysis/city-analysis-config.xml";
+    protected static final String CONFIG_PATH = "source/city/analysis/configuration/city-analysis-config.xml";
 
     protected String rawDir = "source/city/analysis/raw/";
     protected boolean followLinks = true;
