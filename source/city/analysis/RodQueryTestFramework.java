@@ -17,7 +17,7 @@
  * @date June 24 2026 EST
  */
 
-package city_analysis;
+package city.analysis;
 
 import java.io.*;
 import java.nio.file.*;
@@ -76,7 +76,7 @@ public class RodQueryTestFramework
         print("[TEST] RodDisclaimerHandler accepts disclaimer and returns content");
         try
         {
-            RodDisclaimerHandler handler = new RodDisclaimerHandler();
+            city_analysis.RodDisclaimerHandler handler = new city_analysis.RodDisclaimerHandler();
             String html = handler.acceptAndFetch();
             if (html == null) { fail("Disclaimer handler returned null — site unreachable or form changed"); return; }
             if (html.isEmpty()) { fail("Disclaimer handler returned empty content"); return; }
@@ -92,7 +92,7 @@ public class RodQueryTestFramework
         long sizeBefore = getFileSize(OUTPUT_CSV);
         try
         {
-            RodQueryHandler handler = new RodQueryHandler();
+            city_analysis.RodQueryHandler handler = new city_analysis.RodQueryHandler();
             int results = handler.queryAndAppend(3);
             if (results < 0) { fail("queryAndAppend returned negative: " + results); return; }
             long sizeAfter = getFileSize(OUTPUT_CSV);
@@ -154,7 +154,7 @@ public class RodQueryTestFramework
         print("  Selected " + sample.size() + " random parcels from " + allRecords.size() + " total");
 
         // Step 3: Accept disclaimer
-        RodDisclaimerHandler disclaimerHandler = new RodDisclaimerHandler();
+        city_analysis.RodDisclaimerHandler disclaimerHandler = new city_analysis.RodDisclaimerHandler();
         String html = disclaimerHandler.acceptAndFetch();
         if (html == null)
         {
@@ -171,7 +171,7 @@ public class RodQueryTestFramework
         // Step 5: Query each parcel — HUMAN first, SOUNDEX fallback
         int parcelsWithResults = 0;
         int totalRows = 0;
-        RodPropertyQueryEngine engine = new RodPropertyQueryEngine(cookie);
+        city_analysis.RodPropertyQueryEngine engine = new city_analysis.RodPropertyQueryEngine(cookie);
 
         for (int i = 0; i < sample.size(); i++)
         {
@@ -182,14 +182,14 @@ public class RodQueryTestFramework
             String streetName = record[3];
 
             // Try HUMAN search type first
-            engine.setNameType(RodPropertyQueryEngine.NameType.HUMAN);
+            engine.setNameType(city_analysis.RodPropertyQueryEngine.NameType.HUMAN);
             List<String> results = engine.queryAllData(parcelId, pin, address, streetName);
             String searchType = "human";
 
             // Fallback to SOUNDEX if no results
             if (results.isEmpty())
             {
-                engine.setNameType(RodPropertyQueryEngine.NameType.SOUNDEX);
+                engine.setNameType(city_analysis.RodPropertyQueryEngine.NameType.SOUNDEX);
                 results = engine.queryAllData(parcelId, pin, address, streetName);
                 searchType = "soundex";
             }
