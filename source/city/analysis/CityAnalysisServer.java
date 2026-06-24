@@ -223,11 +223,35 @@ public class CityAnalysisServer
                     HttpsURLConnection httpsConn = (HttpsURLConnection) url.openConnection();
                     SSLContext sslCtx = getSSLContext();
                     if (sslCtx != null) httpsConn.setSSLSocketFactory(sslCtx.getSocketFactory());
+                    httpsConn.setHostnameVerifier((hostname, session) -> true);
+                    httpsConn.setRequestMethod("GET");
+                    httpsConn.setConnectTimeout(timeoutMs);
+                    httpsConn.setReadTimeout(timeoutMs);
+                    httpsConn.setRequestProperty("User-Agent", userAgent);
                     conn = httpsConn;
 
-                    // Store peer certificate
-                    httpsConn.connect();
+                    int code = conn.getResponseCode();
                     storeCertificates(url.getHost(), httpsConn.getServerCertificates());
+
+                    if (code == 200)
+                    {
+                        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)))
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = reader.readLine()) != null)
+                            {
+                                sb.append(line).append("\n");
+                            }
+                            System.out.println("-- : [CityAnalysisServer] Fetched " + sb.length() + " bytes from " + urlStr + " (port " + port + ")");
+                            return sb.toString();
+                        }
+                    }
+                    else
+                    {
+                        System.err.println("-- : [CityAnalysisServer] HTTP " + code + " from " + urlStr + " (attempt " + attempt + ")");
+                    }
+                    continue;
                 }
                 else
                 {
@@ -268,7 +292,7 @@ public class CityAnalysisServer
     }
 
     /**
-     * Load SSL context from certs directory if keystore exists
+     * Load SSL context — uses local truststore if available, otherwise trusts all (for cert gathering)
      */
     protected SSLContext getSSLContext()
     {
@@ -288,6 +312,19 @@ public class CityAnalysisServer
                 ctx.init(null, tmf.getTrustManagers(), null);
                 return ctx;
             }
+
+            // No local truststore — trust all to allow initial cert capture
+            TrustManager[] trustAll = new TrustManager[]{
+                new javax.net.ssl.X509TrustManager()
+                {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null; }
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] c, String a) {}
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] c, String a) {}
+                }
+            };
+            SSLContext ctx = SSLContext.getInstance("TLS");
+            ctx.init(null, trustAll, new java.security.SecureRandom());
+            return ctx;
         }
         catch (Exception e)
         {
