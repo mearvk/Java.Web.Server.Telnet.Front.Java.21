@@ -3,7 +3,10 @@ package city_analysis;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.security.*;
 import java.util.*;
+import javax.net.ssl.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
@@ -22,6 +25,9 @@ public class CityAnalysisServer
 
     protected static final String CONFIG_PATH = "source/city/analysis/city-analysis-config.xml";
     protected static final String PRESUMES_PATH = "source/city/analysis/legalice.presumes.xml";
+    protected static final String CERTS_DIR = "source/city/analysis/certs/";
+
+    protected static final int[] SUPPORTED_PORTS = {21, 22, 80, 443, 8080};
 
     protected List<Map<String, String>> presumptions = new ArrayList<>();
 
@@ -199,7 +205,8 @@ public class CityAnalysisServer
     }
 
     /**
-     * HTTP GET with retry logic
+     * HTTP/HTTPS GET with retry logic and SSL cert storage.
+     * Port-aware: supports 21, 22, 80, 443, 8080 outbound.
      */
     protected String httpGet(String urlStr)
     {
@@ -208,7 +215,25 @@ public class CityAnalysisServer
             try
             {
                 URL url = new URL(urlStr);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                int port = url.getPort() == -1 ? url.getDefaultPort() : url.getPort();
+
+                HttpURLConnection conn;
+                if ("https".equalsIgnoreCase(url.getProtocol()))
+                {
+                    HttpsURLConnection httpsConn = (HttpsURLConnection) url.openConnection();
+                    SSLContext sslCtx = getSSLContext();
+                    if (sslCtx != null) httpsConn.setSSLSocketFactory(sslCtx.getSocketFactory());
+                    conn = httpsConn;
+
+                    // Store peer certificate
+                    httpsConn.connect();
+                    storeCertificates(url.getHost(), httpsConn.getServerCertificates());
+                }
+                else
+                {
+                    conn = (HttpURLConnection) url.openConnection();
+                }
+
                 conn.setRequestMethod("GET");
                 conn.setConnectTimeout(timeoutMs);
                 conn.setReadTimeout(timeoutMs);
@@ -225,7 +250,7 @@ public class CityAnalysisServer
                         {
                             sb.append(line).append("\n");
                         }
-                        System.out.println("-- : [CityAnalysisServer] Fetched " + sb.length() + " bytes from " + urlStr);
+                        System.out.println("-- : [CityAnalysisServer] Fetched " + sb.length() + " bytes from " + urlStr + " (port " + port + ")");
                         return sb.toString();
                     }
                 }
@@ -240,6 +265,64 @@ public class CityAnalysisServer
             }
         }
         return null;
+    }
+
+    /**
+     * Load SSL context from certs directory if keystore exists
+     */
+    protected SSLContext getSSLContext()
+    {
+        try
+        {
+            Path ksPath = Paths.get(CERTS_DIR, "truststore.jks");
+            if (Files.exists(ksPath))
+            {
+                KeyStore ks = KeyStore.getInstance("JKS");
+                try (InputStream is = Files.newInputStream(ksPath))
+                {
+                    ks.load(is, "changeit".toCharArray());
+                }
+                TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                tmf.init(ks);
+                SSLContext ctx = SSLContext.getInstance("TLS");
+                ctx.init(null, tmf.getTrustManagers(), null);
+                return ctx;
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println("-- : [CityAnalysisServer] SSL context load warning: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Store SSL certificates from peer to certs/ directory
+     */
+    protected void storeCertificates(String host, java.security.cert.Certificate[] certs)
+    {
+        if (certs == null) return;
+        try
+        {
+            Files.createDirectories(Paths.get(CERTS_DIR));
+            for (int i = 0; i < certs.length; i++)
+            {
+                String filename = host.replace(".", "_") + "_cert_" + i + ".pem";
+                Path certPath = Paths.get(CERTS_DIR, filename);
+                if (!Files.exists(certPath))
+                {
+                    String pem = "-----BEGIN CERTIFICATE-----\n" +
+                            Base64.getMimeEncoder(64, "\n".getBytes()).encodeToString(certs[i].getEncoded()) +
+                            "\n-----END CERTIFICATE-----\n";
+                    Files.writeString(certPath, pem);
+                    System.out.println("-- : [CityAnalysisServer] Stored cert: " + filename);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println("-- : [CityAnalysisServer] Cert storage warning: " + e.getMessage());
+        }
     }
 
     /**
