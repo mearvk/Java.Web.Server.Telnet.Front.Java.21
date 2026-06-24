@@ -10,6 +10,20 @@
             <deeds-url>https://rodweb.dconc.gov/web/</deeds-url>
             <property-records-url>https://www.durhamnc.gov/809/Real-Estate</property-records-url>
             <register-of-deeds-url>https://dconc.gov/Register-of-Deeds/Real-Estate-Records</register-of-deeds-url>
+            <additional-sources>
+                <source type="tax">https://www.dconc.gov/county-departments/departments-f-z/tax-administration</source>
+                <source type="gis">https://gisweb.durhamnc.gov/durhammaps/</source>
+                <source type="permits">https://www.durhamnc.gov/293/Building-Permits</source>
+                <source type="zoning">https://www.durhamnc.gov/446/Zoning</source>
+                <source type="planning">https://www.durhamnc.gov/346/City-County-Planning</source>
+                <source type="open-data">https://live-durhamnc.opendata.arcgis.com/</source>
+                <source type="parcels">https://www.dconc.gov/county-departments/departments-f-z/tax-administration/real-property-listing</source>
+                <source type="foreclosures">https://www.dconc.gov/county-departments/departments-a-e/clerk-of-superior-court</source>
+                <source type="business-registry">https://www.sosnc.gov/online_services/search/by_title/_Business_Registration</source>
+                <source type="census">https://data.census.gov/profile/Durham_County,_North_Carolina</source>
+                <source type="housing">https://www.durhamnc.gov/570/Affordable-Housing</source>
+                <source type="demographics">https://www.census.gov/quickfacts/durhamcountynorthcarolina</source>
+            </additional-sources>
         </city>
         <city selected="false">
             <name>Raleigh</name>
@@ -131,8 +145,36 @@
         <user-agent>NitroWebExpress/CityAnalysis 1.0</user-agent>
     </connection>
 
+    <input-mode>
+        <!-- file | crawl -->
+        <default>file</default>
+        <crawl-options>
+            <store-raw>true</store-raw>
+            <raw-dir>source/city/analysis/raw/</raw-dir>
+            <follow-links>true</follow-links>
+            <max-depth>3</max-depth>
+            <max-pages>50</max-pages>
+            <accepted-types>html,xml,csv</accepted-types>
+            <delay-between-requests-ms>2000</delay-between-requests-ms>
+        </crawl-options>
+    </input-mode>
+
     <output>
         <database>nwe_city_analysis</database>
         <table-prefix>city_</table-prefix>
     </output>
+
+    <major-5>
+        <enabled>true</enabled>
+        <database>nwe_city_analysis</database>
+        <table>major_5_records</table>
+        <description>Top 5 cities by data volume — stored to database for science-grade analysis</description>
+        <cities>
+            <city>Durham</city>
+            <city>Raleigh</city>
+            <city>Charlotte</city>
+            <city>Greensboro</city>
+            <city>Winston-Salem</city>
+        </cities>
+    </major-5>
 </city-analysis>

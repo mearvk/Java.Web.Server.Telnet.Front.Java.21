@@ -31,12 +31,13 @@ public class CityAnalysisServer
 
     protected List<Map<String, String>> presumptions = new ArrayList<>();
 
-    protected String cityName;
-    protected String county;
-    protected String state;
-    protected String deedsUrl;
-    protected String propertyRecordsUrl;
-    protected String registerOfDeedsUrl;
+    public String cityName;
+    public String county;
+    public String state;
+    public String deedsUrl;
+    public String propertyRecordsUrl;
+    public String registerOfDeedsUrl;
+    public List<String> additionalSources = new ArrayList<>();
     protected int timeoutMs;
     protected int retryCount;
     protected String userAgent;
@@ -95,10 +96,11 @@ public class CityAnalysisServer
                     this.deedsUrl = city.get("deeds-url");
                     this.propertyRecordsUrl = city.get("property-records-url");
                     this.registerOfDeedsUrl = city.get("register-of-deeds-url");
+                    loadAdditionalSources(cityEl);
                 }
             }
 
-            System.out.println("-- : [CityAnalysisServer] Loaded " + allCities.size() + " cities. Selected: " + cityName + ", " + state);
+            System.out.println("-- : [CityAnalysisServer] Loaded " + allCities.size() + " cities. Selected: " + cityName + ", " + state + " (" + additionalSources.size() + " additional sources)");
         }
         catch (Exception e)
         {
