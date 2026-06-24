@@ -5,6 +5,9 @@
  * 1. RodDisclaimerHandler can connect and accept the disclaimer
  * 2. RodQueryHandler reads local data and queries ROD
  * 3. Results are appended to the output CSV after each call
+ * 4. Random 100-parcel test verifies full data retrieval and CSV row production
+ *
+ * Grading: A (95-100), B (80-94), C (60-79), D (40-59), F (<40) based on row yield
  *
  * Run standalone: java -cp <classpath> city_analysis.RodQueryTestFramework
  *
@@ -17,11 +20,15 @@ package city.analysis;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RodQueryTestFramework
 {
     private static final String OUTPUT_CSV = "source/city/analysis/data/durham.nc.rod.query.results.csv";
+    private static final String TEST_CSV = "source/city/analysis/data/durham.nc.rod.test.100.results.csv";
     private static final String INPUT_CSV = "source/city/analysis/data/durham.nc.addresses.csv";
+    private static final int RANDOM_SAMPLE_SIZE = 100;
 
     private int passed = 0;
     private int failed = 0;
@@ -40,6 +47,7 @@ public class RodQueryTestFramework
         testDisclaimerHandlerConnects();
         testQueryHandlerProducesResults();
         testCsvAppendedAfterQuery();
+        testRandom100Parcels();
 
         print("=== Results: " + passed + " passed, " + failed + " failed ===");
     }
@@ -76,24 +84,18 @@ public class RodQueryTestFramework
     private void testQueryHandlerProducesResults()
     {
         print("[TEST] RodQueryHandler queries ROD and gets results");
-
-        // Record output CSV size before
         long sizeBefore = getFileSize(OUTPUT_CSV);
-
         try
         {
             city_analysis.RodQueryHandler handler = new city_analysis.RodQueryHandler();
-            int results = handler.queryAndAppend(3); // Query only 3 records for test
-
+            int results = handler.queryAndAppend(3);
             if (results < 0) { fail("queryAndAppend returned negative: " + results); return; }
-
             long sizeAfter = getFileSize(OUTPUT_CSV);
             if (results > 0 && sizeAfter <= sizeBefore)
             {
                 fail("Handler reported " + results + " results but CSV did not grow");
                 return;
             }
-
             pass("Query returned " + results + " results, CSV size: " + sizeBefore + " -> " + sizeAfter);
         }
         catch (Exception e) { fail("Exception: " + e.getMessage()); }
@@ -104,34 +106,218 @@ public class RodQueryTestFramework
         print("[TEST] Output CSV has valid header and appended rows");
         Path output = Path.of(OUTPUT_CSV);
         if (!Files.exists(output)) { fail("Output CSV does not exist after query"); return; }
-
         try
         {
             var lines = Files.readAllLines(output);
             if (lines.isEmpty()) { fail("Output CSV is empty"); return; }
-
             String header = lines.get(0);
             if (!header.contains("PARCEL_ID") || !header.contains("DOCUMENT_TYPE"))
             {
                 fail("Output CSV header malformed: " + header);
                 return;
             }
-
             if (lines.size() < 2)
             {
-                // No data rows yet — might be network issue but header is correct
                 pass("Output CSV header valid, no data rows yet (ROD may be unreachable)");
                 return;
             }
-
-            // Verify data rows have correct column count (10 columns)
             String dataRow = lines.get(1);
             int commas = (int) dataRow.chars().filter(c -> c == ',').count();
             if (commas < 5) { fail("Data row has too few columns: " + dataRow); return; }
-
             pass("Output CSV has " + (lines.size() - 1) + " data rows, format valid");
         }
         catch (IOException e) { fail("Cannot read output CSV: " + e.getMessage()); }
+    }
+
+    /**
+     * Selects 100 random parcels from the input CSV, queries ROD for all available
+     * property/owner data on each, writes results to a dedicated test CSV, and grades
+     * the yield (how many of the 100 produced at least one result row).
+     */
+    private void testRandom100Parcels()
+    {
+        print("[TEST] Random 100-parcel full data retrieval and grading");
+
+        // Step 1: Load all records from input CSV
+        List<String[]> allRecords = loadAllRecords();
+        if (allRecords.size() < RANDOM_SAMPLE_SIZE)
+        {
+            fail("Input CSV has fewer than " + RANDOM_SAMPLE_SIZE + " records (" + allRecords.size() + ")");
+            return;
+        }
+
+        // Step 2: Random sample of 100
+        List<String[]> sample = randomSample(allRecords, RANDOM_SAMPLE_SIZE);
+        print("  Selected " + sample.size() + " random parcels from " + allRecords.size() + " total");
+
+        // Step 3: Accept disclaimer once
+        city_analysis.RodDisclaimerHandler disclaimerHandler = new city_analysis.RodDisclaimerHandler();
+        String html = disclaimerHandler.acceptAndFetch();
+        if (html == null)
+        {
+            fail("Cannot reach ROD — disclaimer handler returned null");
+            return;
+        }
+        String cookie = disclaimerHandler.getSessionCookie();
+
+        // Step 4: Prepare test output CSV
+        Path testOutput = Path.of(TEST_CSV);
+        try
+        {
+            Files.writeString(testOutput,
+                "QUERY_DATE,PARCEL_ID,PIN,ADDRESS,STREET_NAME,DOCUMENT_TYPE,BOOK,PAGE,GRANTOR,GRANTEE,RECORD_DATE,RAW_RESULT\n");
+        }
+        catch (IOException e) { fail("Cannot create test CSV: " + e.getMessage()); return; }
+
+        // Step 5: Query each parcel and track per-parcel yield
+        int parcelsWithResults = 0;
+        int totalRows = 0;
+        city_analysis.RodPropertyQueryEngine engine = new city_analysis.RodPropertyQueryEngine(cookie);
+
+        for (int i = 0; i < sample.size(); i++)
+        {
+            String[] record = sample.get(i);
+            String parcelId = record[0];
+            String pin = record[1];
+            String address = record[2];
+            String streetName = record[3];
+
+            List<String> results = engine.queryAllData(parcelId, pin, address, streetName);
+
+            if (!results.isEmpty())
+            {
+                parcelsWithResults++;
+                totalRows += results.size();
+                appendTestResults(testOutput, parcelId, pin, address, streetName, results);
+            }
+
+            if ((i + 1) % 10 == 0)
+            {
+                print("  Progress: " + (i + 1) + "/" + RANDOM_SAMPLE_SIZE +
+                    " queried, " + parcelsWithResults + " with results, " + totalRows + " total rows");
+            }
+
+            try { Thread.sleep(3000); } catch (InterruptedException e) { break; }
+        }
+
+        // Step 6: Verify test CSV row count
+        int csvRows = countCsvDataRows(testOutput);
+
+        // Step 7: Grade
+        double yieldPct = (parcelsWithResults * 100.0) / RANDOM_SAMPLE_SIZE;
+        String grade = grade(yieldPct);
+
+        print("  --- RESULTS ---");
+        print("  Parcels queried:      " + RANDOM_SAMPLE_SIZE);
+        print("  Parcels with results: " + parcelsWithResults);
+        print("  Total result rows:    " + totalRows);
+        print("  CSV data rows:        " + csvRows);
+        print("  Yield:                " + String.format("%.1f%%", yieldPct));
+        print("  GRADE:                " + grade);
+
+        // Verify CSV row count matches totalRows
+        if (csvRows != totalRows)
+        {
+            fail("CSV rows (" + csvRows + ") != total results appended (" + totalRows + ") — data loss detected");
+        }
+        else if (totalRows > 0)
+        {
+            pass("All " + totalRows + " results correctly written to test CSV — Grade: " + grade);
+        }
+        else
+        {
+            fail("No results from 100 parcels — ROD may be blocking or search params need adjustment — Grade: " + grade);
+        }
+    }
+
+    private List<String[]> loadAllRecords()
+    {
+        List<String[]> records = new ArrayList<>();
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(INPUT_CSV)))
+        {
+            reader.readLine(); // skip header
+            String line;
+            while ((line = reader.readLine()) != null)
+            {
+                String[] cols = parseCsvLine(line);
+                if (cols.length < 13) continue;
+                String parcelId = cols[7].trim();   // PARCEL_ID
+                String pin = cols[8].trim();        // PIN
+                String address = cols[12].trim();   // SITE_ADDRE
+                String streetName = cols[4].trim(); // STREETNAME
+                if (parcelId.isEmpty() && address.isEmpty()) continue;
+                records.add(new String[]{parcelId, pin, address, streetName});
+            }
+        }
+        catch (IOException e) { print("  ERROR loading input: " + e.getMessage()); }
+        return records;
+    }
+
+    private List<String[]> randomSample(List<String[]> all, int n)
+    {
+        List<String[]> copy = new ArrayList<>(all);
+        Collections.shuffle(copy, ThreadLocalRandom.current());
+        return copy.subList(0, Math.min(n, copy.size()));
+    }
+
+    private void appendTestResults(Path csv, String parcelId, String pin, String address,
+                                   String streetName, List<String> results)
+    {
+        try (BufferedWriter writer = Files.newBufferedWriter(csv, StandardOpenOption.APPEND))
+        {
+            String date = java.time.LocalDateTime.now()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            for (String result : results)
+            {
+                String[] parts = result.split("\\|", -1);
+                String docType = parts.length > 0 ? parts[0] : "";
+                String book = parts.length > 1 ? parts[1] : "";
+                String page = parts.length > 2 ? parts[2] : "";
+                String grantor = parts.length > 3 ? parts[3] : "";
+                String grantee = parts.length > 4 ? parts[4] : "";
+                String recordDate = parts.length > 5 ? parts[5] : "";
+
+                writer.write(String.format("%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
+                    date, parcelId, pin, address, streetName, docType, book, page,
+                    grantor, grantee, recordDate, result.replace("\"", "''")));
+            }
+        }
+        catch (IOException e) { print("  ERROR appending results: " + e.getMessage()); }
+    }
+
+    private int countCsvDataRows(Path csv)
+    {
+        try
+        {
+            long count = Files.lines(csv).count();
+            return (int) Math.max(0, count - 1); // minus header
+        }
+        catch (IOException e) { return 0; }
+    }
+
+    private String grade(double yieldPct)
+    {
+        if (yieldPct >= 95) return "A  (Excellent — near-complete data retrieval)";
+        if (yieldPct >= 80) return "B  (Good — most parcels returned deeds data)";
+        if (yieldPct >= 60) return "C  (Fair — majority returned data, some gaps)";
+        if (yieldPct >= 40) return "D  (Poor — less than half of parcels returned data)";
+        return "F  (Failing — ROD queries not producing results)";
+    }
+
+    private String[] parseCsvLine(String line)
+    {
+        List<String> fields = new ArrayList<>();
+        boolean inQuotes = false;
+        StringBuilder field = new StringBuilder();
+        for (int i = 0; i < line.length(); i++)
+        {
+            char c = line.charAt(i);
+            if (c == '"') { inQuotes = !inQuotes; }
+            else if (c == ',' && !inQuotes) { fields.add(field.toString()); field.setLength(0); }
+            else { field.append(c); }
+        }
+        fields.add(field.toString());
+        return fields.toArray(new String[0]);
     }
 
     private long getFileSize(String path)

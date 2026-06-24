@@ -72,6 +72,8 @@
                 <source type="rod-docsearch" handler="RodDisclaimerHandler" data-dir="source/city/analysis/data">https://rodweb.dconc.gov/web/search/DOCSEARCH5S1</source>
 
                 <source type="rod-query" handler="RodQueryHandler" input="source/city/analysis/data/durham.nc.addresses.csv" output="source/city/analysis/data/durham.nc.rod.query.results.csv">https://rodweb.dconc.gov/web/search/DOCSEARCH5S1</source>
+
+                <source type="rod-property-engine" handler="RodPropertyQueryEngine" test-output="source/city/analysis/data/durham.nc.rod.test.100.results.csv">https://rodweb.dconc.gov/web/search/DOCSEARCH5S1</source>
                             
             </additional-sources>
                                 
