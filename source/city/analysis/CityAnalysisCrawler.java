@@ -39,6 +39,8 @@ public class CityAnalysisCrawler
     protected Set<String> visited = new HashSet<>();
     protected List<Path> storedFiles = new ArrayList<>();
     protected String sessionDir;
+    protected final RodDisclaimerHandler rodHandler = new RodDisclaimerHandler();
+    protected final RodQueryHandler rodQueryHandler = new RodQueryHandler();
 
     public CityAnalysisCrawler()
     {
@@ -140,10 +142,22 @@ public class CityAnalysisCrawler
     }
 
     /**
-     * Fetch URL content with SSL support
+     * Fetch URL content with SSL support. Uses RodDisclaimerHandler for rodweb.dconc.gov URLs.
      */
     protected String fetch(String urlStr)
     {
+        // Route ROD URLs through disclaimer handler
+        if (urlStr.contains("rodweb.dconc.gov"))
+        {
+            String result = rodHandler.acceptAndFetch();
+            if (result != null)
+            {
+                // Also run property queries against ROD using local data
+                rodQueryHandler.queryAndAppend(maxPages);
+                return result;
+            }
+        }
+
         try
         {
             URL url = new URL(urlStr);
