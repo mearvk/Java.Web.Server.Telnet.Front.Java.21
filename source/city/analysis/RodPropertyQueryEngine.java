@@ -1,10 +1,15 @@
 /**
- * RodPropertyQueryEngine — Queries ALL available data for a given property from
- * the Durham County Register of Deeds (rodweb.dconc.gov/web/search/DOCSEARCH5S1).
+ * RodPropertyQueryEngine — Full-data query engine for Durham County Register of Deeds.
  *
- * Searches by parcel ID, PIN, address, and street name to maximize data retrieval.
- * Returns all document records (deeds, mortgages, liens, plats, etc.) found for
- * the property or its owners.
+ * Submits searches to DOCSEARCH5S1 using configurable search type selectors
+ * (human/soundex), then follows each result link to the document detail page
+ * (e.g., /web/document/DOC255S471?search=DOCSEARCH5S1) to extract:
+ *   - Book type, Page, Recorded date, Filed date
+ *   - All Grantors and Grantees
+ *   - Legal description
+ *   - Document type/group
+ *
+ * Results are stored in the output CSV with full named column headers.
  *
  * @author Max Rupplin
  * @javaowner Max Rupplin
@@ -23,126 +28,252 @@ import java.util.regex.*;
 
 public class RodPropertyQueryEngine
 {
-    private static final String ROD_SEARCH_URL = "https://rodweb.dconc.gov/web/search/DOCSEARCH5S1";
     private static final String ROD_BASE = "https://rodweb.dconc.gov";
+    private static final String SEARCH_URL = ROD_BASE + "/web/search/DOCSEARCH5S1";
+    private static final String DOCUMENT_URL_PREFIX = ROD_BASE + "/web/document/";
+
+    // Search type selector options (configured via XML)
+    public enum NameType { HUMAN, SOUNDEX }
 
     private final String sessionCookie;
+    private NameType nameType = NameType.HUMAN;
+    private String docGroup = "";  // empty = all document groups
 
     public RodPropertyQueryEngine(String sessionCookie)
     {
         this.sessionCookie = sessionCookie;
     }
 
+    public void setNameType(NameType type) { this.nameType = type; }
+    public void setDocGroup(String group) { this.docGroup = group; }
+
     /**
-     * Queries all available data for the property using multiple search strategies.
-     * Tries parcel ID, PIN, street name, and full address to capture all documents.
+     * Queries all available data for a property using parcel ID, name, and address.
+     * Submits search, follows result document links, extracts full detail.
      *
-     * @return list of pipe-delimited result strings (docType|book|page|grantor|grantee|date|...)
+     * @return list of pipe-delimited result strings with full document data
      */
     public List<String> queryAllData(String parcelId, String pin, String address, String streetName)
     {
         Set<String> seen = new HashSet<>();
         List<String> allResults = new ArrayList<>();
 
-        // Strategy 1: Search by parcel ID (property-based)
-        if (!parcelId.isEmpty())
-        {
-            mergeResults(allResults, seen, querySearch("P", parcelId));
-        }
-
-        // Strategy 2: Search by PIN
-        if (!pin.isEmpty())
-        {
-            mergeResults(allResults, seen, querySearch("P", pin));
-        }
-
-        // Strategy 3: Search by street name (catches all docs on that street)
+        // Strategy 1: Search by name extracted from address/parcel data
         if (!streetName.isEmpty())
         {
-            mergeResults(allResults, seen, querySearch("A", streetName.trim()));
+            mergeResults(allResults, seen, submitSearch(streetName, "", ""));
         }
 
-        // Strategy 4: Search by full address
-        if (!address.isEmpty() && !address.equals(streetName))
+        // Strategy 2: Search by parcel ID as cross-reference
+        if (!parcelId.isEmpty())
         {
-            mergeResults(allResults, seen, querySearch("A", address));
+            mergeResults(allResults, seen, submitSearch("", "", parcelId));
         }
 
         return allResults;
     }
 
-    private List<String> querySearch(String category, String criteria)
+    /**
+     * Queries by explicit last/first name (for known names from property records).
+     */
+    public List<String> queryByName(String lastName, String firstName)
+    {
+        return submitSearch(lastName, firstName, "");
+    }
+
+    /**
+     * Submits the DOCSEARCH5S1 search form and follows each result document link.
+     */
+    private List<String> submitSearch(String lastName, String firstName, String crossRef)
     {
         List<String> results = new ArrayList<>();
         try
         {
-            String queryUrl = ROD_SEARCH_URL + "?searchCategory=" + category +
-                "&searchCriteria=" + URLEncoder.encode(criteria, StandardCharsets.UTF_8);
+            // Build POST body matching the SelfService DOCSEARCH5S1 form
+            StringBuilder params = new StringBuilder();
+            params.append("nameType=").append(nameType == NameType.SOUNDEX ? "soundex" : "human");
+            if (!lastName.isEmpty())
+                params.append("&lastName=").append(URLEncoder.encode(lastName, StandardCharsets.UTF_8));
+            if (!firstName.isEmpty())
+                params.append("&firstName=").append(URLEncoder.encode(firstName, StandardCharsets.UTF_8));
+            if (!crossRef.isEmpty())
+                params.append("&crossRefNumber=").append(URLEncoder.encode(crossRef, StandardCharsets.UTF_8));
+            if (!docGroup.isEmpty())
+                params.append("&docGroup=").append(URLEncoder.encode(docGroup, StandardCharsets.UTF_8));
 
-            String html = httpGet(queryUrl);
-            if (html == null || html.isEmpty()) return results;
+            // Submit search
+            String searchResultsHtml = httpPost(SEARCH_URL, params.toString());
+            if (searchResultsHtml == null || searchResultsHtml.isEmpty()) return results;
 
-            results = extractResults(html);
+            // Extract document links from search results
+            List<String> docLinks = extractDocumentLinks(searchResultsHtml);
+
+            // Follow each document link and extract full detail
+            for (String docLink : docLinks)
+            {
+                String fullUrl = docLink.startsWith("http") ? docLink : ROD_BASE + docLink;
+                String docHtml = httpGet(fullUrl);
+                if (docHtml == null) continue;
+
+                String record = extractDocumentDetail(docHtml, fullUrl);
+                if (record != null && !record.isEmpty()) results.add(record);
+
+                try { Thread.sleep(1500); } catch (InterruptedException e) { break; }
+            }
         }
         catch (Exception e) { /* silently skip failed queries */ }
         return results;
     }
 
-    private List<String> extractResults(String html)
+    /**
+     * Extracts document links from search results page.
+     * Pattern: /web/document/DOC<id>S<step>?search=DOCSEARCH5S1
+     */
+    private List<String> extractDocumentLinks(String html)
     {
-        List<String> results = new ArrayList<>();
-
-        // Pattern 1: Table rows with ss-row class
-        Pattern rowPattern = Pattern.compile(
-            "<tr[^>]*>(.*?)</tr>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
-        Matcher rowMatcher = rowPattern.matcher(html);
-
-        while (rowMatcher.find())
+        List<String> links = new ArrayList<>();
+        Pattern pattern = Pattern.compile(
+            "href=[\"'](/web/document/DOC\\d+S\\d+\\?search=DOCSEARCH5S1)[\"']",
+            Pattern.CASE_INSENSITIVE);
+        Matcher m = pattern.matcher(html);
+        Set<String> seen = new HashSet<>();
+        while (m.find())
         {
-            String row = rowMatcher.group(1);
-            if (!row.contains("<td")) continue;
+            String link = m.group(1);
+            if (seen.add(link)) links.add(link);
+        }
 
+        // Fallback: look for any /web/document/ links
+        if (links.isEmpty())
+        {
+            Pattern fallback = Pattern.compile(
+                "href=[\"'](/web/document/[^\"']+)[\"']", Pattern.CASE_INSENSITIVE);
+            Matcher fm = fallback.matcher(html);
+            while (fm.find())
+            {
+                String link = fm.group(1);
+                if (seen.add(link)) links.add(link);
+            }
+        }
+
+        return links;
+    }
+
+    /**
+     * Extracts full document detail from a document page.
+     * Returns pipe-delimited: bookType|book|page|recordedDate|filedDate|docType|grantors|grantees|legal
+     */
+    private String extractDocumentDetail(String html, String url)
+    {
+        String bookType = extractField(html, "Book Type", "bookType");
+        String book = extractField(html, "Book", "book");
+        String page = extractField(html, "Page", "page");
+        String recordedDate = extractField(html, "Recorded Date", "recordedDate", "Recording Date", "Recorded");
+        String filedDate = extractField(html, "Filed Date", "filedDate", "File Date", "Filed");
+        String docType = extractField(html, "Document Type", "docType", "Doc Type", "Instrument");
+        String grantors = extractPartyList(html, "Grantor", "Direct");
+        String grantees = extractPartyList(html, "Grantee", "Reverse", "Indirect");
+        String legal = extractField(html, "Legal", "legal", "Legal Description");
+
+        // If we couldn't extract structured fields, try table-based extraction
+        if (bookType.isEmpty() && book.isEmpty() && page.isEmpty())
+        {
+            return extractFromTable(html);
+        }
+
+        return String.join("|", bookType, book, page, recordedDate, filedDate,
+            docType, grantors, grantees, legal);
+    }
+
+    /**
+     * Extracts a field value from HTML by label text patterns.
+     */
+    private String extractField(String html, String... labels)
+    {
+        for (String label : labels)
+        {
+            // Pattern 1: <label>Label:</label><value>X</value> or <span>Label</span>...<span>Value</span>
+            Pattern p1 = Pattern.compile(
+                label + "\\s*:?\\s*</(?:label|span|th|td|dt|div)>\\s*<(?:span|td|dd|div)[^>]*>\\s*([^<]+)",
+                Pattern.CASE_INSENSITIVE);
+            Matcher m1 = p1.matcher(html);
+            if (m1.find()) return m1.group(1).trim();
+
+            // Pattern 2: <td>Label</td><td>Value</td>
+            Pattern p2 = Pattern.compile(
+                "<td[^>]*>\\s*" + label + "\\s*</td>\\s*<td[^>]*>\\s*([^<]+)",
+                Pattern.CASE_INSENSITIVE);
+            Matcher m2 = p2.matcher(html);
+            if (m2.find()) return m2.group(1).trim();
+
+            // Pattern 3: data-label="Label" ... value
+            Pattern p3 = Pattern.compile(
+                "data-label=[\"']" + label + "[\"'][^>]*>\\s*([^<]+)",
+                Pattern.CASE_INSENSITIVE);
+            Matcher m3 = p3.matcher(html);
+            if (m3.find()) return m3.group(1).trim();
+
+            // Pattern 4: ss-listview label: value
+            Pattern p4 = Pattern.compile(
+                "<[^>]+>\\s*" + label + "\\s*</[^>]+>\\s*<[^>]+>\\s*([^<]+)",
+                Pattern.CASE_INSENSITIVE);
+            Matcher m4 = p4.matcher(html);
+            if (m4.find()) return m4.group(1).trim();
+        }
+        return "";
+    }
+
+    /**
+     * Extracts a list of party names (grantor/grantee) from the document page.
+     */
+    private String extractPartyList(String html, String... partyLabels)
+    {
+        List<String> names = new ArrayList<>();
+        for (String label : partyLabels)
+        {
+            // Find section with party label then collect all names
+            Pattern sectionPattern = Pattern.compile(
+                label + ".*?</(?:ul|table|div|section)>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Matcher sm = sectionPattern.matcher(html);
+            if (sm.find())
+            {
+                String section = sm.group();
+                // Extract individual names from list items or table cells
+                Pattern namePattern = Pattern.compile(
+                    "<(?:li|td|span)[^>]*>\\s*([A-Z][A-Z\\s,.'\\-]+)\\s*</(?:li|td|span)>",
+                    Pattern.CASE_INSENSITIVE);
+                Matcher nm = namePattern.matcher(section);
+                while (nm.find())
+                {
+                    String name = nm.group(1).trim();
+                    if (name.length() > 2 && !name.equalsIgnoreCase(label))
+                        names.add(name);
+                }
+            }
+        }
+        return names.isEmpty() ? "" : String.join("; ", names);
+    }
+
+    /**
+     * Fallback: extract from table-style result rows.
+     */
+    private String extractFromTable(String html)
+    {
+        Pattern rowPattern = Pattern.compile("<tr[^>]*>(.*?)</tr>", Pattern.DOTALL);
+        Matcher rm = rowPattern.matcher(html);
+        while (rm.find())
+        {
+            String row = rm.group(1);
             Pattern cellPattern = Pattern.compile("<td[^>]*>(.*?)</td>", Pattern.DOTALL);
-            Matcher cellMatcher = cellPattern.matcher(row);
+            Matcher cm = cellPattern.matcher(row);
             List<String> cells = new ArrayList<>();
-            while (cellMatcher.find())
+            while (cm.find())
             {
-                String cell = cellMatcher.group(1).replaceAll("<[^>]+>", "").trim();
-                cells.add(cell);
+                cells.add(cm.group(1).replaceAll("<[^>]+>", "").trim());
             }
-            if (cells.size() >= 3)
-            {
-                results.add(String.join("|", cells));
-            }
+            if (cells.size() >= 5) return String.join("|", cells);
         }
-
-        // Pattern 2: SelfService list items with document data
-        if (results.isEmpty())
-        {
-            Pattern liPattern = Pattern.compile(
-                "<li[^>]*data-[^>]*>(.*?)</li>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
-            Matcher liMatcher = liPattern.matcher(html);
-            while (liMatcher.find())
-            {
-                String item = liMatcher.group(1).replaceAll("<[^>]+>", "").trim();
-                if (item.length() > 10) results.add(item);
-            }
-        }
-
-        // Pattern 3: Divs with result class
-        if (results.isEmpty())
-        {
-            Pattern divPattern = Pattern.compile(
-                "<div[^>]*class=\"[^\"]*result[^\"]*\"[^>]*>(.*?)</div>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
-            Matcher divMatcher = divPattern.matcher(html);
-            while (divMatcher.find())
-            {
-                String item = divMatcher.group(1).replaceAll("<[^>]+>", "").trim();
-                if (item.length() > 10) results.add(item);
-            }
-        }
-
-        return results;
+        return "";
     }
 
     private void mergeResults(List<String> all, Set<String> seen, List<String> newResults)
@@ -154,6 +285,40 @@ public class RodPropertyQueryEngine
     }
 
     private String httpGet(String urlStr) throws Exception
+    {
+        HttpsURLConnection conn = openConnection(urlStr);
+        conn.setRequestMethod("GET");
+        int code = conn.getResponseCode();
+        if (code == 200) return readBody(conn);
+        if (code == 302 || code == 301)
+        {
+            String loc = conn.getHeaderField("Location");
+            if (loc != null) return httpGet(loc.startsWith("http") ? loc : ROD_BASE + loc);
+        }
+        return null;
+    }
+
+    private String httpPost(String urlStr, String body) throws Exception
+    {
+        HttpsURLConnection conn = openConnection(urlStr);
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        try (OutputStream os = conn.getOutputStream())
+        {
+            os.write(body.getBytes(StandardCharsets.UTF_8));
+        }
+        int code = conn.getResponseCode();
+        if (code == 200) return readBody(conn);
+        if (code == 302 || code == 301)
+        {
+            String loc = conn.getHeaderField("Location");
+            if (loc != null) return httpGet(loc.startsWith("http") ? loc : ROD_BASE + loc);
+        }
+        return readBody(conn);
+    }
+
+    private HttpsURLConnection openConnection(String urlStr) throws Exception
     {
         URL url = new URL(urlStr);
         HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
@@ -169,25 +334,24 @@ public class RodPropertyQueryEngine
         ctx.init(null, trustAll, new SecureRandom());
         conn.setSSLSocketFactory(ctx.getSocketFactory());
         conn.setHostnameVerifier((h, s) -> true);
-        conn.setRequestMethod("GET");
         conn.setConnectTimeout(15000);
         conn.setReadTimeout(15000);
         conn.setRequestProperty("User-Agent", "NitroWebExpress/CityAnalysis 1.0");
         if (sessionCookie != null) conn.setRequestProperty("Cookie", sessionCookie);
-        conn.setInstanceFollowRedirects(true);
+        conn.setInstanceFollowRedirects(false);
+        return conn;
+    }
 
-        int code = conn.getResponseCode();
-        if (code == 200)
+    private String readBody(HttpURLConnection conn) throws IOException
+    {
+        InputStream is = (conn.getResponseCode() >= 400) ? conn.getErrorStream() : conn.getInputStream();
+        if (is == null) return "";
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)))
         {
-            try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)))
-            {
-                StringBuilder sb = new StringBuilder();
-                String l;
-                while ((l = reader.readLine()) != null) sb.append(l).append("\n");
-                return sb.toString();
-            }
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) sb.append(line).append("\n");
+            return sb.toString();
         }
-        return null;
     }
 }
