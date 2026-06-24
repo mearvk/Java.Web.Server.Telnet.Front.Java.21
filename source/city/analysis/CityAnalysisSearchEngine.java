@@ -26,7 +26,7 @@ public class CityAnalysisSearchEngine
 {
     protected String hash = "0xCA717018470E914D";
 
-    protected static final String CONFIG_PATH = "source/city/analysis/city-analysis-config.xml";
+    protected static final String CONFIG_PATH = "source/city/analysis/configuration/city-analysis-config.xml";
     protected static final String RESULTS_DIR = "source/city/analysis/search-results/";
 
     protected String engine = "google";

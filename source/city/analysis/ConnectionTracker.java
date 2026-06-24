@@ -25,7 +25,7 @@ public class ConnectionTracker
 {
     protected String hash = "0xCA717018470E914E";
 
-    protected static final String CONFIG_PATH = "source/city/analysis/city-analysis-config.xml";
+    protected static final String CONFIG_PATH = "source/city/analysis/configuration/city-analysis-config.xml";
     protected static final int[] DELIST_CODES = {403, 520};
 
     protected Map<String, Integer> lastResponseCode = new ConcurrentHashMap<>();
