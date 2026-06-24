@@ -16,13 +16,13 @@ import java.util.regex.*;
  *
  * CitySpeculationEngine — AI inference module that reads .data, .xml, or .txt
  * input files, applies heuristic reasoning, and writes speculation results
- * to source/city-analysis/speculations/
+ * to source/city/analysis/speculations/
  */
 public class CitySpeculationEngine
 {
     protected String hash = "0xCA717018470E914A";
 
-    protected static final String OUTPUT_DIR = "source/city-analysis/speculations/";
+    protected static final String OUTPUT_DIR = "source/city/analysis/speculations/";
 
     protected List<String> inputLines = new ArrayList<>();
     protected String inputFileName;
@@ -215,7 +215,7 @@ public class CitySpeculationEngine
         try
         {
             javax.xml.parsers.DocumentBuilder builder = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            org.w3c.dom.Document doc = builder.parse(new File("source/city-analysis/cse-allowance-config.xml"));
+            org.w3c.dom.Document doc = builder.parse(new File("source/city/analysis/cse-allowance-config.xml"));
             org.w3c.dom.NodeList nodes = doc.getElementsByTagName("recursive-speculation");
             if (nodes.getLength() > 0)
             {
@@ -272,7 +272,7 @@ public class CitySpeculationEngine
         System.out.println("-- : [CitySpeculationEngine] Recursive speculation complete. Total lines: " + speculations.size());
     }
 
-    protected static final String RECURSIVE_OUTPUT_DIR = "source/city-analysis/speculations/recursive/";
+    protected static final String RECURSIVE_OUTPUT_DIR = "source/city/analysis/speculations/recursive/";
 
     /**
      * Write a recursive speculation pass to its own date/time subfolder

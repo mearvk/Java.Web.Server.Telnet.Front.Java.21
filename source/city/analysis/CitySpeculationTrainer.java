@@ -20,7 +20,7 @@ public class CitySpeculationTrainer
 {
     protected String hash = "0xCA717018470E914B";
 
-    protected static final String CONFIG_PATH = "source/city-analysis/cse-allowance-config.xml";
+    protected static final String CONFIG_PATH = "source/city/analysis/cse-allowance-config.xml";
 
     // Reasoning allowances
     protected long maxReasoningTimeMs;
