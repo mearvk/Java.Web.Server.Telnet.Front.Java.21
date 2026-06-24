@@ -261,6 +261,18 @@ PORTS SUMMARY
    2000   StrernaryDirectoryServer (directory menu + XML forwarding + NIO masquerade)
   20000   Strernary (best-guess inference, Java + OS dual port)
 
+CITY ANALYSIS MODULE
+--------------------
+  source/city-analysis/CityAnalysisMain.java           — Entry point (IDE/terminal)
+  source/city-analysis/CityAnalysisServer.java         — Property/deed data fetcher
+  source/city-analysis/CitySpeculationEngine.java      — AI speculation + recursive self-analysis
+  source/city-analysis/CitySpeculationTrainer.java     — Moral-bound IQ spatial model trainer
+  source/city-analysis/city-analysis-config.xml        — 15 NC cities, connection settings
+  source/city-analysis/cse-allowance-config.xml        — Reasoning limits, IQ tiers, trainer params
+  source/city-analysis/legalice.presumes.xml           — Citizen class presumptions
+  source/city-analysis/speculations/                   — Initial speculation output
+  source/city-analysis/speculations/recursive/         — Recursive passes by date/time
+
 
 LOG / DATA PATHS
 ----------------
