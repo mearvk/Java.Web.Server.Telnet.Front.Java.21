@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<city-analysis>
+    <default-city>Durham</default-city>
+
+    <cities>
+        <city selected="true">
+            <name>Durham</name>
+            <county>Durham</county>
+            <state>NC</state>
+            <deeds-url>https://rodweb.dconc.gov/web/</deeds-url>
+            <property-records-url>https://www.durhamnc.gov/809/Real-Estate</property-records-url>
+            <register-of-deeds-url>https://dconc.gov/Register-of-Deeds/Real-Estate-Records</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Raleigh</name>
+            <county>Wake</county>
+            <state>NC</state>
+            <deeds-url>https://www.wakegov.com/departments-government/register-deeds</deeds-url>
+            <property-records-url>https://services.wakegov.com/realestate/</property-records-url>
+            <register-of-deeds-url>https://www.wakegov.com/departments-government/register-deeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Charlotte</name>
+            <county>Mecklenburg</county>
+            <state>NC</state>
+            <deeds-url>https://www.mecknc.gov/CountyManagersOffice/RegisterOfDeeds</deeds-url>
+            <property-records-url>https://polaris3g.mecklenburgcountync.gov/</property-records-url>
+            <register-of-deeds-url>https://www.mecknc.gov/CountyManagersOffice/RegisterOfDeeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Greensboro</name>
+            <county>Guilford</county>
+            <state>NC</state>
+            <deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</deeds-url>
+            <property-records-url>https://www.guilfordcountync.gov/our-county/tax/real-property</property-records-url>
+            <register-of-deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Winston-Salem</name>
+            <county>Forsyth</county>
+            <state>NC</state>
+            <deeds-url>https://www.forsyth.cc/ROD/</deeds-url>
+            <property-records-url>https://www.forsyth.cc/Tax/PropertySearch.aspx</property-records-url>
+            <register-of-deeds-url>https://www.forsyth.cc/ROD/</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Fayetteville</name>
+            <county>Cumberland</county>
+            <state>NC</state>
+            <deeds-url>https://www.cumberlandcountync.gov/departments/register-of-deeds-group/register-of-deeds</deeds-url>
+            <property-records-url>https://www.cumberlandcountync.gov/departments/tax-group/tax</property-records-url>
+            <register-of-deeds-url>https://www.cumberlandcountync.gov/departments/register-of-deeds-group/register-of-deeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Cary</name>
+            <county>Wake</county>
+            <state>NC</state>
+            <deeds-url>https://www.wakegov.com/departments-government/register-deeds</deeds-url>
+            <property-records-url>https://services.wakegov.com/realestate/</property-records-url>
+            <register-of-deeds-url>https://www.wakegov.com/departments-government/register-deeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Wilmington</name>
+            <county>New Hanover</county>
+            <state>NC</state>
+            <deeds-url>https://rod.nhcgov.com/</deeds-url>
+            <property-records-url>https://etax.nhcgov.com/</property-records-url>
+            <register-of-deeds-url>https://rod.nhcgov.com/</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>High Point</name>
+            <county>Guilford</county>
+            <state>NC</state>
+            <deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</deeds-url>
+            <property-records-url>https://www.guilfordcountync.gov/our-county/tax/real-property</property-records-url>
+            <register-of-deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Asheville</name>
+            <county>Buncombe</county>
+            <state>NC</state>
+            <deeds-url>https://www.buncombecounty.org/governing/depts/register-of-deeds/</deeds-url>
+            <property-records-url>https://www.buncombecounty.org/governing/depts/tax/</property-records-url>
+            <register-of-deeds-url>https://www.buncombecounty.org/governing/depts/register-of-deeds/</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Chapel Hill</name>
+            <county>Orange</county>
+            <state>NC</state>
+            <deeds-url>https://www.orangecountync.gov/159/Register-of-Deeds</deeds-url>
+            <property-records-url>https://www.orangecountync.gov/787/Search-Real-Property-Records</property-records-url>
+            <register-of-deeds-url>https://www.orangecountync.gov/159/Register-of-Deeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Concord</name>
+            <county>Cabarrus</county>
+            <state>NC</state>
+            <deeds-url>https://www.cabarruscounty.us/departments/register-of-deeds</deeds-url>
+            <property-records-url>https://www.cabarruscounty.us/departments/tax</property-records-url>
+            <register-of-deeds-url>https://www.cabarruscounty.us/departments/register-of-deeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Greenville</name>
+            <county>Pitt</county>
+            <state>NC</state>
+            <deeds-url>https://www.pittcountync.gov/297/Register-of-Deeds</deeds-url>
+            <property-records-url>https://www.pittcountync.gov/252/Tax</property-records-url>
+            <register-of-deeds-url>https://www.pittcountync.gov/297/Register-of-Deeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Jacksonville</name>
+            <county>Onslow</county>
+            <state>NC</state>
+            <deeds-url>https://www.onslowcountync.gov/168/Register-of-Deeds</deeds-url>
+            <property-records-url>https://www.onslowcountync.gov/163/Tax</property-records-url>
+            <register-of-deeds-url>https://www.onslowcountync.gov/168/Register-of-Deeds</register-of-deeds-url>
+        </city>
+        <city selected="false">
+            <name>Gastonia</name>
+            <county>Gaston</county>
+            <state>NC</state>
+            <deeds-url>https://www.gastongov.com/departments/register_of_deeds/</deeds-url>
+            <property-records-url>https://www.gastongov.com/departments/tax/</property-records-url>
+            <register-of-deeds-url>https://www.gastongov.com/departments/register_of_deeds/</register-of-deeds-url>
+        </city>
+    </cities>
+
+    <connection>
+        <timeout-ms>15000</timeout-ms>
+        <retry-count>3</retry-count>
+        <user-agent>NitroWebExpress/CityAnalysis 1.0</user-agent>
+    </connection>
+
+    <output>
+        <database>nwe_city_analysis</database>
+        <table-prefix>city_</table-prefix>
+    </output>
+</city-analysis>
