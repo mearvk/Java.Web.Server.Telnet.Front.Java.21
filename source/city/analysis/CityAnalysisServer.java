@@ -236,8 +236,20 @@ public class CityAnalysisServer
     public String fetchAllSources()
     {
         StringBuilder all = new StringBuilder();
-        String dateTime = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd/HH-mm-ss"));
-        java.nio.file.Path rawSessionDir = java.nio.file.Paths.get(RAW_DIR + dateTime);
+        String date = java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        java.nio.file.Path rawDateDir = java.nio.file.Paths.get(RAW_DIR + date);
+        try { java.nio.file.Files.createDirectories(rawDateDir); } catch (Exception e) { /* ignore */ }
+
+        // Determine run number for today (001, 002, etc.)
+        int runNum = 1;
+        try (java.util.stream.Stream<java.nio.file.Path> dirs = java.nio.file.Files.list(rawDateDir))
+        {
+            runNum = (int) dirs.filter(java.nio.file.Files::isDirectory).count() + 1;
+        }
+        catch (Exception e) { /* first run */ }
+        String runSuffix = String.format("%03d", runNum);
+
+        java.nio.file.Path rawSessionDir = rawDateDir.resolve(runSuffix);
         try { java.nio.file.Files.createDirectories(rawSessionDir); } catch (Exception e) { /* ignore */ }
 
         String deeds = fetchDeedsSearch();
