@@ -1,4 +1,4 @@
-package city_analysis;
+package city.analysis;
 
 /**
  * @author Max Rupplin
@@ -15,7 +15,7 @@ public class CityAnalysisMain
         System.out.println("-- : [CityAnalysisMain] . CityAnalysis™ now starting .");
 
         // Start the city analysis server
-        CityAnalysisServer server = new CityAnalysisServer();
+        city_analysis.CityAnalysisServer server = new city_analysis.CityAnalysisServer();
 
         if (args.length > 0)
         {
@@ -27,7 +27,7 @@ public class CityAnalysisMain
         // If an input file is provided, run the speculation engine
         if (args.length > 1)
         {
-            CitySpeculationEngine engine = new CitySpeculationEngine(args[1]);
+            city_analysis.CitySpeculationEngine engine = new city_analysis.CitySpeculationEngine(args[1]);
             engine.speculateRecursively();
             engine.writeResults();
         }

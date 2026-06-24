@@ -20,8 +20,8 @@ public class CityAnalysisServer
 {
     protected String hash = "0xCA717018470E913F";
 
-    protected static final String CONFIG_PATH = "source/city-analysis/city-analysis-config.xml";
-    protected static final String PRESUMES_PATH = "source/city-analysis/legalice.presumes.xml";
+    protected static final String CONFIG_PATH = "source/city/analysis/city-analysis-config.xml";
+    protected static final String PRESUMES_PATH = "source/city/analysis/legalice.presumes.xml";
 
     protected List<Map<String, String>> presumptions = new ArrayList<>();
 
