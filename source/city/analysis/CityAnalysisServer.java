@@ -207,6 +207,46 @@ public class CityAnalysisServer
     }
 
     /**
+     * Load additional source URLs from city element
+     */
+    protected void loadAdditionalSources(Element cityEl)
+    {
+        additionalSources.clear();
+        NodeList sourceNodes = cityEl.getElementsByTagName("source");
+        for (int i = 0; i < sourceNodes.getLength(); i++)
+        {
+            additionalSources.add(sourceNodes.item(i).getTextContent().trim());
+        }
+    }
+
+    /**
+     * Fetch all sources (primary + additional) and return combined content
+     */
+    public String fetchAllSources()
+    {
+        StringBuilder all = new StringBuilder();
+
+        String deeds = fetchDeedsSearch();
+        if (deeds != null) all.append(deeds);
+
+        String property = fetchPropertyRecords();
+        if (property != null) all.append(property);
+
+        String rod = fetchRegisterOfDeeds();
+        if (rod != null) all.append(rod);
+
+        for (String sourceUrl : additionalSources)
+        {
+            System.out.println("-- : [CityAnalysisServer] Fetching additional source: " + sourceUrl);
+            String content = httpGet(sourceUrl);
+            if (content != null) all.append(content);
+        }
+
+        System.out.println("-- : [CityAnalysisServer] All sources fetched. Total chars: " + all.length());
+        return all.toString();
+    }
+
+    /**
      * HTTP/HTTPS GET with retry logic and SSL cert storage.
      * Port-aware: supports 21, 22, 80, 443, 8080 outbound.
      */

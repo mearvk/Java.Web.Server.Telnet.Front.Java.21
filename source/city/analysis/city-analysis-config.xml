@@ -162,6 +162,12 @@
     <output>
         <database>nwe_city_analysis</database>
         <table-prefix>city_</table-prefix>
+        <mysql>
+            <host>localhost</host>
+            <port>3306</port>
+            <username>nwe</username>
+            <password>nwe2026</password>
+        </mysql>
     </output>
 
     <major-5>

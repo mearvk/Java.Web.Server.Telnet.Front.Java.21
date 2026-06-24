@@ -53,7 +53,15 @@ public class CityAnalysisMain
             // Crawl mode — crawl sites, store raw, speculate on results
             System.out.println("-- : [CityAnalysisMain] Input mode: crawl");
             city_analysis.CityAnalysisCrawler crawler = new city_analysis.CityAnalysisCrawler();
-            List<Path> rawFiles = crawler.crawl(server.deedsUrl, server.propertyRecordsUrl, server.registerOfDeedsUrl);
+            String[] seeds = new String[3 + server.additionalSources.size()];
+            seeds[0] = server.deedsUrl;
+            seeds[1] = server.propertyRecordsUrl;
+            seeds[2] = server.registerOfDeedsUrl;
+            for (int i = 0; i < server.additionalSources.size(); i++)
+            {
+                seeds[3 + i] = server.additionalSources.get(i);
+            }
+            List<Path> rawFiles = crawler.crawl(seeds);
 
             // Speculate on each stored raw file
             for (Path rawFile : rawFiles)
@@ -65,10 +73,9 @@ public class CityAnalysisMain
         }
         else
         {
-            // File mode (default) — fetch, save, speculate
+            // File mode (default) — fetch all sources, save, speculate
             System.out.println("-- : [CityAnalysisMain] Input mode: file");
-            String deedsHtml = server.fetchDeedsSearch();
-            String propertyHtml = server.fetchPropertyRecords();
+            String allContent = server.fetchAllSources();
 
             String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd/HH-mm-ss"));
             Path fetchDir = Paths.get("source/city/analysis/speculations/" + dateTime);
@@ -76,10 +83,7 @@ public class CityAnalysisMain
             {
                 Files.createDirectories(fetchDir);
                 Path fetchFile = fetchDir.resolve(server.cityName + ".fetched.data");
-                StringBuilder fetchData = new StringBuilder();
-                if (deedsHtml != null) fetchData.append(deedsHtml);
-                if (propertyHtml != null) fetchData.append(propertyHtml);
-                Files.writeString(fetchFile, fetchData.toString());
+                if (allContent != null) Files.writeString(fetchFile, allContent);
                 System.out.println("-- : [CityAnalysisMain] Fetched data saved to " + fetchFile);
 
                 city_analysis.CitySpeculationEngine engine = new city_analysis.CitySpeculationEngine(fetchFile.toString());
@@ -115,8 +119,23 @@ public class CityAnalysisMain
             String database = m5.getElementsByTagName("database").item(0).getTextContent().trim();
             String table = m5.getElementsByTagName("table").item(0).getTextContent().trim();
 
-            String jdbcUrl = "jdbc:mysql://localhost:3306/" + database + "?useSSL=false&allowPublicKeyRetrieval=true";
-            Connection conn = DriverManager.getConnection(jdbcUrl, "root", "");
+            // Read credentials from <output><mysql>
+            NodeList mysqlNodes = doc.getElementsByTagName("mysql");
+            String host = "localhost";
+            String port = "3306";
+            String username = "root";
+            String password = "";
+            if (mysqlNodes.getLength() > 0)
+            {
+                Element mysql = (Element) mysqlNodes.item(0);
+                host = mysql.getElementsByTagName("host").item(0).getTextContent().trim();
+                port = mysql.getElementsByTagName("port").item(0).getTextContent().trim();
+                username = mysql.getElementsByTagName("username").item(0).getTextContent().trim();
+                password = mysql.getElementsByTagName("password").item(0).getTextContent().trim();
+            }
+
+            String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false&allowPublicKeyRetrieval=true";
+            Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
 
             // Create table if not exists
             String createSql = "CREATE TABLE IF NOT EXISTS " + table + " (" +
