@@ -8,6 +8,8 @@ import java.security.*;
 import java.util.*;
 import javax.net.ssl.*;
 import javax.xml.parsers.*;
+
+import city.analysis.ConnectionTracker;
 import org.w3c.dom.*;
 
 /**
@@ -43,6 +45,7 @@ public class CityAnalysisServer
     protected String userAgent;
 
     protected List<Map<String, String>> allCities = new ArrayList<>();
+    public ConnectionTracker connectionTracker = new ConnectionTracker();
 
     public CityAnalysisServer()
     {
@@ -207,7 +210,7 @@ public class CityAnalysisServer
     }
 
     /**
-     * Load additional source URLs from city element
+     * Load additional source URLs from city element (skips delisted)
      */
     protected void loadAdditionalSources(Element cityEl)
     {
@@ -215,7 +218,13 @@ public class CityAnalysisServer
         NodeList sourceNodes = cityEl.getElementsByTagName("source");
         for (int i = 0; i < sourceNodes.getLength(); i++)
         {
-            additionalSources.add(sourceNodes.item(i).getTextContent().trim());
+            Element sourceEl = (Element) sourceNodes.item(i);
+            if ("delisted".equals(sourceEl.getAttribute("status")))
+            {
+                System.out.println("-- : [CityAnalysisServer] Skipping delisted source: " + sourceEl.getTextContent().trim());
+                continue;
+            }
+            additionalSources.add(sourceEl.getTextContent().trim());
         }
     }
 
@@ -244,7 +253,15 @@ public class CityAnalysisServer
         for (String sourceUrl : additionalSources)
         {
             System.out.println("-- : [CityAnalysisServer] Fetching additional source: " + sourceUrl);
-            String content = httpGet(sourceUrl);
+            String content;
+            if (sourceUrl.startsWith("file://"))
+            {
+                content = readLocalFile(sourceUrl.substring(7));
+            }
+            else
+            {
+                content = httpGet(sourceUrl);
+            }
             if (content != null)
             {
                 all.append(content);
@@ -274,11 +291,35 @@ public class CityAnalysisServer
     }
 
     /**
+     * Read a local file as a source (for file:// URLs like census data)
+     */
+    protected String readLocalFile(String path)
+    {
+        try
+        {
+            String content = Files.readString(Paths.get(path));
+            System.out.println("-- : [CityAnalysisServer] Read local file: " + path + " (" + content.length() + " chars)");
+            return content;
+        }
+        catch (Exception e)
+        {
+            System.err.println("-- : [CityAnalysisServer] Local file read error: " + path + " — " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * HTTP/HTTPS GET with retry logic and SSL cert storage.
      * Port-aware: supports 21, 22, 80, 443, 8080 outbound.
      */
     protected String httpGet(String urlStr)
     {
+        if (connectionTracker.isDelisted(urlStr))
+        {
+            System.out.println("-- : [CityAnalysisServer] Skipping delisted URL: " + urlStr);
+            return null;
+        }
+
         for (int attempt = 1; attempt <= retryCount; attempt++)
         {
             try
@@ -300,6 +341,7 @@ public class CityAnalysisServer
                     conn = httpsConn;
 
                     int code = conn.getResponseCode();
+                    connectionTracker.record(urlStr, code);
                     storeCertificates(url.getHost(), httpsConn.getServerCertificates());
 
                     if (code == 200)
@@ -319,6 +361,7 @@ public class CityAnalysisServer
                     else
                     {
                         System.err.println("-- : [CityAnalysisServer] HTTP " + code + " from " + urlStr + " (attempt " + attempt + ")");
+                        if (connectionTracker.isDelisted(urlStr)) return null;
                     }
                     continue;
                 }
@@ -333,6 +376,8 @@ public class CityAnalysisServer
                 conn.setRequestProperty("User-Agent", userAgent);
 
                 int code = conn.getResponseCode();
+                connectionTracker.record(urlStr, code);
+
                 if (code == 200)
                 {
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)))
@@ -350,6 +395,7 @@ public class CityAnalysisServer
                 else
                 {
                     System.err.println("-- : [CityAnalysisServer] HTTP " + code + " from " + urlStr + " (attempt " + attempt + ")");
+                    if (connectionTracker.isDelisted(urlStr)) return null;
                 }
             }
             catch (Exception e)
