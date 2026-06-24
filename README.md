@@ -115,6 +115,25 @@ All terminal output is driven by `configuration/print-method.xml`. No recompile 
 
 ---
 
+## CityAnalysis™ — Property Records & AI Speculation Engine
+
+City-level property and deed analysis module with AI-driven speculation. Fetches county Register of Deeds data, extracts financial entities, trains a moral-bound IQ spectrum spatial model, and generates recursive speculation reports.
+
+**Belt Requirement:** Green Belt or Brown Belt | **IQ Requirement:** 180+
+
+**Components:** `CityAnalysisMain`, `CityAnalysisServer`, `CitySpeculationEngine`, `CitySpeculationTrainer`
+
+**Configuration:**
+- `source/city-analysis/city-analysis-config.xml` — City list (15 NC cities, Durham default)
+- `source/city-analysis/cse-allowance-config.xml` — AI reasoning limits, IQ tiers, trainer params
+- `source/city-analysis/legalice.presumes.xml` — Citizen class presumptions
+
+**Output:** `source/city-analysis/speculations/` and `speculations/recursive/<date>/<time>/`
+
+**Source directory:** `source/city-analysis/`
+
+---
+
 ## Strernary™ — Best-Guess Inference Server
 
 Port 20000 inference server that accepts standard information and returns best-guess responses.
