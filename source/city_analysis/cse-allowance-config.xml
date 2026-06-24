@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cse-allowance>
+    <reasoning>
+        <max-reasoning-time-ms>30000</max-reasoning-time-ms>
+        <max-inputs>50</max-inputs>
+        <input-value min="1" max="1000">500</input-value>
+        <age-of-treason enabled="false">
+            <description>People don't usually go away when told about troubles elsewhere</description>
+            <threshold>0.7</threshold>
+        </age-of-treason>
+    </reasoning>
+
+    <memory>
+        <max-heap-mb>512</max-heap-mb>
+        <max-working-set-entries>10000</max-working-set-entries>
+    </memory>
+
+    <class-importance>
+        <democrat-class weight="0.6"/>
+        <citizen-class weight="0.85"/>
+    </class-importance>
+
+    <iq-centralization>
+        <dominant-iq>145</dominant-iq>
+        <tiers>
+            <tier level="1" iq-min="157" falloff="0.0" label="peak-reasoning"/>
+            <tier level="2" iq-min="140" falloff="0.15" label="advanced-reasoning"/>
+            <tier level="3" iq-min="120" falloff="0.35" label="standard-reasoning"/>
+            <tier level="4" iq-min="100" falloff="0.60" label="baseline-reasoning"/>
+            <tier level="5" iq-min="0" falloff="0.85" label="minimal-reasoning"/>
+        </tiers>
+    </iq-centralization>
+
+    <trainer>
+        <enabled>true</enabled>
+        <train-before-speculate>true</train-before-speculate>
+        <epochs>100</epochs>
+        <learning-rate>0.01</learning-rate>
+        <moral-bound-weight>0.8</moral-bound-weight>
+        <recursive-speculation>
+            <enabled>true</enabled>
+            <max-passes>3</max-passes>
+            <min-passes>1</min-passes>
+            <confidence-threshold>0.6</confidence-threshold>
+            <description>AI re-speculates on its own findings up to max-passes times, stopping early if confidence drops below threshold</description>
+        </recursive-speculation>
+        <spatial-model>
+            <dimensions>3</dimensions>
+            <base-objections>
+                <objection id="shyness" weight="0.4" decay="0.05">
+                    <description>Reluctance from direct observation</description>
+                </objection>
+                <objection id="cause-aversion" weight="0.3" decay="0.03">
+                    <description>Avoidance of causal confrontation</description>
+                </objection>
+                <objection id="social-distance" weight="0.25" decay="0.04">
+                    <description>Withdrawal from proximity to conflict</description>
+                </objection>
+            </base-objections>
+            <falloff-model>exponential</falloff-model>
+        </spatial-model>
+        <learner-rate-spectrum>
+            <spectrum-min>0.001</spectrum-min>
+            <spectrum-max>0.1</spectrum-max>
+            <adaptive>true</adaptive>
+        </learner-rate-spectrum>
+    </trainer>
+</cse-allowance>
