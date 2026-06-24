@@ -1,0 +1,72 @@
+================================================================================
+PRE-SORT CONCERNS — CityAnalysis™ Moral Spectrum Model
+================================================================================
+Reference: cse-allowance-config.xml <pre-sort> section
+Author: Max Rupplin — MEARVK LLC
+Date: June 23 2026
+
+DECISION: YES — Pre-sort morally before training.
+
+RATIONALE:
+  When the model's weight-count (currently 64) exceeds the threshold (32),
+  the number of trainable parameters is large enough that data ordering
+  materially affects convergence. Moral sorting ensures that good-faith
+  citizen-class data establishes the baseline gradient direction before
+  edge cases or adversarial patterns are introduced.
+
+================================================================================
+CONCERN: BIAS AMPLIFICATION                                    [SEVERITY: HIGH]
+--------------------------------------------------------------------------------
+  Color:   RED
+  Problem: If unsorted data enters the model, the first N inputs set the initial
+           gradient trajectory. If those happen to be outliers (foreclosures,
+           fraud cases, abnormally high transactions), the model's early weights
+           encode a skewed reality that the moral-bound correction must then
+           fight against for the remaining epochs.
+  Fix:     Moral pre-sort places presumed-good citizen-class data first,
+           establishing a healthy baseline before exceptions arrive.
+
+================================================================================
+CONCERN: OUTLIER DOMINANCE                                     [SEVERITY: MEDIUM]
+--------------------------------------------------------------------------------
+  Color:   ORANGE
+  Problem: A single $50M commercial transaction in position 1 can dominate
+           the gradient for a 64-weight model across multiple epochs if
+           learning rate is adaptive and high early.
+  Fix:     Sort by moral-class first, then by magnitude within class.
+           Outliers arrive after the model has stable directional weights.
+
+================================================================================
+CONCERN: CLASS ORDERING EFFECT                                 [SEVERITY: MEDIUM]
+--------------------------------------------------------------------------------
+  Color:   YELLOW
+  Problem: The order citizen > business > investor > banker matters.
+           If bankers (fiduciary-duty class) arrive before citizens
+           (community-interest class), the model learns institutional
+           patterns as the norm rather than individual patterns.
+  Fix:     XML moral-sort-priority defines canonical ordering:
+           citizen-class → democrat-class → investor → banker
+
+================================================================================
+CONCERN: MORAL INVERSION RISK                                  [SEVERITY: LOW]
+--------------------------------------------------------------------------------
+  Color:   GREEN (low risk, but tracked)
+  Problem: Without pre-sort, if adversarial or morally-ambiguous data
+           (e.g., fraud filings, contested deeds) arrives in the first batch,
+           the moral-bound weight overcorrects by pulling all spatial weights
+           toward 0.5, flattening useful differentiation.
+  Fix:     Pre-sort guarantees the first batch is presumed-good.
+           Moral-bound weight then refines rather than corrects.
+
+================================================================================
+WEIGHT-COUNT-DRIVEN SORTING
+--------------------------------------------------------------------------------
+  When weight-count <= 32:  Pre-sort optional (small model self-corrects)
+  When weight-count 33-64:  Moral pre-sort recommended
+  When weight-count 65-128: Moral pre-sort required
+  When weight-count > 128:  Moral pre-sort + batch normalization required
+
+  The number of weights drives complexity; more weights = more sensitivity
+  to input ordering = greater need for principled data presentation.
+
+================================================================================

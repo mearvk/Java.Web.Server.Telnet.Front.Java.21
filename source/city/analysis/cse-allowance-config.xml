@@ -46,6 +46,8 @@
         </recursive-speculation>
         <spatial-model>
             <dimensions>3</dimensions>
+            <weight-count>64</weight-count>
+            <weight-driven-depth>true</weight-driven-depth>
             <base-objections>
                 <objection id="shyness" weight="0.4" decay="0.05">
                     <description>Reluctance from direct observation</description>
@@ -59,6 +61,29 @@
             </base-objections>
             <falloff-model>exponential</falloff-model>
         </spatial-model>
+        <pre-sort>
+            <enabled>true</enabled>
+            <method>moral</method>
+            <!-- moral | numeric | alphabetical | weight-count-driven -->
+            <moral-sort-priority>citizen-class,democrat-class,investor,banker</moral-sort-priority>
+            <weight-count-threshold>32</weight-count-threshold>
+            <description>When weight-count exceeds threshold, pre-sort is required to prevent moral drift in early layers</description>
+            <concerns-file>source/city/analysis/pre-sort-concerns.txt</concerns-file>
+            <concerns>
+                <concern id="bias-amplification" severity="high">
+                    <description>Unsorted data may amplify bias in early weight layers before moral-bound correction applies</description>
+                </concern>
+                <concern id="outlier-dominance" severity="medium">
+                    <description>Large financial outliers can dominate gradient if encountered before normalization pass</description>
+                </concern>
+                <concern id="class-ordering-effect" severity="medium">
+                    <description>Order in which citizen classes appear affects initial weight distribution</description>
+                </concern>
+                <concern id="moral-inversion-risk" severity="low">
+                    <description>Without pre-sort, moral-bound weight may overcorrect if adversarial data arrives first</description>
+                </concern>
+            </concerns>
+        </pre-sort>
         <learner-rate-spectrum>
             <spectrum-min>0.001</spectrum-min>
             <spectrum-max>0.1</spectrum-max>
