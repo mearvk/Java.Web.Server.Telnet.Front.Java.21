@@ -1,3 +1,5 @@
+package city_analysis;
+
 /**
  * @author Max Rupplin
  *
