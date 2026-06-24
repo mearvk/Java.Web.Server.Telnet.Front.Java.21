@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cse-allowance>
     <reasoning>
-        <max-reasoning-time-ms>30000</max-reasoning-time-ms>
-        <max-inputs>50</max-inputs>
-        <input-value min="1" max="1000">500</input-value>
+        <max-reasoning-time-ms>120000</max-reasoning-time-ms>
+        <max-inputs>200</max-inputs>
+        <input-value min="1" max="1000">700</input-value>
         <age-of-treason enabled="false">
             <description>People don't usually go away when told about troubles elsewhere</description>
             <threshold>0.7</threshold>
