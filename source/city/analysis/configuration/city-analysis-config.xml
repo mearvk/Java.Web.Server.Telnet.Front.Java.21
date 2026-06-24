@@ -366,9 +366,9 @@
                         
             <port>3306</port>
                         
-            <username>root</username>
+            <username>nwe</username>
                         
-            <password>$$Ironman1</password>
+            <password>nwe2026</password>
                     
         </mysql>
             
@@ -390,9 +390,9 @@
                         
             <port>3306</port>
                         
-            <username>root</username>
+            <username>nwe</username>
                         
-            <password>$$Ironman1</password>
+            <password>nwe2026</password>
                     
         </mysql>
                 
