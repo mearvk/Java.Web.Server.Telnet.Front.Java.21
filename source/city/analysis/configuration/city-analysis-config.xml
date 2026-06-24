@@ -1,415 +1,620 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <city-analysis>
-        
-    <default-city>Durham</default-city>
-        
-    <cities>
-                
-        <city selected="true">
-                        
-            <name>Durham</name>
-                        
-            <county>Durham</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://rodweb.dconc.gov/web/</deeds-url>
-                        
-            <property-records-url>https://www.durhamnc.gov/809/Real-Estate</property-records-url>
-                        
-            <register-of-deeds-url>https://dconc.gov/Register-of-Deeds/Real-Estate-Records</register-of-deeds-url>
-                        
-            <additional-sources>
-                                
-                <source type="tax">https://www.dconc.gov/county-departments/departments-f-z/tax-administration</source>
-                                
-                <source type="gis">https://gisweb.durhamnc.gov/durhammaps/</source>
-                                
-                <source type="permits">https://www.durhamnc.gov/293/Building-Permits</source>
-                                
-                <source type="zoning">https://www.durhamnc.gov/446/Zoning</source>
-                                
-                <source type="planning">https://www.durhamnc.gov/346/City-County-Planning</source>
-                                
-                <source type="open-data">https://live-durhamnc.opendata.arcgis.com/</source>
-                                
-                <source type="parcels">https://www.dconc.gov/county-departments/departments-f-z/tax-administration/real-property-listing</source>
-                                
-                <source type="foreclosures">https://www.dconc.gov/county-departments/departments-a-e/clerk-of-superior-court</source>
-                                
-                <source delisted-at="2026-06-23 22:15:23" delisted-code="403" status="delisted" type="business-registry">https://www.sosnc.gov/online_services/search/by_title/_Business_Registration</source>
-                                
-                <source delisted-at="2026-06-23 22:15:23" delisted-code="403" status="delisted" type="census">https://data.census.gov/profile/Durham_County,_North_Carolina</source>
-                                
-                <source type="housing">https://www.durhamnc.gov/570/Affordable-Housing</source>
-                                
-                <source delisted-at="2026-06-23 22:15:43" delisted-code="520" status="delisted" type="demographics">https://www.census.gov/quickfacts/durhamcountynorthcarolina</source>
-                <source type="census-local" file="source/city/analysis/census/2024.census.csv">file://source/city/analysis/census/2024.census.csv</source>
-            </additional-sources>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Raleigh</name>
-                        
-            <county>Wake</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.wakegov.com/departments-government/register-deeds</deeds-url>
-                        
-            <property-records-url>https://services.wakegov.com/realestate/</property-records-url>
-                        
-            <register-of-deeds-url>https://www.wakegov.com/departments-government/register-deeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Charlotte</name>
-                        
-            <county>Mecklenburg</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.mecknc.gov/CountyManagersOffice/RegisterOfDeeds</deeds-url>
-                        
-            <property-records-url>https://polaris3g.mecklenburgcountync.gov/</property-records-url>
-                        
-            <register-of-deeds-url>https://www.mecknc.gov/CountyManagersOffice/RegisterOfDeeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Greensboro</name>
-                        
-            <county>Guilford</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</deeds-url>
-                        
-            <property-records-url>https://www.guilfordcountync.gov/our-county/tax/real-property</property-records-url>
-                        
-            <register-of-deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Winston-Salem</name>
-                        
-            <county>Forsyth</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.forsyth.cc/ROD/</deeds-url>
-                        
-            <property-records-url>https://www.forsyth.cc/Tax/PropertySearch.aspx</property-records-url>
-                        
-            <register-of-deeds-url>https://www.forsyth.cc/ROD/</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Fayetteville</name>
-                        
-            <county>Cumberland</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.cumberlandcountync.gov/departments/register-of-deeds-group/register-of-deeds</deeds-url>
-                        
-            <property-records-url>https://www.cumberlandcountync.gov/departments/tax-group/tax</property-records-url>
-                        
-            <register-of-deeds-url>https://www.cumberlandcountync.gov/departments/register-of-deeds-group/register-of-deeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Cary</name>
-                        
-            <county>Wake</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.wakegov.com/departments-government/register-deeds</deeds-url>
-                        
-            <property-records-url>https://services.wakegov.com/realestate/</property-records-url>
-                        
-            <register-of-deeds-url>https://www.wakegov.com/departments-government/register-deeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Wilmington</name>
-                        
-            <county>New Hanover</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://rod.nhcgov.com/</deeds-url>
-                        
-            <property-records-url>https://etax.nhcgov.com/</property-records-url>
-                        
-            <register-of-deeds-url>https://rod.nhcgov.com/</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>High Point</name>
-                        
-            <county>Guilford</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</deeds-url>
-                        
-            <property-records-url>https://www.guilfordcountync.gov/our-county/tax/real-property</property-records-url>
-                        
-            <register-of-deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Asheville</name>
-                        
-            <county>Buncombe</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.buncombecounty.org/governing/depts/register-of-deeds/</deeds-url>
-                        
-            <property-records-url>https://www.buncombecounty.org/governing/depts/tax/</property-records-url>
-                        
-            <register-of-deeds-url>https://www.buncombecounty.org/governing/depts/register-of-deeds/</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Chapel Hill</name>
-                        
-            <county>Orange</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.orangecountync.gov/159/Register-of-Deeds</deeds-url>
-                        
-            <property-records-url>https://www.orangecountync.gov/787/Search-Real-Property-Records</property-records-url>
-                        
-            <register-of-deeds-url>https://www.orangecountync.gov/159/Register-of-Deeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Concord</name>
-                        
-            <county>Cabarrus</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.cabarruscounty.us/departments/register-of-deeds</deeds-url>
-                        
-            <property-records-url>https://www.cabarruscounty.us/departments/tax</property-records-url>
-                        
-            <register-of-deeds-url>https://www.cabarruscounty.us/departments/register-of-deeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Greenville</name>
-                        
-            <county>Pitt</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.pittcountync.gov/297/Register-of-Deeds</deeds-url>
-                        
-            <property-records-url>https://www.pittcountync.gov/252/Tax</property-records-url>
-                        
-            <register-of-deeds-url>https://www.pittcountync.gov/297/Register-of-Deeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Jacksonville</name>
-                        
-            <county>Onslow</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.onslowcountync.gov/168/Register-of-Deeds</deeds-url>
-                        
-            <property-records-url>https://www.onslowcountync.gov/163/Tax</property-records-url>
-                        
-            <register-of-deeds-url>https://www.onslowcountync.gov/168/Register-of-Deeds</register-of-deeds-url>
-                    
-        </city>
-                
-        <city selected="false">
-                        
-            <name>Gastonia</name>
-                        
-            <county>Gaston</county>
-                        
-            <state>NC</state>
-                        
-            <deeds-url>https://www.gastongov.com/departments/register_of_deeds/</deeds-url>
-                        
-            <property-records-url>https://www.gastongov.com/departments/tax/</property-records-url>
-                        
-            <register-of-deeds-url>https://www.gastongov.com/departments/register_of_deeds/</register-of-deeds-url>
-                    
-        </city>
             
-    </cities>
+    
+    <default-city>Durham</default-city>
+            
+    
+    <cities>
+                        
         
+        <city selected="true">
+                                    
+            
+            <name>Durham</name>
+                                    
+            
+            <county>Durham</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://rodweb.dconc.gov/web/</deeds-url>
+                                    
+            
+            <property-records-url>https://www.durhamnc.gov/809/Real-Estate</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://dconc.gov/Register-of-Deeds/Real-Estate-Records</register-of-deeds-url>
+                                    
+            
+            <additional-sources>
+                                                
+                
+                <source type="tax">https://www.dconc.gov/county-departments/departments-f-z/tax-administration</source>
+                                                
+                
+                <source delisted-at="2026-06-24 07:54:57" delisted-code="-1" status="delisted" type="gis">https://gisweb.durhamnc.gov/durhammaps/</source>
+                                                
+                
+                <source type="permits">https://www.durhamnc.gov/293/Building-Permits</source>
+                                                
+                
+                <source type="zoning">https://www.durhamnc.gov/446/Zoning</source>
+                                                
+                
+                <source type="planning">https://www.durhamnc.gov/346/City-County-Planning</source>
+                                                
+                
+                <source type="open-data">https://live-durhamnc.opendata.arcgis.com/</source>
+                                                
+                
+                <source delisted-at="2026-06-24 07:54:59" delisted-code="-1" status="delisted" type="parcels">https://www.dconc.gov/county-departments/departments-f-z/tax-administration/real-property-listing</source>
+                                                
+                
+                <source type="foreclosures">https://www.dconc.gov/county-departments/departments-a-e/clerk-of-superior-court</source>
+                                                
+                
+                <source delisted-at="2026-06-23 22:15:23" delisted-code="403" status="delisted" type="business-registry">https://www.sosnc.gov/online_services/search/by_title/_Business_Registration</source>
+                                                
+                
+                <source delisted-at="2026-06-23 22:15:23" delisted-code="403" status="delisted" type="census">https://data.census.gov/profile/Durham_County,_North_Carolina</source>
+                                                
+                
+                <source type="housing">https://www.durhamnc.gov/570/Affordable-Housing</source>
+                                                
+                
+                <source delisted-at="2026-06-23 22:15:43" delisted-code="520" status="delisted" type="demographics">https://www.census.gov/quickfacts/durhamcountynorthcarolina</source>
+                                
+                <source file="source/city/analysis/census/2024.census.csv" type="census-local">file://source/city/analysis/census/2024.census.csv</source>
+                            
+            </additional-sources>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Raleigh</name>
+                                    
+            
+            <county>Wake</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.wakegov.com/departments-government/register-deeds</deeds-url>
+                                    
+            
+            <property-records-url>https://services.wakegov.com/realestate/</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.wakegov.com/departments-government/register-deeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Charlotte</name>
+                                    
+            
+            <county>Mecklenburg</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.mecknc.gov/CountyManagersOffice/RegisterOfDeeds</deeds-url>
+                                    
+            
+            <property-records-url>https://polaris3g.mecklenburgcountync.gov/</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.mecknc.gov/CountyManagersOffice/RegisterOfDeeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Greensboro</name>
+                                    
+            
+            <county>Guilford</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</deeds-url>
+                                    
+            
+            <property-records-url>https://www.guilfordcountync.gov/our-county/tax/real-property</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Winston-Salem</name>
+                                    
+            
+            <county>Forsyth</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.forsyth.cc/ROD/</deeds-url>
+                                    
+            
+            <property-records-url>https://www.forsyth.cc/Tax/PropertySearch.aspx</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.forsyth.cc/ROD/</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Fayetteville</name>
+                                    
+            
+            <county>Cumberland</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.cumberlandcountync.gov/departments/register-of-deeds-group/register-of-deeds</deeds-url>
+                                    
+            
+            <property-records-url>https://www.cumberlandcountync.gov/departments/tax-group/tax</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.cumberlandcountync.gov/departments/register-of-deeds-group/register-of-deeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Cary</name>
+                                    
+            
+            <county>Wake</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.wakegov.com/departments-government/register-deeds</deeds-url>
+                                    
+            
+            <property-records-url>https://services.wakegov.com/realestate/</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.wakegov.com/departments-government/register-deeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Wilmington</name>
+                                    
+            
+            <county>New Hanover</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://rod.nhcgov.com/</deeds-url>
+                                    
+            
+            <property-records-url>https://etax.nhcgov.com/</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://rod.nhcgov.com/</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>High Point</name>
+                                    
+            
+            <county>Guilford</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</deeds-url>
+                                    
+            
+            <property-records-url>https://www.guilfordcountync.gov/our-county/tax/real-property</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.guilfordcountync.gov/our-county/register-of-deeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Asheville</name>
+                                    
+            
+            <county>Buncombe</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.buncombecounty.org/governing/depts/register-of-deeds/</deeds-url>
+                                    
+            
+            <property-records-url>https://www.buncombecounty.org/governing/depts/tax/</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.buncombecounty.org/governing/depts/register-of-deeds/</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Chapel Hill</name>
+                                    
+            
+            <county>Orange</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.orangecountync.gov/159/Register-of-Deeds</deeds-url>
+                                    
+            
+            <property-records-url>https://www.orangecountync.gov/787/Search-Real-Property-Records</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.orangecountync.gov/159/Register-of-Deeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Concord</name>
+                                    
+            
+            <county>Cabarrus</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.cabarruscounty.us/departments/register-of-deeds</deeds-url>
+                                    
+            
+            <property-records-url>https://www.cabarruscounty.us/departments/tax</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.cabarruscounty.us/departments/register-of-deeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Greenville</name>
+                                    
+            
+            <county>Pitt</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.pittcountync.gov/297/Register-of-Deeds</deeds-url>
+                                    
+            
+            <property-records-url>https://www.pittcountync.gov/252/Tax</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.pittcountync.gov/297/Register-of-Deeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Jacksonville</name>
+                                    
+            
+            <county>Onslow</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.onslowcountync.gov/168/Register-of-Deeds</deeds-url>
+                                    
+            
+            <property-records-url>https://www.onslowcountync.gov/163/Tax</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.onslowcountync.gov/168/Register-of-Deeds</register-of-deeds-url>
+                                
+        
+        </city>
+                        
+        
+        <city selected="false">
+                                    
+            
+            <name>Gastonia</name>
+                                    
+            
+            <county>Gaston</county>
+                                    
+            
+            <state>NC</state>
+                                    
+            
+            <deeds-url>https://www.gastongov.com/departments/register_of_deeds/</deeds-url>
+                                    
+            
+            <property-records-url>https://www.gastongov.com/departments/tax/</property-records-url>
+                                    
+            
+            <register-of-deeds-url>https://www.gastongov.com/departments/register_of_deeds/</register-of-deeds-url>
+                                
+        
+        </city>
+                    
+    
+    </cities>
+            
+    
     <search-engine>
-                
+                        
+        
         <enabled>true</enabled>
-                
+                        
+        
         <!-- default-engine: google | bing | duckduckgo | brave -->
-                
+                        
+        
         <default-engine>duckduckgo</default-engine>
-                
+                        
+        
         <!-- Google Custom Search JSON API key — https://developers.google.com/custom-search/v1/overview -->
-                
+                        
+        
         <api-key>YOUR_API_KEY_HERE</api-key>
-                
+                        
+        
         <!-- Google Custom Search Engine ID (cx) — https://programmablesearchengine.google.com/ -->
-                
+                        
+        
         <cx>YOUR_CX_HERE</cx>
-                
+                        
+        
         <max-results>10</max-results>
-                
+                        
+        
         <!-- Alternative engines:
              google      — Google Custom Search JSON API (requires api-key + cx)
              bing        — Bing Web Search API v7 (requires api-key as Ocp-Apim-Subscription-Key)
              duckduckgo  — DuckDuckGo Instant Answer API (no key, limited results)
              brave       — Brave Search API (requires api-key as X-Subscription-Token)
         -->
-                
+                        
+        
         <queries>
-                        
+                                    
+            
             <query>%CITY% %STATE% real estate market trends</query>
-                        
+                                    
+            
             <query>%CITY% %COUNTY% county lending practices mortgage</query>
-                        
+                                    
+            
             <query>%CITY% %STATE% property values deed records</query>
-                        
+                                    
+            
             <query>%CITY% %STATE% foreclosure rates housing market</query>
-                        
+                                    
+            
             <query>%CITY% %COUNTY% county real estate investment</query>
-                    
+                                
+        
         </queries>
-                
+                        
+        
         <add-discovered-urls-to-sources>true</add-discovered-urls-to-sources>
-            
-    </search-engine>
-        
-    <connection>
-                
-        <timeout-ms>15000</timeout-ms>
-                
-        <retry-count>3</retry-count>
-                
-        <user-agent>NitroWebExpress/CityAnalysis 1.0</user-agent>
-            
-    </connection>
-        
-    <input-mode>
-                
-        <!-- file | crawl -->
-                
-        <default>file</default>
-                
-        <crawl-options>
-                        
-            <store-raw>true</store-raw>
-                        
-            <raw-dir>source/city/analysis/raw/</raw-dir>
-                        
-            <follow-links>true</follow-links>
-                        
-            <max-depth>3</max-depth>
-                        
-            <max-pages>50</max-pages>
-                        
-            <accepted-types>html,xml,csv</accepted-types>
-                        
-            <delay-between-requests-ms>2000</delay-between-requests-ms>
                     
-        </crawl-options>
-            
-    </input-mode>
-        
-    <output>
-                
-        <database>nwe_city_analysis</database>
-                
-        <table-prefix>city_</table-prefix>
-                
-        <mysql>
-                        
-            <host>localhost</host>
-                        
-            <port>3306</port>
-                        
-            <username>root</username>
-                        
-            <password>$$Ironman1</password>
-                    
-        </mysql>
-            
-    </output>
-        
-    <major-5>
-                
-        <enabled>true</enabled>
-                
-        <database>nwe_city_analysis</database>
-                
-        <table>major_5_records</table>
-                
-        <description>Top 5 cities by data volume — stored to database for science-grade analysis</description>
-                
-        <mysql>
-                        
-            <host>localhost</host>
-                        
-            <port>3306</port>
-                        
-            <username>root</username>
-                        
-            <password>$$Ironman1</password>
-                    
-        </mysql>
-                
-        <cities>
-                        
-            <city>Durham</city>
-                        
-            <city>Raleigh</city>
-                        
-            <city>Charlotte</city>
-                        
-            <city>Greensboro</city>
-                        
-            <city>Winston-Salem</city>
-                    
-        </cities>
-            
-    </major-5>
     
+    </search-engine>
+            
+    
+    <connection>
+                        
+        
+        <timeout-ms>15000</timeout-ms>
+                        
+        
+        <retry-count>3</retry-count>
+                        
+        
+        <user-agent>NitroWebExpress/CityAnalysis 1.0</user-agent>
+                    
+    
+    </connection>
+            
+    
+    <input-mode>
+                        
+        
+        <!-- file | crawl -->
+                        
+        
+        <default>file</default>
+                        
+        
+        <crawl-options>
+                                    
+            
+            <store-raw>true</store-raw>
+                                    
+            
+            <raw-dir>source/city/analysis/raw/</raw-dir>
+                                    
+            
+            <follow-links>true</follow-links>
+                                    
+            
+            <max-depth>3</max-depth>
+                                    
+            
+            <max-pages>50</max-pages>
+                                    
+            
+            <accepted-types>html,xml,csv</accepted-types>
+                                    
+            
+            <delay-between-requests-ms>2000</delay-between-requests-ms>
+                                
+        
+        </crawl-options>
+                    
+    
+    </input-mode>
+            
+    
+    <output>
+                        
+        
+        <database>nwe_city_analysis</database>
+                        
+        
+        <table-prefix>city_</table-prefix>
+                        
+        
+        <mysql>
+                                    
+            
+            <host>localhost</host>
+                                    
+            
+            <port>3306</port>
+                                    
+            
+            <username>root</username>
+                                    
+            
+            <password>$$Ironman1</password>
+                                
+        
+        </mysql>
+                    
+    
+    </output>
+            
+    
+    <major-5>
+                        
+        
+        <enabled>true</enabled>
+                        
+        
+        <database>nwe_city_analysis</database>
+                        
+        
+        <table>major_5_records</table>
+                        
+        
+        <description>Top 5 cities by data volume — stored to database for science-grade analysis</description>
+                        
+        
+        <mysql>
+                                    
+            
+            <host>localhost</host>
+                                    
+            
+            <port>3306</port>
+                                    
+            
+            <username>root</username>
+                                    
+            
+            <password>$$Ironman1</password>
+                                
+        
+        </mysql>
+                        
+        
+        <cities>
+                                    
+            
+            <city>Durham</city>
+                                    
+            
+            <city>Raleigh</city>
+                                    
+            
+            <city>Charlotte</city>
+                                    
+            
+            <city>Greensboro</city>
+                                    
+            
+            <city>Winston-Salem</city>
+                                
+        
+        </cities>
+                    
+    
+    </major-5>
+        
+
 </city-analysis>
