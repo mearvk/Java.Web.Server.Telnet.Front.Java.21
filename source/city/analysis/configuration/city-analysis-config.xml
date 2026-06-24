@@ -68,13 +68,6 @@
                 <source delisted-at="2026-06-23 22:15:43" delisted-code="520" status="delisted" type="demographics">https://www.census.gov/quickfacts/durhamcountynorthcarolina</source>
                                 
                 <source file="source/city/analysis/census/2024.census.csv" type="census-local">file://source/city/analysis/census/2024.census.csv</source>
-
-                <!-- ROD Document Search (DOCSEARCH5S1) Configuration -->
-                <source type="rod-docsearch" handler="RodDisclaimerHandler" data-dir="source/city/analysis/data">https://rodweb.dconc.gov/web/search/DOCSEARCH5S1</source>
-
-                <source type="rod-query" handler="RodQueryHandler" input="source/city/analysis/data/durham.nc.addresses.csv" output="source/city/analysis/data/durham.nc.rod.query.results.csv">https://rodweb.dconc.gov/web/search/DOCSEARCH5S1</source>
-
-                <source type="rod-property-engine" handler="RodPropertyQueryEngine" test-output="source/city/analysis/data/durham.nc.rod.test.100.results.csv">https://rodweb.dconc.gov/web/search/DOCSEARCH5S1</source>
                             
             </additional-sources>
                                 
@@ -481,123 +474,6 @@
                     
     
     </search-engine>
-
-    <!-- ROD Search Configuration — Durham County Register of Deeds DOCSEARCH5S1 -->
-    <rod-search-config>
-        <base-url>https://rodweb.dconc.gov</base-url>
-        <search-url>/web/search/DOCSEARCH5S1</search-url>
-        <search-post-url>/web/searchPost/DOCSEARCH5S1</search-post-url>
-        <search-results-url>/web/searchResults/DOCSEARCH5S1</search-results-url>
-        <disclaimer-url>/web/user/disclaimer</disclaimer-url>
-        <document-url-pattern>/web/document/DOC{type}-{id}-{n}?search=DOCSEARCH5S1</document-url-pattern>
-
-        <!--
-            3-Step Search Formula (proven June 24, 2026):
-            1. GET  /web/search/DOCSEARCH5S1              → JSESSIONID cookie
-            2. POST /web/user/disclaimer [X-Requested-With: XMLHttpRequest] → "true"
-            3. GET  /web/search/DOCSEARCH5S1              → 56KB search form
-            4. POST /web/searchPost/DOCSEARCH5S1 [XMLHttpRequest + form fields] → JSON {"totalPages":N}
-            5. GET  /web/searchResults/DOCSEARCH5S1 [XMLHttpRequest] → results HTML (document links)
-            6. GET  /web/document/DOC<type>-<id>-<n>?search=DOCSEARCH5S1 → document detail
-
-            Required headers: X-Requested-With: XMLHttpRequest, ajaxRequest: true
-            Form fields: field_BothNamesID_DOT_Surname, field_BothNamesID_DOT_Name,
-                         field_BothNamesID_DOT_Human=on, field_DocumentNumberID,
-                         field_BookPageID_DOT_Book/Volume/Page,
-                         field_RecordingDateID_DOT_StartDate/EndDate
-        -->
-
-        <!-- Search type selectors (buttons on the ROD form) -->
-        <search-types>
-            <type id="human" default="true">Exact name match</type>
-            <type id="soundex">Phonetic/soundex name match</type>
-        </search-types>
-
-        <!-- Document groups available on DOCSEARCH5S1 -->
-        <document-groups>
-            <group id="deeds">Deeds</group>
-            <group id="mortgages">Mortgages</group>
-            <group id="liens">Liens</group>
-            <group id="plats">Plats</group>
-            <group id="maps">Maps</group>
-            <group id="corporate">Corporate Books</group>
-            <group id="condo">Condo Books</group>
-            <group id="all" default="true">All Document Types</group>
-        </document-groups>
-
-        <!-- Fields extracted from document detail pages -->
-        <result-fields>
-            <field>BOOK_TYPE</field>
-            <field>BOOK</field>
-            <field>PAGE</field>
-            <field>RECORDED_DATE</field>
-            <field>FILED_DATE</field>
-            <field>DOCUMENT_TYPE</field>
-            <field>GRANTORS</field>
-            <field>GRANTEES</field>
-            <field>LEGAL_DESCRIPTION</field>
-        </result-fields>
-
-        <!-- Query strategy: parcel first, then name, with soundex fallback -->
-        <query-strategy>
-            <primary>parcel-id</primary>
-            <secondary>name-human</secondary>
-            <fallback>name-soundex</fallback>
-        </query-strategy>
-
-        <!-- Known names from SCOUT.REPORT.data histograms (Top 30 Durham County) -->
-        <known-names enabled="true" source="source/city/analysis/data/SCOUT.REPORT.data">
-            <name lastName="SMITH" firstName="JAMES"/>
-            <name lastName="WILLIAMS" firstName="JOHN"/>
-            <name lastName="JOHNSON" firstName="ROBERT"/>
-            <name lastName="JONES" firstName="MICHAEL"/>
-            <name lastName="BROWN" firstName="WILLIAM"/>
-            <name lastName="DAVIS" firstName="DAVID"/>
-            <name lastName="WILSON" firstName="RICHARD"/>
-            <name lastName="MOORE" firstName="CHARLES"/>
-            <name lastName="TAYLOR" firstName="THOMAS"/>
-            <name lastName="ANDERSON" firstName="MARY"/>
-            <name lastName="THOMAS" firstName="PATRICIA"/>
-            <name lastName="JACKSON" firstName="JENNIFER"/>
-            <name lastName="WHITE" firstName="LINDA"/>
-            <name lastName="HARRIS" firstName="ELIZABETH"/>
-            <name lastName="MARTIN" firstName="BARBARA"/>
-            <name lastName="THOMPSON" firstName=""/>
-            <name lastName="GARCIA" firstName="JOSE"/>
-            <name lastName="MARTINEZ" firstName="MARIA"/>
-            <name lastName="ROBINSON" firstName=""/>
-            <name lastName="CLARK" firstName=""/>
-            <name lastName="RODRIGUEZ" firstName=""/>
-            <name lastName="LEWIS" firstName=""/>
-            <name lastName="LEE" firstName=""/>
-            <name lastName="WALKER" firstName=""/>
-            <name lastName="HALL" firstName=""/>
-            <name lastName="ALLEN" firstName=""/>
-            <name lastName="YOUNG" firstName=""/>
-            <name lastName="HERNANDEZ" firstName=""/>
-            <name lastName="KING" firstName=""/>
-            <name lastName="WRIGHT" firstName=""/>
-            <name lastName="RUPPLIN" firstName=""/>
-            <name lastName="DUKE" firstName=""/>
-        </known-names>
-
-        <!-- Known addresses to search (loaded from source CSV) -->
-        <known-addresses enabled="true" source="durham.nc.addresses.csv">
-            <!-- Fallback addresses if CSV unavailable -->
-            <address>555 SOUTH MANGUM ST</address>
-            <address>2530 ERWIN RD</address>
-            <address>200 W MAIN ST</address>
-            <address>324 BLACKWELL ST</address>
-        </known-addresses>
-
-        <!-- Output -->
-        <output-csv>source/city/analysis/data/durham.nc.rod.query.results.csv</output-csv>
-        <test-csv>source/city/analysis/data/durham.nc.rod.test.100.results.csv</test-csv>
-
-        <!-- Rate limiting -->
-        <delay-between-requests-ms>3000</delay-between-requests-ms>
-        <max-document-follows-per-search>25</max-document-follows-per-search>
-    </rod-search-config>
             
     
     <connection>
@@ -610,9 +486,6 @@
                         
         
         <user-agent>NitroWebExpress/CityAnalysis 1.0</user-agent>
-
-        <!-- Opportunity roll for delisted sources: 1 in N chance to retry (default 9) -->
-        <delisted-retry-odds>9</delisted-retry-odds>
                     
     
     </connection>
