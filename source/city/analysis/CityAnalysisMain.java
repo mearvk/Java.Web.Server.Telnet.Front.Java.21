@@ -119,12 +119,12 @@ public class CityAnalysisMain
             String database = m5.getElementsByTagName("database").item(0).getTextContent().trim();
             String table = m5.getElementsByTagName("table").item(0).getTextContent().trim();
 
-            // Read credentials from <output><mysql>
-            NodeList mysqlNodes = doc.getElementsByTagName("mysql");
+            // Read credentials from <major-5><mysql>
             String host = "localhost";
             String port = "3306";
             String username = "root";
             String password = "";
+            NodeList mysqlNodes = m5.getElementsByTagName("mysql");
             if (mysqlNodes.getLength() > 0)
             {
                 Element mysql = (Element) mysqlNodes.item(0);
