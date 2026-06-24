@@ -175,6 +175,12 @@
         <database>nwe_city_analysis</database>
         <table>major_5_records</table>
         <description>Top 5 cities by data volume — stored to database for science-grade analysis</description>
+        <mysql>
+            <host>localhost</host>
+            <port>3306</port>
+            <username>root</username>
+            <password></password>
+        </mysql>
         <cities>
             <city>Durham</city>
             <city>Raleigh</city>
