@@ -32,6 +32,9 @@ public class ConnectionTracker
     protected Map<String, String> lastResponseTime = new ConcurrentHashMap<>();
     protected Set<String> delistedUrls = ConcurrentHashMap.newKeySet();
 
+    protected Map<String, Integer> failureCount = new ConcurrentHashMap<>();
+    protected static final int MAX_FAILURES = 3;
+
     public ConnectionTracker() {}
 
     /**
@@ -46,6 +49,23 @@ public class ConnectionTracker
         {
             delistedUrls.add(url);
             System.out.println("-- : [ConnectionTracker] DELISTED (HTTP " + responseCode + "): " + url);
+        }
+    }
+
+    /**
+     * Record a connection failure (timeout, error fetching). Delist after 3 failures.
+     */
+    public void recordFailure(String url, String reason)
+    {
+        int count = failureCount.merge(url, 1, Integer::sum);
+        lastResponseTime.put(url, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        System.out.println("-- : [ConnectionTracker] Failure #" + count + " for " + url + " (" + reason + ")");
+
+        if (count >= MAX_FAILURES)
+        {
+            delistedUrls.add(url);
+            lastResponseCode.put(url, -1);
+            System.out.println("-- : [ConnectionTracker] DELISTED (>" + MAX_FAILURES + " failures): " + url);
         }
     }
 

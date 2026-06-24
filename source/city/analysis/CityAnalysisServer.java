@@ -413,6 +413,8 @@ public class CityAnalysisServer
             catch (Exception e)
             {
                 System.err.println("-- : [CityAnalysisServer] Error fetching " + urlStr + " (attempt " + attempt + "): " + e.getMessage());
+                connectionTracker.recordFailure(urlStr, e.getMessage());
+                if (connectionTracker.isDelisted(urlStr)) return null;
             }
         }
         return null;
