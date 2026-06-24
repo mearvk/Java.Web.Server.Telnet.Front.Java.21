@@ -222,28 +222,55 @@ public class CityAnalysisServer
     /**
      * Fetch all sources (primary + additional) and return combined content
      */
+    protected static final String RAW_DIR = "source/city/analysis/raw/";
+
     public String fetchAllSources()
     {
         StringBuilder all = new StringBuilder();
+        String dateTime = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd/HH-mm-ss"));
+        java.nio.file.Path rawSessionDir = java.nio.file.Paths.get(RAW_DIR + dateTime);
+        try { java.nio.file.Files.createDirectories(rawSessionDir); } catch (Exception e) { /* ignore */ }
 
         String deeds = fetchDeedsSearch();
-        if (deeds != null) all.append(deeds);
+        if (deeds != null) { all.append(deeds); saveRaw(rawSessionDir, "deeds", deeds); }
 
         String property = fetchPropertyRecords();
-        if (property != null) all.append(property);
+        if (property != null) { all.append(property); saveRaw(rawSessionDir, "property-records", property); }
 
         String rod = fetchRegisterOfDeeds();
-        if (rod != null) all.append(rod);
+        if (rod != null) { all.append(rod); saveRaw(rawSessionDir, "register-of-deeds", rod); }
 
+        int i = 0;
         for (String sourceUrl : additionalSources)
         {
             System.out.println("-- : [CityAnalysisServer] Fetching additional source: " + sourceUrl);
             String content = httpGet(sourceUrl);
-            if (content != null) all.append(content);
+            if (content != null)
+            {
+                all.append(content);
+                saveRaw(rawSessionDir, "source-" + i, content);
+            }
+            i++;
         }
 
-        System.out.println("-- : [CityAnalysisServer] All sources fetched. Total chars: " + all.length());
+        System.out.println("-- : [CityAnalysisServer] All sources fetched. Total chars: " + all.length() + " Raw saved to: " + rawSessionDir);
         return all.toString();
+    }
+
+    /**
+     * Save raw web result to /raw/<datetime>/ directory
+     */
+    protected void saveRaw(java.nio.file.Path dir, String label, String content)
+    {
+        try
+        {
+            java.nio.file.Path file = dir.resolve(cityName + "." + label + ".html");
+            java.nio.file.Files.writeString(file, content);
+        }
+        catch (Exception e)
+        {
+            System.err.println("-- : [CityAnalysisServer] Raw save error: " + e.getMessage());
+        }
     }
 
     /**
