@@ -2,8 +2,30 @@
 <cse-allowance>
     <reasoning>
         <max-reasoning-time-ms>120000</max-reasoning-time-ms>
-        <max-inputs>200</max-inputs>
-        <input-value min="1" max="1000">700</input-value>
+        <max-inputs>1200</max-inputs>
+        <input-value min="1" max="1200">1200</input-value>
+        <input-types>
+            <type id="url" weight="1.0">Web page URL</type>
+            <type id="snippet" weight="0.9">Search result snippet</type>
+            <type id="title" weight="0.8">Page title / heading</type>
+            <type id="dollar-amount" weight="1.0">Dollar value from source</type>
+            <type id="percentage" weight="0.9">Rate or percentage value</type>
+            <type id="name" weight="0.7">Named entity (person, company, institution)</type>
+            <type id="address" weight="0.8">Physical address or parcel</type>
+            <type id="date" weight="0.6">Date reference</type>
+            <type id="legal-ref" weight="0.9">Legal reference (deed book, page, instrument)</type>
+            <type id="keyword" weight="0.5">Domain keyword match</type>
+            <type id="statistic" weight="0.85">Numeric statistic (population, median, count)</type>
+            <type id="lender" weight="1.0">Lending institution name</type>
+            <type id="borrower" weight="0.9">Borrower or grantee name</type>
+            <type id="parcel-id" weight="0.8">Parcel identification number</type>
+            <type id="zoning-code" weight="0.7">Zoning classification</type>
+            <type id="permit" weight="0.7">Building or land-use permit reference</type>
+            <type id="tax-value" weight="0.9">Assessed or appraised tax value</type>
+            <type id="transfer" weight="1.0">Property transfer record</type>
+            <type id="foreclosure" weight="1.0">Foreclosure filing or notice</type>
+            <type id="mortgage" weight="1.0">Mortgage instrument reference</type>
+        </input-types>
         <age-of-treason enabled="false">
             <description>People don't usually go away when told about troubles elsewhere</description>
             <threshold>0.7</threshold>

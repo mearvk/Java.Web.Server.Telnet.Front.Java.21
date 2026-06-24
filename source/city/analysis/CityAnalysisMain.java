@@ -1,10 +1,11 @@
 package city.analysis;
 
+import java.io.File;
 import java.nio.file.*;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
@@ -73,9 +74,39 @@ public class CityAnalysisMain
         }
         else
         {
-            // File mode (default) — fetch all sources, save, speculate
+            // File mode (default) — fetch all sources, run search engine, save, speculate
             System.out.println("-- : [CityAnalysisMain] Input mode: file");
             String allContent = server.fetchAllSources();
+
+            // Search engine integration — query web for additional real estate/lending data
+            city_analysis.CityAnalysisSearchEngine searchEngine = new city_analysis.CityAnalysisSearchEngine();
+            if (searchEngine.isEnabled())
+            {
+                String searchContent = searchEngine.search(server.cityName, server.county, server.state);
+                if (searchContent != null && !searchContent.isEmpty())
+                {
+                    allContent = (allContent != null ? allContent : "") + "\n" + searchContent;
+
+                    // Extract typed input objects (target: 1200 items)
+                    List<Map<String, String>> inputObjects = searchEngine.extractInputObjects();
+                    System.out.println("-- : [CityAnalysisMain] Search engine produced " + inputObjects.size() + "/" + searchEngine.getTargetInputCount() + " typed input objects");
+
+                    // Write typed objects as supplemental data for CSE
+                    StringBuilder objectsData = new StringBuilder();
+                    objectsData.append("=== SEARCH ENGINE INPUT OBJECTS (" + inputObjects.size() + " items) ===\n");
+                    for (Map<String, String> obj : inputObjects)
+                    {
+                        objectsData.append("[" + obj.get("type") + "] " + obj.get("value") + "\n");
+                    }
+                    allContent += "\n" + objectsData.toString();
+
+                    // Add discovered URLs back to sources XML if configured
+                    if (searchEngine.getDiscoveredUrls().size() > 0)
+                    {
+                        updateSourcesXml(server.cityName, searchEngine.getDiscoveredUrls());
+                    }
+                }
+            }
 
             String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd/HH-mm-ss"));
             Path fetchDir = Paths.get("source/city/analysis/speculations/" + dateTime);
@@ -98,6 +129,10 @@ public class CityAnalysisMain
 
         // Major 5 — store to database
         storeMajor5(server);
+
+        // Connection tracker — persist delistings and print summary
+        server.connectionTracker.persistToXml();
+        server.connectionTracker.printSummary();
 
         System.out.println("-- : [CityAnalysisMain] . CityAnalysis™ complete .");
     }
@@ -185,5 +220,80 @@ public class CityAnalysisMain
         }
         catch (Exception e) { /* use default */ }
         return "file";
+    }
+
+    /**
+     * Update city-analysis-config.xml additional-sources with newly discovered URLs from search engine
+     */
+    protected static void updateSourcesXml(String cityName, List<String> newUrls)
+    {
+        try
+        {
+            File configFile = new File(CONFIG_PATH);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(configFile);
+            doc.getDocumentElement().normalize();
+
+            NodeList cityNodes = doc.getElementsByTagName("city");
+            for (int i = 0; i < cityNodes.getLength(); i++)
+            {
+                Element cityEl = (Element) cityNodes.item(i);
+                if ("true".equals(cityEl.getAttribute("selected")))
+                {
+                    // Find or create <additional-sources>
+                    NodeList asNodes = cityEl.getElementsByTagName("additional-sources");
+                    Element additionalSources;
+                    if (asNodes.getLength() > 0)
+                    {
+                        additionalSources = (Element) asNodes.item(0);
+                    }
+                    else
+                    {
+                        additionalSources = doc.createElement("additional-sources");
+                        cityEl.appendChild(additionalSources);
+                    }
+
+                    // Collect existing source URLs to avoid duplicates
+                    Set<String> existing = new HashSet<>();
+                    NodeList srcNodes = additionalSources.getElementsByTagName("source");
+                    for (int j = 0; j < srcNodes.getLength(); j++)
+                    {
+                        existing.add(srcNodes.item(j).getTextContent().trim());
+                    }
+
+                    // Add new search-discovered URLs
+                    int added = 0;
+                    for (String url : newUrls)
+                    {
+                        if (!existing.contains(url) && url.startsWith("http"))
+                        {
+                            Element source = doc.createElement("source");
+                            source.setAttribute("type", "search-discovered");
+                            source.setTextContent(url);
+                            additionalSources.appendChild(source);
+                            added++;
+                        }
+                    }
+
+                    if (added > 0)
+                    {
+                        // Write updated XML back
+                        javax.xml.transform.TransformerFactory tf = javax.xml.transform.TransformerFactory.newInstance();
+                        javax.xml.transform.Transformer transformer = tf.newTransformer();
+                        transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
+                        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+                        transformer.transform(new javax.xml.transform.dom.DOMSource(doc),
+                                new javax.xml.transform.stream.StreamResult(configFile));
+                        System.out.println("-- : [CityAnalysisMain] Added " + added + " search-discovered URLs to sources XML for " + cityName);
+                    }
+                    break;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println("-- : [CityAnalysisMain] Failed to update sources XML: " + e.getMessage());
+        }
     }
 }

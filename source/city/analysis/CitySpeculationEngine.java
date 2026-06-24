@@ -55,7 +55,8 @@ public class CitySpeculationEngine
     }
 
     /**
-     * Extract named entities: numbers, dollar amounts, names, URLs, percentages
+     * Extract named entities: numbers, dollar amounts, names, URLs, percentages,
+     * plus typed input objects from search engine (target: 1200 items)
      */
     protected void extractEntities()
     {
@@ -65,18 +66,50 @@ public class CitySpeculationEngine
         extractedEntities.put("urls", new ArrayList<>());
         extractedEntities.put("numbers", new ArrayList<>());
         extractedEntities.put("keywords", new ArrayList<>());
+        extractedEntities.put("titles", new ArrayList<>());
+        extractedEntities.put("snippets", new ArrayList<>());
+        extractedEntities.put("dates", new ArrayList<>());
+        extractedEntities.put("legal-refs", new ArrayList<>());
+        extractedEntities.put("addresses", new ArrayList<>());
+        extractedEntities.put("parcel-ids", new ArrayList<>());
+        extractedEntities.put("statistics", new ArrayList<>());
+        extractedEntities.put("lenders", new ArrayList<>());
+        extractedEntities.put("borrowers", new ArrayList<>());
+        extractedEntities.put("transfers", new ArrayList<>());
+        extractedEntities.put("foreclosures", new ArrayList<>());
+        extractedEntities.put("mortgages", new ArrayList<>());
+        extractedEntities.put("tax-values", new ArrayList<>());
+        extractedEntities.put("zoning-codes", new ArrayList<>());
 
         Pattern dollarPattern = Pattern.compile("\\$[\\d,]+\\.?\\d*");
         Pattern percentPattern = Pattern.compile("\\d+\\.?\\d*\\s*%");
         Pattern urlPattern = Pattern.compile("https?://[^\\s<>\"]+");
         Pattern numberPattern = Pattern.compile("\\b\\d{3,}\\b");
+        Pattern typedObjectPattern = Pattern.compile("^\\[([a-z-]+)\\]\\s+(.+)$");
 
         String[] keywordSet = {"mortgage", "deed", "lender", "bank", "property", "sale", "transfer",
                 "trust", "llc", "inc", "corp", "investment", "residential", "commercial",
                 "foreclosure", "refinance", "equity", "loan", "interest", "principal"};
 
+        int maxInputs = 1200;
+
         for (String line : inputLines)
         {
+            // Check for typed input objects from search engine
+            Matcher tm = typedObjectPattern.matcher(line);
+            if (tm.matches())
+            {
+                String type = tm.group(1);
+                String value = tm.group(2);
+                if (extractedEntities.containsKey(type + "s"))
+                    extractedEntities.get(type + "s").add(value);
+                else if (extractedEntities.containsKey(type))
+                    extractedEntities.get(type).add(value);
+                else
+                    extractedEntities.computeIfAbsent(type, k -> new ArrayList<>()).add(value);
+                continue;
+            }
+
             Matcher m = dollarPattern.matcher(line);
             while (m.find()) extractedEntities.get("dollar-amounts").add(m.group());
 
@@ -98,10 +131,14 @@ public class CitySpeculationEngine
             }
         }
 
-        System.out.println("-- : [CitySpeculationEngine] Extracted entities — dollars:" +
+        int totalEntities = extractedEntities.values().stream().mapToInt(List::size).sum();
+        System.out.println("-- : [CitySpeculationEngine] Extracted " + totalEntities + "/" + maxInputs + " input objects across " + extractedEntities.size() + " types — dollars:" +
                 extractedEntities.get("dollar-amounts").size() +
                 " percents:" + extractedEntities.get("percentages").size() +
-                " keywords:" + extractedEntities.get("keywords").size());
+                " keywords:" + extractedEntities.get("keywords").size() +
+                " lenders:" + extractedEntities.get("lenders").size() +
+                " foreclosures:" + extractedEntities.get("foreclosures").size() +
+                " mortgages:" + extractedEntities.get("mortgages").size());
     }
 
     /**
