@@ -1,5 +1,12 @@
 # MANAGEMENT.md — Management Suggestions
 
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+Headquarters: 555 South Mangum St, Durham, NC 27701
+Purpose:    IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
+Sorceress:  Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
+Students:   Available on the 8th Floor after 8
+
 ## Distribution & Licensing
 
 - Four editions exist (PEE rank 8, NDE rank 6, INT rank 4, FSE rank 4) but the software currently doesn't enforce feature gating by edition. Define what features are exclusive to each tier and enforce at runtime.

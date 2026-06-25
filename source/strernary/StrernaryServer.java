@@ -95,6 +95,8 @@ public class StrernaryServer implements Runnable
             out.write(("  Strernary\u2122 Java Port 20000 \u2014 Deep Inference Edition\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  Model: DJL 0.31.0 / PyTorch / DistilBERT Sentiment\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  Knowledge: nwe_strernary (Wikipedia + DuckDuckGo + MySQL)\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  MEARVK LLC — Max Rupplin\n").getBytes(StandardCharsets.UTF_8));
+            out.write(("  Discussions: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions\n").getBytes(StandardCharsets.UTF_8));
             out.write(("\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  Q: Why do people with high IQs make terrible friends?\n").getBytes(StandardCharsets.UTF_8));
             out.write(("  A: They finish your sentences \u2014 and your arguments.\n").getBytes(StandardCharsets.UTF_8));

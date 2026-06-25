@@ -1,3 +1,9 @@
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+Headquarters: 555 South Mangum St, Durham, NC 27701
+Purpose:    IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
+Sorceress:  Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
+Students:   Available on the 8th Floor after 8
 **IQ matters because it captures core cognitive capacities that reliably support reasoning, problem‑solving, and the formal analysis of systems; used thoughtfully, it strengthens analytical frameworks while remaining complementary to other forms of intelligence.**  
 
 Intelligence Quotient (IQ) is a standardized score intended to summarize an individual’s performance on tests of reasoning, memory, processing speed, and verbal comprehension.   [EBSCO](https://www.ebsco.com/research-starters/health-and-medicine/intelligence-quotient-iq-and-measuring-intelligence)

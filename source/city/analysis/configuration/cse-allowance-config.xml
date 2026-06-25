@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cse-allowance>
+    <reasoning>
+        <max-reasoning-time-ms>120000</max-reasoning-time-ms>
+        <max-inputs>1200</max-inputs>
+        <input-value min="1" max="1200">1200</input-value>
+        <input-types>
+            <type id="url" weight="1.0">Web page URL</type>
+            <type id="snippet" weight="0.9">Search result snippet</type>
+            <type id="title" weight="0.8">Page title / heading</type>
+            <type id="dollar-amount" weight="1.0">Dollar value from source</type>
+            <type id="percentage" weight="0.9">Rate or percentage value</type>
+            <type id="name" weight="0.7">Named entity (person, company, institution)</type>
+            <type id="address" weight="0.8">Physical address or parcel</type>
+            <type id="date" weight="0.6">Date reference</type>
+            <type id="legal-ref" weight="0.9">Legal reference (deed book, page, instrument)</type>
+            <type id="keyword" weight="0.5">Domain keyword match</type>
+            <type id="statistic" weight="0.85">Numeric statistic (population, median, count)</type>
+            <type id="lender" weight="1.0">Lending institution name</type>
+            <type id="borrower" weight="0.9">Borrower or grantee name</type>
+            <type id="parcel-id" weight="0.8">Parcel identification number</type>
+            <type id="zoning-code" weight="0.7">Zoning classification</type>
+            <type id="permit" weight="0.7">Building or land-use permit reference</type>
+            <type id="tax-value" weight="0.9">Assessed or appraised tax value</type>
+            <type id="transfer" weight="1.0">Property transfer record</type>
+            <type id="foreclosure" weight="1.0">Foreclosure filing or notice</type>
+            <type id="mortgage" weight="1.0">Mortgage instrument reference</type>
+        </input-types>
+        <age-of-treason enabled="false">
+            <description>People don't usually go away when told about troubles elsewhere</description>
+            <threshold>0.7</threshold>
+        </age-of-treason>
+    </reasoning>
+
+    <memory>
+        <max-heap-mb>512</max-heap-mb>
+        <max-working-set-entries>10000</max-working-set-entries>
+    </memory>
+
+    <class-importance>
+        <democrat-class weight="0.6"/>
+        <citizen-class weight="0.85"/>
+    </class-importance>
+
+    <iq-centralization>
+        <dominant-iq>145</dominant-iq>
+        <tiers>
+            <tier level="1" iq-min="157" falloff="0.0" label="peak-reasoning"/>
+            <tier level="2" iq-min="140" falloff="0.15" label="advanced-reasoning"/>
+            <tier level="3" iq-min="120" falloff="0.35" label="standard-reasoning"/>
+            <tier level="4" iq-min="100" falloff="0.60" label="baseline-reasoning"/>
+            <tier level="5" iq-min="0" falloff="0.85" label="minimal-reasoning"/>
+        </tiers>
+    </iq-centralization>
+
+    <trainer>
+        <enabled>true</enabled>
+        <train-before-speculate>true</train-before-speculate>
+        <epochs>100</epochs>
+        <learning-rate>0.01</learning-rate>
+        <moral-bound-weight>0.8</moral-bound-weight>
+        <recursive-speculation>
+            <enabled>true</enabled>
+            <max-passes>3</max-passes>
+            <min-passes>1</min-passes>
+            <confidence-threshold>0.6</confidence-threshold>
+            <description>AI re-speculates on its own findings up to max-passes times, stopping early if confidence drops below threshold</description>
+        </recursive-speculation>
+        <spatial-model>
+            <dimensions>3</dimensions>
+            <weight-count>64</weight-count>
+            <weight-driven-depth>true</weight-driven-depth>
+            <base-objections>
+                <objection id="shyness" weight="0.4" decay="0.05">
+                    <description>Reluctance from direct observation</description>
+                </objection>
+                <objection id="cause-aversion" weight="0.3" decay="0.03">
+                    <description>Avoidance of causal confrontation</description>
+                </objection>
+                <objection id="social-distance" weight="0.25" decay="0.04">
+                    <description>Withdrawal from proximity to conflict</description>
+                </objection>
+            </base-objections>
+            <falloff-model>exponential</falloff-model>
+        </spatial-model>
+        <pre-sort>
+            <enabled>true</enabled>
+            <method>moral</method>
+            <!-- moral | numeric | alphabetical | weight-count-driven -->
+            <moral-sort-priority>citizen-class,democrat-class,investor,banker</moral-sort-priority>
+            <weight-count-threshold>32</weight-count-threshold>
+            <description>When weight-count exceeds threshold, pre-sort is required to prevent moral drift in early layers</description>
+            <concerns-file>source/city/analysis/pre-sort-concerns.txt</concerns-file>
+            <concerns>
+                <concern id="bias-amplification" severity="high">
+                    <description>Unsorted data may amplify bias in early weight layers before moral-bound correction applies</description>
+                </concern>
+                <concern id="outlier-dominance" severity="medium">
+                    <description>Large financial outliers can dominate gradient if encountered before normalization pass</description>
+                </concern>
+                <concern id="class-ordering-effect" severity="medium">
+                    <description>Order in which citizen classes appear affects initial weight distribution</description>
+                </concern>
+                <concern id="moral-inversion-risk" severity="low">
+                    <description>Without pre-sort, moral-bound weight may overcorrect if adversarial data arrives first</description>
+                </concern>
+            </concerns>
+        </pre-sort>
+        <learner-rate-spectrum>
+            <spectrum-min>0.001</spectrum-min>
+            <spectrum-max>0.1</spectrum-max>
+            <adaptive>true</adaptive>
+        </learner-rate-spectrum>
+    </trainer>
+</cse-allowance>
