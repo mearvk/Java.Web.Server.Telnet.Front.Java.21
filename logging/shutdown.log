@@ -167,3 +167,16 @@ Caused by: java.io.IOException: CreateProcess error=2, The system cannot find th
 	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1078)
 	... 3 more
 
+[2026-06-25 12:28:46] [shutdown] IOException: Cannot run program "bash": CreateProcess error=2, The system cannot find the file specified
+java.io.IOException: Cannot run program "bash": CreateProcess error=2, The system cannot find the file specified
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1112)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1046)
+	at shutdown.ShutdownHooks.run(ShutdownHooks.java:48)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.io.IOException: CreateProcess error=2, The system cannot find the file specified
+	at java.base/java.lang.ProcessImpl.create(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:485)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:146)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1078)
+	... 3 more
+
