@@ -1,9 +1,17 @@
 JAVA NATIONAL FINANCE ENGINE — STRUCTURE
 =========================================
-Version:  2911.14.1
-Date:     2026-06-16
-Owner:    Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
-Reference: NCSU CS, UNCW MSCSIS, Harvard Math, Pro-Counselling
+Version:        2911.14.2
+Date:           2026-06-23
+Owner:          Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
+Contact:        https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+Phone:          1.919.923.4239 (USA)
+Languages:      American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+Headquarters:   555 South Mangum St, Durham, NC 27701
+Purpose:        IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
+Sorceress:      Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
+Contact:        https://github.com/ElisabethHarkins5509/Java.Telnet.Options.JDKNatural.21/discussions
+Students:       Available on the 8th Floor after 8
+Reference:      NCSU CS, UNCW MSCSIS, Harvard Math, Pro-Counselling
 
 
 VERSION RATIONALE
@@ -250,6 +258,20 @@ PORTS SUMMARY
    5512   AES 2.0 Compliant WebExpress
    6682   Bitcoin Compliant WebExpress
    8888   MiddleDirectorServer (finance/goal synchronization)
+   2000   StrernaryDirectoryServer (directory menu + XML forwarding + NIO masquerade)
+  20000   Strernary (best-guess inference, Java + OS dual port)
+
+CITY ANALYSIS MODULE
+--------------------
+  source/city-analysis/CityAnalysisMain.java           — Entry point (IDE/terminal)
+  source/city-analysis/CityAnalysisServer.java         — Property/deed data fetcher
+  source/city-analysis/CitySpeculationEngine.java      — AI speculation + recursive self-analysis
+  source/city-analysis/CitySpeculationTrainer.java     — Moral-bound IQ spatial model trainer
+  source/city-analysis/city-analysis-config.xml        — 15 NC cities, connection settings
+  source/city-analysis/cse-allowance-config.xml        — Reasoning limits, IQ tiers, trainer params
+  source/city-analysis/legalice.presumes.xml           — Citizen class presumptions
+  source/city-analysis/speculations/                   — Initial speculation output
+  source/city-analysis/speculations/recursive/         — Recursive passes by date/time
 
 
 LOG / DATA PATHS
@@ -283,6 +305,21 @@ CONFIGURATION FILES
   configuration/final-medium-hops-commodities.xml — FinalMediumHops research commodities.
   configuration/games-as-goals-sketches.xml       — GamesAsGoals .mdmd sketch config.
   configuration/transfer-contacts.xml             — Transfer of Summary contact registry.
+  configuration/nio-masquerade-config.xml         — NIO masquerade layer settings.
+  configuration/masquerade-modules.xml            — Masquerade-aware module registry.
+  configuration/port-2000-directory-config.xml    — Port 2000 directory/forwarding config.
+
+
+CONTACT / RANK UPGRADES / INSTALLER IDS
+----------------------------------------
+  https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+
+  Rank Upgrades:      Request elevation from Free/International (rank 4) to
+                      National (rank 6) or Personal Executive (rank 8).
+  Installer IDs:      Request technical Installer ID for third-party module submission.
+  Public Key Requests: Request personal public.key for module signing and Rank 4
+                      server registration.
+  Requirements:       Valid NationalID, Moral Rating >= "Very Good", IQ >= 126.
 
 
 STANDALONE COMPONENTS  (not part of NWE — independently downloadable)

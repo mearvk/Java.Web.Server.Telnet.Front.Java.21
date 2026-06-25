@@ -1,5 +1,12 @@
 # NWE Module Installer — Standalone
 
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+Headquarters: 555 South Mangum St, Durham, NC 27701
+Purpose:    IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
+Sorceress:  Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
+Students:   Available on the 8th Floor after 8
+
 A standalone, system-aware JAR that listens on port 8888 and accepts module installations exclusively from verified NWE instances.
 
 ## Build

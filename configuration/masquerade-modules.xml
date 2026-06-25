@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Masquerade-Aware Module Registry
+    =================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Lists all MEARVK LLC modules that are masquerade-aware (can be routed
+    via the NIO masquerade layer on local IPs 127.0.0.1-17).
+
+    At startup, NioModuleScanner reads this file AND nwe-config.xml to
+    discover all enabled modules and their port values (0 to MAX_PORT).
+    Modules listed here are integrated into the NIO masquerade routing table.
+
+    masquerade-aware="true" means the module can accept forwarded
+    connections from the NIO layer without modification.
+-->
+<masquerade-modules>
+
+    <!-- Auto-discovered from nwe-config.xml at startup -->
+    <auto-discover>
+        <source>configuration/nwe-config.xml</source>
+        <enabled>true</enabled>
+    </auto-discover>
+
+    <!-- Additional masquerade-aware modules not in nwe-config.xml -->
+    <module id="StrernaryDirectory">
+        <name>Strernary™ DirectoryServer</name>
+        <port>2000</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>strernary.StrernaryDirectoryServer</class>
+    </module>
+
+    <module id="StrernaryInference">
+        <name>Strernary™</name>
+        <port>20000</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>strernary.StrernaryServer</class>
+    </module>
+
+    <module id="StrernaryOsPort">
+        <name>Strernary™ OS Port</name>
+        <port>20000</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>strernary.StrernaryOsPortModule</class>
+    </module>
+
+    <module id="NioMasquerade">
+        <name>NioMasquerade™</name>
+        <port>0</port>
+        <masquerade-aware>false</masquerade-aware>
+        <class>strernary.NioMasqueradeEngine</class>
+        <description>The masquerade layer itself — not routable through itself.</description>
+    </module>
+
+</masquerade-modules>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knownServers>
+    <!-- Port 2000 — Module Install Listener -->
+    <!-- Accepts .jar files with Installer ID from Max Rupplin - MEARVK LLC -->
+    <!-- Accepts .sql files with similar Installer ID -->
+    <!-- Requires: National ID with Moral Rating >= "Very Good" and IQ > 125 -->
+    <server>
+        <name>Module Install Listener</name>
+        <host>github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21</host>
+        <address>45.32.31.139</address>
+        <address>64.176.167.52</address>
+        <port>2000</port>
+        <protocol>TCP</protocol>
+        <enabled>true</enabled>
+    </server>
+
+    <acceptance-policy>
+        <installer-id>Max Rupplin - MEARVK LLC</installer-id>
+        <accepted-file-types>
+            <type>.jar</type>
+            <type>.sql</type>
+        </accepted-file-types>
+        <national-id-requirements>
+            <moral-rating minimum="Very Good"/>
+            <iq minimum="126"/>
+        </national-id-requirements>
+    </acceptance-policy>
+</knownServers>

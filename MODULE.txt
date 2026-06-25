@@ -1,0 +1,139 @@
+NIO MASQUERADE & DIRECTORY MODULE — MODULE.txt
+=================================================
+Version:        2911.14.2
+Date:           2026-06-23
+Owner:          Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
+Contact:        https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+Email:          mearvk@mearvk.us | mearvk@outlook.com
+Phone:          1.919.923.4239 (USA)
+Languages:      American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+Headquarters:   555 South Mangum St, Durham, NC 27701
+Purpose:        IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
+Sorceress:      Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
+Contact:        https://github.com/ElisabethHarkins5509/Java.Telnet.Options.JDKNatural.21/discussions
+Students:       Available on the 8th Floor after 8
+
+
+MODULE RATIONALE
+----------------
+  This module introduces a NIO-based masquerade front layer and port 2000
+  directory server to the NitroWebExpress™ platform. It enables non-blocking
+  I/O bridging to the existing blocking architecture, XML-based port
+  forwarding, and automatic discovery/registration of all MEARVK LLC modules.
+
+
+COMPONENTS
+----------
+  NioMasqueradeEngine       — NIO Selector engine. Binds 127.0.0.1 through 127.0.0.17.
+                              Bridges NIO connections to existing blocking servers.
+                              Port range: standard (0-65535) or extended (0-1048576).
+                              Source: source/strernary/NioMasqueradeEngine.java
+
+  NioModuleScanner          — Startup discovery. Reads nwe-config.xml and masquerade-modules.xml.
+                              Extracts all enabled module port values (0 to MAX_PORT).
+                              Registers masquerade-aware modules in the NIO routing table.
+                              Source: source/strernary/NioModuleScanner.java
+
+  StrernaryDirectoryServer  — Port 2000 directory/menu server.
+                              Interactive menu: query port 20000/49152 server IPs.
+                              XML forwarding: <nwe-route><port>N</port><payload>...</payload></nwe-route>
+                              Rank 4 JWSTNJ21 server registration (public.key required).
+                              Source: source/strernary/StrernaryDirectoryServer.java
+
+
+PORT ASSIGNMENTS
+----------------
+  2000    StrernaryDirectoryServer (directory menu + XML forwarding)
+  0-*     NioMasqueradeEngine (all managed ports, mode-dependent)
+
+
+CONFIGURATION FILES
+-------------------
+  configuration/nio-masquerade-config.xml       — NIO settings, port range mode, bindings
+  configuration/masquerade-modules.xml          — Module registry with auto-discovery
+  configuration/port-2000-directory-config.xml  — Port 2000 access control, NationalID rules
+
+
+RANK UPGRADES
+-------------
+  Rank 4 (International/Free) servers may register with a running NWE instance by
+  submitting the public.key via port 2000 menu option 3. Registration verifies the
+  key byte-for-byte against the canonical GitHub copy:
+    https://raw.githubusercontent.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/main/psychiatry/secrets/public.key
+
+  Rank upgrades follow the immutable edition system:
+    Rank 8 — Personal Executive Edition
+    Rank 6 — National Edition
+    Rank 4 — International / Free Edition
+
+  To request a rank upgrade or discuss licensing:
+    https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+
+
+INSTALLER IDS
+-------------
+  Modules accepted by the ModuleInstallationService (port 49166) and
+  ModuleLoaderDaemon (port 49188) must carry a valid Installer ID:
+
+    Installer ID:  Max Rupplin - MEARVK LLC
+
+  Technical Installer IDs (for third-party integrators) and personal public.keys
+  can be requested via:
+    https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+
+  Requirements for Installer ID issuance:
+    - Valid NationalID on file
+    - Moral Rating >= "Very Good"
+    - IQ >= 126
+    - Signed acknowledgment of software authorization terms
+
+
+PUBLIC KEY REQUESTS
+-------------------
+  Personal public.keys for module signing, Rank 4 server registration, and
+  third-party integration can be requested at:
+    https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+
+  The Owner (Max Rupplin, MEARVK LLC) issues keys at sole discretion.
+  All issued keys are bound to the recipient's NationalID.
+
+
+PORT RANGE MODES
+----------------
+  Standard (default):
+    Range: 0-65535
+    Binding: All managed ports on 127.0.0.1
+    Config: <port-range-mode>standard</port-range-mode>
+
+  Extended:
+    Range: 0-1048576
+    Binding: 65536 ports per IP across 127.0.0.1 through 127.0.0.17
+    IP mapping:
+      127.0.0.1  = ports 0-65535
+      127.0.0.2  = ports 65536-131071
+      ...
+      127.0.0.16 = ports 983040-1048575
+      127.0.0.17 = overflow/control
+    Config: <port-range-mode>extended</port-range-mode>
+
+
+XML FORWARDING PROTOCOL
+------------------------
+  Clients connect to port 2000 and send:
+    <nwe-route><port>20000</port><payload>ASK|What is life?</payload></nwe-route>
+
+  The directory server parses the XML, resolves the target local IP via the
+  NIO masquerade engine, forwards the payload, and relays the response.
+
+
+DEPENDENCIES
+------------
+  None beyond standard JDK 21+ (java.nio.channels, javax.xml.parsers).
+  No additional jars required for this module.
+
+
+AUTHOR
+------
+  Max Rupplin — MEARVK LLC
+  https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+  mearvk@mearvk.us | mearvk@outlook.com

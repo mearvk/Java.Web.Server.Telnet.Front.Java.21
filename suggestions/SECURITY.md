@@ -1,5 +1,12 @@
 # SECURITY.md — Security Suggestions
 
+Phone:      1.919.923.4239 (USA)
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+Headquarters: 555 South Mangum St, Durham, NC 27701
+Purpose:    IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
+Sorceress:  Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
+Students:   Available on the 8th Floor after 8
+
 ## Key Management
 
 - The `secret.key` (3996 bytes) is used as SHA-256 salt for all wallet signatures. If this file is lost or corrupted, all wallet signatures become unverifiable. Maintain an encrypted backup separate from the repository.

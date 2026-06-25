@@ -265,6 +265,7 @@ public class NitroWebExpress extends WebExpress
                 ) {
                     writeLine(out, "[ NWE port " + PORT + " — Module Installation Service  |  install, unload, and manage NWE modules ]");
                     writeLine(out, "ModuleInstallationService v2.0");
+                    writeLine(out, "Rank Upgrades / Installer IDs / Public Keys: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions");
                     writeLine(out, "Type 'identify <nationalId>' first, then 'help' for commands.");
 
                     database.N21Store.storeModuleAction(0, "", "connect", session.remoteIp,
@@ -703,6 +704,7 @@ public class NitroWebExpress extends WebExpress
                 ) {
                     writeLine(out, "[ NWE port " + PORT + " — ASCII Signature Service  |  issues unique binary ASCII signatures per National ID ]");
                     writeLine(out, "ASCIICreatorServer — Binary ASCII Signature Service");
+                    writeLine(out, "Discussions: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions");
                     writeLine(out, "Commands: request <nationalId>  |  view <nationalId>  |  quit");
 
                     String line;

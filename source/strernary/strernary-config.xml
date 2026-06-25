@@ -51,6 +51,11 @@
         <description>In-memory ConcurrentHashMap for cached best-guess responses.</description>
     </knowledge-base>
 
+    <data>
+        <csv-directory>data</csv-directory>
+        <description>Local CSV data files for training and inference augmentation.</description>
+    </data>
+
     <!-- AI Integrative Bridge — connects Strernary to international.radio AI -->
     <ai-integrative-bridge>
         <enabled>true</enabled>

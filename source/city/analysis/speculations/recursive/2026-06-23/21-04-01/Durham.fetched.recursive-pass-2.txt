@@ -1,0 +1,47 @@
+=== SPECULATION REPORT ===
+Input: Durham.fetched.data
+Generated: 2026-06-23 21:04:01
+Lines analyzed: 3623
+Trainer confidence: 0.9885
+Spatial weights: [1.0, 1.0, 1.0]
+
+--- KEYWORD DENSITY ANALYSIS ---
+  inc: 7 occurrences
+  property: 3 occurrences
+  deed: 3 occurrences
+  sale: 2 occurrences
+  mortgage: 1 occurrences
+  corp: 1 occurrences
+
+Speculation: Primary market focus is 'inc'
+Speculation: Data source likely relates to general real estate market
+
+--- RATE OBSERVATIONS ---
+Percentage values found: 39
+Average rate: 54.15%
+Speculation: High-rate environment; possible subprime or risk-adjusted lending
+
+--- VOLUME SPECULATION ---
+Speculation: Large dataset (3623 lines) suggests institutional-grade data source
+Speculation: Likely sourced from county records system or bulk export
+
+--- COMMUNITY INFERENCE ---
+Baseline presumption: Most participants are good-faith actors (per legalice.presumes.xml)
+Speculation: Data patterns consistent with normal market behavior unless flagged otherwise
+
+
+=== RECURSIVE SPECULATION PASS 1 ===
+Re-analyzing 33 prior speculation lines...
+Prior assertions: 6
+Current model confidence: 0.9885
+Speculation: High confidence — findings likely reflect ground truth
+Speculation: Repeated financial patterns reinforce lending-sector hypothesis
+Recursive pass 1 complete.
+
+=== RECURSIVE SPECULATION PASS 2 ===
+Re-analyzing 41 prior speculation lines...
+Prior assertions: 8
+Current model confidence: 0.9885
+Speculation: High confidence — findings likely reflect ground truth
+Speculation: Repeated financial patterns reinforce lending-sector hypothesis
+Recursive pass 2 complete.

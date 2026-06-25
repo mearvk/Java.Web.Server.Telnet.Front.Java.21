@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Port 2000 Directory Server Configuration
+    =========================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Controls what information port 2000 reveals to connecting clients,
+    whether NationalID is required, and whether Rank 4 JWSTNJ21 server
+    registration (with public.key verification) is enabled.
+-->
+<directory-config>
+
+    <!-- Which services are queryable from port 2000 -->
+    <services>
+        <port-20000>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>Strernary™ inference server addresses</description>
+        </port-20000>
+
+        <port-49152>
+            <enabled>true</enabled>
+            <require-national-id>true</require-national-id>
+            <description>NationalFinanceID registration server addresses</description>
+        </port-49152>
+    </services>
+
+    <!-- Rank 4 JWSTNJ21 server registration via public.key -->
+    <rank4-registration>
+        <enabled>true</enabled>
+        <require-public-key>true</require-public-key>
+        <public-key-github-url>https://raw.githubusercontent.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/main/psychiatry/secrets/public.key</public-key-github-url>
+        <description>
+            A connecting Rank 4 Java.Telnet.Finance.Server must POST the
+            public.key contents for byte-for-byte verification before it
+            can register itself with this running server instance.
+        </description>
+    </rank4-registration>
+
+    <!-- NIO masquerade XML forwarding on port 2000 -->
+    <port-2000-forwarding>
+        <enabled>true</enabled>
+        <description>
+            Accept XML packets: &lt;nwe-route&gt;&lt;port&gt;N&lt;/port&gt;&lt;payload&gt;...&lt;/payload&gt;&lt;/nwe-route&gt;
+            Forward payload to resolved local IP based on nio-masquerade-config.xml.
+        </description>
+    </port-2000-forwarding>
+
+</directory-config>

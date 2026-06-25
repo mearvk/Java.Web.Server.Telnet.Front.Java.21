@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<legalice-presumes>
+    <meta>
+        <title>Presumptions, Rules, Lessons, and Proofs</title>
+        <baseline>Most people are good and like good starts</baseline>
+        <version>1.0</version>
+    </meta>
+
+    <presumptions>
+        <class id="citizens">
+            <label>Citizens</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>all-ages</age-consideration>
+            <presumption>Presumed to act in good faith and community interest</presumption>
+            <rule>Benefit of the doubt in civic participation</rule>
+            <lesson>Engagement builds trust over time</lesson>
+            <proof>Consistent participation in local governance and volunteerism</proof>
+        </class>
+
+        <class id="business-persons">
+            <label>Business Persons</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>18+</age-consideration>
+            <presumption>Presumed to operate ethically within market norms</presumption>
+            <rule>Fair dealing and transparent pricing expected</rule>
+            <lesson>Reputation compounds; short-term cheating fails long-term</lesson>
+            <proof>Sustained operation and repeat customers</proof>
+        </class>
+
+        <class id="colleges">
+            <label>Colleges and Universities</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>17-65</age-consideration>
+            <presumption>Presumed to advance knowledge and serve students honestly</presumption>
+            <rule>Education delivered matches education promised</rule>
+            <lesson>Institutional trust takes decades to build, moments to lose</lesson>
+            <proof>Graduate outcomes, accreditation standing, research output</proof>
+        </class>
+
+        <class id="retailers">
+            <label>Retailers</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>18+</age-consideration>
+            <presumption>Presumed to sell safe goods at fair value</presumption>
+            <rule>Products match descriptions; refunds honored</rule>
+            <lesson>Customer loyalty follows honest service</lesson>
+            <proof>Low complaint rates, repeat business, community presence</proof>
+        </class>
+
+        <class id="residential-owners">
+            <label>Residential Owners</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>21+</age-consideration>
+            <presumption>Presumed to maintain property and respect neighbors</presumption>
+            <rule>Property kept within code; boundaries respected</rule>
+            <lesson>Neighborhood value is collective</lesson>
+            <proof>Property upkeep, code compliance, neighbor relations</proof>
+        </class>
+
+        <class id="investors">
+            <label>Investors</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>21+</age-consideration>
+            <presumption>Presumed to seek returns through legitimate means</presumption>
+            <rule>Disclosed conflicts; no insider manipulation</rule>
+            <lesson>Markets reward patience and transparency</lesson>
+            <proof>Regulatory compliance, portfolio longevity, public filings</proof>
+        </class>
+
+        <class id="scientists">
+            <label>Scientists</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>22+</age-consideration>
+            <presumption>Presumed to pursue truth through rigorous method</presumption>
+            <rule>Data reported honestly; results reproducible</rule>
+            <lesson>Scientific integrity outlasts any single finding</lesson>
+            <proof>Peer review acceptance, reproducibility, citation record</proof>
+        </class>
+
+        <class id="hotel-operators">
+            <label>Hotel Operators</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>21+</age-consideration>
+            <presumption>Presumed to provide safe and clean accommodations as advertised</presumption>
+            <rule>Health and safety standards met; bookings honored</rule>
+            <lesson>Hospitality reputation drives occupancy</lesson>
+            <proof>Inspection records, guest reviews, repeat bookings</proof>
+        </class>
+
+        <class id="church">
+            <label>Church and Religious Organizations</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>all-ages</age-consideration>
+            <presumption>Presumed to serve spiritual and community welfare selflessly</presumption>
+            <rule>Stewardship of donated funds; care for vulnerable members</rule>
+            <lesson>Moral authority requires moral consistency</lesson>
+            <proof>Community outreach, financial transparency, member welfare</proof>
+        </class>
+
+        <class id="high-iq-individuals">
+            <label>High-IQ Individuals (157+)</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>all-ages</age-consideration>
+            <presumption>Presumed to apply intelligence toward constructive ends</presumption>
+            <rule>Capability implies responsibility; influence used for benefit</rule>
+            <lesson>Intelligence without conscience is incomplete</lesson>
+            <proof>Contributions to society, mentorship, creative or scientific output</proof>
+        </class>
+
+        <class id="teachers-157-iq">
+            <label>Teachers of 157+ IQ</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>25+</age-consideration>
+            <presumption>Presumed to elevate students beyond standard expectations</presumption>
+            <rule>Teach to potential, not to minimum; inspire independent thought</rule>
+            <lesson>Great teachers multiply intelligence across generations</lesson>
+            <proof>Student advancement, original curricula, long-term student outcomes</proof>
+        </class>
+
+        <class id="food-service-workers">
+            <label>Food Service Workers</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>16+</age-consideration>
+            <presumption>Presumed to handle food safely and serve with care</presumption>
+            <rule>Hygiene standards maintained; allergens disclosed</rule>
+            <lesson>Feeding people is a trust; consistency builds loyalty</lesson>
+            <proof>Health inspection scores, customer satisfaction, tenure</proof>
+        </class>
+
+        <class id="bankers">
+            <label>Bankers</label>
+            <moral-spectrum>good</moral-spectrum>
+            <age-consideration>21+</age-consideration>
+            <presumption>Presumed to steward deposits and extend credit responsibly</presumption>
+            <rule>Fiduciary duty upheld; terms disclosed clearly</rule>
+            <lesson>Trust is the only currency that underlies all others</lesson>
+            <proof>Regulatory standing, customer retention, fair lending records</proof>
+        </class>
+    </presumptions>
+</legalice-presumes>

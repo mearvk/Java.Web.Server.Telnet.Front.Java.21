@@ -10,6 +10,18 @@ Owner of Del Taco in Apple Valley, CA '95
 
 Owner of AtlAtl.phd Brand Clothing US United States
 
+Phone:      1.919.923.4239 (USA)
+
+Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
+
+Headquarters: 555 South Mangum St, Durham, NC 27701
+
+Purpose:    IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
+
+Sorceress:  Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
+
+Students:   Available on the 8th Floor after 8
+
 ![Profile views](https://views.igorkowalczyk.dev/api/badge/@mearvk?style=flat)
 
 ---
@@ -33,6 +45,7 @@ This software verifies its operational authorization by checking the presence of
 
 **Contact:**
 - Max Rupplin — mearvk@mearvk.us | mearvk@outlook.com
+- Discussions / Rank Upgrades / Installer IDs / Public Key Requests: https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
 
 ---
 
@@ -102,6 +115,25 @@ All terminal output is driven by `configuration/print-method.xml`. No recompile 
 
 ---
 
+## CityAnalysis™ — Property Records & AI Speculation Engine
+
+City-level property and deed analysis module with AI-driven speculation. Fetches county Register of Deeds data, extracts financial entities, trains a moral-bound IQ spectrum spatial model, and generates recursive speculation reports.
+
+**Belt Requirement:** Green Belt or Brown Belt | **IQ Requirement:** 180+
+
+**Components:** `CityAnalysisMain`, `CityAnalysisServer`, `CitySpeculationEngine`, `CitySpeculationTrainer`
+
+**Configuration:**
+- `source/city-analysis/city-analysis-config.xml` — City list (15 NC cities, Durham default)
+- `source/city-analysis/cse-allowance-config.xml` — AI reasoning limits, IQ tiers, trainer params
+- `source/city-analysis/legalice.presumes.xml` — Citizen class presumptions
+
+**Output:** `source/city-analysis/speculations/` and `speculations/recursive/<date>/<time>/`
+
+**Source directory:** `source/city-analysis/`
+
+---
+
 ## Strernary™ — Best-Guess Inference Server
 
 Port 20000 inference server that accepts standard information and returns best-guess responses.
@@ -116,3 +148,61 @@ Port 20000 inference server that accepts standard information and returns best-g
 **Protocol:** TCP socket — `ASK|<text>`, `RELAY|<text>`, `STATUS`
 
 **Source directory:** `source/strernary/`
+
+---
+
+## Strernary™ Directory Server — Port 2000
+
+Telnet-accessible directory and routing server on port 2000. Provides an interactive menu for discovering known servers and registering new Rank 4 nodes, plus XML packet forwarding for NIO masquerade routing.
+
+**Interactive menu options:**
+| Option | Description | Auth |
+|--------|-------------|------|
+| 1 | List port 20000 server IPs (Strernary™) | NationalID (configurable) |
+| 2 | List port 49152 server IPs (NationalFinanceID) | NationalID required |
+| 3 | Register Rank 4 JWSTNJ21 server | public.key verification |
+| 4 | Quit | — |
+
+**XML forwarding mode:** If the first data received is an `<nwe-route>` XML packet, the server bypasses the interactive menu and forwards the payload directly to the target port via the NIO masquerade engine:
+```xml
+<nwe-route><port>20000</port><payload>ASK|What is life?</payload></nwe-route>
+```
+
+**Rank 4 registration:** Clients submit their `public.key` contents (base64, single line). The server compares byte-for-byte against the GitHub-hosted `public.key`. On match, the client's server address is added to the registered Rank 4 list.
+
+**Configuration:** `configuration/port-2000-directory-config.xml` — Controls which menu options are enabled, NationalID requirements, and XML forwarding toggle.
+
+**Known server lists:**
+- `configuration/known.port.20000.servers.xml` — Strernary™ endpoints
+- `configuration/known.port.49152.servers.xml` — NationalFinanceID endpoints
+
+**Source:** `source/strernary/StrernaryDirectoryServer.java`
+
+---
+
+## NIO Masquerade Layer
+
+NIO-based front layer that binds local IPs 127.0.0.1 through 127.0.0.17 and bridges non-blocking NIO connections to the existing blocking architecture.
+
+**Port range modes:**
+| Mode | Range | Binding |
+|------|-------|---------|
+| standard (default) | 0–65535 | All managed ports on 127.0.0.1 |
+| extended | 0–1048576 | 65536 ports per IP across 127.0.0.1–17 |
+
+**Module discovery:** At startup, `NioModuleScanner` reads `nwe-config.xml` and `masquerade-modules.xml` to discover all MEARVK LLC modules with their port values (0 to MAX_PORT). Masquerade-aware modules are registered in the NIO routing table automatically.
+
+**Port 2000 XML forwarding:** Clients can send XML packets to port 2000 for direct routing:
+```xml
+<nwe-route><port>20000</port><payload>ASK|What is life?</payload></nwe-route>
+```
+
+**Configuration files:**
+- `configuration/nio-masquerade-config.xml` — NIO settings, port range mode, managed ports
+- `configuration/masquerade-modules.xml` — Module registry with auto-discovery
+- `configuration/port-2000-directory-config.xml` — Port 2000 directory/forwarding settings
+
+**Source files:**
+- `source/strernary/NioMasqueradeEngine.java` — NIO Selector engine with local IP bindings
+- `source/strernary/NioModuleScanner.java` — Startup module discovery and registration
+- `source/strernary/StrernaryDirectoryServer.java` — Port 2000 menu + XML forwarding
