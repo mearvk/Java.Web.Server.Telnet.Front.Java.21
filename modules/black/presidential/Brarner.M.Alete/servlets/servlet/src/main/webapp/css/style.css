@@ -1,0 +1,185 @@
+/* Brarner.M.Alete — Science/Education Theme */
+/* Duke Blue: #003087 | Black: #000000 */
+
+:root {
+    --duke-blue: #003087;
+    --duke-blue-dark: #001A4E;
+    --duke-blue-light: #0047BB;
+    --black: #000000;
+    --white: #FFFFFF;
+    --gray-light: #F4F5F7;
+    --gray-mid: #6C757D;
+    --font-heading: 'Georgia', 'Times New Roman', serif;
+    --font-body: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'Consolas', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-body);
+    color: var(--black);
+    background: var(--white);
+    line-height: 1.6;
+}
+
+header {
+    background: var(--duke-blue);
+    color: var(--white);
+    padding: 1.5rem 2rem;
+    border-bottom: 4px solid var(--duke-blue-dark);
+}
+
+header h1 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: normal;
+    letter-spacing: 0.5px;
+}
+
+header .subtitle {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    margin-top: 0.25rem;
+}
+
+nav {
+    background: var(--duke-blue-dark);
+    padding: 0.6rem 2rem;
+}
+
+nav a {
+    color: var(--white);
+    text-decoration: none;
+    margin-right: 1.5rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+nav a:hover { opacity: 1; text-decoration: underline; }
+
+main {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+h2 {
+    font-family: var(--font-heading);
+    color: var(--duke-blue);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--duke-blue);
+    padding-bottom: 0.3rem;
+}
+
+h3 {
+    font-family: var(--font-heading);
+    color: var(--duke-blue-dark);
+    font-size: 1.1rem;
+    margin: 1.2rem 0 0.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+th {
+    background: var(--duke-blue);
+    color: var(--white);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+td {
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid #DDE;
+    font-size: 0.85rem;
+}
+
+tr:nth-child(even) { background: var(--gray-light); }
+
+.card {
+    background: var(--gray-light);
+    border-left: 4px solid var(--duke-blue);
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+}
+
+.badge {
+    display: inline-block;
+    background: var(--duke-blue);
+    color: var(--white);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+}
+
+.badge.standby { background: var(--gray-mid); }
+
+form { margin: 1rem 0; }
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+}
+
+input[type="text"], input[type="password"], textarea, select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #CCC;
+    border-radius: 3px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--duke-blue);
+    box-shadow: 0 0 3px rgba(0,48,135,0.3);
+}
+
+button, .btn {
+    background: var(--duke-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+button:hover, .btn:hover { background: var(--duke-blue-light); }
+
+.alert {
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+
+.alert-info { background: #E8F0FE; border-left: 4px solid var(--duke-blue); }
+.alert-error { background: #FDE8E8; border-left: 4px solid #C00; }
+
+footer {
+    background: var(--duke-blue-dark);
+    color: var(--white);
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.8rem;
+    margin-top: 3rem;
+}
+
+code {
+    font-family: var(--font-mono);
+    background: var(--gray-light);
+    padding: 0.1rem 0.3rem;
+    border-radius: 2px;
+    font-size: 0.85rem;
+}

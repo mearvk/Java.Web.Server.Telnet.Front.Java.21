@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Admin Login — Brarner.M.Alete</title>
+    <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1>Brarner.M.Alete</h1>
+    <div class="subtitle">Administration Portal</div>
+</header>
+<nav>
+    <a href="../index.xhtml">Home</a>
+    <a href="login.xhtml">Admin</a>
+</nav>
+<main>
+    <h2>Admin Login</h2>
+    <form method="POST" action="/servlet/admin/login">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required="required" autocomplete="username"/>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required="required" autocomplete="current-password"/>
+        <button type="submit">Sign In</button>
+    </form>
+    <div class="alert alert-info">
+        Authenticated administrators may retrieve POST documents and manage system configuration.
+    </div>
+</main>
+<footer>&copy; MEARVK LLC</footer>
+</body>
+</html>

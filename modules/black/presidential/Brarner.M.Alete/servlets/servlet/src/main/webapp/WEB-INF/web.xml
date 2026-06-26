@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>Brarner.M.Alete</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <servlet-class>com.mearvk.servlet.AdminLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <url-pattern>/admin/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminLogoutServlet</servlet-name>
+        <servlet-class>com.mearvk.servlet.AdminLogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLogoutServlet</servlet-name>
+        <url-pattern>/admin/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DocumentServlet</servlet-name>
+        <servlet-class>com.mearvk.servlet.DocumentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DocumentServlet</servlet-name>
+        <url-pattern>/admin/documents</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>StatusApiServlet</servlet-name>
+        <servlet-class>com.mearvk.servlet.StatusApiServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StatusApiServlet</servlet-name>
+        <url-pattern>/api/status</url-pattern>
+    </servlet-mapping>
+
+    <resource-ref>
+        <res-ref-name>jdbc/BrarnerDB</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+</web-app>
