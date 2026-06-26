@@ -16,7 +16,7 @@
  * @date June 24 2026 EST
  */
 
-package city_analysis;
+package city.analysis;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -83,26 +83,33 @@ public class RodPropertyQueryEngine
 
     /**
      * Submits the DOCSEARCH5S1 search form and follows each result document link.
+     * Must GET the search page first to establish context in the session.
      */
     private List<String> submitSearch(String lastName, String firstName, String crossRef)
     {
         List<String> results = new ArrayList<>();
         try
         {
-            // Build POST body matching the SelfService DOCSEARCH5S1 form
-            StringBuilder params = new StringBuilder();
-            params.append("nameType=").append(nameType == NameType.SOUNDEX ? "soundex" : "human");
-            if (!lastName.isEmpty())
-                params.append("&lastName=").append(URLEncoder.encode(lastName, StandardCharsets.UTF_8));
-            if (!firstName.isEmpty())
-                params.append("&firstName=").append(URLEncoder.encode(firstName, StandardCharsets.UTF_8));
-            if (!crossRef.isEmpty())
-                params.append("&crossRefNumber=").append(URLEncoder.encode(crossRef, StandardCharsets.UTF_8));
-            if (!docGroup.isEmpty())
-                params.append("&docGroup=").append(URLEncoder.encode(docGroup, StandardCharsets.UTF_8));
+            // Establish search context by visiting the search page
+            httpGet(ROD_BASE + "/web/search/DOCSEARCH5S1");
 
-            // Submit search
-            String searchResultsHtml = httpPost(SEARCH_URL, params.toString());
+            // Build POST body matching the actual DOCSEARCH5S1 form fields
+            StringBuilder params = new StringBuilder();
+            if (!lastName.isEmpty())
+                params.append("field_BothNamesID_DOT_Surname=").append(URLEncoder.encode(lastName, StandardCharsets.UTF_8));
+            if (!firstName.isEmpty())
+                params.append("&field_BothNamesID_DOT_Name=").append(URLEncoder.encode(firstName, StandardCharsets.UTF_8));
+            if (nameType == NameType.HUMAN)
+                params.append("&field_BothNamesID_DOT_Human=on");
+            if (!crossRef.isEmpty())
+                params.append("&field_DocumentNumberID=").append(URLEncoder.encode(crossRef, StandardCharsets.UTF_8));
+
+            // Step 1: POST to searchPost endpoint (returns JSON with pagination)
+            String postResponse = httpPost(ROD_BASE + "/web/searchPost/DOCSEARCH5S1", params.toString());
+            if (postResponse == null) return results;
+
+            // Step 2: GET search results page
+            String searchResultsHtml = httpGet(ROD_BASE + "/web/searchResults/DOCSEARCH5S1");
             if (searchResultsHtml == null || searchResultsHtml.isEmpty()) return results;
 
             // Extract document links from search results
@@ -127,13 +134,13 @@ public class RodPropertyQueryEngine
 
     /**
      * Extracts document links from search results page.
-     * Pattern: /web/document/DOC<id>S<step>?search=DOCSEARCH5S1
+     * Pattern: /web/document/DOC<type>-<id>-<n>?search=DOCSEARCH5S1
      */
     private List<String> extractDocumentLinks(String html)
     {
         List<String> links = new ArrayList<>();
         Pattern pattern = Pattern.compile(
-            "href=[\"'](/web/document/DOC\\d+S\\d+\\?search=DOCSEARCH5S1)[\"']",
+            "href=[\"'](/web/document/DOC[^\"'?]+\\?search=DOCSEARCH5S1)[\"']",
             Pattern.CASE_INSENSITIVE);
         Matcher m = pattern.matcher(html);
         Set<String> seen = new HashSet<>();
@@ -143,11 +150,11 @@ public class RodPropertyQueryEngine
             if (seen.add(link)) links.add(link);
         }
 
-        // Fallback: look for any /web/document/ links
+        // Fallback: data-href attributes on ss-search-row elements
         if (links.isEmpty())
         {
             Pattern fallback = Pattern.compile(
-                "href=[\"'](/web/document/[^\"']+)[\"']", Pattern.CASE_INSENSITIVE);
+                "data-href=[\"'](/web/document/[^\"']+)[\"']", Pattern.CASE_INSENSITIVE);
             Matcher fm = fallback.matcher(html);
             while (fm.find())
             {
@@ -288,6 +295,8 @@ public class RodPropertyQueryEngine
     {
         HttpsURLConnection conn = openConnection(urlStr);
         conn.setRequestMethod("GET");
+        conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+        conn.setRequestProperty("ajaxRequest", "true");
         int code = conn.getResponseCode();
         if (code == 200) return readBody(conn);
         if (code == 302 || code == 301)
@@ -304,6 +313,8 @@ public class RodPropertyQueryEngine
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+        conn.setRequestProperty("ajaxRequest", "true");
         try (OutputStream os = conn.getOutputStream())
         {
             os.write(body.getBytes(StandardCharsets.UTF_8));

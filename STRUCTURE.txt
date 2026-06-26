@@ -267,11 +267,30 @@ CITY ANALYSIS MODULE
   source/city-analysis/CityAnalysisServer.java         — Property/deed data fetcher
   source/city-analysis/CitySpeculationEngine.java      — AI speculation + recursive self-analysis
   source/city-analysis/CitySpeculationTrainer.java     — Moral-bound IQ spatial model trainer
+  source/city-analysis/CityAnalysisCrawler.java        — Aware API crawler, depth/rate-limited
+  source/city-analysis/RodDisclaimerHandler.java       — ROD disclaimer accept (POST /web/user/disclaimer)
+  source/city-analysis/RodQueryHandler.java            — Batch ROD queries from local CSV data
+  source/city-analysis/RodPropertyQueryEngine.java     — Full document search + detail extraction
+  source/city-analysis/RodQueryTestFramework.java      — Integration tests, 100-parcel test, grading
   source/city-analysis/city-analysis-config.xml        — 15 NC cities, connection settings
   source/city-analysis/cse-allowance-config.xml        — Reasoning limits, IQ tiers, trainer params
   source/city-analysis/legalice.presumes.xml           — Citizen class presumptions
+  source/city-analysis/data/                           — Local CSV data (addresses, ROD results)
   source/city-analysis/speculations/                   — Initial speculation output
   source/city-analysis/speculations/recursive/         — Recursive passes by date/time
+
+  ROD Search Formula (rodweb.dconc.gov):
+    1. GET  /web/search/DOCSEARCH5S1                   — Establish JSESSIONID
+    2. POST /web/user/disclaimer [XMLHttpRequest]      — Accept disclaimer → "true"
+    3. GET  /web/search/DOCSEARCH5S1                   — Load search form (56KB)
+    4. POST /web/searchPost/DOCSEARCH5S1 [XMLHttpRequest] — Submit search → JSON pagination
+    5. GET  /web/searchResults/DOCSEARCH5S1 [XMLHttpRequest] — Fetch results HTML
+    6. GET  /web/document/DOC<type>-<id>-<n>           — Follow document detail links
+
+  Form fields: field_BothNamesID_DOT_Surname, field_BothNamesID_DOT_Name,
+               field_BothNamesID_DOT_Human (checkbox), field_DocumentNumberID,
+               field_BookPageID_DOT_Book, field_BookPageID_DOT_Volume,
+               field_BookPageID_DOT_Page, field_RecordingDateID_DOT_StartDate/EndDate
 
 
 LOG / DATA PATHS

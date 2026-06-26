@@ -12,7 +12,7 @@
  * @date June 24 2026 EST
  */
 
-package city_analysis;
+package city.analysis;
 
 import commons.CommonRails;
 import exceptions.ExceptionHandler;
@@ -23,11 +23,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+
 public class RodQueryHandler
 {
     private static final String DATA_DIR = "source/city/analysis/data/";
     private static final String INPUT_CSV = DATA_DIR + "durham.nc.addresses.csv";
     private static final String OUTPUT_CSV = DATA_DIR + "durham.nc.rod.query.results.csv";
+    private static final String CONFIG_PATH = "source/city/analysis/configuration/city-analysis-config.xml";
 
     private static final String CSV_HEADER =
         "QUERY_DATE,PARCEL_ID,PIN,ADDRESS,SEARCH_TYPE,BOOK_TYPE,BOOK,PAGE,RECORDED_DATE,FILED_DATE," +
@@ -113,6 +115,44 @@ public class RodQueryHandler
                 Thread.sleep(DELAY_MS);
             }
 
+            // Step 5: Query known names from config (histogram-driven)
+            List<String[]> knownNames = loadKnownNames();
+            if (!knownNames.isEmpty())
+            {
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". CityAnalysis\u2122 ROD querying " + knownNames.size() + " known names from config .");
+                for (String[] name : knownNames)
+                {
+                    engine.setNameType(RodPropertyQueryEngine.NameType.HUMAN);
+                    List<String> results = engine.queryByName(name[0], name[1]);
+                    if (!results.isEmpty())
+                    {
+                        appendResults("", "", name[0] + " " + name[1], "known-name", results);
+                        total += results.size();
+                    }
+                    Thread.sleep(DELAY_MS);
+                }
+            }
+
+            // Step 6: Query known addresses from config
+            List<String> knownAddresses = loadKnownAddresses();
+            if (!knownAddresses.isEmpty())
+            {
+                CommonRails.printSystemComponent(this, this.hashCode(),
+                    ". CityAnalysis\u2122 ROD querying " + knownAddresses.size() + " known addresses from config .");
+                for (String addr : knownAddresses)
+                {
+                    engine.setNameType(RodPropertyQueryEngine.NameType.HUMAN);
+                    List<String> results = engine.queryAllData("", "", addr, "");
+                    if (!results.isEmpty())
+                    {
+                        appendResults("", "", addr, "known-address", results);
+                        total += results.size();
+                    }
+                    Thread.sleep(DELAY_MS);
+                }
+            }
+
             CommonRails.printSystemComponent(this, this.hashCode(),
                 ". CityAnalysis\u2122 ROD query complete: " + total + " results from " + records.size() + " records .");
 
@@ -123,6 +163,78 @@ public class RodQueryHandler
             ExceptionHandler.dispatch(e);
             return 0;
         }
+    }
+
+    private List<String[]> loadKnownNames()
+    {
+        List<String[]> names = new ArrayList<>();
+        try
+        {
+            org.w3c.dom.Document doc = javax.xml.parsers.DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder().parse(new java.io.File(CONFIG_PATH));
+            org.w3c.dom.NodeList knNodes = doc.getElementsByTagName("known-names");
+            if (knNodes.getLength() == 0) return names;
+            org.w3c.dom.Element kn = (org.w3c.dom.Element) knNodes.item(0);
+            if (!"true".equals(kn.getAttribute("enabled"))) return names;
+            org.w3c.dom.NodeList nameNodes = kn.getElementsByTagName("name");
+            for (int i = 0; i < nameNodes.getLength(); i++)
+            {
+                org.w3c.dom.Element el = (org.w3c.dom.Element) nameNodes.item(i);
+                names.add(new String[]{el.getAttribute("lastName"), el.getAttribute("firstName")});
+            }
+        }
+        catch (Exception e) { /* config parse error — skip */ }
+        return names;
+    }
+
+    private List<String> loadKnownAddresses()
+    {
+        List<String> addresses = new ArrayList<>();
+        try
+        {
+            org.w3c.dom.Document doc = javax.xml.parsers.DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder().parse(new java.io.File(CONFIG_PATH));
+            org.w3c.dom.NodeList kaNodes = doc.getElementsByTagName("known-addresses");
+            if (kaNodes.getLength() == 0) return addresses;
+            org.w3c.dom.Element ka = (org.w3c.dom.Element) kaNodes.item(0);
+            if (!"true".equals(ka.getAttribute("enabled"))) return addresses;
+
+            // Load from source CSV (durham.nc.addresses.csv) — column 12 = SITE_ADDRE
+            String source = ka.getAttribute("source");
+            if (source != null && !source.isEmpty())
+            {
+                Path csvPath = Path.of(DATA_DIR + source);
+                if (Files.exists(csvPath))
+                {
+                    try (BufferedReader reader = Files.newBufferedReader(csvPath))
+                    {
+                        reader.readLine(); // skip header
+                        String line;
+                        Set<String> seen = new HashSet<>();
+                        while ((line = reader.readLine()) != null && addresses.size() < 100)
+                        {
+                            String[] cols = parseCsvLine(line);
+                            if (cols.length < 13) continue;
+                            String addr = cols[12].trim();
+                            if (!addr.isEmpty() && seen.add(addr)) addresses.add(addr);
+                        }
+                    }
+                    java.util.Collections.shuffle(addresses);
+                    if (addresses.size() > 50) addresses = addresses.subList(0, 50);
+                    return addresses;
+                }
+            }
+
+            // Fallback: load from inline <address> elements
+            org.w3c.dom.NodeList addrNodes = ka.getElementsByTagName("address");
+            for (int i = 0; i < addrNodes.getLength(); i++)
+            {
+                String addr = addrNodes.item(i).getTextContent().trim();
+                if (!addr.isEmpty()) addresses.add(addr);
+            }
+        }
+        catch (Exception e) { /* config parse error — skip */ }
+        return addresses;
     }
 
     private List<String[]> readInputCsv(int maxQueries)

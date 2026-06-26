@@ -11,7 +11,7 @@
  * @date June 24 2026 EST
  */
 
-package city_analysis;
+package city.analysis;
 
 import commons.CommonRails;
 import exceptions.ExceptionHandler;
@@ -51,6 +51,11 @@ public class RodDisclaimerHandler
      * Fetches the ROD disclaimer page, accepts it, and returns the content of
      * the actual document search page (DOCSEARCH5S1).
      *
+     * Flow (verified via live testing):
+     * 1. GET /web/search/DOCSEARCH5S1 → establish session (JSESSIONID)
+     * 2. POST /web/user/disclaimer with X-Requested-With: XMLHttpRequest → "true"
+     * 3. GET /web/search/DOCSEARCH5S1 → actual search form (56KB)
+     *
      * @return HTML content of the search page post-disclaimer, or null on failure
      */
     public String acceptAndFetch()
@@ -58,36 +63,27 @@ public class RodDisclaimerHandler
         try
         {
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". CityAnalysis™ ROD disclaimer handler — fetching disclaimer page .");
+                ". CityAnalysis\u2122 ROD disclaimer handler \u2014 establishing session .");
 
-            // Step 1: GET the disclaimer page, capture cookies
+            // Step 1: GET to establish session
             String disclaimerHtml = httpGet(ROD_SEARCH_URL);
             if (disclaimerHtml == null) return null;
 
-            // Step 2: Extract the form action URL
-            String actionUrl = extractFormAction(disclaimerHtml);
-            if (actionUrl == null)
+            // Step 2: POST to /web/user/disclaimer with XMLHttpRequest header
+            String acceptResponse = httpPostAjax(ROD_BASE + "/web/user/disclaimer", "");
+            if (acceptResponse == null || !acceptResponse.trim().equals("true"))
             {
-                // Page might already be past disclaimer (no form found)
                 CommonRails.printSystemComponent(this, this.hashCode(),
-                    ". CityAnalysis™ ROD no disclaimer detected — page already accessible .");
-                return disclaimerHtml;
+                    ". CityAnalysis\u2122 ROD disclaimer accept failed: " + acceptResponse + " .");
+                return null;
             }
 
-            // Resolve relative action URL
-            if (!actionUrl.startsWith("http")) actionUrl = ROD_BASE + actionUrl;
-
-            CommonRails.printSystemComponent(this, this.hashCode(),
-                ". CityAnalysis™ ROD disclaimer accepting — POST to " + actionUrl + " .");
-
-            // Step 3: POST to accept the disclaimer
-            String postResponse = httpPost(actionUrl);
-
-            // Step 4: Follow through to original search page
+            // Step 3: GET the search page (now accessible)
             String searchHtml = httpGet(ROD_SEARCH_URL);
 
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". CityAnalysis™ ROD disclaimer accepted — search page loaded .");
+                ". CityAnalysis\u2122 ROD disclaimer accepted \u2014 search page loaded (" +
+                (searchHtml != null ? searchHtml.length() : 0) + " chars) .");
 
             return searchHtml;
         }
@@ -157,6 +153,8 @@ public class RodDisclaimerHandler
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+        conn.setRequestProperty("ajaxRequest", "true");
         if (sessionCookie != null) conn.setRequestProperty("Cookie", sessionCookie);
         conn.setInstanceFollowRedirects(false);
 
@@ -175,6 +173,31 @@ public class RodDisclaimerHandler
                 return httpGet(loc);
             }
         }
+        return readBody(conn);
+    }
+
+    /**
+     * POST with AJAX headers and body content.
+     */
+    private String httpPostAjax(String urlStr, String body) throws Exception
+    {
+        HttpURLConnection conn = openConnection(urlStr);
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+        conn.setRequestProperty("ajaxRequest", "true");
+        if (sessionCookie != null) conn.setRequestProperty("Cookie", sessionCookie);
+        conn.setInstanceFollowRedirects(false);
+
+        try (OutputStream os = conn.getOutputStream())
+        {
+            if (body != null && !body.isEmpty()) os.write(body.getBytes(StandardCharsets.UTF_8));
+            else os.write(new byte[0]);
+        }
+
+        int code = conn.getResponseCode();
+        captureCookies(conn);
         return readBody(conn);
     }
 

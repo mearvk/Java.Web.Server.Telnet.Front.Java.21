@@ -67,7 +67,8 @@
             <description>AI re-speculates on its own findings up to max-passes times, stopping early if confidence drops below threshold</description>
         </recursive-speculation>
         <spatial-model>
-            <dimensions>3</dimensions>
+            <dimensions>7</dimensions>
+            <dimension-labels>city-affinity,morality,lawfulness,intellectual-age,financial-capacity,social-trust,property-stability</dimension-labels>
             <weight-count>64</weight-count>
             <weight-driven-depth>true</weight-driven-depth>
             <base-objections>
@@ -79,6 +80,12 @@
                 </objection>
                 <objection id="social-distance" weight="0.25" decay="0.04">
                     <description>Withdrawal from proximity to conflict</description>
+                </objection>
+                <objection id="moral-uncertainty" weight="0.2" decay="0.06">
+                    <description>Ambiguity in ethical classification of actors</description>
+                </objection>
+                <objection id="age-disparity" weight="0.15" decay="0.03">
+                    <description>Gap between perceived and actual intellectual age</description>
                 </objection>
             </base-objections>
             <falloff-model>exponential</falloff-model>

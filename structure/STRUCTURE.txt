@@ -490,3 +490,28 @@ DATABASE TABLES — BITCOIN
   bitcoin_trades_v24..v30     — Trade records (national_id, wallet, amount, USD, date, author).
   bitcoin_wallet_sessions     — Active wallet selection per NationalID (session persistence).
   distribution_license        — Edition flag + immutable rank (PEE=8, NDE=6, INT=4, FREE=4).
+
+
+CITY ANALYSIS MODULE (source/city/analysis/)
+---------------------------------------------
+  CityAnalysisMain.java            — Entry point. Runs ROD queries, fetches sources, speculates.
+  CityAnalysisServer.java          — Property/deed data fetcher, source manager.
+  CityAnalysisCrawler.java         — Aware API crawler, depth/rate-limited.
+  CitySpeculationEngine.java       — AI speculation + recursive self-analysis + ROD data parsing.
+  CitySpeculationTrainer.java      — Moral-bound IQ spatial model trainer.
+  RodDisclaimerHandler.java        — ROD disclaimer accept (POST /web/user/disclaimer).
+  RodQueryHandler.java             — Batch ROD queries from local CSV, human/soundex fallback.
+  RodPropertyQueryEngine.java      — Full search + document detail extraction.
+  RodQueryTestFramework.java       — Integration tests: disclaimer, 3-step formula, 100-parcel, grading.
+  configuration/city-analysis-config.xml  — 15 NC cities, rod-search-config, connection settings.
+  data/durham.nc.addresses.csv     — 189K Durham County address records (input).
+  data/durham.nc.rod.query.results.csv — ROD deeds query output (appendable).
+  data/durham.nc.rod.test.100.results.csv — 100-parcel test output.
+
+  ROD 3-Step Search Formula (rodweb.dconc.gov/web/search/DOCSEARCH5S1):
+    1. GET  /web/search/DOCSEARCH5S1              → Establish JSESSIONID
+    2. POST /web/user/disclaimer [XMLHttpRequest]  → "true" (accept)
+    3. GET  /web/search/DOCSEARCH5S1              → Search form page
+    4. POST /web/searchPost/DOCSEARCH5S1 [XMLHttpRequest + fields] → JSON {"totalPages":N}
+    5. GET  /web/searchResults/DOCSEARCH5S1 [XMLHttpRequest] → Results HTML
+    6. GET  /web/document/DOC<type>-<id>-<n>      → Document detail page

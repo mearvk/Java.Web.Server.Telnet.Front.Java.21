@@ -486,7 +486,26 @@
     <rod-search-config>
         <base-url>https://rodweb.dconc.gov</base-url>
         <search-url>/web/search/DOCSEARCH5S1</search-url>
-        <document-url-pattern>/web/document/DOC{id}S{step}?search=DOCSEARCH5S1</document-url-pattern>
+        <search-post-url>/web/searchPost/DOCSEARCH5S1</search-post-url>
+        <search-results-url>/web/searchResults/DOCSEARCH5S1</search-results-url>
+        <disclaimer-url>/web/user/disclaimer</disclaimer-url>
+        <document-url-pattern>/web/document/DOC{type}-{id}-{n}?search=DOCSEARCH5S1</document-url-pattern>
+
+        <!--
+            3-Step Search Formula (proven June 24, 2026):
+            1. GET  /web/search/DOCSEARCH5S1              → JSESSIONID cookie
+            2. POST /web/user/disclaimer [X-Requested-With: XMLHttpRequest] → "true"
+            3. GET  /web/search/DOCSEARCH5S1              → 56KB search form
+            4. POST /web/searchPost/DOCSEARCH5S1 [XMLHttpRequest + form fields] → JSON {"totalPages":N}
+            5. GET  /web/searchResults/DOCSEARCH5S1 [XMLHttpRequest] → results HTML (document links)
+            6. GET  /web/document/DOC<type>-<id>-<n>?search=DOCSEARCH5S1 → document detail
+
+            Required headers: X-Requested-With: XMLHttpRequest, ajaxRequest: true
+            Form fields: field_BothNamesID_DOT_Surname, field_BothNamesID_DOT_Name,
+                         field_BothNamesID_DOT_Human=on, field_DocumentNumberID,
+                         field_BookPageID_DOT_Book/Volume/Page,
+                         field_RecordingDateID_DOT_StartDate/EndDate
+        -->
 
         <!-- Search type selectors (buttons on the ROD form) -->
         <search-types>
@@ -526,12 +545,50 @@
             <fallback>name-soundex</fallback>
         </query-strategy>
 
-        <!-- Known common names to search (owners from local property records) -->
-        <known-names>
+        <!-- Known names from SCOUT.REPORT.data histograms (Top 30 Durham County) -->
+        <known-names enabled="true" source="source/city/analysis/data/SCOUT.REPORT.data">
+            <name lastName="SMITH" firstName="JAMES"/>
+            <name lastName="WILLIAMS" firstName="JOHN"/>
+            <name lastName="JOHNSON" firstName="ROBERT"/>
+            <name lastName="JONES" firstName="MICHAEL"/>
+            <name lastName="BROWN" firstName="WILLIAM"/>
+            <name lastName="DAVIS" firstName="DAVID"/>
+            <name lastName="WILSON" firstName="RICHARD"/>
+            <name lastName="MOORE" firstName="CHARLES"/>
+            <name lastName="TAYLOR" firstName="THOMAS"/>
+            <name lastName="ANDERSON" firstName="MARY"/>
+            <name lastName="THOMAS" firstName="PATRICIA"/>
+            <name lastName="JACKSON" firstName="JENNIFER"/>
+            <name lastName="WHITE" firstName="LINDA"/>
+            <name lastName="HARRIS" firstName="ELIZABETH"/>
+            <name lastName="MARTIN" firstName="BARBARA"/>
+            <name lastName="THOMPSON" firstName=""/>
+            <name lastName="GARCIA" firstName="JOSE"/>
+            <name lastName="MARTINEZ" firstName="MARIA"/>
+            <name lastName="ROBINSON" firstName=""/>
+            <name lastName="CLARK" firstName=""/>
+            <name lastName="RODRIGUEZ" firstName=""/>
+            <name lastName="LEWIS" firstName=""/>
+            <name lastName="LEE" firstName=""/>
+            <name lastName="WALKER" firstName=""/>
+            <name lastName="HALL" firstName=""/>
+            <name lastName="ALLEN" firstName=""/>
+            <name lastName="YOUNG" firstName=""/>
+            <name lastName="HERNANDEZ" firstName=""/>
+            <name lastName="KING" firstName=""/>
+            <name lastName="WRIGHT" firstName=""/>
             <name lastName="RUPPLIN" firstName=""/>
             <name lastName="DUKE" firstName=""/>
-            <name lastName="DURHAM" firstName=""/>
         </known-names>
+
+        <!-- Known addresses to search (loaded from source CSV) -->
+        <known-addresses enabled="true" source="durham.nc.addresses.csv">
+            <!-- Fallback addresses if CSV unavailable -->
+            <address>555 SOUTH MANGUM ST</address>
+            <address>2530 ERWIN RD</address>
+            <address>200 W MAIN ST</address>
+            <address>324 BLACKWELL ST</address>
+        </known-addresses>
 
         <!-- Output -->
         <output-csv>source/city/analysis/data/durham.nc.rod.query.results.csv</output-csv>
@@ -553,6 +610,9 @@
                         
         
         <user-agent>NitroWebExpress/CityAnalysis 1.0</user-agent>
+
+        <!-- Opportunity roll for delisted sources: 1 in N chance to retry (default 9) -->
+        <delisted-retry-odds>9</delisted-retry-odds>
                     
     
     </connection>

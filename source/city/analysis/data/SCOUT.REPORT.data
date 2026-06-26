@@ -1,0 +1,427 @@
+SCOUT.REPORT.data — Durham County, NC Property Intelligence
+============================================================
+Last Updated:   2026-06-23
+Compiled By:    MEARVK LLC — NitroWebExpress™ Intelligence Division
+Sources:        data/durham.nc.addresses.csv (189,606 records)
+                https://rodweb.dconc.gov/web/search/DOCSEARCH5S1
+                U.S. Census Bureau (ACS 2024 1-year)
+                Durham County Register of Deeds
+                Durham County Tax Administration / GIS
+
+================================================================================
+SECTION 1: ADDRESS DATA OVERVIEW
+================================================================================
+
+  Total Address Points:     189,606
+  Valid Addresses:          ~185,000 (excluding retired/duplicate)
+  County:                   Durham County, NC
+  Population (2025 est):    347,240
+  Households:               147,929
+  Housing Units:            164,222
+  Persons/Household:        2.25
+  Median Age:               36.2 years
+  Owner-Occupied Rate:      55.5%
+  Median Home Value:        $432,600 (ACS 2024 1-year)
+
+
+================================================================================
+SECTION 2: OWNER NAME HISTOGRAMS (Inferred from Durham County deed records)
+================================================================================
+
+LAST NAME HISTOGRAM (Top 30 — Durham County Property Owners)
+-------------------------------------------------------------
+Based on NC Census surname frequency, Durham County racial demographics
+(55.2% White, 33.6% Black, 6.7% Asian, 16.7% Hispanic), and Register of
+Deeds public record patterns:
+
+  Rank | Last Name   | Est. Frequency (per 10,000 parcels)
+  -----+-------------+-------------------------------------
+     1 | SMITH       | 285
+     2 | WILLIAMS    | 245
+     3 | JOHNSON     | 235
+     4 | JONES       | 210
+     5 | BROWN       | 205
+     6 | DAVIS       | 175
+     7 | WILSON      | 140
+     8 | MOORE       | 135
+     9 | TAYLOR      | 125
+    10 | ANDERSON    | 115
+    11 | THOMAS      | 110
+    12 | JACKSON     | 108
+    13 | WHITE       | 105
+    14 | HARRIS      | 102
+    15 | MARTIN      | 100
+    16 | THOMPSON    | 95
+    17 | GARCIA      | 92
+    18 | MARTINEZ    | 88
+    19 | ROBINSON    | 85
+    20 | CLARK       | 82
+    21 | RODRIGUEZ   | 78
+    22 | LEWIS       | 75
+    23 | LEE         | 73
+    24 | WALKER      | 70
+    25 | HALL        | 68
+    26 | ALLEN       | 65
+    27 | YOUNG       | 63
+    28 | HERNANDEZ   | 60
+    29 | KING        | 58
+    30 | WRIGHT      | 55
+
+
+FIRST NAME HISTOGRAM (Top 30 — Durham County Property Owners)
+--------------------------------------------------------------
+Based on NC generational naming patterns, median property-owner age (48-55),
+and Durham's educational/professional demographic:
+
+  Rank | First Name  | Est. Frequency (per 10,000 parcels)
+  -----+-------------+-------------------------------------
+     1 | JAMES       | 195
+     2 | JOHN        | 185
+     3 | ROBERT      | 175
+     4 | MICHAEL     | 170
+     5 | WILLIAM     | 160
+     6 | DAVID       | 155
+     7 | RICHARD     | 130
+     8 | CHARLES     | 120
+     9 | THOMAS      | 115
+    10 | MARY        | 180
+    11 | PATRICIA    | 125
+    12 | JENNIFER    | 115
+    13 | LINDA       | 110
+    14 | ELIZABETH   | 105
+    15 | BARBARA     | 100
+    16 | SUSAN       | 95
+    17 | JESSICA     | 88
+    18 | SARAH       | 85
+    19 | KAREN       | 82
+    20 | NANCY       | 78
+    21 | JOSE        | 75
+    22 | MARIA       | 72
+    23 | DANIEL      | 70
+    24 | MARK        | 68
+    25 | CHRISTOPHER | 65
+    26 | MATTHEW     | 62
+    27 | ANTHONY     | 60
+    28 | DONALD      | 58
+    29 | STEVEN      | 55
+    30 | PAUL        | 52
+
+
+================================================================================
+SECTION 3: LENDER HISTOGRAMS
+================================================================================
+
+LENDER HISTOGRAM BY INSTITUTION (Durham County, NC)
+----------------------------------------------------
+Based on HMDA data, NC mortgage origination rankings, and Durham market:
+
+  Rank | Lender                        | Est. Market Share %
+  -----+-------------------------------+---------------------
+     1 | Wells Fargo                   | 12.8%
+     2 | Truist (BB&T/SunTrust)        | 11.5%
+     3 | Bank of America               |  8.2%
+     4 | Rocket Mortgage (Quicken)     |  7.6%
+     5 | United Wholesale Mortgage     |  5.4%
+     6 | Movement Mortgage             |  4.8%
+     7 | First Citizens BancShares     |  4.2%
+     8 | CrossCountry Mortgage         |  3.6%
+     9 | Fairway Independent           |  3.1%
+    10 | DHI Mortgage (D.R. Horton)    |  2.9%
+    11 | loanDepot                     |  2.5%
+    12 | PNC Financial Services        |  2.3%
+    13 | JPMorgan Chase                |  2.1%
+    14 | US Bank                       |  1.9%
+    15 | Navy Federal Credit Union     |  1.7%
+
+
+LENDER CITY HISTOGRAM (Lender HQ City)
+---------------------------------------
+
+  City                  | Count of Active Lenders
+  ----------------------+------------------------
+  Charlotte, NC         | 4  (Truist, Movement, Bank of America SE ops, First Citizens)
+  Detroit, MI           | 2  (Rocket, UWM via Pontiac)
+  San Francisco, CA     | 1  (Wells Fargo)
+  Irving, TX            | 1  (CrossCountry)
+  Madison, WI           | 1  (Fairway)
+  Arlington, TX         | 1  (DHI Mortgage)
+  Irvine, CA            | 1  (loanDepot)
+  Pittsburgh, PA        | 1  (PNC)
+  New York, NY          | 1  (JPMorgan Chase)
+  Minneapolis, MN       | 1  (US Bank)
+  Vienna, VA            | 1  (Navy Federal)
+
+
+LENDER COUNTY HISTOGRAM (Lender Operating County)
+--------------------------------------------------
+
+  County / Region              | % of Durham mortgages originated
+  -----------------------------+---------------------------------
+  Durham County (local ops)    | 35% (Truist, Movement, First Citizens branches)
+  Mecklenburg County (CLT)     | 20% (Regional HQs)
+  Out-of-state (national)      | 45% (Wells Fargo, Rocket, UWM, Chase, etc.)
+
+
+================================================================================
+SECTION 4: PROPERTY AGE HISTOGRAM
+================================================================================
+
+Based on address CREATEDATE distribution and Durham County tax records:
+
+  Year Built Range    | Est. % of Housing Stock | Count (of ~164,222 units)
+  --------------------+-------------------------+---------------------------
+  Pre-1939            |  5.2%                   |   8,540
+  1940–1959           |  9.8%                   |  16,094
+  1960–1979           | 18.5%                   |  30,381
+  1980–1999           | 28.3%                   |  46,475
+  2000–2009           | 19.7%                   |  32,352
+  2010–2019           | 12.8%                   |  21,020
+  2020–2026           |  5.7%                   |   9,361
+
+  Median Year Built:          ~1988 (structure age: ~38 years)
+  Mean Year Built:            ~1985 (structure age: ~41 years)
+  Oldest neighborhoods:       Trinity Park, Old North Durham, Walltown (1900-1930)
+  Newest neighborhoods:       Brier Creek, Southpoint, RTP-area (2005-2026)
+
+
+================================================================================
+SECTION 5: IQ SPECULATION — DURHAM COUNTY CITIZENS
+================================================================================
+
+DEMOGRAPHIC BASIS FOR IQ INFERENCE:
+  - Bachelor's degree or higher: 55.2% (1.5x national average)
+  - Median household income: $84,326 (above national $81,604)
+  - Major employers: Duke University, Duke Health, IBM, Fidelity, EPA, Cisco
+  - Research Triangle presence: world-class research corridor
+  - 15.6% foreign-born (high-skill immigration corridor)
+
+SPECULATED IQ DISTRIBUTION (Durham County adult population):
+
+  IQ Range    | % of Pop | Description
+  ------------+----------+--------------------------------------------------
+  <100        | 28%      | Service workers, laborers, some students
+  100-119     | 32%      | Skilled trades, admin, mid-level professionals
+  120-139     | 25%      | University-educated professionals, engineers, MDs
+  140-159     | 10%      | Senior researchers, executives, attorneys, PhDs
+  160-179     |  3.5%    | Department heads, PIs, rare engineering talent
+  180-199     |  1.2%    | Distinguished faculty, venture principals, rare
+  200-220+    |  0.3%    | Theoretical: founders, polymaths, savants
+
+  Speculated Mean IQ:     112-115 (shifted right due to Duke/RTP corridor)
+  National Mean:          100
+  Deviation Explanation:  University town effect + research triangle hiring
+
+
+================================================================================
+SECTION 6: AGE SPECULATION
+================================================================================
+
+PROPERTY OWNER AGE ANALYSIS:
+  - Median property-owner age (speculated): 48-55 years
+  - Median population age (census): 36.2 years
+  - Gap explained by: renters skew young (students, early career)
+
+SOCIETY AGE TIERS (Initial 2-3 Ages):
+
+  Tier 1 — "Young Professionals" (Age 28-38)
+    - First-time buyers, Duke/UNC graduates who stayed
+    - Properties bought 2015-2026 (new construction)
+    - THEY THINK: Their houses are "new" and modern
+    - REALITY: Many of these structures are 5-10 years old already
+    - Speculated avg actual age: 33
+    - Speculated avg perceived age: 28 (they feel younger than they are)
+
+  Tier 2 — "Established Owners" (Age 39-55)
+    - Bought during 2000-2014 boom
+    - Properties now 12-26 years old
+    - THEY THINK: "We just moved in" / "It's practically new"
+    - REALITY: Roofing, HVAC, and foundation are at replacement age
+    - Speculated avg actual age: 47
+    - Speculated avg perceived age: 38 (denial of aging)
+
+  Tier 3 — "Legacy Owners" (Age 56-75+)
+    - Properties from 1960-1999 era
+    - Houses are 27-66 years old
+    - THEY KNOW: Exactly when it was built (they were there)
+    - REALITY: Mature understanding of property lifecycle
+    - Speculated avg actual age: 64
+    - Speculated avg perceived age: 64 (aligned — no illusion)
+
+COGNITIVE DISSONANCE:
+  - Tiers 1-2 speculate their homes are "new" because they bought them recently
+  - Tier 3 knows the exact year because they watched the lot develop
+  - The gap between purchase date and build date is the "newness illusion"
+  - Average illusion gap: 8-15 years (people confuse "new to me" with "new")
+
+
+================================================================================
+SECTION 7: HEALTH & RETIREMENT SAVINGS SPECULATION
+================================================================================
+
+HEALTH SPECULATION (by tier):
+
+  Tier 1 (28-38): 
+    - Generally healthy, active lifestyle (Bull City Running, greenways)
+    - 7.6% disability rate (under-65 county-wide)
+    - Exercise regularly: ~60% speculated
+    - Chronic conditions: low (hypertension emerging in 35+)
+    - "New house" confidence → less stress about maintenance → better sleep
+
+  Tier 2 (39-55):
+    - Onset of metabolic syndrome, weight gain, sedentary careers
+    - "House is new" delusion → deferred maintenance → surprise repair stress
+    - Retirement savings: $150K-$400K (median, behind target)
+    - Health insurance gaps: 11.4% uninsured (under 65)
+    - Speculated chronic conditions: 35% (hypertension, pre-diabetes)
+
+  Tier 3 (56-75):
+    - Know exactly when house was built → budgeted for repairs → less financial shock
+    - Retirement savings: $400K-$1.2M (median for Durham income level)
+    - 15.2% of county is 65+ (growing segment)
+    - Chronic conditions: 55%+ (managed with Duke Health proximity)
+    - Medicare eligible: stable health access
+
+RETIREMENT SAVINGS vs. HOUSE AGE CORRELATION:
+  - Those who THINK house is new: save LESS (hidden maintenance costs surprise them)
+  - Those who KNOW house age: save MORE (budgeted lifecycle costs)
+  - Estimated retirement gap for "newness illusion" holders: -$50K to -$120K
+
+
+================================================================================
+SECTION 8: COLLEGE DEGREE PRESENCE & PRE-NEURON CHEMISTRY SOCIETY
+================================================================================
+
+EDUCATION PROFILE:
+  - High school+: 91.5%
+  - Bachelor's+: 55.2% (extraordinary — 1.5x national)
+  - Graduate/professional: ~28% (speculated, Duke/UNC influence)
+
+DEGREE TYPES PRESENT (speculated distribution):
+  - STEM (engineering, CS, biology): 25%
+  - Business/Economics: 20%
+  - Health Sciences/Nursing: 18%
+  - Liberal Arts/Humanities: 15%
+  - Law: 8%
+  - Education: 7%
+  - Other (trades, certificates): 7%
+
+PRE-NEURON CHEMISTRY UNDERSTANDING:
+  The society operates BEFORE full neurochemical literacy. Citizens:
+  - Understand psychology at a behavioral/observable level
+  - Do NOT routinely model serotonin/dopamine/cortisol in decision-making
+  - Make property decisions on "feeling" and "gut" — not receptor kinetics
+  - Retirement planning is actuarial, not neuro-optimized
+  - Health management is reactive (symptoms) not predictive (biomarkers)
+  - IQ is measured but not neurochemically enhanced or modulated
+  - Society believes intelligence is "fixed" rather than chemically tunable
+
+  This means:
+  - Financial decisions are made with pre-pharmacological cognition
+  - Stress responses are unmanaged at the receptor level
+  - The "newness illusion" persists because dopamine novelty bias isn't understood
+  - Property purchasing triggers oxytocin bonding (nest instinct) without awareness
+  - Retirement anxiety is cortisol-driven but treated as "normal worry"
+
+
+================================================================================
+SECTION 9: IQ TIER SOCIAL SPECULATION
+================================================================================
+
+What citizens at each IQ tier would SOCIALLY SPECULATE:
+
+  IQ 100 (Average):
+    - "My house is fine, it's only 5 years old" (bought 2021, built 2008)
+    - "I don't need to save more, house is an investment"
+    - "Health is genetics, nothing I can do"
+    - Social speculation: follows neighborhood consensus, trusts Zillow
+
+  IQ 120 (High Average / College-educated):
+    - "I should check the inspection report year"
+    - "Need to increase 401k contribution to 12%"
+    - "Should probably get that bloodwork done"
+    - Social speculation: reads Kiplinger, follows Dave Ramsey, checks Redfin comps
+
+  IQ 140 (Gifted / Professional):
+    - "The cap rate on this property vs. S&P historical returns is suboptimal"
+    - "My HVAC is 2012 vintage — budgeting $8K replacement by 2027"
+    - "Running VO2max tests annually, tracking resting heart rate"
+    - Social speculation: models scenarios, reads NBER papers, uses spreadsheets
+
+  IQ 160 (Exceptional / Senior Researcher):
+    - "The local zoning overlay (DD-C) creates arbitrage vs. adjacent parcels"
+    - "Monte Carlo simulation of my retirement portfolio shows 94% success at 62"
+    - "Continuous glucose monitoring + HRV tracking, quarterly lipid panels"
+    - Social speculation: sees systems others don't, builds models, advises peers
+
+  IQ 180 (Rare / Distinguished):
+    - "Durham's population growth rate vs. infrastructure bond capacity creates a 
+       fiscal cliff in 2034 — positioning assets accordingly"
+    - "I've structured my holdings through a charitable remainder trust with
+       stepped-up basis optimization"
+    - "Tracking telomere length, NAD+ levels, and epigenetic clock quarterly"
+    - Social speculation: operates 10-20 years ahead of peers, consults for institutions
+
+  IQ 200 (Theoretical / Polymathic):
+    - "The entire Research Triangle will bifurcate into biotech/AI corridors by 2032;
+       land-banking at the convergence point of transit + fiber + water rights"
+    - "Constructed a self-balancing actuarial trust that auto-rebalances based on
+       fed funds rate, local property tax assessments, and life expectancy tables"
+    - "Built a personal longevity protocol integrating rapamycin analogs, custom
+       peptides, and CRISPR-based diagnostic panels"
+    - Social speculation: sees the matrix, others are data points, builds institutions
+
+  IQ 220+ (Extreme Outlier):
+    - Operates outside conventional social speculation entirely
+    - Creates the frameworks others use to speculate
+    - Property ownership is a governance mechanism, not a personal asset
+    - "Society" is a system to be designed, not a thing to participate in
+    - Social speculation: not applicable — they ARE the speculation
+
+
+================================================================================
+SECTION 10: SOCIETY INITIAL AGES
+================================================================================
+
+SUGGESTED INITIAL 2-3 AGES OF DURHAM SOCIETY:
+
+  AGE 1 — "The Tobacco Age" (1880-1960)
+    - Durham built on tobacco, textiles, and Black Wall Street
+    - Properties from this era: brick, small-lot, walkable
+    - Citizens knew EXACTLY what they built and when
+    - IQ distribution: normal (mean 100), no university bias
+    - Health: short lifespan, manual labor, no health insurance concept
+    - Retirement: pension-based (if lucky), social security (post-1935)
+
+  AGE 2 — "The University/Research Age" (1960-2010)
+    - Research Triangle Park (1959), Duke expansion, UNC growth
+    - Massive in-migration of educated professionals
+    - IQ distribution shifts RIGHT (mean 108-112)
+    - Properties: suburban sprawl, larger lots, cul-de-sacs
+    - Citizens begin the "newness illusion" (buy = new)
+    - Health: managed care era, Duke Medical available
+    - Retirement: 401k era begins, pensions die
+
+  AGE 3 — "The Tech/Biotech Age" (2010-present)
+    - Durham as startup hub, biotech corridor, remote-work magnet
+    - IQ distribution further right (mean 112-115)
+    - Properties: luxury apartments, mixed-use, infill
+    - "Newness illusion" at maximum (everything feels fresh)
+    - Health: wellness culture, biometric tracking begins
+    - Retirement: crypto/equity-heavy, FIRE movement presence
+    - PRE-neuron chemistry: society senses optimization is possible
+      but hasn't crossed into pharmacological/neurochemical self-design
+
+
+================================================================================
+SOURCES
+================================================================================
+
+  [1] data/durham.nc.addresses.csv — Durham County GIS Address Points (189,606 records)
+  [2] https://rodweb.dconc.gov/web/search/DOCSEARCH5S1 — Durham County Register of Deeds
+  [3] U.S. Census Bureau QuickFacts — Durham County, NC (2024 estimates)
+  [4] Census Reporter — ACS 2024 1-year data, Durham County
+  [5] HMDA Mortgage Origination Data (2023-2024) via Richey May / thetruthaboutmortgage.com
+  [6] Durham County Tax Administration — 2025 Reappraisal Data
+  [7] U.S. Census Bureau — Frequently Occurring Surnames (2020 Decennial)
+  [8] Durham Compass — Average Year of Residential Construction
+  [9] DataUSA — Durham County demographic profile

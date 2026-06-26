@@ -1,4 +1,4 @@
-package city_analysis;
+package city.analysis;
 
 import java.io.*;
 import java.net.*;
@@ -210,18 +210,38 @@ public class CityAnalysisServer
     }
 
     /**
-     * Load additional source URLs from city element (skips delisted)
+     * Load additional source URLs from city element (skips delisted unless opportunity roll passes)
      */
+    protected int delistedRetryOdds = 9; // 1 in 9 chance to retry delisted sources
+
     protected void loadAdditionalSources(Element cityEl)
     {
         additionalSources.clear();
         NodeList sourceNodes = cityEl.getElementsByTagName("source");
+
+        // Load opportunity-roll odds from config
+        try
+        {
+            NodeList rollNodes = cityEl.getOwnerDocument().getElementsByTagName("delisted-retry-odds");
+            if (rollNodes.getLength() > 0) delistedRetryOdds = Integer.parseInt(rollNodes.item(0).getTextContent().trim());
+        }
+        catch (Exception e) { /* use default */ }
+
         for (int i = 0; i < sourceNodes.getLength(); i++)
         {
             Element sourceEl = (Element) sourceNodes.item(i);
             if ("delisted".equals(sourceEl.getAttribute("status")))
             {
-                System.out.println("-- : [CityAnalysisServer] Skipping delisted source: " + sourceEl.getTextContent().trim());
+                // Opportunity roll: 1 in N chance to retry
+                if (java.util.concurrent.ThreadLocalRandom.current().nextInt(delistedRetryOdds) == 0)
+                {
+                    System.out.println("-- : [CityAnalysisServer] Opportunity roll passed (1/" + delistedRetryOdds + ") — retrying delisted: " + sourceEl.getTextContent().trim());
+                    additionalSources.add(sourceEl.getTextContent().trim());
+                }
+                else
+                {
+                    System.out.println("-- : [CityAnalysisServer] Skipping delisted source: " + sourceEl.getTextContent().trim());
+                }
                 continue;
             }
             additionalSources.add(sourceEl.getTextContent().trim());
@@ -253,13 +273,13 @@ public class CityAnalysisServer
         try { java.nio.file.Files.createDirectories(rawSessionDir); } catch (Exception e) { /* ignore */ }
 
         String deeds = fetchDeedsSearch();
-        if (deeds != null) { all.append(deeds); saveRaw(rawSessionDir, "deeds", deeds); }
+        if (deeds != null) { all.append(deeds); saveRaw(rawSessionDir, "deeds", deeds); saveDownload(date, deedsUrl, deeds); }
 
         String property = fetchPropertyRecords();
-        if (property != null) { all.append(property); saveRaw(rawSessionDir, "property-records", property); }
+        if (property != null) { all.append(property); saveRaw(rawSessionDir, "property-records", property); saveDownload(date, propertyRecordsUrl, property); }
 
         String rod = fetchRegisterOfDeeds();
-        if (rod != null) { all.append(rod); saveRaw(rawSessionDir, "register-of-deeds", rod); }
+        if (rod != null) { all.append(rod); saveRaw(rawSessionDir, "register-of-deeds", rod); saveDownload(date, registerOfDeedsUrl, rod); }
 
         int i = 0;
         for (String sourceUrl : additionalSources)
@@ -278,6 +298,7 @@ public class CityAnalysisServer
             {
                 all.append(content);
                 saveRaw(rawSessionDir, "source-" + i, content);
+                saveDownload(date, sourceUrl, content);
             }
             i++;
         }
@@ -300,6 +321,63 @@ public class CityAnalysisServer
         {
             System.err.println("-- : [CityAnalysisServer] Raw save error: " + e.getMessage());
         }
+    }
+
+    /**
+     * Save page data to downloads/DATE/WEBSITE/00X.data
+     * Spillover from repeated runs increments 001, 002, 003, etc.
+     */
+    protected void saveDownload(String date, String url, String content)
+    {
+        try
+        {
+            // Extract website name from URL
+            String website = "local";
+            if (url != null && url.contains("://"))
+            {
+                website = url.replaceAll("https?://", "").split("/")[0]
+                             .replace("www.", "").replaceAll("[^a-zA-Z0-9.-]", "_");
+            }
+
+            java.nio.file.Path websiteDir = java.nio.file.Paths.get("downloads", date, website);
+            java.nio.file.Files.createDirectories(websiteDir);
+
+            // Find next sequential number (001, 002, etc.)
+            int seq = 1;
+            try (java.util.stream.Stream<java.nio.file.Path> files = java.nio.file.Files.list(websiteDir))
+            {
+                seq = (int) files.count() + 1;
+            }
+
+            // Strip HTML — save as processed text .data
+            String processed = stripHtmlForDownload(content);
+
+            String filename = String.format("%03d.data", seq);
+            java.nio.file.Path outFile = websiteDir.resolve(filename);
+            java.nio.file.Files.writeString(outFile, processed);
+        }
+        catch (Exception e)
+        {
+            System.err.println("-- : [CityAnalysisServer] Download save error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Strip HTML tags from content for processed .data output.
+     */
+    protected String stripHtmlForDownload(String html)
+    {
+        if (html == null) return "";
+        String text = html.replaceAll("(?is)<script[^>]*>.*?</script>", "");
+        text = text.replaceAll("(?is)<style[^>]*>.*?</style>", "");
+        text = text.replaceAll("(?i)<(br|/p|/div|/li|/tr|/h[1-6])[^>]*>", "\n");
+        text = text.replaceAll("<[^>]+>", "");
+        text = text.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+                   .replace("&nbsp;", " ").replace("&quot;", "\"").replace("&#39;", "'");
+        text = text.replaceAll("\\n\\s*\\n\\s*\\n+", "\n\n");
+        text = text.lines().map(String::strip).filter(l -> !l.isEmpty())
+                   .reduce("", (a, b) -> a + "\n" + b).strip();
+        return text;
     }
 
     /**
