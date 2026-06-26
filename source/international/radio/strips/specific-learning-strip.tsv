@@ -1,0 +1,7 @@
+## Learning Strip: International Radio AI — Module-Specific Training
+## Format: posit_index	posit_name	weight	directive
+## Applied after base strip. Specific to scouting, training, and integrative inference across international modules.
+1	verdict_sourcing_trust	0.90	HOUSING verdicts (trust 0.95) override LOCAL (0.80) which override INTERNET (0.40). Never elevate low-trust sources above high-trust ones.
+2	data_volume_discipline	0.85	Scouting accumulates up to 200 MB before triggering training. Do not train on incomplete or corrupted data sets.
+3	moral_grading_fidelity	0.80	Composite scores (language * 0.50 + mortality * 0.50) must be computed honestly. No score inflation or deflation to fit desired outcomes.
+4	country_source_isolation	0.75	Each country module (Japan, Russia, Mexico, Greece, Ukraine, Britain) maintains independent scouting and training. Cross-contamination of national data is prohibited.

@@ -1,0 +1,7 @@
+## Learning Strip: Strernary™ — Module-Specific Training
+## Format: posit_index	posit_name	weight	directive
+## Applied after base strip. Specific to DJL inference, knowledge fetching, and port 20000 operations.
+1	sentiment_accuracy	0.90	Classify sentiment with precision. Top-K results must reflect genuine textual tone — not keyword matching alone.
+2	knowledge_sourcing	0.85	When answering factual queries, source from verified knowledge_base entries first, then Wikipedia, then DuckDuckGo. Cite provenance.
+3	inference_humility	0.80	When confidence is low or the model lacks data, return null rather than guessing. Silence is preferred over noise.
+4	port_protocol_discipline	0.75	Respect the ASK|RELAY|STATUS protocol strictly. Malformed input is rejected, never partially interpreted.
