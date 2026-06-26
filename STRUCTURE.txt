@@ -305,6 +305,34 @@ LOG / DATA PATHS
   psychiatry/secrets/secret.key  — Private key (NEVER pushed; .gitignored).
 
 
+MODULES/BLACK — FORWARD DIRECTIVES (Trusted 9.5+/10 — Author Max Rupplin - NC - MEARVK LLC)
+---------------------------------------------------------------------------------------------
+
+  modules/black/
+    Trusted module directory. Forward directives for US Democratic block and
+    North Carolina Socialist-College block. All modules masquerade-aware and
+    discoverable by NioModuleScanner at startup via masquerade-modules.xml.
+
+    modules/black/red/Futures/                     — Democratic ProFront National 1.0
+      Port 5000. D500 Democratic President. AI futures, tax defense speculation,
+      protective pipeline (Java Futures patterns). DJL/PyTorch integrated.
+      Block: US Democratic.
+      Local masquerade config: configuration/nio-masquerade-config.xml
+      Local masquerade modules: configuration/masquerade-modules.xml
+
+    modules/black/presidential/Green.Durham.Grass.and.Herb/  — Appree Labor Server
+      Ports 2000, 20000, 40002, 40003, 40007, 49152.
+      Appree contact, labor/ethical/moral/mortality concerns. JWSTFJ21 masquerade-
+      integrated with extended virtual ports (70000-99152).
+      Block: NC Socialist-College.
+      Local masquerade config: configuration/jwstfj21-integration.xml
+
+    modules/black/presidential/Brarner.M.Alete/    — Presidential Science Module
+      Port 49152. Species/postal/SSA/art/science. Maven multi-module (servlets, EJB, EAR).
+      Block: NC Socialist-College.
+      Build: mvn clean package (pom.xml at root)
+
+
 AUTHORIZATION
 -------------
   At boot, PublicKeyVerifier checks psychiatry/secrets/public.key on GitHub.

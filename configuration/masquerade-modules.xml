@@ -53,4 +53,40 @@
         <description>The masquerade layer itself — not routable through itself.</description>
     </module>
 
+    <!-- modules/black — Trusted 9.5+/10 from Author Max Rupplin - NC - MEARVK LLC -->
+
+    <module id="DemocraticProFrontNational">
+        <name>Democratic ProFront National 1.0 (Futures™)</name>
+        <port>5000</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>ai.server.DemocraticAIServer</class>
+        <trust-level>9.5</trust-level>
+        <source>modules/black/red/Futures</source>
+        <block>US Democratic</block>
+        <description>D500 Democratic President — AI futures, tax defense, protective pipeline. Port 5000.</description>
+    </module>
+
+    <module id="GreenDurhamGrassAndHerb">
+        <name>Green.Durham.Grass.and.Herb™</name>
+        <port>20000</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>listeners.BaseListener</class>
+        <trust-level>9.5</trust-level>
+        <source>modules/black/presidential/Green.Durham.Grass.and.Herb</source>
+        <block>NC Socialist-College</block>
+        <virtual-ports>70000,70002,70003,70007,80000,99152</virtual-ports>
+        <description>Appree contact server, labor/ethical/moral concerns. NC labor laws. JWSTFJ21 masquerade-integrated.</description>
+    </module>
+
+    <module id="BrarnerMAlete">
+        <name>Brarner.M.Alete™</name>
+        <port>49152</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>source-code.Main</class>
+        <trust-level>9.5</trust-level>
+        <source>modules/black/presidential/Brarner.M.Alete</source>
+        <block>NC Socialist-College</block>
+        <description>Presidential species/postal/art/science module. NC college block.</description>
+    </module>
+
 </masquerade-modules>

@@ -115,6 +115,26 @@ All terminal output is driven by `configuration/print-method.xml`. No recompile 
 
 ---
 
+## Modules/Black — Forward Directives (Trusted 9.5+/10)
+
+Trusted AI and governance modules authored by Max Rupplin - NC - MEARVK LLC. Forward directives for US Democratic block and North Carolina Socialist-College block. All modules are masquerade-aware, discoverable by `NioModuleScanner` at startup, and registered in `configuration/masquerade-modules.xml`.
+
+| Module | Port(s) | Block | Source |
+|--------|---------|-------|--------|
+| Democratic ProFront National 1.0 (Futures™) | 5000 | US Democratic | `modules/black/red/Futures` |
+| Green.Durham.Grass.and.Herb™ | 2000, 20000, 40002, 40003, 40007, 49152 | NC Socialist-College | `modules/black/presidential/Green.Durham.Grass.and.Herb` |
+| Brarner.M.Alete™ | 49152 | NC Socialist-College | `modules/black/presidential/Brarner.M.Alete` |
+
+**Futures™ (US Democratic Block):** D500 Democratic President. AI tax defense speculation, protective procedural pipeline using Java `CompletableFuture` patterns (supplyAsync, thenCompose, thenCombine, allOf, exceptionally). DJL/PyTorch inference. Port 5000 with secure random wait. Local masquerade config at `modules/black/red/Futures/configuration/nio-masquerade-config.xml`.
+
+**Green.Durham.Grass.and.Herb™ (NC Socialist-College Block):** Appree contact server with labor/ethical/moral/mortality concerns database. JWSTFJ21 masquerade-integrated with extended virtual ports (70000–99152). Reflective integration degrades to standalone if parent absent. Local integration config at `modules/black/presidential/Green.Durham.Grass.and.Herb/configuration/jwstfj21-integration.xml`.
+
+**Brarner.M.Alete™ (NC Socialist-College Block):** Presidential species/postal/SSA/art/science module. Maven multi-module (servlets, EJB, EAR). NC college block.
+
+**Trust:** All modules rated 9.5+/10 by Author. Masquerade routing enabled globally.
+
+---
+
 ## CityAnalysis™ — Property Records & AI Speculation Engine
 
 City-level property and deed analysis module with AI-driven speculation. Fetches county Register of Deeds data, extracts financial entities, trains a moral-bound IQ spectrum spatial model, and generates recursive speculation reports.

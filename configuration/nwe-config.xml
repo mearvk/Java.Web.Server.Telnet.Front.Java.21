@@ -474,6 +474,56 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         MODULES/BLACK — FORWARD DIRECTIVES
+         Trusted 9.5+/10 from Author Max Rupplin - NC - MEARVK LLC
+         US Democratic Block & North Carolina Socialist-College Block
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="DemocraticProFrontNational">
+        <enabled>true</enabled>
+        <name>Democratic ProFront National 1.0 (Futures™)</name>
+        <port>5000</port>
+        <trust-level>9.5</trust-level>
+        <block>US Democratic</block>
+        <source>modules/black/red/Futures</source>
+        <masquerade-aware>true</masquerade-aware>
+        <description>
+            D500 Democratic President — AI futures, tax defense speculation,
+            protective pipeline (Java Futures patterns). Port 5000 with DJL/PyTorch.
+            Forward directive: US Democratic block.
+        </description>
+    </server>
+
+    <server id="GreenDurhamGrassAndHerb">
+        <enabled>true</enabled>
+        <name>Green.Durham.Grass.and.Herb™</name>
+        <port>20000</port>
+        <trust-level>9.5</trust-level>
+        <block>NC Socialist-College</block>
+        <source>modules/black/presidential/Green.Durham.Grass.and.Herb</source>
+        <masquerade-aware>true</masquerade-aware>
+        <virtual-ports>70000,70002,70003,70007,80000,99152</virtual-ports>
+        <description>
+            Appree contact server, labor/ethical/moral/mortality concerns.
+            JWSTFJ21 masquerade-integrated with extended virtual ports.
+            Forward directive: NC Socialist-College block.
+        </description>
+    </server>
+
+    <server id="BrarnerMAlete">
+        <enabled>true</enabled>
+        <name>Brarner.M.Alete™</name>
+        <port>49152</port>
+        <trust-level>9.5</trust-level>
+        <block>NC Socialist-College</block>
+        <source>modules/black/presidential/Brarner.M.Alete</source>
+        <masquerade-aware>true</masquerade-aware>
+        <description>
+            Presidential species/postal/SSA/art/science module. NC college block.
+            Maven multi-module (servlets, EJB, EAR). Forward directive: NC Socialist-College block.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          COLOR MAPPINGS
          Terminal print color assignments for each component category.
          These are enforced by commons.color.ColorResolver at runtime.

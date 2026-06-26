@@ -59,6 +59,7 @@
     <!-- Which existing ports to bind on NIO front (in standard mode) -->
     <managed-ports>
         <port>2000</port>
+        <port>5000</port>
         <port>20000</port>
         <port>49152</port>
     </managed-ports>

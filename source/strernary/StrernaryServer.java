@@ -310,6 +310,12 @@ public class StrernaryServer implements Runnable
             return "GUESS|mexico_signal|try port 49203 MexicoSignalServer";
         if (lower.contains("greece") || lower.contains("athens") || lower.contains("baltic"))
             return "GUESS|greece_signal|try port 49204 GreeceInternationalSignalServer";
+        if (lower.contains("democratic") || lower.contains("futures") || lower.contains("tax defense") || lower.contains("d500"))
+            return "GUESS|democratic_futures|try port 5000 DemocraticProFrontNational (Futures™)";
+        if (lower.contains("labor") || lower.contains("appree") || lower.contains("grass") || lower.contains("herb") || lower.contains("ethical") || lower.contains("moral"))
+            return "GUESS|green_durham|try port 20000 Green.Durham.Grass.and.Herb™ (NC Socialist-College)";
+        if (lower.contains("species") || lower.contains("postal") || lower.contains("ssa") || lower.contains("brarner"))
+            return "GUESS|brarner_alete|try port 49152 Brarner.M.Alete™ (NC Socialist-College)";
         if (lower.contains("status") || lower.contains("alive") || lower.contains("health"))
             return "GUESS|status_query|try STATUS command on any server";
         return "GUESS|unknown|insufficient context for definitive response";
