@@ -226,3 +226,50 @@ NIO-based front layer that binds local IPs 127.0.0.1 through 127.0.0.17 and brid
 - `source/strernary/NioMasqueradeEngine.java` — NIO Selector engine with local IP bindings
 - `source/strernary/NioModuleScanner.java` — Startup module discovery and registration
 - `source/strernary/StrernaryDirectoryServer.java` — Port 2000 menu + XML forwarding
+
+---
+
+## Memory Footprint (Rough Estimates)
+
+Approximate heap/RSS at steady state on Linux x86_64, Java 21 with virtual threads.
+
+**Core:**
+
+| Component | Estimated Memory | Notes |
+|-----------|-----------------|-------|
+| NitroWebExpress™ (main server) | ~60 MB | Base JVM + NIO selector + config |
+| NIO Masquerade Layer | ~20 MB | Selector engine, 18 local IP bindings |
+| MySQL JDBC pool | ~15 MB | Connection pool (idle) |
+| Print system + CommonRails | ~5 MB | Formatting, color, XML config |
+
+**Modules (per-module, when active):**
+
+| Module | Estimated Memory | Notes |
+|--------|-----------------|-------|
+| DJL Inference (Strernary™) | ~350 MB | DistilBERT model weights (~250 MB) + PyTorch native |
+| Strernary™ Server (port 20000) | ~25 MB | TCP socket handler + knowledge DB cache |
+| Strernary™ Directory (port 2000) | ~10 MB | Menu, XML forwarding, registered server lists |
+| International Signal Servers (each) | ~30 MB | Per-country: Japan, Russia, Mexico, Greece, Ukraine, Britain |
+| CityAnalysis™ | ~40 MB | Speculation engine + trainer + recursive output buffers |
+| AIProctorModule™ (port 49111) | ~20 MB | Session state + NationalID verification |
+| AIIntegrativeEngine + Training | ~80 MB | Shared model + scouting buffer (up to 200 MB during training) |
+| HeuristicClassifier™ | ~15 MB | Rate tables, geo-concentration maps, findings |
+| BitcoinCompliant (port 6682) | ~25 MB | Wallet indexer + trade session state |
+| AES/DSA/RSA Encryption | ~10 MB | Key material + pass buffers |
+| NationalFinanceID (port 49152) | ~20 MB | Keypair generator + profile cache |
+| Communicator (port 49199) | ~15 MB | Chat history + message queues |
+| Weather/Calendar/ASCII | ~10 MB | Lightweight socket handlers |
+
+**Totals (approximate):**
+
+| Profile | Estimated RSS | Description |
+|---------|---------------|-------------|
+| Minimal (core only) | ~100 MB | NitroWebExpress + NIO + MySQL |
+| Standard (no DJL) | ~400 MB | Core + all modules, DJL disabled |
+| Full (DJL loaded) | ~750 MB | All modules + PyTorch model loaded |
+| Training burst | ~950 MB | Full + AITrainingThread scouting buffer at capacity |
+
+**Recommended JVM flags:**
+```
+-Xms256m -Xmx1024m -XX:+UseZGC
+```
