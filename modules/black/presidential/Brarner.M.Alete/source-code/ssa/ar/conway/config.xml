@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>B49</office-code>
+    <office-name>CONWAY AR</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>2475 CHRISTINA LN</address-3>
+    <city>CONWAY</city>
+    <state>AR</state>
+    <zip-code>72034</zip-code>
+    <phone>(855) 727-3599</phone>
+    <fax>(833) 939-2003</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9311</socket-port>
+    <local-input-path>source-code/ssa/ar/conway/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ar/conway</output-dir>
+</signal-processing-config>

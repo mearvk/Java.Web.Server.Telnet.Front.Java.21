@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>759</office-code>
+    <office-name>PINE BLUFF AR</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>3511 MARKET STREET</address-3>
+    <city>PINE BLUFF</city>
+    <state>AR</state>
+    <zip-code>71601</zip-code>
+    <phone>(866) 563-9693</phone>
+    <fax>(833) 950-2704</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10157</socket-port>
+    <local-input-path>source-code/ssa/ar/pinebluff/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ar/pinebluff</output-dir>
+</signal-processing-config>

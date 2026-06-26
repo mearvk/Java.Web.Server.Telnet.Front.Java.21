@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>945</office-code>
+    <office-name>RENO NV</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1170 HARVARD WAY</address-3>
+    <city>RENO</city>
+    <state>NV</state>
+    <zip-code>89502</zip-code>
+    <phone>(888) 808-5481</phone>
+    <fax>(833) 571-2615</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10327</socket-port>
+    <local-input-path>source-code/ssa/nv/reno/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/nv/reno</output-dir>
+</signal-processing-config>

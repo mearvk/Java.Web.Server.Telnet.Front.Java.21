@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>344</office-code>
+    <office-name>CONCORD NC</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>830 FLORENCE ST NW</address-3>
+    <city>CONCORD</city>
+    <state>NC</state>
+    <zip-code>28027</zip-code>
+    <phone>(888) 366-6149</phone>
+    <fax>(833) 950-3145</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9791</socket-port>
+    <local-input-path>source-code/ssa/nc/concord/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/nc/concord</output-dir>
+</signal-processing-config>

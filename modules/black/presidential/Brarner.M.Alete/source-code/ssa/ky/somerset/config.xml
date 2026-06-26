@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>454</office-code>
+    <office-name>SOMERSET KY</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>3975 S HIGHWAY 27</address-3>
+    <city>SOMERSET</city>
+    <state>KY</state>
+    <zip-code>42501</zip-code>
+    <phone>(877) 714-0375</phone>
+    <fax>(833) 950-3779</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9891</socket-port>
+    <local-input-path>source-code/ssa/ky/somerset/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ky/somerset</output-dir>
+</signal-processing-config>

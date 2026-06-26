@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>620</office-code>
+    <office-name>GWINNETT GA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>4365 SHACKLEFORD RD</address-3>
+    <city>NORCROSS</city>
+    <state>GA</state>
+    <zip-code>30093</zip-code>
+    <phone>(877) 803-6320</phone>
+    <fax>(833) 950-3163</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10043</socket-port>
+    <local-input-path>source-code/ssa/ga/norcross/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ga/norcross</output-dir>
+</signal-processing-config>

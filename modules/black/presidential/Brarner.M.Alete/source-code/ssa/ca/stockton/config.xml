@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>962</office-code>
+    <office-name>STOCKTON CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>4747 FEATHER RIVER DR</address-3>
+    <city>STOCKTON</city>
+    <state>CA</state>
+    <zip-code>95219</zip-code>
+    <phone>(877) 803-6314</phone>
+    <fax>(833) 902-2634</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10344</socket-port>
+    <local-input-path>source-code/ssa/ca/stockton/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/stockton</output-dir>
+</signal-processing-config>

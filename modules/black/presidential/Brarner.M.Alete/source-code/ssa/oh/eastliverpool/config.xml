@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>417</office-code>
+    <office-name>EAST LIVERPOOL OH</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>120 EAST FOURTH STREET</address-3>
+    <city>EAST LIVERPOOL</city>
+    <state>OH</state>
+    <zip-code>43920</zip-code>
+    <phone>(855) 269-9178</phone>
+    <fax>(833) 950-3731</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9858</socket-port>
+    <local-input-path>source-code/ssa/oh/eastliverpool/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/oh/eastliverpool</output-dir>
+</signal-processing-config>

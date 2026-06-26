@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>389</office-code>
+    <office-name>COLUMBUS OH-DT</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>ROOM 225  FED BLDG</address-2>
+    <address-3>200 NORTH HIGH STREET</address-3>
+    <city>COLUMBUS</city>
+    <state>OH</state>
+    <zip-code>43215</zip-code>
+    <phone>(866) 964-1723</phone>
+    <fax>(833) 950-3079</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9830</socket-port>
+    <local-input-path>source-code/ssa/oh/columbus003/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/oh/columbus003</output-dir>
+</signal-processing-config>

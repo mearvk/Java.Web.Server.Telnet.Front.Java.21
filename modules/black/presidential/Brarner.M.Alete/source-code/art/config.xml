@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module-config module="art" port-start="18400" port-end="18419">    <instance name="northcarolinamuseumofart" port="18400" active="true" status="receiving" />
+    <instance name="acklandartmuseum" port="18401" active="true" status="receiving" />
+    <instance name="adgallery" port="18402" active="true" status="receiving" />
+    <instance name="africanamericanatelier" port="18403" active="true" status="receiving" />
+    <instance name="harveybganttcenterforafricanamericanarts" port="18404" active="true" status="receiving" />
+    <instance name="deltaartscenter" port="18405" active="true" status="receiving" />
+    <instance name="diggsgallerywinstonsalemstateuniversity" port="18406" active="true" status="receiving" />
+    <instance name="northcarolinacentraluniversityartmuseum" port="18407" active="true" status="receiving" />
+    <instance name="northcarolinaatstateuniversitygalleries" port="18408" active="true" status="receiving" />
+    <instance name="cameronartmuseum" port="18409" active="true" status="receiving" />
+    <instance name="maimyettablackfineartsmuseum" port="18410" active="true" status="receiving" />
+    <instance name="csbrownculturalartscenter" port="18411" active="true" status="receiving" />
+    <instance name="tryonpalacecollections" port="18412" active="true" status="receiving" />
+    <instance name="northcarolinamuseumofhistory" port="18413" active="true" status="receiving" />
+    <instance name="maritimemuseumsbeaufort" port="18414" active="true" status="receiving" />
+    <instance name="roanokeislandfestivalpark" port="18415" active="true" status="receiving" />
+    <instance name="82ndairbornedivisionwarmemorialmuseum" port="18416" active="true" status="receiving" />
+    <instance name="africanamericanculturalcomplex" port="18417" active="true" status="receiving" />
+    <instance name="americanclassicmotorcyclemuseum" port="18418" active="true" status="receiving" />
+    <instance name="andygriffithmuseum" port="18419" active="true" status="receiving" />
+</module-config>

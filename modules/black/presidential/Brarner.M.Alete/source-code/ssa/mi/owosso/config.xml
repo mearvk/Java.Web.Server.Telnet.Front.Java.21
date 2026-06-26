@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>B33</office-code>
+    <office-name>OWOSSO MI</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1350 E MAIN ST</address-3>
+    <city>OWOSSO</city>
+    <state>MI</state>
+    <zip-code>48867</zip-code>
+    <phone>(855) 628-1592</phone>
+    <fax>(833) 950-3405</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9300</socket-port>
+    <local-input-path>source-code/ssa/mi/owosso/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mi/owosso</output-dir>
+</signal-processing-config>

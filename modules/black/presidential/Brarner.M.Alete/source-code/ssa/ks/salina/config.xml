@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>770</office-code>
+    <office-name>SALINA KS</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>STE 7</address-2>
+    <address-3>1410 E IRON AVE</address-3>
+    <city>SALINA</city>
+    <state>KS</state>
+    <zip-code>67401</zip-code>
+    <phone>(877) 405-3494</phone>
+    <fax>(833) 950-2332</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10167</socket-port>
+    <local-input-path>source-code/ssa/ks/salina/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ks/salina</output-dir>
+</signal-processing-config>

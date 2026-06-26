@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>122</office-code>
+    <office-name>GLOVERSVILLE NY</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>13 N ARLINGTON AVE</address-3>
+    <city>GLOVERSVILLE</city>
+    <state>NY</state>
+    <zip-code>12078</zip-code>
+    <phone>(888) 528-9446</phone>
+    <fax>(833) 902-2536</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9593</socket-port>
+    <local-input-path>source-code/ssa/ny/gloversville/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ny/gloversville</output-dir>
+</signal-processing-config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>544</office-code>
+    <office-name>SUPERIOR WI</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>4221 TOWER AVE</address-3>
+    <city>SUPERIOR</city>
+    <state>WI</state>
+    <zip-code>54880</zip-code>
+    <phone>(877) 628-6578</phone>
+    <fax>(833) 596-0593</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9973</socket-port>
+    <local-input-path>source-code/ssa/wi/superior/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/wi/superior</output-dir>
+</signal-processing-config>

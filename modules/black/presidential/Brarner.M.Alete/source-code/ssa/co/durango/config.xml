@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>890</office-code>
+    <office-name>DURANGO CO</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 120</address-2>
+    <address-3>103 SHEPPARD DRIVE</address-3>
+    <city>DURANGO</city>
+    <state>CO</state>
+    <zip-code>81303</zip-code>
+    <phone>(888) 472-6115</phone>
+    <fax>(833) 641-3163</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10275</socket-port>
+    <local-input-path>source-code/ssa/co/durango/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/co/durango</output-dir>
+</signal-processing-config>

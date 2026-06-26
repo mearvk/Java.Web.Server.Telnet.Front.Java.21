@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>B09</office-code>
+    <office-name>BROOKHAVEN MS</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1392 JOHNNY JOHNSON DR</address-3>
+    <city>BROOKHAVEN</city>
+    <state>MS</state>
+    <zip-code>39601</zip-code>
+    <phone>(877) 405-3568</phone>
+    <fax>(833) 950-3117</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9281</socket-port>
+    <local-input-path>source-code/ssa/ms/brookhaven/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ms/brookhaven</output-dir>
+</signal-processing-config>

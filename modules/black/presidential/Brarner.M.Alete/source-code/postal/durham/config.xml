@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-name>Durham Main Post Office</office-name>
+    <office-type>USPS</office-type>
+    <county>Durham</county>
+    <city>Durham</city>
+    <zip-code>27701</zip-code>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9006</socket-port>
+    <local-input-path>source-code/postal/durham/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/postal/durham</output-dir>
+</signal-processing-config>

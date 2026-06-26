@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>237</office-code>
+    <office-name>WEST CHESTER PA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1101 WEST CHESTER PIKE</address-3>
+    <city>WEST CHESTER</city>
+    <state>PA</state>
+    <zip-code>19382</zip-code>
+    <phone>(888) 306-3216</phone>
+    <fax>(833) 787-1782</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9694</socket-port>
+    <local-input-path>source-code/ssa/pa/westchester/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/pa/westchester</output-dir>
+</signal-processing-config>

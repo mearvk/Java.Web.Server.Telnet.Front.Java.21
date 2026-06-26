@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>679</office-code>
+    <office-name>ST CLOUD MN</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 100</address-2>
+    <address-3>3800 VETERANS DRIVE</address-3>
+    <city>SAINT CLOUD</city>
+    <state>MN</state>
+    <zip-code>56303</zip-code>
+    <phone>(877) 405-1446</phone>
+    <fax>(833) 902-2696</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10094</socket-port>
+    <local-input-path>source-code/ssa/mn/saintcloud/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mn/saintcloud</output-dir>
+</signal-processing-config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>54</office-code>
+    <office-name>HYANNIS MA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>100 INDEPENDENCE DRIVE</address-2>
+    <address-3>SUITE 4</address-3>
+    <city>HYANNIS</city>
+    <state>MA</state>
+    <zip-code>2601</zip-code>
+    <phone>(866) 467-0440</phone>
+    <fax>(833) 926-1864</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9536</socket-port>
+    <local-input-path>source-code/ssa/ma/hyannis/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ma/hyannis</output-dir>
+</signal-processing-config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>B63</office-code>
+    <office-name>ANTIOCH CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>2508 VERNE ROBERTS CIR</address-3>
+    <city>ANTIOCH</city>
+    <state>CA</state>
+    <zip-code>94509</zip-code>
+    <phone>(866) 331-2324</phone>
+    <fax>(833) 950-3669</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9323</socket-port>
+    <local-input-path>source-code/ssa/ca/antioch/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/antioch</output-dir>
+</signal-processing-config>
