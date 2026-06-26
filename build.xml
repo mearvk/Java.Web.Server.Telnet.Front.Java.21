@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  build.xml — ANT build script for NitroWebExpress™ (JWSTFJ21)
+  Author: Max Rupplin — MEARVK LLC
+
+  Targets:
+    compile     — Compile all source/*.java
+    jar         — Build fat JAR (nwe.jar)
+    run         — Launch from compiled classes
+    run-jar     — Launch from nwe.jar
+    update      — Pull latest from GitHub + recompile + rebuild JAR
+    clean       — Remove out/ and nwe.jar
+    test        — Run port connectivity tests
+    strips      — Validate learning strip TSV files exist
+
+  Usage:
+    ant compile
+    ant update
+    ant jar run-jar
+-->
+<project name="NitroWebExpress" default="compile" basedir=".">
+
+    <!-- Properties -->
+    <property name="src.dir" value="source"/>
+    <property name="out.dir" value="out"/>
+    <property name="jar.file" value="nwe.jar"/>
+    <property name="jars.dir" value="jars"/>
+    <property name="djl.dir" value="${jars.dir}/djl"/>
+    <property name="mysql.jar" value="${jars.dir}/mysql/mysql-connector-j-9.7.0.jar"/>
+    <property name="lanterna.jar" value="${jars.dir}/lanterna-3.1.5.jar"/>
+    <property name="java.release" value="25"/>
+    <property name="repo.url" value="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21"/>
+
+    <!-- Classpath -->
+    <path id="compile.classpath">
+        <fileset dir="${djl.dir}" includes="*.jar" erroronmissingdir="false"/>
+        <pathelement location="${mysql.jar}"/>
+        <pathelement location="${lanterna.jar}"/>
+        <pathelement location="${out.dir}"/>
+    </path>
+
+    <!-- ═══ CLEAN ═══════════════════════════════════════════════════════════ -->
+    <target name="clean" description="Remove compiled output and JAR">
+        <delete dir="${out.dir}" quiet="true"/>
+        <delete file="${jar.file}" quiet="true"/>
+        <echo message="Cleaned."/>
+    </target>
+
+    <!-- ═══ COMPILE ═════════════════════════════════════════════════════════ -->
+    <target name="compile" description="Compile all Java sources">
+        <mkdir dir="${out.dir}"/>
+        <javac srcdir="${src.dir}"
+               destdir="${out.dir}"
+               release="${java.release}"
+               includeantruntime="false"
+               fork="true"
+               failonerror="true">
+            <classpath refid="compile.classpath"/>
+        </javac>
+        <echo message="Compilation successful."/>
+    </target>
+
+    <!-- ═══ JAR ═════════════════════════════════════════════════════════════ -->
+    <target name="jar" depends="compile" description="Build fat JAR">
+        <jar destfile="${jar.file}" basedir="${out.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="Main"/>
+                <attribute name="Class-Path" value="jars/djl/pytorch-native-cpu-2.5.1-linux-x86_64.jar"/>
+            </manifest>
+            <zipgroupfileset dir="${jars.dir}/mysql" includes="mysql-connector-j-9.7.0.jar"/>
+            <zipgroupfileset file="${lanterna.jar}"/>
+            <zipgroupfileset dir="${djl.dir}" includes="*.jar" excludes="*native*"/>
+        </jar>
+        <echo message="Built ${jar.file} (${jar.file})"/>
+    </target>
+
+    <!-- ═══ RUN ═════════════════════════════════════════════════════════════ -->
+    <target name="run" depends="compile" description="Run from compiled classes">
+        <java classname="Main" fork="true" failonerror="true">
+            <classpath refid="compile.classpath"/>
+            <jvmarg value="-Xms256m"/>
+            <jvmarg value="-Xmx1024m"/>
+            <jvmarg value="-XX:+UseZGC"/>
+        </java>
+    </target>
+
+    <!-- ═══ RUN-JAR ═════════════════════════════════════════════════════════ -->
+    <target name="run-jar" description="Run from nwe.jar">
+        <java jar="${jar.file}" fork="true" failonerror="true">
+            <jvmarg value="-Dnwe.root=${basedir}"/>
+            <jvmarg value="-Xms512m"/>
+            <jvmarg value="-Xmx4g"/>
+            <jvmarg value="-XX:+UseG1GC"/>
+            <jvmarg value="-XX:MaxGCPauseMillis=100"/>
+        </java>
+    </target>
+
+    <!-- ═══ UPDATE ══════════════════════════════════════════════════════════ -->
+    <target name="update" description="Pull latest, recompile, rebuild JAR">
+        <echo message="Pulling latest from GitHub..."/>
+        <exec executable="git" failonerror="true">
+            <arg value="pull"/>
+            <arg value="--rebase"/>
+        </exec>
+
+        <antcall target="clean"/>
+        <antcall target="jar"/>
+
+        <echo message="Update complete. Scripts, sources, and JAR rebuilt."/>
+    </target>
+
+    <!-- ═══ TEST ════════════════════════════════════════════════════════════ -->
+    <target name="test" description="Run port connectivity tests">
+        <exec executable="bash" failonerror="false">
+            <arg value="scripts/bash/49111/test.49111.check.sh"/>
+        </exec>
+        <exec executable="bash" failonerror="false">
+            <arg value="scripts/bash/strernary/test.20000.check.sh"/>
+        </exec>
+        <echo message="Tests complete."/>
+    </target>
+
+    <!-- ═══ STRIPS ══════════════════════════════════════════════════════════ -->
+    <target name="strips" description="Validate AI learning strips exist">
+        <available file="source/strernary/strips/base-learning-strip.tsv" property="strip.strernary"/>
+        <available file="source/ai/strips/base-learning-strip.tsv" property="strip.ai"/>
+        <available file="source/international/radio/strips/base-learning-strip.tsv" property="strip.radio"/>
+        <available file="source/city/analysis/strips/base-learning-strip.tsv" property="strip.city"/>
+        <available file="source/heuristics/strips/base-learning-strip.tsv" property="strip.heuristics"/>
+        <fail unless="strip.strernary" message="Missing: source/strernary/strips/"/>
+        <fail unless="strip.ai" message="Missing: source/ai/strips/"/>
+        <fail unless="strip.radio" message="Missing: source/international/radio/strips/"/>
+        <fail unless="strip.city" message="Missing: source/city/analysis/strips/"/>
+        <fail unless="strip.heuristics" message="Missing: source/heuristics/strips/"/>
+        <echo message="All learning strips present."/>
+    </target>
+
+</project>
