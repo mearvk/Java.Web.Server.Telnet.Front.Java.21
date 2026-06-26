@@ -50,7 +50,14 @@ public final class DjlInferenceEngine
     private DjlInferenceEngine() {}
 
     /**
-     * Performs deep inference on the input text.
+     * Performs deep inference on the input text.    */
+    public static String infer(String input)
+    {
+        if (failed) return null;
+
+        try
+        {
+            if (!initialize
      * Loads model lazily on first call. Returns classified best-guess or null on failure.
      *
      * @param input text to analyze
