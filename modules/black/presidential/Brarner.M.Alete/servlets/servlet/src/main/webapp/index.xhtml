@@ -11,7 +11,11 @@
 <!-- NAV -->
 <nav class="nav">
     <div class="nav-inner">
-        <a href="index.xhtml" class="nav-brand">Brarner.M.Alete™</a>
+        <a href="index.xhtml" class="nav-brand">
+            <img id="logo-left" src="" alt="" style="height:32px;vertical-align:middle;margin-right:8px;display:none;"/>
+            <span id="site-title">Brarner.M.Alete™</span>
+            <img id="logo-right" src="" alt="" style="height:32px;vertical-align:middle;margin-left:8px;display:none;"/>
+        </a>
         <ul class="nav-links">
             <li><a href="index.xhtml" class="active">Overview</a></li>
             <li><a href="species.xhtml">Species</a></li>
@@ -237,6 +241,27 @@ document.querySelectorAll('.tab').forEach(function(btn) {
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
     });
+});
+
+// Load branding from config.xml
+fetch('config.xml').then(function(r){return r.text();}).then(function(xml){
+    var doc = new DOMParser().parseFromString(xml, 'text/xml');
+    var logoLeft = doc.querySelector('logo-left');
+    var logoRight = doc.querySelector('logo-right');
+    var title = doc.querySelector('site-title');
+    if(logoLeft){
+        var el = document.getElementById('logo-left');
+        el.src = logoLeft.textContent;
+        el.style.display = 'inline';
+    }
+    if(logoRight){
+        var el = document.getElementById('logo-right');
+        el.src = logoRight.textContent;
+        el.style.display = 'inline';
+    }
+    if(title){
+        document.getElementById('site-title').textContent = title.textContent;
+    }
 });
 </script>
 
