@@ -50,10 +50,25 @@ fi
 
 # ─── Pre-flight: Verify SSH access ───
 echo "[*] Verifying SSH access to ${REMOTE_USER}@${REMOTE_HOST}..."
-if ! ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "echo OK" 2>/dev/null; then
-    echo "[!] Cannot SSH to ${REMOTE_HOST}. Check your key or access."
-    echo "    Try: ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"
+
+# Check port 22 is reachable
+if ! timeout 5 bash -c "echo >/dev/tcp/${REMOTE_HOST}/22" 2>/dev/null; then
+    echo "[!] Port 22 not reachable on ${REMOTE_HOST}. Firewall or SSH not running."
+    echo "    Check: ufw allow 22, or systemctl start sshd on remote"
     exit 1
+fi
+
+# Try SSH with accept-new for first-time key handshake
+if ! ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o BatchMode=yes "$REMOTE_USER@$REMOTE_HOST" "echo OK" 2>/dev/null; then
+    echo "[!] SSH key not accepted. Attempting initial key exchange..."
+    if [ -t 0 ]; then
+        ssh-copy-id -o ConnectTimeout=10 "$REMOTE_USER@$REMOTE_HOST" 2>/dev/null && \
+            echo "[*] Key installed successfully" || \
+            { echo "[!] Key install failed. Try: ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"; exit 1; }
+    else
+        echo "[!] Cannot SSH (no key, non-interactive). Run: ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"
+        exit 1
+    fi
 fi
 echo "[*] SSH access confirmed"
 

@@ -173,9 +173,23 @@ if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
 
     # Pre-flight: SSH access
     echo "[*] Verifying SSH access..."
-    if ! ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "echo OK" 2>/dev/null; then
-        echo "[!] Cannot SSH to ${REMOTE_HOST}. Skipping remote deploy."
-        echo "    Try: ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"
+
+    # First check if port 22 is open
+    if ! timeout 5 bash -c "echo >/dev/tcp/${REMOTE_HOST}/22" 2>/dev/null; then
+        echo "[!] Port 22 not reachable on ${REMOTE_HOST}. Firewall or SSH not running."
+        echo "    Check: ufw allow 22, or systemctl start sshd on remote"
+    # Try with StrictHostKeyChecking=accept-new for first-time key handshake
+    elif ! ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o BatchMode=yes "$REMOTE_USER@$REMOTE_HOST" "echo OK" 2>/dev/null; then
+        # BatchMode fails if no key — try interactive key setup
+        echo "[!] SSH key not accepted. Attempting initial key exchange..."
+        if [ -t 0 ]; then
+            ssh-copy-id -o ConnectTimeout=10 "$REMOTE_USER@$REMOTE_HOST" 2>/dev/null && \
+                echo "[*] Key installed successfully" || \
+                echo "[!] Key install failed. Try manually: ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"
+        else
+            echo "[!] Cannot SSH to ${REMOTE_HOST} (no key, non-interactive)."
+            echo "    Run manually: ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"
+        fi
     else
         # Check existing alias config
         ALIAS_EXISTS=$(ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "
