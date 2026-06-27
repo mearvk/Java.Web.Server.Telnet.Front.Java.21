@@ -32,6 +32,11 @@ public class EmailDistributor {
         }
     }
 
+    /** Send a single email — throws on failure */
+    public static void sendOne(String to, String subject, String body) throws Exception {
+        sendMail(to, subject, body);
+    }
+
     /** Raw SMTP conversation with local Postfix */
     private static void sendMail(String to, String subject, String body) throws Exception {
         try (var sock = new java.net.Socket(SMTP_HOST, SMTP_PORT);

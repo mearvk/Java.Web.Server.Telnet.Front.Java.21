@@ -1,0 +1,90 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                     REGISTRY DESCRIPTOR RECORD SHEET                        ║
+║                              AE6E66.RDRS                                    ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Module:          AE6E66                                                     ║
+║  Full Name:       House of Lords + House of Commons Contact Module            ║
+║  Author:          Max Rupplin — MEARVK LLC                                   ║
+║  Trust:           9.5/10                                                     ║
+║  Color:           Emerald Green (\033[38;5;35m) — Royals                     ║
+║  Version:         1.0                                                        ║
+║  Created:         2026-06-27                                                 ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  LOCATION                                                                    ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Path:            modules/AE6E66/                                            ║
+║  Source:          modules/AE6E66/source/                                     ║
+║  Config:          modules/AE6E66/configuration/ae6e66-config.xml             ║
+║  Scripts:         modules/AE6E66/scripts/                                    ║
+║  Stationary:      modules/AE6E66/marrister/                                  ║
+║  Portraits:       modules/AE6E66/portraits/{Ministry}/                       ║
+║  Sent Archive:    modules/AE6E66/sent/{YYYY-MM-DD}/                          ║
+║  Personal:        modules/AE6E66/personal/                                   ║
+║  Contacts:        modules/AE6E66/contacts.csv                                ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  DESCRIPTORY                                                                 ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Purpose:         Crawl UK Parliament (Lords + Commons) members 0–999,       ║
+║                   gather contact data (email, phone, ministry, career),      ║
+║                   download portraits by ministry, and distribute messages    ║
+║                   via DKIM-signed SMTP from mail.lauradei.us.                ║
+║                                                                              ║
+║  Crawl Sources:                                                              ║
+║    - https://members.parliament.uk/member/{0..999}/contact                   ║
+║    - https://members.parliament.uk/member/{0..999}/career                    ║
+║    - https://members.parliament.uk/member/{0..999}/portrait                  ║
+║    - https://www.parliament.uk/.../house-of-commons-enquiries-service/...    ║
+║                                                                              ║
+║  Output:                                                                     ║
+║    - contacts.csv       HOL + HOC with "Year of Our Lord" headings           ║
+║    - personal/          Outlook-importable CSV (Lords/Ministers only)         ║
+║    - portraits/         JPEGs sorted by ministry folder                      ║
+║    - sent/              SHA-256 hashed messages + success/failure logs        ║
+║                                                                              ║
+║  Crawl Policy:    Skip if .last-crawl < 30 days. Re-crawl on new election   ║
+║                   season (House of Lords / House of Commons).                ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  MAIL SERVER                                                                 ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Server ID:       mail.lauradei.us                                           ║
+║  Static IP:       45.32.31.139                                               ║
+║  Domain:          lauradei.us                                                ║
+║  From:            contact@lauradei.us                                        ║
+║  DKIM Selector:   ae6e66                                                     ║
+║  Target Host:     Japanese VPS (chance/luck install)                         ║
+║  Stack:           Postfix + Dovecot + OpenDKIM                               ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  FILES                                                                       ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  AE6E66Main.java              Main crawl/distribute engine                   ║
+║  EmailDistributor.java        Raw SMTP sender (localhost:25)                 ║
+║  ae6e66-config.xml            URLs, SMTP, domain, crawl state                ║
+║  install-postfix-dovecot.sh   Basic Postfix install (direct MX)              ║
+║  configure-local-server.sh    Static IP + rate-limited config                ║
+║  setup-dkim-lauradei.sh       Full DKIM/SPF/DMARC setup                     ║
+║  .last-crawl                  Crawl timestamp (auto-managed)                 ║
+║  contacts.csv                 All scraped contacts                           ║
+║  lords-ministers-outlook.csv  Outlook import (personal/)                     ║
+║  AE6E66.RDRS                  This descriptor                                ║
+║  README.md                    Human-readable documentation                   ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  MASQUERADE                                                                  ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  NIO Port:        None (batch process, no listener)                          ║
+║  Masquerade:      Discoverable by NioModuleScanner                           ║
+║  Integration:     Standalone — runs on demand                                ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  END OF RECORD                                                               ║
+╚══════════════════════════════════════════════════════════════════════════════╝

@@ -13,6 +13,10 @@
         <contact-url-template>https://members.parliament.uk/member/{id}/contact</contact-url-template>
         <portraits-dir>portraits</portraits-dir>
         <contacts-file>contacts.csv</contacts-file>
+        <!-- Last successful crawl timestamp. If present and recent, skip re-crawl. -->
+        <last-crawl></last-crawl>
+        <!-- Only re-crawl on new election season (Lords/Commons). Set to current parliament session. -->
+        <parliament-session></parliament-session>
     </hol>
 
     <messaging>
