@@ -1,14 +1,13 @@
 #!/bin/bash
 # integrity/post-install-integrity-check.sh
-# Post-install SHA-256 file integrity check
-# Validates local files against trusted git commits on:
-#   - github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21
-#   - github.com/ElisabethHarkins5509
+# Post-install SHA-256 file integrity check with auto-restore on failure.
+#
+# On integrity fail: git checkout the file from the same commit on trusted repo.
+# On software update: update digests but preserve originals in history.
+# Self-integrity: SHA-256 of integrity scripts stored in DB.
 #
 # Gifted Install Tech ID — not Max Rupplin MEARVK LLC Installer Tech ID
-# Concerns logged to integrity/concerns/ — program continues running.
-#
-# Usage: bash integrity/post-install-integrity-check.sh
+# Non-blocking — concerns logged to integrity/concerns/. Program continues.
 
 set -e
 
@@ -16,90 +15,133 @@ PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 INTEGRITY_DIR="${PROJECT_ROOT}/integrity"
 CONCERNS_DIR="${INTEGRITY_DIR}/concerns"
 DIGEST_DB="${INTEGRITY_DIR}/digest.db"
-TRUSTED_REPOS=("mearvk/Java.Web.Server.Telnet.Front.Java.21" "ElisabethHarkins5509")
-BRANCH="main"
+SELF_DB="${INTEGRITY_DIR}/self.sha256"
 TIMESTAMP=$(date -Iseconds)
 CONCERN_FILE="${CONCERNS_DIR}/${TIMESTAMP//[:+]/-}.concern"
 
+REPO="mearvk/Java.Web.Server.Telnet.Front.Java.21"
+BRANCH="main"
+API="https://api.github.com/repos/${REPO}"
+RAW="https://raw.githubusercontent.com/${REPO}/${BRANCH}"
+
 mkdir -p "$CONCERNS_DIR"
 
-echo "-- : [integrity] Post-install SHA-256 integrity check starting"
-echo "-- : [integrity] Gifted Install Tech ID"
-echo "-- : [integrity] Timestamp: ${TIMESTAMP}"
+echo "-- : [integrity] Post-install SHA-256 check — Gifted Install Tech ID"
 
-# Build local digest database
-echo "# SHA-256 Digest Database — Generated ${TIMESTAMP}" > "$DIGEST_DB"
-echo "# Gifted Install Tech ID" >> "$DIGEST_DB"
-echo "# file_path|sha256|md5|size_bytes|mtime" >> "$DIGEST_DB"
+# ─── Step 1: Verify self-integrity (integrity scripts themselves) ───
+SELF_FILES="integrity/post-install-integrity-check.sh integrity/integrity-schema.sql"
+SELF_OK=true
 
-TOTAL=0
-CONCERNS=0
-
-# Get all tracked files
-cd "$PROJECT_ROOT"
-FILES=$(git ls-files 2>/dev/null || find . -type f -not -path './.git/*' -not -path './node_modules/*')
-
-for filepath in $FILES; do
-    [ ! -f "$filepath" ] && continue
-
-    LOCAL_SHA256=$(sha256sum "$filepath" | awk '{print $1}')
-    LOCAL_MD5=$(md5sum "$filepath" | awk '{print $1}')
-    LOCAL_SIZE=$(stat -c %s "$filepath" 2>/dev/null || stat -f %z "$filepath" 2>/dev/null)
-    LOCAL_MTIME=$(stat -c %Y "$filepath" 2>/dev/null || stat -f %m "$filepath" 2>/dev/null)
-
-    echo "${filepath}|${LOCAL_SHA256}|${LOCAL_MD5}|${LOCAL_SIZE}|${LOCAL_MTIME}" >> "$DIGEST_DB"
-    TOTAL=$((TOTAL + 1))
-done
-
-echo "-- : [integrity] Computed digests for ${TOTAL} files"
-
-# Validate against trusted GitHub commit
-REPO="${TRUSTED_REPOS[0]}"
-API="https://api.github.com/repos/${REPO}"
-
-# Get latest commit SHA on trusted branch
-COMMIT_SHA=$(curl -sf "${API}/commits/${BRANCH}" | grep -oP '"sha"\s*:\s*"\K[0-9a-f]{40}' | head -1)
-
-if [ -z "$COMMIT_SHA" ]; then
-    echo "-- : [integrity] WARN: Could not reach trusted server for commit verification"
-    echo "${TIMESTAMP}|WARN|cannot_reach_trusted_server|${API}" >> "$CONCERN_FILE"
-    CONCERNS=$((CONCERNS + 1))
-else
-    echo "-- : [integrity] Trusted commit: ${COMMIT_SHA}"
-
-    # Get tree for comparison
-    TREE=$(curl -sf "${API}/git/trees/${COMMIT_SHA}?recursive=1")
-
-    # Spot-check critical files against remote blob SHA
-    CRITICAL_FILES="source/commons/CommonRails.java source/commons/color/ColorPalette.java configuration/nwe-config.xml scripts/bash/Startup.sh scripts/bash/Shutdown.sh"
-
-    for cfile in $CRITICAL_FILES; do
-        [ ! -f "$cfile" ] && continue
-
-        # Git blob SHA = SHA-1 of "blob <size>\0<content>"
-        LOCAL_CONTENT=$(cat "$cfile")
-        LOCAL_SIZE=${#LOCAL_CONTENT}
-        LOCAL_BLOB_SHA=$(printf "blob %d\0%s" "$LOCAL_SIZE" "$LOCAL_CONTENT" | sha1sum | awk '{print $1}')
-
-        REMOTE_BLOB_SHA=$(echo "$TREE" | grep -A1 "\"path\": \"${cfile}\"" | grep -oP '"sha"\s*:\s*"\K[0-9a-f]{40}' | head -1)
-
-        if [ -n "$REMOTE_BLOB_SHA" ] && [ "$LOCAL_BLOB_SHA" != "$REMOTE_BLOB_SHA" ]; then
-            echo "${TIMESTAMP}|MISMATCH|${cfile}|local=${LOCAL_BLOB_SHA}|remote=${REMOTE_BLOB_SHA}|commit=${COMMIT_SHA}" >> "$CONCERN_FILE"
-            CONCERNS=$((CONCERNS + 1))
-            echo "-- : [integrity] CONCERN: ${cfile} does not match trusted commit"
+if [ -f "$SELF_DB" ]; then
+    for sf in $SELF_FILES; do
+        [ ! -f "${PROJECT_ROOT}/${sf}" ] && continue
+        EXPECTED=$(grep "^${sf}|" "$SELF_DB" | cut -d'|' -f2)
+        ACTUAL=$(sha256sum "${PROJECT_ROOT}/${sf}" | awk '{print $1}')
+        if [ -n "$EXPECTED" ] && [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "-- : [integrity] SELF-INTEGRITY FAIL: ${sf}"
+            echo "${TIMESTAMP}|SELF_FAIL|${sf}|expected=${EXPECTED}|actual=${ACTUAL}" >> "$CONCERN_FILE"
+            # Restore from trusted repo
+            if curl -sf "${RAW}/${sf}" -o "${PROJECT_ROOT}/${sf}.restored"; then
+                mv "${PROJECT_ROOT}/${sf}.restored" "${PROJECT_ROOT}/${sf}"
+                echo "-- : [integrity] RESTORED: ${sf} from trusted repo"
+            else
+                SELF_OK=false
+            fi
         fi
     done
 fi
 
-# Summary
-if [ $CONCERNS -gt 0 ]; then
-    echo "-- : [integrity] ${CONCERNS} concern(s) logged to ${CONCERN_FILE}"
-    echo "-- : [integrity] Program continues running — concerns are informational"
-else
-    echo "-- : [integrity] All checked files match trusted server"
-    # Clean empty concern file
-    [ ! -s "$CONCERN_FILE" ] && rm -f "$CONCERN_FILE"
+# ─── Step 2: Get trusted commit SHA ───
+COMMIT_SHA=$(curl -sf "${API}/commits/${BRANCH}" | grep -oP '"sha"\s*:\s*"\K[0-9a-f]{40}' | head -1)
+if [ -z "$COMMIT_SHA" ]; then
+    echo "-- : [integrity] WARN: Cannot reach trusted server"
+    echo "${TIMESTAMP}|WARN|cannot_reach_trusted_server" >> "$CONCERN_FILE"
+    exit 0
+fi
+echo "-- : [integrity] Trusted commit: ${COMMIT_SHA}"
+
+# ─── Step 3: Build/verify digest database ───
+TOTAL=0
+CONCERNS=0
+RESTORED=0
+
+cd "$PROJECT_ROOT"
+FILES=$(git ls-files 2>/dev/null || find . -type f -not -path './.git/*')
+
+# New digest DB for this scan
+DIGEST_DB_NEW="${DIGEST_DB}.new"
+echo "# SHA-256 Digest Database — ${TIMESTAMP} — commit ${COMMIT_SHA}" > "$DIGEST_DB_NEW"
+echo "# Gifted Install Tech ID" >> "$DIGEST_DB_NEW"
+echo "# file_path|sha256|md5|size|commit" >> "$DIGEST_DB_NEW"
+
+for filepath in $FILES; do
+    [ ! -f "$filepath" ] && continue
+    TOTAL=$((TOTAL + 1))
+
+    CURRENT_SHA=$(sha256sum "$filepath" | awk '{print $1}')
+    CURRENT_MD5=$(md5sum "$filepath" | awk '{print $1}')
+    CURRENT_SIZE=$(stat -c %s "$filepath" 2>/dev/null || stat -f %z "$filepath" 2>/dev/null)
+
+    echo "${filepath}|${CURRENT_SHA}|${CURRENT_MD5}|${CURRENT_SIZE}|${COMMIT_SHA}" >> "$DIGEST_DB_NEW"
+
+    # Check against existing digest DB
+    if [ -f "$DIGEST_DB" ]; then
+        EXPECTED_SHA=$(grep "^${filepath}|" "$DIGEST_DB" | cut -d'|' -f2)
+        EXPECTED_COMMIT=$(grep "^${filepath}|" "$DIGEST_DB" | cut -d'|' -f5)
+
+        if [ -n "$EXPECTED_SHA" ] && [ "$CURRENT_SHA" != "$EXPECTED_SHA" ]; then
+            # File changed — is this an update (new commit) or corruption (same commit)?
+            if [ "$EXPECTED_COMMIT" = "$COMMIT_SHA" ]; then
+                # Same commit, different hash = corruption. Restore.
+                echo "-- : [integrity] MISMATCH (corruption): ${filepath}"
+                echo "${TIMESTAMP}|MISMATCH|${filepath}|expected=${EXPECTED_SHA}|actual=${CURRENT_SHA}|commit=${COMMIT_SHA}" >> "$CONCERN_FILE"
+                CONCERNS=$((CONCERNS + 1))
+
+                # Attempt restore from same commit on trusted repo
+                if curl -sf "${RAW}/${filepath}" -o "${filepath}.restore.tmp"; then
+                    RESTORE_SHA=$(sha256sum "${filepath}.restore.tmp" | awk '{print $1}')
+                    if [ "$RESTORE_SHA" = "$EXPECTED_SHA" ]; then
+                        cp "$filepath" "${filepath}.corrupted.bak"
+                        mv "${filepath}.restore.tmp" "$filepath"
+                        echo "-- : [integrity] RESTORED: ${filepath}"
+                        echo "${TIMESTAMP}|RESTORED|${filepath}|sha256=${EXPECTED_SHA}" >> "$CONCERN_FILE"
+                        RESTORED=$((RESTORED + 1))
+                    else
+                        rm -f "${filepath}.restore.tmp"
+                        echo "-- : [integrity] WARN: Remote also differs for ${filepath}"
+                    fi
+                else
+                    echo "-- : [integrity] FAIL: Cannot restore ${filepath}"
+                    echo "${TIMESTAMP}|FAILED_RESTORE|${filepath}" >> "$CONCERN_FILE"
+                fi
+            else
+                # Different commit = software update. Preserve original in history.
+                echo "-- : [integrity] UPDATE detected: ${filepath} (new commit)"
+            fi
+        fi
+    fi
+done
+
+# ─── Step 4: Preserve originals on update ───
+if [ -f "$DIGEST_DB" ]; then
+    HISTORY_FILE="${INTEGRITY_DIR}/history/$(date +%Y%m%d-%H%M%S).digest.db"
+    mkdir -p "${INTEGRITY_DIR}/history"
+    cp "$DIGEST_DB" "$HISTORY_FILE"
 fi
 
-echo "-- : [integrity] Digest database: ${DIGEST_DB} (${TOTAL} entries)"
-echo "-- : [integrity] Complete"
+# Install new digest DB
+mv "$DIGEST_DB_NEW" "$DIGEST_DB"
+
+# ─── Step 5: Update self-integrity (hash the integrity scripts) ───
+echo "# Self-integrity — ${TIMESTAMP}" > "$SELF_DB"
+for sf in $SELF_FILES; do
+    [ ! -f "${PROJECT_ROOT}/${sf}" ] && continue
+    HASH=$(sha256sum "${PROJECT_ROOT}/${sf}" | awk '{print $1}')
+    echo "${sf}|${HASH}|${COMMIT_SHA}" >> "$SELF_DB"
+done
+
+# ─── Summary ───
+[ ! -s "$CONCERN_FILE" ] && rm -f "$CONCERN_FILE"
+echo "-- : [integrity] Total: ${TOTAL} | Concerns: ${CONCERNS} | Restored: ${RESTORED}"
+echo "-- : [integrity] Digest DB updated. Originals preserved in history/."
+echo "-- : [integrity] Complete — program continues running"

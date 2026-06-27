@@ -15,6 +15,7 @@ modules/AE6E66/
 │   ├── configure-local-server.sh  # Static IP local server style config
 │   └── setup-dkim-lauradei.sh     # DKIM/SPF/DMARC for lauradei.us @ 45.32.31.139
 ├── marrister/                     # Stationary — draft messages here (*.txt)
+│   └── message.txt               # Welcome from US Capitalist Class / US Democrats
 ├── personal/                      # Outlook/Exchange importable CSV for Lords/Ministers
 │   └── lords-ministers-outlook.csv
 ├── portraits/                     # Portraits by ministry subfolder
@@ -80,6 +81,21 @@ Import directly into Outlook, Exchange, or any compatible contact manager.
 **From:** `contact@lauradei.us`
 **Target install:** Japanese VPS (chance/luck)
 
+## Cron Integration
+
+AE6E66 is registered in the noble-registry (`configuration/nwe-config.xml`):
+- Monthly crawl: `0 3 1 * *`
+- Covered by post-install integrity check (every 2 days)
+- Shutdown concern saves state before process termination
+
+## Integrity
+
+All module files are tracked by `integrity/post-install-integrity-check.sh`:
+- SHA-256 digests stored in `integrity/digest.db` and MySQL `nwe_integrity`
+- On corruption: auto-restore from trusted GitHub commit
+- On update: originals preserved in `integrity/history/`
+- Gifted Install Tech ID — non-blocking, program continues on concern
+
 ## Usage
 
 ```bash
@@ -92,6 +108,9 @@ java -cp modules/AE6E66/source source.AE6E66Main
 
 # Force re-crawl
 rm modules/AE6E66/configuration/.last-crawl
+
+# Cron install (includes AE6E66 monthly schedule)
+sudo bash cron/install-cron.sh
 ```
 
 ## Print

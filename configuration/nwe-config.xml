@@ -655,10 +655,16 @@
         <tech-id>Gifted Install Tech ID</tech-id>
         <digest-algorithms>SHA-256,MD5</digest-algorithms>
         <digest-db>integrity/digest.db</digest-db>
+        <self-integrity-db>integrity/self.sha256</self-integrity-db>
         <concerns-dir>integrity/concerns</concerns-dir>
+        <history-dir>integrity/history</history-dir>
         <database>nwe_integrity</database>
         <schema>integrity/integrity-schema.sql</schema>
         <blocking>false</blocking>
+        <restore-on-fail>true</restore-on-fail>
+        <preserve-originals>true</preserve-originals>
+        <honor-oath-table>honor_oath</honor-oath-table>
+        <read-only-tables>file_digests,integrity_concerns,file_digests_history</read-only-tables>
         <trusted-servers>
             <server name="mearvk" url="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" branch="main"/>
             <server name="ElisabethHarkins5509" url="https://github.com/ElisabethHarkins5509" branch="main"/>

@@ -8,7 +8,7 @@
 ║  Author:          Max Rupplin — MEARVK LLC                                   ║
 ║  Trust:           9.5/10                                                     ║
 ║  Color:           Emerald Green (\033[38;5;35m) — Royals                     ║
-║  Version:         1.0                                                        ║
+║  Version:         1.1                                                        ║
 ║  Created:         2026-06-27                                                 ║
 ║                                                                              ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
@@ -60,6 +60,31 @@
 ║  DKIM Selector:   ae6e66                                                     ║
 ║  Target Host:     Japanese VPS (chance/luck install)                         ║
 ║  Stack:           Postfix + Dovecot + OpenDKIM                               ║
+║  Rate Limit:      2s per message                                             ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  CRON & NOBLE REGISTRY                                                       ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Job Name:        AE6E66-Crawl                                               ║
+║  Schedule:        0 3 1 * * (monthly, 1st, 03:00)                            ║
+║  Noble Registry:  Registered — enabled by default                            ║
+║  Reset Interval:  48 hours (noble 2rways)                                    ║
+║  Shutdown:        State saved to cron/.noble-state                           ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  INTEGRITY                                                                   ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Tech ID:         Gifted Install Tech ID                                     ║
+║  Digest:          SHA-256 + MD5                                              ║
+║  Database:        nwe_integrity (MySQL)                                      ║
+║  Honor Oath:      Swears honor to process and country                        ║
+║  On Corruption:   Auto-restore from trusted GitHub commit                    ║
+║  On Update:       Preserve originals in integrity/history/                   ║
+║  Blocking:        false (program continues on concern)                       ║
+║  Schedule:        Every 2 days (0 6 */2 * *)                                 ║
+║  Trusted:         github.com/mearvk, github.com/ElisabethHarkins5509        ║
 ║                                                                              ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║  FILES                                                                       ║
@@ -67,10 +92,11 @@
 ║                                                                              ║
 ║  AE6E66Main.java              Main crawl/distribute engine                   ║
 ║  EmailDistributor.java        Raw SMTP sender (localhost:25)                 ║
-║  ae6e66-config.xml            URLs, SMTP, domain, crawl state                ║
+║  ae6e66-config.xml            URLs, SMTP, domain, crawl, cron, integrity     ║
 ║  install-postfix-dovecot.sh   Basic Postfix install (direct MX)              ║
 ║  configure-local-server.sh    Static IP + rate-limited config                ║
 ║  setup-dkim-lauradei.sh       Full DKIM/SPF/DMARC setup                     ║
+║  message.txt                  Welcome from US Capitalist Class               ║
 ║  .last-crawl                  Crawl timestamp (auto-managed)                 ║
 ║  contacts.csv                 All scraped contacts                           ║
 ║  lords-ministers-outlook.csv  Outlook import (personal/)                     ║
@@ -83,7 +109,7 @@
 ║                                                                              ║
 ║  NIO Port:        None (batch process, no listener)                          ║
 ║  Masquerade:      Discoverable by NioModuleScanner                           ║
-║  Integration:     Standalone — runs on demand                                ║
+║  Integration:     Standalone — runs on demand or via cron                    ║
 ║                                                                              ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║  END OF RECORD                                                               ║
