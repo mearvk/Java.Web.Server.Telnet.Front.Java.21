@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ae6e66-config>
+    <module>
+        <name>AE6E66</name>
+        <description>House of Lords Contact and Portrait Module</description>
+        <version>1.0</version>
+        <author>Max Rupplin - MEARVK LLC</author>
+    </module>
+
+    <hol>
+        <members-url>https://members.parliament.uk/members/Lords</members-url>
+        <portrait-url-template>https://members.parliament.uk/member/{id}/portrait</portrait-url-template>
+        <contact-url-template>https://members.parliament.uk/member/{id}/contact</contact-url-template>
+        <portraits-dir>portraits</portraits-dir>
+        <contacts-file>contacts.csv</contacts-file>
+    </hol>
+
+    <messaging>
+        <stationary-dir>marrister</stationary-dir>
+        <sent-dir>sent</sent-dir>
+        <hash-algorithm>SHA-256</hash-algorithm>
+    </messaging>
+
+    <email>
+        <server-id>mail.lauradei.us</server-id>
+        <smtp-host>localhost</smtp-host>
+        <smtp-port>25</smtp-port>
+        <from-address>contact@lauradei.us</from-address>
+        <from-name>MEARVK LLC</from-name>
+        <domain>lauradei.us</domain>
+        <static-ip>45.32.31.139</static-ip>
+        <dkim-selector>ae6e66</dkim-selector>
+        <install-target>Japanese VPS (chance/luck)</install-target>
+        <!-- Run: sudo bash scripts/setup-dkim-lauradei.sh -->
+        <require-postfix>true</require-postfix>
+    </email>
+</ae6e66-config>
