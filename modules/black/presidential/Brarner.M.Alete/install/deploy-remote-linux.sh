@@ -306,21 +306,16 @@ ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "
     else
         echo '[*] Obtaining SSL cert from Let'\''s Encrypt...'
 
-        # Stop Apache briefly for standalone cert if needed
-        # Try apache plugin first, fall back to standalone
-        certbot --apache --non-interactive --agree-tos \
-            --email contact@lauradei.us \
-            -d lauradei.us -d www.lauradei.us 2>/dev/null
+        # Must stop Apache so certbot standalone can bind port 80
+        systemctl stop apache2 2>/dev/null || systemctl stop httpd 2>/dev/null
 
-        # If apache plugin failed, try standalone (stops apache temporarily)
-        if [ ! -f /etc/letsencrypt/live/lauradei.us/fullchain.pem ]; then
-            echo '[*] Apache plugin failed — trying standalone mode...'
-            systemctl stop apache2 2>/dev/null || systemctl stop httpd 2>/dev/null
-            certbot certonly --standalone --non-interactive --agree-tos \
-                --email contact@lauradei.us \
-                -d lauradei.us -d www.lauradei.us 2>&1
-            systemctl start apache2 2>/dev/null || systemctl start httpd 2>/dev/null
-        fi
+        # Use standalone mode (most reliable — binds port 80 directly)
+        certbot certonly --standalone --non-interactive --agree-tos \
+            --email contact@lauradei.us \
+            -d lauradei.us -d www.lauradei.us 2>&1
+
+        # Restart Apache after cert obtained
+        systemctl start apache2 2>/dev/null || systemctl start httpd 2>/dev/null
     fi
 
     # Verify cert was obtained before writing SSL config
@@ -420,10 +415,10 @@ REDIR80
     fi
 
     # Auto-renewal cron
-    echo '0 3 * * * root certbot renew --quiet --post-hook \"systemctl reload apache2 2>/dev/null || systemctl reload httpd 2>/dev/null\"' > /etc/cron.d/certbot-renew
+    echo '0 3 * * * root certbot renew --quiet --pre-hook \"systemctl stop apache2 2>/dev/null || systemctl stop httpd 2>/dev/null\" --post-hook \"systemctl start apache2 2>/dev/null || systemctl start httpd 2>/dev/null\"' > /etc/cron.d/certbot-renew
 
-    # Reload Apache
-    systemctl reload apache2 2>/dev/null || systemctl reload httpd 2>/dev/null
+    # Restart Apache (not reload — SSL site newly enabled)
+    systemctl restart apache2 2>/dev/null || systemctl restart httpd 2>/dev/null
 
     echo '[*] SSL 443 configured — 80 redirects to 443'
 "
