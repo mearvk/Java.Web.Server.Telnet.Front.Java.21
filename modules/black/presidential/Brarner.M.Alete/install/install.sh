@@ -182,13 +182,19 @@ if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
     elif ! ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o BatchMode=yes "$REMOTE_USER@$REMOTE_HOST" "echo OK" 2>/dev/null; then
         # BatchMode fails if no key — try interactive key setup
         echo "[!] SSH key not accepted. Attempting initial key exchange..."
+        # Generate keypair if none exists
+        if [ ! -f ~/.ssh/id_rsa ] && [ ! -f ~/.ssh/id_ed25519 ]; then
+            echo "[*] No SSH key found — generating ed25519 keypair..."
+            mkdir -p ~/.ssh && chmod 700 ~/.ssh
+            ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" -q
+        fi
         if [ -t 0 ]; then
             ssh-copy-id -o ConnectTimeout=10 "$REMOTE_USER@$REMOTE_HOST" 2>/dev/null && \
                 echo "[*] Key installed successfully" || \
                 echo "[!] Key install failed. Try manually: ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"
         else
-            echo "[!] Cannot SSH to ${REMOTE_HOST} (no key, non-interactive)."
-            echo "    Run manually: ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"
+            echo "[!] Cannot SSH to ${REMOTE_HOST} (non-interactive)."
+            echo "    Run: ssh-keygen -t ed25519 && ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"
         fi
     else
         # Check existing alias config
