@@ -1,0 +1,21 @@
+{
+  "className": "WereWamp™",
+  "classType": "Stealth",
+  "guild": "Ownership Guild",
+  "slaughterImprovementTurns": 9,
+  "ownershipRequirement": "PlayersSpeak™ (not Actual™)",
+  "checkOutRequired": false,
+  "checkInRequired": false,
+  "targetConditions": ["UnDead™ timed-out", "Total Non-Ally™ to time"],
+  "divineConclusionPrivilege": true,
+  "knownWereWamps": [
+    {
+      "name": "Olivia Tiedemann",
+      "title": "Terrible of Man"
+    }
+  ],
+  "keys": {
+    "publicKey": "public.key",
+    "safetyKey": "safety.key"
+  }
+}
