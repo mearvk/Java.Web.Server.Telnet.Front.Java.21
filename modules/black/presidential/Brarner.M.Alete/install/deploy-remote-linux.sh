@@ -18,7 +18,10 @@ REMOTE_HOST="45.32.31.139"
 REMOTE_USER="${BMA_REMOTE_USER:-root}"
 REMOTE_DOMAIN="lauradei.us"
 REMOTE_PATH="/var/www/html/brarner.m.alete"
-SITE_URL="http://${REMOTE_DOMAIN}/brarner.m.alete"
+SITE_URL="https://${REMOTE_DOMAIN}/brarner.m.alete"
+
+# SSH options to prevent hanging
+SSH_OPTS="-o ConnectTimeout=10 -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
 
 echo "═══════════════════════════════════════════════════════════════"
 echo " Brarner.M.Alete™ — Remote Linux Server Deploy"
@@ -26,20 +29,66 @@ echo " Target: ${SITE_URL}"
 echo " Server: ${REMOTE_HOST} (${REMOTE_DOMAIN})"
 echo "═══════════════════════════════════════════════════════════════"
 
-# Verify SSH access
+# ─── Pre-flight: Reverse DNS check ───
+echo "[*] Checking reverse DNS for ${REMOTE_HOST}..."
+RDNS=$(dig +short -x "$REMOTE_HOST" 2>/dev/null | head -1 || host "$REMOTE_HOST" 2>/dev/null | awk '{print $NF}' || echo "")
+if [ -n "$RDNS" ]; then
+    echo "[*] Reverse DNS: ${REMOTE_HOST} → ${RDNS}"
+    # Verify it resolves back to our domain
+    if echo "$RDNS" | grep -qi "lauradei"; then
+        echo "[*] PTR matches expected domain"
+    else
+        echo "[!] WARNING: PTR (${RDNS}) does not match lauradei.us"
+        echo "    SSL cert may fail. Ensure DNS A record points to ${REMOTE_HOST}"
+        echo "    Continuing anyway..."
+    fi
+else
+    echo "[!] WARNING: No reverse DNS found for ${REMOTE_HOST}"
+    echo "    Set PTR record: ${REMOTE_HOST} → mail.lauradei.us"
+    echo "    Continuing anyway..."
+fi
+
+# ─── Pre-flight: Verify SSH access ───
 echo "[*] Verifying SSH access to ${REMOTE_USER}@${REMOTE_HOST}..."
-if ! ssh -o ConnectTimeout=10 -o BatchMode=yes "$REMOTE_USER@$REMOTE_HOST" "echo OK" &>/dev/null; then
+if ! ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "echo OK" 2>/dev/null; then
     echo "[!] Cannot SSH to ${REMOTE_HOST}. Check your key or access."
+    echo "    Try: ssh-copy-id ${REMOTE_USER}@${REMOTE_HOST}"
     exit 1
 fi
 echo "[*] SSH access confirmed"
 
+# ─── Pre-flight: Check if Apache alias config already exists ───
+echo "[*] Checking for existing Apache alias configuration..."
+ALIAS_EXISTS=$(ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "
+    if [ -f /etc/apache2/conf-available/brarner-m-alete.conf ] || \
+       [ -f /etc/apache2/conf-enabled/brarner-m-alete.conf ] || \
+       [ -f /etc/httpd/conf.d/brarner-m-alete.conf ]; then
+        echo 'EXISTS'
+    else
+        echo 'NONE'
+    fi
+" 2>/dev/null)
+
+if [ "$ALIAS_EXISTS" = "EXISTS" ]; then
+    echo "[*] Apache alias config already exists — will update in place"
+else
+    echo "[*] No existing alias config — will create new"
+fi
+
+# ─── Pre-flight: Check webapp source exists locally ───
+if [ ! -d "$WEBAPP_SRC" ]; then
+    echo "[!] Webapp source not found: $WEBAPP_SRC"
+    echo "    Run download-jars.sh and build first."
+    exit 1
+fi
+echo "[*] Webapp source OK: $WEBAPP_SRC"
+
 # Install Apache2 if not present
 echo "[*] Ensuring Apache2 is installed..."
-ssh "$REMOTE_USER@$REMOTE_HOST" "
+ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "
     if ! command -v apache2 &>/dev/null && ! command -v httpd &>/dev/null; then
         if command -v apt &>/dev/null; then
-            apt update && apt install -y apache2
+            DEBIAN_FRONTEND=noninteractive apt update && DEBIAN_FRONTEND=noninteractive apt install -y apache2
         elif command -v dnf &>/dev/null; then
             dnf install -y httpd && systemctl enable httpd && systemctl start httpd
         fi
@@ -50,49 +99,52 @@ ssh "$REMOTE_USER@$REMOTE_HOST" "
 
 # Create directory structure on remote
 echo "[*] Creating remote directory: ${REMOTE_PATH}"
-ssh "$REMOTE_USER@$REMOTE_HOST" "mkdir -p ${REMOTE_PATH}/WEB-INF/lib"
+ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "mkdir -p ${REMOTE_PATH}/WEB-INF/lib"
 
 # Deploy webapp
 echo "[*] Deploying webapp files..."
-scp -r "$WEBAPP_SRC/"* "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/"
+scp -o ConnectTimeout=10 -o BatchMode=yes -r "$WEBAPP_SRC/"* "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/"
 
 # Deploy JARs
 if [ -d "$BMA_ROOT/lib" ]; then
     echo "[*] Deploying library JARs..."
-    scp "$BMA_ROOT/lib/"*.jar "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/WEB-INF/lib/" 2>/dev/null || true
+    scp -o ConnectTimeout=10 -o BatchMode=yes "$BMA_ROOT/lib/"*.jar "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/WEB-INF/lib/" 2>/dev/null || true
 fi
 
 # Deploy images
 if [ -d "$BMA_ROOT/images" ]; then
     echo "[*] Deploying images..."
-    ssh "$REMOTE_USER@$REMOTE_HOST" "mkdir -p ${REMOTE_PATH}/images"
-    scp -r "$BMA_ROOT/images/"* "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/images/" 2>/dev/null || true
+    ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "mkdir -p ${REMOTE_PATH}/images"
+    scp -o ConnectTimeout=10 -o BatchMode=yes -r "$BMA_ROOT/images/"* "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/images/" 2>/dev/null || true
 fi
 
 # Set permissions
-ssh "$REMOTE_USER@$REMOTE_HOST" "chmod -R 755 ${REMOTE_PATH} && chown -R www-data:www-data ${REMOTE_PATH} 2>/dev/null || chown -R apache:apache ${REMOTE_PATH} 2>/dev/null"
+ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "chmod -R 755 ${REMOTE_PATH} && chown -R www-data:www-data ${REMOTE_PATH} 2>/dev/null || chown -R apache:apache ${REMOTE_PATH} 2>/dev/null"
 
-# Install Tomcat on top of Apache2 if Apache is found
-echo "[*] Checking for Tomcat / installing if Apache2 already present..."
-ssh "$REMOTE_USER@$REMOTE_HOST" "
+# Install Tomcat — BMA runs on Java Enterprise; auto-install or prompt
+INSTALL_TOMCAT="y"
+if [ -t 0 ]; then
+    read -rp "[?] Install Tomcat 11 for Java Enterprise servlets? [Y/n] " INSTALL_TOMCAT
+    INSTALL_TOMCAT="${INSTALL_TOMCAT:-y}"
+fi
+
+if [[ "$INSTALL_TOMCAT" =~ ^[Yy]$ ]]; then
+echo "[*] Installing Tomcat (Java Enterprise runtime for BMA)..."
+ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "
     TOMCAT_VERSION='11.0.2'
     TOMCAT_HOME='/opt/tomcat'
     TOMCAT_URL=\"https://archive.apache.org/dist/tomcat/tomcat-11/v\${TOMCAT_VERSION}/bin/apache-tomcat-\${TOMCAT_VERSION}.tar.gz\"
 
-    APACHE_FOUND=false
     TOMCAT_FOUND=false
-
-    if systemctl is-active --quiet apache2 2>/dev/null || systemctl is-active --quiet httpd 2>/dev/null; then
-        APACHE_FOUND=true
-    fi
 
     if [ -d \"\$TOMCAT_HOME\" ] && [ -f \"\$TOMCAT_HOME/bin/catalina.sh\" ]; then
         TOMCAT_FOUND=true
+        echo '[*] Tomcat already installed at '\$TOMCAT_HOME
     fi
 
-    # Install Tomcat alongside Apache2
-    if [ \"\$APACHE_FOUND\" = true ] && [ \"\$TOMCAT_FOUND\" = false ]; then
-        echo '[*] Apache2 found — installing Tomcat '\$TOMCAT_VERSION' on top...'
+    # Install Tomcat (BMA requires Java Enterprise / Jakarta Servlet runtime)
+    if [ \"\$TOMCAT_FOUND\" = false ]; then
+        echo '[*] Installing Tomcat '\$TOMCAT_VERSION' (Jakarta Servlet 6.1 runtime)...'
         cd /tmp
         curl -sfLO \"\$TOMCAT_URL\"
         mkdir -p \"\$TOMCAT_HOME\"
@@ -137,10 +189,13 @@ TOMSVC
         echo '[*] Deployed to Tomcat context: /brarner'
     fi
 "
+else
+    echo "[*] Skipping Tomcat install — Apache2 static only"
+fi
 
 # Configure Apache2 — ServerAlias + Tomcat proxy (if both) or static alias (Apache only)
 echo "[*] Configuring Apache2 ServerAlias and routing..."
-ssh "$REMOTE_USER@$REMOTE_HOST" "
+ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "
     CONF='/etc/apache2/conf-available/brarner-m-alete.conf'
     [ -d /etc/httpd/conf.d ] && CONF='/etc/httpd/conf.d/brarner-m-alete.conf'
 
@@ -209,7 +264,7 @@ echo ""
 
 # ─── SSL/TLS 443 — Let's Encrypt (Trusted CA) + Tomcat locked to localhost ───
 echo "[*] Configuring SSL/TLS port 443 via Let's Encrypt (Trusted CA)..."
-ssh "$REMOTE_USER@$REMOTE_HOST" "
+ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "
     # Install certbot
     if ! command -v certbot &>/dev/null; then
         if command -v apt &>/dev/null; then
