@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # Brarner.M.Alete™ — Local Connectivity Test
 # Tests the BMA servlet website on localhost (Tomcat)
-# Usage: bash install/test-local.sh
+# Usage: bash install/test-local.sh [port]
+set -e
 
 TOMCAT_PORT="${1:-8080}"
-BASE="http://localhost:${TOMCAT_PORT}/brarner"
+CONTEXT="brarner.m.alete"
+BASE="http://localhost:${TOMCAT_PORT}/${CONTEXT}"
 
 echo "═══════════════════════════════════════════════════════════════"
 echo " Brarner.M.Alete™ — Local Connectivity Test"
@@ -16,43 +18,57 @@ FAIL=0
 
 check() {
     local path="$1"
+    local label="${2:-$path}"
     local url="${BASE}${path}"
     local status
     status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$url" 2>/dev/null)
     if [ "$status" -ge 200 ] && [ "$status" -lt 400 ] 2>/dev/null; then
-        echo "  [OK]   ${status}  ${url}"
+        echo "  [OK]   ${status}  ${label}"
         PASS=$((PASS + 1))
     else
-        echo "  [FAIL] ${status}  ${url}"
+        echo "  [FAIL] ${status}  ${label}"
         FAIL=$((FAIL + 1))
     fi
 }
 
 echo ""
-echo "[*] Testing known pages..."
+echo "[*] Testing pages (XHTML)..."
+check "/" "Root (→ index.xhtml welcome)"
+check "/index.xhtml" "index.xhtml"
+check "/species.xhtml" "species.xhtml"
+check "/postal.xhtml" "postal.xhtml"
+check "/art.xhtml" "art.xhtml"
+check "/science.xhtml" "science.xhtml"
+check "/status.xhtml" "status.xhtml"
+
 echo ""
+echo "[*] Testing admin pages..."
+check "/admin/login.xhtml" "admin/login.xhtml"
+check "/admin/dashboard.xhtml" "admin/dashboard.xhtml"
+check "/admin/documents.xhtml" "admin/documents.xhtml"
 
-# Root / index
-check "/"
-check "/index.html"
-check "/index.jsp"
+echo ""
+echo "[*] Testing static resources..."
+check "/css/style.css" "css/style.css"
+check "/config.xml" "config.xml"
+check "/images/mearvk.ltd.logo.left.png" "logo-left"
+check "/images/mearvk.ltd.logo.right.png" "logo-right"
 
-# Tabs from BMA website
-check "/overview"
-check "/species"
-check "/postal"
-check "/art"
-check "/science"
-check "/status"
+echo ""
+echo "[*] Testing servlet endpoints..."
+check "/api/status" "StatusApiServlet (/api/status)"
+check "/admin/login" "AdminLoginServlet POST target (GET may 405)"
 
-# Static resources
-check "/images/logo/mearvk.ltd.logo.png"
-check "/WEB-INF/web.xml"
-
-# Servlet endpoints
-check "/servlet/status"
-check "/servlet/species"
-check "/servlet/postal"
+echo ""
+echo "[*] Testing WEB-INF is protected..."
+WEB_INF_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "${BASE}/WEB-INF/web.xml" 2>/dev/null)
+if [ "$WEB_INF_STATUS" -ge 400 ] 2>/dev/null; then
+    echo "  [OK]   ${WEB_INF_STATUS}  WEB-INF/web.xml (correctly blocked)"
+    PASS=$((PASS + 1))
+else
+    echo "  [FAIL] ${WEB_INF_STATUS}  WEB-INF/web.xml (should be 403/404)"
+    FAIL=$((FAIL + 1))
+fi
 
 echo ""
 echo "───────────────────────────────────────────────────────────────"
@@ -62,7 +78,7 @@ echo "────────────────────────�
 # Tomcat status
 echo ""
 echo "[*] Tomcat process:"
-ps aux | grep -i tomcat | grep -v grep || echo "  (not running)"
+ps aux | grep -i "[t]omcat" || echo "  (not running)"
 echo ""
 echo "[*] Port ${TOMCAT_PORT} listeners:"
-ss -tlnp | grep ":${TOMCAT_PORT}" || echo "  (nothing on port ${TOMCAT_PORT})"
+ss -tlnp 2>/dev/null | grep ":${TOMCAT_PORT}" || netstat -tlnp 2>/dev/null | grep ":${TOMCAT_PORT}" || echo "  (nothing on port ${TOMCAT_PORT})"

@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Brarner.M.Alete™ — Remote Connectivity Test
-# Tests the BMA servlet website on the remote server via HTTPS
+# Tests the BMA website on the remote server via HTTPS
 # Usage: bash install/test-remote.sh [domain]
+set -e
 
 DOMAIN="${1:-lauradei.us}"
-BASE_HTTP="http://${DOMAIN}/brarner.m.alete"
-BASE_HTTPS="https://${DOMAIN}/brarner.m.alete"
+CONTEXT="brarner.m.alete"
+BASE_HTTP="http://${DOMAIN}/${CONTEXT}"
+BASE_HTTPS="https://${DOMAIN}/${CONTEXT}"
 
 echo "═══════════════════════════════════════════════════════════════"
 echo " Brarner.M.Alete™ — Remote Connectivity Test"
@@ -68,36 +70,55 @@ fi
 
 echo ""
 echo "[*] HTTP → HTTPS redirect..."
-check "$BASE_HTTP/" "HTTP root (should redirect)"
+check "$BASE_HTTP/" "HTTP root (expect 301→HTTPS)"
 
 echo ""
-echo "[*] HTTPS pages..."
-check "$BASE_HTTPS/" "Root/Index"
-check "$BASE_HTTPS/index.html" "index.html"
-check "$BASE_HTTPS/index.jsp" "index.jsp"
+echo "[*] HTTPS pages (XHTML)..."
+check "$BASE_HTTPS/" "Root (→ index.xhtml welcome)"
+check "$BASE_HTTPS/index.xhtml" "index.xhtml"
+check "$BASE_HTTPS/species.xhtml" "species.xhtml"
+check "$BASE_HTTPS/postal.xhtml" "postal.xhtml"
+check "$BASE_HTTPS/art.xhtml" "art.xhtml"
+check "$BASE_HTTPS/science.xhtml" "science.xhtml"
+check "$BASE_HTTPS/status.xhtml" "status.xhtml"
 
-# BMA tabs
-check "$BASE_HTTPS/overview" "Overview tab"
-check "$BASE_HTTPS/species" "Species tab"
-check "$BASE_HTTPS/postal" "Postal tab"
-check "$BASE_HTTPS/art" "Art tab"
-check "$BASE_HTTPS/science" "Science tab"
-check "$BASE_HTTPS/status" "Status tab"
+echo ""
+echo "[*] Admin pages..."
+check "$BASE_HTTPS/admin/login.xhtml" "admin/login.xhtml"
+check "$BASE_HTTPS/admin/dashboard.xhtml" "admin/dashboard.xhtml"
+check "$BASE_HTTPS/admin/documents.xhtml" "admin/documents.xhtml"
 
-# Static resources
-check "$BASE_HTTPS/images/logo/mearvk.ltd.logo.png" "Logo image"
+echo ""
+echo "[*] Static resources..."
+check "$BASE_HTTPS/css/style.css" "css/style.css"
+check "$BASE_HTTPS/config.xml" "config.xml"
+check "$BASE_HTTPS/images/mearvk.ltd.logo.left.png" "logo-left"
+check "$BASE_HTTPS/images/mearvk.ltd.logo.right.png" "logo-right"
 
-# Servlet endpoints
-check "$BASE_HTTPS/servlet/status" "Servlet: status"
-check "$BASE_HTTPS/servlet/species" "Servlet: species"
-check "$BASE_HTTPS/servlet/postal" "Servlet: postal"
+echo ""
+echo "[*] Servlet endpoints..."
+check "$BASE_HTTPS/api/status" "StatusApiServlet (/api/status)"
+
+echo ""
+echo "[*] Security check (WEB-INF blocked)..."
+WEB_INF_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$BASE_HTTPS/WEB-INF/web.xml" 2>/dev/null)
+if [ "$WEB_INF_STATUS" -ge 400 ] 2>/dev/null; then
+    echo "  [OK]   ${WEB_INF_STATUS}  WEB-INF/web.xml (correctly blocked)"
+    PASS=$((PASS + 1))
+elif [ "$WEB_INF_STATUS" = "000" ]; then
+    echo "  [NOCONN]   WEB-INF/web.xml"
+    FAIL=$((FAIL + 1))
+else
+    echo "  [FAIL] ${WEB_INF_STATUS}  WEB-INF/web.xml (should be 403/404!)"
+    FAIL=$((FAIL + 1))
+fi
 
 echo ""
 echo "───────────────────────────────────────────────────────────────"
 echo " Results: ${PASS} OK | ${REDIRECT} redirects | ${FAIL} failed"
 echo "───────────────────────────────────────────────────────────────"
 
-# Response headers for diagnosis
+# Response headers
 echo ""
 echo "[*] Response headers (HTTPS root):"
 curl -sI -L --max-time 10 "$BASE_HTTPS/" 2>/dev/null | head -20 | sed 's/^/  /'
