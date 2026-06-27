@@ -71,7 +71,33 @@ fi
 sudo chmod -R 755 "$DEPLOY_DIR"
 
 echo ""
-echo "[✓] Installation complete."
+echo "[✓] Local installation complete."
 echo "    Deploy dir: $DEPLOY_DIR"
 echo "    Run download-jars.sh to fetch required dependencies."
+
+# Remote Apache deploy prompt
+REMOTE_HOST="${BMA_REMOTE_HOST:-name.com}"
+REMOTE_PATH="/var/www/html/brarner.m.alete"
+REMOTE_USER="${BMA_REMOTE_USER:-root}"
+
+echo ""
+echo "───────────────────────────────────────────────────────────────"
+read -rp " Deploy to Linux Apache server at http://$REMOTE_HOST/brarner.m.alete? [Y/n] " CONFIRM
+CONFIRM="${CONFIRM:-Y}"
+
+if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
+    echo "[*] Deploying to $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH ..."
+    ssh "$REMOTE_USER@$REMOTE_HOST" "mkdir -p $REMOTE_PATH"
+    scp -r "$WEBAPP_SRC/"* "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/"
+    if [ -d "$BMA_ROOT/lib" ]; then
+        ssh "$REMOTE_USER@$REMOTE_HOST" "mkdir -p $REMOTE_PATH/WEB-INF/lib"
+        scp "$BMA_ROOT/lib/"*.jar "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/WEB-INF/lib/" 2>/dev/null || true
+    fi
+    ssh "$REMOTE_USER@$REMOTE_HOST" "chmod -R 755 $REMOTE_PATH"
+    echo "[✓] Remote deploy complete: http://$REMOTE_HOST/brarner.m.alete"
+else
+    echo "[*] Skipped remote deploy."
+    echo "    To deploy later: scp -r $WEBAPP_SRC/* $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/"
+fi
+
 echo "═══════════════════════════════════════════════════════════════"
