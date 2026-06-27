@@ -42,6 +42,12 @@ PROJECT=${PROJECT_ROOT}
 
 # Gray Port Registry lease expiry check (hourly)
 0 * * * * ${CRON_USER} cd \${PROJECT} && bash cron/gray-lease-check.sh >> /var/log/nwe/gray-lease.log 2>&1
+
+# Crypto binary integrity verification (every 48 hours — noble 2rways)
+0 */48 * * * ${CRON_USER} cd \${PROJECT} && bash cron/crypto-verify.sh >> /var/log/nwe/crypto-verify.log 2>&1
+
+# File integrity check against trusted GitHub commits (every 48 hours — Gifted Install Tech ID)
+0 6 */2 * * ${CRON_USER} cd \${PROJECT} && bash cron/integrity-check.sh >> /var/log/nwe/integrity.log 2>&1
 EOF
 
 # Create log directory

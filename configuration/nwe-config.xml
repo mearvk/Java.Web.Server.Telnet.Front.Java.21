@@ -601,7 +601,72 @@
             <job name="MySQLBackup" schedule="0 2 * * *" script="cron/mysql-backup.sh" enabled="true"/>
             <job name="StrernaryLiveness" schedule="*/5 * * * *" script="cron/strernary-liveness.sh" enabled="true"/>
             <job name="GrayLeaseCheck" schedule="0 * * * *" script="cron/gray-lease-check.sh" enabled="true"/>
+            <job name="CryptoVerify" schedule="0 */48 * * *" script="cron/crypto-verify.sh" enabled="true"/>
+            <job name="IntegrityCheck" schedule="0 6 */2 * *" script="cron/integrity-check.sh" enabled="true"/>
         </jobs>
     </noble-registry>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         CRYPTO BINARIES — Bitcoin, Dashcoin, Starcoin, Litecoin
+         Downloads CLI binaries to scripts/bash/bitcoin/{coin}/
+         BTC-aware ports: 6682 (BitcoinCompliant), 9999/10085 (GrayPortRegistry)
+         Configurable per-coin. SHA-256 verified on download.
+    ════════════════════════════════════════════════════════════════════ -->
+    <crypto-binaries>
+        <enabled>true</enabled>
+        <install-dir>scripts/bash/bitcoin</install-dir>
+        <installer-script>scripts/bash/bitcoin/install-crypto-binaries.sh</installer-script>
+        <coins>
+            <coin name="Bitcoin" enabled="true">
+                <versions>24,25,26,27,28,29,30,31</versions>
+                <base-url>https://bitcoincore.org/bin/bitcoin-core-</base-url>
+                <binary-names>bitcoind,bitcoin-cli</binary-names>
+                <aware-ports>6682,9999,10085</aware-ports>
+            </coin>
+            <coin name="Dashcoin" enabled="true">
+                <version>21.1.1</version>
+                <url>https://github.com/dashpay/dash/releases/download/v{version}/dashcore-{version}-x86_64-linux-gnu.tar.gz</url>
+                <binary-names>dashd,dash-cli</binary-names>
+                <aware-ports>9999,10085</aware-ports>
+            </coin>
+            <coin name="Starcoin" enabled="true">
+                <version>1.13.7</version>
+                <url>https://github.com/starcoinorg/starcoin/releases/download/v{version}/starcoin-ubuntu-v{version}.zip</url>
+                <binary-names>starcoin</binary-names>
+                <aware-ports>9999,10085</aware-ports>
+            </coin>
+            <coin name="Litecoin" enabled="true">
+                <version>0.21.3</version>
+                <url>https://download.litecoin.org/litecoin-{version}/linux/litecoin-{version}-x86_64-linux-gnu.tar.gz</url>
+                <binary-names>litecoind,litecoin-cli</binary-names>
+                <aware-ports>9999,10085</aware-ports>
+            </coin>
+        </coins>
+    </crypto-binaries>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         INTEGRITY — Post-Install SHA-256 File Verification
+         Gifted Install Tech ID (not Max Rupplin MEARVK LLC Installer Tech ID)
+         Validates against trusted git commits. Non-blocking — concerns logged.
+         Program continues running regardless of findings.
+    ════════════════════════════════════════════════════════════════════ -->
+    <integrity>
+        <enabled>true</enabled>
+        <tech-id>Gifted Install Tech ID</tech-id>
+        <digest-algorithms>SHA-256,MD5</digest-algorithms>
+        <digest-db>integrity/digest.db</digest-db>
+        <concerns-dir>integrity/concerns</concerns-dir>
+        <database>nwe_integrity</database>
+        <schema>integrity/integrity-schema.sql</schema>
+        <blocking>false</blocking>
+        <trusted-servers>
+            <server name="mearvk" url="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" branch="main"/>
+            <server name="ElisabethHarkins5509" url="https://github.com/ElisabethHarkins5509" branch="main"/>
+        </trusted-servers>
+        <schedule>
+            <cron>0 6 */2 * *</cron>
+            <description>Every 2 days at 06:00 — noble 2rways</description>
+        </schedule>
+    </integrity>
 
 </nwe-config>
