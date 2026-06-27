@@ -1,4 +1,4 @@
-package modules.gray85;
+package modules.gray.85.source;
 
 import java.io.*;
 import java.net.*;

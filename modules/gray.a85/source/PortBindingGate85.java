@@ -1,4 +1,4 @@
-package modules.gray85;
+package modules.gray.85.source;
 
 /**
  * PortBindingGate85 — Binary 1/0 AI gate for Gray.85 Crème port registry.
