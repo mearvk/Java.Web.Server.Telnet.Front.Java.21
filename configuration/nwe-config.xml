@@ -577,4 +577,31 @@
         <entry class="NioModuleScanner">0831200900</entry>
     </hashcodes>
 
+    <!-- ═══════════════════════════════════════════════════════════════════
+         NOBLE REGISTRY — CRON PATTERN
+         A Noble Mear — reliable services before Noble Ministries.
+         Enabled by default. Resets every 2 days (2x 24 hours).
+    ════════════════════════════════════════════════════════════════════ -->
+    <noble-registry>
+        <enabled>true</enabled>
+        <reset-interval-hours>48</reset-interval-hours>
+        <cron-dir>cron</cron-dir>
+        <log-dir>/var/log/nwe</log-dir>
+        <shutdown-concern>
+            <enabled>true</enabled>
+            <save-state-on-shutdown>true</save-state-on-shutdown>
+            <state-file>cron/.noble-state</state-file>
+            <save-brothers>true</save-brothers>
+        </shutdown-concern>
+        <jobs>
+            <job name="AE6E66-Crawl" schedule="0 3 1 * *" script="cron/install-cron.sh" enabled="true"/>
+            <job name="GitHubPullNewer" schedule="0 4 * * *" script="scripts/github/pull-newer-only.sh" enabled="true"/>
+            <job name="SignalHealth" schedule="*/15 * * * *" script="cron/signal-health.sh" enabled="true"/>
+            <job name="PostfixFlush" schedule="*/30 * * * *" script="/usr/sbin/postqueue -f" enabled="true"/>
+            <job name="MySQLBackup" schedule="0 2 * * *" script="cron/mysql-backup.sh" enabled="true"/>
+            <job name="StrernaryLiveness" schedule="*/5 * * * *" script="cron/strernary-liveness.sh" enabled="true"/>
+            <job name="GrayLeaseCheck" schedule="0 * * * *" script="cron/gray-lease-check.sh" enabled="true"/>
+        </jobs>
+    </noble-registry>
+
 </nwe-config>
