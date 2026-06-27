@@ -5223,6 +5223,42 @@ DATABASES
   nwe_bma                — Brarner.M.Alete™ (species, postal, SSA, art, science)
 
 
+EIGENVECTOR MATH SYSTEM (math/)
+--------------------------------
+  eigenlocator/
+    BasicAnatomy.CDNS          — 5×5 input eigenvector matrix (immutable .CDNS)
+    PerceivedOutput.CDNS       — 5×5 output eigenvector matrix (immutable .CDNS)
+
+  frames/
+    frame-00.frame             — Entry frame (orderly passthrough, hop=1)
+    frame-01.frame             — Ricochet frame (scale:1.1, hop=2)
+    frame-02.frame             — Hot-action frame (skip 4)
+    frame-03.frame             — Terminal frame (orderly exit)
+    *.dat                      — User-built procedure matrices (up to 4000×12800)
+
+  observations/
+    sample-national-input.txt  — Sample 5-element national vectors
+
+  results/
+    *.result                   — EigenMultiplier output
+    *.routed                   — EigenRouter pipeline output
+
+  eigen-config.xml             — Routing config (matrices, hops, frame limits)
+
+  source/math/
+    EigenMultiplier.java       — Direct matrix × vector multiplication
+    EigenRouter.java           — Full pipeline: BasicAnatomy → Frames(2–65) → PerceivedOutput
+
+  Rules:
+    Forward multipliers:       1–4 (Stage 1, based on orderly path detection)
+    Procedure frames:          2–65 (user-programmable)
+    Frame dimensions:          128×128 min → 4000×12800 max (user-build specified)
+    Hop distances:             1, 2, 3, 4, 6 (standard); up to 16 (skip)
+    Total hops:                max 51
+    Path types:                Orderly (same w.r.t. All spirits) or Virtue (own transform)
+    Colors:                    Reserved — assigned by Max Rupplin
+
+
 PORTS
 ------
   2000      Strernary™ Directory Server (menu + XML forwarding)

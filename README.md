@@ -229,6 +229,48 @@ NIO-based front layer that binds local IPs 127.0.0.1 through 127.0.0.17 and brid
 
 ---
 
+## Eigenvector Math System
+
+National observation vectors routed through eigenvector matrices via a programmable frame pipeline. Input values represent national momentums, real angular values, or national rain (caught as-is).
+
+**Pipeline:** `Input → BasicAnatomy × input → [Frame Pipeline] → PerceivedOutput × result → Colored Output`
+
+**Eigenvector Matrices (.CDNS files):**
+
+| Matrix | Role | Dimensions | File |
+|--------|------|------------|------|
+| BasicAnatomy | Input EV | 5×5 | `math/eigenlocator/BasicAnatomy.CDNS` |
+| PerceivedOutput | Output PO | 5×5 | `math/eigenlocator/PerceivedOutput.CDNS` |
+
+**Routing Rules:**
+
+| Parameter | Value |
+|-----------|-------|
+| Forward multipliers (Stage 1) | 1–4 |
+| Total hops | max 51 |
+| Procedure frames | 2–65 |
+| Frame dimensions | 128×128 min, 4000×12800 max |
+| Frame size policy | User-build specified |
+| Standard hops | 1, 2, 3, 4, 6 |
+| Max skip | 16 |
+
+**Path Types:**
+- **Orderly** — Same w.r.t. All spirits; pass through unchanged
+- **Virtue** — Achieve their own virtue; transform independently
+
+**Color assignment** reserved for higher math geniuses (Max Rupplin).
+
+**Source:**
+- `source/math/EigenMultiplier.java` — Direct matrix × vector multiplication
+- `source/math/EigenRouter.java` — Full EV → Frames → PO pipeline
+- `math/eigen-config.xml` — Routing configuration
+- `math/eigenlocator/` — Immutable .CDNS matrix files
+- `math/frames/` — User-programmable procedure frame definitions
+- `math/observations/` — National input vectors
+- `math/results/` — Computed output
+
+---
+
 ## Memory Footprint (Rough Estimates)
 
 Approximate heap/RSS at steady state on Linux x86_64, Java 21 with virtual threads.
