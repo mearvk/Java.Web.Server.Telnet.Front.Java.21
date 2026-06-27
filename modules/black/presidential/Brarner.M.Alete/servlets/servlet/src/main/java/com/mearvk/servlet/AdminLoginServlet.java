@@ -1,4 +1,4 @@
-package presidential.Brarner.M.Alete.servlets.servlet.src.main.java.com.mearvk.servlet;
+package com.mearvk.servlet;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;

@@ -46,6 +46,11 @@
         <url-pattern>/api/status</url-pattern>
     </servlet-mapping>
 
+    <mime-mapping>
+        <extension>xhtml</extension>
+        <mime-type>text/html</mime-type>
+    </mime-mapping>
+
     <resource-ref>
         <res-ref-name>jdbc/BrarnerDB</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>

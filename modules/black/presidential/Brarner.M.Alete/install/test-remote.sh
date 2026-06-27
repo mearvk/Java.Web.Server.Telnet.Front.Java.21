@@ -21,16 +21,17 @@ REDIRECT=0
 check() {
     local url="$1"
     local label="$2"
-    local status headers
-    status=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 10 "$url" 2>/dev/null)
+    local status
+    status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 --connect-timeout 10 "$url" 2>/dev/null)
     if [ "$status" -ge 200 ] && [ "$status" -lt 300 ] 2>/dev/null; then
         echo "  [OK]       ${status}  ${label}"
         PASS=$((PASS + 1))
     elif [ "$status" -ge 300 ] && [ "$status" -lt 400 ] 2>/dev/null; then
-        local location
-        location=$(curl -s -o /dev/null -w "%{redirect_url}" --max-time 5 "$url" 2>/dev/null)
-        echo "  [REDIRECT] ${status}  ${label} → ${location}"
+        echo "  [REDIRECT] ${status}  ${label}"
         REDIRECT=$((REDIRECT + 1))
+    elif [ "$status" = "000" ]; then
+        echo "  [NOCONN]   ---  ${label}  (connection failed/timeout)"
+        FAIL=$((FAIL + 1))
     else
         echo "  [FAIL]     ${status}  ${label}"
         FAIL=$((FAIL + 1))
