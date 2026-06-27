@@ -44,3 +44,6 @@ libjfxwebkit.so
 ### Large files (>50MB) ###
 jars/java-fx/javafx-sdk-26.0.1/bin/jfxwebkit.dll
 jars/java-fx/javafx-jdk.zip
+
+### Downloaded JARs (re-fetch via install/download-jars.sh) ###
+lib/
