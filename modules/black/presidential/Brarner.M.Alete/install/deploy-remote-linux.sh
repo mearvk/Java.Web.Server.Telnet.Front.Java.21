@@ -289,7 +289,7 @@ ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "
     # Install certbot
     if ! command -v certbot &>/dev/null; then
         if command -v apt &>/dev/null; then
-            apt install -y certbot python3-certbot-apache
+            DEBIAN_FRONTEND=noninteractive apt install -y certbot python3-certbot-apache
         elif command -v dnf &>/dev/null; then
             dnf install -y certbot python3-certbot-apache
         fi
@@ -300,11 +300,39 @@ ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "
         a2enmod ssl headers rewrite proxy proxy_http 2>/dev/null
     fi
 
-    # Obtain cert from Let's Encrypt
-    certbot --apache --non-interactive --agree-tos \
-        --email contact@lauradei.us \
-        -d lauradei.us -d www.lauradei.us \
-        --redirect 2>/dev/null || echo '[*] Certbot: cert may already exist'
+    # Check if cert already exists
+    if [ -f /etc/letsencrypt/live/lauradei.us/fullchain.pem ]; then
+        echo '[*] SSL cert already exists'
+    else
+        echo '[*] Obtaining SSL cert from Let'\''s Encrypt...'
+
+        # Stop Apache briefly for standalone cert if needed
+        # Try apache plugin first, fall back to standalone
+        certbot --apache --non-interactive --agree-tos \
+            --email contact@lauradei.us \
+            -d lauradei.us -d www.lauradei.us 2>/dev/null
+
+        # If apache plugin failed, try standalone (stops apache temporarily)
+        if [ ! -f /etc/letsencrypt/live/lauradei.us/fullchain.pem ]; then
+            echo '[*] Apache plugin failed — trying standalone mode...'
+            systemctl stop apache2 2>/dev/null || systemctl stop httpd 2>/dev/null
+            certbot certonly --standalone --non-interactive --agree-tos \
+                --email contact@lauradei.us \
+                -d lauradei.us -d www.lauradei.us 2>&1
+            systemctl start apache2 2>/dev/null || systemctl start httpd 2>/dev/null
+        fi
+    fi
+
+    # Verify cert was obtained before writing SSL config
+    if [ ! -f /etc/letsencrypt/live/lauradei.us/fullchain.pem ]; then
+        echo '[!] ERROR: Could not obtain SSL cert. Apache will run HTTP only.'
+        echo '    Check DNS: lauradei.us must resolve to this server'\''s public IP.'
+        echo '    Check ports: 80 and 443 must be open inbound.'
+        echo '    Try manually: certbot certonly --standalone -d lauradei.us'
+        exit 0
+    fi
+
+    echo '[*] SSL cert confirmed at /etc/letsencrypt/live/lauradei.us/'
 
     # Determine if Tomcat is up
     TOMCAT_UP=false
@@ -360,7 +388,7 @@ SSLSTATIC
 </IfModule>
 SSLFOOT
 
-    # Enable SSL site
+    # Enable SSL site only now that cert is confirmed
     if command -v a2ensite &>/dev/null; then
         a2ensite brarner-ssl 2>/dev/null
     fi
