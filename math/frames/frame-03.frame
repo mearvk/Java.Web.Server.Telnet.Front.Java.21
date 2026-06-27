@@ -1,0 +1,5 @@
+# Frame 03 — Terminal frame (orderly exit)
+index=3
+hop=1
+transform=passthrough
+link=next

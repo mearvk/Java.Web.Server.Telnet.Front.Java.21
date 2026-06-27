@@ -1,0 +1,5 @@
+# Frame 02 — Hot-action frame (skip forward)
+index=2
+hop=4
+transform=passthrough
+link=6

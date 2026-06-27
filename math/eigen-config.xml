@@ -3,8 +3,39 @@
 <eigen-config>
     <eigenlocator-dir>math/eigenlocator</eigenlocator-dir>
     <observations-dir>math/observations</observations-dir>
+    <frames-dir>math/frames</frames-dir>
     <output-dir>math/results</output-dir>
+
     <matrices>
-        <matrix name="BasicAnatomy" file="BasicAnatomy.CDNS" rows="5" cols="5"/>
+        <matrix name="BasicAnatomy" file="BasicAnatomy.CDNS" rows="5" cols="5" role="input"/>
+        <matrix name="PerceivedOutput" file="PerceivedOutput.CDNS" rows="5" cols="5" role="output"/>
     </matrices>
+
+    <routing>
+        <source matrix="BasicAnatomy"/>
+        <destination matrix="PerceivedOutput"/>
+        <max-forward-multipliers>4</max-forward-multipliers>
+        <max-total-hops>51</max-total-hops>
+        <min-frames>4</min-frames>
+        <max-frames>65</max-frames>
+        <max-skip>16</max-skip>
+        <standard-hops>1,2,3,4,6</standard-hops>
+    </routing>
+
+    <procedure-frames>
+        <!-- Frames 2 through 65: user-programmable procedure space -->
+        <!-- Each frame can be up to 4000 rows × 12800 cols (limit) -->
+        <!-- Minimum 128×128; specified at user build time -->
+        <frame-range start="2" end="65"/>
+        <max-rows>4000</max-rows>
+        <max-cols>12800</max-cols>
+        <min-rows>128</min-rows>
+        <min-cols>128</min-cols>
+        <size-policy>user-build</size-policy>
+    </procedure-frames>
+
+    <colors>
+        <!-- Color assignment reserved for higher math geniuses (Max Rupplin) -->
+        <authority>Max Rupplin — MEARVK LLC</authority>
+    </colors>
 </eigen-config>
