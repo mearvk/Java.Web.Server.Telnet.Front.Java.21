@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Species — Brarner.M.Alete™</title>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+    <a href="index.xhtml" class="nav-brand">Brarner.M.Alete™</a>
+    <ul class="nav-links">
+        <li><a href="index.xhtml">Overview</a></li>
+        <li><a href="species.xhtml" class="active">Species</a></li>
+        <li><a href="postal.xhtml">Postal</a></li>
+        <li><a href="art.xhtml">Art</a></li>
+        <li><a href="science.xhtml">Science</a></li>
+        <li><a href="status.xhtml">Status</a></li>
+    </ul>
+    <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+</div></nav>
+
+<section class="hero" style="padding:4rem 2rem;">
+    <div class="hero-inner">
+        <span class="hero-tag">Biological Classification</span>
+        <h1>Species Database</h1>
+        <p>Comprehensive species classification with 12 sub-categories covering animalia, plantae, fungi, and protista kingdoms.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <h2>Browse by Kingdom</h2>
+        <div class="tabs">
+            <button class="tab active" data-tab="animalia">Animalia</button>
+            <button class="tab" data-tab="plantae">Plantae</button>
+            <button class="tab" data-tab="fungi">Fungi</button>
+            <button class="tab" data-tab="protista">Protista</button>
+        </div>
+        <div class="tab-content active" id="tab-animalia">
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Class</th><th>Families</th><th>Species Count</th><th>Last Updated</th></tr></thead>
+                    <tbody>
+                        <tr><td>Mammalia</td><td>153</td><td>6,400</td><td>Jun 2026</td></tr>
+                        <tr><td>Aves</td><td>248</td><td>10,800</td><td>Jun 2026</td></tr>
+                        <tr><td>Reptilia</td><td>92</td><td>11,700</td><td>May 2026</td></tr>
+                        <tr><td>Amphibia</td><td>74</td><td>8,400</td><td>May 2026</td></tr>
+                        <tr><td>Insecta</td><td>660</td><td>1,000,000+</td><td>Apr 2026</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-content" id="tab-plantae"><p>Plantae classification data — 14 classes, 620 families, 9,300 records.</p></div>
+        <div class="tab-content" id="tab-fungi"><p>Fungi classification data — 8 classes, 380 families, 4,100 records.</p></div>
+        <div class="tab-content" id="tab-protista"><p>Protista classification data — 6 classes, 150 families, 1,800 records.</p></div>
+    </div>
+</section>
+
+<footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
+    <span>&copy; 2026 MEARVK LLC. All rights reserved.</span>
+</div></footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var group = btn.closest('.section-inner');
+        group.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+        group.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+});
+</script>
+</body>
+</html>

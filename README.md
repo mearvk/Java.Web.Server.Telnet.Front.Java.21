@@ -267,11 +267,84 @@ Approximate heap/RSS at steady state on Linux x86_64, Java 21 with virtual threa
 | Profile | Estimated RSS | Description |
 |---------|---------------|-------------|
 | Minimal (core only) | ~100 MB | NitroWebExpress + NIO + MySQL |
-| Standard (no DJL) | ~400 MB | Core + all modules, DJL disabled |
-| Full (DJL loaded) | ~750 MB | All modules + PyTorch model loaded |
-| Training burst | ~950 MB | Full + AITrainingThread scouting buffer at capacity |
+| Standard (no DJL) | ~450 MB | Core + all modules including Gray registries, DJL disabled |
+| Full (DJL loaded) | ~800 MB | All modules + PyTorch model loaded |
+| Training burst | ~1000 MB | Full + AITrainingThread scouting buffer at capacity |
+| Full + Gray registries active | ~865 MB | Full + both port registries with lease maps populated |
 
 **Recommended JVM flags:**
 ```
 -Xms256m -Xmx1024m -XX:+UseZGC
 ```
+
+---
+
+## GrayPortRegistry™ — 30M Port Block Leasing (Bitcoin/Dashcoin)
+
+Port registry service that leases blocks of 30,000,000 ports via Bitcoin or Dashcoin payment. Two tiers: standard (port 9999) and Crème (port 10085).
+
+**Brand:** Installer ID Tech™
+
+### Standard Registry (Port 9999)
+
+- **Block size:** 30,000,000 ports per block
+- **Available blocks:** 1000 (total capacity: 30 billion ports)
+- **Minimum donation:** $10 USD in Bitcoin or Dashcoin
+- **Terms:** `month` (30 days), `year` (1 year), `multi-year` (3 years)
+- **Database:** `nwe_gray_registry` (MySQL)
+- **AI Gate:** Each port binding passes through an AI binary gate for authorization
+
+**Protocol (TCP on port 9999):**
+
+| Command | Format | Description |
+|---------|--------|-------------|
+| LEASE | `LEASE\|<block_id>\|<term>\|<btc_txid>` | Lease a port block. Provide Bitcoin/Dashcoin transaction ID as payment proof. |
+| STATUS | `STATUS\|<block_id>` | Check if a block is available or leased (shows expiry). |
+| BIND | `BIND\|<block_id>\|<port>` | Bind a specific port within your leased block. AI-gated. |
+| LIST | `LIST` | List all active leases. |
+| QUIT | `QUIT` | Disconnect. |
+
+**How to Pay and Lease:**
+
+1. Send $10+ USD equivalent in Bitcoin or Dashcoin to the published wallet address.
+2. Connect to port 9999 via telnet/TCP: `telnet <server-ip> 9999`
+3. Issue: `LEASE|<block_id>|month|<your_btc_txid>`
+4. On success, server responds: `LEASED|block=<id>|ports=<start>-<end>|term=month|txid=<txid>`
+5. Bind individual ports: `BIND|<block_id>|<port_number>`
+6. Server responds with the resolved 127.0.X.X binding address.
+
+**Port resolution:** Absolute port numbers map to local IPs via `127.0.<octet3>.<octet4>:<local_port>` where `octet3 = port / 65536 / 256`, `octet4 = port / 65536 % 256`, `local_port = port % 65536`.
+
+### Gray85 Crème Registry (Port 10085)
+
+Same as standard but 15 out of every 100 ports are Crème-locked (planetary auditor control).
+
+- **Open ports:** 85% of block ($10 USD lease)
+- **Crème-locked ports:** 15% of block ($1000 USD to unlock, 1 hour minimum)
+- **Database:** `nwe_gray85_registry` (MySQL)
+
+**Additional commands:**
+
+| Command | Format | Description |
+|---------|--------|-------------|
+| UNLOCK | `UNLOCK\|<block_id>\|<port_offset>\|<hours>\|<btc_txid>` | Unlock a Crème port for N hours ($1000/unlock). |
+| CREME | `CREME\|<block_id>` | List which ports in a block are Crème-locked. |
+
+**Example session:**
+```
+$ telnet server.example.com 9999
+═══════════════════════════════════════════════════════════════
+ Installer ID Tech™ — Port Registry Service
+ $10 USD minimum donation — Bitcoin/Dashcoin accepted
+ 30,000,000 ports per block — 1000 blocks available
+═══════════════════════════════════════════════════════════════
+LEASE|42|month|abc123def456txid
+LEASED|block=42|ports=1260000000-1289999999|term=month|txid=abc123def456txid
+BIND|42|1260000001
+BOUND|block=42|port=1260000001|ip=127.0.75.49:37761
+QUIT
+```
+
+**Source:**
+- `modules/gray/source/GrayPortRegistryServer.java` — Standard registry (port 9999)
+- `modules/gray.a85/source/Gray85PortRegistryServer.java` — Crème registry (port 10085)

@@ -1,49 +1,244 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Brarner.M.Alete — Signal Processing Platform</title>
+    <title>Brarner.M.Alete™ — Presidential Species/Postal/SSA/Art/Science Module</title>
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
-<header>
-    <h1>Brarner.M.Alete</h1>
-    <div class="subtitle">Signal Processing Platform — Science &amp; Education</div>
-</header>
-<nav>
-    <a href="index.xhtml">Home</a>
-    <a href="admin/login.xhtml">Admin</a>
-    <a href="status.xhtml">Status</a>
-    <a href="documents.xhtml">Documents</a>
-</nav>
-<main>
-    <h2>Welcome</h2>
-    <div class="card">
-        <p>This platform serves North Carolina universities, USPS postal facilities,
-           NC counties, and Social Security Administration offices with real-time
-           signal processing: audio FFT, statistical analysis, and graphics spectrum.</p>
+
+<!-- NAV -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.xhtml" class="nav-brand">Brarner.M.Alete™</a>
+        <ul class="nav-links">
+            <li><a href="index.xhtml" class="active">Overview</a></li>
+            <li><a href="species.xhtml">Species</a></li>
+            <li><a href="postal.xhtml">Postal</a></li>
+            <li><a href="art.xhtml">Art</a></li>
+            <li><a href="science.xhtml">Science</a></li>
+            <li><a href="status.xhtml">Status</a></li>
+        </ul>
+        <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
     </div>
+</nav>
 
-    <h2>Active Modules</h2>
-    <table>
-        <thead><tr><th>Module</th><th>Instances</th><th>Port Range</th><th>Status</th></tr></thead>
-        <tbody>
-            <tr><td>Universities</td><td>53</td><td>8000–8052</td><td><span class="badge">Active</span></td></tr>
-            <tr><td>Postal</td><td>55</td><td>9000–9054</td><td><span class="badge">Active</span></td></tr>
-            <tr><td>Counties NC</td><td>100</td><td>9100–9199</td><td><span class="badge">Active</span></td></tr>
-            <tr><td>SSA Offices</td><td>1182</td><td>9200–10381</td><td><span class="badge">Active</span></td></tr>
-        </tbody>
-    </table>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-inner">
+        <span class="hero-tag">NC Socialist-College Block</span>
+        <h1>Brarner.M.Alete™</h1>
+        <p>Presidential species, postal, SSA, art and science module. Maven multi-module architecture with servlets, EJB, and EAR packaging — maintained by MEARVK LLC.</p>
+        <div class="hero-actions">
+            <a href="#downloads" class="btn btn-primary">Download Module</a>
+            <a href="#roadmap" class="btn btn-ghost">View Roadmap →</a>
+        </div>
+    </div>
+</section>
 
-    <h2>Quick Links</h2>
-    <ul>
-        <li><a href="admin/login.xhtml">Admin Login</a> — Retrieve POST documents, manage instances</li>
-        <li><a href="status.xhtml">System Status</a> — View active/standby instances</li>
-    </ul>
-</main>
-<footer>
-    &copy; MEARVK LLC — Maximilian Eric Alexander Rupplin von Keffikon
+<!-- ROADMAP -->
+<section class="section" id="roadmap">
+    <div class="section-inner">
+        <h2>Roadmap</h2>
+        <p>Module release schedule and versioning. Active releases shown in full color.</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Release</th><th>GA Date</th><th>Latest Version</th><th>Min JDK</th><th>LTS</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>2.0-EA</code></td><td>Sep 2026</td><td>early access</td><td><code>21</code></td><td>—</td><td>—</td></tr>
+                    <tr><td><code>1.5</code></td><td>Jun 2026</td><td>1.5.1 (Jun 2026)</td><td><code>21</code></td><td>—</td><td><a href="#">Release notes →</a></td></tr>
+                    <tr><td><code>1.0 LTS</code></td><td>Mar 2026</td><td>1.0.4 (Jun 2026)</td><td><code>21</code></td><td>yes</td><td><a href="#">Release notes →</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- SUPPORTED PLATFORMS -->
+<section class="section">
+    <div class="section-inner">
+        <h2>Supported Platforms</h2>
+        <h3>Supported</h3>
+        <div class="platform-grid">
+            <div class="platform-badge supported">Linux x64</div>
+            <div class="platform-badge supported">Windows x64</div>
+            <div class="platform-badge supported">macOS x64</div>
+            <div class="platform-badge supported">macOS aarch64</div>
+        </div>
+        <h3>Provided, not supported</h3>
+        <div class="platform-grid">
+            <div class="platform-badge">Linux aarch64</div>
+        </div>
+        <h3>Not provided</h3>
+        <div class="platform-grid">
+            <div class="platform-badge unsupported">Windows aarch64</div>
+        </div>
+    </div>
+</section>
+
+<!-- DOWNLOADS -->
+<section class="section" id="downloads">
+    <div class="section-inner">
+        <h2>Downloads</h2>
+        <p>The module is available as a standalone JAR, WAR, or full EAR package for deployment on Jakarta EE servers.</p>
+
+        <div class="filters">
+            <select id="filter-version">
+                <option value="">Version: Any</option>
+                <option value="1.5.1">1.5.1</option>
+                <option value="1.5">1.5</option>
+                <option value="1.0.4">1.0.4 (LTS)</option>
+                <option value="1.0.3">1.0.3</option>
+                <option value="1.0">1.0</option>
+            </select>
+            <select id="filter-os">
+                <option value="">OS: Any</option>
+                <option value="linux">Linux</option>
+                <option value="windows">Windows</option>
+                <option value="macos">macOS</option>
+            </select>
+            <select id="filter-type">
+                <option value="">Type: Any</option>
+                <option value="jar">JAR</option>
+                <option value="war">WAR</option>
+                <option value="ear">EAR</option>
+            </select>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Version</th><th>OS</th><th>Architecture</th><th>Type</th><th>Download</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>1.5.1</code></td><td>Linux</td><td><code>x64</code></td><td>JAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.5.1</code></td><td>Linux</td><td><code>x64</code></td><td>WAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.5.1</code></td><td>Linux</td><td><code>x64</code></td><td>EAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.5.1</code></td><td>Windows</td><td><code>x64</code></td><td>JAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.5.1</code></td><td>Windows</td><td><code>x64</code></td><td>WAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.5.1</code></td><td>Windows</td><td><code>x64</code></td><td>EAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.5.1</code></td><td>macOS</td><td><code>aarch64</code></td><td>JAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.5.1</code></td><td>macOS</td><td><code>aarch64</code></td><td>WAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.5.1</code></td><td>macOS</td><td><code>aarch64</code></td><td>EAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.0.4</code></td><td>Linux</td><td><code>x64</code></td><td>JAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.0.4</code></td><td>Linux</td><td><code>x64</code></td><td>WAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.0.4</code></td><td>Linux</td><td><code>x64</code></td><td>EAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.0.4</code></td><td>Windows</td><td><code>x64</code></td><td>JAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.0.4</code></td><td>Windows</td><td><code>x64</code></td><td>WAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.0.4</code></td><td>Windows</td><td><code>x64</code></td><td>EAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.0.4</code></td><td>macOS</td><td><code>aarch64</code></td><td>JAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.0.4</code></td><td>macOS</td><td><code>aarch64</code></td><td>WAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td><code>1.0.4</code></td><td>macOS</td><td><code>aarch64</code></td><td>EAR</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p style="margin-top:1rem;">This software is licensed under <a href="#">GPL v2 + Classpath</a>.</p>
+    </div>
+</section>
+
+<!-- MODULES TAB SECTION -->
+<section class="section">
+    <div class="section-inner">
+        <h2>Module Components</h2>
+        <div class="tabs">
+            <button class="tab active" data-tab="species">Species</button>
+            <button class="tab" data-tab="postal">Postal</button>
+            <button class="tab" data-tab="ssa">SSA</button>
+            <button class="tab" data-tab="art">Art</button>
+            <button class="tab" data-tab="science">Science</button>
+        </div>
+        <div class="tab-content active" id="tab-species">
+            <p>Species classification database with 12 sub-categories covering animalia, plantae, fungi, and protista kingdoms.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Kingdom</th><th>Classes</th><th>Families</th><th>Records</th></tr></thead>
+                    <tbody>
+                        <tr><td>Animalia</td><td>42</td><td>1,200+</td><td>18,500</td></tr>
+                        <tr><td>Plantae</td><td>14</td><td>620</td><td>9,300</td></tr>
+                        <tr><td>Fungi</td><td>8</td><td>380</td><td>4,100</td></tr>
+                        <tr><td>Protista</td><td>6</td><td>150</td><td>1,800</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-content" id="tab-postal">
+            <p>US Postal code lookup and validation for all 50 states and territories. Integrated with USPS address standardization.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Coverage</th><th>ZIP Codes</th><th>Last Updated</th></tr></thead>
+                    <tbody>
+                        <tr><td>US States (50)</td><td>41,700+</td><td>Jun 2026</td></tr>
+                        <tr><td>US Territories</td><td>900+</td><td>Jun 2026</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-content" id="tab-ssa">
+            <p>Social Security Administration data integration for demographic analysis and policy research.</p>
+        </div>
+        <div class="tab-content" id="tab-art">
+            <p>Art museum collections indexer covering 22 major institutions with species-linked natural art references.</p>
+        </div>
+        <div class="tab-content" id="tab-science">
+            <p>Scientific publication indexer with DOI resolution and citation graph construction.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div>
+            <div class="footer-brand">Brarner.M.Alete™</div>
+            <p class="footer-desc">Presidential species/postal/SSA/art/science module. NC Socialist-College block. Maintained by Max Rupplin — MEARVK LLC.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Module</h4>
+            <ul>
+                <li><a href="#downloads">Downloads</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Components</h4>
+            <ul>
+                <li><a href="species.xhtml">Species DB</a></li>
+                <li><a href="postal.xhtml">Postal</a></li>
+                <li><a href="art.xhtml">Art Museums</a></li>
+                <li><a href="science.xhtml">Science</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Admin</h4>
+            <ul>
+                <li><a href="admin/login.xhtml">Login</a></li>
+                <li><a href="status.xhtml">Status</a></li>
+                <li><a href="admin/documents.xhtml">Documents</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>&copy; 2026 MEARVK LLC. All rights reserved.</span>
+        <span><a href="#">Terms of use</a> &nbsp; <a href="#">Privacy</a></span>
+    </div>
 </footer>
+
+<!-- TAB JS -->
+<script>
+document.querySelectorAll('.tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var group = btn.closest('.section-inner');
+        group.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+        group.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+});
+</script>
+
 </body>
 </html>

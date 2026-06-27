@@ -1,32 +1,48 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Documents — Brarner.M.Alete</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Documents — Brarner.M.Alete™</title>
     <link rel="stylesheet" href="../css/style.css"/>
 </head>
 <body>
-<header>
-    <h1>Brarner.M.Alete</h1>
-    <div class="subtitle">POST Documents</div>
-</header>
-<nav>
-    <a href="../index.xhtml">Home</a>
-    <a href="dashboard.xhtml">Dashboard</a>
-    <a href="documents.xhtml">Documents</a>
-    <a href="/servlet/admin/logout">Logout</a>
-</nav>
-<main>
-    <h2>Submitted Documents</h2>
-    <div class="alert alert-info">Documents submitted via POST are listed below. Click to retrieve.</div>
-    <table>
-        <thead><tr><th>ID</th><th>Timestamp</th><th>Source</th><th>Type</th><th>Action</th></tr></thead>
-        <tbody>
-            <!-- Populated by servlet -->
-            <tr><td colspan="5">No documents pending.</td></tr>
-        </tbody>
-    </table>
-</main>
-<footer>&copy; MEARVK LLC</footer>
+<nav class="nav"><div class="nav-inner">
+    <a href="../index.xhtml" class="nav-brand">Brarner.M.Alete™</a>
+    <ul class="nav-links">
+        <li><a href="dashboard.xhtml">Dashboard</a></li>
+        <li><a href="documents.xhtml" class="active">Documents</a></li>
+        <li><a href="../status.xhtml">Status</a></li>
+    </ul>
+    <a href="/bma/admin/logout" class="nav-cta">Logout →</a>
+</div></nav>
+
+<section class="hero" style="padding:4rem 2rem;">
+    <div class="hero-inner">
+        <span class="hero-tag">Admin</span>
+        <h1>Documents</h1>
+        <p>Uploaded documents, reports, and generated artifacts.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <h2>Recent Documents</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Filename</th><th>Type</th><th>Size</th><th>Uploaded</th><th>Download</th></tr></thead>
+                <tbody>
+                    <tr><td>species-export-2026-06.csv</td><td>CSV</td><td>2.4 MB</td><td>2026-06-25</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td>postal-validation-report.pdf</td><td>PDF</td><td>890 KB</td><td>2026-06-24</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                    <tr><td>art-museum-index.json</td><td>JSON</td><td>1.1 MB</td><td>2026-06-23</td><td><a href="#" class="btn-download">Download</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
+    <span>&copy; 2026 MEARVK LLC. All rights reserved.</span>
+</div></footer>
 </body>
 </html>
