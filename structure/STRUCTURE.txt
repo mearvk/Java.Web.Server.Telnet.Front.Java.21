@@ -392,7 +392,7 @@ SCRIPTS  (scripts/)
 
 PORTS SUMMARY
 -------------
-  49152   WebExpress (main Telnet proxy)
+  49152   WebExpress (main Telnet proxy) / Brarner.M.Alete™ (masquerade-routed)
   49155   ConnectionStatusServer
   49166   ModuleInstallationService
   49177   ASCIICreatorServer
@@ -406,9 +406,12 @@ PORTS SUMMARY
   20000   Strernary (best-guess inference, shared with OS port)
   49144   BinaryHttpServer
   49133   WeatherServer
+   2000   Strernary™ Directory Server (menu + XML forwarding)
    5512   AES 2.0 Compliant WebExpress
    6682   Bitcoin Compliant WebExpress
    8888   MiddleDirectorServer (finance/goal synchronization)
+   9999   GrayPortRegistry™ (30M port block leasing, Bitcoin/Dashcoin)
+  10085   Gray85 Crème Registry™ (85/15 split, $1000 Crème unlock)
 
 
 LOG / DATA PATHS
@@ -481,6 +484,47 @@ STANDALONE COMPONENTS  (not part of NWE — independently downloadable)
     SECURITY.md                — Security recommendations.
     MANAGEMENT.md              — Management and operations suggestions.
     COMPLETION.md              — Session work completed / remaining items.
+
+
+BRARNER.M.ALETE™ SERVLET WEBSITE (modules/black/presidential/Brarner.M.Alete/)
+--------------------------------------------------------------------------------
+  servlets/servlet/src/main/webapp/
+    index.xhtml                — Main page (hero, roadmap, platforms, downloads, tabbed modules)
+    species.xhtml              — Species DB with tabbed kingdoms
+    postal.xhtml               — US Postal coverage table
+    art.xhtml                  — Art museums index
+    science.xhtml              — Science publication sources
+    status.xhtml               — Service health dashboard
+    admin/login.xhtml          — Admin login (dark card form)
+    admin/dashboard.xhtml      — Deployment management table
+    admin/documents.xhtml      — File listing with download buttons
+    css/style.css              — Gluon-styled design system (dark theme, blue accents)
+    config.xml                 — Branding config (split logo paths, site title)
+    images/mearvk.ltd.logo.left.png   — Left half of MEARVK LLC logo (768×1024)
+    images/mearvk.ltd.logo.right.png  — Right half of MEARVK LLC logo (768×1024)
+    WEB-INF/web.xml            — Jakarta Servlet 6.0 descriptor
+
+  install/
+    install.sh                 — Linux/macOS install (local + optional remote Apache deploy)
+    install.bat                — Windows install (local + Tomcat deploy)
+    download-jars.sh           — Fetch Jakarta Servlet 6.1, MySQL 8.3, Tomcat Embed 11.0.2
+    download-jars.bat          — Windows JAR downloader (PowerShell)
+
+  configuration/
+    nio-masquerade-config.xml  — NIO masquerade registration (port 49152, module-id BrarnerMAlete)
+
+
+GRAYPORTREGISTRY™ (modules/gray/, modules/gray.a85/)
+-----------------------------------------------------
+  modules/gray/source/
+    GrayPortRegistryServer.java  — Port 9999: LEASE, STATUS, BIND, LIST, QUIT
+                                   30M ports/block, 1000 blocks, $10 min Bitcoin/Dashcoin
+                                   AI binary gate per BIND, MySQL nwe_gray_registry
+
+  modules/gray.a85/source/
+    Gray85PortRegistryServer.java — Port 10085: extends standard + UNLOCK, CREME
+                                    85% open / 15% Crème-locked ($1000 unlock/hr)
+                                    MySQL nwe_gray85_registry
 
 
 DATABASE TABLES — BITCOIN

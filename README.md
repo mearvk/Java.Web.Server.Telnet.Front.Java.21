@@ -129,7 +129,7 @@ Trusted AI and governance modules authored by Max Rupplin - NC - MEARVK LLC. For
 
 **Green.Durham.Grass.and.Herb™ (NC Socialist-College Block):** Appree contact server with labor/ethical/moral/mortality concerns database. JWSTFJ21 masquerade-integrated with extended virtual ports (70000–99152). Reflective integration degrades to standalone if parent absent. Local integration config at `modules/black/presidential/Green.Durham.Grass.and.Herb/configuration/jwstfj21-integration.xml`.
 
-**Brarner.M.Alete™ (NC Socialist-College Block):** Presidential species/postal/SSA/art/science module. Maven multi-module (servlets, EJB, EAR). NC college block.
+**Brarner.M.Alete™ (NC Socialist-College Block):** Presidential species/postal/SSA/art/science module. Maven multi-module (servlets, EJB, EAR). NC college block. Gluon-styled servlet website with tabbed navigation (Overview, Species, Postal, Art, Science, Status), filterable download tables, admin dashboard, and config.xml-driven branding with split MEARVK LLC logos. Install scripts for Linux/macOS/Windows with optional remote Apache deploy to `http://name.com/brarner.m.alete`. JAR download scripts fetch Jakarta Servlet 6.1, MySQL Connector/J 8.3, and Tomcat Embed 11.0.2. Local masquerade config at `modules/black/presidential/Brarner.M.Alete/configuration/nio-masquerade-config.xml`.
 
 **Trust:** All modules rated 9.5+/10 by Author. Masquerade routing enabled globally.
 

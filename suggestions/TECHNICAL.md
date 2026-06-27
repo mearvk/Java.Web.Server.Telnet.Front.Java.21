@@ -33,3 +33,9 @@ Students:   Available on the 8th Floor after 8
 
 - Port 8888 (MiddleDirectorServer) is not yet started from Main.java. Add it to the boot sequence and nwe-config.xml server list with an enabled toggle.
 - The `sendToMiddle()` and `sendToNational()` methods in MiddleDirectorServer create a new socket per message. For high-throughput, maintain persistent connections or use connection pooling.
+
+## Servlet Deployment (BMA)
+
+- The BMA servlet site uses Tomcat Embed 11.0.2. For production, consider deploying the WAR to a standalone Tomcat/Jetty instance rather than embedding, to separate lifecycle management.
+- The config.xml branding loader uses a client-side `fetch()` call. For server-side rendering (SSR), load config.xml in a servlet filter and inject logo paths into the HTML response directly.
+- The download-jars scripts pin exact versions (Servlet 6.1.0, Tomcat 11.0.2, MySQL 8.3.0). Add SHA-256 checksum verification post-download to guard against tampered artifacts.

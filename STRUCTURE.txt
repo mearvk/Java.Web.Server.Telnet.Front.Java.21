@@ -5212,41 +5212,44 @@ SCRIPTS  (scripts/)
 
 DATABASES
 ----------
-  nwe                    — Main NWE database (NationalID, knowledge, trades)
+  nwe                    — Main NWE database (NationalID, knowledge, trades, bitcoin wallets)
   nwe_strernary          — Strernary knowledge_base, training_pairs
-  nwe_japan              — Japan Signal Server
-  nwe_russia             — Russia Signal Server
-  nwe_mexico             — Mexico Signal Server
-  nwe_greece_intl        — Greece International Signal Server
+  nwe_japan              — Japan Signal Server (NHK, Nikkei, JPX)
+  nwe_russia             — Russia Signal Server (TASS, MOEX, RBC)
+  nwe_mexico             — Mexico Signal Server (BMV, El Universal)
+  nwe_greece_intl        — Greece International Signal Server (Athens Exchange, Reuters)
   nwe_gray_registry      — Gray Port Registry (leases, connections, payments, blocks)
   nwe_gray85_registry    — Gray.85 Crème Port Registry (leases, creme_unlocks, payments)
+  nwe_bma                — Brarner.M.Alete™ (species, postal, SSA, art, science)
 
 
 PORTS
 ------
-  2000
-  2222
-  5512
-  6682
-  7743
-  7744
-  8888
-  20000
-  49111
-  49122
-  49133
-  49144
-  49152
-  49155
-  49166
-  49177
-  49188
-  49199
-  49200
-  49201
-  49202
-  49203
-  49204
-  49205
+  2000      Strernary™ Directory Server (menu + XML forwarding)
+  2222      SSH relay
+  5512      AES 2.0 Encryption Server
+  6682      Bitcoin Wallet Server
+  7743      RSA Encryption Server
+  7744      DSA Encryption Server
+  8888      Middle Director Server
+  9999      GrayPortRegistry™ (30M port block leasing, Bitcoin/Dashcoin)
+  10085     Gray85 Crème Registry™ (85/15 split, $1000 unlock)
+  20000     Strernary™ Inference Server (DJL/PyTorch)
+  49111     AIProctorModule™
+  49122     AIIntegrativeEngine
+  49133     AITrainingThread
+  49144     Calendar Server
+  49152     NitroWebExpress™ Main / Brarner.M.Alete™ (masquerade-routed)
+  49155     Connection Status Server
+  49166     Module Installation Service
+  49177     ASCII Creator Server
+  49188     Module Loader Daemon
+  49199     Communicator™
+  49200     Weather Server
+  49201     JapanSignalServer™
+  49202     RussiaSignalServer™
+  49203     MexicoSignalServer™
+  49204     GreeceInternationalSignalServer™
+  49205     UkraineSignalServer™
 
 --- END STRUCTURE ---

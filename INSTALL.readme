@@ -91,6 +91,22 @@ SERVICE PORTS (default)
   49177   ASCII creator server
   49166   Module installation service
   49188   Module loader daemon
+   2000   Strernary™ Directory Server
+  20000   Strernary™ Inference Server
+   9999   GrayPortRegistry™ (standard)
+  10085   Gray85 Crème Registry™
+  49152   Brarner.M.Alete™ (masquerade-routed)
+  49201   JapanSignalServer™
+  49202   RussiaSignalServer™
+  49203   MexicoSignalServer™
+  49204   GreeceInternationalSignalServer™
+
+
+BMA SERVLET WEBSITE
+-------------------
+  cd modules/black/presidential/Brarner.M.Alete/install
+  bash download-jars.sh          # fetch Jakarta Servlet 6.1, MySQL 8.3, Tomcat 11.0.2
+  bash install.sh                # deploy locally + optional remote to name.com
 
 
 CONNECTING (telnet / nc)

@@ -35,3 +35,10 @@ Students:   Available on the 8th Floor after 8
 
 - The MySQL connector JAR (`mysql-connector-j-9.7.0.jar`) should be verified against its published SHA-256 checksum. Pin the version and verify on install.
 - No other third-party JARs are vendored except Lanterna. Keep the dependency surface minimal.
+
+## Servlet (BMA) Security
+
+- The BMA admin login (`admin/login.xhtml`) authenticates over HTTP. Deploy behind HTTPS (Apache mod_ssl or Tomcat TLS connector) before exposing to the internet.
+- `config.xml` in the webapp root is publicly readable. It currently contains only branding paths but should be moved to `WEB-INF/` if sensitive config is added.
+- The install script's remote deploy uses SSH key auth. Ensure the deploy user has minimal permissions (write to `/var/www/html/brarner.m.alete` only).
+- Download scripts fetch JARs from Maven Central over HTTPS. Verify SHA-256 checksums post-download to prevent supply-chain attacks on Jakarta Servlet, MySQL Connector, and Tomcat Embed JARs.

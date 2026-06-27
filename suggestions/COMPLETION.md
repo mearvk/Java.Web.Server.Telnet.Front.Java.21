@@ -58,6 +58,28 @@ Students:   Available on the 8th Floor after 8
 - [x] Both STRUCTURE.txt files updated with all new components
 - [x] README.md updated with authorization terms
 
+### Brarner.M.Alete™ — Servlet Website
+- [x] Gluon-styled servlet website (dark theme, blue accents, responsive)
+- [x] Tabbed navigation: Overview, Species, Postal, Art, Science, Status
+- [x] Filterable download tables (Version, OS, Type) with compact download buttons
+- [x] Admin pages: login, dashboard (deployments), documents (file listing)
+- [x] config.xml-driven branding with split MEARVK LLC logos (left/right)
+- [x] Logo split from source PNG into two 768×1024 halves
+- [x] Install scripts: install.sh (Linux/macOS), install.bat (Windows)
+- [x] Y/N prompt for remote Apache deploy to http://name.com/brarner.m.alete
+- [x] JAR download scripts: download-jars.sh / download-jars.bat
+- [x] Dependencies: Jakarta Servlet 6.1, Annotation API 3.0, MySQL Connector/J 8.3, Tomcat Embed 11.0.2
+
+### GrayPortRegistry™ — 30M Port Block Leasing
+- [x] GrayPortRegistryServer (port 9999) — standard registry
+- [x] Gray85PortRegistryServer (port 10085) — Crème registry (85/15 split)
+- [x] LEASE, STATUS, BIND, LIST, QUIT protocol commands
+- [x] UNLOCK, CREME commands for Crème-locked ports
+- [x] Bitcoin/Dashcoin payment verification via transaction ID
+- [x] AI binary gate for port binding authorization
+- [x] Port resolution: absolute → 127.0.X.X local IP mapping
+- [x] MySQL persistence (nwe_gray_registry, nwe_gray85_registry)
+
 ## Remaining / Not Yet Wired
 
 - [ ] MiddleDirectorServer not started from Main.java (needs config entry + boot wiring)
@@ -69,3 +91,5 @@ Students:   Available on the 8th Floor after 8
 - [ ] No TLS on telnet ports
 - [ ] No automated balance tracking after BTC trades
 - [ ] bitcoin/25 directory is empty (0 files indexed)
+- [ ] BMA servlet WAR not auto-deployed from Main.java (manual install script)
+- [ ] GrayPortRegistry — no lease expiration daemon (manual cleanup)
