@@ -47,7 +47,7 @@
     </target>
 
     <!-- ═══ COMPILE ═════════════════════════════════════════════════════════ -->
-    <target name="compile" description="Compile all Java sources">
+    <target name="compile" depends="structure" description="Compile all Java sources">
         <mkdir dir="${out.dir}"/>
         <javac srcdir="${src.dir}"
                destdir="${out.dir}"
@@ -120,8 +120,16 @@
         <echo message="Tests complete."/>
     </target>
 
+    <!-- ═══ STRUCTURE ═══════════════════════════════════════════════════════ -->
+    <target name="structure" description="Regenerate STRUCTURE.txt from codebase scan">
+        <exec executable="bash" failonerror="false">
+            <arg value="scripts/generate-structure.sh"/>
+        </exec>
+    </target>
+
     <!-- ═══ STRIPS ══════════════════════════════════════════════════════════ -->
     <target name="strips" description="Validate AI learning strips exist">
+
         <available file="source/strernary/strips/base-learning-strip.tsv" property="strip.strernary"/>
         <available file="source/ai/strips/base-learning-strip.tsv" property="strip.ai"/>
         <available file="source/international/radio/strips/base-learning-strip.tsv" property="strip.radio"/>
