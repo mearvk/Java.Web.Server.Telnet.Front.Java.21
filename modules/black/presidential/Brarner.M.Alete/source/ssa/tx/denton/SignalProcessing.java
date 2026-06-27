@@ -1,4 +1,4 @@
-package ssa.tx.denton;
+package presidential.Brarner.M.Alete.source.ssa.tx.denton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

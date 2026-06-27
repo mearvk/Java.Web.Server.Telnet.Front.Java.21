@@ -1,4 +1,4 @@
-package ssa.ct.newbritain;
+package presidential.Brarner.M.Alete.source.ssa.ct.newbritain;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

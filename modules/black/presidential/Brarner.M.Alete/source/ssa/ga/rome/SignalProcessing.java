@@ -1,4 +1,4 @@
-package ssa.ga.rome;
+package presidential.Brarner.M.Alete.source.ssa.ga.rome;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

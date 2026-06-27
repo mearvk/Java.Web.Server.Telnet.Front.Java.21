@@ -1,4 +1,4 @@
-package ssa.ca.lancaster;
+package presidential.Brarner.M.Alete.source.ssa.ca.lancaster;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

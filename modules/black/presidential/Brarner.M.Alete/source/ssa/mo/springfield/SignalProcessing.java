@@ -1,4 +1,4 @@
-package ssa.mo.springfield;
+package presidential.Brarner.M.Alete.source.ssa.mo.springfield;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

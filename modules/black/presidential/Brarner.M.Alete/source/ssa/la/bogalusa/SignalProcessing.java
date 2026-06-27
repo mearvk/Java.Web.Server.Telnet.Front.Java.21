@@ -1,4 +1,4 @@
-package ssa.la.bogalusa;
+package presidential.Brarner.M.Alete.source.ssa.la.bogalusa;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

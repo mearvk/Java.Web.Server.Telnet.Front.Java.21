@@ -1,4 +1,4 @@
-package ssa.in.fortwayne;
+package presidential.Brarner.M.Alete.source.ssa.in.fortwayne;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

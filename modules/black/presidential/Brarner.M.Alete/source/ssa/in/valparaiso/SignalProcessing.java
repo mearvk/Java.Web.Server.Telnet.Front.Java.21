@@ -1,4 +1,4 @@
-package ssa.in.valparaiso;
+package presidential.Brarner.M.Alete.source.ssa.in.valparaiso;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

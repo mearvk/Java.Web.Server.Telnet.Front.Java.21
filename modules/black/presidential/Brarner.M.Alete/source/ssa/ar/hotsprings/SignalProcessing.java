@@ -1,4 +1,4 @@
-package ssa.ar.hotsprings;
+package presidential.Brarner.M.Alete.source.ssa.ar.hotsprings;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.md.abingdon;
+package presidential.Brarner.M.Alete.source.ssa.md.abingdon;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package video.viewer;
+package presidential.Brarner.M.Alete.source.video.viewer;
 
 import javafx.application.Application;
 import javafx.scene.Group;

@@ -1,4 +1,4 @@
-package ssa.ks.wichita;
+package presidential.Brarner.M.Alete.source.ssa.ks.wichita;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

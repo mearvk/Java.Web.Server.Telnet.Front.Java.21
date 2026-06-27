@@ -1,4 +1,4 @@
-package ssa.ga.atlanta002;
+package presidential.Brarner.M.Alete.source.ssa.ga.atlanta002;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

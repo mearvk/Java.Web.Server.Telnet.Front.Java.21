@@ -1,4 +1,4 @@
-package ssa.ma.eastfalmouth;
+package presidential.Brarner.M.Alete.source.ssa.ma.eastfalmouth;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

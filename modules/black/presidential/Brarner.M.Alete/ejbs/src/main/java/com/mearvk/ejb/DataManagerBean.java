@@ -1,4 +1,4 @@
-package com.mearvk.ejb;
+package presidential.Brarner.M.Alete.ejbs.src.main.java.com.mearvk.ejb;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.*;

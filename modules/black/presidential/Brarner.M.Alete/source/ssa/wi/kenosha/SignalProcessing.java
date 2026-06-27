@@ -1,4 +1,4 @@
-package ssa.wi.kenosha;
+package presidential.Brarner.M.Alete.source.ssa.wi.kenosha;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

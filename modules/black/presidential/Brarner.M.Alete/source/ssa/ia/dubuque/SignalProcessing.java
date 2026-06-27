@@ -1,4 +1,4 @@
-package ssa.ia.dubuque;
+package presidential.Brarner.M.Alete.source.ssa.ia.dubuque;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

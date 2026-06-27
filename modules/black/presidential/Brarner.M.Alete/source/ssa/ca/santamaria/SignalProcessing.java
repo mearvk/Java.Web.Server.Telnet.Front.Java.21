@@ -1,4 +1,4 @@
-package ssa.ca.santamaria;
+package presidential.Brarner.M.Alete.source.ssa.ca.santamaria;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

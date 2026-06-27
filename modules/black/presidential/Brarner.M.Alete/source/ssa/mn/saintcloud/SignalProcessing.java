@@ -1,4 +1,4 @@
-package ssa.mn.saintcloud;
+package presidential.Brarner.M.Alete.source.ssa.mn.saintcloud;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

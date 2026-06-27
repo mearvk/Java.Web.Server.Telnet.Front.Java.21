@@ -1,4 +1,4 @@
-package ssa.nj.parsippany;
+package presidential.Brarner.M.Alete.source.ssa.nj.parsippany;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

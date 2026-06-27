@@ -1,4 +1,4 @@
-package ssa.ny.newrochelle;
+package presidential.Brarner.M.Alete.source.ssa.ny.newrochelle;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

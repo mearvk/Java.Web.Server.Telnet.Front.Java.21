@@ -1,4 +1,4 @@
-package ssa.pa.erie;
+package presidential.Brarner.M.Alete.source.ssa.pa.erie;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

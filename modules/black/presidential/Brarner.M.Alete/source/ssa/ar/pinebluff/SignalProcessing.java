@@ -1,4 +1,4 @@
-package ssa.ar.pinebluff;
+package presidential.Brarner.M.Alete.source.ssa.ar.pinebluff;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

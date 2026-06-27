@@ -1,4 +1,4 @@
-package ssa.nj.newark;
+package presidential.Brarner.M.Alete.source.ssa.nj.newark;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

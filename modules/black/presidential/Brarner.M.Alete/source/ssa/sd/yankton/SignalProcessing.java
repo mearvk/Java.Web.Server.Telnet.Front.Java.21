@@ -1,4 +1,4 @@
-package ssa.sd.yankton;
+package presidential.Brarner.M.Alete.source.ssa.sd.yankton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

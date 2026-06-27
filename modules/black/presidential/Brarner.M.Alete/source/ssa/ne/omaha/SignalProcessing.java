@@ -1,4 +1,4 @@
-package ssa.ne.omaha;
+package presidential.Brarner.M.Alete.source.ssa.ne.omaha;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

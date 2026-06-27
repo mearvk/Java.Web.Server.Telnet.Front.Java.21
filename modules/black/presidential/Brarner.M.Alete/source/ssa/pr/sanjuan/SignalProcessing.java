@@ -1,4 +1,4 @@
-package ssa.pr.sanjuan;
+package presidential.Brarner.M.Alete.source.ssa.pr.sanjuan;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

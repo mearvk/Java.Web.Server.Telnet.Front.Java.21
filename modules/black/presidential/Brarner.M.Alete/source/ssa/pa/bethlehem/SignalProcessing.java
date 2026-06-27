@@ -1,4 +1,4 @@
-package ssa.pa.bethlehem;
+package presidential.Brarner.M.Alete.source.ssa.pa.bethlehem;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.ny.brooklyn006;
+package presidential.Brarner.M.Alete.source.ssa.ny.brooklyn006;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

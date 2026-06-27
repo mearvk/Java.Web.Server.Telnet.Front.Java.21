@@ -1,4 +1,4 @@
-package ssa.mt.missoula;
+package presidential.Brarner.M.Alete.source.ssa.mt.missoula;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

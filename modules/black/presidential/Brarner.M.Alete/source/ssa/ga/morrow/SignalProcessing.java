@@ -1,4 +1,4 @@
-package ssa.ga.morrow;
+package presidential.Brarner.M.Alete.source.ssa.ga.morrow;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

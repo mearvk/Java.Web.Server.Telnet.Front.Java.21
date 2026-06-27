@@ -1,4 +1,4 @@
-package ssa.mi.bigrapids;
+package presidential.Brarner.M.Alete.source.ssa.mi.bigrapids;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

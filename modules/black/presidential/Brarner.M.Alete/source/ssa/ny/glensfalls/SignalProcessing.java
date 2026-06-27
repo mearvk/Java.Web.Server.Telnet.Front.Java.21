@@ -1,4 +1,4 @@
-package ssa.ny.glensfalls;
+package presidential.Brarner.M.Alete.source.ssa.ny.glensfalls;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

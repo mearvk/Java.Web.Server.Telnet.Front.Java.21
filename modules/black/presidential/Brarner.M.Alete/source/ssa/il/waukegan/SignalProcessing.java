@@ -1,4 +1,4 @@
-package ssa.il.waukegan;
+package presidential.Brarner.M.Alete.source.ssa.il.waukegan;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

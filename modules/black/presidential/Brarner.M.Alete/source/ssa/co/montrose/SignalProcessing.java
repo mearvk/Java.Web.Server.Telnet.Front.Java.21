@@ -1,4 +1,4 @@
-package ssa.co.montrose;
+package presidential.Brarner.M.Alete.source.ssa.co.montrose;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

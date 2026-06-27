@@ -1,4 +1,4 @@
-package ssa.tx.lufkin;
+package presidential.Brarner.M.Alete.source.ssa.tx.lufkin;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

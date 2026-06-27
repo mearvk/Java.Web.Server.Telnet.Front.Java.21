@@ -1,4 +1,4 @@
-package ssa.ia.waterloo;
+package presidential.Brarner.M.Alete.source.ssa.ia.waterloo;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

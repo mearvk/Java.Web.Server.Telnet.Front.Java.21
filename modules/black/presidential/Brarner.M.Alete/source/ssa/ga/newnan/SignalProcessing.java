@@ -1,4 +1,4 @@
-package ssa.ga.newnan;
+package presidential.Brarner.M.Alete.source.ssa.ga.newnan;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

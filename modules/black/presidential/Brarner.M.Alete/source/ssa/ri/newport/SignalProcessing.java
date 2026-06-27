@@ -1,4 +1,4 @@
-package ssa.ri.newport;
+package presidential.Brarner.M.Alete.source.ssa.ri.newport;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

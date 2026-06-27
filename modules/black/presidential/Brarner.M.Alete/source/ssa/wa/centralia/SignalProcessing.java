@@ -1,4 +1,4 @@
-package ssa.wa.centralia;
+package presidential.Brarner.M.Alete.source.ssa.wa.centralia;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

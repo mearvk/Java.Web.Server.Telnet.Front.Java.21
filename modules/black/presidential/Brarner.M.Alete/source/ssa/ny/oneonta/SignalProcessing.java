@@ -1,4 +1,4 @@
-package ssa.ny.oneonta;
+package presidential.Brarner.M.Alete.source.ssa.ny.oneonta;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

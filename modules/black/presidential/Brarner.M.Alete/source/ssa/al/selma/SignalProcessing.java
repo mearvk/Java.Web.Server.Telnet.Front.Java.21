@@ -1,4 +1,4 @@
-package ssa.al.selma;
+package presidential.Brarner.M.Alete.source.ssa.al.selma;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

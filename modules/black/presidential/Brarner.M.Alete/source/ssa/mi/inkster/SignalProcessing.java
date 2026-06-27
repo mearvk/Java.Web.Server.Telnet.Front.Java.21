@@ -1,4 +1,4 @@
-package ssa.mi.inkster;
+package presidential.Brarner.M.Alete.source.ssa.mi.inkster;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.fl.lakemary;
+package presidential.Brarner.M.Alete.source.ssa.fl.lakemary;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

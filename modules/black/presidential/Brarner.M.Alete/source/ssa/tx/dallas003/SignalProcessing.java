@@ -1,4 +1,4 @@
-package ssa.tx.dallas003;
+package presidential.Brarner.M.Alete.source.ssa.tx.dallas003;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

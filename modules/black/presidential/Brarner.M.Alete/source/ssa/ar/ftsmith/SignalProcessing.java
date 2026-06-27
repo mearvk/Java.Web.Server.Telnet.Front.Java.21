@@ -1,4 +1,4 @@
-package ssa.ar.ftsmith;
+package presidential.Brarner.M.Alete.source.ssa.ar.ftsmith;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

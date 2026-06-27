@@ -1,4 +1,4 @@
-package ssa.md.cambridge;
+package presidential.Brarner.M.Alete.source.ssa.md.cambridge;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

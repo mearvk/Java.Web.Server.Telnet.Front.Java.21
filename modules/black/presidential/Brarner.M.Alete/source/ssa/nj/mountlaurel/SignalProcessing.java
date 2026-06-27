@@ -1,4 +1,4 @@
-package ssa.nj.mountlaurel;
+package presidential.Brarner.M.Alete.source.ssa.nj.mountlaurel;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

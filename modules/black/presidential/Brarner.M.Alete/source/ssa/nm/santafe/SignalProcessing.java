@@ -1,4 +1,4 @@
-package ssa.nm.santafe;
+package presidential.Brarner.M.Alete.source.ssa.nm.santafe;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

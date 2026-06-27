@@ -1,4 +1,4 @@
-package ssa.hi.wailuku;
+package presidential.Brarner.M.Alete.source.ssa.hi.wailuku;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

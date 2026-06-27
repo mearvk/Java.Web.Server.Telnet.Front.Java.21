@@ -1,4 +1,4 @@
-package ssa.ca.whittier;
+package presidential.Brarner.M.Alete.source.ssa.ca.whittier;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.mo.sikeston;
+package presidential.Brarner.M.Alete.source.ssa.mo.sikeston;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

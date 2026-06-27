@@ -1,4 +1,4 @@
-package ssa.mi.mtpleasant;
+package presidential.Brarner.M.Alete.source.ssa.mi.mtpleasant;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.nj.newbrunswick;
+package presidential.Brarner.M.Alete.source.ssa.nj.newbrunswick;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

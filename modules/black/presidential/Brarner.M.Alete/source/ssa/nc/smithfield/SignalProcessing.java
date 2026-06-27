@@ -1,4 +1,4 @@
-package ssa.nc.smithfield;
+package presidential.Brarner.M.Alete.source.ssa.nc.smithfield;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

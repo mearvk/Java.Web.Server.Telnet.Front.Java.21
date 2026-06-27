@@ -1,4 +1,4 @@
-package ssa.mi.livonia;
+package presidential.Brarner.M.Alete.source.ssa.mi.livonia;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

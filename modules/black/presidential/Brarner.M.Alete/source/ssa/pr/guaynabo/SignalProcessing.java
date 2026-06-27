@@ -1,4 +1,4 @@
-package ssa.pr.guaynabo;
+package presidential.Brarner.M.Alete.source.ssa.pr.guaynabo;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

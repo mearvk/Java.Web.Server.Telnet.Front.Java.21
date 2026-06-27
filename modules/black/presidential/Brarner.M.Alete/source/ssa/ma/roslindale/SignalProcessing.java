@@ -1,4 +1,4 @@
-package ssa.ma.roslindale;
+package presidential.Brarner.M.Alete.source.ssa.ma.roslindale;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.mo.maryville;
+package presidential.Brarner.M.Alete.source.ssa.mo.maryville;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

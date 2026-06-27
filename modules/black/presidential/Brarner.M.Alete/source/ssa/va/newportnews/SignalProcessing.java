@@ -1,4 +1,4 @@
-package ssa.va.newportnews;
+package presidential.Brarner.M.Alete.source.ssa.va.newportnews;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

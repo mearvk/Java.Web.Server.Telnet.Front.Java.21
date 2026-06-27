@@ -1,4 +1,4 @@
-package ssa.az.yuma;
+package presidential.Brarner.M.Alete.source.ssa.az.yuma;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

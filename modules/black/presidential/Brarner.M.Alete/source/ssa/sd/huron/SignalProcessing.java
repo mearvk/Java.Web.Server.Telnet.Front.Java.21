@@ -1,4 +1,4 @@
-package ssa.sd.huron;
+package presidential.Brarner.M.Alete.source.ssa.sd.huron;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

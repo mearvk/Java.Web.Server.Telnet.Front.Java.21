@@ -1,4 +1,4 @@
-package ssa.tx.sanmarcos;
+package presidential.Brarner.M.Alete.source.ssa.tx.sanmarcos;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

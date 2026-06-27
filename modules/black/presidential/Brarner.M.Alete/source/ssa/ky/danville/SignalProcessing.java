@@ -1,4 +1,4 @@
-package ssa.ky.danville;
+package presidential.Brarner.M.Alete.source.ssa.ky.danville;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

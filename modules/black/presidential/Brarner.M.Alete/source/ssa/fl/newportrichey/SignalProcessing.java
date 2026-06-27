@@ -1,4 +1,4 @@
-package ssa.fl.newportrichey;
+package presidential.Brarner.M.Alete.source.ssa.fl.newportrichey;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

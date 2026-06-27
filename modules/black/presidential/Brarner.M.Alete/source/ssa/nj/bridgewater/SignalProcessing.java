@@ -1,4 +1,4 @@
-package black.presidential.Alete;
+package presidential.Brarner.M.Alete.source.ssa.nj.bridgewater;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

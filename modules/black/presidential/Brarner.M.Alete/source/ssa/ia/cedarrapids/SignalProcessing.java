@@ -1,4 +1,4 @@
-package ssa.ia.cedarrapids;
+package presidential.Brarner.M.Alete.source.ssa.ia.cedarrapids;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

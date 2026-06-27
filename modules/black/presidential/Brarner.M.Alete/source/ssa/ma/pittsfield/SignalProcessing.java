@@ -1,4 +1,4 @@
-package ssa.ma.pittsfield;
+package presidential.Brarner.M.Alete.source.ssa.ma.pittsfield;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

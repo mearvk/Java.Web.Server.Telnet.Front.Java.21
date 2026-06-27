@@ -1,4 +1,4 @@
-package ssa.ga.vidalia;
+package presidential.Brarner.M.Alete.source.ssa.ga.vidalia;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

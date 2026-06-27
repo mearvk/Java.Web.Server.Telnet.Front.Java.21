@@ -1,4 +1,4 @@
-package ssa.fl.tallahassee;
+package presidential.Brarner.M.Alete.source.ssa.fl.tallahassee;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

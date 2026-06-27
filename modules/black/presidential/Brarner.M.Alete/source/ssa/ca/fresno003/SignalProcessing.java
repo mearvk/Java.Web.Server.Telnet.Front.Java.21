@@ -1,4 +1,4 @@
-package ssa.ca.fresno003;
+package presidential.Brarner.M.Alete.source.ssa.ca.fresno003;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.pr.toaalta;
+package presidential.Brarner.M.Alete.source.ssa.pr.toaalta;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

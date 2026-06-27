@@ -1,4 +1,4 @@
-package ssa.al.gadsden;
+package presidential.Brarner.M.Alete.source.ssa.al.gadsden;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

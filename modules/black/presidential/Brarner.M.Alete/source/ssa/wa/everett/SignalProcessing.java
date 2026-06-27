@@ -1,4 +1,4 @@
-package ssa.wa.everett;
+package presidential.Brarner.M.Alete.source.ssa.wa.everett;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

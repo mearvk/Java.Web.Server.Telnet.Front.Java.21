@@ -1,4 +1,4 @@
-package ssa.ar.harrison;
+package presidential.Brarner.M.Alete.source.ssa.ar.harrison;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

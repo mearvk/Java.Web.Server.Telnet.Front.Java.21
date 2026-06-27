@@ -1,4 +1,4 @@
-package ssa.ks.salina;
+package presidential.Brarner.M.Alete.source.ssa.ks.salina;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.wi.oshkosh;
+package presidential.Brarner.M.Alete.source.ssa.wi.oshkosh;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

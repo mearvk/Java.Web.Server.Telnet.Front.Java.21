@@ -1,4 +1,4 @@
-package ssa.nm.albuquerque;
+package presidential.Brarner.M.Alete.source.ssa.nm.albuquerque;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

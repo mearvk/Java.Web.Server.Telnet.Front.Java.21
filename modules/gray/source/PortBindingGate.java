@@ -1,4 +1,4 @@
-package modules.gray;
+package modules.gray.source;
 
 /**
  * PortBindingGate — Binary 1/0 yes/no AI module for port-bind authorization.

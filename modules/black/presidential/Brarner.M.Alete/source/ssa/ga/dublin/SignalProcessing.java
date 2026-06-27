@@ -1,4 +1,4 @@
-package ssa.ga.dublin;
+package presidential.Brarner.M.Alete.source.ssa.ga.dublin;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

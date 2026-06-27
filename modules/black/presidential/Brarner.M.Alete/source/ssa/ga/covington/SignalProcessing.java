@@ -1,4 +1,4 @@
-package ssa.ga.covington;
+package presidential.Brarner.M.Alete.source.ssa.ga.covington;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

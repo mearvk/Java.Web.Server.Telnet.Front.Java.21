@@ -1,4 +1,4 @@
-package ssa.il.chicago;
+package presidential.Brarner.M.Alete.source.ssa.il.chicago;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.ok.durant;
+package presidential.Brarner.M.Alete.source.ssa.ok.durant;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

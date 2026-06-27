@@ -1,4 +1,4 @@
-package ssa.ok.stillwater;
+package presidential.Brarner.M.Alete.source.ssa.ok.stillwater;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

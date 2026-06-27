@@ -1,4 +1,4 @@
-package ssa.wv.parkersburg;
+package presidential.Brarner.M.Alete.source.ssa.wv.parkersburg;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

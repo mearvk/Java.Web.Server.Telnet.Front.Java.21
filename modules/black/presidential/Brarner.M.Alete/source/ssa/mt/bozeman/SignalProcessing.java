@@ -1,4 +1,4 @@
-package ssa.mt.bozeman;
+package presidential.Brarner.M.Alete.source.ssa.mt.bozeman;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

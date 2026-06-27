@@ -1,4 +1,4 @@
-package ssa.nc.newbern;
+package presidential.Brarner.M.Alete.source.ssa.nc.newbern;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

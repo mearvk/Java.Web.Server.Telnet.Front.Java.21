@@ -1,4 +1,4 @@
-package ssa.la.shreveport;
+package presidential.Brarner.M.Alete.source.ssa.la.shreveport;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.in.michigancity;
+package presidential.Brarner.M.Alete.source.ssa.in.michigancity;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package art.deltaartscenter;
+package presidential.Brarner.M.Alete.source.art.deltaartscenter;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

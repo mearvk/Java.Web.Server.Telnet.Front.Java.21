@@ -1,4 +1,4 @@
-package ssa.il.paloshills;
+package presidential.Brarner.M.Alete.source.ssa.il.paloshills;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

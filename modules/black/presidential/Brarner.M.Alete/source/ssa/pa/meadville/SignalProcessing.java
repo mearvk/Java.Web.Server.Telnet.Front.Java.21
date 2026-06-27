@@ -1,4 +1,4 @@
-package ssa.pa.meadville;
+package presidential.Brarner.M.Alete.source.ssa.pa.meadville;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

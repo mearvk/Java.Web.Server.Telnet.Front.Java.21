@@ -1,4 +1,4 @@
-package species.cnidaria.scyphozoa.nausithoidae;
+package presidential.Brarner.M.Alete.source.species.cnidaria.scyphozoa.nausithoidae;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

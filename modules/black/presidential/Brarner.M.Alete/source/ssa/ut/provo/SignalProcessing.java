@@ -1,4 +1,4 @@
-package ssa.ut.provo;
+package presidential.Brarner.M.Alete.source.ssa.ut.provo;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

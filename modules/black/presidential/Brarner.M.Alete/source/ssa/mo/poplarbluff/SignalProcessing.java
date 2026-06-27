@@ -1,4 +1,4 @@
-package ssa.mo.poplarbluff;
+package presidential.Brarner.M.Alete.source.ssa.mo.poplarbluff;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

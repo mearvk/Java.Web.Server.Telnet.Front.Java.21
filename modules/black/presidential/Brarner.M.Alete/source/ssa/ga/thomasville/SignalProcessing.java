@@ -1,4 +1,4 @@
-package ssa.ga.thomasville;
+package presidential.Brarner.M.Alete.source.ssa.ga.thomasville;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

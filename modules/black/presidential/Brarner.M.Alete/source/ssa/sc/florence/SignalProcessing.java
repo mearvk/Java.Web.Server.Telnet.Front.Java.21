@@ -1,4 +1,4 @@
-package ssa.sc.florence;
+package presidential.Brarner.M.Alete.source.ssa.sc.florence;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

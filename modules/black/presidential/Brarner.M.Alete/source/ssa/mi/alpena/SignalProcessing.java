@@ -1,4 +1,4 @@
-package ssa.mi.alpena;
+package presidential.Brarner.M.Alete.source.ssa.mi.alpena;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

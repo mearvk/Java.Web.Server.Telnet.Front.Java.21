@@ -1,4 +1,4 @@
-package ssa.in.vincennes;
+package presidential.Brarner.M.Alete.source.ssa.in.vincennes;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

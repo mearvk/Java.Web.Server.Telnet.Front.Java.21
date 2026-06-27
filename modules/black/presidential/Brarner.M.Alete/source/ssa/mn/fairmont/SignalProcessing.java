@@ -1,4 +1,4 @@
-package ssa.mn.fairmont;
+package presidential.Brarner.M.Alete.source.ssa.mn.fairmont;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

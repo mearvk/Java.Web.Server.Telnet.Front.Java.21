@@ -1,4 +1,4 @@
-package ssa.ia.ottumwa;
+package presidential.Brarner.M.Alete.source.ssa.ia.ottumwa;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

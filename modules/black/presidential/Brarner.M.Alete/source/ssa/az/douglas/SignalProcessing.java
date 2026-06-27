@@ -1,4 +1,4 @@
-package ssa.az.douglas;
+package presidential.Brarner.M.Alete.source.ssa.az.douglas;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

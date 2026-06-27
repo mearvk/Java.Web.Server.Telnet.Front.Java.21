@@ -1,4 +1,4 @@
-package ssa.il.rockford;
+package presidential.Brarner.M.Alete.source.ssa.il.rockford;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

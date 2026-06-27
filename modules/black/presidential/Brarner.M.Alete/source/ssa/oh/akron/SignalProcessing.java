@@ -1,4 +1,4 @@
-package ssa.oh.akron;
+package presidential.Brarner.M.Alete.source.ssa.oh.akron;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

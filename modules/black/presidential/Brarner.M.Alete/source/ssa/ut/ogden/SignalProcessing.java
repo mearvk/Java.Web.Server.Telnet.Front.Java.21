@@ -1,4 +1,4 @@
-package ssa.ut.ogden;
+package presidential.Brarner.M.Alete.source.ssa.ut.ogden;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

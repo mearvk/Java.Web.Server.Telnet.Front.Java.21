@@ -1,4 +1,4 @@
-package ssa.la.lacombe;
+package presidential.Brarner.M.Alete.source.ssa.la.lacombe;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

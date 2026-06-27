@@ -1,4 +1,4 @@
-package ssa.ma.lowell;
+package presidential.Brarner.M.Alete.source.ssa.ma.lowell;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

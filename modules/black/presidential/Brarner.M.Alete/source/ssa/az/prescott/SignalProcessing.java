@@ -1,4 +1,4 @@
-package ssa.az.prescott;
+package presidential.Brarner.M.Alete.source.ssa.az.prescott;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

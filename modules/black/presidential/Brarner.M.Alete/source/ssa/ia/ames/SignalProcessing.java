@@ -1,4 +1,4 @@
-package ssa.ia.ames;
+package presidential.Brarner.M.Alete.source.ssa.ia.ames;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

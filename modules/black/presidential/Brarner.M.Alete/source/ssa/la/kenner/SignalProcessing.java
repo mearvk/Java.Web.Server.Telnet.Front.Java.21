@@ -1,4 +1,4 @@
-package ssa.la.kenner;
+package presidential.Brarner.M.Alete.source.ssa.la.kenner;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

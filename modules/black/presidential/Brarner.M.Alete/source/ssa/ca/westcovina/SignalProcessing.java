@@ -1,4 +1,4 @@
-package ssa.ca.westcovina;
+package presidential.Brarner.M.Alete.source.ssa.ca.westcovina;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

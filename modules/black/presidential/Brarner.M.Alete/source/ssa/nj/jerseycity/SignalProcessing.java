@@ -1,4 +1,4 @@
-package ssa.nj.jerseycity;
+package presidential.Brarner.M.Alete.source.ssa.nj.jerseycity;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

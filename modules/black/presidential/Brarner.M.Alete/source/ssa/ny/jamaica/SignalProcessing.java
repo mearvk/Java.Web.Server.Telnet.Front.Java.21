@@ -1,4 +1,4 @@
-package ssa.ny.jamaica;
+package presidential.Brarner.M.Alete.source.ssa.ny.jamaica;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

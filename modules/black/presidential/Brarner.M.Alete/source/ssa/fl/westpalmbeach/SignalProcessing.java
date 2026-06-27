@@ -1,4 +1,4 @@
-package ssa.fl.westpalmbeach;
+package presidential.Brarner.M.Alete.source.ssa.fl.westpalmbeach;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

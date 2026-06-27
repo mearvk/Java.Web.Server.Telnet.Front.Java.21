@@ -1,4 +1,4 @@
-package ssa.ar.batesville;
+package presidential.Brarner.M.Alete.source.ssa.ar.batesville;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

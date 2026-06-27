@@ -1,4 +1,4 @@
-package ssa.ut.saintgeorge;
+package presidential.Brarner.M.Alete.source.ssa.ut.saintgeorge;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

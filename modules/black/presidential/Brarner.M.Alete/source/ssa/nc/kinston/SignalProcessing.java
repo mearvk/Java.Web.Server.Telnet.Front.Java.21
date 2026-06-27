@@ -1,4 +1,4 @@
-package ssa.nc.kinston;
+package presidential.Brarner.M.Alete.source.ssa.nc.kinston;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

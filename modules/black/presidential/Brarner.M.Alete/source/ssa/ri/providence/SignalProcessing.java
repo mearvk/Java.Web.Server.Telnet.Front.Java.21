@@ -1,4 +1,4 @@
-package ssa.ri.providence;
+package presidential.Brarner.M.Alete.source.ssa.ri.providence;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

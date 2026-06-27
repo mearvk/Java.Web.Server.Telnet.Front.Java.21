@@ -1,4 +1,4 @@
-package ssa.ks.lawrence;
+package presidential.Brarner.M.Alete.source.ssa.ks.lawrence;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

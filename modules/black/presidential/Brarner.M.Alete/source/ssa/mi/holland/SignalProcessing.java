@@ -1,4 +1,4 @@
-package ssa.mi.holland;
+package presidential.Brarner.M.Alete.source.ssa.mi.holland;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

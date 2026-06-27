@@ -1,4 +1,4 @@
-package species.cnidaria.scyphozoa.linuchidae;
+package presidential.Brarner.M.Alete.source.species.cnidaria.scyphozoa.linuchidae;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

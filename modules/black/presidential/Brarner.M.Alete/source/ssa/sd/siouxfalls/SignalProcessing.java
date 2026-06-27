@@ -1,4 +1,4 @@
-package ssa.sd.siouxfalls;
+package presidential.Brarner.M.Alete.source.ssa.sd.siouxfalls;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

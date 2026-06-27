@@ -1,4 +1,4 @@
-package ssa.tx.sherman;
+package presidential.Brarner.M.Alete.source.ssa.tx.sherman;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

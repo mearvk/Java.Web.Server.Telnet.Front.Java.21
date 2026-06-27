@@ -1,4 +1,4 @@
-package ssa.ok.ada;
+package presidential.Brarner.M.Alete.source.ssa.ok.ada;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

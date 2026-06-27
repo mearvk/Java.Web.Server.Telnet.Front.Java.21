@@ -1,4 +1,4 @@
-package ssa.nv.northlasvegas;
+package presidential.Brarner.M.Alete.source.ssa.nv.northlasvegas;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

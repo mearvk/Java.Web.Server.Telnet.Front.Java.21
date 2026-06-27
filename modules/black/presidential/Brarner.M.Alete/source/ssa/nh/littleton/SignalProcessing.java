@@ -1,4 +1,4 @@
-package ssa.nh.littleton;
+package presidential.Brarner.M.Alete.source.ssa.nh.littleton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

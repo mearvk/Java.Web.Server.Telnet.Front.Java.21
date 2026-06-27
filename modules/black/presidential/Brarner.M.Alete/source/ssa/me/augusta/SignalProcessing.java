@@ -1,4 +1,4 @@
-package ssa.me.augusta;
+package presidential.Brarner.M.Alete.source.ssa.me.augusta;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.oh.cleveland004;
+package presidential.Brarner.M.Alete.source.ssa.oh.cleveland004;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

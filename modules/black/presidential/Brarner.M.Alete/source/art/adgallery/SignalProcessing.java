@@ -1,4 +1,4 @@
-package art.adgallery;
+package presidential.Brarner.M.Alete.source.art.adgallery;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

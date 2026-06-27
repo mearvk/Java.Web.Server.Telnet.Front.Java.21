@@ -1,4 +1,4 @@
-package ssa.sc.aiken;
+package presidential.Brarner.M.Alete.source.ssa.sc.aiken;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

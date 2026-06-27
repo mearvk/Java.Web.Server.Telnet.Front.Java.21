@@ -1,4 +1,4 @@
-package ssa.az.casagrande;
+package presidential.Brarner.M.Alete.source.ssa.az.casagrande;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

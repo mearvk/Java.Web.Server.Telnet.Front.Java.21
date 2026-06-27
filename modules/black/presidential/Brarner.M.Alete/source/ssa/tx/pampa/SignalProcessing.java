@@ -1,4 +1,4 @@
-package ssa.tx.pampa;
+package presidential.Brarner.M.Alete.source.ssa.tx.pampa;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

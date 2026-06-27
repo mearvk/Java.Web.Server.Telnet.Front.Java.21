@@ -1,4 +1,4 @@
-package ssa.fl.stpetersburg;
+package presidential.Brarner.M.Alete.source.ssa.fl.stpetersburg;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

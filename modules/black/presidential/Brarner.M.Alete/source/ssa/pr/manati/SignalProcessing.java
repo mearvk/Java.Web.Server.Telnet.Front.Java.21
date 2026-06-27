@@ -1,4 +1,4 @@
-package ssa.pr.manati;
+package presidential.Brarner.M.Alete.source.ssa.pr.manati;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

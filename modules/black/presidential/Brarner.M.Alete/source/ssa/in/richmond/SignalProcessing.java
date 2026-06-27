@@ -1,4 +1,4 @@
-package ssa.in.richmond;
+package presidential.Brarner.M.Alete.source.ssa.in.richmond;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

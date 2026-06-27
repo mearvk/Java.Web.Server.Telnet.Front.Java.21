@@ -1,4 +1,4 @@
-package ssa.mn.fergusfalls;
+package presidential.Brarner.M.Alete.source.ssa.mn.fergusfalls;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

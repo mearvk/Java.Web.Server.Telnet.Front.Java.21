@@ -1,4 +1,4 @@
-package ssa.oh.sandusky;
+package presidential.Brarner.M.Alete.source.ssa.oh.sandusky;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.ca.elcentro;
+package presidential.Brarner.M.Alete.source.ssa.ca.elcentro;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

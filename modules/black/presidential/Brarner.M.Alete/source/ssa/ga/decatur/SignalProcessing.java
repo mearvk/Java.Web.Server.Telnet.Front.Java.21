@@ -1,4 +1,4 @@
-package ssa.ga.decatur;
+package presidential.Brarner.M.Alete.source.ssa.ga.decatur;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

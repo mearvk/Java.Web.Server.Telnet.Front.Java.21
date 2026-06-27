@@ -1,4 +1,4 @@
-package ssa.ny.corning;
+package presidential.Brarner.M.Alete.source.ssa.ny.corning;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

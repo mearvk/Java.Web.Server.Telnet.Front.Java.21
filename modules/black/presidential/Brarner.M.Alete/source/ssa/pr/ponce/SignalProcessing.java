@@ -1,4 +1,4 @@
-package ssa.pr.ponce;
+package presidential.Brarner.M.Alete.source.ssa.pr.ponce;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.co.greeley;
+package presidential.Brarner.M.Alete.source.ssa.co.greeley;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

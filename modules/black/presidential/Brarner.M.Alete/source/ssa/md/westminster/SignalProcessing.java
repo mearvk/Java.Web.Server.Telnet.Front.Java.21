@@ -1,4 +1,4 @@
-package ssa.md.westminster;
+package presidential.Brarner.M.Alete.source.ssa.md.westminster;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.ct.torrington;
+package presidential.Brarner.M.Alete.source.ssa.ct.torrington;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

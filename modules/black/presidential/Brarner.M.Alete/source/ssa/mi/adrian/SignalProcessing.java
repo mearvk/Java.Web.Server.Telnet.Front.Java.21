@@ -1,4 +1,4 @@
-package ssa.mi.adrian;
+package presidential.Brarner.M.Alete.source.ssa.mi.adrian;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.ar.westmemphis;
+package presidential.Brarner.M.Alete.source.ssa.ar.westmemphis;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.mi.petoskey;
+package presidential.Brarner.M.Alete.source.ssa.mi.petoskey;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.mo.rockhill;
+package presidential.Brarner.M.Alete.source.ssa.mo.rockhill;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.id.boise;
+package presidential.Brarner.M.Alete.source.ssa.id.boise;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

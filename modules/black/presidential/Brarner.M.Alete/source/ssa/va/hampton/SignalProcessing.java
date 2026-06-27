@@ -1,4 +1,4 @@
-package ssa.va.hampton;
+package presidential.Brarner.M.Alete.source.ssa.va.hampton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

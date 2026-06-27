@@ -1,4 +1,4 @@
-package ssa.ga.norcross;
+package presidential.Brarner.M.Alete.source.ssa.ga.norcross;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

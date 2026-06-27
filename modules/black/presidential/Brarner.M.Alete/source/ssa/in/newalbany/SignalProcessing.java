@@ -1,4 +1,4 @@
-package ssa.in.newalbany;
+package presidential.Brarner.M.Alete.source.ssa.in.newalbany;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

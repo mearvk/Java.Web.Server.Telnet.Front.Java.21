@@ -1,4 +1,4 @@
-package ssa.ky.corbin;
+package presidential.Brarner.M.Alete.source.ssa.ky.corbin;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

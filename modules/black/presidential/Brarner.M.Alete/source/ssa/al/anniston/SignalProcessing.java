@@ -1,4 +1,4 @@
-package ssa.al.anniston;
+package presidential.Brarner.M.Alete.source.ssa.al.anniston;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

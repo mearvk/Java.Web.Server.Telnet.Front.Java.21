@@ -1,4 +1,4 @@
-package ssa.ia.fortdodge;
+package presidential.Brarner.M.Alete.source.ssa.ia.fortdodge;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

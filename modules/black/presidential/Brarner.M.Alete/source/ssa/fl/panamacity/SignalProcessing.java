@@ -1,4 +1,4 @@
-package ssa.fl.panamacity;
+package presidential.Brarner.M.Alete.source.ssa.fl.panamacity;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

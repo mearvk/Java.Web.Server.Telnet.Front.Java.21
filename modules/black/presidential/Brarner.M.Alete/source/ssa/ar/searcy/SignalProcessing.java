@@ -1,4 +1,4 @@
-package ssa.ar.searcy;
+package presidential.Brarner.M.Alete.source.ssa.ar.searcy;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.wy.cheyenne;
+package presidential.Brarner.M.Alete.source.ssa.wy.cheyenne;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

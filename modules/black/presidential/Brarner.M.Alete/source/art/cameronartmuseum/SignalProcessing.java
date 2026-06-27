@@ -1,4 +1,4 @@
-package art.cameronartmuseum;
+package presidential.Brarner.M.Alete.source.art.cameronartmuseum;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

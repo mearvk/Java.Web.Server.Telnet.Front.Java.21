@@ -1,4 +1,4 @@
-package ssa.or.eugene;
+package presidential.Brarner.M.Alete.source.ssa.or.eugene;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.mt.butte;
+package presidential.Brarner.M.Alete.source.ssa.mt.butte;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

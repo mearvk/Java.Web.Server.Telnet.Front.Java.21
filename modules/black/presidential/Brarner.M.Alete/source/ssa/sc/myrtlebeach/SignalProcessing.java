@@ -1,4 +1,4 @@
-package ssa.sc.myrtlebeach;
+package presidential.Brarner.M.Alete.source.ssa.sc.myrtlebeach;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

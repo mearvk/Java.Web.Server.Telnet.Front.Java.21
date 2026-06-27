@@ -1,4 +1,4 @@
-package ssa.ms.hattiesburg;
+package presidential.Brarner.M.Alete.source.ssa.ms.hattiesburg;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

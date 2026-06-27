@@ -1,4 +1,4 @@
-package ssa.pa.easton;
+package presidential.Brarner.M.Alete.source.ssa.pa.easton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

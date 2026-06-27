@@ -1,4 +1,4 @@
-package ssa.tx.paris;
+package presidential.Brarner.M.Alete.source.ssa.tx.paris;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

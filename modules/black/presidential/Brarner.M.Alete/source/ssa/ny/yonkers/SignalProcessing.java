@@ -1,4 +1,4 @@
-package ssa.ny.yonkers;
+package presidential.Brarner.M.Alete.source.ssa.ny.yonkers;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

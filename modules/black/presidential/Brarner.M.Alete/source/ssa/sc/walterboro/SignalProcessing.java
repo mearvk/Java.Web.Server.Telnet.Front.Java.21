@@ -1,4 +1,4 @@
-package ssa.sc.walterboro;
+package presidential.Brarner.M.Alete.source.ssa.sc.walterboro;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

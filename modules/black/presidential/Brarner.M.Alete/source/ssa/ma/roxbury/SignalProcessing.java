@@ -1,4 +1,4 @@
-package ssa.ma.roxbury;
+package presidential.Brarner.M.Alete.source.ssa.ma.roxbury;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

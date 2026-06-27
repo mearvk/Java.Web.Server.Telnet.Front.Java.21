@@ -1,4 +1,4 @@
-package ssa.ne.lincoln;
+package presidential.Brarner.M.Alete.source.ssa.ne.lincoln;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.pa.york;
+package presidential.Brarner.M.Alete.source.ssa.pa.york;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

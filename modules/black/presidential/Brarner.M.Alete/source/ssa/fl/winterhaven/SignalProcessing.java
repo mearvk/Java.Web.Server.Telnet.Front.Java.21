@@ -1,4 +1,4 @@
-package ssa.fl.winterhaven;
+package presidential.Brarner.M.Alete.source.ssa.fl.winterhaven;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

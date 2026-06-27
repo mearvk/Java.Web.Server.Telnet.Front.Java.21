@@ -1,4 +1,4 @@
-package ssa.pr.caguas;
+package presidential.Brarner.M.Alete.source.ssa.pr.caguas;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

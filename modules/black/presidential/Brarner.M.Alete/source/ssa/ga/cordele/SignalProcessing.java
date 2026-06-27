@@ -1,4 +1,4 @@
-package ssa.ga.cordele;
+package presidential.Brarner.M.Alete.source.ssa.ga.cordele;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

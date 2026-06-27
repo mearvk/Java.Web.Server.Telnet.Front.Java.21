@@ -1,4 +1,4 @@
-package ssa.ny.melville;
+package presidential.Brarner.M.Alete.source.ssa.ny.melville;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.ne.norfolk;
+package presidential.Brarner.M.Alete.source.ssa.ne.norfolk;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

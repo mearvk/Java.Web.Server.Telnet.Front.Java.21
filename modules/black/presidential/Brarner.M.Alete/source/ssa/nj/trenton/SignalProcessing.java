@@ -1,4 +1,4 @@
-package ssa.nj.trenton;
+package presidential.Brarner.M.Alete.source.ssa.nj.trenton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

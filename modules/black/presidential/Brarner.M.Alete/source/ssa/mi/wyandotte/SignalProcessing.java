@@ -1,4 +1,4 @@
-package ssa.mi.wyandotte;
+package presidential.Brarner.M.Alete.source.ssa.mi.wyandotte;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -231,10 +231,10 @@ public class Main
             NITRO.BRIDGE.MYSQL_COMPONENT = mysqlComponent;
 
             // Gray Port Registry — Installer ID Tech™ (enabled by default)
-            new modules.gray.GrayPortRegistryServer().start();
+            new modules.gray.source.GrayPortRegistryServer().start();
 
             // Gray.85 Crème Port Registry — Installer ID Tech™ (enabled by default)
-            new modules.gray85.Gray85PortRegistryServer().start();
+            new modules.gray.a85.source.Gray85PortRegistryServer().start();
 
             new lanterna.TerminalMenu().start();
 

@@ -1,4 +1,4 @@
-package ssa.ky.hazard;
+package presidential.Brarner.M.Alete.source.ssa.ky.hazard;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

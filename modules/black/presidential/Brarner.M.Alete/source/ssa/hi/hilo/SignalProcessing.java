@@ -1,4 +1,4 @@
-package ssa.hi.hilo;
+package presidential.Brarner.M.Alete.source.ssa.hi.hilo;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

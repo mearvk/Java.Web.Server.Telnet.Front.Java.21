@@ -1,4 +1,4 @@
-package ssa.mn.winona;
+package presidential.Brarner.M.Alete.source.ssa.mn.winona;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

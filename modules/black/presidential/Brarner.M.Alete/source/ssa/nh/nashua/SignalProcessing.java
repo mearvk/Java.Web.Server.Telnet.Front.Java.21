@@ -1,4 +1,4 @@
-package ssa.nh.nashua;
+package presidential.Brarner.M.Alete.source.ssa.nh.nashua;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

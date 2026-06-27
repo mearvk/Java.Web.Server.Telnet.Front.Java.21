@@ -1,4 +1,4 @@
-package ssa.wv.logan;
+package presidential.Brarner.M.Alete.source.ssa.wv.logan;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

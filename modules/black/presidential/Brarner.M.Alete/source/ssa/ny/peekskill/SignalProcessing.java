@@ -1,4 +1,4 @@
-package ssa.ny.peekskill;
+package presidential.Brarner.M.Alete.source.ssa.ny.peekskill;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

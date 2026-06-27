@@ -1,4 +1,4 @@
-package video.viewer;
+package presidential.Brarner.M.Alete.source.video.viewer;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;

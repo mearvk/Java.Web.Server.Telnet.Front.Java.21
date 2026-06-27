@@ -1,4 +1,4 @@
-package ssa.az.mesa;
+package presidential.Brarner.M.Alete.source.ssa.az.mesa;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

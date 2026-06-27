@@ -1,4 +1,4 @@
-package ssa.oh.hamilton;
+package presidential.Brarner.M.Alete.source.ssa.oh.hamilton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

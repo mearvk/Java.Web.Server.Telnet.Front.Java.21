@@ -1,4 +1,4 @@
-package ssa.la.lakecharles;
+package presidential.Brarner.M.Alete.source.ssa.la.lakecharles;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

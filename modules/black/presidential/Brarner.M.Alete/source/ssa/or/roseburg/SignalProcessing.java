@@ -1,4 +1,4 @@
-package ssa.or.roseburg;
+package presidential.Brarner.M.Alete.source.ssa.or.roseburg;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

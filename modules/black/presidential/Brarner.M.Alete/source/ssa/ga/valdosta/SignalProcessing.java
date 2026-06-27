@@ -1,4 +1,4 @@
-package ssa.ga.valdosta;
+package presidential.Brarner.M.Alete.source.ssa.ga.valdosta;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

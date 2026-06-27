@@ -1,4 +1,4 @@
-package ssa.wa.burien;
+package presidential.Brarner.M.Alete.source.ssa.wa.burien;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

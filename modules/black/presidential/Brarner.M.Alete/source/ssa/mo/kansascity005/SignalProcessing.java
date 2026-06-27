@@ -1,4 +1,4 @@
-package ssa.mo.kansascity005;
+package presidential.Brarner.M.Alete.source.ssa.mo.kansascity005;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

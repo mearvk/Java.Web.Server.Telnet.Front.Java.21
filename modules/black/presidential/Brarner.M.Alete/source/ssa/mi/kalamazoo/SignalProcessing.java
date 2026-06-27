@@ -1,4 +1,4 @@
-package ssa.mi.kalamazoo;
+package presidential.Brarner.M.Alete.source.ssa.mi.kalamazoo;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

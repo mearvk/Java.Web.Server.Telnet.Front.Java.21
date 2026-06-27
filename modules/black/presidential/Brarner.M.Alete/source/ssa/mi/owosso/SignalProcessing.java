@@ -1,4 +1,4 @@
-package ssa.mi.owosso;
+package presidential.Brarner.M.Alete.source.ssa.mi.owosso;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

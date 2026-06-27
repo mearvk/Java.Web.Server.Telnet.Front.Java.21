@@ -1,4 +1,4 @@
-package ssa.mn.bemidji;
+package presidential.Brarner.M.Alete.source.ssa.mn.bemidji;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

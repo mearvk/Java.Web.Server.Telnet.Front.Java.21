@@ -1,4 +1,4 @@
-package ssa.md.seabrook;
+package presidential.Brarner.M.Alete.source.ssa.md.seabrook;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

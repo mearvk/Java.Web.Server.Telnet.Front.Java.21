@@ -1,4 +1,4 @@
-package ssa.ma.holyoke;
+package presidential.Brarner.M.Alete.source.ssa.ma.holyoke;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

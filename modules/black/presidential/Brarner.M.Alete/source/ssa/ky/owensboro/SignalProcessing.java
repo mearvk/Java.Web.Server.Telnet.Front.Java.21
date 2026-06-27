@@ -1,4 +1,4 @@
-package ssa.ky.owensboro;
+package presidential.Brarner.M.Alete.source.ssa.ky.owensboro;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

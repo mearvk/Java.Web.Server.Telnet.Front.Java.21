@@ -1,4 +1,4 @@
-package video.viewer;
+package presidential.Brarner.M.Alete.source.video.viewer;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -40,7 +40,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import video.analysis.YouTubeFilter;
+import presidential.Brarner.M.Alete.source.video.analysis.YouTubeFilter;
 
 /**
  * JavaFX WebView-based video viewer with playback controls.

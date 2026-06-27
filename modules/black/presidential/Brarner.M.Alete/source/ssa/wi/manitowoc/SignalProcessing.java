@@ -1,4 +1,4 @@
-package ssa.wi.manitowoc;
+package presidential.Brarner.M.Alete.source.ssa.wi.manitowoc;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

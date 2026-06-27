@@ -1,4 +1,4 @@
-package ssa.ms.corinth;
+package presidential.Brarner.M.Alete.source.ssa.ms.corinth;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

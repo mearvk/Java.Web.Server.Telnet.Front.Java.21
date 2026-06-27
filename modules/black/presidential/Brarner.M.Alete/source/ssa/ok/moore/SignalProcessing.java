@@ -1,4 +1,4 @@
-package ssa.ok.moore;
+package presidential.Brarner.M.Alete.source.ssa.ok.moore;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

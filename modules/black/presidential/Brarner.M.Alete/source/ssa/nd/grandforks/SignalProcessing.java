@@ -1,4 +1,4 @@
-package ssa.nd.grandforks;
+package presidential.Brarner.M.Alete.source.ssa.nd.grandforks;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

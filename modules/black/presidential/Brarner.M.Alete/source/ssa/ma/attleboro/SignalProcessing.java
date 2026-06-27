@@ -1,4 +1,4 @@
-package ssa.ma.attleboro;
+package presidential.Brarner.M.Alete.source.ssa.ma.attleboro;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

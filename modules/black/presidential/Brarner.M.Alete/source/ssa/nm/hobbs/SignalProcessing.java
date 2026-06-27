@@ -1,4 +1,4 @@
-package ssa.nm.hobbs;
+package presidential.Brarner.M.Alete.source.ssa.nm.hobbs;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

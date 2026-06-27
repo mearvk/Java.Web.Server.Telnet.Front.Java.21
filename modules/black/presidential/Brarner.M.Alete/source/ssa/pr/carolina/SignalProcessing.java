@@ -1,4 +1,4 @@
-package ssa.pr.carolina;
+package presidential.Brarner.M.Alete.source.ssa.pr.carolina;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

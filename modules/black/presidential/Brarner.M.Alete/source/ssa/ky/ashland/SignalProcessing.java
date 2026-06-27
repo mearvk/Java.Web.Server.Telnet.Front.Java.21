@@ -1,4 +1,4 @@
-package ssa.ky.ashland;
+package presidential.Brarner.M.Alete.source.ssa.ky.ashland;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

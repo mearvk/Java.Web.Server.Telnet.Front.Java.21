@@ -1,4 +1,4 @@
-package ssa.de.dover;
+package presidential.Brarner.M.Alete.source.ssa.de.dover;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

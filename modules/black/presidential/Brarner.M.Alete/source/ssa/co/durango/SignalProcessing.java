@@ -1,4 +1,4 @@
-package ssa.co.durango;
+package presidential.Brarner.M.Alete.source.ssa.co.durango;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

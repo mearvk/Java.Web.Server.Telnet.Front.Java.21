@@ -1,4 +1,4 @@
-package ssa.sc.orangeburg;
+package presidential.Brarner.M.Alete.source.ssa.sc.orangeburg;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

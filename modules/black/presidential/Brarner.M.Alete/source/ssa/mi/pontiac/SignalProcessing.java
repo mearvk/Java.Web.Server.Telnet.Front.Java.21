@@ -1,4 +1,4 @@
-package ssa.mi.pontiac;
+package presidential.Brarner.M.Alete.source.ssa.mi.pontiac;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

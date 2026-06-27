@@ -1,4 +1,4 @@
-package ssa.nc.mountairy;
+package presidential.Brarner.M.Alete.source.ssa.nc.mountairy;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

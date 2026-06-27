@@ -1,4 +1,4 @@
-package ssa.ak.fairbanks;
+package presidential.Brarner.M.Alete.source.ssa.ak.fairbanks;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

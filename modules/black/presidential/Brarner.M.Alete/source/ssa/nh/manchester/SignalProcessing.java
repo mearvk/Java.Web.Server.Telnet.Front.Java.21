@@ -1,4 +1,4 @@
-package ssa.nh.manchester;
+package presidential.Brarner.M.Alete.source.ssa.nh.manchester;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

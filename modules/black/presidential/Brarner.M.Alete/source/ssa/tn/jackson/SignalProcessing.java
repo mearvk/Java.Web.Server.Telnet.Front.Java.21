@@ -1,4 +1,4 @@
-package ssa.tn.jackson;
+package presidential.Brarner.M.Alete.source.ssa.tn.jackson;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

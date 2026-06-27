@@ -1,4 +1,4 @@
-package ssa.fl.seffner;
+package presidential.Brarner.M.Alete.source.ssa.fl.seffner;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

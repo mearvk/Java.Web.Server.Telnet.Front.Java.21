@@ -1,4 +1,4 @@
-package ssa.ca.madera;
+package presidential.Brarner.M.Alete.source.ssa.ca.madera;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.nm.roswell;
+package presidential.Brarner.M.Alete.source.ssa.nm.roswell;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

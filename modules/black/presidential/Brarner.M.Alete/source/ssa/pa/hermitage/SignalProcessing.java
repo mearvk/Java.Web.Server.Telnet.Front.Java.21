@@ -1,4 +1,4 @@
-package ssa.pa.hermitage;
+package presidential.Brarner.M.Alete.source.ssa.pa.hermitage;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

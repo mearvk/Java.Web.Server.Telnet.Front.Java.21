@@ -1,4 +1,4 @@
-package ssa.fl.ftlauderdale;
+package presidential.Brarner.M.Alete.source.ssa.fl.ftlauderdale;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

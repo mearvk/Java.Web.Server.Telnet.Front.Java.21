@@ -1,4 +1,4 @@
-package ssa.ny.westbabylon;
+package presidential.Brarner.M.Alete.source.ssa.ny.westbabylon;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

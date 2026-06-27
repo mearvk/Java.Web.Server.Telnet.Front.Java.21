@@ -1,4 +1,4 @@
-package ssa.ks.topeka;
+package presidential.Brarner.M.Alete.source.ssa.ks.topeka;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

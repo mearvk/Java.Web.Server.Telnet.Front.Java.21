@@ -1,4 +1,4 @@
-package ssa.wi.eauclaire;
+package presidential.Brarner.M.Alete.source.ssa.wi.eauclaire;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

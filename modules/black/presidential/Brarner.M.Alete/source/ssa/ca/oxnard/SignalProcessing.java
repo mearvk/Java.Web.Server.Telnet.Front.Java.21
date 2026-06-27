@@ -1,4 +1,4 @@
-package ssa.ca.oxnard;
+package presidential.Brarner.M.Alete.source.ssa.ca.oxnard;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

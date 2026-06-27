@@ -1,4 +1,4 @@
-package ssa.sd.watertown;
+package presidential.Brarner.M.Alete.source.ssa.sd.watertown;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

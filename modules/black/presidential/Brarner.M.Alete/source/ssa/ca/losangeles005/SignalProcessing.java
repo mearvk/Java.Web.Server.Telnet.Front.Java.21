@@ -1,4 +1,4 @@
-package ssa.ca.losangeles005;
+package presidential.Brarner.M.Alete.source.ssa.ca.losangeles005;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

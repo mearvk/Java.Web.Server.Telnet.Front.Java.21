@@ -1,4 +1,4 @@
-package ssa.mi.annarbor;
+package presidential.Brarner.M.Alete.source.ssa.mi.annarbor;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

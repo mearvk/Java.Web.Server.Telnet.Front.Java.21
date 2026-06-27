@@ -1,4 +1,4 @@
-package ssa.nj.eastorange;
+package presidential.Brarner.M.Alete.source.ssa.nj.eastorange;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

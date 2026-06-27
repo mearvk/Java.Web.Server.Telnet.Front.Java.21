@@ -1,4 +1,4 @@
-package ssa.mo.lebanon;
+package presidential.Brarner.M.Alete.source.ssa.mo.lebanon;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

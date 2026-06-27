@@ -1,4 +1,4 @@
-package ssa.ca.thousandoaks;
+package presidential.Brarner.M.Alete.source.ssa.ca.thousandoaks;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

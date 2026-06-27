@@ -1,4 +1,4 @@
-package ssa.nj.clifton;
+package presidential.Brarner.M.Alete.source.ssa.nj.clifton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

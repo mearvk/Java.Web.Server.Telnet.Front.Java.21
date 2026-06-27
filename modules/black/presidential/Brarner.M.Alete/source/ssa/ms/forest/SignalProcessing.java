@@ -1,4 +1,4 @@
-package ssa.ms.forest;
+package presidential.Brarner.M.Alete.source.ssa.ms.forest;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

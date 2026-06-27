@@ -1,4 +1,4 @@
-package ssa.vi.stthomas;
+package presidential.Brarner.M.Alete.source.ssa.vi.stthomas;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

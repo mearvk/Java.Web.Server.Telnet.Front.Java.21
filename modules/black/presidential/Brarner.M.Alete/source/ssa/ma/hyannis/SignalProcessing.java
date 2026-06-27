@@ -1,4 +1,4 @@
-package ssa.ma.hyannis;
+package presidential.Brarner.M.Alete.source.ssa.ma.hyannis;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

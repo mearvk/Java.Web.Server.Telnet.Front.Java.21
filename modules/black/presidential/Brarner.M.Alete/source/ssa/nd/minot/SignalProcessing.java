@@ -1,4 +1,4 @@
-package ssa.nd.minot;
+package presidential.Brarner.M.Alete.source.ssa.nd.minot;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

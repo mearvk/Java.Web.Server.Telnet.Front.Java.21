@@ -1,4 +1,4 @@
-package ssa.ca.yreka;
+package presidential.Brarner.M.Alete.source.ssa.ca.yreka;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.co.pueblo;
+package presidential.Brarner.M.Alete.source.ssa.co.pueblo;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

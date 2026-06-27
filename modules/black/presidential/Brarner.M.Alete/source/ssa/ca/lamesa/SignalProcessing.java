@@ -1,4 +1,4 @@
-package ssa.ca.lamesa;
+package presidential.Brarner.M.Alete.source.ssa.ca.lamesa;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

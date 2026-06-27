@@ -1,4 +1,4 @@
-package ssa.mn.duluth;
+package presidential.Brarner.M.Alete.source.ssa.mn.duluth;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

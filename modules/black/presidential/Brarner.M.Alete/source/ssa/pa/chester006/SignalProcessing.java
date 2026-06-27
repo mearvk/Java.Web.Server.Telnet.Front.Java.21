@@ -1,4 +1,4 @@
-package ssa.pa.chester006;
+package presidential.Brarner.M.Alete.source.ssa.pa.chester006;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

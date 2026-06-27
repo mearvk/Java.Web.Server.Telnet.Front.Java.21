@@ -1,4 +1,4 @@
-package ssa.fl.miamibeach;
+package presidential.Brarner.M.Alete.source.ssa.fl.miamibeach;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

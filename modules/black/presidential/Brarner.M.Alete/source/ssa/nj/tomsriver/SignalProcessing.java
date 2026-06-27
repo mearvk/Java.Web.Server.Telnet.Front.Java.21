@@ -1,4 +1,4 @@
-package ssa.nj.tomsriver;
+package presidential.Brarner.M.Alete.source.ssa.nj.tomsriver;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

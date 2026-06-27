@@ -1,4 +1,4 @@
-package ssa.pr.mayaguez;
+package presidential.Brarner.M.Alete.source.ssa.pr.mayaguez;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

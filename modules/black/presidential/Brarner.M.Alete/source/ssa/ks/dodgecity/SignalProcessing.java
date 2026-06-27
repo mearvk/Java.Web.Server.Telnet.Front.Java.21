@@ -1,4 +1,4 @@
-package ssa.ks.dodgecity;
+package presidential.Brarner.M.Alete.source.ssa.ks.dodgecity;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

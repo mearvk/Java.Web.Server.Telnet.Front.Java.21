@@ -1,4 +1,4 @@
-package ssa.sc.sumter;
+package presidential.Brarner.M.Alete.source.ssa.sc.sumter;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

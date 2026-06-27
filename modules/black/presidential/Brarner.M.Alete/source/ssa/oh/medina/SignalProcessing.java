@@ -1,4 +1,4 @@
-package ssa.oh.medina;
+package presidential.Brarner.M.Alete.source.ssa.oh.medina;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

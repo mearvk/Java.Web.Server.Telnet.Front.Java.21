@@ -1,4 +1,4 @@
-package ssa.ca.oceanside;
+package presidential.Brarner.M.Alete.source.ssa.ca.oceanside;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

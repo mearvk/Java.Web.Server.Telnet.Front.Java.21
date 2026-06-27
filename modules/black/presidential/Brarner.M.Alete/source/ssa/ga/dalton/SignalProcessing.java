@@ -1,4 +1,4 @@
-package ssa.ga.dalton;
+package presidential.Brarner.M.Alete.source.ssa.ga.dalton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-package ssa.mo.stlouis;
+package presidential.Brarner.M.Alete.source.ssa.mo.stlouis;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

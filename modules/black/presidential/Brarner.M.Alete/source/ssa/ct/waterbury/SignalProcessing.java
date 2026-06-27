@@ -1,4 +1,4 @@
-package ssa.ct.waterbury;
+package presidential.Brarner.M.Alete.source.ssa.ct.waterbury;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

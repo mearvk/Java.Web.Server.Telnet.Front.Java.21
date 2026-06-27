@@ -1,4 +1,4 @@
-package ssa.oh.worthington;
+package presidential.Brarner.M.Alete.source.ssa.oh.worthington;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

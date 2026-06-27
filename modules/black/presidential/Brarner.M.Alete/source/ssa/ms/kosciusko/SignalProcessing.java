@@ -1,4 +1,4 @@
-package ssa.ms.kosciusko;
+package presidential.Brarner.M.Alete.source.ssa.ms.kosciusko;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

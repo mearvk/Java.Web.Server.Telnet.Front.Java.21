@@ -1,4 +1,4 @@
-package ssa;
+package presidential.Brarner.M.Alete.source.ssa;
 
 import java.io.*;
 import java.net.*;

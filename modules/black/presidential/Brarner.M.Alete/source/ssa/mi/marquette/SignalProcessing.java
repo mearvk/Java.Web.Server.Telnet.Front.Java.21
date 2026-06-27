@@ -1,4 +1,4 @@
-package ssa.mi.marquette;
+package presidential.Brarner.M.Alete.source.ssa.mi.marquette;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

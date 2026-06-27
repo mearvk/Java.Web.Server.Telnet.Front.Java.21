@@ -1,4 +1,4 @@
-package ssa.me.auburn;
+package presidential.Brarner.M.Alete.source.ssa.me.auburn;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

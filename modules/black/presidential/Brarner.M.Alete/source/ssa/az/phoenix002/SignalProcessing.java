@@ -1,4 +1,4 @@
-package ssa.az.phoenix002;
+package presidential.Brarner.M.Alete.source.ssa.az.phoenix002;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

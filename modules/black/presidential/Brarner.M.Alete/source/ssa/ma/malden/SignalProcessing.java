@@ -1,4 +1,4 @@
-package ssa.ma.malden;
+package presidential.Brarner.M.Alete.source.ssa.ma.malden;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

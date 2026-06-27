@@ -1,4 +1,4 @@
-package ssa.in.lafayette;
+package presidential.Brarner.M.Alete.source.ssa.in.lafayette;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

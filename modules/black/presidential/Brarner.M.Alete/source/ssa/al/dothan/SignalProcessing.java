@@ -1,4 +1,4 @@
-package ssa.al.dothan;
+package presidential.Brarner.M.Alete.source.ssa.al.dothan;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

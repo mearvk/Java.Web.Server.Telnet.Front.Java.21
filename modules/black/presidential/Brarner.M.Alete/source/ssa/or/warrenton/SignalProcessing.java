@@ -1,4 +1,4 @@
-package ssa.or.warrenton;
+package presidential.Brarner.M.Alete.source.ssa.or.warrenton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

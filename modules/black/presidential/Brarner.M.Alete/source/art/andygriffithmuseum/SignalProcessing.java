@@ -1,4 +1,4 @@
-package art.andygriffithmuseum;
+package presidential.Brarner.M.Alete.source.art.andygriffithmuseum;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

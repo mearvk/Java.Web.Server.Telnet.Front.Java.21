@@ -1,4 +1,4 @@
-package ssa.ne.scottsbluff;
+package presidential.Brarner.M.Alete.source.ssa.ne.scottsbluff;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

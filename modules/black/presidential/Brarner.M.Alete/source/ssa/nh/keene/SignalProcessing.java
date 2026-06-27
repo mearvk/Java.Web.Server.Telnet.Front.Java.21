@@ -1,4 +1,4 @@
-package ssa.nh.keene;
+package presidential.Brarner.M.Alete.source.ssa.nh.keene;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

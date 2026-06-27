@@ -1,4 +1,4 @@
-package ssa.sd.rapidcity;
+package presidential.Brarner.M.Alete.source.ssa.sd.rapidcity;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

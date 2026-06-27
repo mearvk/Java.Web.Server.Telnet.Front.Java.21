@@ -1,4 +1,4 @@
-package ssa.ms.mccomb;
+package presidential.Brarner.M.Alete.source.ssa.ms.mccomb;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

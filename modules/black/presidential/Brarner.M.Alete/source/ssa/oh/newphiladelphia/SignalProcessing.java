@@ -1,4 +1,4 @@
-package ssa.oh.newphiladelphia;
+package presidential.Brarner.M.Alete.source.ssa.oh.newphiladelphia;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

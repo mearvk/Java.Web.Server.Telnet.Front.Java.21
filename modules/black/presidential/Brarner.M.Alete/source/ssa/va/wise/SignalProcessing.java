@@ -1,4 +1,4 @@
-package ssa.va.wise;
+package presidential.Brarner.M.Alete.source.ssa.va.wise;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

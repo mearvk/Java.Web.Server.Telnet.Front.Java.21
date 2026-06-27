@@ -1,4 +1,4 @@
-package ssa.mp.saipan;
+package presidential.Brarner.M.Alete.source.ssa.mp.saipan;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

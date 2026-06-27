@@ -1,4 +1,4 @@
-package ssa.va.bristol;
+package presidential.Brarner.M.Alete.source.ssa.va.bristol;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

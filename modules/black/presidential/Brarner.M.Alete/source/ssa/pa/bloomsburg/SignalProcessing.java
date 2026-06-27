@@ -1,4 +1,4 @@
-package ssa.pa.bloomsburg;
+package presidential.Brarner.M.Alete.source.ssa.pa.bloomsburg;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

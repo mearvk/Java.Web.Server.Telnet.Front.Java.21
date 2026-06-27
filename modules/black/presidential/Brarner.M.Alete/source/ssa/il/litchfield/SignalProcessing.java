@@ -1,4 +1,4 @@
-package ssa.il.litchfield;
+package presidential.Brarner.M.Alete.source.ssa.il.litchfield;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

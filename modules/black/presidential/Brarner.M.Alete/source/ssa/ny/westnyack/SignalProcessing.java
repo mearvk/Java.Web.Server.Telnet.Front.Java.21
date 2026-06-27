@@ -1,4 +1,4 @@
-package ssa.ny.westnyack;
+package presidential.Brarner.M.Alete.source.ssa.ny.westnyack;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

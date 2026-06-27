@@ -1,4 +1,4 @@
-package ssa.ok.chickasha;
+package presidential.Brarner.M.Alete.source.ssa.ok.chickasha;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

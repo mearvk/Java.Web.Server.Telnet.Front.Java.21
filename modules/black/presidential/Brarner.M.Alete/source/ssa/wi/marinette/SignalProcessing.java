@@ -1,4 +1,4 @@
-package ssa.wi.marinette;
+package presidential.Brarner.M.Alete.source.ssa.wi.marinette;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

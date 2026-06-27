@@ -1,4 +1,4 @@
-package ssa.al.cullman;
+package presidential.Brarner.M.Alete.source.ssa.al.cullman;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

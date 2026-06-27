@@ -1,4 +1,4 @@
-package ssa.ca.indio;
+package presidential.Brarner.M.Alete.source.ssa.ca.indio;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

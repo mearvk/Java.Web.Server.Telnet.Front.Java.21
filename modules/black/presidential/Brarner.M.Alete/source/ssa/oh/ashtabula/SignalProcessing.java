@@ -1,4 +1,4 @@
-package ssa.oh.ashtabula;
+package presidential.Brarner.M.Alete.source.ssa.oh.ashtabula;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

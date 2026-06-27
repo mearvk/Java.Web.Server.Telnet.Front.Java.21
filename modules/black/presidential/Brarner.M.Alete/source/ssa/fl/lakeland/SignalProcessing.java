@@ -1,4 +1,4 @@
-package ssa.fl.lakeland;
+package presidential.Brarner.M.Alete.source.ssa.fl.lakeland;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

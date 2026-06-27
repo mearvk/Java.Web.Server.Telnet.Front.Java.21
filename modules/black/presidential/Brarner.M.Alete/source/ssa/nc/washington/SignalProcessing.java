@@ -1,4 +1,4 @@
-package ssa.nc.washington;
+package presidential.Brarner.M.Alete.source.ssa.nc.washington;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

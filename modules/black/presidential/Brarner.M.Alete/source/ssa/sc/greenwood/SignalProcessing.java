@@ -1,4 +1,4 @@
-package ssa.sc.greenwood;
+package presidential.Brarner.M.Alete.source.ssa.sc.greenwood;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

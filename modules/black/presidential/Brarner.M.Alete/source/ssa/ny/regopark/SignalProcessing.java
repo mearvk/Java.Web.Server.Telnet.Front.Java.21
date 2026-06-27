@@ -1,4 +1,4 @@
-package ssa.ny.regopark;
+package presidential.Brarner.M.Alete.source.ssa.ny.regopark;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

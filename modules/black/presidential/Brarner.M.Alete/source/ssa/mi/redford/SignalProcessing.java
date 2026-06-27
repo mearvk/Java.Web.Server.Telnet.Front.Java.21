@@ -1,4 +1,4 @@
-package ssa.mi.redford;
+package presidential.Brarner.M.Alete.source.ssa.mi.redford;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;
