@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Eigenvector Math Configuration — MEARVK LLC -->
+<eigen-config>
+    <eigenlocator-dir>math/eigenlocator</eigenlocator-dir>
+    <observations-dir>math/observations</observations-dir>
+    <output-dir>math/results</output-dir>
+    <matrices>
+        <matrix name="BasicAnatomy" file="BasicAnatomy.CDNS" rows="5" cols="5"/>
+    </matrices>
+</eigen-config>

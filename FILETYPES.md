@@ -15,11 +15,12 @@ Students:   Available on the 8th Floor after 8
 |------|-----------|----------------|------------|----------------|
 | 1 | `.rmds` | **Most Carefully Secure** | Immutable / Locked | Owner only (Max Rupplin — MEARVK LLC) |
 | 2 | `.rdns` | **Very Secure** | Read-only / Structural | Owner only |
-| 3 | `.key` | **Secure** | Never transmitted publicly | Owner retains local copies |
-| 4 | `.csvmd` | **Protected** | Append-only ethical codes | Author-trusted (9.5+/10) |
-| 5 | `.xml` | **Controlled** | Configurable at boot | Admin (Rank 6+) |
-| 6 | `.csv` | **Standard** | Read/write data | System or Admin |
-| 7 | `.txt` | **Informational** | Freely editable | Any authorized user |
+| 3 | `.CDNS` | **Secure — Eigen Matrix** | Immutable after creation | Owner only |
+| 4 | `.key` | **Secure** | Never transmitted publicly | Owner retains local copies |
+| 5 | `.csvmd` | **Protected** | Append-only ethical codes | Author-trusted (9.5+/10) |
+| 6 | `.xml` | **Controlled** | Configurable at boot | Admin (Rank 6+) |
+| 7 | `.csv` | **Standard** | Read/write data | System or Admin |
+| 8 | `.txt` | **Informational** | Freely editable | Any authorized user |
 
 ---
 
@@ -69,9 +70,41 @@ Structural definition files using reverse-DNS notation (e.g., `us.mearvk.futures
 
 ---
 
+## .CDNS — Canonical Dense Numeric Structure (Eigen Matrix)
+
+**Security:** Secure — Eigen Matrix (Rank 3)
+
+Eigenvector and eigenmatrix storage files. Each file contains a named matrix in a tagged block (`[EV:Name]...[/EV:Name]`) with fixed-width numeric entries. Immutable after creation — these represent mathematical constants or structural transforms that must not be altered.
+
+**Characteristics:**
+- Immutable after initial creation by the Owner
+- Tagged block format: `[EV:MatrixName]` ... `[/EV:MatrixName]`
+- Fixed-dimension dense matrices (space-separated values)
+- Header contains name, dimensions, author, creation date
+- Stored in `math/eigenlocator/` directory
+- Used for structural transforms, anatomical mappings, signal processing
+
+**Format:**
+```
+[EV:BasicAnatomy]
+42  0  0  1 42
+ 0  4  1  1  4
+ 0  1  1  4  2
+ 0  1  1  4 42
+ 0  9  0  0  1
+[/EV:BasicAnatomy]
+```
+
+**Examples:**
+- `math/eigenlocator/BasicAnatomy.CDNS` — 5×5 eigenvector matrix
+
+**Located:** `math/eigenlocator/`
+
+---
+
 ## .key — Cryptographic Key Files
 
-**Security:** Secure (Rank 3)
+**Security:** Secure (Rank 4)
 
 Authorization and identity files used for boot-time verification, module signing, and Rank 4 server registration. The `public.key` authorizes system operation when present on GitHub. The `secret.key` never leaves the Owner's machine.
 
@@ -93,7 +126,7 @@ Authorization and identity files used for boot-time verification, module signing
 
 ## .csvmd — Comma-Separated Values with Moral Definitions
 
-**Security:** Protected (Rank 4)
+**Security:** Protected (Rank 5)
 
 Hybrid files combining CSV tabular data with ethical/moral header documentation. Used exclusively by the AuditorContentModule for trust code definitions. Each row defines a moral principle with its domain, description, and weight.
 
@@ -119,7 +152,7 @@ code,domain,principle,weight
 
 ## .xml — Extensible Markup Language Configuration
 
-**Security:** Controlled (Rank 5)
+**Security:** Controlled (Rank 6)
 
 System configuration files read at boot time. Control service enablement, port assignments, database connections, module registration, print formatting, and protocol handlers. Modifications require Admin (Rank 6+) authority.
 
@@ -143,7 +176,7 @@ System configuration files read at boot time. Control service enablement, port a
 
 ## .csv — Comma-Separated Values Data
 
-**Security:** Standard (Rank 6)
+**Security:** Standard (Rank 7)
 
 Plain data files for trade records, address records, safety ledgers, test results, and bulk data storage. System-generated and system-consumed. No inherent security beyond filesystem permissions.
 
@@ -164,7 +197,7 @@ Plain data files for trade records, address records, safety ledgers, test result
 
 ## .txt — Plain Text Documentation
 
-**Security:** Informational (Rank 7)
+**Security:** Informational (Rank 8)
 
 Human-readable documentation, structure listings, and reference files. Freely editable by any authorized user. No system enforcement on content.
 
