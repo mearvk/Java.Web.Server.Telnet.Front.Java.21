@@ -259,6 +259,8 @@ Approximate heap/RSS at steady state on Linux x86_64, Java 21 with virtual threa
 | NationalFinanceID (port 49152) | ~20 MB | Keypair generator + profile cache |
 | Communicator (port 49199) | ~15 MB | Chat history + message queues |
 | Weather/Calendar/ASCII | ~10 MB | Lightweight socket handlers |
+| GrayPortRegistry (port 9999) | ~30 MB | NIO selector + block map + AI gate + DB pool |
+| Gray85 Crème Registry (port 10085) | ~35 MB | NIO selector + block map + Crème state + AI gate + DB pool |
 
 **Totals (approximate):**
 

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Gray Module — Port Registry Configuration
+    ==========================================
+    Control-loop independent port registry for leased port blocks.
+    30,000,000 ports per block, 1000 blocks initially.
+    Lease: monthly (default), yearly, or custom term.
+    Payment: Bitcoin (or Dashcoin equivalent).
+    Minimum donation: $10 USD.
+
+    NIO binds to 127.0.0.1 through 127.0.255.255 (extended range).
+    AI binary gate (1/0) consults before port binding is authorized.
+
+    Brand: Installer ID Tech™
+    Database: nwe_gray_registry (MySQL)
+    Client port: 9999 (between 8899-11112 range)
+
+    Author: Max Rupplin — MEARVK LLC — Installer ID Tech™
+-->
+<gray-port-registry>
+
+    <!-- Service configuration -->
+    <service port="9999" host="0.0.0.0" name="Installer ID Tech™ Port Registry"
+             banner="Installer ID Tech™ Port Registry — $10 USD minimum donation — Bitcoin accepted"
+             enabled="true"/>
+
+    <!-- AI binary gate — consults before port binding -->
+    <ai-gate enabled="true" class="modules.gray.PortBindingGate"
+             description="Binary 1/0 yes/no AI module for port-bind authorization"/>
+
+    <!-- Block configuration -->
+    <blocks>
+        <block-size>30000000</block-size>
+        <initial-blocks>1000</initial-blocks>
+        <total-ports>30000000000</total-ports>
+    </blocks>
+
+    <!-- Lease terms -->
+    <lease>
+        <default-term>month</default-term>
+        <terms>
+            <term name="month" days="30" price-btc="0.00015" price-usd="10.00"/>
+            <term name="year" days="365" price-btc="0.0015" price-usd="100.00"/>
+            <term name="multi-year" days="1095" price-btc="0.004" price-usd="250.00"/>
+        </terms>
+        <minimum-donation-usd>10.00</minimum-donation-usd>
+        <accepted-currencies>
+            <currency name="Bitcoin" symbol="BTC" primary="true"/>
+            <currency name="Dashcoin" symbol="DASH" primary="false"/>
+        </accepted-currencies>
+    </lease>
+
+    <!-- NIO binding: 127.0.X.X range -->
+    <nio-binding>
+        <ip-range-start>127.0.0.1</ip-range-start>
+        <ip-range-end>127.0.255.255</ip-range-end>
+        <ports-per-ip>65536</ports-per-ip>
+        <total-ips>65535</total-ips>
+        <!-- 65535 IPs * 65536 ports = ~4.29 billion bindable slots -->
+    </nio-binding>
+
+    <!-- MySQL database -->
+    <database>
+        <name>nwe_gray_registry</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <user>nwe</user>
+        <tables>
+            <table name="leases" description="Active and historical port block leases"/>
+            <table name="connections" description="Client connection log — IP, domain, time, geo, bitcoin"/>
+            <table name="payments" description="Bitcoin/Dash transaction records"/>
+            <table name="blocks" description="Port block allocation and status"/>
+        </tables>
+    </database>
+
+    <!-- Startup: enabled by default -->
+    <startup auto-start="true" priority="5"/>
+
+</gray-port-registry>
