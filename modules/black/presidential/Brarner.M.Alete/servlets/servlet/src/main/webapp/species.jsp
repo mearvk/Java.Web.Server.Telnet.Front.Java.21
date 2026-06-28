@@ -70,7 +70,7 @@
         if (dbIn != null) { dbProps.load(dbIn); dbIn.close(); }
         String dbUrl = dbProps.getProperty("db.url", "jdbc:mysql://localhost:3306/BrarnerScience");
         String dbUser = dbProps.getProperty("db.user", "root");
-        String dbPass = dbProps.getProperty("db.password", "");
+        String dbPass = dbProps.getProperty("db.password", "$$Ironman1");
         Class.forName(dbProps.getProperty("db.driver", "com.mysql.cj.jdbc.Driver"));
         conn = DriverManager.getConnection(dbUrl, dbUser, dbPass);
 
