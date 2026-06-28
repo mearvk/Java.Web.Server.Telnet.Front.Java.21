@@ -24,8 +24,19 @@ mkdir -p "$BMA_ROOT/data/publications"
 
 if [ -f "$DATA_CSV" ] && [ -s "$DATA_CSV" ]; then
     echo "[*] Loading publications from CSV..."
-    $MYSQL_CMD BrarnerScience -e "ALTER TABLE publications ADD COLUMN IF NOT EXISTS abstract_text TEXT AFTER year_published;" 2>/dev/null || true
-    $MYSQL_CMD BrarnerScience -e "TRUNCATE TABLE publications;"
+    $MYSQL_CMD BrarnerScience <<'SQL'
+DROP TABLE IF EXISTS publications;
+CREATE TABLE publications (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    source_name VARCHAR(255),
+    title VARCHAR(500),
+    authors TEXT,
+    doi VARCHAR(255),
+    year_published VARCHAR(10),
+    abstract_text TEXT,
+    INDEX idx_source (source_name)
+);
+SQL
     TMP_SQL="/tmp/bma-pubs.sql"
     echo "USE BrarnerScience;" > "$TMP_SQL"
     tail -n +2 "$DATA_CSV" | while IFS=',' read -r source title authors doi year abstract; do
