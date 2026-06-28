@@ -20,6 +20,7 @@
         <li><a href="status.jsp">Status</a></li>
     </ul>
     <div class="nav-actions">
+        <a href="guest.jsp" class="nav-cta">Guest</a>
         <a href="register.jsp" class="nav-cta">Register</a>
         <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
     </div>
