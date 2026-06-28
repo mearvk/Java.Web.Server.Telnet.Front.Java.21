@@ -77,9 +77,6 @@ user=${DB_USER}
 password=${DB_PASS}
 host=${DB_HOST}
 port=${DB_PORT}
-
-[mysql]
-database=nwe_bma
 EOF
 
 chmod 600 "$MY_CNF"
