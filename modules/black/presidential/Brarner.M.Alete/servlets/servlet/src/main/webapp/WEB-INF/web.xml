@@ -55,6 +55,33 @@
         <url-pattern>/api/species</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>PostalApiServlet</servlet-name>
+        <servlet-class>com.mearvk.servlet.PostalApiServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PostalApiServlet</servlet-name>
+        <url-pattern>/api/postal</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ArtApiServlet</servlet-name>
+        <servlet-class>com.mearvk.servlet.ArtApiServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ArtApiServlet</servlet-name>
+        <url-pattern>/api/art</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ScienceApiServlet</servlet-name>
+        <servlet-class>com.mearvk.servlet.ScienceApiServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ScienceApiServlet</servlet-name>
+        <url-pattern>/api/science</url-pattern>
+    </servlet-mapping>
+
     <mime-mapping>
         <extension>xhtml</extension>
         <mime-type>text/html</mime-type>
