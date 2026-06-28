@@ -257,6 +257,7 @@
     } catch (Exception e) {
 %>
         <p style="color:#ef4444;">Database error: <%= e.getMessage() != null ? e.getMessage().replace("<","&lt;") : "unknown" %></p>
+        <p style="color:#a1a1aa;font-size:0.8rem;">User: <%= dbProps.getProperty("db.user","?") %> | URL: <%= dbProps.getProperty("db.url","?") %> | Props loaded: <%= propsLoaded %></p>
 <%
     } finally {
         if (conn != null) try { conn.close(); } catch (Exception ignored) {}

@@ -34,10 +34,39 @@ rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/classes" "$DEPLOY_DIR/WEB-INF/lib"
 cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
 
-# Copy MySQL connector if available
-if ls "$BMA_ROOT/lib/mysql-connector-j-"*.jar &>/dev/null; then
-    cp "$BMA_ROOT/lib/mysql-connector-j-"*.jar "$DEPLOY_DIR/WEB-INF/lib/"
-    echo "[*] MySQL connector JAR copied to WEB-INF/lib/"
+# Copy JARs from jars/ directory (preferred) or lib/
+if ls "$BMA_ROOT/jars/"*.jar &>/dev/null; then
+    cp "$BMA_ROOT/jars/"*.jar "$DEPLOY_DIR/WEB-INF/lib/"
+    echo "[*] JARs copied from jars/ to WEB-INF/lib/"
+elif ls "$BMA_ROOT/lib/"*.jar &>/dev/null; then
+    cp "$BMA_ROOT/lib/"*.jar "$DEPLOY_DIR/WEB-INF/lib/"
+    echo "[*] JARs copied from lib/ to WEB-INF/lib/"
+fi
+
+# Ensure db.properties exists — prompt if missing
+DB_PROPS="$DEPLOY_DIR/WEB-INF/db.properties"
+if [ ! -f "$DB_PROPS" ] || ! grep -q "db.password=." "$DB_PROPS" 2>/dev/null; then
+    echo ""
+    echo "[*] db.properties needs MySQL credentials for JSP pages."
+    read -rp "    MySQL user [root]: " DB_USER
+    DB_USER="${DB_USER:-root}"
+    read -rsp "    MySQL password: " DB_PASS
+    echo ""
+    read -rp "    MySQL host [localhost]: " DB_HOST
+    DB_HOST="${DB_HOST:-localhost}"
+    read -rp "    MySQL port [3306]: " DB_PORT
+    DB_PORT="${DB_PORT:-3306}"
+    cat > "$DB_PROPS" <<EOF
+# BMA Database Configuration — written by deploy-local.sh
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://${DB_HOST}:${DB_PORT}/BrarnerScience
+db.user=${DB_USER}
+db.password=${DB_PASS}
+EOF
+    chmod 600 "$DB_PROPS"
+    echo "[*] db.properties written"
+else
+    echo "[*] db.properties present (user=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-))"
 fi
 
 # Compile servlets if javac available and sources exist
@@ -47,8 +76,6 @@ if [ -d "$SERVLET_SRC" ] && command -v javac &>/dev/null; then
     find "$SERVLET_SRC" -name "*.java" > /tmp/bma-sources.txt
     if [ -s /tmp/bma-sources.txt ]; then
         CP="$DEPLOY_DIR/WEB-INF/lib/*"
-        # Add Jakarta Servlet API from lib if present
-        [ -d "$BMA_ROOT/lib" ] && CP="$BMA_ROOT/lib/*:$CP"
         javac -d "$DEPLOY_DIR/WEB-INF/classes" -cp "$CP" @/tmp/bma-sources.txt 2>/dev/null && \
             echo "[*] Servlets compiled" || \
             echo "[!] Servlet compilation failed (JSP pages still work without servlets)"
@@ -62,11 +89,9 @@ chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 echo ""
 echo "[✓] Deployed to: $DEPLOY_DIR"
 echo ""
-echo "    JSP:   index.jsp, species.jsp, postal.jsp, art.jsp, science.jsp, status.jsp"
-echo "    XHTML: index.xhtml, species.xhtml, postal.xhtml, art.xhtml, science.xhtml, status.xhtml"
-echo "    DB:    WEB-INF/db.properties"
-echo ""
-echo "    URL:   http://localhost:8080/$CONTEXT/"
+echo "    JSP:  index.jsp, species.jsp, postal.jsp, art.jsp, science.jsp, status.jsp"
+echo "    DB:   WEB-INF/db.properties"
+echo "    URL:  http://localhost:8080/$CONTEXT/"
 echo ""
 echo "    If Tomcat is running, pages are available immediately."
 echo "    Otherwise: sudo systemctl start tomcat"
