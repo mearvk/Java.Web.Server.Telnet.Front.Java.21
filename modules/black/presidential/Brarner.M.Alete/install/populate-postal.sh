@@ -35,8 +35,20 @@ fi
 
 if [ -f "$ZIP_CSV" ] && [ -s "$ZIP_CSV" ]; then
     echo "[*] Loading postal data from CSV..."
-    $MYSQL_CMD BrarnerScience -e "ALTER TABLE postal ADD COLUMN IF NOT EXISTS latitude DECIMAL(9,6) AFTER county; ALTER TABLE postal ADD COLUMN IF NOT EXISTS longitude DECIMAL(9,6) AFTER latitude;" 2>/dev/null || true
-    $MYSQL_CMD BrarnerScience -e "TRUNCATE TABLE postal;"
+    $MYSQL_CMD BrarnerScience <<'SQL'
+DROP TABLE IF EXISTS postal;
+CREATE TABLE postal (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    zip_code VARCHAR(10),
+    city VARCHAR(100),
+    state VARCHAR(50),
+    county VARCHAR(100),
+    latitude DECIMAL(9,6),
+    longitude DECIMAL(9,6),
+    INDEX idx_state (state),
+    INDEX idx_zip (zip_code)
+);
+SQL
     $MYSQL_CMD BrarnerScience -e "LOAD DATA LOCAL INFILE '$ZIP_CSV' INTO TABLE postal FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES (zip_code, city, state, county, latitude, longitude);" 2>/dev/null || \
     $MYSQL_CMD --local-infile=1 BrarnerScience -e "LOAD DATA LOCAL INFILE '$ZIP_CSV' INTO TABLE postal FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES (zip_code, city, state, county, latitude, longitude);" 2>/dev/null || {
         echo "[*] LOAD DATA failed — using INSERT fallback..."

@@ -24,8 +24,19 @@ mkdir -p "$BMA_ROOT/data/art"
 
 if [ -f "$DATA_CSV" ] && [ -s "$DATA_CSV" ]; then
     echo "[*] Loading art data from CSV..."
-    $MYSQL_CMD BrarnerScience -e "ALTER TABLE art_works ADD COLUMN IF NOT EXISTS collection VARCHAR(100) AFTER museum_name;" 2>/dev/null || true
-    $MYSQL_CMD BrarnerScience -e "TRUNCATE TABLE art_works;"
+    $MYSQL_CMD BrarnerScience <<'SQL'
+DROP TABLE IF EXISTS art_works;
+CREATE TABLE art_works (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    museum_name VARCHAR(255),
+    collection VARCHAR(100),
+    title VARCHAR(500),
+    artist VARCHAR(255),
+    year_created VARCHAR(20),
+    medium VARCHAR(255),
+    INDEX idx_museum (museum_name)
+);
+SQL
     TMP_SQL="/tmp/bma-art.sql"
     echo "USE BrarnerScience;" > "$TMP_SQL"
     tail -n +2 "$DATA_CSV" | while IFS=',' read -r museum title artist year medium collection; do
