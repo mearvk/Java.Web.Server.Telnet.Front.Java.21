@@ -152,10 +152,32 @@ function cd1Ok() { var textarea = document.getElementById('cd1-textarea'); if (!
     'use strict';
     var basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
     var API = basePath + 'api/species';
+
     function fetchJSON(params) {
         var url = API + '?' + Object.keys(params).map(function(k) { return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]); }).join('&');
-        return fetch(url).then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(data) { if (!Array.isArray(data)) throw new Error('Not an array'); if (data.length > 0 && data[0].error) throw new Error(String(data[0].error)); return data; }).catch(function(err) { console.error('[species-loader] fetch failed:', url, err); return null; });
+        return fetch(url).then(function(r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            var ct = r.headers.get('content-type') || '';
+            if (ct.indexOf('json') === -1) throw new Error('Not JSON: ' + ct);
+            return r.json();
+        }).then(function(data) {
+            if (!data) return null;
+            if (!Array.isArray(data)) throw new Error('Response is not an array');
+            if (data.length > 0 && data[0] && data[0].error) throw new Error(String(data[0].error));
+            return data;
+        }).catch(function(err) {
+            console.error('[species-loader] fetch failed:', url, err);
+            return null;
+        });
     }
+
+    function safe(val) {
+        if (val === null || val === undefined) return '';
+        var s = String(val);
+        if (s === 'undefined' || s === 'null') return '';
+        return s;
+    }
+
     function makeDiv(label, meta, depth, loadFn) {
         var wrap = document.createElement('div');
         wrap.style.cssText = 'border:1px solid #27272a;border-radius:' + Math.max(4, 8 - depth) + 'px;margin-bottom:' + Math.max(0.3, 0.5 - depth * 0.05) + 'rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;';
@@ -168,9 +190,9 @@ function cd1Ok() { var textarea = document.getElementById('cd1-textarea'); if (!
         icon.innerHTML = '&#9654;';
         header.appendChild(icon);
         var txt = document.createElement('span');
-        txt.textContent = (label != null && String(label) !== 'undefined') ? String(label) : '(unnamed)';
+        txt.textContent = safe(label) || '(unnamed)';
         header.appendChild(txt);
-        if (meta) { var metaSpan = document.createElement('span'); metaSpan.style.cssText = 'margin-left:auto;font-size:' + Math.max(0.6, fs - 0.15) + 'rem;font-weight:400;color:#71717a;'; metaSpan.textContent = String(meta); header.appendChild(metaSpan); }
+        if (safe(meta)) { var metaSpan = document.createElement('span'); metaSpan.style.cssText = 'margin-left:auto;font-size:' + Math.max(0.6, fs - 0.15) + 'rem;font-weight:400;color:#71717a;'; metaSpan.textContent = safe(meta); header.appendChild(metaSpan); }
         var body = document.createElement('div');
         body.style.cssText = 'max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 ' + (pad + 0.15) + 'rem;font-size:' + Math.max(0.72, fs - 0.05) + 'rem;color:#a1a1aa;cursor:default;';
         body.onclick = function(e) { e.stopPropagation(); };
@@ -184,60 +206,72 @@ function cd1Ok() { var textarea = document.getElementById('cd1-textarea'); if (!
         };
         wrap.appendChild(header); wrap.appendChild(body); return wrap;
     }
+
     function makeLeaf(name, commonName, description) {
         var wrap = document.createElement('div');
         wrap.style.cssText = 'border:1px solid #27272a;border-radius:4px;margin-bottom:0.3rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;';
         var header = document.createElement('div');
         header.style.cssText = 'padding:0.4rem 0.65rem;font-size:0.74rem;font-weight:500;display:flex;align-items:center;gap:0.4rem;user-select:none;';
         var icon = document.createElement('span'); icon.style.cssText = 'display:inline-block;font-size:0.5rem;transition:transform 0.2s ease;color:#60a5fa;'; icon.innerHTML = '&#9654;'; header.appendChild(icon);
-        var em = document.createElement('em'); em.textContent = (name != null && String(name) !== 'undefined') ? String(name) : '(unknown)'; header.appendChild(em);
-        if (commonName != null && String(commonName) !== 'undefined' && String(commonName) !== 'null') { var lbl = document.createElement('span'); lbl.style.cssText = 'margin-left:auto;font-size:0.65rem;font-weight:400;color:#71717a;'; lbl.textContent = String(commonName); header.appendChild(lbl); }
+        var em = document.createElement('em'); em.textContent = safe(name) || '(unknown)'; header.appendChild(em);
+        if (safe(commonName)) { var lbl = document.createElement('span'); lbl.style.cssText = 'margin-left:auto;font-size:0.65rem;font-weight:400;color:#71717a;'; lbl.textContent = safe(commonName); header.appendChild(lbl); }
         var body = document.createElement('div');
         body.style.cssText = 'max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.65rem;font-size:0.72rem;color:#a1a1aa;cursor:default;';
         body.onclick = function(e) { e.stopPropagation(); };
-        var p = document.createElement('p'); p.textContent = (description != null && String(description) !== 'undefined' && String(description) !== 'null') ? String(description) : 'No description available.'; body.appendChild(p);
+        var p = document.createElement('p'); p.textContent = safe(description) || 'No description available.'; body.appendChild(p);
         wrap.onclick = function(e) { e.stopPropagation(); var open = body.style.maxHeight !== '0px' && body.style.maxHeight !== ''; if (open) { body.style.maxHeight = '0px'; body.style.paddingBottom = '0'; icon.style.transform = 'rotate(0deg)'; wrap.style.borderColor = '#27272a'; } else { body.style.maxHeight = body.scrollHeight + 'px'; body.style.paddingBottom = '0.5rem'; icon.style.transform = 'rotate(90deg)'; wrap.style.borderColor = '#3b82f6'; } setTimeout(function() { expandParents(body); }, 50); };
         wrap.appendChild(header); wrap.appendChild(body); return wrap;
     }
+
     function expandParents(el) { var p = el.parentElement; while (p) { if (p.style && p.style.maxHeight && p.style.maxHeight !== '0px' && p.style.maxHeight !== '') p.style.maxHeight = p.scrollHeight + 'px'; p = p.parentElement; } }
-    function showMsg(container, text, color) { var p = document.createElement('p'); p.textContent = String(text); p.style.color = color || '#525252'; container.appendChild(p); }
-    function safeName(item, key) { var v = item[key]; if (v == null || typeof v === 'undefined' || String(v) === 'undefined' || String(v) === 'null') return ''; return String(v); }
+    function showMsg(container, text, color) { var p = document.createElement('p'); p.textContent = safe(text) || ''; p.style.color = color || '#525252'; container.appendChild(p); }
+
+    function renderItems(container, data, depth, childLoader) {
+        try {
+            container.innerHTML = '';
+            if (!data || !Array.isArray(data) || data.length === 0) {
+                showMsg(container, 'No records available.', '#525252');
+                expandParents(container);
+                return;
+            }
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                if (!item || typeof item !== 'object') continue;
+                var name = safe(item.name) || safe(item.class_name) || safe(item.order_name) || safe(item.family_name) || safe(item.species_name) || '(unnamed)';
+                var parts = [];
+                if (item.orders && Number(item.orders) > 0) parts.push(String(item.orders) + ' orders');
+                if (item.families && Number(item.families) > 0) parts.push(String(item.families) + ' families');
+                var meta = parts.join(' \u00B7 ');
+                if (childLoader) {
+                    container.appendChild(makeDiv(name, meta, depth, (function(n) { return function(body) { childLoader(body, n); }; })(name)));
+                } else {
+                    container.appendChild(makeLeaf(name, safe(item.label) || safe(item.common_name) || null, safe(item.description) || null));
+                }
+            }
+            expandParents(container);
+        } catch (e) {
+            container.innerHTML = '';
+            showMsg(container, 'Display error: ' + (e.message || 'unknown'), '#ef4444');
+        }
+    }
+
     function loadClasses(container, kingdom) {
         showMsg(container, 'Loading\u2026', '#60a5fa');
-        fetchJSON({ level: 'class', kingdom: kingdom }).then(function(data) {
-            container.innerHTML = '';
-            if (!data || data.length === 0) { showMsg(container, 'No data found for ' + String(kingdom) + '.', '#525252'); return; }
-            for (var i = 0; i < data.length; i++) { var item = data[i]; var name = safeName(item, 'name') || '(unnamed)'; var parts = []; if (item.orders && item.orders > 0) parts.push(String(item.orders) + ' orders'); if (item.families && item.families > 0) parts.push(String(item.families) + ' families'); var meta = parts.join(' \u00B7 '); container.appendChild(makeDiv(name, meta, 1, (function(cls) { return function(body) { loadOrders(body, cls); }; })(name))); }
-            expandParents(container);
-        });
+        fetchJSON({ level: 'class', kingdom: kingdom }).then(function(data) { renderItems(container, data, 1, loadOrders); });
     }
     function loadOrders(container, className) {
         showMsg(container, 'Loading\u2026', '#60a5fa');
-        fetchJSON({ level: 'order', 'class': className }).then(function(data) {
-            container.innerHTML = '';
-            if (!data || data.length === 0) { showMsg(container, 'No orders found.', '#525252'); expandParents(container); return; }
-            for (var i = 0; i < data.length; i++) { var item = data[i]; var name = safeName(item, 'name') || '(unnamed)'; var meta = (item.families && item.families > 0) ? String(item.families) + ' families' : ''; container.appendChild(makeDiv(name, meta, 2, (function(ord) { return function(body) { loadFamilies(body, ord); }; })(name))); }
-            expandParents(container);
-        });
+        fetchJSON({ level: 'order', 'class': className }).then(function(data) { renderItems(container, data, 2, loadFamilies); });
     }
     function loadFamilies(container, orderName) {
         showMsg(container, 'Loading\u2026', '#60a5fa');
-        fetchJSON({ level: 'family', order: orderName }).then(function(data) {
-            container.innerHTML = '';
-            if (!data || data.length === 0) { showMsg(container, 'No families found.', '#525252'); expandParents(container); return; }
-            for (var i = 0; i < data.length; i++) { var item = data[i]; var name = safeName(item, 'name') || '(unnamed)'; container.appendChild(makeDiv(name, '', 3, (function(fam) { return function(body) { loadSpecies(body, fam); }; })(name))); }
-            expandParents(container);
-        });
+        fetchJSON({ level: 'family', order: orderName }).then(function(data) { renderItems(container, data, 3, loadSpecies); });
     }
     function loadSpecies(container, familyName) {
         showMsg(container, 'Loading\u2026', '#60a5fa');
-        fetchJSON({ level: 'species', family: familyName }).then(function(data) {
-            container.innerHTML = '';
-            if (!data || data.length === 0) { showMsg(container, 'No species records yet.', '#525252'); expandParents(container); return; }
-            for (var i = 0; i < data.length; i++) { var item = data[i]; container.appendChild(makeLeaf(safeName(item, 'name') || '(unknown)', safeName(item, 'label') || null, safeName(item, 'description') || null)); }
-            expandParents(container);
-        });
+        fetchJSON({ level: 'species', family: familyName }).then(function(data) { renderItems(container, data, 4, null); });
     }
+
     function init() {
         var activeTab = document.getElementById('tab-animalia');
         if (activeTab) { var tree = activeTab.querySelector('.species-tree'); if (tree) { activeTab.setAttribute('data-loaded', '1'); loadClasses(tree, 'Animalia'); } }
