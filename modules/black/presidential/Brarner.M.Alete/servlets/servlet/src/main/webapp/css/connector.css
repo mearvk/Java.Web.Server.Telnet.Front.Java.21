@@ -12,21 +12,26 @@
 }
 .cd1-btn {
     all: unset;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0 auto;
     cursor: pointer;
     border-radius: 50%;
     transition: transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84), filter 0.3s ease;
     padding: 0;
     border: none;
-    background: none;
+    background: transparent;
+    width: 64px;
+    height: 64px;
 }
 .cd1-btn-img {
-    width: 25%;
-    height: auto;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     display: block;
-    margin: 0 auto;
+    background: #0a0a0f;
+    mix-blend-mode: screen;
 }
 .cd1-btn:hover {
     transform: scale(1.05);
