@@ -118,7 +118,11 @@ ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" '
         chmod +x "$TOMCAT_HOME"/bin/*.sh
 
         # Bind Tomcat to localhost only
-        sed -i '"'"'s|Connector port="8080"|Connector port="8080" address="127.0.0.1"|'"'"' "$TOMCAT_HOME/conf/server.xml"
+        if grep -q "address=" "$TOMCAT_HOME/conf/server.xml"; then
+            sed -i '"'"'s/Connector port="8080" address="[^"]*"/Connector port="8080" address="127.0.0.1"/'"'"' "$TOMCAT_HOME/conf/server.xml"
+        else
+            sed -i '"'"'s/Connector port="8080"/Connector port="8080" address="127.0.0.1"/'"'"' "$TOMCAT_HOME/conf/server.xml"
+        fi
 
         cat > /etc/systemd/system/tomcat.service <<EOF
 [Unit]
