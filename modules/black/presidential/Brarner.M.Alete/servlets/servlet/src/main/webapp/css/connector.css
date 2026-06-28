@@ -10,31 +10,36 @@
     width: 100%;
     text-align: center;
 }
-.cd1-button-wrap .btn {
+.cd1-btn {
     all: unset;
     display: block;
     margin: 0 auto;
     cursor: pointer;
     width: 80px;
     height: 80px;
-    background: url('../../../../../../resources/white.button.png') center/contain no-repeat;
     border-radius: 50%;
     transition: transform 0.2s ease, filter 0.2s ease;
+    padding: 0;
+    border: none;
+    background: none;
 }
-.cd1-button-wrap .btn:hover {
+.cd1-btn-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
+}
+.cd1-btn:hover {
     transform: scale(1.05);
     filter: brightness(1.2);
 }
-.cd1-button-wrap .btn:active {
+.cd1-btn:active {
     transform: scale(0.93);
 }
-.cd1-button-wrap .btn[aria-pressed="true"] {
-    background: url('../../../../../../resources/black.button.png') center/contain no-repeat;
+.cd1-btn[aria-pressed="true"] {
     transform: scale(0.95);
     filter: drop-shadow(0 0 8px rgba(59,130,246,0.6));
 }
-.cd1-button-wrap .btn__sr { overflow: hidden; position: absolute; width: 1px; height: 1px; }
-.cd1-button-wrap .btn__icon { display: none; }
 
 /* Overlay */
 .cd1-overlay {

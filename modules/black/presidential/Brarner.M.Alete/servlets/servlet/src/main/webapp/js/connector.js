@@ -20,6 +20,8 @@
         dialog.style.display = 'block';
         overlay.style.display = 'block';
         btn.setAttribute('aria-pressed', 'true');
+        var img = btn.querySelector('.cd1-btn-img');
+        if (img) img.src = 'images/black.button.png';
         resetIdleTimer();
     }
 
@@ -27,6 +29,8 @@
         dialog.style.display = 'none';
         overlay.style.display = 'none';
         btn.setAttribute('aria-pressed', 'false');
+        var img = btn.querySelector('.cd1-btn-img');
+        if (img) img.src = 'images/white.button.png';
         // Save content before clearing
         if (textarea.value && textarea.value !== 'Connection idle...') {
             savedContent = textarea.value;
