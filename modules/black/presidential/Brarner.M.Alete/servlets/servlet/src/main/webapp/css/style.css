@@ -234,6 +234,8 @@ td code {
 }
 .platform-badge.supported { border-color: #22c55e44; }
 .platform-badge.unsupported { border-color: #ef444444; color: var(--text-muted); }
+a.platform-badge { text-decoration: none; color: inherit; cursor: pointer; transition: border-color 0.2s, transform 0.1s; }
+a.platform-badge:hover { border-color: #22c55e; transform: translateY(-2px); }
 
 /* FOOTER */
 .footer {
