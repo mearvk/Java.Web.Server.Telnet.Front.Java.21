@@ -228,8 +228,21 @@
 </footer>
 
 <!-- TAB JS -->
-<script src="js/session.js"></script>
 <script>
+/* === session.js (inlined — external JS not served by this deployment) === */
+var BMA_SESSION_COOKIE = 'bma_session';
+var BMA_SESSION_HOURS = 24;
+function setCookie(name, value, hours) { var d = new Date(); d.setTime(d.getTime() + (hours * 60 * 60 * 1000)); document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax'; }
+function getCookie(name) { var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)')); return match ? decodeURIComponent(match[2]) : null; }
+function deleteCookie(name) { document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;'; }
+function getSession() { var raw = getCookie(BMA_SESSION_COOKIE); if (!raw) return null; try { return JSON.parse(raw); } catch(e) { return null; } }
+function setSession(type, ip, settings) { var session = { type: type, ip: ip, settings: settings || {}, created: Date.now() }; setCookie(BMA_SESSION_COOKIE, JSON.stringify(session), BMA_SESSION_HOURS); return session; }
+function enterGuest() { var session = setSession('guest', '', {}); updateNavForSession(session); alert('Logged in as Guest. Session expires in 24 hours.'); }
+function logout() { deleteCookie(BMA_SESSION_COOKIE); updateNavForSession(null); }
+function updateNavForSession(session) { var actions = document.querySelector('.nav-actions'); if (!actions) return; if (session) { var label = session.type === 'registered' ? 'Registered' : 'Guest'; actions.innerHTML = '<span class="nav-session-label">' + label + '</span><a href="javascript:void(0)" class="nav-cta" onclick="logout()">Logout</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } else { actions.innerHTML = '<a href="register.xhtml" class="nav-cta">Register</a><a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } }
+(function() { var session = getSession(); if (session) updateNavForSession(session); })();
+
+/* === tab switching === */
 document.querySelectorAll('.tab').forEach(function(btn) {
     btn.addEventListener('click', function() {
         var group = btn.closest('.section-inner');
@@ -240,26 +253,29 @@ document.querySelectorAll('.tab').forEach(function(btn) {
     });
 });
 
-// Load branding from config.xml
-fetch('config.xml').then(function(r){return r.text();}).then(function(xml){
+/* === config.xml branding load (guarded against undefined) === */
+fetch('config.xml').then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.text();
+}).then(function(xml) {
     var doc = new DOMParser().parseFromString(xml, 'text/xml');
+    if (doc.querySelector('parsererror')) return;
     var logoLeft = doc.querySelector('logo-left');
     var logoRight = doc.querySelector('logo-right');
     var title = doc.querySelector('site-title');
-    if(logoLeft){
+    if (logoLeft && logoLeft.textContent) {
         var el = document.getElementById('logo-left');
-        el.src = logoLeft.textContent;
-        el.style.display = 'inline';
+        if (el) { el.src = logoLeft.textContent; el.style.display = 'inline'; }
     }
-    if(logoRight){
+    if (logoRight && logoRight.textContent) {
         var el = document.getElementById('logo-right');
-        el.src = logoRight.textContent;
-        el.style.display = 'inline';
+        if (el) { el.src = logoRight.textContent; el.style.display = 'inline'; }
     }
-    if(title){
-        document.getElementById('site-title').textContent = title.textContent;
+    if (title && title.textContent && title.textContent !== 'undefined') {
+        var el = document.getElementById('site-title');
+        if (el) el.textContent = title.textContent;
     }
-});
+}).catch(function(e) { /* config.xml not available — use defaults */ });
 </script>
 
 </body>

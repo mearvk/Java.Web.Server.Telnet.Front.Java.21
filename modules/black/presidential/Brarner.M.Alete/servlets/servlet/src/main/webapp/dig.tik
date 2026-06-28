@@ -84,6 +84,19 @@ CD1 Type (Connector Dialog):
   *** CAREFUL: css/connector.css does NOT apply on this deployment. ***
   *** All CD1 styles MUST be inline on the HTML elements directly. ***
   *** The external CSS file is not being read/served by the web server. ***
+
+  *** CRITICAL: ALL external JS files (js/*.js) are ALSO NOT served. ***
+  *** All JavaScript MUST be inlined into each .xhtml page directly. ***
+  *** Do NOT use <script src="js/..."> — it will 404 or return wrong content. ***
+  *** The servlet container is not serving static resources from webapp/js/. ***
+  *** Symptom: "undefined" displayed in dynamic load elements because the ***
+  *** browser cannot load the external .js files, so functions are missing ***
+  *** or data values arrive unguarded. ***
+  ***                                                                       ***
+  *** FIX (2026-06-28): All JS inlined into species.xhtml, status.xhtml,  ***
+  *** index.xhtml. Added safeName() guard in species-loader to ensure no   ***
+  *** null/undefined value ever reaches textContent or innerHTML.           ***
+  *** config.xml fetch guarded against parse errors and missing elements.   ***
   
   - Black button PNG (transparent background) from resources/black.button.png
   - Button centered between hero header and page content

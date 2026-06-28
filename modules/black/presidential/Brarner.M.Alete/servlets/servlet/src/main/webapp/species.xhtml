@@ -96,40 +96,158 @@
     </div>
 </section>
 
-<!-- BMA Server Connection -->
-<section class="section">
-    <div class="section-inner">
-        <div class="expandable bma-connection" onclick="toggleBmaPanel(event, this)">
-            <div class="expandable-header"><span class="expand-icon">&#9654;</span> BMA Server Connection <span class="expandable-meta">Species Division · Port 49152</span></div>
-            <div class="expandable-body bma-panel" onclick="event.stopPropagation()">
-                <div class="bma-controls">
-                    <select class="bma-action-select">
-                        <option value="connect">Connect</option>
-                        <option value="disconnect">Disconnect</option>
-                        <option value="poll">Poll Area Data</option>
-                        <option value="hardreset">Hard Reset Connection</option>
-                    </select>
-                    <button class="btn btn-primary btn-sm bma-send-btn" onclick="bmaSend(this)">Send</button>
-                    <button class="btn btn-primary btn-sm bma-ok-btn" onclick="bmaOk(this)">OK</button>
-                </div>
-                <textarea class="bma-textarea" placeholder="Server response will appear here..." spellcheck="false"></textarea>
-                <div class="bma-commands">
-                    <strong>Species Commands:</strong> LIST|CLASS|&lt;name&gt; · FETCH|SPECIES|&lt;id&gt; · SEARCH|&lt;query&gt; · STATUS · COUNT|&lt;kingdom&gt;
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
     <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
 </div></footer>
 
-<script src="js/session.js"></script>
-<script src="js/expandable.js"></script>
-<script src="js/connector.js"></script>
-<script src="js/species-loader.js"></script>
 <script>
+/* === session.js (inlined — external JS not served by this deployment) === */
+var BMA_SESSION_COOKIE = 'bma_session';
+var BMA_SESSION_HOURS = 24;
+function setCookie(name, value, hours) { var d = new Date(); d.setTime(d.getTime() + (hours * 60 * 60 * 1000)); document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax'; }
+function getCookie(name) { var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)')); return match ? decodeURIComponent(match[2]) : null; }
+function deleteCookie(name) { document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;'; }
+function getSession() { var raw = getCookie(BMA_SESSION_COOKIE); if (!raw) return null; try { return JSON.parse(raw); } catch(e) { return null; } }
+function setSession(type, ip, settings) { var session = { type: type, ip: ip, settings: settings || {}, created: Date.now() }; setCookie(BMA_SESSION_COOKIE, JSON.stringify(session), BMA_SESSION_HOURS); return session; }
+function enterGuest() { var session = setSession('guest', '', {}); updateNavForSession(session); alert('Logged in as Guest. Session expires in 24 hours.'); }
+function logout() { deleteCookie(BMA_SESSION_COOKIE); updateNavForSession(null); }
+function updateNavForSession(session) { var actions = document.querySelector('.nav-actions'); if (!actions) return; if (session) { var label = session.type === 'registered' ? 'Registered' : 'Guest'; actions.innerHTML = '<span class="nav-session-label">' + label + '</span><a href="javascript:void(0)" class="nav-cta" onclick="logout()">Logout</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } else { actions.innerHTML = '<a href="register.xhtml" class="nav-cta">Register</a><a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } }
+(function() { var session = getSession(); if (session) updateNavForSession(session); })();
+
+/* === expandable.js (inlined) === */
+function toggleA1Row(row) { var child = row.nextElementSibling; if (child && child.classList.contains('a1-child')) { child.classList.toggle('open'); } }
+function toggleBmaPanel(event, el) { if (el.classList.contains('open') && !event.target.closest('.expandable-header')) return; var wasOpen = el.classList.contains('open'); el.classList.toggle('open'); if (wasOpen) { var ta = el.querySelector('.bma-textarea'); if (ta) ta.value = ''; } }
+function bmaSend(btn) { var panel = btn.closest('.bma-panel'); var select = panel.querySelector('.bma-action-select'); var textarea = panel.querySelector('.bma-textarea'); var action = select.value; var ts = new Date().toLocaleTimeString(); var msg = ''; switch (action) { case 'connect': msg = '[' + ts + '] Connecting to BMA server port 49152...\n[' + ts + '] Connected. Ready for commands.\n'; break; case 'disconnect': msg = '[' + ts + '] Disconnecting from BMA server...\n[' + ts + '] Disconnected.\n'; break; case 'poll': msg = '[' + ts + '] Polling area data...\n[' + ts + '] Poll complete. Data refreshed.\n'; break; case 'hardreset': msg = '[' + ts + '] Requesting formal hard reset...\n[' + ts + '] Connection formally closed by server. Reset complete.\n'; break; } textarea.value += msg; textarea.scrollTop = textarea.scrollHeight; }
+function bmaOk(btn) { var panel = btn.closest('.bma-panel'); var textarea = panel.querySelector('.bma-textarea'); var ts = new Date().toLocaleTimeString(); textarea.value += '[' + ts + '] OK \u2014 Acknowledged.\n'; textarea.scrollTop = textarea.scrollHeight; }
+
+/* === connector.js (inlined) === */
+(function() {
+    var btn = document.getElementById('cd1-btn');
+    var dialog = document.getElementById('cd1-dialog');
+    var overlay = document.getElementById('cd1-overlay');
+    var textarea = document.getElementById('cd1-textarea');
+    if (!btn || !dialog || !overlay || !textarea) return;
+    var IDLE_CLOSE_MS = 20 * 60 * 1000;
+    var FULL_RESET_MS = 60 * 60 * 1000;
+    var idleTimer = null, resetTimer = null, savedContent = '';
+    function isOpen() { return dialog.style.display !== 'none'; }
+    function openDialog() { btn.setAttribute('aria-pressed', 'true'); btn.style.transform = 'scale(0.9)'; btn.style.filter = 'drop-shadow(0 0 8px rgba(59,130,246,0.6))'; setTimeout(function() { dialog.style.display = 'block'; overlay.style.display = 'block'; resetIdleTimer(); }, 300); }
+    function closeDialog() { dialog.style.display = 'none'; overlay.style.display = 'none'; btn.setAttribute('aria-pressed', 'false'); btn.style.transform = ''; btn.style.filter = ''; if (textarea.value && textarea.value !== 'Connection idle...') savedContent = textarea.value; textarea.value = ''; textarea.placeholder = 'Connection idle...'; clearTimeout(idleTimer); }
+    function fullReset() { savedContent = ''; textarea.value = ''; textarea.placeholder = 'Connection idle...'; closeDialog(); clearTimeout(resetTimer); resetTimer = null; }
+    function resetIdleTimer() { clearTimeout(idleTimer); clearTimeout(resetTimer); idleTimer = setTimeout(function() { savedContent = textarea.value || savedContent; textarea.value = ''; textarea.placeholder = 'Connection idle...'; closeDialog(); resetTimer = setTimeout(fullReset, FULL_RESET_MS - IDLE_CLOSE_MS); }, IDLE_CLOSE_MS); }
+    btn.addEventListener('click', function() { if (isOpen()) closeDialog(); else openDialog(); });
+    overlay.addEventListener('click', function() { closeDialog(); });
+    textarea.addEventListener('dblclick', function() { if (savedContent) textarea.value = savedContent; });
+    dialog.addEventListener('click', function() { resetIdleTimer(); });
+    dialog.addEventListener('keydown', function() { resetIdleTimer(); });
+    resetTimer = setTimeout(fullReset, FULL_RESET_MS);
+})();
+function cd1Send() { var select = document.getElementById('cd1-action'); var textarea = document.getElementById('cd1-textarea'); if (!select || !textarea) return; var action = select.value; var ts = new Date().toLocaleTimeString(); var msg = ''; switch (action) { case 'connect': msg = '[' + ts + '] Connecting to BMA server port 49152...\n[' + ts + '] Connected. Ready for commands.\n'; break; case 'disconnect': msg = '[' + ts + '] Disconnecting...\n[' + ts + '] Disconnected.\n'; break; case 'poll': msg = '[' + ts + '] Polling area data...\n[' + ts + '] Poll complete.\n'; break; case 'hardreset': msg = '[' + ts + '] Hard reset...\n[' + ts + '] Reset complete.\n'; break; } textarea.value += msg; textarea.scrollTop = textarea.scrollHeight; }
+function cd1Ok() { var textarea = document.getElementById('cd1-textarea'); if (!textarea) return; var ts = new Date().toLocaleTimeString(); textarea.value += '[' + ts + '] OK \u2014 Acknowledged.\n'; textarea.scrollTop = textarea.scrollHeight; }
+
+/* === species-loader.js (inlined) === */
+(function() {
+    'use strict';
+    var basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+    var API = basePath + 'api/species';
+    function fetchJSON(params) {
+        var url = API + '?' + Object.keys(params).map(function(k) { return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]); }).join('&');
+        return fetch(url).then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(data) { if (!Array.isArray(data)) throw new Error('Not an array'); if (data.length > 0 && data[0].error) throw new Error(String(data[0].error)); return data; }).catch(function(err) { console.error('[species-loader] fetch failed:', url, err); return null; });
+    }
+    function makeDiv(label, meta, depth, loadFn) {
+        var wrap = document.createElement('div');
+        wrap.style.cssText = 'border:1px solid #27272a;border-radius:' + Math.max(4, 8 - depth) + 'px;margin-bottom:' + Math.max(0.3, 0.5 - depth * 0.05) + 'rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;';
+        var fs = Math.max(0.74, 0.9 - depth * 0.04);
+        var pad = Math.max(0.5, 0.85 - depth * 0.1);
+        var header = document.createElement('div');
+        header.style.cssText = 'padding:' + pad + 'rem ' + (pad + 0.15) + 'rem;font-size:' + fs + 'rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;';
+        var icon = document.createElement('span');
+        icon.style.cssText = 'display:inline-block;font-size:' + Math.max(0.5, 0.65 - depth * 0.05) + 'rem;transition:transform 0.2s ease;color:#60a5fa;';
+        icon.innerHTML = '&#9654;';
+        header.appendChild(icon);
+        var txt = document.createElement('span');
+        txt.textContent = (label != null && String(label) !== 'undefined') ? String(label) : '(unnamed)';
+        header.appendChild(txt);
+        if (meta) { var metaSpan = document.createElement('span'); metaSpan.style.cssText = 'margin-left:auto;font-size:' + Math.max(0.6, fs - 0.15) + 'rem;font-weight:400;color:#71717a;'; metaSpan.textContent = String(meta); header.appendChild(metaSpan); }
+        var body = document.createElement('div');
+        body.style.cssText = 'max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 ' + (pad + 0.15) + 'rem;font-size:' + Math.max(0.72, fs - 0.05) + 'rem;color:#a1a1aa;cursor:default;';
+        body.onclick = function(e) { e.stopPropagation(); };
+        var loaded = false;
+        wrap.onclick = function(e) {
+            e.stopPropagation();
+            var open = body.style.maxHeight !== '0px' && body.style.maxHeight !== '';
+            if (open) { body.style.maxHeight = '0px'; body.style.paddingBottom = '0'; icon.style.transform = 'rotate(0deg)'; wrap.style.borderColor = '#27272a'; }
+            else { if (!loaded && loadFn) { loaded = true; loadFn(body); } setTimeout(function() { body.style.maxHeight = body.scrollHeight + 'px'; body.style.paddingBottom = '1rem'; }, 10); icon.style.transform = 'rotate(90deg)'; wrap.style.borderColor = '#3b82f6'; setTimeout(function() { body.style.maxHeight = body.scrollHeight + 'px'; }, 150); }
+            setTimeout(function() { expandParents(body); }, 60);
+        };
+        wrap.appendChild(header); wrap.appendChild(body); return wrap;
+    }
+    function makeLeaf(name, commonName, description) {
+        var wrap = document.createElement('div');
+        wrap.style.cssText = 'border:1px solid #27272a;border-radius:4px;margin-bottom:0.3rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;';
+        var header = document.createElement('div');
+        header.style.cssText = 'padding:0.4rem 0.65rem;font-size:0.74rem;font-weight:500;display:flex;align-items:center;gap:0.4rem;user-select:none;';
+        var icon = document.createElement('span'); icon.style.cssText = 'display:inline-block;font-size:0.5rem;transition:transform 0.2s ease;color:#60a5fa;'; icon.innerHTML = '&#9654;'; header.appendChild(icon);
+        var em = document.createElement('em'); em.textContent = (name != null && String(name) !== 'undefined') ? String(name) : '(unknown)'; header.appendChild(em);
+        if (commonName != null && String(commonName) !== 'undefined' && String(commonName) !== 'null') { var lbl = document.createElement('span'); lbl.style.cssText = 'margin-left:auto;font-size:0.65rem;font-weight:400;color:#71717a;'; lbl.textContent = String(commonName); header.appendChild(lbl); }
+        var body = document.createElement('div');
+        body.style.cssText = 'max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.65rem;font-size:0.72rem;color:#a1a1aa;cursor:default;';
+        body.onclick = function(e) { e.stopPropagation(); };
+        var p = document.createElement('p'); p.textContent = (description != null && String(description) !== 'undefined' && String(description) !== 'null') ? String(description) : 'No description available.'; body.appendChild(p);
+        wrap.onclick = function(e) { e.stopPropagation(); var open = body.style.maxHeight !== '0px' && body.style.maxHeight !== ''; if (open) { body.style.maxHeight = '0px'; body.style.paddingBottom = '0'; icon.style.transform = 'rotate(0deg)'; wrap.style.borderColor = '#27272a'; } else { body.style.maxHeight = body.scrollHeight + 'px'; body.style.paddingBottom = '0.5rem'; icon.style.transform = 'rotate(90deg)'; wrap.style.borderColor = '#3b82f6'; } setTimeout(function() { expandParents(body); }, 50); };
+        wrap.appendChild(header); wrap.appendChild(body); return wrap;
+    }
+    function expandParents(el) { var p = el.parentElement; while (p) { if (p.style && p.style.maxHeight && p.style.maxHeight !== '0px' && p.style.maxHeight !== '') p.style.maxHeight = p.scrollHeight + 'px'; p = p.parentElement; } }
+    function showMsg(container, text, color) { var p = document.createElement('p'); p.textContent = String(text); p.style.color = color || '#525252'; container.appendChild(p); }
+    function safeName(item, key) { var v = item[key]; if (v == null || typeof v === 'undefined' || String(v) === 'undefined' || String(v) === 'null') return ''; return String(v); }
+    function loadClasses(container, kingdom) {
+        showMsg(container, 'Loading\u2026', '#60a5fa');
+        fetchJSON({ level: 'class', kingdom: kingdom }).then(function(data) {
+            container.innerHTML = '';
+            if (!data || data.length === 0) { showMsg(container, 'No data found for ' + String(kingdom) + '.', '#525252'); return; }
+            for (var i = 0; i < data.length; i++) { var item = data[i]; var name = safeName(item, 'name') || '(unnamed)'; var parts = []; if (item.orders && item.orders > 0) parts.push(String(item.orders) + ' orders'); if (item.families && item.families > 0) parts.push(String(item.families) + ' families'); var meta = parts.join(' \u00B7 '); container.appendChild(makeDiv(name, meta, 1, (function(cls) { return function(body) { loadOrders(body, cls); }; })(name))); }
+            expandParents(container);
+        });
+    }
+    function loadOrders(container, className) {
+        showMsg(container, 'Loading\u2026', '#60a5fa');
+        fetchJSON({ level: 'order', 'class': className }).then(function(data) {
+            container.innerHTML = '';
+            if (!data || data.length === 0) { showMsg(container, 'No orders found.', '#525252'); expandParents(container); return; }
+            for (var i = 0; i < data.length; i++) { var item = data[i]; var name = safeName(item, 'name') || '(unnamed)'; var meta = (item.families && item.families > 0) ? String(item.families) + ' families' : ''; container.appendChild(makeDiv(name, meta, 2, (function(ord) { return function(body) { loadFamilies(body, ord); }; })(name))); }
+            expandParents(container);
+        });
+    }
+    function loadFamilies(container, orderName) {
+        showMsg(container, 'Loading\u2026', '#60a5fa');
+        fetchJSON({ level: 'family', order: orderName }).then(function(data) {
+            container.innerHTML = '';
+            if (!data || data.length === 0) { showMsg(container, 'No families found.', '#525252'); expandParents(container); return; }
+            for (var i = 0; i < data.length; i++) { var item = data[i]; var name = safeName(item, 'name') || '(unnamed)'; container.appendChild(makeDiv(name, '', 3, (function(fam) { return function(body) { loadSpecies(body, fam); }; })(name))); }
+            expandParents(container);
+        });
+    }
+    function loadSpecies(container, familyName) {
+        showMsg(container, 'Loading\u2026', '#60a5fa');
+        fetchJSON({ level: 'species', family: familyName }).then(function(data) {
+            container.innerHTML = '';
+            if (!data || data.length === 0) { showMsg(container, 'No species records yet.', '#525252'); expandParents(container); return; }
+            for (var i = 0; i < data.length; i++) { var item = data[i]; container.appendChild(makeLeaf(safeName(item, 'name') || '(unknown)', safeName(item, 'label') || null, safeName(item, 'description') || null)); }
+            expandParents(container);
+        });
+    }
+    function init() {
+        var activeTab = document.getElementById('tab-animalia');
+        if (activeTab) { var tree = activeTab.querySelector('.species-tree'); if (tree) { activeTab.setAttribute('data-loaded', '1'); loadClasses(tree, 'Animalia'); } }
+        var tabButtons = document.querySelectorAll('.tab[data-tab]');
+        for (var i = 0; i < tabButtons.length; i++) { tabButtons[i].addEventListener('click', function() { var kingdom = this.getAttribute('data-tab'); var tabPanel = document.getElementById('tab-' + kingdom); if (tabPanel && tabPanel.getAttribute('data-loaded') !== '1') { tabPanel.setAttribute('data-loaded', '1'); var tree = tabPanel.querySelector('.species-tree'); if (tree) { loadClasses(tree, kingdom.charAt(0).toUpperCase() + kingdom.slice(1)); } } }); }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+/* === tab switching === */
 document.querySelectorAll('.tab').forEach(function(btn) {
     btn.addEventListener('click', function() {
         var group = btn.closest('.section-inner');
