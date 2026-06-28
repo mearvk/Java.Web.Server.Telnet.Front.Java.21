@@ -37,6 +37,28 @@
     </div>
 </section>
 
+<!-- CD1 Connector Button + Floating Dialog -->
+<div style="display:flex;justify-content:center;align-items:center;width:100%;padding:2rem 0;">
+    <button id="cd1-btn" type="button" aria-pressed="false" style="all:unset;display:block;margin:0 auto;cursor:pointer;padding:0;border:none;background:transparent;transition:transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84),filter 0.3s ease;">
+        <img src="images/black.button.png" alt="Connector" style="display:block;width:80px;height:80px;border-radius:50%;background:transparent;"/>
+    </button>
+</div>
+<div id="cd1-overlay" style="display:none;position:fixed;inset:0;z-index:299;background:transparent;"></div>
+<div id="cd1-dialog" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:300;background:#111118;border:1px solid #27272a;border-radius:12px;padding:1.25rem;width:520px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+    <div style="font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.75rem;">BMA Connector &#8212; Overview</div>
+    <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+        <select id="cd1-action" style="background:#1a1a24;color:#fff;border:1px solid #27272a;border-radius:8px;padding:0.45rem 2rem 0.45rem 0.75rem;font-size:0.8rem;cursor:pointer;appearance:none;">
+            <option value="connect">Connect</option>
+            <option value="disconnect">Disconnect</option>
+            <option value="poll">Poll Area Data</option>
+            <option value="hardreset">Hard Reset Connection</option>
+        </select>
+        <button onclick="cd1Send()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Send</button>
+        <button onclick="cd1Ok()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
+    </div>
+    <textarea id="cd1-textarea" placeholder="Connection idle..." spellcheck="false" style="width:100%;min-height:140px;background:#ffffff;color:#111;border:1px solid #27272a;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:0.8rem;resize:vertical;"></textarea>
+</div>
+
 <section class="section" id="roadmap">
     <div class="section-inner">
         <h2>Roadmap</h2>
@@ -76,5 +98,23 @@
 <footer class="footer"><div class="footer-bottom">
     <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
 </div></footer>
+
+<script>
+(function() {
+    var btn = document.getElementById('cd1-btn');
+    var dialog = document.getElementById('cd1-dialog');
+    var overlay = document.getElementById('cd1-overlay');
+    var textarea = document.getElementById('cd1-textarea');
+    if (!btn || !dialog || !overlay || !textarea) return;
+    btn.addEventListener('click', function() {
+        var open = dialog.style.display !== 'none';
+        dialog.style.display = open ? 'none' : 'block';
+        overlay.style.display = open ? 'none' : 'block';
+    });
+    overlay.addEventListener('click', function() { dialog.style.display = 'none'; overlay.style.display = 'none'; });
+})();
+function cd1Send() { var s = document.getElementById('cd1-action'); var t = document.getElementById('cd1-textarea'); if(!s||!t)return; t.value += '[' + new Date().toLocaleTimeString() + '] ' + s.value + ' sent.\n'; }
+function cd1Ok() { var t = document.getElementById('cd1-textarea'); if(!t)return; t.value += '[' + new Date().toLocaleTimeString() + '] OK.\n'; }
+</script>
 </body>
 </html>
