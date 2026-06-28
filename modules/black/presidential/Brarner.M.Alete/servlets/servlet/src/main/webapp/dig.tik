@@ -58,6 +58,40 @@ Orientation:
   - Tables full-width within container
   - Buttons right-aligned in nav, centered in hero
 
+Preferred Approach: JSP (Server-Side Rendering)
+================================================
+  *** As of 2026-06-28, all pages use .jsp instead of .xhtml. ***
+  *** Database lookups happen server-side via JDBC scriptlets. ***
+  *** NO JavaScript fetch() calls for data. DB calls are crisp. ***
+
+  Why:
+    - External JS files (js/*.js) were NOT served by the servlet container
+    - JavaScript fetch → /api/species returned undefined or failed silently
+    - JSP scriptlets execute on the server — data is rendered into HTML before
+      the page ever reaches the browser
+    - Null values handled at render time: rs.getString("x") != null ? val : ""
+    - No "undefined" can ever appear — the HTML is fully formed on delivery
+
+  Pages:
+    index.jsp     — Static overview, roadmap, module components table
+    species.jsp   — Queries animalia/species tables; drill-down via ?kingdom=&class=&order=&family=
+    postal.jsp    — Queries postal table; browse by ?state=
+    art.jsp       — Queries art_works table; browse by ?museum=
+    science.jsp   — Queries publications table; browse by ?source=
+    status.jsp    — Live DB connectivity check, JVM info, servlet container info
+
+  DB Connection (all pages):
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BrarnerScience", "root", "");
+
+  Navigation: Plain <a href="page.jsp?param=value"> links. No AJAX. No dynamic DOM.
+  Error display: Inline red <p> with e.getMessage() if DB fails.
+  CD1 pop-up: Kept on species.jsp only. Minimal inline JS for show/hide toggle.
+  welcome-file: index.jsp (configured in WEB-INF/web.xml)
+
+  The .xhtml files remain in the webapp directory for reference but are no longer
+  the active deployment. All nav links point to .jsp equivalents.
+
 Interaction:
   - All transitions 0.2s ease (links, buttons, borders)
   - Hover on links: secondary → accent color
