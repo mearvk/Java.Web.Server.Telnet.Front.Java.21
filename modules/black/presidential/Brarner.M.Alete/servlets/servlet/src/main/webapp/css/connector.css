@@ -17,7 +17,7 @@
     cursor: pointer;
     width: 80px;
     height: 80px;
-    background: url('../images/white.button.png') center/contain no-repeat;
+    background: url('../../../../../../resources/white.button.png') center/contain no-repeat;
     border-radius: 50%;
     transition: transform 0.2s ease, filter 0.2s ease;
 }
@@ -29,7 +29,7 @@
     transform: scale(0.93);
 }
 .cd1-button-wrap .btn[aria-pressed="true"] {
-    background: url('../images/black.button.png') center/contain no-repeat;
+    background: url('../../../../../../resources/black.button.png') center/contain no-repeat;
     transform: scale(0.95);
     filter: drop-shadow(0 0 8px rgba(59,130,246,0.6));
 }
