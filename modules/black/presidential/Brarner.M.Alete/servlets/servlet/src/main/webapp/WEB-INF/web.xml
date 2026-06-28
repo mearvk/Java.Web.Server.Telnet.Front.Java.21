@@ -46,6 +46,15 @@
         <url-pattern>/api/status</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SpeciesApiServlet</servlet-name>
+        <servlet-class>com.mearvk.servlet.SpeciesApiServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SpeciesApiServlet</servlet-name>
+        <url-pattern>/api/species</url-pattern>
+    </servlet-mapping>
+
     <mime-mapping>
         <extension>xhtml</extension>
         <mime-type>text/html</mime-type>
