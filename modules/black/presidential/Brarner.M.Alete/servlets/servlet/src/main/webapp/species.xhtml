@@ -82,13 +82,26 @@
                 </div>
                 <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
                     <p>Warm-blooded vertebrates characterized by mammary glands, hair/fur, and three middle ear bones.</p>
-                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                        <tr><td>Primates</td><td>16</td><td>500+</td></tr>
-                        <tr><td>Carnivora</td><td>16</td><td>286</td></tr>
-                        <tr><td>Rodentia</td><td>33</td><td>2,277</td></tr>
-                        <tr><td>Chiroptera</td><td>21</td><td>1,400+</td></tr>
-                        <tr><td>Artiodactyla</td><td>10</td><td>550</td></tr>
-                    </tbody></table>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Primates<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">16 families &middot; 500+ species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Includes apes, monkeys, lemurs, tarsiers. Highly developed brains and opposable thumbs.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Carnivora<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">16 families &middot; 286 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Cats, dogs, bears, seals, weasels. Specialized carnassial teeth for shearing flesh.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Rodentia<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">33 families &middot; 2,277 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Mice, rats, squirrels, beavers, porcupines. Continuously growing incisors.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Chiroptera<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">21 families &middot; 1,400+ species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Bats. Only mammals capable of sustained flight. Echolocation in most species.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Artiodactyla<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">10 families &middot; 550 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Even-toed ungulates: deer, cattle, pigs, camels, hippos, whales.</p></div>
+                    </div>
                 </div>
             </div>
 
@@ -100,12 +113,22 @@
                 </div>
                 <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
                     <p>Feathered, winged, bipedal endothermic vertebrates.</p>
-                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                        <tr><td>Passeriformes</td><td>140</td><td>6,500+</td></tr>
-                        <tr><td>Accipitriformes</td><td>4</td><td>266</td></tr>
-                        <tr><td>Psittaciformes</td><td>4</td><td>398</td></tr>
-                        <tr><td>Strigiformes</td><td>2</td><td>254</td></tr>
-                    </tbody></table>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Passeriformes<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">140 families &middot; 6,500+ species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Perching birds — songbirds, corvids, finches. Largest avian order.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Accipitriformes<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">4 families &middot; 266 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Diurnal raptors — eagles, hawks, kites, vultures.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Psittaciformes<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">4 families &middot; 398 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Parrots, macaws, cockatoos. Zygodactyl feet and curved bills.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Strigiformes<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">2 families &middot; 254 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Owls. Nocturnal raptors with binocular vision and silent flight.</p></div>
+                    </div>
                 </div>
             </div>
 
@@ -117,11 +140,18 @@
                 </div>
                 <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
                     <p>Cold-blooded, air-breathing vertebrates with scales or scutes.</p>
-                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                        <tr><td>Squamata</td><td>61</td><td>10,900+</td></tr>
-                        <tr><td>Testudines</td><td>14</td><td>360</td></tr>
-                        <tr><td>Crocodylia</td><td>3</td><td>27</td></tr>
-                    </tbody></table>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Squamata<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">61 families &middot; 10,900+ species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Lizards, snakes, amphisbaenians. Scaled reptiles with moveable quadrate bones.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Testudines<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">14 families &middot; 360 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Turtles, tortoises, terrapins. Bony or cartilaginous shell.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Crocodylia<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">3 families &middot; 27 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Crocodiles, alligators, gharials. Semi-aquatic apex predators.</p></div>
+                    </div>
                 </div>
             </div>
 
@@ -133,11 +163,18 @@
                 </div>
                 <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
                     <p>Ectothermic tetrapods with aquatic larval stage.</p>
-                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                        <tr><td>Anura (Frogs)</td><td>55</td><td>7,300+</td></tr>
-                        <tr><td>Urodela (Salamanders)</td><td>10</td><td>760</td></tr>
-                        <tr><td>Gymnophiona (Caecilians)</td><td>10</td><td>214</td></tr>
-                    </tbody></table>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Anura (Frogs)<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">55 families &middot; 7,300+ species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Tailless amphibians with long hind limbs adapted for jumping.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Urodela (Salamanders)<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">10 families &middot; 760 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Tailed amphibians with elongated bodies. Many capable of limb regeneration.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Gymnophiona (Caecilians)<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">10 families &middot; 214 species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Limbless, serpentine amphibians. Mostly fossorial (burrowing).</p></div>
+                    </div>
                 </div>
             </div>
 
@@ -149,12 +186,22 @@
                 </div>
                 <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
                     <p>Six-legged arthropods with compound eyes and exoskeleton.</p>
-                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                        <tr><td>Coleoptera (Beetles)</td><td>166</td><td>400,000+</td></tr>
-                        <tr><td>Lepidoptera (Moths/Butterflies)</td><td>126</td><td>180,000+</td></tr>
-                        <tr><td>Hymenoptera (Ants/Bees/Wasps)</td><td>132</td><td>153,000+</td></tr>
-                        <tr><td>Diptera (Flies)</td><td>188</td><td>152,000+</td></tr>
-                    </tbody></table>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Coleoptera (Beetles)<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">166 families &middot; 400,000+ species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Hardened forewings (elytra). Most species-rich order on Earth.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Lepidoptera (Moths/Butterflies)<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">126 families &middot; 180,000+ species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Scale-winged insects. Complete metamorphosis with caterpillar larval stage.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Hymenoptera (Ants/Bees/Wasps)<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">132 families &middot; 153,000+ species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>Membrane-winged insects. Many eusocial with complex colony structures.</p></div>
+                    </div>
+                    <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:6px;margin-bottom:0.4rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s ease;">
+                        <div style="padding:0.6rem 0.85rem;font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;"><span style="display:inline-block;font-size:0.6rem;transition:transform 0.2s ease;color:#60a5fa;">&#9654;</span>Diptera (Flies)<span style="margin-left:auto;font-size:0.72rem;font-weight:400;color:#71717a;">188 families &middot; 152,000+ species</span></div>
+                        <div style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;padding:0 0.85rem;font-size:0.8rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()"><p>True flies with single pair of wings. Halteres for balance in flight.</p></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -255,9 +302,11 @@
 
 <script>
 function toggleKD(el){
+    event.stopPropagation();
     var body=el.children[1],icon=el.children[0].children[0],open=body.style.maxHeight!=='0px'&&body.style.maxHeight!=='';
     if(open){body.style.maxHeight='0px';body.style.paddingBottom='0';icon.style.transform='rotate(0deg)';el.style.borderColor='#27272a';}
     else{body.style.maxHeight=body.scrollHeight+'px';body.style.paddingBottom='1rem';icon.style.transform='rotate(90deg)';el.style.borderColor='#3b82f6';}
+    setTimeout(function(){var p=el.parentElement;while(p){if(p.style&&p.style.maxHeight&&p.style.maxHeight!=='0px'&&p.style.maxHeight!==''){p.style.maxHeight=p.scrollHeight+'px';}p=p.parentElement;}},50);
 }
 document.querySelectorAll('[onclick="toggleKD(this)"]').forEach(function(el){
     el.onmouseenter=function(){if(el.style.borderColor!=='rgb(59, 130, 246)')el.style.borderColor='#3b82f6';};
