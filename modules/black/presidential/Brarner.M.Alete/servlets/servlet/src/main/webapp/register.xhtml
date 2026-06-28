@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Register — Brarner.M.Alete™</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/expandable.css"/>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+    <a href="index.xhtml" class="nav-brand">Brarner.M.Alete™</a>
+    <ul class="nav-links">
+        <li><a href="index.xhtml">Overview</a></li>
+        <li><a href="species.xhtml">Species</a></li>
+        <li><a href="postal.xhtml">Postal</a></li>
+        <li><a href="art.xhtml">Art</a></li>
+        <li><a href="science.xhtml">Science</a></li>
+        <li><a href="status.xhtml">Status</a></li>
+    </ul>
+    <div class="nav-actions">
+        <a href="register.xhtml" class="nav-cta">Register</a>
+        <a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a>
+        <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+    </div>
+</div></nav>
+
+<section class="hero" style="padding:4rem 2rem;">
+    <div class="hero-inner">
+        <span class="hero-tag">Account Registration</span>
+        <h1>Register</h1>
+        <p>Register your IP address to save settings across sessions. 24-hour cookie with automatic renewal on visit.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner" style="max-width:480px;">
+        <h3>Registration</h3>
+        <p>Your IP address will be recorded for session identification. No password required.</p>
+        <form id="register-form" onsubmit="return handleRegister(event)">
+            <div style="margin-bottom:1rem;">
+                <label style="display:block;font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.35rem;">Display Name</label>
+                <input type="text" id="reg-name" required style="width:100%;padding:0.6rem 0.75rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-primary);font-size:0.9rem;"/>
+            </div>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block;font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.35rem;">Your IP Address</label>
+                <input type="text" id="reg-ip" readonly style="width:100%;padding:0.6rem 0.75rem;background:var(--bg-dark);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-muted);font-size:0.9rem;"/>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Register</button>
+        </form>
+        <p id="reg-status" style="margin-top:1rem;font-size:0.85rem;"></p>
+    </div>
+</section>
+
+<footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
+    <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
+</div></footer>
+
+<script src="js/session.js"></script>
+<script>
+// Fetch user IP on load
+fetch('https://api.ipify.org?format=json')
+    .then(function(r){return r.json();})
+    .then(function(data){ document.getElementById('reg-ip').value = data.ip; })
+    .catch(function(){ document.getElementById('reg-ip').value = '127.0.0.1'; });
+
+function handleRegister(e) {
+    e.preventDefault();
+    var name = document.getElementById('reg-name').value.trim();
+    var ip = document.getElementById('reg-ip').value;
+    if (!name) return false;
+    // Set registered session cookie (24h)
+    var session = setSession('registered', ip, { displayName: name });
+    updateNavForSession(session);
+    document.getElementById('reg-status').textContent = 'Registered successfully as "' + name + '" (IP: ' + ip + '). Session valid for 24 hours.';
+    document.getElementById('reg-status').style.color = '#22c55e';
+    return false;
+}
+</script>
+</body>
+</html>
