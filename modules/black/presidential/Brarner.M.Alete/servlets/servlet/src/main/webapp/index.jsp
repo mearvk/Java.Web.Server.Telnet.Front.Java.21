@@ -101,20 +101,32 @@
 
 <script>
 (function() {
-    var btn = document.getElementById('cd1-btn');
-    var dialog = document.getElementById('cd1-dialog');
-    var overlay = document.getElementById('cd1-overlay');
-    var textarea = document.getElementById('cd1-textarea');
+    var btn = document.getElementById("cd1-btn");
+    var dialog = document.getElementById("cd1-dialog");
+    var overlay = document.getElementById("cd1-overlay");
+    var textarea = document.getElementById("cd1-textarea");
     if (!btn || !dialog || !overlay || !textarea) return;
-    btn.addEventListener('click', function() {
-        var open = dialog.style.display !== 'none';
-        dialog.style.display = open ? 'none' : 'block';
-        overlay.style.display = open ? 'none' : 'block';
+    btn.addEventListener("click", function() {
+        if (dialog.style.display !== "none") {
+            dialog.style.display = "none";
+            overlay.style.display = "none";
+            btn.style.transform = "";
+            btn.style.filter = "";
+            return;
+        }
+        btn.style.transform = "scale(0.9)";
+        btn.style.filter = "drop-shadow(0 0 8px #3b82f6)";
+        setTimeout(function() {
+            btn.style.transform = "";
+            btn.style.filter = "";
+            dialog.style.display = "block";
+            overlay.style.display = "block";
+        }, 750);
     });
-    overlay.addEventListener('click', function() { dialog.style.display = 'none'; overlay.style.display = 'none'; });
+    overlay.addEventListener("click", function() { dialog.style.display = "none"; overlay.style.display = "none"; });
 })();
-function cd1Send() { var s = document.getElementById('cd1-action'); var t = document.getElementById('cd1-textarea'); if(!s||!t)return; t.value += '[' + new Date().toLocaleTimeString() + '] ' + s.value + ' sent.\n'; }
-function cd1Ok() { var t = document.getElementById('cd1-textarea'); if(!t)return; t.value += '[' + new Date().toLocaleTimeString() + '] OK.\n'; }
+function cd1Send() { var s = document.getElementById("cd1-action"); var t = document.getElementById("cd1-textarea"); if(!s||!t)return; t.value += "[" + new Date().toLocaleTimeString() + "] " + s.value + " sent.\n"; }
+function cd1Ok() { var t = document.getElementById("cd1-textarea"); if(!t)return; t.value += "[" + new Date().toLocaleTimeString() + "] OK.\n"; }
 </script>
 </body>
 </html>
