@@ -43,6 +43,7 @@ build/
 
 ### Secrets ###
 psychiatry/secrets/secret.key
+**/.db-credentials
 
 ### Transfer Documents ###
 source/confermary/transfer.document.title
@@ -61,3 +62,4 @@ out/
 **/jfxwebkit.dll
 **/javafx-sdk-26.0.1/bin/
 **/jars/java-fx/extracted/
+modules/black/presidential/Brarner.M.Alete.zip

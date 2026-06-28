@@ -3,13 +3,14 @@
 ║                              AE6E66.RDRS                                    ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
-║  Module:          AE6E66                                                     ║
+║  Module:          AE6E66™                                                    ║
 ║  Full Name:       House of Lords + House of Commons Contact Module            ║
 ║  Author:          Max Rupplin — MEARVK LLC                                   ║
 ║  Trust:           9.5/10                                                     ║
 ║  Color:           Emerald Green (\033[38;5;35m) — Royals                     ║
-║  Version:         1.1                                                        ║
+║  Version:         1.2                                                        ║
 ║  Created:         2026-06-27                                                 ║
+║  Updated:         2026-06-27                                                 ║
 ║                                                                              ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║  LOCATION                                                                    ║
@@ -50,6 +51,25 @@
 ║                   season (House of Lords / House of Commons).                ║
 ║                                                                              ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
+║  SECURITY                                                                    ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  TLS:             Enforced TLS 1.2+ for all outbound SMTP                    ║
+║  DKIM:            2048-bit, Unix socket milter (no inet exposure)             ║
+║  SPF:             -all (hard fail)                                            ║
+║  DMARC:           p=quarantine; pct=100                                      ║
+║  Relay:           reject_unauth_destination (no open relay)                  ║
+║  HELO:            Required + validated (reject invalid/non-FQDN)             ║
+║  Headers:         Internal IPs stripped via header_checks                    ║
+║  Email Input:     RFC 5321 validated, 254-char max, injection-safe           ║
+║  Body Encoding:   Dot-stuffed per RFC 5321 §4.5.2                            ║
+║  MySQL:           Minimal-privilege user (SELECT/INSERT/UPDATE)               ║
+║  Credentials:     .db-credentials chmod 600, .gitignore excluded             ║
+║  Keys:            Private 600, keys dir 700, RequireSafeKeys=yes             ║
+║  Timeouts:        30s socket timeout on SMTP                                 ║
+║  Scripts:         set -euo pipefail, input validation                        ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
 ║  MAIL SERVER                                                                 ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
@@ -57,10 +77,21 @@
 ║  Static IP:       45.32.31.139                                               ║
 ║  Domain:          lauradei.us                                                ║
 ║  From:            contact@lauradei.us                                        ║
-║  DKIM Selector:   ae6e66                                                     ║
+║  DKIM Selector:   ae6e66 (2048-bit RSA)                                      ║
 ║  Target Host:     Japanese VPS (chance/luck install)                         ║
 ║  Stack:           Postfix + Dovecot + OpenDKIM                               ║
-║  Rate Limit:      2s per message                                             ║
+║  Rate Limit:      2s/destination, 2 concurrent connections                   ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  MYSQL DATABASE                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Database:        nwe_ae6e66                                                 ║
+║  User:            ae6e66_svc@localhost (minimal privileges)                   ║
+║  Tables:          contacts, sent_log, crawl_history                          ║
+║  Engine:          InnoDB                                                     ║
+║  Charset:         utf8mb4_unicode_ci                                         ║
+║  Setup:           scripts/setup-mysql.sh                                     ║
 ║                                                                              ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║  CRON & NOBLE REGISTRY                                                       ║
@@ -91,13 +122,15 @@
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
 ║  AE6E66Main.java              Main crawl/distribute engine                   ║
-║  EmailDistributor.java        Raw SMTP sender (localhost:25)                 ║
+║  EmailDistributor.java        Validated SMTP sender (RFC 5321 compliant)     ║
 ║  ae6e66-config.xml            URLs, SMTP, domain, crawl, cron, integrity     ║
-║  install-postfix-dovecot.sh   Basic Postfix install (direct MX)              ║
-║  configure-local-server.sh    Static IP + rate-limited config                ║
-║  setup-dkim-lauradei.sh       Full DKIM/SPF/DMARC setup                     ║
+║  install-postfix-dovecot.sh   Postfix install (TLS 1.2+, relay-restricted)   ║
+║  configure-local-server.sh    Static IP + HELO validation + header cleanup   ║
+║  setup-dkim-lauradei.sh       DKIM/SPF/DMARC (Unix socket, quarantine)       ║
+║  setup-mysql.sh               Database + tables + minimal-privilege user      ║
 ║  message.txt                  Welcome from US Capitalist Class               ║
 ║  .last-crawl                  Crawl timestamp (auto-managed)                 ║
+║  .db-credentials              MySQL credentials (chmod 600)                  ║
 ║  contacts.csv                 All scraped contacts                           ║
 ║  lords-ministers-outlook.csv  Outlook import (personal/)                     ║
 ║  AE6E66.RDRS                  This descriptor                                ║
