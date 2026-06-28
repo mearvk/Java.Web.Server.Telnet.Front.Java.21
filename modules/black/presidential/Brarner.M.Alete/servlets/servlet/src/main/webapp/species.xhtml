@@ -73,115 +73,196 @@
         <div class="tab-content active" id="tab-animalia">
             <h3>Animalia Classes</h3>
             <p>Warm-blooded and cold-blooded vertebrates, arthropods, and invertebrates across 5 major classes.</p>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Class</th><th>Families</th><th>Species Count</th><th>Last Updated</th></tr></thead>
-                    <tbody>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mammalia</td><td>153</td><td>6,400</td><td>Jun 2026</td></tr>
-                        <tr class="a1-child"><td colspan="4">
-                            <p>Warm-blooded vertebrates characterized by mammary glands, hair/fur, and three middle ear bones.</p>
-                            <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                                <tr><td>Primates</td><td>16</td><td>500+</td></tr>
-                                <tr><td>Carnivora</td><td>16</td><td>286</td></tr>
-                                <tr><td>Rodentia</td><td>33</td><td>2,277</td></tr>
-                                <tr><td>Chiroptera</td><td>21</td><td>1,400+</td></tr>
-                                <tr><td>Artiodactyla</td><td>10</td><td>550</td></tr>
-                            </tbody></table>
-                        </td></tr>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Aves</td><td>248</td><td>10,800</td><td>Jun 2026</td></tr>
-                        <tr class="a1-child"><td colspan="4">
-                            <p>Feathered, winged, bipedal endothermic vertebrates.</p>
-                            <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                                <tr><td>Passeriformes</td><td>140</td><td>6,500+</td></tr>
-                                <tr><td>Accipitriformes</td><td>4</td><td>266</td></tr>
-                                <tr><td>Psittaciformes</td><td>4</td><td>398</td></tr>
-                                <tr><td>Strigiformes</td><td>2</td><td>254</td></tr>
-                            </tbody></table>
-                        </td></tr>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Reptilia</td><td>92</td><td>11,700</td><td>May 2026</td></tr>
-                        <tr class="a1-child"><td colspan="4">
-                            <p>Cold-blooded, air-breathing vertebrates with scales or scutes.</p>
-                            <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                                <tr><td>Squamata</td><td>61</td><td>10,900+</td></tr>
-                                <tr><td>Testudines</td><td>14</td><td>360</td></tr>
-                                <tr><td>Crocodylia</td><td>3</td><td>27</td></tr>
-                            </tbody></table>
-                        </td></tr>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Amphibia</td><td>74</td><td>8,400</td><td>May 2026</td></tr>
-                        <tr class="a1-child"><td colspan="4">
-                            <p>Ectothermic tetrapods with aquatic larval stage.</p>
-                            <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                                <tr><td>Anura (Frogs)</td><td>55</td><td>7,300+</td></tr>
-                                <tr><td>Urodela (Salamanders)</td><td>10</td><td>760</td></tr>
-                                <tr><td>Gymnophiona (Caecilians)</td><td>10</td><td>214</td></tr>
-                            </tbody></table>
-                        </td></tr>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Insecta</td><td>660</td><td>1,000,000+</td><td>Apr 2026</td></tr>
-                        <tr class="a1-child"><td colspan="4">
-                            <p>Six-legged arthropods with compound eyes and exoskeleton.</p>
-                            <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
-                                <tr><td>Coleoptera (Beetles)</td><td>166</td><td>400,000+</td></tr>
-                                <tr><td>Lepidoptera (Moths/Butterflies)</td><td>126</td><td>180,000+</td></tr>
-                                <tr><td>Hymenoptera (Ants/Bees/Wasps)</td><td>132</td><td>153,000+</td></tr>
-                                <tr><td>Diptera (Flies)</td><td>188</td><td>152,000+</td></tr>
-                            </tbody></table>
-                        </td></tr>
-                    </tbody>
-                </table>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Mammalia
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">153 families &middot; 6,400 species &middot; Jun 2026</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Warm-blooded vertebrates characterized by mammary glands, hair/fur, and three middle ear bones.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Primates</td><td>16</td><td>500+</td></tr>
+                        <tr><td>Carnivora</td><td>16</td><td>286</td></tr>
+                        <tr><td>Rodentia</td><td>33</td><td>2,277</td></tr>
+                        <tr><td>Chiroptera</td><td>21</td><td>1,400+</td></tr>
+                        <tr><td>Artiodactyla</td><td>10</td><td>550</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Aves
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">248 families &middot; 10,800 species &middot; Jun 2026</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Feathered, winged, bipedal endothermic vertebrates.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Passeriformes</td><td>140</td><td>6,500+</td></tr>
+                        <tr><td>Accipitriformes</td><td>4</td><td>266</td></tr>
+                        <tr><td>Psittaciformes</td><td>4</td><td>398</td></tr>
+                        <tr><td>Strigiformes</td><td>2</td><td>254</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Reptilia
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">92 families &middot; 11,700 species &middot; May 2026</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Cold-blooded, air-breathing vertebrates with scales or scutes.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Squamata</td><td>61</td><td>10,900+</td></tr>
+                        <tr><td>Testudines</td><td>14</td><td>360</td></tr>
+                        <tr><td>Crocodylia</td><td>3</td><td>27</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Amphibia
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">74 families &middot; 8,400 species &middot; May 2026</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Ectothermic tetrapods with aquatic larval stage.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Anura (Frogs)</td><td>55</td><td>7,300+</td></tr>
+                        <tr><td>Urodela (Salamanders)</td><td>10</td><td>760</td></tr>
+                        <tr><td>Gymnophiona (Caecilians)</td><td>10</td><td>214</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Insecta
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">660 families &middot; 1,000,000+ species &middot; Apr 2026</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Six-legged arthropods with compound eyes and exoskeleton.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Coleoptera (Beetles)</td><td>166</td><td>400,000+</td></tr>
+                        <tr><td>Lepidoptera (Moths/Butterflies)</td><td>126</td><td>180,000+</td></tr>
+                        <tr><td>Hymenoptera (Ants/Bees/Wasps)</td><td>132</td><td>153,000+</td></tr>
+                        <tr><td>Diptera (Flies)</td><td>188</td><td>152,000+</td></tr>
+                    </tbody></table>
+                </div>
             </div>
         </div>
 
         <div class="tab-content" id="tab-plantae">
             <h3>Plantae Classes</h3>
-            <p>Land plants across 3 major classes — flowering, monocots, and conifers.</p>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Class</th><th>Families</th><th>Species Count</th></tr></thead>
-                    <tbody>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Magnoliopsida</td><td>416</td><td>300,000+</td></tr>
-                        <tr class="a1-child"><td colspan="3"><p>Flowering plants (dicots). Largest class of land plants covering trees, shrubs, herbs.</p></td></tr>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Liliopsida</td><td>90</td><td>70,000+</td></tr>
-                        <tr class="a1-child"><td colspan="3"><p>Monocotyledons including grasses, orchids, palms, and lilies.</p></td></tr>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Pinopsida</td><td>7</td><td>630</td></tr>
-                        <tr class="a1-child"><td colspan="3"><p>Conifers: pines, spruces, firs, cedars, cypresses.</p></td></tr>
-                    </tbody>
-                </table>
+            <p>Land plants across 3 major classes &mdash; flowering, monocots, and conifers.</p>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Magnoliopsida
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">416 families &middot; 300,000+ species</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Flowering plants (dicots). Largest class of land plants covering trees, shrubs, herbs.</p>
+                </div>
+            </div>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Liliopsida
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">90 families &middot; 70,000+ species</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Monocotyledons including grasses, orchids, palms, and lilies.</p>
+                </div>
+            </div>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Pinopsida
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">7 families &middot; 630 species</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Conifers: pines, spruces, firs, cedars, cypresses.</p>
+                </div>
             </div>
         </div>
 
         <div class="tab-content" id="tab-fungi">
             <h3>Fungi Classes</h3>
             <p>Decomposers and symbionts across 2 primary classes.</p>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Class</th><th>Families</th><th>Species Count</th></tr></thead>
-                    <tbody>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Agaricomycetes</td><td>120</td><td>21,000+</td></tr>
-                        <tr class="a1-child"><td colspan="3"><p>Mushrooms, bracket fungi, puffballs. Primary decomposers in forest ecosystems.</p></td></tr>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Sordariomycetes</td><td>90</td><td>10,000+</td></tr>
-                        <tr class="a1-child"><td colspan="3"><p>Flask fungi including plant pathogens and endophytes.</p></td></tr>
-                    </tbody>
-                </table>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Agaricomycetes
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">120 families &middot; 21,000+ species</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Mushrooms, bracket fungi, puffballs. Primary decomposers in forest ecosystems.</p>
+                </div>
+            </div>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Sordariomycetes
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">90 families &middot; 10,000+ species</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Flask fungi including plant pathogens and endophytes.</p>
+                </div>
             </div>
         </div>
 
         <div class="tab-content" id="tab-protista">
             <h3>Protista Classes</h3>
             <p>Unicellular eukaryotes across 2 phyla.</p>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Phylum</th><th>Families</th><th>Species Count</th></tr></thead>
-                    <tbody>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Ciliophora</td><td>50</td><td>4,500</td></tr>
-                        <tr class="a1-child"><td colspan="3"><p>Ciliated protozoans including Paramecium, Stentor, Vorticella.</p></td></tr>
-                        <tr class="a1-row" onclick="toggleA1Row(this)"><td>Apicomplexa</td><td>30</td><td>6,000</td></tr>
-                        <tr class="a1-child"><td colspan="3"><p>Parasitic protists including Plasmodium (malaria) and Toxoplasma.</p></td></tr>
-                    </tbody>
-                </table>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Ciliophora
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">50 families &middot; 4,500 species</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Ciliated protozoans including Paramecium, Stentor, Vorticella.</p>
+                </div>
+            </div>
+
+            <div onclick="toggleKD(this)" style="border:1px solid #27272a;border-radius:8px;margin-bottom:0.5rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s;">
+                <div style="padding:0.85rem 1rem;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;user-select:none;">
+                    <span class="ki" style="font-size:0.65rem;transition:transform 0.2s;color:#60a5fa;">&#9654;</span>
+                    Apicomplexa
+                    <span style="margin-left:auto;font-size:0.75rem;font-weight:400;color:#a1a1aa;">30 families &middot; 6,000 species</span>
+                </div>
+                <div class="kb" style="display:none;padding:0 1rem 1rem;font-size:0.85rem;color:#a1a1aa;cursor:default;" onclick="event.stopPropagation()">
+                    <p>Parasitic protists including Plasmodium (malaria) and Toxoplasma.</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+.ki { display:inline-block; }
+[style*="border:1px solid #27272a"]:hover { border-color:#3b82f6 !important; }
+[style*="border:1px solid #27272a"].open { border-color:#3b82f6 !important; }
+[style*="border:1px solid #27272a"].open .ki { transform:rotate(90deg); }
+[style*="border:1px solid #27272a"].open .kb { display:block !important; }
+</style>
+<script>
+function toggleKD(el){el.classList.toggle("open");}
+</script>
 
 <!-- BMA Server Connection -->
 <section class="section">
