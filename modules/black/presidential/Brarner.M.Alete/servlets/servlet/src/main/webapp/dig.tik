@@ -1,0 +1,14 @@
+dig.tik — Display Type Reference
+===================================
+
+A1 Type:
+  - Standard data table using .table-wrap > <table>
+  - Dark header row, bordered cells, compact font
+  - Clickable rows expand a hidden child <tr class="a1-child"> beneath them
+  - Mouseover of clickable rows highlights text in blue (--accent: #3b82f6)
+  - Above each table: white <h3> title + short description <p>
+  - Children (expanded rows) use the same table look-and-feel
+  - Used across all BMA pages: Species, Postal, Art, Science, Status
+
+Reference: lauradei.us/brarner.m.alete/
+Created: 2026-06-27

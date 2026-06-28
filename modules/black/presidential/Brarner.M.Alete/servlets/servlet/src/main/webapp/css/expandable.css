@@ -1,5 +1,22 @@
-/* Expandable sections & BMA Server Connection panel */
+/* Expandable A1-type table rows & BMA Server Connection panel */
 
+/* A1 clickable rows */
+tr.a1-row { cursor: pointer; transition: color 0.15s; }
+tr.a1-row:hover td { color: var(--accent) !important; }
+tr.a1-child { display: none; }
+tr.a1-child.open { display: table-row; }
+tr.a1-child td {
+    padding: 1rem;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+}
+tr.a1-child table { margin-top: 0.5rem; }
+tr.a1-child p { margin-bottom: 0.5rem; }
+
+/* BMA Server Connection panel */
+.bma-connection { cursor: pointer; }
+.bma-connection.open { cursor: default; }
+.bma-connection .expandable-header { cursor: pointer; }
 .expandable {
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -11,7 +28,6 @@
 .expandable:hover { border-color: var(--accent); }
 .expandable.open { border-color: var(--accent); }
 .expandable.open .expand-icon { transform: rotate(90deg); }
-
 .expandable-header {
     padding: 0.85rem 1rem;
     font-size: 0.9rem;
@@ -21,21 +37,18 @@
     gap: 0.5rem;
     user-select: none;
 }
-
 .expand-icon {
     font-size: 0.65rem;
     transition: transform 0.2s;
     color: var(--accent-light);
     flex-shrink: 0;
 }
-
 .expandable-meta {
     margin-left: auto;
     font-size: 0.75rem;
     font-weight: 400;
     color: var(--text-secondary);
 }
-
 .expandable-body {
     display: none;
     padding: 0 1rem 1rem;
@@ -44,15 +57,8 @@
     cursor: default;
 }
 .expandable.open .expandable-body { display: block; }
-.expandable-body table { margin-top: 0.75rem; }
-
-/* BMA Server Connection panel */
-.bma-connection { cursor: pointer; }
-.bma-connection.open { cursor: default; }
-.bma-connection .expandable-header { cursor: pointer; }
 
 .bma-panel { cursor: default; }
-
 .bma-controls {
     display: flex;
     gap: 0.5rem;
@@ -60,7 +66,6 @@
     margin-bottom: 0.75rem;
     flex-wrap: wrap;
 }
-
 .bma-action-select {
     background: var(--bg-card);
     color: var(--text-primary);
@@ -75,7 +80,6 @@
     background-repeat: no-repeat;
     background-position: right 0.6rem center;
 }
-
 .bma-send-btn, .bma-ok-btn {
     background: var(--accent) !important;
     color: #fff !important;
@@ -83,7 +87,6 @@
 .bma-send-btn:hover, .bma-ok-btn:hover {
     background: var(--accent-hover) !important;
 }
-
 .bma-textarea {
     width: 100%;
     min-height: 120px;
@@ -96,7 +99,6 @@
     font-size: 0.8rem;
     resize: vertical;
 }
-
 .bma-commands {
     margin-top: 0.5rem;
     font-size: 0.75rem;
