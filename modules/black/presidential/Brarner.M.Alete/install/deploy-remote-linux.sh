@@ -177,6 +177,7 @@ DB_PROPS_LOCAL="$WEBAPP_SRC/WEB-INF/db.properties"
 DB_PROPS_REMOTE="/opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF/db.properties"
 
 if [ -f "$DB_PROPS_LOCAL" ]; then
+    ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "mkdir -p /opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF"
     scp -o ConnectTimeout=10 -o BatchMode=yes "$DB_PROPS_LOCAL" "$REMOTE_USER@$REMOTE_HOST:$DB_PROPS_REMOTE"
 else
     # Prompt for remote DB credentials
@@ -190,7 +191,7 @@ else
     read -rp "    Remote MySQL port [3306]: " R_DB_PORT
     R_DB_PORT="${R_DB_PORT:-3306}"
 
-    ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "cat > $DB_PROPS_REMOTE <<'DBEOF'
+    ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "mkdir -p /opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF && cat > $DB_PROPS_REMOTE <<'DBEOF'
 # BMA Database Configuration — written by deploy script
 db.driver=com.mysql.cj.jdbc.Driver
 db.url=jdbc:mysql://${R_DB_HOST}:${R_DB_PORT}/BrarnerScience
