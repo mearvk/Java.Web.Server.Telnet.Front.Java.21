@@ -107,6 +107,43 @@ check "$BASE_HTTPS/images/mearvk.ltd.logo.left.png" "logo-left"
 check "$BASE_HTTPS/images/mearvk.ltd.logo.right.png" "logo-right"
 
 echo ""
+echo "[*] Checking db.properties (local copy)..."
+DB_PROPS="$( cd "$(dirname "$0")/.." && pwd )/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+if [ -f "$DB_PROPS" ]; then
+    echo "  [OK]   db.properties exists locally"
+    PASS=$((PASS + 1))
+else
+    echo "  [WARN] db.properties not found locally (may already be on remote)"
+fi
+
+echo ""
+echo "[*] Testing remote DB connectivity via status.jsp..."
+STATUS_BODY=$(curl -s --max-time 15 "$BASE_HTTPS/status.jsp" 2>/dev/null)
+if echo "$STATUS_BODY" | grep -qi "Online"; then
+    echo "  [OK]   status.jsp reports DB Online"
+    PASS=$((PASS + 1))
+elif echo "$STATUS_BODY" | grep -qi "Error\|Offline"; then
+    echo "  [FAIL] status.jsp reports DB Offline/Error"
+    FAIL=$((FAIL + 1))
+else
+    echo "  [WARN] Could not determine DB status from status.jsp"
+fi
+
+echo ""
+echo "[*] Testing JSP DB rendering (species.jsp should not contain 'undefined')..."
+SPECIES_BODY=$(curl -s --max-time 15 "$BASE_HTTPS/species.jsp?kingdom=Animalia" 2>/dev/null)
+if echo "$SPECIES_BODY" | grep -qi "undefined"; then
+    echo "  [FAIL] species.jsp contains 'undefined' — DB query may have failed"
+    FAIL=$((FAIL + 1))
+elif echo "$SPECIES_BODY" | grep -qi "Database error"; then
+    echo "  [FAIL] species.jsp shows database error"
+    FAIL=$((FAIL + 1))
+else
+    echo "  [OK]   species.jsp rendered clean (no 'undefined', no DB error)"
+    PASS=$((PASS + 1))
+fi
+
+echo ""
 echo "[*] Servlet endpoints..."
 check "$BASE_HTTPS/api/status" "StatusApiServlet (/api/status)"
 check "$BASE_HTTPS/api/species?level=class&kingdom=Animalia" "SpeciesApiServlet (class query)"
