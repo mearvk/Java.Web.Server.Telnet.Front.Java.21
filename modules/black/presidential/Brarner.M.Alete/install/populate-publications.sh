@@ -24,11 +24,16 @@ mkdir -p "$BMA_ROOT/data/publications"
 
 if [ -f "$DATA_CSV" ] && [ -s "$DATA_CSV" ]; then
     echo "[*] Loading publications from CSV..."
+    $MYSQL_CMD BrarnerScience -e "ALTER TABLE publications ADD COLUMN IF NOT EXISTS abstract_text TEXT AFTER year_published;" 2>/dev/null || true
     $MYSQL_CMD BrarnerScience -e "TRUNCATE TABLE publications;"
+    TMP_SQL="/tmp/bma-pubs.sql"
+    echo "USE BrarnerScience;" > "$TMP_SQL"
     tail -n +2 "$DATA_CSV" | while IFS=',' read -r source title authors doi year abstract; do
         source="${source//\'/\\\'}" title="${title//\'/\\\'}" authors="${authors//\'/\\\'}" doi="${doi//\'/\\\'}" abstract="${abstract//\'/\\\'}"
-        $MYSQL_CMD BrarnerScience -e "INSERT INTO publications(source_name,title,authors,doi,year_published,abstract_text) VALUES('$source','$title','$authors','$doi','$year','$abstract');"
+        echo "INSERT INTO publications(source_name,title,authors,doi,year_published,abstract_text) VALUES('$source','$title','$authors','$doi','$year','$abstract');" >> "$TMP_SQL"
     done
+    $MYSQL_CMD < "$TMP_SQL"
+    rm -f "$TMP_SQL"
     ROWS=$($MYSQL_CMD -N -e "SELECT COUNT(*) FROM BrarnerScience.publications;")
     echo "[OK] publications table: $ROWS rows"
 else

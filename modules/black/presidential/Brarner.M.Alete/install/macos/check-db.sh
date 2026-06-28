@@ -1,31 +1,33 @@
 #!/usr/bin/env bash
-# Brarner.M.Alete™ — Database Population Check
-# Usage: bash install/check-db.sh
+# Brarner.M.Alete™ — Database Population Check (macOS)
+# Usage: bash install/macos/check-db.sh
 set -e
 
-DB_USER="root"
-DB_PASS='$$Ironman1'
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+BMA_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
+DB_PROPS="$BMA_ROOT/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+
+DB_USER=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-)
+DB_PASS=$(grep '^db.password=' "$DB_PROPS" | cut -d= -f2-)
 DB_NAME="BrarnerScience"
 DB_HOST="localhost"
 
 MYSQL="mysql -u$DB_USER -p$DB_PASS -h$DB_HOST $DB_NAME -N -B"
 
 echo "═══════════════════════════════════════════════════════════════"
-echo " Brarner.M.Alete™ — Database Population Check"
+echo " Brarner.M.Alete™ — Database Population Check (macOS)"
 echo " Database: $DB_NAME @ $DB_HOST"
 echo " Time:     $(date '+%Y-%m-%d %H:%M:%S %Z')"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
 
-# Check database exists
 if ! mysql -u$DB_USER -p$DB_PASS -h$DB_HOST -e "USE $DB_NAME" 2>/dev/null; then
     echo "[FAIL] Database '$DB_NAME' does not exist!"
     exit 1
 fi
 
-# Get all tables
 TABLES=$($MYSQL -e "SHOW TABLES;" 2>/dev/null)
-TABLE_COUNT=$(echo "$TABLES" | wc -l)
+TABLE_COUNT=$(echo "$TABLES" | wc -l | tr -d ' ')
 
 echo "Tables found: $TABLE_COUNT"
 echo ""
