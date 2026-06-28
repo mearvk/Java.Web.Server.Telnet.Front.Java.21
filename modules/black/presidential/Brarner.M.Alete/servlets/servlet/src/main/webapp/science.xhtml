@@ -6,6 +6,7 @@
     <title>Science — Brarner.M.Alete™</title>
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/expandable.css"/>
+    <link rel="stylesheet" href="css/connector.css"/>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
@@ -32,6 +33,37 @@
         <p>Scientific publication indexer with DOI resolution, citation graph construction, and cross-reference to species database.</p>
     </div>
 </section>
+
+<!-- CD1 Connector Button + Floating Dialog -->
+<div class="cd1-button-wrap">
+    <button id="cd1-btn" class="btn" type="button" aria-pressed="false">
+        <svg class="btn__icon" viewBox="0 0 24 24" width="24px" height="24px" aria-hidden="true">
+            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <polyline points="12,1 12,10" />
+                <circle fill="none" cx="12" cy="13" r="9" stroke-dasharray="49.48 7.07" stroke-dashoffset="10.6" />
+            </g>
+        </svg>
+        <span class="btn__sr">Connector</span>
+    </button>
+</div>
+<div id="cd1-overlay" class="cd1-overlay" style="display:none;"></div>
+<div id="cd1-dialog" class="cd1-dialog" style="display:none;">
+    <div class="cd1-dialog-header">BMA Connector — Science Division</div>
+    <div class="cd1-controls">
+        <select id="cd1-action">
+            <option value="connect">Connect</option>
+            <option value="disconnect">Disconnect</option>
+            <option value="poll">Poll Area Data</option>
+            <option value="hardreset">Hard Reset Connection</option>
+        </select>
+        <button class="cd1-send" onclick="cd1Send()">Send</button>
+        <button class="cd1-ok" onclick="cd1Ok()">OK</button>
+    </div>
+    <textarea id="cd1-textarea" class="cd1-textarea" placeholder="Connection idle..." spellcheck="false"></textarea>
+    <div class="cd1-commands">
+        <strong>Commands:</strong> SEARCH|DOI|&lt;doi&gt; · CITE|&lt;paper_id&gt; · GRAPH|&lt;doi&gt; · STATUS · FETCH|SOURCE|&lt;name&gt;
+    </div>
+</div>
 
 <section class="section">
     <div class="section-inner">
@@ -86,5 +118,6 @@
 
 <script src="js/session.js"></script>
 <script src="js/expandable.js"></script>
+<script src="js/connector.js"></script>
 </body>
 </html>
