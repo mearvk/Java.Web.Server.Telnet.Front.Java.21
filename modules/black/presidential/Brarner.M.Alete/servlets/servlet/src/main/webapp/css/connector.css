@@ -3,9 +3,11 @@
 .cd1-button-wrap {
     display: flex;
     justify-content: center;
-    padding: 1.5rem 0;
+    align-items: center;
+    padding: 2rem 0;
     position: relative;
     z-index: 200;
+    width: 100%;
 }
 .cd1-button-wrap .btn {
     --hue: 223;
