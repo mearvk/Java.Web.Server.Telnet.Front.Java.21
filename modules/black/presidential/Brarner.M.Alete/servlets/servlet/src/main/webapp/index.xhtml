@@ -24,7 +24,11 @@
             <li><a href="science.xhtml">Science</a></li>
             <li><a href="status.xhtml">Status</a></li>
         </ul>
-        <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+        <div class="nav-actions">
+            <a href="register.xhtml" class="nav-cta">Register</a>
+            <a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a>
+            <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+        </div>
     </div>
 </nav>
 
@@ -242,6 +246,7 @@
 </footer>
 
 <!-- TAB JS -->
+<script src="js/session.js"></script>
 <script>
 document.querySelectorAll('.tab').forEach(function(btn) {
     btn.addEventListener('click', function() {

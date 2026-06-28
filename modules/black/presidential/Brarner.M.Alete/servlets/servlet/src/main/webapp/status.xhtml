@@ -18,7 +18,11 @@
         <li><a href="science.xhtml">Science</a></li>
         <li><a href="status.xhtml" class="active">Status</a></li>
     </ul>
-    <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+    <div class="nav-actions">
+        <a href="register.xhtml" class="nav-cta">Register</a>
+        <a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a>
+        <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+    </div>
 </div></nav>
 
 <section class="hero" style="padding:4rem 2rem;">
@@ -84,6 +88,7 @@
     <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
 </div></footer>
 
+<script src="js/session.js"></script>
 <script src="js/expandable.js"></script>
 </body>
 </html>
