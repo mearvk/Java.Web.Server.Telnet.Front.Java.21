@@ -95,31 +95,48 @@ modules/AE6E66/
 
 ### Setup Scripts
 
-| Script | Purpose |
-|--------|---------|
-| `install-postfix-dovecot.sh` | Base install with TLS 1.2+ and relay restrictions |
-| `configure-local-server.sh` | Static IP binding, HELO validation, header cleanup |
-| `setup-dkim-lauradei.sh` | Full DKIM/SPF/DMARC with Unix socket signing |
-| `setup-mysql.sh` | Database + tables + service user |
+| Script | OS | Purpose |
+|--------|----|---------|
+| `install-postfix-dovecot.sh` | Linux | Postfix install (TLS 1.2+, relay-restricted) |
+| `install-postfix-macos.sh` | macOS | Built-in Postfix config + Homebrew opendkim |
+| `install-mail-windows.ps1` | Windows | hMailServer + stunnel TLS + send-mail helper |
+| `configure-local-server.sh` | Linux | Static IP, HELO validation, header cleanup |
+| `configure-local-server-macos.sh` | macOS | Static IP via ipconfig, launchd Postfix |
+| `configure-local-server-windows.ps1` | Windows | Firewall rules, server config generation |
+| `setup-dkim-lauradei.sh` | Linux | Full DKIM/SPF/DMARC (Unix socket signing) |
+| `setup-mysql.sh` | Linux | Database + tables + minimal-privilege user |
+| `setup-mysql-macos.sh` | macOS | Homebrew MySQL, same schema |
+| `setup-mysql-windows.ps1` | Windows | MySQL 8.x, ACL-restricted credentials |
 
 ## Usage
 
+### Linux
 ```bash
-# 1. Install mail server (first time)
 sudo bash modules/AE6E66/scripts/setup-dkim-lauradei.sh
-
-# 2. Setup MySQL logging (optional)
 sudo bash modules/AE6E66/scripts/setup-mysql.sh
-
-# 3. Run module
 javac modules/AE6E66/source/*.java
 java -cp modules/AE6E66/source source.AE6E66Main
+```
 
-# 4. Force re-crawl
+### macOS
+```bash
+bash modules/AE6E66/scripts/install-postfix-macos.sh
+bash modules/AE6E66/scripts/setup-mysql-macos.sh
+javac modules/AE6E66/source/*.java
+java -cp modules/AE6E66/source source.AE6E66Main
+```
+
+### Windows (PowerShell as Administrator)
+```powershell
+.\modules\AE6E66\scripts\install-mail-windows.ps1
+.\modules\AE6E66\scripts\setup-mysql-windows.ps1
+javac modules\AE6E66\source\*.java
+java -cp modules\AE6E66\source source.AE6E66Main
+```
+
+### Force Re-crawl (all platforms)
+```bash
 rm modules/AE6E66/configuration/.last-crawl
-
-# 5. Cron install (includes AE6E66 monthly schedule)
-sudo bash cron/install-cron.sh
 ```
 
 ## Cron
