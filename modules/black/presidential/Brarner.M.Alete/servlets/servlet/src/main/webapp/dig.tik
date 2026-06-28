@@ -192,3 +192,88 @@ Run after clone/checkout to make all scripts executable:
 
 One-liner:
   find . -name "*.sh" -exec chmod +x {} \;
+
+
+Database & Install Work Log (2026-06-28)
+=========================================
+
+Session summary of all changes made to get the BMA database and JSP pages
+fully operational on both local dev and remote server (Xenu-X900).
+
+1. CREATED DATABASE & TABLES
+   - Created `BrarnerScience` database on MySQL (root@localhost / $$Ironman1)
+   - Tables: animalia, species, postal, art_works, publications, ssa_offices
+   - Final schema fixes:
+     * postal: added latitude DECIMAL(9,6), longitude DECIMAL(9,6)
+     * art_works: added collection VARCHAR(100)
+     * publications: added abstract_text TEXT
+
+2. GENERATED CSV DATA FILES (data/)
+   - data/postal/us-zip-codes.csv — 52 NC entries with lat/lon
+   - data/species/animalia.csv — 3,008 rows (extracted from source/species/**/config.xml)
+   - data/ssa/ssa-offices.csv — 1,182 rows (extracted from source/ssa/**/config.xml)
+   - data/art/art-works.csv — 32 rows (11 NC museums)
+   - data/publications/publications.csv — 20 rows (8 journals)
+   - Fixed apostrophe in COEUR D'ALENE that broke SQL inserts
+
+3. FIXED POPULATE SCRIPTS (install/)
+   - populate-postal.sh: DROP+CREATE table with correct schema before insert
+   - populate-art.sh: DROP+CREATE with collection column
+   - populate-publications.sh: DROP+CREATE with abstract_text column
+   - populate-ssa.sh: batched all INSERTs into single SQL file (was spawning
+     mysql per row = 1182 "password on command line" warnings)
+   - All scripts now: DROP IF EXISTS → CREATE with full schema → batch INSERT
+   - Eliminated per-row mysql calls across all populate scripts
+
+4. FIXED populate-science-db.sh TABLE DEFINITIONS
+   - postal: added latitude, longitude columns
+   - art_works: added collection column
+   - publications: added abstract_text column
+
+5. UPDATED db.properties
+   - db.user=root
+   - db.password=$$Ironman1
+   - db.url=jdbc:mysql://localhost:3306/BrarnerScience
+
+6. JSP PAGES CONFIRMED WORKING
+   - postal.jsp — queries postal table, browse by ?state=
+   - art.jsp — queries art_works table, browse by ?museum=
+   - science.jsp — queries publications table, browse by ?source=
+   - All three render server-side via JDBC, no JS, no "undefined"
+
+7. EMBEDDED TOMCAT LAUNCHER
+   - Created: servlets/servlet/src/main/java/com/mearvk/servlet/BmaEmbeddedTomcat.java
+   - Compiles against jars/* (tomcat-embed-core, jasper, el, jakarta APIs)
+   - Serves at http://localhost:8080/brarner.m.alete/
+
+8. DOWNLOADED JARS (jars/)
+   - tomcat-embed-core-11.0.2.jar (3.4M)
+   - tomcat-embed-jasper-11.0.2.jar (632K) — provides org.apache.jasper.runtime
+   - tomcat-embed-el-11.0.2.jar (262K)
+   - jakarta.servlet-api-6.1.0.jar (390K)
+   - jakarta.servlet.jsp-api-4.0.0.jar (65K)
+   - jakarta.el-api-6.0.1.jar (92K)
+   - jakarta.annotation-api-3.0.0.jar (26K)
+   - ecj-3.37.0.jar (3.2M) — Eclipse compiler for JSP runtime compilation
+   - mysql-connector-j-8.3.0.jar (2.4M)
+   - All under 50MB — nothing gitignored
+
+9. CREATED check-db.sh (install/)
+   - Queries all tables, prints row counts, shows populated/empty status
+
+10. CREATED PLATFORM SCRIPTS
+    install/windows/ (.bat):
+      check-db, populate-all, populate-science-db, populate-postal,
+      populate-art, populate-publications, populate-ssa, download-jars,
+      deploy-local, test-local
+
+    install/macos/ (.sh):
+      check-db, populate-all, populate-science-db, populate-postal,
+      populate-art, populate-publications, populate-ssa, download-jars,
+      deploy-local, test-local
+
+    All scripts chmod +x. One-liner: find . -name "*.sh" -exec chmod +x {} \;
+
+KEY LESSON: ALTER TABLE ADD COLUMN IF NOT EXISTS does not work reliably across
+MySQL versions. Use DROP TABLE IF EXISTS + CREATE TABLE with the full correct
+schema instead. This guarantees the populate scripts work on any fresh install.
