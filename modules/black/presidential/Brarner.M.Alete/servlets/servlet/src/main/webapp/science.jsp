@@ -65,7 +65,7 @@
         conn = DriverManager.getConnection(
             dbProps.getProperty("db.url", "jdbc:mysql://localhost:3306/BrarnerScience"),
             dbProps.getProperty("db.user", "root"),
-            dbProps.getProperty("db.password", ""));
+            dbProps.getProperty("db.password", "$$Ironman1"));
 
         String source = request.getParameter("source");
         if (source != null && !source.isEmpty()) {
