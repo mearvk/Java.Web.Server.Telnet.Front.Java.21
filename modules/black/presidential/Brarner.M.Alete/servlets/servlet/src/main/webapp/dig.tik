@@ -81,20 +81,28 @@ A1 Type:
 
 CD1 Type (Connector Dialog):
 ==============================
-  - Power button from resources/button.{html,css,js} used as toggle
+  *** CAREFUL: css/connector.css does NOT apply on this deployment. ***
+  *** All CD1 styles MUST be inline on the HTML elements directly. ***
+  *** The external CSS file is not being read/served by the web server. ***
+  
+  - Black button PNG (transparent background) from resources/black.button.png
   - Button centered between hero header and page content
-  - Floating div centered on page, above content (position:fixed, z-index:300)
+  - All styles inline — wrapper: display:flex;justify-content:center
+  - Button: all:unset;display:block;margin:0 auto;background:transparent
+  - Image: 80x80px fixed, border-radius:50%, background:transparent
+  - JS handles press transition: transform scale(0.9) + blue glow drop-shadow
+  - Transition uses cubic-bezier(0.42,-1.84,0.42,1.84) spring easing from resources/button.css
+  - Floating dialog: position:fixed;top:50%;left:50%;transform:translate(-50%,-50%)
   - Click button → opens connector dialog. Click again → closes it
   - Click anywhere off the dialog (overlay) → closes it
   - Textarea default placeholder: 'Connection idle...'
   - Double-click textarea → restores any previously saved content
   - Idle 20 minutes: close dialog, clear textarea, keep connection info
-  - Idle 60 minutes (total): full circuit reset — clear all memory, savedContent,
-    connectionInfo. Close dialog. Textarea resets to 'Connection idle...'
+  - Idle 60 minutes (total): full circuit reset — clear all memory
   - On close: save textarea content internally, clear visible text
   - Controls: dropdown (Connect/Disconnect/Poll Area Data/Hard Reset), Send, OK
-  - Send/OK buttons same blue (#3b82f6) as nav buttons
-  - Files: css/connector.css, js/connector.js
+  - Send/OK buttons same blue (#3b82f6)
+  - Files: js/connector.js (CSS file exists but is NOT used — inline only)
 
 
 Reference: lauradei.us/brarner.m.alete/
