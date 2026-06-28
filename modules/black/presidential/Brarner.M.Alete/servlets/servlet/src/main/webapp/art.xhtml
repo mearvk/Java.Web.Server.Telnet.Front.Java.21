@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Art — Brarner.M.Alete™</title>
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/expandable.css"/>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
@@ -31,17 +32,50 @@
 <section class="section">
     <div class="section-inner">
         <h2>Indexed Museums</h2>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>Museum</th><th>City</th><th>Works Indexed</th><th>Nature-Linked</th></tr></thead>
-                <tbody>
-                    <tr><td>Nasher Museum of Art</td><td>Durham, NC</td><td>5,200</td><td>340</td></tr>
-                    <tr><td>NC Museum of Art</td><td>Raleigh, NC</td><td>8,100</td><td>610</td></tr>
-                    <tr><td>Ackland Art Museum</td><td>Chapel Hill, NC</td><td>3,400</td><td>220</td></tr>
-                    <tr><td>Weatherspoon Art Museum</td><td>Greensboro, NC</td><td>6,000</td><td>380</td></tr>
-                    <tr><td>The Mint Museum</td><td>Charlotte, NC</td><td>4,800</td><td>290</td></tr>
-                </tbody>
-            </table>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Nasher Museum of Art <span class="expandable-meta">Durham, NC · 5,200 works · 340 nature-linked</span></div>
+            <div class="expandable-body"><p>Duke University's primary art museum. Collections span antiquity through contemporary. Nature-linked works include botanical illustrations and wildlife sculptures.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> NC Museum of Art <span class="expandable-meta">Raleigh, NC · 8,100 works · 610 nature-linked</span></div>
+            <div class="expandable-body"><p>State art museum with collections from ancient Egypt through contemporary. Significant landscape and wildlife art holdings.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Ackland Art Museum <span class="expandable-meta">Chapel Hill, NC · 3,400 works · 220 nature-linked</span></div>
+            <div class="expandable-body"><p>UNC Chapel Hill's art museum. Strong Asian art collection with natural world motifs.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Weatherspoon Art Museum <span class="expandable-meta">Greensboro, NC · 6,000 works · 380 nature-linked</span></div>
+            <div class="expandable-body"><p>UNCG's modern and contemporary art collection. Photography and print holdings featuring environmental subjects.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> The Mint Museum <span class="expandable-meta">Charlotte, NC · 4,800 works · 290 nature-linked</span></div>
+            <div class="expandable-body"><p>Two-campus museum system. Craft and design collections include ceramic and glass works with organic forms.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- BMA Server Connection -->
+<section class="section">
+    <div class="section-inner">
+        <div class="expandable bma-connection" onclick="toggleBmaPanel(event, this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> BMA Server Connection <span class="expandable-meta">Art Division · Port 49152</span></div>
+            <div class="expandable-body bma-panel" onclick="event.stopPropagation()">
+                <div class="bma-controls">
+                    <select class="bma-action-select">
+                        <option value="connect">Connect</option>
+                        <option value="disconnect">Disconnect</option>
+                        <option value="poll">Poll Area Data</option>
+                        <option value="hardreset">Hard Reset Connection</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm bma-send-btn" onclick="bmaSend(this)">Send</button>
+                    <button class="btn btn-primary btn-sm bma-ok-btn" onclick="bmaOk(this)">OK</button>
+                </div>
+                <textarea class="bma-textarea" placeholder="Server response will appear here..." spellcheck="false"></textarea>
+                <div class="bma-commands">
+                    <strong>Art Commands:</strong> SEARCH|MUSEUM|&lt;name&gt; · FETCH|WORK|&lt;id&gt; · LIST|NATURE · STATUS · INDEX|&lt;museum_id&gt;
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -49,5 +83,7 @@
 <footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
     <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
 </div></footer>
+
+<script src="js/expandable.js"></script>
 </body>
 </html>
