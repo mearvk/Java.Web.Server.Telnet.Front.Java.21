@@ -60,9 +60,9 @@
     Connection conn = null;
     String dbStatus = "Offline";
     String dbVersion = "";
+    Properties dbProps = new Properties();
+    boolean propsLoaded = false;
     try {
-        Properties dbProps = new Properties();
-        boolean propsLoaded = false;
         InputStream dbIn = application.getResourceAsStream("/WEB-INF/db.properties");
         if (dbIn != null) { dbProps.load(dbIn); dbIn.close(); propsLoaded = true; }
         if (!propsLoaded) {
