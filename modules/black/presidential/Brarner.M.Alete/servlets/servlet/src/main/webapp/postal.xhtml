@@ -31,49 +31,50 @@
 
 <section class="section">
     <div class="section-inner">
-        <h2>Coverage</h2>
-        <div class="expandable" onclick="toggleExpand(this)">
-            <div class="expandable-header"><span class="expand-icon">&#9654;</span> North Carolina <span class="expandable-meta">940 ZIP codes · 100 counties · Active</span></div>
-            <div class="expandable-body">
-                <p>Full coverage of all 100 NC counties. Includes address standardization, ZIP+4 resolution, and carrier route lookup.</p>
-                <table><thead><tr><th>City</th><th>ZIP Codes</th><th>Signal Server</th></tr></thead><tbody>
-                    <tr><td>Durham</td><td>27701–27713</td><td>Active</td></tr>
-                    <tr><td>Raleigh</td><td>27601–27699</td><td>Active</td></tr>
-                    <tr><td>Charlotte</td><td>28201–28299</td><td>Active</td></tr>
-                    <tr><td>Greensboro</td><td>27401–27499</td><td>Active</td></tr>
-                    <tr><td>Fayetteville</td><td>28301–28314</td><td>Active</td></tr>
-                </tbody></table>
-            </div>
-        </div>
-        <div class="expandable" onclick="toggleExpand(this)">
-            <div class="expandable-header"><span class="expand-icon">&#9654;</span> California <span class="expandable-meta">2,657 ZIP codes · 58 counties · Active</span></div>
-            <div class="expandable-body">
-                <p>All California ZIP codes indexed with address standardization. Includes Apple Valley, CA origin region.</p>
-            </div>
-        </div>
-        <div class="expandable" onclick="toggleExpand(this)">
-            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Texas <span class="expandable-meta">2,587 ZIP codes · 254 counties · Active</span></div>
-            <div class="expandable-body">
-                <p>Complete Texas coverage. 254 counties — largest county count of any US state.</p>
-            </div>
-        </div>
-        <div class="expandable" onclick="toggleExpand(this)">
-            <div class="expandable-header"><span class="expand-icon">&#9654;</span> New York <span class="expandable-meta">2,200 ZIP codes · 62 counties · Active</span></div>
-            <div class="expandable-body">
-                <p>Full New York state and NYC borough coverage with carrier route data.</p>
-            </div>
-        </div>
-        <div class="expandable" onclick="toggleExpand(this)">
-            <div class="expandable-header"><span class="expand-icon">&#9654;</span> All Other States (46) <span class="expandable-meta">33,300+ ZIP codes · 2,600+ counties · Active</span></div>
-            <div class="expandable-body">
-                <p>Remaining 46 states fully indexed. Address standardization and ZIP+4 available for all regions.</p>
-            </div>
-        </div>
-        <div class="expandable" onclick="toggleExpand(this)">
-            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Territories <span class="expandable-meta">900+ ZIP codes · Active</span></div>
-            <div class="expandable-body">
-                <p>Puerto Rico, Guam, US Virgin Islands, American Samoa, Northern Mariana Islands.</p>
-            </div>
+        <h3>Coverage by Region</h3>
+        <p>Active postal service coverage across all US states and territories with ZIP code validation and carrier route lookup.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Region</th><th>ZIP Codes</th><th>Counties</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>North Carolina</td><td>940</td><td>100</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Full coverage of all 100 NC counties. Includes address standardization, ZIP+4 resolution, and carrier route lookup.</p>
+                        <table><thead><tr><th>City</th><th>ZIP Codes</th><th>Signal Server</th></tr></thead><tbody>
+                            <tr><td>Durham</td><td>27701–27713</td><td>Active</td></tr>
+                            <tr><td>Raleigh</td><td>27601–27699</td><td>Active</td></tr>
+                            <tr><td>Charlotte</td><td>28201–28299</td><td>Active</td></tr>
+                            <tr><td>Greensboro</td><td>27401–27499</td><td>Active</td></tr>
+                            <tr><td>Fayetteville</td><td>28301–28314</td><td>Active</td></tr>
+                        </tbody></table>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>California</td><td>2,657</td><td>58</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>All California ZIP codes indexed with address standardization. Includes Apple Valley, CA origin region.</p>
+                        <table><thead><tr><th>City</th><th>ZIP Codes</th><th>Signal Server</th></tr></thead><tbody>
+                            <tr><td>Los Angeles</td><td>90001–90899</td><td>Active</td></tr>
+                            <tr><td>San Francisco</td><td>94101–94188</td><td>Active</td></tr>
+                            <tr><td>Apple Valley</td><td>92307–92308</td><td>Active</td></tr>
+                        </tbody></table>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Texas</td><td>2,587</td><td>254</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Complete Texas coverage. 254 counties — largest county count of any US state.</p>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>New York</td><td>2,200</td><td>62</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Full New York state and NYC borough coverage with carrier route data.</p>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>All Other States (46)</td><td>33,300+</td><td>2,600+</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Remaining 46 states fully indexed. Address standardization and ZIP+4 available for all regions.</p>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Territories</td><td>900+</td><td>—</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Puerto Rico, Guam, US Virgin Islands, American Samoa, Northern Mariana Islands.</p>
+                    </td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </section>
