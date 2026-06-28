@@ -50,6 +50,36 @@ if [ "$JAVA_VER" -lt 21 ] 2>/dev/null; then
 fi
 echo "[*] Java $JAVA_VER"
 
+# ─── MySQL credentials (writes .my.cnf) ───
+MY_CNF="$BMA_ROOT/configuration/.my.cnf"
+if [ ! -f "$MY_CNF" ]; then
+    echo ""
+    echo "[*] MySQL credentials needed for Brarner.M.Alete database:"
+    read -rp "    MySQL username [root]: " DB_USER
+    DB_USER="${DB_USER:-root}"
+    read -rsp "    MySQL password: " DB_PASS
+    echo ""
+    read -rp "    MySQL host [localhost]: " DB_HOST
+    DB_HOST="${DB_HOST:-localhost}"
+    read -rp "    MySQL port [3306]: " DB_PORT
+    DB_PORT="${DB_PORT:-3306}"
+    mkdir -p "$BMA_ROOT/configuration"
+    cat > "$MY_CNF" <<EOF
+[client]
+user=${DB_USER}
+password=${DB_PASS}
+host=${DB_HOST}
+port=${DB_PORT}
+
+[mysql]
+database=nwe_bma
+EOF
+    chmod 600 "$MY_CNF"
+    echo "[✓] Wrote $MY_CNF"
+else
+    echo "[*] MySQL credentials: $MY_CNF (exists)"
+fi
+
 # ─── Download JARs if needed ───
 if [ ! -d "$BMA_ROOT/lib" ] || [ -z "$(ls "$BMA_ROOT/lib/"*.jar 2>/dev/null)" ]; then
     echo "[*] Downloading dependencies..."
