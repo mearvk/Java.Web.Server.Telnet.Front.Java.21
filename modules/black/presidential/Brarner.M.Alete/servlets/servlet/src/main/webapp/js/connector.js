@@ -20,6 +20,8 @@
         dialog.style.display = 'block';
         overlay.style.display = 'block';
         btn.setAttribute('aria-pressed', 'true');
+        btn.style.transform = 'scale(0.9)';
+        btn.style.filter = 'drop-shadow(0 0 8px rgba(59,130,246,0.6))';
         resetIdleTimer();
     }
 
@@ -27,6 +29,8 @@
         dialog.style.display = 'none';
         overlay.style.display = 'none';
         btn.setAttribute('aria-pressed', 'false');
+        btn.style.transform = '';
+        btn.style.filter = '';
         // Save content before clearing
         if (textarea.value && textarea.value !== 'Connection idle...') {
             savedContent = textarea.value;
