@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Status — Brarner.M.Alete™</title>
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/expandable.css"/>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
@@ -31,18 +32,54 @@
 <section class="section">
     <div class="section-inner">
         <h2>Service Status</h2>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>Service</th><th>Port</th><th>Status</th><th>Uptime</th><th>Last Check</th></tr></thead>
-                <tbody>
-                    <tr><td>Species Servlet</td><td><code>49152</code></td><td>●&#160; Online</td><td>99.9%</td><td>2 min ago</td></tr>
-                    <tr><td>Postal API</td><td><code>49152</code></td><td>●&#160; Online</td><td>99.8%</td><td>2 min ago</td></tr>
-                    <tr><td>SSA Integration</td><td><code>49152</code></td><td>●&#160; Online</td><td>98.5%</td><td>2 min ago</td></tr>
-                    <tr><td>Art Museum Indexer</td><td><code>49152</code></td><td>●&#160; Online</td><td>99.7%</td><td>2 min ago</td></tr>
-                    <tr><td>MySQL (nwe_bma)</td><td><code>3306</code></td><td>●&#160; Online</td><td>99.99%</td><td>30 sec ago</td></tr>
-                    <tr><td>NIO Masquerade</td><td><code>—</code></td><td>●&#160; Online</td><td>100%</td><td>30 sec ago</td></tr>
-                </tbody>
-            </table>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Species Servlet <span class="expandable-meta">Port 49152 · ● Online · 99.9% uptime</span></div>
+            <div class="expandable-body"><p>Species classification servlet. Last checked 2 min ago. Response time: 12ms avg.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Postal API <span class="expandable-meta">Port 49152 · ● Online · 99.8% uptime</span></div>
+            <div class="expandable-body"><p>USPS integration and ZIP code validation. Last checked 2 min ago. Response time: 18ms avg.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> SSA Integration <span class="expandable-meta">Port 49152 · ● Online · 98.5% uptime</span></div>
+            <div class="expandable-body"><p>Social Security Administration data connector. Last checked 2 min ago. Response time: 45ms avg.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Art Museum Indexer <span class="expandable-meta">Port 49152 · ● Online · 99.7% uptime</span></div>
+            <div class="expandable-body"><p>Museum collection indexer. Last checked 2 min ago. Response time: 22ms avg.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> MySQL (nwe_bma) <span class="expandable-meta">Port 3306 · ● Online · 99.99% uptime</span></div>
+            <div class="expandable-body"><p>Primary database. Last checked 30 sec ago. Active connections: 4/20. Storage: 2.1 GB.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> NIO Masquerade <span class="expandable-meta">● Online · 100% uptime</span></div>
+            <div class="expandable-body"><p>NIO masquerade layer bridging non-blocking connections. Last checked 30 sec ago. Active channels: 12.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- BMA Server Connection -->
+<section class="section">
+    <div class="section-inner">
+        <div class="expandable bma-connection" onclick="toggleBmaPanel(event, this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> BMA Server Connection <span class="expandable-meta">Status Division · Port 49152</span></div>
+            <div class="expandable-body bma-panel" onclick="event.stopPropagation()">
+                <div class="bma-controls">
+                    <select class="bma-action-select">
+                        <option value="connect">Connect</option>
+                        <option value="disconnect">Disconnect</option>
+                        <option value="poll">Poll Area Data</option>
+                        <option value="hardreset">Hard Reset Connection</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm bma-send-btn" onclick="bmaSend(this)">Send</button>
+                    <button class="btn btn-primary btn-sm bma-ok-btn" onclick="bmaOk(this)">OK</button>
+                </div>
+                <textarea class="bma-textarea" placeholder="Server response will appear here..." spellcheck="false"></textarea>
+                <div class="bma-commands">
+                    <strong>Status Commands:</strong> STATUS · HEALTH|ALL · UPTIME|&lt;service&gt; · RESTART|&lt;service&gt; · CONNECTIONS
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -50,5 +87,7 @@
 <footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
     <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
 </div></footer>
+
+<script src="js/expandable.js"></script>
 </body>
 </html>

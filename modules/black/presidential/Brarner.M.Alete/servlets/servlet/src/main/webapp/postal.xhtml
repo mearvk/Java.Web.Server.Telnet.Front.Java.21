@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Postal — Brarner.M.Alete™</title>
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/expandable.css"/>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
@@ -31,18 +32,73 @@
 <section class="section">
     <div class="section-inner">
         <h2>Coverage</h2>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>Region</th><th>ZIP Codes</th><th>Counties</th><th>Status</th></tr></thead>
-                <tbody>
-                    <tr><td>North Carolina</td><td>940</td><td>100</td><td>●&#160; Active</td></tr>
-                    <tr><td>California</td><td>2,657</td><td>58</td><td>●&#160; Active</td></tr>
-                    <tr><td>Texas</td><td>2,587</td><td>254</td><td>●&#160; Active</td></tr>
-                    <tr><td>New York</td><td>2,200</td><td>62</td><td>●&#160; Active</td></tr>
-                    <tr><td>All Other States (46)</td><td>33,300+</td><td>2,600+</td><td>●&#160; Active</td></tr>
-                    <tr><td>Territories</td><td>900+</td><td>—</td><td>●&#160; Active</td></tr>
-                </tbody>
-            </table>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> North Carolina <span class="expandable-meta">940 ZIP codes · 100 counties · Active</span></div>
+            <div class="expandable-body">
+                <p>Full coverage of all 100 NC counties. Includes address standardization, ZIP+4 resolution, and carrier route lookup.</p>
+                <table><thead><tr><th>City</th><th>ZIP Codes</th><th>Signal Server</th></tr></thead><tbody>
+                    <tr><td>Durham</td><td>27701–27713</td><td>Active</td></tr>
+                    <tr><td>Raleigh</td><td>27601–27699</td><td>Active</td></tr>
+                    <tr><td>Charlotte</td><td>28201–28299</td><td>Active</td></tr>
+                    <tr><td>Greensboro</td><td>27401–27499</td><td>Active</td></tr>
+                    <tr><td>Fayetteville</td><td>28301–28314</td><td>Active</td></tr>
+                </tbody></table>
+            </div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> California <span class="expandable-meta">2,657 ZIP codes · 58 counties · Active</span></div>
+            <div class="expandable-body">
+                <p>All California ZIP codes indexed with address standardization. Includes Apple Valley, CA origin region.</p>
+            </div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Texas <span class="expandable-meta">2,587 ZIP codes · 254 counties · Active</span></div>
+            <div class="expandable-body">
+                <p>Complete Texas coverage. 254 counties — largest county count of any US state.</p>
+            </div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> New York <span class="expandable-meta">2,200 ZIP codes · 62 counties · Active</span></div>
+            <div class="expandable-body">
+                <p>Full New York state and NYC borough coverage with carrier route data.</p>
+            </div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> All Other States (46) <span class="expandable-meta">33,300+ ZIP codes · 2,600+ counties · Active</span></div>
+            <div class="expandable-body">
+                <p>Remaining 46 states fully indexed. Address standardization and ZIP+4 available for all regions.</p>
+            </div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> Territories <span class="expandable-meta">900+ ZIP codes · Active</span></div>
+            <div class="expandable-body">
+                <p>Puerto Rico, Guam, US Virgin Islands, American Samoa, Northern Mariana Islands.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BMA Server Connection -->
+<section class="section">
+    <div class="section-inner">
+        <div class="expandable bma-connection" onclick="toggleBmaPanel(event, this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> BMA Server Connection <span class="expandable-meta">Postal Division · Port 49152</span></div>
+            <div class="expandable-body bma-panel" onclick="event.stopPropagation()">
+                <div class="bma-controls">
+                    <select class="bma-action-select">
+                        <option value="connect">Connect</option>
+                        <option value="disconnect">Disconnect</option>
+                        <option value="poll">Poll Area Data</option>
+                        <option value="hardreset">Hard Reset Connection</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm bma-send-btn" onclick="bmaSend(this)">Send</button>
+                    <button class="btn btn-primary btn-sm bma-ok-btn" onclick="bmaOk(this)">OK</button>
+                </div>
+                <textarea class="bma-textarea" placeholder="Server response will appear here..." spellcheck="false"></textarea>
+                <div class="bma-commands">
+                    <strong>Postal Commands:</strong> LOOKUP|ZIP|&lt;code&gt; · VALIDATE|&lt;address&gt; · ROUTE|&lt;zip&gt; · STATUS · LIST|STATE|&lt;abbr&gt;
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -50,5 +106,7 @@
 <footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
     <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
 </div></footer>
+
+<script src="js/expandable.js"></script>
 </body>
 </html>

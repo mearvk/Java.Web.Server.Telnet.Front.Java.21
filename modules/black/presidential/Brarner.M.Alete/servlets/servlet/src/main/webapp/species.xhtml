@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Species — Brarner.M.Alete™</title>
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/expandable.css"/>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
@@ -38,22 +39,125 @@
             <button class="tab" data-tab="protista">Protista</button>
         </div>
         <div class="tab-content active" id="tab-animalia">
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Class</th><th>Families</th><th>Species Count</th><th>Last Updated</th></tr></thead>
-                    <tbody>
-                        <tr><td>Mammalia</td><td>153</td><td>6,400</td><td>Jun 2026</td></tr>
-                        <tr><td>Aves</td><td>248</td><td>10,800</td><td>Jun 2026</td></tr>
-                        <tr><td>Reptilia</td><td>92</td><td>11,700</td><td>May 2026</td></tr>
-                        <tr><td>Amphibia</td><td>74</td><td>8,400</td><td>May 2026</td></tr>
-                        <tr><td>Insecta</td><td>660</td><td>1,000,000+</td><td>Apr 2026</td></tr>
-                    </tbody>
-                </table>
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Mammalia <span class="expandable-meta">153 families · 6,400 species · Jun 2026</span></div>
+                <div class="expandable-body">
+                    <p>Warm-blooded vertebrates characterized by mammary glands, hair/fur, and three middle ear bones. Major orders: Primates, Carnivora, Rodentia, Chiroptera, Artiodactyla, Cetacea.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Primates</td><td>16</td><td>500+</td></tr>
+                        <tr><td>Carnivora</td><td>16</td><td>286</td></tr>
+                        <tr><td>Rodentia</td><td>33</td><td>2,277</td></tr>
+                        <tr><td>Chiroptera</td><td>21</td><td>1,400+</td></tr>
+                        <tr><td>Artiodactyla</td><td>10</td><td>550</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Aves <span class="expandable-meta">248 families · 10,800 species · Jun 2026</span></div>
+                <div class="expandable-body">
+                    <p>Feathered, winged, bipedal endothermic vertebrates. Major orders: Passeriformes, Accipitriformes, Psittaciformes, Strigiformes.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Passeriformes</td><td>140</td><td>6,500+</td></tr>
+                        <tr><td>Accipitriformes</td><td>4</td><td>266</td></tr>
+                        <tr><td>Psittaciformes</td><td>4</td><td>398</td></tr>
+                        <tr><td>Strigiformes</td><td>2</td><td>254</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Reptilia <span class="expandable-meta">92 families · 11,700 species · May 2026</span></div>
+                <div class="expandable-body">
+                    <p>Cold-blooded, air-breathing vertebrates with scales or scutes. Major orders: Squamata, Testudines, Crocodylia.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Squamata</td><td>61</td><td>10,900+</td></tr>
+                        <tr><td>Testudines</td><td>14</td><td>360</td></tr>
+                        <tr><td>Crocodylia</td><td>3</td><td>27</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Amphibia <span class="expandable-meta">74 families · 8,400 species · May 2026</span></div>
+                <div class="expandable-body">
+                    <p>Ectothermic tetrapods with aquatic larval stage. Major orders: Anura, Urodela, Gymnophiona.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Anura (Frogs)</td><td>55</td><td>7,300+</td></tr>
+                        <tr><td>Urodela (Salamanders)</td><td>10</td><td>760</td></tr>
+                        <tr><td>Gymnophiona (Caecilians)</td><td>10</td><td>214</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Insecta <span class="expandable-meta">660 families · 1,000,000+ species · Apr 2026</span></div>
+                <div class="expandable-body">
+                    <p>Six-legged arthropods with compound eyes and exoskeleton. Major orders: Coleoptera, Lepidoptera, Hymenoptera, Diptera.</p>
+                    <table><thead><tr><th>Order</th><th>Families</th><th>Species</th></tr></thead><tbody>
+                        <tr><td>Coleoptera (Beetles)</td><td>166</td><td>400,000+</td></tr>
+                        <tr><td>Lepidoptera (Moths/Butterflies)</td><td>126</td><td>180,000+</td></tr>
+                        <tr><td>Hymenoptera (Ants/Bees/Wasps)</td><td>132</td><td>153,000+</td></tr>
+                        <tr><td>Diptera (Flies)</td><td>188</td><td>152,000+</td></tr>
+                    </tbody></table>
+                </div>
             </div>
         </div>
-        <div class="tab-content" id="tab-plantae"><p>Plantae classification data — 14 classes, 620 families, 9,300 records.</p></div>
-        <div class="tab-content" id="tab-fungi"><p>Fungi classification data — 8 classes, 380 families, 4,100 records.</p></div>
-        <div class="tab-content" id="tab-protista"><p>Protista classification data — 6 classes, 150 families, 1,800 records.</p></div>
+        <div class="tab-content" id="tab-plantae">
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Magnoliopsida <span class="expandable-meta">416 families · 300,000+ species</span></div>
+                <div class="expandable-body"><p>Flowering plants (dicots). Largest class of land plants covering trees, shrubs, herbs.</p></div>
+            </div>
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Liliopsida <span class="expandable-meta">90 families · 70,000+ species</span></div>
+                <div class="expandable-body"><p>Monocotyledons including grasses, orchids, palms, and lilies.</p></div>
+            </div>
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Pinopsida <span class="expandable-meta">7 families · 630 species</span></div>
+                <div class="expandable-body"><p>Conifers: pines, spruces, firs, cedars, cypresses.</p></div>
+            </div>
+        </div>
+        <div class="tab-content" id="tab-fungi">
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Agaricomycetes <span class="expandable-meta">120 families · 21,000+ species</span></div>
+                <div class="expandable-body"><p>Mushrooms, bracket fungi, puffballs. Primary decomposers in forest ecosystems.</p></div>
+            </div>
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Sordariomycetes <span class="expandable-meta">90 families · 10,000+ species</span></div>
+                <div class="expandable-body"><p>Flask fungi including plant pathogens and endophytes.</p></div>
+            </div>
+        </div>
+        <div class="tab-content" id="tab-protista">
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Ciliophora <span class="expandable-meta">50 families · 4,500 species</span></div>
+                <div class="expandable-body"><p>Ciliated protozoans including Paramecium, Stentor, Vorticella.</p></div>
+            </div>
+            <div class="expandable" onclick="toggleExpand(this)">
+                <div class="expandable-header"><span class="expand-icon">&#9654;</span> Apicomplexa <span class="expandable-meta">30 families · 6,000 species</span></div>
+                <div class="expandable-body"><p>Parasitic protists including Plasmodium (malaria) and Toxoplasma.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BMA Server Connection -->
+<section class="section">
+    <div class="section-inner">
+        <div class="expandable bma-connection" onclick="toggleBmaPanel(event, this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> BMA Server Connection <span class="expandable-meta">Species Division · Port 49152</span></div>
+            <div class="expandable-body bma-panel" onclick="event.stopPropagation()">
+                <div class="bma-controls">
+                    <select class="bma-action-select">
+                        <option value="connect">Connect</option>
+                        <option value="disconnect">Disconnect</option>
+                        <option value="poll">Poll Area Data</option>
+                        <option value="hardreset">Hard Reset Connection</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm bma-send-btn" onclick="bmaSend(this)">Send</button>
+                    <button class="btn btn-primary btn-sm bma-ok-btn" onclick="bmaOk(this)">OK</button>
+                </div>
+                <textarea class="bma-textarea" placeholder="Server response will appear here..." spellcheck="false"></textarea>
+                <div class="bma-commands">
+                    <strong>Species Commands:</strong> LIST|CLASS|&lt;name&gt; · FETCH|SPECIES|&lt;id&gt; · SEARCH|&lt;query&gt; · STATUS · COUNT|&lt;kingdom&gt;
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -61,6 +165,7 @@
     <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
 </div></footer>
 
+<script src="js/expandable.js"></script>
 <script>
 document.querySelectorAll('.tab').forEach(function(btn) {
     btn.addEventListener('click', function() {

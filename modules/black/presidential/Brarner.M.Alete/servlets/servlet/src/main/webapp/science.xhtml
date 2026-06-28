@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Science — Brarner.M.Alete™</title>
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/expandable.css"/>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
@@ -31,16 +32,46 @@
 <section class="section">
     <div class="section-inner">
         <h2>Publication Sources</h2>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>Source</th><th>Papers Indexed</th><th>DOI Coverage</th><th>Last Sync</th></tr></thead>
-                <tbody>
-                    <tr><td>PubMed / NCBI</td><td>2,400,000</td><td>98%</td><td>Jun 2026</td></tr>
-                    <tr><td>CrossRef</td><td>1,800,000</td><td>99%</td><td>Jun 2026</td></tr>
-                    <tr><td>arXiv</td><td>320,000</td><td>85%</td><td>Jun 2026</td></tr>
-                    <tr><td>NCSU Libraries</td><td>45,000</td><td>92%</td><td>May 2026</td></tr>
-                </tbody>
-            </table>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> PubMed / NCBI <span class="expandable-meta">2,400,000 papers · 98% DOI coverage · Jun 2026</span></div>
+            <div class="expandable-body"><p>National Center for Biotechnology Information. Biomedical literature from MEDLINE, life science journals, and online books. Full-text links and MeSH indexing.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> CrossRef <span class="expandable-meta">1,800,000 papers · 99% DOI coverage · Jun 2026</span></div>
+            <div class="expandable-body"><p>Official DOI registration agency. Citation linking and metadata retrieval across all scholarly disciplines.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> arXiv <span class="expandable-meta">320,000 papers · 85% DOI coverage · Jun 2026</span></div>
+            <div class="expandable-body"><p>Open-access preprint repository for physics, mathematics, computer science, quantitative biology, and statistics.</p></div>
+        </div>
+        <div class="expandable" onclick="toggleExpand(this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> NCSU Libraries <span class="expandable-meta">45,000 papers · 92% DOI coverage · May 2026</span></div>
+            <div class="expandable-body"><p>NC State University research publications. Strong coverage in engineering, agriculture, textiles, and veterinary medicine.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- BMA Server Connection -->
+<section class="section">
+    <div class="section-inner">
+        <div class="expandable bma-connection" onclick="toggleBmaPanel(event, this)">
+            <div class="expandable-header"><span class="expand-icon">&#9654;</span> BMA Server Connection <span class="expandable-meta">Science Division · Port 49152</span></div>
+            <div class="expandable-body bma-panel" onclick="event.stopPropagation()">
+                <div class="bma-controls">
+                    <select class="bma-action-select">
+                        <option value="connect">Connect</option>
+                        <option value="disconnect">Disconnect</option>
+                        <option value="poll">Poll Area Data</option>
+                        <option value="hardreset">Hard Reset Connection</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm bma-send-btn" onclick="bmaSend(this)">Send</button>
+                    <button class="btn btn-primary btn-sm bma-ok-btn" onclick="bmaOk(this)">OK</button>
+                </div>
+                <textarea class="bma-textarea" placeholder="Server response will appear here..." spellcheck="false"></textarea>
+                <div class="bma-commands">
+                    <strong>Science Commands:</strong> SEARCH|DOI|&lt;doi&gt; · CITE|&lt;paper_id&gt; · GRAPH|&lt;doi&gt; · STATUS · FETCH|SOURCE|&lt;name&gt;
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -48,5 +79,7 @@
 <footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
     <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
 </div></footer>
+
+<script src="js/expandable.js"></script>
 </body>
 </html>
