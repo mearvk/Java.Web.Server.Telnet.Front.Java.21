@@ -3,23 +3,42 @@
 # Usage: bash install/check-db.sh
 set -e
 
-DB_USER="root"
-DB_PASS='$$Ironman1'
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+BMA_ROOT="$(dirname "$SCRIPT_DIR")"
+DB_PROPS="$BMA_ROOT/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+
+if [ -f "$DB_PROPS" ]; then
+    DB_USER=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-)
+    DB_PASS=$(grep '^db.password=' "$DB_PROPS" | cut -d= -f2-)
+    DB_HOST=$(grep '^db.url=' "$DB_PROPS" | sed -n 's|.*://\([^:/]*\).*|\1|p')
+    DB_HOST="${DB_HOST:-localhost}"
+else
+    DB_USER="root"
+    DB_PASS='$$Ironman1'
+    DB_HOST="localhost"
+fi
 DB_NAME="BrarnerScience"
-DB_HOST="localhost"
 
 MYSQL="mysql -u$DB_USER -p$DB_PASS -h$DB_HOST $DB_NAME -N -B"
 
 echo "═══════════════════════════════════════════════════════════════"
 echo " Brarner.M.Alete™ — Database Population Check"
-echo " Database: $DB_NAME @ $DB_HOST"
+echo " Database: $DB_NAME @ $DB_HOST (user=$DB_USER)"
 echo " Time:     $(date '+%Y-%m-%d %H:%M:%S %Z')"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
 
 # Check database exists
 if ! mysql -u$DB_USER -p$DB_PASS -h$DB_HOST -e "USE $DB_NAME" 2>/dev/null; then
-    echo "[FAIL] Database '$DB_NAME' does not exist!"
+    echo "[FAIL] Cannot connect to database '$DB_NAME'!"
+    echo "       User: $DB_USER"
+    echo "       Host: $DB_HOST"
+    if [ -f "$DB_PROPS" ]; then
+        echo "       Properties: $DB_PROPS"
+    else
+        echo "       Properties: NOT FOUND (using hardcoded defaults)"
+        echo "       Expected at: $DB_PROPS"
+    fi
     exit 1
 fi
 
