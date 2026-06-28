@@ -59,13 +59,27 @@
     Connection conn = null;
     try {
         Properties dbProps = new Properties();
+        boolean propsLoaded = false;
         InputStream dbIn = application.getResourceAsStream("/WEB-INF/db.properties");
-        if (dbIn != null) { dbProps.load(dbIn); dbIn.close(); }
+        if (dbIn != null) { dbProps.load(dbIn); dbIn.close(); propsLoaded = true; }
+        if (!propsLoaded) {
+            String rp = application.getRealPath("/WEB-INF/db.properties");
+            if (rp != null && new java.io.File(rp).exists()) {
+                java.io.FileInputStream fis = new java.io.FileInputStream(rp);
+                dbProps.load(fis); fis.close(); propsLoaded = true;
+            }
+        }
+        if (!propsLoaded) {
+            String[] tryPaths = { System.getProperty("user.dir") + "/servlets/servlet/src/main/webapp/WEB-INF/db.properties",
+                "/mnt/blockstorage/Java.Web.Server.Telnet.Front.Java.21/modules/black/presidential/Brarner.M.Alete/servlets/servlet/src/main/webapp/WEB-INF/db.properties" };
+            for (String tp : tryPaths) { java.io.File f = new java.io.File(tp);
+                if (f.exists()) { java.io.FileInputStream fis = new java.io.FileInputStream(f); dbProps.load(fis); fis.close(); propsLoaded = true; break; } }
+        }
         Class.forName(dbProps.getProperty("db.driver", "com.mysql.cj.jdbc.Driver"));
         conn = DriverManager.getConnection(
             dbProps.getProperty("db.url", "jdbc:mysql://localhost:3306/BrarnerScience"),
             dbProps.getProperty("db.user", "root"),
-            dbProps.getProperty("db.password", "$$Ironman1"));
+            dbProps.getProperty("db.password", ""));
 
         String museum = request.getParameter("museum");
         if (museum != null && !museum.isEmpty()) {
