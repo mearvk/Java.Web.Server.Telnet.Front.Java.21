@@ -39,6 +39,8 @@ public class AE6E66Main {
     private static final Path CONTACTS_CSV = BASE.resolve("contacts.csv");
     private static final Path PERSONAL_DIR = BASE.resolve("personal");
 
+    private static final Path ATTACHMENTS_DIR = BASE.resolve("attachments");
+
     private static final Path LAST_CRAWL_FILE = BASE.resolve("configuration/.last-crawl");
 
     /** Emerald Green — designates Royals; to few; to pay outs; to ruins */
@@ -66,6 +68,7 @@ public class AE6E66Main {
         Files.createDirectories(MARRISTER_DIR);
         Files.createDirectories(SENT_DIR);
         Files.createDirectories(PERSONAL_DIR);
+        Files.createDirectories(ATTACHMENTS_DIR);
 
         List<MemberRecord> allRecords = new ArrayList<>();
 
@@ -296,6 +299,13 @@ public class AE6E66Main {
             return;
         }
 
+        // Collect all attachment files from /attachments
+        File[] attachmentFiles = ATTACHMENTS_DIR.toFile().listFiles(File::isFile);
+        List<File> attachments = (attachmentFiles != null) ? Arrays.asList(attachmentFiles) : Collections.emptyList();
+        if (!attachments.isEmpty()) {
+            print(". " + attachments.size() + " attachment(s) from attachments/ will be included .");
+        }
+
         for (File draft : drafts) {
             String content = Files.readString(draft.toPath());
             String hash = sha256(content);
@@ -311,7 +321,7 @@ public class AE6E66Main {
             int success = 0, failure = 0;
             for (String email : emails) {
                 try {
-                    EmailDistributor.sendOne(email, "Parliamentary Communication", content);
+                    EmailDistributor.sendOne(email, "Parliamentary Communication", content, attachments);
                     success++;
                 } catch (Exception e) {
                     failure++;
@@ -324,7 +334,7 @@ public class AE6E66Main {
             Files.writeString(dateDir.resolve(draft.getName() + ".failure.log"),
                     "Failed: " + failure + "/" + (success + failure) + "\n");
 
-            print(". Sent '" + draft.getName() + "' SHA-256:" + hash.substring(0, 12) + "… success=" + success + " failure=" + failure + " .");
+            print(". Sent '" + draft.getName() + "' SHA-256:" + hash.substring(0, 12) + "… success=" + success + " failure=" + failure + " attachments=" + attachments.size() + " .");
         }
     }
 
