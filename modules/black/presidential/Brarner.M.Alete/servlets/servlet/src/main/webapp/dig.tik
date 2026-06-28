@@ -10,5 +10,22 @@ A1 Type:
   - Children (expanded rows) use the same table look-and-feel
   - Used across all BMA pages: Species, Postal, Art, Science, Status
 
+CD1 Type (Connector Dialog):
+  - Power button from resources/button.{html,css,js} used as toggle
+  - Button centered between hero header and page content
+  - Floating div centered on page, above content (position:fixed, z-index:300)
+  - Click button → opens connector dialog. Click again → closes it
+  - Click anywhere off the dialog (overlay) → closes it
+  - Textarea default placeholder: 'Connection idle...'
+  - Double-click textarea → restores any previously saved content
+  - Idle 20 minutes: close dialog, clear textarea, keep connection info
+  - Idle 60 minutes (total): full circuit reset — clear all memory, savedContent,
+    connectionInfo. Close dialog. Textarea resets to 'Connection idle...'
+  - On close: save textarea content internally, clear visible text
+  - Controls: dropdown (Connect/Disconnect/Poll Area Data/Hard Reset), Send, OK
+  - Send/OK buttons same blue (#3b82f6) as nav buttons
+  - Files: css/connector.css, js/connector.js
+
 Reference: lauradei.us/brarner.m.alete/
 Created: 2026-06-27
+Updated: 2026-06-27 (CD1 added)

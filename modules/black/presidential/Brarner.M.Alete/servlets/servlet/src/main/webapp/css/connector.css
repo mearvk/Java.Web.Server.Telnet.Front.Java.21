@@ -1,0 +1,163 @@
+/* CD1 Connector Dialog — uses button class from resources/button.css */
+
+.cd1-button-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem 0;
+    position: relative;
+    z-index: 200;
+}
+.cd1-button-wrap .btn {
+    --hue: 223;
+    --sat: 10%;
+    --hue2: 223;
+    --sat2: 90%;
+    --light2: 60%;
+    --primary: hsl(var(--hue2),var(--sat2),var(--light2));
+    --trans-dur: 0.3s;
+    --trans-timing: ease-in-out;
+    --trans-timing2: cubic-bezier(0.42,-1.84,0.42,1.84);
+    --trans-timing3: cubic-bezier(0.42,0,0.42,1.84);
+    background-color: transparent;
+    background-image: linear-gradient(hsl(var(--hue),var(--sat),10%),hsl(var(--hue),var(--sat),15%));
+    border: none;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 0.125em hsla(var(--hue2),var(--sat2),50%,0),
+        0 0 0.25em hsl(var(--hue),var(--sat),5%) inset,
+        0 0.125em 0.125em hsl(var(--hue),var(--sat),25%);
+    cursor: pointer;
+    width: 5em;
+    height: 5em;
+    position: relative;
+    transition: box-shadow var(--trans-dur) var(--trans-timing);
+}
+.cd1-button-wrap .btn:before,
+.cd1-button-wrap .btn:after {
+    border-radius: inherit;
+    content: "";
+    display: block;
+    position: absolute;
+}
+.cd1-button-wrap .btn:before {
+    background-image: linear-gradient(hsl(var(--hue),var(--sat),20%),hsl(var(--hue),var(--sat),10%));
+    box-shadow: 0 0.5em 0.5em 0.15em hsla(var(--hue),0%,0%,0.7);
+    top: 0.75em; left: 0.75em;
+    width: 3.5em; height: 3.5em;
+    transition: box-shadow var(--trans-dur) var(--trans-timing2), transform var(--trans-dur) var(--trans-timing2);
+}
+.cd1-button-wrap .btn:after {
+    background-color: hsl(var(--hue),var(--sat),10%);
+    background-image: linear-gradient(hsla(var(--hue),var(--sat),20%,0),hsl(var(--hue),var(--sat),20%));
+    box-shadow:
+        0 0.0625em 0 hsl(var(--hue),var(--sat),25%) inset,
+        0 -0.0625em 0 hsl(var(--hue),var(--sat),25%) inset,
+        0 0 0 0 hsla(var(--hue2),var(--sat2),var(--light2),0.1) inset;
+    top: 1.5em; left: 1.5em;
+    width: 2em; height: 2em;
+    transition: background-color var(--trans-dur), box-shadow var(--trans-dur), transform var(--trans-dur) var(--trans-timing2);
+}
+.cd1-button-wrap .btn__icon {
+    display: block;
+    position: absolute;
+    top: calc(50% - 0.6em); left: calc(50% - 0.6em);
+    width: 1.2em; height: 1.2em;
+    z-index: 1;
+    transition: filter var(--trans-dur);
+}
+.cd1-button-wrap .btn__icon g { stroke: hsl(var(--hue),var(--sat),5%); transition: stroke var(--trans-dur); }
+.cd1-button-wrap .btn__sr { overflow: hidden; position: absolute; width: 1px; height: 1px; }
+.cd1-button-wrap .btn[aria-pressed="true"]:before,
+.cd1-button-wrap .btn[aria-pressed="true"]:after,
+.cd1-button-wrap .btn[aria-pressed="true"] .btn__icon { transform: scale(0.98); }
+.cd1-button-wrap .btn[aria-pressed="true"]:before {
+    box-shadow: 0 0.25em 0.25em 0 hsla(var(--hue),0%,0%,0.7);
+}
+.cd1-button-wrap .btn[aria-pressed="true"]:after {
+    background-color: hsl(var(--hue),var(--sat),20%);
+    box-shadow:
+        0 0.0625em 0 hsla(var(--hue2),var(--sat2),var(--light2),0.5) inset,
+        0 -0.0625em 0 hsla(var(--hue2),var(--sat2),var(--light2),0.5) inset,
+        0 0 0.75em 0.25em hsla(var(--hue2),var(--sat2),var(--light2),0.1) inset;
+}
+.cd1-button-wrap .btn[aria-pressed="true"] .btn__icon { filter: drop-shadow(0 0 0.25em var(--primary)); }
+.cd1-button-wrap .btn[aria-pressed="true"] .btn__icon g { stroke: var(--primary); }
+
+/* Overlay */
+.cd1-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 299;
+    background: transparent;
+}
+
+/* Floating dialog */
+.cd1-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 300;
+    background: var(--bg-section, #111118);
+    border: 1px solid var(--border, #27272a);
+    border-radius: 12px;
+    padding: 1.25rem;
+    width: 520px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.cd1-dialog-header {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.75rem;
+}
+.cd1-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+.cd1-controls select {
+    background: #1a1a24;
+    color: #fff;
+    border: 1px solid #27272a;
+    border-radius: 8px;
+    padding: 0.45rem 2rem 0.45rem 0.75rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a1a1aa' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+}
+.cd1-send, .cd1-ok {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.cd1-send:hover, .cd1-ok:hover { background: #2563eb; }
+.cd1-textarea {
+    width: 100%;
+    min-height: 140px;
+    background: #ffffff;
+    color: #111;
+    border: 1px solid #27272a;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    resize: vertical;
+}
+.cd1-commands {
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: #71717a;
+}
+.cd1-commands strong { color: #a1a1aa; }
