@@ -110,37 +110,56 @@
     </div>
 </section>
 
-<!-- BMA Server Connection -->
-<section class="section">
-    <div class="section-inner">
-        <div class="expandable bma-connection" onclick="toggleBmaPanel(event, this)">
-            <div class="expandable-header"><span class="expand-icon">&#9654;</span> BMA Server Connection <span class="expandable-meta">Postal Division · Port 49152</span></div>
-            <div class="expandable-body bma-panel" onclick="event.stopPropagation()">
-                <div class="bma-controls">
-                    <select class="bma-action-select">
-                        <option value="connect">Connect</option>
-                        <option value="disconnect">Disconnect</option>
-                        <option value="poll">Poll Area Data</option>
-                        <option value="hardreset">Hard Reset Connection</option>
-                    </select>
-                    <button class="btn btn-primary btn-sm bma-send-btn" onclick="bmaSend(this)">Send</button>
-                    <button class="btn btn-primary btn-sm bma-ok-btn" onclick="bmaOk(this)">OK</button>
-                </div>
-                <textarea class="bma-textarea" placeholder="Server response will appear here..." spellcheck="false"></textarea>
-                <div class="bma-commands">
-                    <strong>Postal Commands:</strong> LOOKUP|ZIP|&lt;code&gt; · VALIDATE|&lt;address&gt; · ROUTE|&lt;zip&gt; · STATUS · LIST|STATE|&lt;abbr&gt;
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
     <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
 </div></footer>
 
-<script src="js/session.js"></script>
-<script src="js/expandable.js"></script>
-<script src="js/connector.js"></script>
+<script>
+/* === session.js (inlined — external JS not served by this deployment) === */
+var BMA_SESSION_COOKIE = 'bma_session';
+var BMA_SESSION_HOURS = 24;
+function setCookie(name, value, hours) { var d = new Date(); d.setTime(d.getTime() + (hours * 60 * 60 * 1000)); document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax'; }
+function getCookie(name) { var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)')); return match ? decodeURIComponent(match[2]) : null; }
+function deleteCookie(name) { document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;'; }
+function getSession() { var raw = getCookie(BMA_SESSION_COOKIE); if (!raw) return null; try { return JSON.parse(raw); } catch(e) { return null; } }
+function setSession(type, ip, settings) { var session = { type: type, ip: ip, settings: settings || {}, created: Date.now() }; setCookie(BMA_SESSION_COOKIE, JSON.stringify(session), BMA_SESSION_HOURS); return session; }
+function enterGuest() { var session = setSession('guest', '', {}); updateNavForSession(session); alert('Logged in as Guest. Session expires in 24 hours.'); }
+function logout() { deleteCookie(BMA_SESSION_COOKIE); updateNavForSession(null); }
+function updateNavForSession(session) { var actions = document.querySelector('.nav-actions'); if (!actions) return; if (session) { var label = session.type === 'registered' ? 'Registered' : 'Guest'; actions.innerHTML = '<span class="nav-session-label">' + label + '</span><a href="javascript:void(0)" class="nav-cta" onclick="logout()">Logout</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } else { actions.innerHTML = '<a href="register.xhtml" class="nav-cta">Register</a><a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } }
+(function() { var session = getSession(); if (session) updateNavForSession(session); })();
+
+/* === expandable.js (inlined) === */
+function toggleA1Row(row) { var child = row.nextElementSibling; if (child && child.classList.contains('a1-child')) { child.classList.toggle('open'); } }
+function toggleBmaPanel(event, el) { if (el.classList.contains('open') && !event.target.closest('.expandable-header')) return; var wasOpen = el.classList.contains('open'); el.classList.toggle('open'); if (wasOpen) { var ta = el.querySelector('.bma-textarea'); if (ta) ta.value = ''; } }
+function bmaSend(btn) { var panel = btn.closest('.bma-panel'); var select = panel.querySelector('.bma-action-select'); var textarea = panel.querySelector('.bma-textarea'); var action = select.value; var ts = new Date().toLocaleTimeString(); var msg = ''; switch (action) { case 'connect': msg = '[' + ts + '] Connecting to BMA server port 49152...\n[' + ts + '] Connected. Ready for commands.\n'; break; case 'disconnect': msg = '[' + ts + '] Disconnecting from BMA server...\n[' + ts + '] Disconnected.\n'; break; case 'poll': msg = '[' + ts + '] Polling area data...\n[' + ts + '] Poll complete. Data refreshed.\n'; break; case 'hardreset': msg = '[' + ts + '] Requesting formal hard reset...\n[' + ts + '] Connection formally closed by server. Reset complete.\n'; break; } textarea.value += msg; textarea.scrollTop = textarea.scrollHeight; }
+function bmaOk(btn) { var panel = btn.closest('.bma-panel'); var textarea = panel.querySelector('.bma-textarea'); var ts = new Date().toLocaleTimeString(); textarea.value += '[' + ts + '] OK \u2014 Acknowledged.\n'; textarea.scrollTop = textarea.scrollHeight; }
+
+/* === connector.js (inlined) === */
+(function() {
+    var btn = document.getElementById('cd1-btn');
+    var dialog = document.getElementById('cd1-dialog');
+    var overlay = document.getElementById('cd1-overlay');
+    var textarea = document.getElementById('cd1-textarea');
+    if (!btn || !dialog || !overlay || !textarea) return;
+    var IDLE_CLOSE_MS = 20 * 60 * 1000;
+    var FULL_RESET_MS = 60 * 60 * 1000;
+    var idleTimer = null, resetTimer = null, savedContent = '';
+    function isOpen() { return dialog.style.display !== 'none'; }
+    function openDialog() { btn.setAttribute('aria-pressed', 'true'); btn.style.transform = 'scale(0.9)'; btn.style.filter = 'drop-shadow(0 0 8px rgba(59,130,246,0.6))'; setTimeout(function() { dialog.style.display = 'block'; overlay.style.display = 'block'; resetIdleTimer(); }, 300); }
+    function closeDialog() { dialog.style.display = 'none'; overlay.style.display = 'none'; btn.setAttribute('aria-pressed', 'false'); btn.style.transform = ''; btn.style.filter = ''; if (textarea.value && textarea.value !== 'Connection idle...') savedContent = textarea.value; textarea.value = ''; textarea.placeholder = 'Connection idle...'; clearTimeout(idleTimer); }
+    function fullReset() { savedContent = ''; textarea.value = ''; textarea.placeholder = 'Connection idle...'; closeDialog(); clearTimeout(resetTimer); resetTimer = null; }
+    function resetIdleTimer() { clearTimeout(idleTimer); clearTimeout(resetTimer); idleTimer = setTimeout(function() { savedContent = textarea.value || savedContent; textarea.value = ''; textarea.placeholder = 'Connection idle...'; closeDialog(); resetTimer = setTimeout(fullReset, FULL_RESET_MS - IDLE_CLOSE_MS); }, IDLE_CLOSE_MS); }
+    btn.addEventListener('click', function() { if (isOpen()) closeDialog(); else openDialog(); });
+    overlay.addEventListener('click', function() { closeDialog(); });
+    textarea.addEventListener('dblclick', function() { if (savedContent) textarea.value = savedContent; });
+    dialog.addEventListener('click', function() { resetIdleTimer(); });
+    dialog.addEventListener('keydown', function() { resetIdleTimer(); });
+    resetTimer = setTimeout(fullReset, FULL_RESET_MS);
+})();
+function cd1Send() { var select = document.getElementById('cd1-action'); var textarea = document.getElementById('cd1-textarea'); if (!select || !textarea) return; var action = select.value; var ts = new Date().toLocaleTimeString(); var msg = ''; switch (action) { case 'connect': msg = '[' + ts + '] Connecting to BMA server port 49152...\n[' + ts + '] Connected.\n'; break; case 'disconnect': msg = '[' + ts + '] Disconnecting...\n[' + ts + '] Disconnected.\n'; break; case 'poll': msg = '[' + ts + '] Polling area data...\n[' + ts + '] Poll complete.\n'; break; case 'hardreset': msg = '[' + ts + '] Hard reset...\n[' + ts + '] Reset complete.\n'; break; } textarea.value += msg; textarea.scrollTop = textarea.scrollHeight; }
+function cd1Ok() { var textarea = document.getElementById('cd1-textarea'); if (!textarea) return; var ts = new Date().toLocaleTimeString(); textarea.value += '[' + ts + '] OK \u2014 Acknowledged.\n'; textarea.scrollTop = textarea.scrollHeight; }
+</script>
 </body>
 </html>
