@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*, java.util.Properties, java.io.InputStream" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,8 +65,14 @@
 
     Connection conn = null;
     try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BrarnerScience", "root", "");
+        Properties dbProps = new Properties();
+        InputStream dbIn = application.getResourceAsStream("/WEB-INF/db.properties");
+        if (dbIn != null) { dbProps.load(dbIn); dbIn.close(); }
+        String dbUrl = dbProps.getProperty("db.url", "jdbc:mysql://localhost:3306/BrarnerScience");
+        String dbUser = dbProps.getProperty("db.user", "root");
+        String dbPass = dbProps.getProperty("db.password", "");
+        Class.forName(dbProps.getProperty("db.driver", "com.mysql.cj.jdbc.Driver"));
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPass);
 
         // Classes for selected kingdom
         PreparedStatement psClass = conn.prepareStatement(
