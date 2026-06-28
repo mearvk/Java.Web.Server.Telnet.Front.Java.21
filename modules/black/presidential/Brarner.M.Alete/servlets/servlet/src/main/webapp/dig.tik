@@ -1,7 +1,75 @@
 dig.tik — Display Type Reference
 ===================================
 
+DESIGN SYSTEM (Gluon-Inspired Dark Theme)
+==========================================
+
+Tenets:
+  - Dark-first design; near-black backgrounds with subtle layering
+  - Minimal, flat UI with depth conveyed through border + shadow, not gradients
+  - Content-dense tables as primary data display; no unnecessary decoration
+  - Single accent color (blue) for all interactive elements
+  - Typography drives hierarchy: weight, size, letter-spacing — not color variety
+  - Sticky frosted-glass nav; backdrop-filter blur for depth perception
+  - Responsive: collapses nav links on mobile, stacks grids to single column
+  - Sections separated by 1px border-top, not gaps or color changes
+  - Hero section: centered text, uppercase tag, large bold h1, muted description
+
+Colors:
+  --bg-dark:        #0a0a0f       (page background, near-black with blue tint)
+  --bg-section:     #111118       (section/dialog backgrounds, slightly lifted)
+  --bg-card:        #1a1a24       (card/thead/code backgrounds, 3rd depth level)
+  --bg-white:       #ffffff       (light variant sections, inputs)
+  --text-primary:   #ffffff       (headings, table data, active links)
+  --text-secondary: #a1a1aa       (body text, descriptions, inactive nav)
+  --text-muted:     #71717a       (footer links, meta info, placeholders)
+  --text-dark:      #18181b       (text on white backgrounds)
+  --accent:         #3b82f6       (buttons, active tabs, hover highlights)
+  --accent-hover:   #2563eb       (button hover/press state, darker blue)
+  --accent-light:   #60a5fa       (tags, session labels, tab active text)
+  --border:         #27272a       (all dark borders: sections, tables, cards)
+  --border-light:   #e4e4e7       (borders on white/light variant sections)
+
+Typography:
+  --font:           system stack (-apple-system, BlinkMacSystemFont, Segoe UI, Roboto)
+  --font-mono:      JetBrains Mono, Fira Code, monospace
+  Body:             1em/1.6 line-height, antialiased
+  h1:               clamp(2.5rem, 5vw, 3.75rem), weight 800, tracking -0.03em
+  h2:               1.75rem, weight 700, tracking -0.02em
+  h3:               1.25rem, weight 600
+  Nav brand:        1.125rem, weight 700, tracking -0.02em
+  Table header:     0.75rem, uppercase, weight 600, tracking 0.05em
+  Table data:       0.875rem
+  Buttons:          0.875–0.9rem, weight 600
+
+Layout:
+  Max-width:        1200px (content container)
+  Nav height:       64px, sticky, frosted glass (rgba(10,10,15,0.92) + blur(12px))
+  Section padding:  5rem vertical, 2rem horizontal
+  Hero padding:     6rem vertical
+  Border-radius:    8px (standard), 12px (large cards/dialogs)
+  Table row hover:  rgba(59, 130, 246, 0.04) — faint blue tint
+  Footer:           4-column grid (2fr + 3×1fr), collapses to 1-col on mobile
+
+Orientation:
+  - Vertical scroll, single column
+  - Nav → Hero → Sections (border-separated) → Footer
+  - Content centered within max-width container
+  - Tables full-width within container
+  - Buttons right-aligned in nav, centered in hero
+
+Interaction:
+  - All transitions 0.2s ease (links, buttons, borders)
+  - Hover on links: secondary → accent color
+  - Hover on table rows: faint blue background
+  - Hover on A1 clickable rows: text turns accent blue
+  - Buttons: accent → accent-hover on hover
+  - Platform badges: lift 2px on hover + border color change
+  - Tabs: bottom-border accent blue on active
+
+
 A1 Type:
+=========
   - Standard data table using .table-wrap > <table>
   - Dark header row, bordered cells, compact font
   - Clickable rows expand a hidden child <tr class="a1-child"> beneath them
@@ -10,7 +78,9 @@ A1 Type:
   - Children (expanded rows) use the same table look-and-feel
   - Used across all BMA pages: Species, Postal, Art, Science, Status
 
+
 CD1 Type (Connector Dialog):
+==============================
   - Power button from resources/button.{html,css,js} used as toggle
   - Button centered between hero header and page content
   - Floating div centered on page, above content (position:fixed, z-index:300)
@@ -26,6 +96,7 @@ CD1 Type (Connector Dialog):
   - Send/OK buttons same blue (#3b82f6) as nav buttons
   - Files: css/connector.css, js/connector.js
 
+
 Reference: lauradei.us/brarner.m.alete/
 Created: 2026-06-27
-Updated: 2026-06-27 (CD1 added)
+Updated: 2026-06-27 (Design system + CD1 documented)

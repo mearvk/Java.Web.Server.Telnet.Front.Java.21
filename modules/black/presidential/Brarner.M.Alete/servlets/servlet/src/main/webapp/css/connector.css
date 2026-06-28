@@ -1,4 +1,4 @@
-/* CD1 Connector Dialog — uses button class from resources/button.css */
+/* CD1 Connector Dialog — uses button PNG images from resources */
 
 .cd1-button-wrap {
     display: flex;
@@ -8,82 +8,33 @@
     position: relative;
     z-index: 200;
     width: 100%;
+    text-align: center;
 }
 .cd1-button-wrap .btn {
-    --hue: 223;
-    --sat: 10%;
-    --hue2: 223;
-    --sat2: 90%;
-    --light2: 60%;
-    --primary: hsl(var(--hue2),var(--sat2),var(--light2));
-    --trans-dur: 0.3s;
-    --trans-timing: ease-in-out;
-    --trans-timing2: cubic-bezier(0.42,-1.84,0.42,1.84);
-    --trans-timing3: cubic-bezier(0.42,0,0.42,1.84);
-    background-color: transparent;
-    background-image: linear-gradient(hsl(var(--hue),var(--sat),10%),hsl(var(--hue),var(--sat),15%));
-    border: none;
-    border-radius: 50%;
-    box-shadow:
-        0 0 0 0.125em hsla(var(--hue2),var(--sat2),50%,0),
-        0 0 0.25em hsl(var(--hue),var(--sat),5%) inset,
-        0 0.125em 0.125em hsl(var(--hue),var(--sat),25%);
+    all: unset;
+    display: block;
+    margin: 0 auto;
     cursor: pointer;
-    width: 5em;
-    height: 5em;
-    position: relative;
-    transition: box-shadow var(--trans-dur) var(--trans-timing);
+    width: 80px;
+    height: 80px;
+    background: url('../images/white.button.png') center/contain no-repeat;
+    border-radius: 50%;
+    transition: transform 0.2s ease, filter 0.2s ease;
 }
-.cd1-button-wrap .btn:before,
-.cd1-button-wrap .btn:after {
-    border-radius: inherit;
-    content: "";
-    display: block;
-    position: absolute;
+.cd1-button-wrap .btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
 }
-.cd1-button-wrap .btn:before {
-    background-image: linear-gradient(hsl(var(--hue),var(--sat),20%),hsl(var(--hue),var(--sat),10%));
-    box-shadow: 0 0.5em 0.5em 0.15em hsla(var(--hue),0%,0%,0.7);
-    top: 0.75em; left: 0.75em;
-    width: 3.5em; height: 3.5em;
-    transition: box-shadow var(--trans-dur) var(--trans-timing2), transform var(--trans-dur) var(--trans-timing2);
+.cd1-button-wrap .btn:active {
+    transform: scale(0.93);
 }
-.cd1-button-wrap .btn:after {
-    background-color: hsl(var(--hue),var(--sat),10%);
-    background-image: linear-gradient(hsla(var(--hue),var(--sat),20%,0),hsl(var(--hue),var(--sat),20%));
-    box-shadow:
-        0 0.0625em 0 hsl(var(--hue),var(--sat),25%) inset,
-        0 -0.0625em 0 hsl(var(--hue),var(--sat),25%) inset,
-        0 0 0 0 hsla(var(--hue2),var(--sat2),var(--light2),0.1) inset;
-    top: 1.5em; left: 1.5em;
-    width: 2em; height: 2em;
-    transition: background-color var(--trans-dur), box-shadow var(--trans-dur), transform var(--trans-dur) var(--trans-timing2);
+.cd1-button-wrap .btn[aria-pressed="true"] {
+    background: url('../images/black.button.png') center/contain no-repeat;
+    transform: scale(0.95);
+    filter: drop-shadow(0 0 8px rgba(59,130,246,0.6));
 }
-.cd1-button-wrap .btn__icon {
-    display: block;
-    position: absolute;
-    top: calc(50% - 0.6em); left: calc(50% - 0.6em);
-    width: 1.2em; height: 1.2em;
-    z-index: 1;
-    transition: filter var(--trans-dur);
-}
-.cd1-button-wrap .btn__icon g { stroke: hsl(var(--hue),var(--sat),5%); transition: stroke var(--trans-dur); }
 .cd1-button-wrap .btn__sr { overflow: hidden; position: absolute; width: 1px; height: 1px; }
-.cd1-button-wrap .btn[aria-pressed="true"]:before,
-.cd1-button-wrap .btn[aria-pressed="true"]:after,
-.cd1-button-wrap .btn[aria-pressed="true"] .btn__icon { transform: scale(0.98); }
-.cd1-button-wrap .btn[aria-pressed="true"]:before {
-    box-shadow: 0 0.25em 0.25em 0 hsla(var(--hue),0%,0%,0.7);
-}
-.cd1-button-wrap .btn[aria-pressed="true"]:after {
-    background-color: hsl(var(--hue),var(--sat),20%);
-    box-shadow:
-        0 0.0625em 0 hsla(var(--hue2),var(--sat2),var(--light2),0.5) inset,
-        0 -0.0625em 0 hsla(var(--hue2),var(--sat2),var(--light2),0.5) inset,
-        0 0 0.75em 0.25em hsla(var(--hue2),var(--sat2),var(--light2),0.1) inset;
-}
-.cd1-button-wrap .btn[aria-pressed="true"] .btn__icon { filter: drop-shadow(0 0 0.25em var(--primary)); }
-.cd1-button-wrap .btn[aria-pressed="true"] .btn__icon g { stroke: var(--primary); }
+.cd1-button-wrap .btn__icon { display: none; }
 
 /* Overlay */
 .cd1-overlay {
