@@ -73,8 +73,36 @@ port=${DB_PORT}
 EOF
     chmod 600 "$MY_CNF"
     echo "[✓] Wrote $MY_CNF"
+
+    # Write db.properties for JSP pages
+    DB_PROPS="$WEBAPP_SRC/WEB-INF/db.properties"
+    mkdir -p "$(dirname "$DB_PROPS")"
+    cat > "$DB_PROPS" <<EOF
+# BMA Database Configuration — written by install script
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://${DB_HOST}:${DB_PORT}/BrarnerScience
+db.user=${DB_USER}
+db.password=${DB_PASS}
+EOF
+    chmod 600 "$DB_PROPS"
+    echo "[✓] Wrote $DB_PROPS (JSP database credentials)"
 else
     echo "[*] MySQL credentials: $MY_CNF (exists)"
+
+    # Ensure db.properties stays in sync
+    DB_PROPS="$WEBAPP_SRC/WEB-INF/db.properties"
+    if [ ! -f "$DB_PROPS" ]; then
+        source <(grep -E '^(user|password|host|port)' "$MY_CNF" | sed 's/^/DB_/' | sed 's/=\(.*\)/="\1"/')
+        cat > "$DB_PROPS" <<EOF
+# BMA Database Configuration — synced from .my.cnf
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://${DB_host:-localhost}:${DB_port:-3306}/BrarnerScience
+db.user=${DB_user:-root}
+db.password=${DB_password:-}
+EOF
+        chmod 600 "$DB_PROPS"
+        echo "[✓] Synced $DB_PROPS from .my.cnf"
+    fi
 fi
 
 # ─── Download JARs if needed ───

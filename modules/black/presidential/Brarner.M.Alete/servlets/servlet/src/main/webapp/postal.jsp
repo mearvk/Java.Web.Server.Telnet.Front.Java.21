@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*, java.util.Properties, java.io.InputStream" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,8 +37,14 @@
     String stateFilter = request.getParameter("state");
     Connection conn = null;
     try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BrarnerScience", "root", "");
+        Properties dbProps = new Properties();
+        InputStream dbIn = application.getResourceAsStream("/WEB-INF/db.properties");
+        if (dbIn != null) { dbProps.load(dbIn); dbIn.close(); }
+        Class.forName(dbProps.getProperty("db.driver", "com.mysql.cj.jdbc.Driver"));
+        conn = DriverManager.getConnection(
+            dbProps.getProperty("db.url", "jdbc:mysql://localhost:3306/BrarnerScience"),
+            dbProps.getProperty("db.user", "root"),
+            dbProps.getProperty("db.password", ""));
 
         if (stateFilter != null && !stateFilter.isEmpty()) {
             PreparedStatement ps = conn.prepareStatement(
