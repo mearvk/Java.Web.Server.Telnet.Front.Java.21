@@ -1,6 +1,6 @@
 #!/bin/bash
 # Brarner.M.Alete™ — Populate Science Database from CSV/XML source data
-# Reads species config.xml files and inserts into BrarnerScience.animalia
+# Reads species config.xml files and inserts into BrarnerScience.species
 # Usage: bash install/populate-science-db.sh
 set -e
 
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS publications (
 SQL
 echo "[OK] Tables ready."
 
-# Parse species config.xml files and insert into animalia
+# Parse species config.xml files and insert into species
 echo ""
 echo "[*] Scanning species config.xml files in $SPECIES_DIR..."
 
@@ -118,10 +118,10 @@ CONFIG_COUNT=$(find "$SPECIES_DIR" -name "config.xml" | wc -l)
 echo "[*] Found $CONFIG_COUNT config.xml files"
 
 # Build bulk SQL insert
-TMP_SQL="/tmp/bma-populate-animalia.sql"
+TMP_SQL="/tmp/bma-populate-species.sql"
 echo "USE BrarnerScience;" > "$TMP_SQL"
-echo "TRUNCATE TABLE animalia;" >> "$TMP_SQL"
-echo "INSERT INTO animalia (kingdom, phylum, subphylum, class_name, subclass, order_name, suborder, infraorder, family_name) VALUES" >> "$TMP_SQL"
+echo "TRUNCATE TABLE species;" >> "$TMP_SQL"
+echo "INSERT INTO species (kingdom, phylum, class_name, order_name, family_name) VALUES" >> "$TMP_SQL"
 
 FIRST=true
 INSERTED=0
@@ -130,12 +130,8 @@ while IFS= read -r cfg; do
     # Extract fields from XML using grep/sed (no xmllint dependency)
     KINGDOM=$(grep -oP '(?<=<kingdom>)[^<]*' "$cfg" 2>/dev/null | head -1)
     PHYLUM=$(grep -oP '(?<=<phylum>)[^<]*' "$cfg" 2>/dev/null | head -1)
-    SUBPHYLUM=$(grep -oP '(?<=<subphylum>)[^<]*' "$cfg" 2>/dev/null | head -1)
     CLASS=$(grep -oP '(?<=<class-name>)[^<]*' "$cfg" 2>/dev/null | head -1)
-    SUBCLASS=$(grep -oP '(?<=<subclass>)[^<]*' "$cfg" 2>/dev/null | head -1)
     ORDER=$(grep -oP '(?<=<order>)[^<]*' "$cfg" 2>/dev/null | head -1)
-    SUBORDER=$(grep -oP '(?<=<suborder>)[^<]*' "$cfg" 2>/dev/null | head -1)
-    INFRAORDER=$(grep -oP '(?<=<infraorder>)[^<]*' "$cfg" 2>/dev/null | head -1)
     FAMILY=$(grep -oP '(?<=<family>)[^<]*' "$cfg" 2>/dev/null | head -1)
 
     # Skip if no useful data
@@ -144,12 +140,8 @@ while IFS= read -r cfg; do
     # Escape single quotes
     KINGDOM="${KINGDOM//\'/\\\'}"
     PHYLUM="${PHYLUM//\'/\\\'}"
-    SUBPHYLUM="${SUBPHYLUM//\'/\\\'}"
     CLASS="${CLASS//\'/\\\'}"
-    SUBCLASS="${SUBCLASS//\'/\\\'}"
     ORDER="${ORDER//\'/\\\'}"
-    SUBORDER="${SUBORDER//\'/\\\'}"
-    INFRAORDER="${INFRAORDER//\'/\\\'}"
     FAMILY="${FAMILY//\'/\\\'}"
 
     if [ "$FIRST" = true ]; then
@@ -157,22 +149,22 @@ while IFS= read -r cfg; do
     else
         echo "," >> "$TMP_SQL"
     fi
-    printf "('%s','%s','%s','%s','%s','%s','%s','%s','%s')" \
-        "$KINGDOM" "$PHYLUM" "$SUBPHYLUM" "$CLASS" "$SUBCLASS" "$ORDER" "$SUBORDER" "$INFRAORDER" "$FAMILY" >> "$TMP_SQL"
+    printf "('%s','%s','%s','%s','%s')" \
+        "$KINGDOM" "$PHYLUM" "$CLASS" "$ORDER" "$FAMILY" >> "$TMP_SQL"
     INSERTED=$((INSERTED + 1))
 
 done < <(find "$SPECIES_DIR" -name "config.xml" -type f)
 
 echo ";" >> "$TMP_SQL"
 
-echo "[*] Inserting $INSERTED records into animalia..."
+echo "[*] Inserting $INSERTED records into species..."
 mysql $MYSQL_OPTS < "$TMP_SQL"
-echo "[OK] animalia table populated."
+echo "[OK] species table populated."
 
 # Show summary
 echo ""
 echo "[*] Summary:"
-mysql $MYSQL_OPTS -e "USE BrarnerScience; SELECT kingdom, COUNT(DISTINCT class_name) AS classes, COUNT(DISTINCT order_name) AS orders, COUNT(DISTINCT family_name) AS families, COUNT(*) AS total_rows FROM animalia GROUP BY kingdom;"
+mysql $MYSQL_OPTS -e "USE BrarnerScience; SELECT kingdom, COUNT(DISTINCT class_name) AS classes, COUNT(DISTINCT order_name) AS orders, COUNT(DISTINCT family_name) AS families, COUNT(*) AS total_rows FROM species GROUP BY kingdom;"
 
 rm -f "$TMP_SQL"
 
