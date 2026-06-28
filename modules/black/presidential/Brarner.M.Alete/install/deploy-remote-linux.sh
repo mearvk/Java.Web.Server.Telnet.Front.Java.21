@@ -163,8 +163,11 @@ else
     # Fallback: deploy exploded webapp
     ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "mkdir -p /opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF/lib"
     scp -o ConnectTimeout=10 -o BatchMode=yes -r "$WEBAPP_SRC/"* "$REMOTE_USER@$REMOTE_HOST:/opt/tomcat/webapps/${TOMCAT_CONTEXT}/"
-    if [ -d "$BMA_ROOT/lib" ]; then
-        scp -o ConnectTimeout=10 -o BatchMode=yes "$BMA_ROOT/lib/mysql-connector-j-"*.jar "$REMOTE_USER@$REMOTE_HOST:/opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF/lib/" 2>/dev/null || true
+    # Copy all JARs from jars/ (preferred) or lib/
+    if [ -d "$BMA_ROOT/jars" ] && ls "$BMA_ROOT/jars/"*.jar &>/dev/null; then
+        scp -o ConnectTimeout=10 -o BatchMode=yes "$BMA_ROOT/jars/"*.jar "$REMOTE_USER@$REMOTE_HOST:/opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF/lib/"
+    elif [ -d "$BMA_ROOT/lib" ]; then
+        scp -o ConnectTimeout=10 -o BatchMode=yes "$BMA_ROOT/lib/"*.jar "$REMOTE_USER@$REMOTE_HOST:/opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF/lib/" 2>/dev/null || true
     fi
 fi
 
@@ -176,13 +179,14 @@ echo "[*] Configuring database credentials for JSP pages..."
 DB_PROPS_LOCAL="$WEBAPP_SRC/WEB-INF/db.properties"
 DB_PROPS_REMOTE="/opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF/db.properties"
 
-if [ -f "$DB_PROPS_LOCAL" ]; then
+if [ -f "$DB_PROPS_LOCAL" ] && grep -q "db.password=." "$DB_PROPS_LOCAL" 2>/dev/null; then
     ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "mkdir -p /opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF"
     scp -o ConnectTimeout=10 -o BatchMode=yes "$DB_PROPS_LOCAL" "$REMOTE_USER@$REMOTE_HOST:$DB_PROPS_REMOTE"
+    echo "[*] db.properties copied from local"
 else
     # Prompt for remote DB credentials
     echo "    JSP pages need MySQL credentials on the remote server."
-    read -rp "    Remote MySQL username [root]: " R_DB_USER
+    read -rp "    Remote MySQL user [root]: " R_DB_USER
     R_DB_USER="${R_DB_USER:-root}"
     read -rsp "    Remote MySQL password: " R_DB_PASS
     echo ""
@@ -191,8 +195,8 @@ else
     read -rp "    Remote MySQL port [3306]: " R_DB_PORT
     R_DB_PORT="${R_DB_PORT:-3306}"
 
-    ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "mkdir -p /opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF && cat > $DB_PROPS_REMOTE <<'DBEOF'
-# BMA Database Configuration — written by deploy script
+    ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "mkdir -p /opt/tomcat/webapps/${TOMCAT_CONTEXT}/WEB-INF && cat > $DB_PROPS_REMOTE <<DBEOF
+# BMA Database Configuration — written by deploy-remote-linux.sh
 db.driver=com.mysql.cj.jdbc.Driver
 db.url=jdbc:mysql://${R_DB_HOST}:${R_DB_PORT}/BrarnerScience
 db.user=${R_DB_USER}
