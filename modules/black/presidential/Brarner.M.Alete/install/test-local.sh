@@ -66,6 +66,57 @@ check "/images/mearvk.ltd.logo.left.png" "logo-left"
 check "/images/mearvk.ltd.logo.right.png" "logo-right"
 
 echo ""
+echo "[*] Checking db.properties..."
+DB_PROPS="$( cd "$(dirname "$0")/.." && pwd )/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+if [ -f "$DB_PROPS" ]; then
+    echo "  [OK]   db.properties exists: $DB_PROPS"
+    PASS=$((PASS + 1))
+    DB_URL=$(grep '^db.url=' "$DB_PROPS" | cut -d= -f2-)
+    DB_USER=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-)
+    echo "         url=$DB_URL  user=$DB_USER"
+else
+    echo "  [FAIL] db.properties NOT FOUND: $DB_PROPS"
+    echo "         Run: bash install/install.sh to generate credentials"
+    FAIL=$((FAIL + 1))
+fi
+
+echo ""
+echo "[*] Testing MySQL connectivity..."
+DB_HOST=$(echo "$DB_URL" 2>/dev/null | sed -n 's|.*://\([^:/]*\).*|\1|p')
+DB_PORT=$(echo "$DB_URL" 2>/dev/null | sed -n 's|.*:\([0-9]*\)/.*|\1|p')
+DB_HOST="${DB_HOST:-localhost}"
+DB_PORT="${DB_PORT:-3306}"
+if command -v mysql &>/dev/null && [ -f "$DB_PROPS" ]; then
+    if mysql -u"$DB_USER" -p"$(grep '^db.password=' "$DB_PROPS" | cut -d= -f2-)" -h"$DB_HOST" -P"$DB_PORT" -e "SELECT 1" BrarnerScience &>/dev/null; then
+        echo "  [OK]   MySQL BrarnerScience reachable (user=$DB_USER host=$DB_HOST:$DB_PORT)"
+        PASS=$((PASS + 1))
+    else
+        echo "  [FAIL] MySQL connection failed (user=$DB_USER host=$DB_HOST:$DB_PORT)"
+        FAIL=$((FAIL + 1))
+    fi
+elif timeout 3 bash -c "echo >/dev/tcp/${DB_HOST}/${DB_PORT}" 2>/dev/null; then
+    echo "  [OK]   Port $DB_HOST:$DB_PORT open (mysql client not installed for full check)"
+    PASS=$((PASS + 1))
+else
+    echo "  [FAIL] Cannot reach $DB_HOST:$DB_PORT"
+    FAIL=$((FAIL + 1))
+fi
+
+echo ""
+echo "[*] Testing JSP DB rendering (species.jsp should not contain 'undefined')..."
+SPECIES_BODY=$(curl -s --max-time 5 "${BASE}/species.jsp?kingdom=Animalia" 2>/dev/null)
+if echo "$SPECIES_BODY" | grep -qi "undefined"; then
+    echo "  [FAIL] species.jsp contains 'undefined' — DB query may have failed"
+    FAIL=$((FAIL + 1))
+elif echo "$SPECIES_BODY" | grep -qi "Database error"; then
+    echo "  [FAIL] species.jsp shows database error"
+    FAIL=$((FAIL + 1))
+else
+    echo "  [OK]   species.jsp rendered without 'undefined' or DB error"
+    PASS=$((PASS + 1))
+fi
+
+echo ""
 echo "[*] Testing servlet endpoints..."
 check "/api/status" "StatusApiServlet (/api/status)"
 check "/api/species?level=class&kingdom=Animalia" "SpeciesApiServlet (class query)"
