@@ -1,65 +1,52 @@
 @echo off
-REM Brarner.M.Alete™ — Populate Science Database (Windows)
-REM Reads species config.xml files and inserts into BrarnerScience.animalia
+REM Brarner.M.Alete™ — Populate Science/Animalia Database (Windows)
 REM Usage: install\windows\populate-science-db.bat
-
-echo ═══════════════════════════════════════════════════════════════
-echo  Brarner.M.Alete™ — Populate Science Database (Windows)
-echo ═══════════════════════════════════════════════════════════════
+setlocal enabledelayedexpansion
 
 set SCRIPT_DIR=%~dp0
 set BMA_ROOT=%SCRIPT_DIR%..\..
-set SPECIES_DIR=%BMA_ROOT%\source\species
-set TMP_SQL=%TEMP%\bma-populate.sql
-
-REM Read credentials from db.properties
 set DB_PROPS=%BMA_ROOT%\servlets\servlet\src\main\webapp\WEB-INF\db.properties
-if not exist "%DB_PROPS%" (
-    echo [FAIL] db.properties not found. Run install-mysql-windows.bat first.
-    pause
-    exit /b 1
-)
 
-for /f "tokens=1,* delims==" %%A in ('findstr "db.user" "%DB_PROPS%"') do set DB_USER=%%B
-for /f "tokens=1,* delims==" %%A in ('findstr "db.password" "%DB_PROPS%"') do set DB_PASS=%%B
+for /f "tokens=2 delims==" %%a in ('findstr "db.user=" "%DB_PROPS%"') do set DB_USER=%%a
+for /f "tokens=2 delims==" %%a in ('findstr "db.password=" "%DB_PROPS%"') do set DB_PASS=%%a
 
-echo [*] User: %DB_USER%
-echo [*] Scanning config.xml files...
+set MYSQL_CMD=mysql -u%DB_USER% -p%DB_PASS%
+
+echo ═══════════════════════════════════════════════════════════════
+echo  Brarner.M.Alete™ — Populate Science Database
+echo ═══════════════════════════════════════════════════════════════
+
+REM Create tables
+%MYSQL_CMD% < "%BMA_ROOT%\install\macos\create-tables.sql" 2>nul
+
+REM Build SQL from species config.xml files
+set SPECIES_DIR=%BMA_ROOT%\source\species
+set TMP_SQL=%TEMP%\bma-animalia.sql
 
 echo USE BrarnerScience; > "%TMP_SQL%"
 echo TRUNCATE TABLE animalia; >> "%TMP_SQL%"
-echo INSERT INTO animalia (kingdom, phylum, subphylum, class_name, subclass, order_name, suborder, infraorder, family_name) VALUES >> "%TMP_SQL%"
 
 set COUNT=0
-set FIRST=1
-
-for /r "%SPECIES_DIR%" %%F in (config.xml) do (
-    set /a COUNT+=1
-    REM Use PowerShell to extract XML fields
-    for /f "delims=" %%K in ('powershell -NoProfile -Command "[xml]$x=Get-Content '%%F'; $x.SelectSingleNode('//kingdom').InnerText"') do set KINGDOM=%%K
-    for /f "delims=" %%P in ('powershell -NoProfile -Command "[xml]$x=Get-Content '%%F'; $x.SelectSingleNode('//phylum').InnerText"') do set PHYLUM=%%P
-    for /f "delims=" %%S in ('powershell -NoProfile -Command "[xml]$x=Get-Content '%%F'; $x.SelectSingleNode('//subphylum').InnerText"') do set SUBPHYLUM=%%S
-    for /f "delims=" %%C in ('powershell -NoProfile -Command "[xml]$x=Get-Content '%%F'; $x.SelectSingleNode('//class-name').InnerText"') do set CLASS=%%C
-    for /f "delims=" %%O in ('powershell -NoProfile -Command "[xml]$x=Get-Content '%%F'; $x.SelectSingleNode('//order').InnerText"') do set ORDER=%%O
-    for /f "delims=" %%M in ('powershell -NoProfile -Command "[xml]$x=Get-Content '%%F'; $x.SelectSingleNode('//family').InnerText"') do set FAMILY=%%M
-
-    if !FIRST!==1 (
-        set FIRST=0
-    ) else (
-        echo , >> "%TMP_SQL%"
+for /r "%SPECIES_DIR%" %%f in (config.xml) do (
+    set "KINGDOM=" & set "PHYLUM=" & set "SUBPHYLUM=" & set "CLASS=" & set "SUBCLASS="
+    set "ORDER=" & set "SUBORDER=" & set "INFRAORDER=" & set "FAMILY="
+    for /f "tokens=*" %%l in ('type "%%f" 2^>nul') do (
+        echo %%l | findstr /c:"<kingdom>" >nul && for /f "tokens=2 delims=<>" %%v in ("%%l") do set "KINGDOM=%%v"
+        echo %%l | findstr /c:"<phylum>" >nul && for /f "tokens=2 delims=<>" %%v in ("%%l") do set "PHYLUM=%%v"
+        echo %%l | findstr /c:"<subphylum>" >nul && for /f "tokens=2 delims=<>" %%v in ("%%l") do set "SUBPHYLUM=%%v"
+        echo %%l | findstr /c:"<class-name>" >nul && for /f "tokens=2 delims=<>" %%v in ("%%l") do set "CLASS=%%v"
+        echo %%l | findstr /c:"<subclass>" >nul && for /f "tokens=2 delims=<>" %%v in ("%%l") do set "SUBCLASS=%%v"
+        echo %%l | findstr /c:"<order>" >nul && for /f "tokens=2 delims=<>" %%v in ("%%l") do set "ORDER=%%v"
+        echo %%l | findstr /c:"<suborder>" >nul && for /f "tokens=2 delims=<>" %%v in ("%%l") do set "SUBORDER=%%v"
+        echo %%l | findstr /c:"<infraorder>" >nul && for /f "tokens=2 delims=<>" %%v in ("%%l") do set "INFRAORDER=%%v"
+        echo %%l | findstr /c:"<family>" >nul && for /f "tokens=2 delims=<>" %%v in ("%%l") do set "FAMILY=%%v"
     )
-    echo ('%KINGDOM%','%PHYLUM%','%SUBPHYLUM%','%CLASS%','','%ORDER%','','','%FAMILY%') >> "%TMP_SQL%"
+    echo INSERT INTO animalia(kingdom,phylum,subphylum,class_name,subclass,order_name,suborder,infraorder,family_name) VALUES('!KINGDOM!','!PHYLUM!','!SUBPHYLUM!','!CLASS!','!SUBCLASS!','!ORDER!','!SUBORDER!','!INFRAORDER!','!FAMILY!'); >> "%TMP_SQL%"
+    set /a COUNT+=1
 )
 
-echo ; >> "%TMP_SQL%"
-
-echo [*] Inserting %COUNT% records...
-mysql -u%DB_USER% -p%DB_PASS% < "%TMP_SQL%"
-
-echo [OK] animalia populated with %COUNT% records.
-mysql -u%DB_USER% -p%DB_PASS% -e "USE BrarnerScience; SELECT kingdom, COUNT(*) AS total FROM animalia GROUP BY kingdom;"
-
-del "%TMP_SQL%" 2>nul
-echo.
-echo [✓] Done.
-pause
+%MYSQL_CMD% BrarnerScience < "%TMP_SQL%"
+del "%TMP_SQL%"
+echo [OK] animalia: %COUNT% records inserted
+echo ═══════════════════════════════════════════════════════════════
+endlocal

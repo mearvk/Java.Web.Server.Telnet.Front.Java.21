@@ -44,10 +44,16 @@ mkdir -p "$BMA_ROOT/data/ssa"
 if [ -f "$DATA_CSV" ] && [ -s "$DATA_CSV" ]; then
     echo "[*] Loading SSA data from CSV..."
     $MYSQL_CMD BrarnerScience -e "TRUNCATE TABLE ssa_offices;"
+    TMP_SQL="/tmp/bma-ssa.sql"
+    echo "USE BrarnerScience;" > "$TMP_SQL"
     tail -n +2 "$DATA_CSV" | while IFS=',' read -r name addr city state zip phone type; do
-        name="${name//\'/\\\'}" addr="${addr//\'/\\\'}" city="${city//\'/\\\'}"
-        $MYSQL_CMD BrarnerScience -e "INSERT INTO ssa_offices(office_name,address,city,state,zip_code,phone,office_type) VALUES('$name','$addr','$city','$state','$zip','$phone','$type');"
+        name="${name//\'/\\\'}" addr="${addr//\"/}" addr="${addr//\'/\\\'}" city="${city//\'/\\\'}"
+        echo "INSERT INTO ssa_offices(office_name,address,city,state,zip_code,phone,office_type) VALUES('$name','$addr','$city','$state','$zip','$phone','$type');" >> "$TMP_SQL"
     done
+    $MYSQL_CMD < "$TMP_SQL"
+    rm -f "$TMP_SQL"
+    ROWS=$($MYSQL_CMD -N -e "SELECT COUNT(*) FROM BrarnerScience.ssa_offices;")
+    echo "[OK] ssa_offices: $ROWS rows"
 elif [ -d "$SSA_SRC" ]; then
     echo "[*] Scanning source/ssa config.xml files..."
     $MYSQL_CMD BrarnerScience -e "TRUNCATE TABLE ssa_offices;"

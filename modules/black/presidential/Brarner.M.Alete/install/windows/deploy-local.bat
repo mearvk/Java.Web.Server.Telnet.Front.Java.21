@@ -1,49 +1,34 @@
 @echo off
-REM Brarner.M.Alete™ — Deploy Local (Windows)
-REM Deploys webapp to local Tomcat
-REM Usage: install\windows\deploy-local.bat [tomcat_home]
-
-setlocal enabledelayedexpansion
+REM Brarner.M.Alete™ — Deploy Local (Windows, Embedded Tomcat)
+REM Usage: install\windows\deploy-local.bat [port]
+setlocal
 
 set SCRIPT_DIR=%~dp0
 set BMA_ROOT=%SCRIPT_DIR%..\..
-set WEBAPP_SRC=%BMA_ROOT%\servlets\servlet\src\main\webapp
-set TOMCAT_HOME=%1
-if "%TOMCAT_HOME%"=="" set TOMCAT_HOME=C:\Program Files\Apache Software Foundation\Tomcat 11.0
-if "%TOMCAT_HOME%"=="" set TOMCAT_HOME=%CATALINA_HOME%
-set CONTEXT=brarner.m.alete
-set DEPLOY_DIR=%TOMCAT_HOME%\webapps\%CONTEXT%
+set PORT=%1
+if "%PORT%"=="" set PORT=8080
+
+set WEBAPP=%BMA_ROOT%\servlets\servlet\src\main\webapp
+set JARS=%BMA_ROOT%\jars
+set OUT=%BMA_ROOT%\out
 
 echo ═══════════════════════════════════════════════════════════════
-echo  Brarner.M.Alete™ — Local Deploy (Windows)
-echo  Target: %DEPLOY_DIR%
+echo  Brarner.M.Alete™ — Deploy Local (port %PORT%)
 echo ═══════════════════════════════════════════════════════════════
 
-if not exist "%WEBAPP_SRC%" (
-    echo [!] Webapp source not found: %WEBAPP_SRC%
-    pause
+mkdir "%OUT%" 2>nul
+
+echo [*] Compiling embedded Tomcat launcher...
+javac -cp "%JARS%\*" -d "%OUT%" "%BMA_ROOT%\servlets\servlet\src\main\java\com\mearvk\servlet\BmaEmbeddedTomcat.java"
+if errorlevel 1 (
+    echo [FAIL] Compilation failed
     exit /b 1
 )
 
-if not exist "%TOMCAT_HOME%\webapps" (
-    echo [!] Tomcat not found at: %TOMCAT_HOME%
-    echo     Set CATALINA_HOME or pass path as argument.
-    pause
-    exit /b 1
-)
+echo [*] Starting Brarner.M.Alete on port %PORT%...
+echo     URL: http://localhost:%PORT%/brarner.m.alete/
+start "BMA Tomcat" java -cp "%OUT%;%JARS%\*" com.mearvk.servlet.BmaEmbeddedTomcat %PORT% "%WEBAPP%"
 
-echo [*] Deploying...
-if exist "%DEPLOY_DIR%" rmdir /s /q "%DEPLOY_DIR%"
-xcopy /s /e /i /q "%WEBAPP_SRC%" "%DEPLOY_DIR%"
-
-REM Copy MySQL connector
-if exist "%BMA_ROOT%\lib\mysql-connector-j-*.jar" (
-    copy "%BMA_ROOT%\lib\mysql-connector-j-*.jar" "%DEPLOY_DIR%\WEB-INF\lib\" >nul
-    echo [*] MySQL connector copied.
-)
-
-echo.
-echo [✓] Deployed to: %DEPLOY_DIR%
-echo     URL: http://localhost:8080/%CONTEXT%/
-echo     Pages: index.jsp, species.jsp, postal.jsp, art.jsp, science.jsp, status.jsp
-pause
+echo [OK] Server starting in background
+echo ═══════════════════════════════════════════════════════════════
+endlocal

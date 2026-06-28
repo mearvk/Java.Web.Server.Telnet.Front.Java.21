@@ -155,3 +155,40 @@ CD1 Type (Connector Dialog):
 Reference: lauradei.us/brarner.m.alete/
 Created: 2026-06-27
 Updated: 2026-06-27 (Design system + CD1 documented)
+
+
+Script Permissions (chmod +x)
+==============================
+Run after clone/checkout to make all scripts executable:
+
+  chmod +x build.sh
+  chmod +x install/check-db.sh
+  chmod +x install/deploy-local.sh
+  chmod +x install/deploy-remote-linux.sh
+  chmod +x install/download-jars.sh
+  chmod +x install/generate-integrity.sh
+  chmod +x install/install_ai_jars.sh
+  chmod +x install/install_jars.sh
+  chmod +x install/install_macos.sh
+  chmod +x install/install-mysql-linux.sh
+  chmod +x install/install_mysql.sh
+  chmod +x install/install.sh
+  chmod +x install/populate-all.sh
+  chmod +x install/populate-art.sh
+  chmod +x install/populate-postal.sh
+  chmod +x install/populate-publications.sh
+  chmod +x install/populate-science-db.sh
+  chmod +x install/populate-ssa.sh
+  chmod +x install/run_create_science_db.sh
+  chmod +x install/test-jdbc.sh
+  chmod +x install/test-local.sh
+  chmod +x install/test-remote.sh
+  chmod +x install/verify-integrity.sh
+  chmod +x install/macos/deploy-local.sh
+  chmod +x install/macos/install-mysql-macos.sh
+  chmod +x install/macos/populate-all.sh
+  chmod +x install/macos/populate-science-db.sh
+  chmod +x install/macos/test-jdbc.sh
+
+One-liner:
+  find . -name "*.sh" -exec chmod +x {} \;

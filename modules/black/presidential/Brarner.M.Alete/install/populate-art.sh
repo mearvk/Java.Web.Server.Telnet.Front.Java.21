@@ -24,11 +24,16 @@ mkdir -p "$BMA_ROOT/data/art"
 
 if [ -f "$DATA_CSV" ] && [ -s "$DATA_CSV" ]; then
     echo "[*] Loading art data from CSV..."
+    $MYSQL_CMD BrarnerScience -e "ALTER TABLE art_works ADD COLUMN IF NOT EXISTS collection VARCHAR(100) AFTER museum_name;" 2>/dev/null || true
     $MYSQL_CMD BrarnerScience -e "TRUNCATE TABLE art_works;"
+    TMP_SQL="/tmp/bma-art.sql"
+    echo "USE BrarnerScience;" > "$TMP_SQL"
     tail -n +2 "$DATA_CSV" | while IFS=',' read -r museum title artist year medium collection; do
         museum="${museum//\'/\\\'}" title="${title//\'/\\\'}" artist="${artist//\'/\\\'}" medium="${medium//\'/\\\'}" collection="${collection//\'/\\\'}"
-        $MYSQL_CMD BrarnerScience -e "INSERT INTO art_works(museum_name,title,artist,year_created,medium,collection) VALUES('$museum','$title','$artist','$year','$medium','$collection');"
+        echo "INSERT INTO art_works(museum_name,title,artist,year_created,medium,collection) VALUES('$museum','$title','$artist','$year','$medium','$collection');" >> "$TMP_SQL"
     done
+    $MYSQL_CMD < "$TMP_SQL"
+    rm -f "$TMP_SQL"
     ROWS=$($MYSQL_CMD -N -e "SELECT COUNT(*) FROM BrarnerScience.art_works;")
     echo "[OK] art_works table: $ROWS rows"
 else

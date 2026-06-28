@@ -1,9 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Brarner.M.Alete™ — Populate ALL Tables (macOS)
-# Delegates to the main Linux scripts (same bash/mysql).
+# Runs all population scripts in sequence.
 # Usage: bash install/macos/populate-all.sh
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-BMA_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
-exec bash "$BMA_ROOT/install/populate-all.sh"
+
+echo "═══════════════════════════════════════════════════════════════"
+echo " Brarner.M.Alete™ — Populate All Tables (macOS)"
+echo "═══════════════════════════════════════════════════════════════"
+echo ""
+
+bash "$SCRIPT_DIR/populate-science-db.sh"
+echo ""
+bash "$SCRIPT_DIR/populate-postal.sh"
+echo ""
+bash "$SCRIPT_DIR/populate-art.sh"
+echo ""
+bash "$SCRIPT_DIR/populate-publications.sh"
+echo ""
+bash "$SCRIPT_DIR/populate-ssa.sh"
+
+echo ""
+echo "═══════════════════════════════════════════════════════════════"
+echo " [✓] All tables populated"
+echo "     animalia, species, postal, art_works, publications, ssa_offices"
+echo "═══════════════════════════════════════════════════════════════"
