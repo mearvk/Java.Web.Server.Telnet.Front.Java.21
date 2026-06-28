@@ -74,6 +74,8 @@ CREATE TABLE IF NOT EXISTS postal (
     city VARCHAR(100),
     state VARCHAR(50),
     county VARCHAR(100),
+    latitude DECIMAL(9,6),
+    longitude DECIMAL(9,6),
     INDEX idx_state (state),
     INDEX idx_zip (zip_code)
 );
@@ -81,6 +83,7 @@ CREATE TABLE IF NOT EXISTS postal (
 CREATE TABLE IF NOT EXISTS art_works (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     museum_name VARCHAR(255),
+    collection VARCHAR(100),
     title VARCHAR(500),
     artist VARCHAR(255),
     year_created VARCHAR(20),
@@ -95,6 +98,7 @@ CREATE TABLE IF NOT EXISTS publications (
     authors TEXT,
     doi VARCHAR(255),
     year_published VARCHAR(10),
+    abstract_text TEXT,
     INDEX idx_source (source_name)
 );
 SQL
