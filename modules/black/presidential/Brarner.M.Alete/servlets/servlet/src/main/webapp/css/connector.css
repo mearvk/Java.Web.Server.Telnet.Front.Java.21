@@ -15,19 +15,18 @@
     display: block;
     margin: 0 auto;
     cursor: pointer;
-    width: 80px;
-    height: 80px;
     border-radius: 50%;
-    transition: transform 0.2s ease, filter 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84), filter 0.3s ease;
     padding: 0;
     border: none;
     background: none;
 }
 .cd1-btn-img {
-    width: 80px;
-    height: 80px;
+    width: 25%;
+    height: auto;
     border-radius: 50%;
     display: block;
+    margin: 0 auto;
 }
 .cd1-btn:hover {
     transform: scale(1.05);
