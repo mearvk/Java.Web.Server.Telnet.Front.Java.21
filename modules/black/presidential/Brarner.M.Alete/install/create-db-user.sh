@@ -17,7 +17,7 @@ echo " (root@localhost often uses unix_socket auth which blocks JDBC)"
 echo ""
 
 BMA_USER="bma"
-BMA_PASS="bma_$(openssl rand -hex 8 2>/dev/null || echo 'Secure2026!')"
+BMA_PASS='$$Ironman1'
 DB_NAME="BrarnerScience"
 
 # Try connecting as root via socket (sudo mysql) first, then with password
@@ -28,7 +28,10 @@ if sudo mysql -e "SELECT 1" 2>/dev/null | grep -q 1; then
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
 CREATE USER IF NOT EXISTS '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
 ALTER USER '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
+CREATE USER IF NOT EXISTS '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
+ALTER USER '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'localhost';
+GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'127.0.0.1';
 FLUSH PRIVILEGES;
 SQL
 elif mysql -u root -e "SELECT 1" 2>/dev/null | grep -q 1; then
@@ -37,7 +40,10 @@ elif mysql -u root -e "SELECT 1" 2>/dev/null | grep -q 1; then
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
 CREATE USER IF NOT EXISTS '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
 ALTER USER '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
+CREATE USER IF NOT EXISTS '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
+ALTER USER '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'localhost';
+GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'127.0.0.1';
 FLUSH PRIVILEGES;
 SQL
 else
@@ -48,7 +54,10 @@ else
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
 CREATE USER IF NOT EXISTS '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
 ALTER USER '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
+CREATE USER IF NOT EXISTS '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
+ALTER USER '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'localhost';
+GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'127.0.0.1';
 FLUSH PRIVILEGES;
 SQL
 fi
