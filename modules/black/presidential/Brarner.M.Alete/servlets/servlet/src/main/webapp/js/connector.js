@@ -17,12 +17,14 @@
     function isOpen() { return dialog.style.display !== 'none'; }
 
     function openDialog() {
-        dialog.style.display = 'block';
-        overlay.style.display = 'block';
         btn.setAttribute('aria-pressed', 'true');
         btn.style.transform = 'scale(0.9)';
         btn.style.filter = 'drop-shadow(0 0 8px rgba(59,130,246,0.6))';
-        resetIdleTimer();
+        setTimeout(function() {
+            dialog.style.display = 'block';
+            overlay.style.display = 'block';
+            resetIdleTimer();
+        }, 300);
     }
 
     function closeDialog() {
