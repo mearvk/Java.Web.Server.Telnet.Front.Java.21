@@ -3,7 +3,7 @@
     <module>
         <name>AE6E66</name>
         <description>House of Lords + House of Commons Contact and Portrait Module</description>
-        <version>1.1</version>
+        <version>1.2</version>
         <author>Max Rupplin - MEARVK LLC</author>
         <color>Emerald Green</color>
         <trust>9.5/10</trust>
@@ -21,7 +21,6 @@
         <portraits-dir>portraits</portraits-dir>
         <contacts-file>contacts.csv</contacts-file>
         <personal-dir>personal</personal-dir>
-        <!-- Skip crawl if .last-crawl < 30 days. Re-crawl on new election season. -->
         <last-crawl-file>configuration/.last-crawl</last-crawl-file>
         <skip-days>30</skip-days>
         <parliament-session></parliament-session>
@@ -44,10 +43,35 @@
         <domain>lauradei.us</domain>
         <static-ip>45.32.31.139</static-ip>
         <dkim-selector>ae6e66</dkim-selector>
+        <dkim-bits>2048</dkim-bits>
         <install-target>Japanese VPS (chance/luck)</install-target>
         <require-postfix>true</require-postfix>
         <rate-limit-seconds>2</rate-limit-seconds>
+        <socket-timeout-seconds>30</socket-timeout-seconds>
     </email>
+
+    <security>
+        <tls-minimum>TLSv1.2</tls-minimum>
+        <tls-ciphers>high</tls-ciphers>
+        <spf-policy>-all</spf-policy>
+        <dmarc-policy>quarantine</dmarc-policy>
+        <relay-restriction>reject_unauth_destination</relay-restriction>
+        <helo-required>true</helo-required>
+        <dkim-socket>unix:/run/opendkim/opendkim.sock</dkim-socket>
+        <require-safe-keys>true</require-safe-keys>
+        <email-validation>RFC5321</email-validation>
+        <header-injection-prevention>true</header-injection-prevention>
+    </security>
+
+    <mysql>
+        <database>nwe_ae6e66</database>
+        <user>ae6e66_svc</user>
+        <credentials-file>configuration/.db-credentials</credentials-file>
+        <tables>contacts, sent_log, crawl_history</tables>
+        <engine>InnoDB</engine>
+        <charset>utf8mb4_unicode_ci</charset>
+        <setup-script>scripts/setup-mysql.sh</setup-script>
+    </mysql>
 
     <cron>
         <registered>true</registered>
