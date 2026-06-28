@@ -12,36 +12,28 @@
 }
 .cd1-btn {
     all: unset;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     margin: 0 auto;
     cursor: pointer;
-    border-radius: 50%;
     transition: transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84), filter 0.3s ease;
     padding: 0;
     border: none;
     background: transparent;
-    width: 64px;
-    height: 64px;
+    transform: scale(0.25);
 }
 .cd1-btn-img {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
     display: block;
-    background: #0a0a0f;
-    mix-blend-mode: screen;
+    border-radius: 50%;
 }
 .cd1-btn:hover {
-    transform: scale(1.05);
+    transform: scale(0.27);
     filter: brightness(1.2);
 }
 .cd1-btn:active {
-    transform: scale(0.93);
+    transform: scale(0.22);
 }
 .cd1-btn[aria-pressed="true"] {
-    transform: scale(0.95);
+    transform: scale(0.23);
     filter: drop-shadow(0 0 8px rgba(59,130,246,0.6));
 }
 
