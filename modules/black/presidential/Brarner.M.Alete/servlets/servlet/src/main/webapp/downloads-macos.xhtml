@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/png" href="images/favicon.png"/>
+    <title>macOS Downloads — Brarner.M.Alete™</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/expandable.css"/>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+    <a href="index.xhtml" class="nav-brand"><img src="images/mearvk.ltd.logo.left.png" alt="" style="height:40px;vertical-align:middle;margin-right:8px;background:transparent;"/>Brarner.M.Alete™<img src="images/mearvk.ltd.logo.right.png" alt="" style="height:40px;vertical-align:middle;margin-left:8px;background:transparent;"/></a>
+    <ul class="nav-links">
+        <li><a href="index.xhtml">Overview</a></li>
+        <li><a href="species.xhtml">Species</a></li>
+        <li><a href="postal.xhtml">Postal</a></li>
+        <li><a href="art.xhtml">Art</a></li>
+        <li><a href="science.xhtml">Science</a></li>
+        <li><a href="status.xhtml">Status</a></li>
+    </ul>
+    <div class="nav-actions">
+        <a href="register.xhtml" class="nav-cta">Register</a>
+        <a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a>
+        <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+    </div>
+</div></nav>
+
+<section class="hero" style="padding:4rem 2rem;">
+    <div class="hero-inner">
+        <span class="hero-tag">macOS x64 / aarch64</span>
+        <h1>macOS Downloads</h1>
+        <p>All Brarner.M.Alete™ release archives for macOS. tar.gz and ZIP format.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <h3>Available Releases</h3>
+        <p>Direct download links from <a href="https://github.com/mearvk/Brarner.M.Alete">github.com/mearvk/Brarner.M.Alete</a>. All releases are LTS.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Release</th><th>Date</th><th>tar.gz</th><th>ZIP</th></tr></thead>
+                <tbody>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk-US.Congress.Edition</td><td>Jun 2026</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk-US.Congress.Edition.tar.gz" class="btn-download">tar.gz →</a></td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk-US.Congress.Edition.zip" class="btn-download">ZIP →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Latest release. US Congress Edition.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>v9.9.1</td><td>May 2026</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/v9.9.1.tar.gz" class="btn-download">tar.gz →</a></td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/v9.9.1.zip" class="btn-download">ZIP →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Version 9.9.1 — Support status update.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk-3.0</td><td>May 2026</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk-3.0.tar.gz" class="btn-download">tar.gz →</a></td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk-3.0.zip" class="btn-download">ZIP →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Major version 3.0 release.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk-2.0</td><td>May 2026</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk-2.0.tar.gz" class="btn-download">tar.gz →</a></td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk-2.0.zip" class="btn-download">ZIP →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Major version 2.0 release.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk.GMnA</td><td>May 2026</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk.GMnA.tar.gz" class="btn-download">tar.gz →</a></td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk.GMnA.zip" class="btn-download">ZIP →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>GMnA edition release.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk_Evil.Anar</td><td>May 2026</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk_Evil.Anar.tar.gz" class="btn-download">tar.gz →</a></td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk_Evil.Anar.zip" class="btn-download">ZIP →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Evil.Anar edition release.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>MearvK-Attal.a</td><td>May 2026</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/MearvK-Attal.a.tar.gz" class="btn-download">tar.gz →</a></td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/MearvK-Attal.a.zip" class="btn-download">ZIP →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Attal.a edition release.</p></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
+    <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
+</div></footer>
+
+<script src="js/session.js"></script>
+<script src="js/expandable.js"></script>
+</body>
+</html>
