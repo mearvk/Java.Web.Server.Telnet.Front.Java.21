@@ -66,6 +66,46 @@ This software verifies its operational authorization by checking the presence of
 
 ---
 
+## Website Editions (Servlet Webapps)
+
+Each module has a JSP-driven website that interfaces with its running TCP server. Websites deploy to Tomcat and connect to MySQL for persistent data and to the module's TCP port for live interaction.
+
+**Quick Install (all platforms):**
+
+| Platform | Command |
+|----------|---------|
+| Linux | `sudo bash scripts/web/post-clone.sh` |
+| macOS | `bash scripts/web/post-clone-macos.sh` |
+| Windows | `scripts\web\post-clone.bat` (as Administrator) |
+
+**Deploy only websites (Tomcat + MySQL already installed):**
+
+| Platform | Command |
+|----------|---------|
+| Linux | `sudo bash scripts/web/deploy-all.sh` |
+| macOS | `bash scripts/web/deploy-all-macos.sh` |
+| Windows | `scripts\web\deploy-all.bat` |
+
+**Configuration:** Edit `scripts/web/web-deploy-config.xml` to enable/disable specific modules, configure reboot behavior, and cron schedules before running deploy.
+
+**Module Webapps:**
+
+| Module | URL Path | Color | Port Interface |
+|--------|----------|-------|----------------|
+| Brarner.M.Alete™ | `/brarner.m.alete` | Blue | — |
+| AE6E66™ | `/ae6e66` | Emerald | — |
+| Futures™ | `/futures` | Red | 5000 |
+| Green.Durham.Grass.and.Herb™ | `/gdgh` | Green | 20000, 40002–7, 49152 |
+| GrayPortRegistry™ | `/gray-registry` | Gray | 9999 |
+| Gray85 Crème™ | `/gray85-registry` | Amber | 10085 |
+| Black Belt™ | `/blackbelt` | Black/White | — |
+| Languages™ | `/languages` | Violet | — |
+| Strernary™ | `/strernary` | Cyan | 20000, 2000 |
+
+**Requirements:** Java 21+, MySQL 8.x, Tomcat 11. See `DIGTIK.md` for full architecture and lessons learned.
+
+---
+
 ## International Signal Servers
 
 Country-specific signal servers that connect to international news, market, and data sources. Each runs on its own port, uses virtual threads (Java 21), and stores data in a dedicated MySQL database.
