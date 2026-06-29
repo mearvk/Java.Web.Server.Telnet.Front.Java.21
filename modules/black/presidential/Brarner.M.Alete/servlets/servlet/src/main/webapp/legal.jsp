@@ -172,19 +172,77 @@ Static data available in data/legal/safe/ directory.</div>
 <section class="section">
     <div class="section-inner">
         <h2>Landmark Precedent Cases</h2>
-        <p>Key US Supreme Court decisions shaping constitutional law.</p>
+        <p>Key US Supreme Court decisions shaping constitutional law. Click a row to expand.</p>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>Case</th><th>Citation</th><th>Year</th><th>Category</th><th>Significance</th></tr></thead>
                 <tbody>
-                    <tr><td>Marbury v. Madison</td><td>5 U.S. 137</td><td>1803</td><td>Judicial Review</td><td>Courts can strike down unconstitutional laws</td></tr>
-                    <tr><td>Brown v. Board of Education</td><td>347 U.S. 483</td><td>1954</td><td>Civil Rights</td><td>Ended school segregation</td></tr>
-                    <tr><td>Miranda v. Arizona</td><td>384 U.S. 436</td><td>1966</td><td>Criminal Procedure</td><td>Miranda warnings required</td></tr>
-                    <tr><td>Roe v. Wade</td><td>410 U.S. 113</td><td>1973</td><td>Privacy</td><td>Overruled by Dobbs (2022)</td></tr>
-                    <tr><td>Citizens United v. FEC</td><td>558 U.S. 310</td><td>2010</td><td>First Amendment</td><td>Corporate political speech protected</td></tr>
-                    <tr><td>Obergefell v. Hodges</td><td>576 U.S. 644</td><td>2015</td><td>Equal Protection</td><td>Same-sex marriage nationwide</td></tr>
-                    <tr><td>Dobbs v. Jackson</td><td>597 U.S. 215</td><td>2022</td><td>Privacy</td><td>Overruled Roe; no constitutional right to abortion</td></tr>
-                    <tr><td>Loper Bright v. Raimondo</td><td>144 S.Ct. 2244</td><td>2024</td><td>Admin Law</td><td>Overruled Chevron deference</td></tr>
+                    <tr class="expandable-row" onclick="toggleDetail('prec-1')" style="cursor:pointer;"><td style="color:var(--accent)">Marbury v. Madison</td><td>5 U.S. 137</td><td>1803</td><td>Judicial Review</td><td>Courts can strike down unconstitutional laws</td></tr>
+                    <tr id="prec-1" class="detail-row" style="display:none;"><td colspan="5" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Marbury v. Madison, 5 U.S. (1 Cranch) 137 (1803)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Court:</strong> Supreme Court of the United States</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Chief Justice:</strong> John Marshall</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.75rem;"><strong>Holding:</strong> The Supreme Court has the power of judicial review — it can declare acts of Congress unconstitutional. Established the judiciary as a co-equal branch with the authority to interpret the Constitution as supreme law.</div>
+                        <div><a href="https://www.courtlistener.com/opinion/85272/marbury-v-madison/" target="_blank" style="color:var(--accent);">Read full opinion on CourtListener →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('prec-2')" style="cursor:pointer;"><td style="color:var(--accent)">Brown v. Board of Education</td><td>347 U.S. 483</td><td>1954</td><td>Civil Rights</td><td>Ended school segregation</td></tr>
+                    <tr id="prec-2" class="detail-row" style="display:none;"><td colspan="5" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Brown v. Board of Education of Topeka, 347 U.S. 483 (1954)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Court:</strong> Supreme Court of the United States</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Chief Justice:</strong> Earl Warren (unanimous)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.75rem;"><strong>Holding:</strong> Separate educational facilities are inherently unequal. Overruled Plessy v. Ferguson (1896). State-mandated racial segregation in public schools violates the Equal Protection Clause of the 14th Amendment.</div>
+                        <div><a href="https://www.courtlistener.com/opinion/105250/brown-v-board-of-education/" target="_blank" style="color:var(--accent);">Read full opinion on CourtListener →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('prec-3')" style="cursor:pointer;"><td style="color:var(--accent)">Miranda v. Arizona</td><td>384 U.S. 436</td><td>1966</td><td>Criminal Procedure</td><td>Miranda warnings required</td></tr>
+                    <tr id="prec-3" class="detail-row" style="display:none;"><td colspan="5" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Miranda v. Arizona, 384 U.S. 436 (1966)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Court:</strong> Supreme Court of the United States</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Chief Justice:</strong> Earl Warren (5-4)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.75rem;"><strong>Holding:</strong> Prior to custodial interrogation, suspects must be informed of their right to remain silent and their right to an attorney. Statements obtained without these warnings are inadmissible. Created the "Miranda warnings" now standard in US law enforcement.</div>
+                        <div><a href="https://www.courtlistener.com/opinion/107252/miranda-v-arizona/" target="_blank" style="color:var(--accent);">Read full opinion on CourtListener →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('prec-4')" style="cursor:pointer;"><td style="color:var(--accent)">Roe v. Wade</td><td>410 U.S. 113</td><td>1973</td><td>Privacy</td><td>Overruled by Dobbs (2022)</td></tr>
+                    <tr id="prec-4" class="detail-row" style="display:none;"><td colspan="5" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Roe v. Wade, 410 U.S. 113 (1973)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Justice:</strong> Harry Blackmun (7-2)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.75rem;"><strong>Holding:</strong> The Due Process Clause of the 14th Amendment provides a fundamental right to privacy that protects a woman's decision to have an abortion. Established trimester framework. <em>Overruled by Dobbs v. Jackson Women's Health Organization (2022).</em></div>
+                        <div><a href="https://www.courtlistener.com/opinion/108713/roe-v-wade/" target="_blank" style="color:var(--accent);">Read full opinion on CourtListener →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('prec-5')" style="cursor:pointer;"><td style="color:var(--accent)">Citizens United v. FEC</td><td>558 U.S. 310</td><td>2010</td><td>First Amendment</td><td>Corporate political speech protected</td></tr>
+                    <tr id="prec-5" class="detail-row" style="display:none;"><td colspan="5" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Citizens United v. Federal Election Commission, 558 U.S. 310 (2010)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Justice:</strong> Anthony Kennedy (5-4)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.75rem;"><strong>Holding:</strong> The First Amendment prohibits the government from restricting independent political expenditures by corporations, associations, or labor unions. Struck down portions of the Bipartisan Campaign Reform Act (McCain-Feingold).</div>
+                        <div><a href="https://www.courtlistener.com/opinion/1741/citizens-united-v-federal-election-comn/" target="_blank" style="color:var(--accent);">Read full opinion on CourtListener →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('prec-6')" style="cursor:pointer;"><td style="color:var(--accent)">Obergefell v. Hodges</td><td>576 U.S. 644</td><td>2015</td><td>Equal Protection</td><td>Same-sex marriage nationwide</td></tr>
+                    <tr id="prec-6" class="detail-row" style="display:none;"><td colspan="5" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Obergefell v. Hodges, 576 U.S. 644 (2015)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Justice:</strong> Anthony Kennedy (5-4)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.75rem;"><strong>Holding:</strong> The 14th Amendment requires all states to grant and recognize same-sex marriages. The fundamental right to marry is guaranteed to same-sex couples by both the Due Process Clause and the Equal Protection Clause.</div>
+                        <div><a href="https://www.courtlistener.com/opinion/2812209/obergefell-v-hodges/" target="_blank" style="color:var(--accent);">Read full opinion on CourtListener →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('prec-7')" style="cursor:pointer;"><td style="color:var(--accent)">Dobbs v. Jackson</td><td>597 U.S. 215</td><td>2022</td><td>Privacy</td><td>Overruled Roe; no constitutional right to abortion</td></tr>
+                    <tr id="prec-7" class="detail-row" style="display:none;"><td colspan="5" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Dobbs v. Jackson Women's Health Organization, 597 U.S. 215 (2022)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Justice:</strong> Samuel Alito (6-3)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.75rem;"><strong>Holding:</strong> The Constitution does not confer a right to abortion. Overruled Roe v. Wade and Planned Parenthood v. Casey. Authority to regulate abortion returned to the people and their elected representatives in the states.</div>
+                        <div><a href="https://www.courtlistener.com/opinion/4735494/dobbs-v-jackson-womens-health-organization/" target="_blank" style="color:var(--accent);">Read full opinion on CourtListener →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('prec-8')" style="cursor:pointer;"><td style="color:var(--accent)">Loper Bright v. Raimondo</td><td>144 S.Ct. 2244</td><td>2024</td><td>Admin Law</td><td>Overruled Chevron deference</td></tr>
+                    <tr id="prec-8" class="detail-row" style="display:none;"><td colspan="5" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Loper Bright Enterprises v. Raimondo, 144 S.Ct. 2244 (2024)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Chief Justice:</strong> John Roberts (6-3)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.75rem;"><strong>Holding:</strong> Overruled Chevron U.S.A. v. NRDC (1984). Courts must exercise independent judgment in deciding whether an agency has acted within its statutory authority. Agencies are no longer entitled to deference in interpreting ambiguous statutes.</div>
+                        <div><a href="https://www.courtlistener.com/opinion/9511238/loper-bright-enterprises-v-raimondo/" target="_blank" style="color:var(--accent);">Read full opinion on CourtListener →</a></div>
+                    </td></tr>
                 </tbody>
             </table>
         </div>
@@ -299,6 +357,7 @@ function cd1Send() {
     t.scrollTop = t.scrollHeight;
 }
 function cd1Ok() { var t = document.getElementById("cd1-textarea"); if(!t)return; t.value += "[" + new Date().toLocaleTimeString() + "] OK.\n"; t.scrollTop = t.scrollHeight; }
+function toggleDetail(id) { var el = document.getElementById(id); if (!el) return; var open = el.style.display === "none"; el.style.display = open ? "table-row" : "none"; var prev = el.previousElementSibling; if (prev) { if (open) prev.classList.add("open"); else prev.classList.remove("open"); } }
 </script>
 </body>
 </html>

@@ -290,3 +290,11 @@ a.platform-badge:hover { border-color: #22c55e; transform: translateY(-2px); }
     .section { padding: 3rem 1.5rem; }
     .footer-inner { grid-template-columns: 1fr; }
 }
+
+/* Expandable table rows */
+.expandable-row:hover { background: var(--bg-card); }
+.expandable-row td:first-child { position: relative; padding-left: 1.5rem; }
+.expandable-row td:first-child::before { content: "▶"; position: absolute; left: 0.5rem; font-size: 0.6rem; color: var(--text-muted); transition: transform 0.2s; }
+.expandable-row.open td:first-child::before { transform: rotate(90deg); }
+.detail-row td { animation: slideDown 0.2s ease; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }

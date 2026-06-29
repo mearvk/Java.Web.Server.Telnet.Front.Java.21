@@ -102,12 +102,32 @@
                 <tbody>
 <%
             boolean hasRows = false;
-            while (rs.next()) { hasRows = true; %>
-                    <tr>
-                        <td><%= rs.getString("title") != null ? rs.getString("title") : "" %></td>
-                        <td><%= rs.getString("authors") != null ? rs.getString("authors") : "" %></td>
-                        <td><%= rs.getString("doi") != null ? rs.getString("doi") : "" %></td>
-                        <td><%= rs.getString("year_published") != null ? rs.getString("year_published") : "" %></td>
+            int rowIdx = 0;
+            while (rs.next()) { hasRows = true; rowIdx++;
+                String title = rs.getString("title") != null ? rs.getString("title") : "";
+                String authors = rs.getString("authors") != null ? rs.getString("authors") : "";
+                String doi = rs.getString("doi") != null ? rs.getString("doi") : "";
+                String year = rs.getString("year_published") != null ? rs.getString("year_published") : "";
+%>
+                    <tr class="expandable-row" onclick="toggleDetail('detail-<%= rowIdx %>')" style="cursor:pointer;">
+                        <td style="color:var(--accent)"><%= title %></td>
+                        <td><%= authors %></td>
+                        <td><%= doi %></td>
+                        <td><%= year %></td>
+                    </tr>
+                    <tr id="detail-<%= rowIdx %>" class="detail-row" style="display:none;">
+                        <td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                            <div style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;"><%= title %></div>
+                            <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Authors:</strong> <%= authors %></div>
+                            <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Year:</strong> <%= year %></div>
+<% if (!doi.isEmpty()) { %>
+                            <div style="margin-bottom:0.5rem;"><strong>DOI:</strong> <a href="https://doi.org/<%= doi %>" target="_blank" style="color:var(--accent);"><%= doi %></a></div>
+<% } %>
+                            <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Source:</strong> <%= source %></div>
+                            <div style="margin-top:0.75rem;padding:0.75rem;background:var(--bg-section);border-radius:8px;font-size:0.8rem;color:var(--text-muted);">
+                                Click title row again to collapse. Full text available via DOI link when provided.
+                            </div>
+                        </td>
                     </tr>
 <%          }
             if (!hasRows) { %>
@@ -182,6 +202,7 @@
 })();
 function cd1Send() { var s = document.getElementById("cd1-action"); var t = document.getElementById("cd1-textarea"); if(!s||!t)return; t.value += "[" + new Date().toLocaleTimeString() + "] " + s.value + " sent.\n"; }
 function cd1Ok() { var t = document.getElementById("cd1-textarea"); if(!t)return; t.value += "[" + new Date().toLocaleTimeString() + "] OK.\n"; }
+function toggleDetail(id) { var el = document.getElementById(id); if (!el) return; var open = el.style.display === "none"; el.style.display = open ? "table-row" : "none"; var prev = el.previousElementSibling; if (prev) { if (open) prev.classList.add("open"); else prev.classList.remove("open"); } }
 </script>
 </body>
 </html>
