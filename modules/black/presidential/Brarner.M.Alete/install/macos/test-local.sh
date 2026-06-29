@@ -27,12 +27,11 @@ check() {
     fi
 }
 
-check "/index.jsp" "index.jsp"
-check "/species.jsp" "species.jsp"
-check "/postal.jsp" "postal.jsp"
-check "/art.jsp" "art.jsp"
-check "/science.jsp" "science.jsp"
-check "/status.jsp" "status.jsp"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+WEBAPP_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")/servlets/servlet/src/main/webapp"
+for jsp in $(find "$WEBAPP_DIR" -maxdepth 1 -name "*.jsp" -print0 2>/dev/null | xargs -0 -I{} basename {} | sort); do
+    check "/${jsp}" "${jsp}"
+done
 check "/css/style.css" "css/style.css"
 
 echo ""

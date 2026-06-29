@@ -5,6 +5,7 @@ setlocal
 
 set PORT=%1
 if "%PORT%"=="" set PORT=8080
+set BMA_ROOT=%~dp0..\..
 set BASE=http://localhost:%PORT%/brarner.m.alete
 
 echo ═══════════════════════════════════════════════════════════════
@@ -14,12 +15,9 @@ echo ═════════════════════════
 echo.
 
 echo [*] Testing pages...
-curl -s -o nul -w "  [%%{http_code}] index.jsp" "%BASE%/index.jsp" & echo.
-curl -s -o nul -w "  [%%{http_code}] species.jsp" "%BASE%/species.jsp" & echo.
-curl -s -o nul -w "  [%%{http_code}] postal.jsp" "%BASE%/postal.jsp" & echo.
-curl -s -o nul -w "  [%%{http_code}] art.jsp" "%BASE%/art.jsp" & echo.
-curl -s -o nul -w "  [%%{http_code}] science.jsp" "%BASE%/science.jsp" & echo.
-curl -s -o nul -w "  [%%{http_code}] status.jsp" "%BASE%/status.jsp" & echo.
+for %%f in (%BMA_ROOT%\servlets\servlet\src\main\webapp\*.jsp) do (
+    curl -s -o nul -w "  [%%{http_code}] %%~nxf" "%BASE%/%%~nxf" & echo.
+)
 
 echo.
 echo [*] Testing static resources...
