@@ -5289,3 +5289,33 @@ PORTS
   49205     UkraineSignalServer™
 
 --- END STRUCTURE ---
+
+
+WEBSITE EDITIONS (servlet webapps)
+===================================
+Location:      scripts/web/
+Config:        scripts/web/web-deploy-config.xml
+Guide:         DIGTIK.md
+
+Install (all platforms):
+  Linux:       sudo bash scripts/web/post-clone.sh
+  macOS:       bash scripts/web/post-clone-macos.sh
+  Windows:     scripts\web\post-clone.bat (Administrator)
+
+Deploy only (deps already installed):
+  Linux:       sudo bash scripts/web/deploy-all.sh
+  macOS:       bash scripts/web/deploy-all-macos.sh
+  Windows:     scripts\web\deploy-all.bat
+
+Module Webapps:
+  /brarner.m.alete    modules/black/presidential/Brarner.M.Alete/servlets/   Blue    BrarnerScience
+  /ae6e66             modules/AE6E66/servlets/                                Emerald nwe_ae6e66
+  /futures            modules/black/red/Futures/servlets/                     Red     nwe_futures
+  /gdgh               modules/black/presidential/Green.Durham.Grass.and.Herb/servlets/ Green nwe_gdgh
+  /blackbelt          modules/black/belt/servlets/                            Black   nwe_blackbelt
+  /gray-registry      modules/gray/servlets/                                  Gray    nwe_gray_registry
+  /gray85-registry    modules/gray.a85/servlets/                              Amber   nwe_gray85_registry
+  /languages          modules/languages/servlets/                             Violet  nwe_languages
+  /strernary          source/strernary/servlets/                              Cyan    nwe_strernary
+
+Requirements: Java 21+, MySQL 8.x (caching_sha2_password), Tomcat 11
