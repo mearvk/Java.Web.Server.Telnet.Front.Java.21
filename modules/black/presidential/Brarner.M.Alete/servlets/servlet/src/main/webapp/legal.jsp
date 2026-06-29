@@ -127,26 +127,7 @@
         <button onclick="cd1Send()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Send</button>
         <button onclick="cd1Ok()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
     </div>
-    <textarea id="cd1-textarea" readonly spellcheck="false" style="width:100%;min-height:200px;background:#ffffff;color:#111;border:1px solid #27272a;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:0.8rem;resize:vertical;">US Code Titles:        54 (27 positive law)
-USC Sections:          ~200,000 total
-Court Opinions:        6,800,000 (1658-2026)
-Public Laws (119th):   45 enacted (2025-2026)
-Landmark Precedents:   24 key SCOTUS decisions
-Data Sources:          3 (GovInfo + CourtListener + Harvard CAP)
-
---- Sources ---
-GovInfo (GPO):         govinfo.gov — US Code, Public Laws, Statutes, CFR
-CourtListener:         courtlistener.com — 6.8M opinions, citations, dockets (CC0)
-Harvard CAP:           case.law — 6.5M+ historical decisions (transitioning)
-
---- TCP Protocol (ports 18500-18507) ---
-SEARCH|keyword         Search all legal data
-CASE|name              Lookup case by name
-TITLE|number           Lookup USC title
-PRECEDENT|keyword      Search landmark cases
-CITE|citation          Lookup by citation
-COUNTS                 Whole law count statistics
-STATUS                 Health check</textarea>
+    <textarea id="cd1-textarea" placeholder="Connection idle..." spellcheck="false" style="width:100%;min-height:140px;background:#ffffff;color:#111;border:1px solid #27272a;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:0.8rem;resize:vertical;"></textarea>
 </div>
 
 <div class="legal-grid">
@@ -181,40 +162,6 @@ STATUS                 Health check</textarea>
         <div class="label">GovInfo + CourtListener + Harvard CAP <span class="source-badge source-harvard">Harvard</span></div>
     </div>
 </div>
-
-<script>
-(function(){
-    var btn=document.getElementById('cd1-btn');
-    var dialog=document.getElementById('cd1-dialog');
-    var overlay=document.getElementById('cd1-overlay');
-    var textarea=document.getElementById('cd1-textarea');
-    var open=false;
-
-    function toggle(){
-        open=!open;
-        btn.setAttribute('aria-pressed',open);
-        btn.style.transform=open?'scale(1.15) rotate(6deg)':'';
-        btn.style.filter=open?'brightness(1.3) drop-shadow(0 0 12px #3b82f6)':'';
-        dialog.style.display=open?'block':'none';
-        overlay.style.display=open?'block':'none';
-    }
-    btn.addEventListener('click',toggle);
-    overlay.addEventListener('click',toggle);
-
-    window.cd1Send=function(){
-        var action=document.getElementById('cd1-action').value;
-        var responses={
-            'counts':'COUNTS\n─────────────────────────────────────────\nUS Code Titles:        54 (27 positive law)\nUSC Sections:          ~200,000 total\nCourt Opinions:        6,800,000 (1658-2026)\nPublic Laws (119th):   45 enacted (2025-2026)\nLandmark Precedents:   24 key SCOTUS decisions\nData Sources:          3\nEND',
-            'precedent':'PRECEDENT|all\n─────────────────────────────────────────\nMarbury v. Madison        5 U.S. 137 (1803)      Judicial Review\nBrown v. Board            347 U.S. 483 (1954)    Civil Rights\nMiranda v. Arizona        384 U.S. 436 (1966)    Criminal Procedure\nRoe v. Wade               410 U.S. 113 (1973)    Privacy (overruled)\nCitizens United v. FEC    558 U.S. 310 (2010)    First Amendment\nObergefell v. Hodges      576 U.S. 644 (2015)    Equal Protection\nDobbs v. Jackson          597 U.S. 215 (2022)    Privacy\nLoper Bright v. Raimondo  144 S.Ct. 2244 (2024)  Admin Law\nEND|8 results (showing top 8 of 24)',
-            'uscode':'TITLE|all\n─────────────────────────────────────────\n1  General Provisions          310 sections   positive law\n5  Gov Org & Employees         10400 sections positive law\n10 Armed Forces                18000 sections positive law\n18 Crimes & Criminal Procedure 6700 sections  positive law\n26 Internal Revenue Code       11400 sections NOT positive law\n28 Judiciary & Judicial Proc   4800 sections  positive law\n34 Crime Control & Law Enf     44000 sections positive law\n42 Public Health & Welfare     19000 sections NOT positive law\n54 National Park Service       4200 sections  positive law\nEND|54 titles total (~200,000 sections)',
-            'caselaw':'CASELAW|stats\n─────────────────────────────────────────\nSCOTUS:     35,000 opinions (1754-2026)\n9th Cir:    145,000 opinions (1891-2026)\n5th Cir:    110,000 opinions (1891-2026)\n2nd Cir:    98,000 opinions (1891-2026)\nNC Supreme: 45,000 opinions (1778-2026)\nNC Appeals: 52,000 opinions (1968-2026)\nAll Courts: 6,800,000 total\nEND',
-            'status':'STATUS\n─────────────────────────────────────────\nOK|legal.caselaw|port=18500|datasets=15|rating=9.5\nOK|legal.uscode|port=18501|datasets=15|rating=9.5\nOK|legal.publiclaws|port=18502|datasets=15|rating=9.5\nOK|legal.precedent|port=18503|datasets=15|rating=9.5\nOK|legal.statutes|port=18504|datasets=15|rating=9.5\nOK|legal.cfr|port=18505|datasets=15|rating=9.5\nOK|legal.counts|port=18506|datasets=15|rating=9.5\nOK|legal.citations|port=18507|datasets=15|rating=9.5\nEND|8 instances healthy'
-        };
-        textarea.value=responses[action]||'ERROR|UNKNOWN_ACTION|'+action;
-    };
-    window.cd1Ok=function(){ toggle(); };
-})();
-</script>
 
 <!-- Search Interface -->
 <h2>Search Legal Data</h2>
@@ -287,5 +234,49 @@ STATUS                   — Health check</div>
 <footer style="text-align:center;padding:2rem;color:#64748b;font-size:0.8rem;">
     Brarner.M.Alete™ Legal Module — MEARVK LLC — Rating: 9.5/10 — Installer ID Tech™
 </footer>
+<script>
+(function(){
+    var btn = document.getElementById("cd1-btn");
+    var dialog = document.getElementById("cd1-dialog");
+    var overlay = document.getElementById("cd1-overlay");
+    if (!btn || !dialog || !overlay) return;
+    btn.addEventListener("click", function() {
+        if (dialog.style.display === "block") {
+            dialog.style.display = "none";
+            overlay.style.display = "none";
+            btn.setAttribute("aria-pressed", "false");
+            btn.style.transform = "";
+            btn.style.filter = "";
+            return;
+        }
+        btn.style.transform = "scale(0.9)";
+        btn.style.filter = "drop-shadow(0 0 8px #3b82f6)";
+        setTimeout(function() {
+            btn.style.transform = "";
+            btn.style.filter = "";
+            dialog.style.display = "block";
+            overlay.style.display = "block";
+        }, 750);
+    });
+    overlay.addEventListener("click", function() { dialog.style.display = "none"; overlay.style.display = "none"; btn.setAttribute("aria-pressed","false"); btn.style.transform=""; btn.style.filter=""; });
+})();
+function cd1Send() {
+    var s = document.getElementById("cd1-action");
+    var t = document.getElementById("cd1-textarea");
+    if (!s || !t) return;
+    var action = s.value;
+    var ts = new Date().toLocaleTimeString();
+    var responses = {
+        "counts": "[" + ts + "] COUNTS\n─────────────────────────────────────────\nUS Code Titles:        54 (27 positive law)\nUSC Sections:          ~200,000 total\nCourt Opinions:        6,800,000 (1658-2026)\nPublic Laws (119th):   45 enacted (2025-2026)\nLandmark Precedents:   24 key SCOTUS decisions\nData Sources:          3\nEND\n",
+        "precedent": "[" + ts + "] PRECEDENT|all\n─────────────────────────────────────────\nMarbury v. Madison        5 U.S. 137 (1803)      Judicial Review\nBrown v. Board            347 U.S. 483 (1954)    Civil Rights\nMiranda v. Arizona        384 U.S. 436 (1966)    Criminal Procedure\nRoe v. Wade               410 U.S. 113 (1973)    Privacy (overruled)\nCitizens United v. FEC    558 U.S. 310 (2010)    First Amendment\nObergefell v. Hodges      576 U.S. 644 (2015)    Equal Protection\nDobbs v. Jackson          597 U.S. 215 (2022)    Privacy\nLoper Bright v. Raimondo  144 S.Ct. 2244 (2024)  Admin Law\nEND|8 results (top 8 of 24)\n",
+        "uscode": "[" + ts + "] TITLE|all\n─────────────────────────────────────────\n1  General Provisions          310 sec    positive law\n5  Gov Org & Employees         10400 sec  positive law\n10 Armed Forces                18000 sec  positive law\n18 Crimes & Criminal Procedure 6700 sec   positive law\n26 Internal Revenue Code       11400 sec  NOT positive law\n28 Judiciary & Judicial Proc   4800 sec   positive law\n34 Crime Control & Law Enf     44000 sec  positive law\n42 Public Health & Welfare     19000 sec  NOT positive law\n54 National Park Service       4200 sec   positive law\nEND|54 titles (~200,000 sections)\n",
+        "caselaw": "[" + ts + "] CASELAW|stats\n─────────────────────────────────────────\nSCOTUS:     35,000 opinions (1754-2026)\n9th Cir:    145,000 opinions (1891-2026)\n5th Cir:    110,000 opinions (1891-2026)\n2nd Cir:    98,000 opinions (1891-2026)\nNC Supreme: 45,000 opinions (1778-2026)\nNC Appeals: 52,000 opinions (1968-2026)\nAll Courts: 6,800,000 total\nEND\n",
+        "status": "[" + ts + "] STATUS\n─────────────────────────────────────────\nOK|legal.caselaw|port=18500|rating=9.5\nOK|legal.uscode|port=18501|rating=9.5\nOK|legal.publiclaws|port=18502|rating=9.5\nOK|legal.precedent|port=18503|rating=9.5\nOK|legal.statutes|port=18504|rating=9.5\nOK|legal.cfr|port=18505|rating=9.5\nOK|legal.counts|port=18506|rating=9.5\nOK|legal.citations|port=18507|rating=9.5\nEND|8 instances healthy\n"
+    };
+    t.value += (responses[action] || "[" + ts + "] " + action + " sent.\n");
+    t.scrollTop = t.scrollHeight;
+}
+function cd1Ok() { var t = document.getElementById("cd1-textarea"); if(!t)return; t.value += "[" + new Date().toLocaleTimeString() + "] OK.\n"; t.scrollTop = t.scrollHeight; }
+</script>
 </body>
 </html>
