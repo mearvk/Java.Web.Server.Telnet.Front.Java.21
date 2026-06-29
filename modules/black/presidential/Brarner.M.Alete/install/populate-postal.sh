@@ -25,16 +25,16 @@ MYSQL_CMD="mysql -u${DB_USER}"
 
 mkdir -p "$DATA_DIR"
 
-# Download free US ZIP code CSV if not present
-ZIP_CSV="$DATA_DIR/us-zip-codes.csv"
+# Use the full US ZIP code CSV (33K+ records, all states)
+ZIP_CSV="$DATA_DIR/us-all-states-zip.csv"
 if [ ! -f "$ZIP_CSV" ]; then
-    echo "[*] Downloading US ZIP code data..."
-    curl -sfL "https://raw.githubusercontent.com/scpike/us-state-county-zip/master/geo-data.csv" -o "$ZIP_CSV" 2>/dev/null || \
-    curl -sfL "https://gist.githubusercontent.com/erichurst/7882666/raw/5bdc46db47d9515269ab12ed6fb2850377fd869e/US%20Zip%20Codes%20from%202013%20Government%20Data" -o "$ZIP_CSV" 2>/dev/null || true
+    echo "[*] Downloading US ZIP code data (all states)..."
+    curl -sfL "https://raw.githubusercontent.com/conradhopp/usa-data/master/US%20ZIP%20Lng%20Lat%20City%20County.csv" -o "$ZIP_CSV" || {
+        echo "[FAIL] Download failed"; exit 1; }
 fi
 
 if [ -f "$ZIP_CSV" ] && [ -s "$ZIP_CSV" ]; then
-    echo "[*] Loading postal data from CSV..."
+    echo "[*] Loading postal data from CSV ($(wc -l < "$ZIP_CSV") lines)..."
     $MYSQL_CMD BrarnerScience <<'SQL'
 DROP TABLE IF EXISTS postal;
 CREATE TABLE postal (
@@ -49,14 +49,17 @@ CREATE TABLE postal (
     INDEX idx_zip (zip_code)
 );
 SQL
-    $MYSQL_CMD BrarnerScience -e "LOAD DATA LOCAL INFILE '$ZIP_CSV' INTO TABLE postal FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES (zip_code, city, state, county, latitude, longitude);" 2>/dev/null || \
-    $MYSQL_CMD --local-infile=1 BrarnerScience -e "LOAD DATA LOCAL INFILE '$ZIP_CSV' INTO TABLE postal FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES (zip_code, city, state, county, latitude, longitude);" 2>/dev/null || {
-        echo "[*] LOAD DATA failed — using INSERT fallback..."
+    # CSV format: ZIP,LAT,LNG,City,State,County — reorder to our schema
+    # Try LOAD DATA first (fastest), fall back to batch INSERT
+    $MYSQL_CMD --local-infile=1 BrarnerScience -e "LOAD DATA LOCAL INFILE '$ZIP_CSV' INTO TABLE postal FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES (@zip, @lat, @lng, @city, @state, @county) SET zip_code=@zip, latitude=@lat, longitude=@lng, city=@city, state=TRIM(@state), county=@county;" 2>/dev/null || \
+    $MYSQL_CMD BrarnerScience -e "LOAD DATA LOCAL INFILE '$ZIP_CSV' INTO TABLE postal FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES (@zip, @lat, @lng, @city, @state, @county) SET zip_code=@zip, latitude=@lat, longitude=@lng, city=@city, state=TRIM(@state), county=@county;" 2>/dev/null || {
+        echo "[*] LOAD DATA failed — using batch INSERT fallback..."
         TMP_SQL="/tmp/bma-postal.sql"
-        echo "USE BrarnerScience; TRUNCATE TABLE postal;" > "$TMP_SQL"
-        tail -n +2 "$ZIP_CSV" | head -50000 | while IFS=',' read -r zip city state county lat lon; do
-            zip="${zip//\'/\\\'}" city="${city//\'/\\\'}" state="${state//\'/\\\'}" county="${county//\'/\\\'}"
-            echo "INSERT INTO postal(zip_code,city,state,county,latitude,longitude) VALUES('$zip','$city','$state','$county',$lat,$lon);" >> "$TMP_SQL"
+        echo "USE BrarnerScience;" > "$TMP_SQL"
+        # Process CSV: ZIP,LAT,LNG,City,State,County
+        tail -n +2 "$ZIP_CSV" | tr -d '\r' | while IFS=',' read -r zip lat lng city state county; do
+            city="${city//\'/\\\'}" county="${county//\'/\\\'}" state="$(echo "$state" | tr -d ' ')"
+            echo "INSERT INTO postal(zip_code,city,state,county,latitude,longitude) VALUES('$zip','$city','$state','$county',$lat,$lng);" >> "$TMP_SQL"
         done
         $MYSQL_CMD < "$TMP_SQL"
         rm -f "$TMP_SQL"
@@ -64,8 +67,8 @@ SQL
     ROWS=$($MYSQL_CMD -N -e "SELECT COUNT(*) FROM BrarnerScience.postal;")
     echo "[OK] postal table: $ROWS rows"
 else
-    echo "[WARN] No postal CSV found. Add us-zip-codes.csv to $DATA_DIR"
-    echo "       Format: zip_code,city,state,county,latitude,longitude"
+    echo "[FAIL] No postal CSV found at $ZIP_CSV"
+    exit 1
 fi
 
 echo "═══════════════════════════════════════════════════════════════"
