@@ -10,7 +10,14 @@ WEBAPP_SRC="$BMA_ROOT/servlets/servlet/src/main/webapp"
 TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
 CONTEXT="brarner.m.alete"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/$CONTEXT"
+
+# db.properties: deployed location is canonical on remote
 DB_PROPS="$DEPLOY_DIR/WEB-INF/db.properties"
+# If not present in deploy, copy from source
+if [ ! -f "$DB_PROPS" ] && [ -f "$WEBAPP_SRC/WEB-INF/db.properties" ]; then
+    mkdir -p "$DEPLOY_DIR/WEB-INF"
+    cp "$WEBAPP_SRC/WEB-INF/db.properties" "$DB_PROPS"
+fi
 
 OK=0; SKIP=0; FIX=0; FAIL=0
 
@@ -36,9 +43,12 @@ fi
 mark_ok "Webapp source exists"
 
 if [ ! -d "$DEPLOY_DIR" ]; then
-    mark_fail "Deploy dir not found — run install/deploy-local.sh first"; exit 1
+    echo "  [*] Deploy dir not found — creating and deploying..."
+    mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
+    cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
+    mark_fix "Initial deploy to $DEPLOY_DIR"
 fi
-mark_ok "Deploy directory exists"
+mark_ok "Deploy directory: $DEPLOY_DIR"
 
 if [ ! -f "$WEBAPP_SRC/WEB-INF/web.xml" ]; then
     mark_fail "web.xml missing from source"
@@ -128,36 +138,43 @@ fi
 echo ""
 echo "[4b] JDBC driver verification..."
 
-JDBC_JAR=$(find "$DEPLOY_DIR/WEB-INF/lib/" -name "mysql-connector-j*" -o -name "mysql-connector-java*" 2>/dev/null | head -1)
-if [ -n "$JDBC_JAR" ]; then
-    mark_ok "MySQL JDBC driver present: $(basename "$JDBC_JAR")"
+# Ensure JDBC JAR is in jars/ (source of truth for all deploys)
+JDBC_IN_JARS=$(find "$BMA_ROOT/jars/" -name "mysql-connector-j*" 2>/dev/null | head -1)
+if [ -n "$JDBC_IN_JARS" ]; then
+    mark_ok "JDBC driver in jars/: $(basename "$JDBC_IN_JARS")"
 else
-    # Try to find it in source locations and copy
-    FOUND_JAR=""
-    for SEARCH in "$BMA_ROOT/jars" "$BMA_ROOT/lib" "/opt/tomcat/lib"; do
-        FOUND_JAR=$(find "$SEARCH" -name "mysql-connector-j*" 2>/dev/null | head -1)
-        [ -n "$FOUND_JAR" ] && break
-    done
-    if [ -n "$FOUND_JAR" ]; then
-        mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
-        cp "$FOUND_JAR" "$DEPLOY_DIR/WEB-INF/lib/"
-        mark_fix "JDBC driver copied: $(basename "$FOUND_JAR") → WEB-INF/lib/"
-        NEEDS_TOMCAT_RESTART=1
+    # Try to find elsewhere and copy into jars/
+    JDBC_ELSEWHERE=$(find "$BMA_ROOT/lib" /opt/tomcat/lib 2>/dev/null -name "mysql-connector-j*" | head -1)
+    if [ -n "$JDBC_ELSEWHERE" ]; then
+        cp "$JDBC_ELSEWHERE" "$BMA_ROOT/jars/"
+        mark_fix "JDBC driver copied to jars/ from $(dirname "$JDBC_ELSEWHERE")"
+        JDBC_IN_JARS="$BMA_ROOT/jars/$(basename "$JDBC_ELSEWHERE")"
     else
-        mark_fail "MySQL JDBC driver NOT FOUND in WEB-INF/lib/, jars/, lib/, or /opt/tomcat/lib/"
-        echo "         Download: https://dev.mysql.com/downloads/connector/j/"
-        echo "         Or run:   bash install/download-jars.sh"
+        mark_fail "MySQL JDBC driver NOT FOUND anywhere"
+        echo "         Run: bash install/download-jars.sh"
     fi
 fi
 
-# Also check Tomcat's shared lib as alternative classpath location
-TOMCAT_LIB_JDBC=$(find "$TOMCAT_HOME/lib/" -name "mysql-connector-j*" 2>/dev/null | head -1)
-if [ -n "$TOMCAT_LIB_JDBC" ]; then
-    mark_ok "JDBC driver also in Tomcat shared lib: $(basename "$TOMCAT_LIB_JDBC")"
-elif [ -n "$JDBC_JAR" ] && [ ! -f "$TOMCAT_HOME/lib/$(basename "$JDBC_JAR")" ]; then
-    # Symlink from WEB-INF/lib to Tomcat shared lib for reliability
-    ln -sf "$JDBC_JAR" "$TOMCAT_HOME/lib/$(basename "$JDBC_JAR")" 2>/dev/null && \
-        mark_fix "JDBC driver symlinked to $TOMCAT_HOME/lib/" || true
+# Ensure JDBC JAR is also in lib/ (embedded Tomcat classpath: -cp out:lib/*)
+JDBC_IN_LIB=$(find "$BMA_ROOT/lib/" -name "mysql-connector-j*" 2>/dev/null | head -1)
+if [ -z "$JDBC_IN_LIB" ] && [ -n "$JDBC_IN_JARS" ]; then
+    cp "$JDBC_IN_JARS" "$BMA_ROOT/lib/"
+    mark_fix "JDBC driver copied to lib/ (embedded Tomcat classpath)"
+elif [ -n "$JDBC_IN_LIB" ]; then
+    mark_ok "JDBC driver in lib/: $(basename "$JDBC_IN_LIB")"
+fi
+
+# Ensure JDBC JAR is in deploy WEB-INF/lib/ (standard Tomcat)
+mkdir -p "$DEPLOY_DIR/WEB-INF/lib" 2>/dev/null || true
+JDBC_IN_DEPLOY=$(find "$DEPLOY_DIR/WEB-INF/lib/" -name "mysql-connector-j*" 2>/dev/null | head -1)
+if [ -z "$JDBC_IN_DEPLOY" ] && [ -n "$JDBC_IN_JARS" ]; then
+    cp "$JDBC_IN_JARS" "$DEPLOY_DIR/WEB-INF/lib/"
+    mark_fix "JDBC driver copied to $DEPLOY_DIR/WEB-INF/lib/"
+    NEEDS_TOMCAT_RESTART=1
+elif [ -n "$JDBC_IN_DEPLOY" ]; then
+    mark_ok "JDBC driver in WEB-INF/lib/: $(basename "$JDBC_IN_DEPLOY")"
+else
+    mark_fail "JDBC driver missing from $DEPLOY_DIR/WEB-INF/lib/ and no source found"
 fi
 
 # ─── Ownership & symlinks ───
@@ -167,7 +184,7 @@ ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/web" 2>/dev/null || true
 
 # ─── DB connectivity ───
 echo ""
-echo "[5] Database connectivity..."
+echo "[5] Database connectivity (using $DB_PROPS)..."
 
 if [ -f "$DB_PROPS" ]; then
     DB_USER=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-)
@@ -179,10 +196,11 @@ if [ -f "$DB_PROPS" ]; then
     DB_HOST="${DB_HOST:-localhost}"
     DB_PORT="${DB_PORT:-3306}"
 
-    mark_ok "db.properties present (user=$DB_USER, db=$DB_NAME)"
+    mark_ok "db.properties: user=$DB_USER host=$DB_HOST:$DB_PORT db=$DB_NAME"
 
+    # Test connection exactly as JSP pages would (same credentials)
     if mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -P"$DB_PORT" "$DB_NAME" -e "SELECT 1" &>/dev/null; then
-        mark_ok "MySQL connection OK ($DB_USER@$DB_HOST:$DB_PORT/$DB_NAME)"
+        mark_ok "MySQL connection OK (verified with db.properties credentials)"
 
         # Quick table check
         TABLES=$(mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -P"$DB_PORT" "$DB_NAME" -N -B -e "SHOW TABLES;" 2>/dev/null)
@@ -198,10 +216,27 @@ if [ -f "$DB_PROPS" ]; then
             mark_fail "$EMPTY_TABLES/$TABLE_COUNT table(s) empty — run: bash install/populate-all.sh"
         fi
     else
-        mark_fail "MySQL connection FAILED — check credentials in $DB_PROPS"
+        mark_fail "MySQL connection FAILED with db.properties credentials"
+        echo "         File:     $DB_PROPS"
+        echo "         User:     $DB_USER"
+        echo "         Host:     $DB_HOST:$DB_PORT"
+        echo "         Database: $DB_NAME"
+        echo "         Password: $([ -n "$DB_PASS" ] && echo "set (${#DB_PASS} chars)" || echo "EMPTY")"
+        echo ""
+        echo "         Troubleshoot:"
+        if ! timeout 2 bash -c "echo >/dev/tcp/$DB_HOST/$DB_PORT" 2>/dev/null; then
+            echo "           [!] Port $DB_HOST:$DB_PORT not reachable — MySQL not running?"
+        else
+            echo "           [OK] Port $DB_HOST:$DB_PORT is open"
+            echo "           [!] Credentials rejected — check user/password"
+        fi
+        echo "         Fix: bash install/set-db-credentials.sh"
     fi
 else
-    mark_fail "db.properties missing from deploy — run: bash install/set-db-credentials.sh"
+    mark_fail "db.properties not found"
+    echo "         Checked: $DEPLOY_DIR/WEB-INF/db.properties"
+    echo "         Checked: $WEBAPP_SRC/WEB-INF/db.properties"
+    echo "         Fix: bash install/set-db-credentials.sh"
 fi
 
 # ─── JSP page health (if Tomcat running) ───
