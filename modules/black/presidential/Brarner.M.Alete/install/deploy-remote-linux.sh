@@ -174,6 +174,10 @@ fi
 ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "chown -R tomcat:tomcat /opt/tomcat/webapps/${TOMCAT_CONTEXT}* && systemctl restart tomcat"
 echo "[*] Tomcat restarted with new deployment"
 
+# ─── Create www and web symlinks in BMA project root ───
+ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "ln -sfn /opt/tomcat/webapps/${TOMCAT_CONTEXT} /opt/tomcat/webapps/${TOMCAT_CONTEXT}/../../../www 2>/dev/null || true; ln -sfn /opt/tomcat/webapps/${TOMCAT_CONTEXT} /opt/tomcat/webapps/${TOMCAT_CONTEXT}/../../../web 2>/dev/null || true"
+echo "[*] Symlinks: www → ${TOMCAT_CONTEXT}, web → ${TOMCAT_CONTEXT}"
+
 # ─── Ensure db.properties on remote for JSP pages ───
 echo "[*] Configuring database credentials for JSP pages..."
 DB_PROPS_LOCAL="$WEBAPP_SRC/WEB-INF/db.properties"

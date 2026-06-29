@@ -74,7 +74,8 @@
             }
         }
         if (!propsLoaded) {
-            String[] tryPaths = { System.getProperty("user.dir") + "/servlets/servlet/src/main/webapp/WEB-INF/db.properties",
+            String[] tryPaths = { "/opt/tomcat/webapps/brarner.m.alete/WEB-INF/db.properties",
+                System.getProperty("user.dir") + "/servlets/servlet/src/main/webapp/WEB-INF/db.properties",
                 "/mnt/blockstorage/Java.Web.Server.Telnet.Front.Java.21/modules/black/presidential/Brarner.M.Alete/servlets/servlet/src/main/webapp/WEB-INF/db.properties" };
             for (String tp : tryPaths) { java.io.File f = new java.io.File(tp);
                 if (f.exists()) { java.io.FileInputStream fis = new java.io.FileInputStream(f); dbProps.load(fis); fis.close(); propsLoaded = true; break; } }
