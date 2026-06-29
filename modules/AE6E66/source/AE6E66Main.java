@@ -334,35 +334,32 @@ public class AE6E66Main {
             return;
         }
 
-        // Collect all attachment files from /attachments
         File[] attachmentFiles = ATTACHMENTS_DIR.toFile().listFiles(File::isFile);
         List<File> attachments = (attachmentFiles != null) ? Arrays.asList(attachmentFiles) : Collections.emptyList();
         if (!attachments.isEmpty()) {
             print(". " + attachments.size() + " attachment(s) from attachments/ will be included .");
         }
 
+        List<String> emails = records.stream().map(r -> r.email).filter(Objects::nonNull).toList();
+
         for (File draft : drafts) {
             String content = Files.readString(draft.toPath());
             String hash = sha256(content);
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-            String date = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
-            Path dateDir = SENT_DIR.resolve(date);
+            Path dateDir = SENT_DIR.resolve(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
             Files.createDirectories(dateDir);
             Files.copy(draft.toPath(), dateDir.resolve(draft.getName()), StandardCopyOption.REPLACE_EXISTING);
             Files.writeString(dateDir.resolve(draft.getName() + ".sha256"), hash);
 
-            List<String> emails = records.stream().map(r -> r.email).filter(Objects::nonNull).toList();
-
             int success = 0, failure = 0;
             StringBuilder confirmations = new StringBuilder();
             StringBuilder failures = new StringBuilder();
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
             for (String email : emails) {
                 try {
                     String confirmation = EmailDistributor.sendOneWithConfirmation(email, "Parliamentary Communication", content, attachments);
                     confirmations.append("[").append(timestamp).append("] ").append(email).append(" -> ").append(confirmation).append("\n");
-                    print(". " + email + " -> " + confirmation + " .");
                     success++;
                 } catch (Exception e) {
                     failures.append("[").append(timestamp).append("] ").append(email).append(" -> ").append(e.getClass().getSimpleName()).append(": ").append(e.getMessage()).append("\n");
@@ -370,25 +367,19 @@ public class AE6E66Main {
                 }
             }
 
-            // Write delivery confirmations log (SMTP 250 responses with queue IDs)
             Files.writeString(dateDir.resolve(draft.getName() + ".confirmations.log"),
                     "# Delivery Confirmations — " + draft.getName() + "\n# " + timestamp + "\n# Confirmed: " + success + "/" + (success + failure) + "\n\n" + confirmations);
-
-            // Write failures log (exceptions and SMTP rejections)
             Files.writeString(dateDir.resolve(draft.getName() + ".failures.log"),
                     "# Delivery Failures — " + draft.getName() + "\n# " + timestamp + "\n# Failed: " + failure + "/" + (success + failure) + "\n\n" + failures);
 
             print(". Sent '" + draft.getName() + "' SHA-256:" + hash.substring(0, 12) + "… success=" + success + " failure=" + failure + " attachments=" + attachments.size() + " .");
 
-            // Notify owner if nothing was delivered
             if (success == 0) {
                 try {
-                    String notice = "AE6E66™ NOTICE: 0 messages delivered for '" + draft.getName() + "' at " + timestamp + ".\nFailures:\n" + failures;
-                    EmailDistributor.sendOne("mearvk@outlook.com", "AE6E66 — No Deliveries", notice, Collections.emptyList());
-                    print(". Owner notified at mearvk@outlook.com — 0 deliveries .");
-                } catch (Exception notifyEx) {
-                    print(". WARN: Could not notify owner — " + notifyEx.getMessage() + " .");
-                }
+                    EmailDistributor.sendOne("mearvk@outlook.com", "AE6E66 — No Deliveries",
+                            "AE6E66™ NOTICE: 0 messages delivered for '" + draft.getName() + "' at " + timestamp + ".\nFailures:\n" + failures,
+                            Collections.emptyList());
+                } catch (Exception ignored) {}
             }
         }
     }

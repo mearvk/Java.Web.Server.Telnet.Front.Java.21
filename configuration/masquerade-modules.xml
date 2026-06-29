@@ -113,4 +113,15 @@
         <description>85/100 open, 15/100 Crème-locked (planetary clean). $1000 USD Crème unlock. AI-gated.</description>
     </module>
 
+    <module id="AE6E66">
+        <name>AE6E66™</name>
+        <port>0</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>source.AE6E66Main</class>
+        <trust-level>9.5</trust-level>
+        <source>modules/AE6E66</source>
+        <block>UK Parliament</block>
+        <description>House of Lords + Commons contact module. Emerald Green — Royals. DKIM-signed email distribution.</description>
+    </module>
+
 </masquerade-modules>
