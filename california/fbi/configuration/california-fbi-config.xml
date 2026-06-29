@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    California FBI Module Configuration
+    ====================================
+    MEARVK LLC — NitroWebExpress™
+    Port: 49210
+    Database: nwe_california_fbi
+    Masquerade: enabled
+    Installer ID Tech: required for table writes
+-->
+<california-fbi-config>
+    <server>
+        <port>49210</port>
+        <host>localhost</host>
+        <name>CaliforniaFBI™</name>
+        <masquerade-aware>true</masquerade-aware>
+    </server>
+
+    <database>
+        <name>nwe_california_fbi</name>
+        <host>127.0.0.1</host>
+        <port>3306</port>
+    </database>
+
+    <installer-id-tech>
+        <enabled>true</enabled>
+        <required-for>crime_reports,fbi_forwarded_tips</required-for>
+        <description>Installer ID Tech™ secures all table writes. Only verified installer IDs may insert/update.</description>
+    </installer-id-tech>
+
+    <ai-module>
+        <enabled>true</enabled>
+        <inference-port>20000</inference-port>
+        <model>distilbert</model>
+        <description>Routes crime category classification through Strernary™ DJL inference on port 20000.</description>
+    </ai-module>
+
+    <fbi-connector>
+        <tips-url>https://tips.fbi.gov/</tips-url>
+        <ic3-url>https://www.ic3.gov/</ic3-url>
+        <contact-url>https://www.fbi.gov/contact-us</contact-url>
+        <field-office>https://www.fbi.gov/contact-us/field-offices/losangeles</field-office>
+        <categories>
+            <category id="violent-crime">Violent Crime</category>
+            <category id="cyber-crime">Cyber Crime (IC3)</category>
+            <category id="public-corruption">Public Corruption</category>
+            <category id="civil-rights">Civil Rights Violations</category>
+            <category id="terrorism">Terrorism / National Security</category>
+            <category id="fraud">Fraud / White Collar Crime</category>
+            <category id="organized-crime">Organized Crime</category>
+            <category id="drugs">Drug Trafficking</category>
+            <category id="missing-persons">Missing Persons / Kidnapping</category>
+            <category id="other">Other</category>
+        </categories>
+    </fbi-connector>
+</california-fbi-config>

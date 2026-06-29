@@ -93,6 +93,31 @@
         <expect></expect>
         <template>{message}\r\n</template>
     </handler>
+    <handler port="49210" protocol="NWE-FBI" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49211" protocol="NWE-CIA" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49212" protocol="NWE-NSA" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49213" protocol="NWE-DUKE" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49214" protocol="NWE-LIBRARY" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
     <!--
         HTTP Method Commands
         ====================

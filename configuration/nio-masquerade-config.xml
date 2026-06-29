@@ -82,6 +82,11 @@
         <port>49202</port>
         <port>49203</port>
         <port>49204</port>
+        <port>49210</port>
+        <port>49211</port>
+        <port>49212</port>
+        <port>49213</port>
+        <port>49214</port>
     </managed-ports>
 
 </nio-masquerade-config>

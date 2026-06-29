@@ -101,8 +101,13 @@ Each module has a JSP-driven website that interfaces with its running TCP server
 | Black Belt™ | `/blackbelt` | Black/White | — |
 | Languages™ | `/languages` | Violet | — |
 | Strernary™ | `/strernary` | Cyan | 20000, 2000 |
+| CaliforniaFBI™ | `/california-fbi` | Red | 49210 |
+| CaliforniaCIA™ | `/california-cia` | Lime Green | 49211 |
+| CaliforniaNSA™ | `/california-nsa` | Sky Blue | 49212 |
+| DukeUniversity™ | `/duke` | Duke Blue | 49213 |
+| StanfordLibrary™ | `/stanford-library` | Cardinal | 49214 |
 
-**Requirements:** Java 21+, MySQL 8.x, Tomcat 11. See `DIGTIK.md` for full architecture and lessons learned.
+**Requirements:** Java 21+, MySQL 8.x, Tomcat 11. See `DIGTIK.md` for full architecture, `BEST.PRACTICES.md` for security and financial framework.
 
 ---
 
@@ -120,6 +125,44 @@ Country-specific signal servers that connect to international news, market, and 
 **Protocol:** TCP socket — `FETCH|<sourceId>|<url>`, `SIGNAL|<url>`, `STATUS`
 
 **Port-aware:** 21, 22, 80, 443, 8080, 8888 for outbound connections.
+
+---
+
+## California Federal Modules
+
+Federal agency interface modules with AI-assisted reporting, NIO masquerade routing, Installer ID Tech™ secured MySQL databases, and connector buttons linking to official .gov sites.
+
+| Server | Port | Database | Connector | Categories |
+|--------|------|----------|-----------|------------|
+| CaliforniaFBI™ | 49210 | `nwe_california_fbi` | tips.fbi.gov, ic3.gov | Violent crime, cyber, fraud, terrorism, drugs, corruption |
+| CaliforniaCIA™ | 49211 | `nwe_california_cia` | cia.gov/report-information, FOIA | Counterintel, espionage, terrorism, cyber threats, WMD |
+| CaliforniaNSA™ | 49212 | `nwe_california_nsa` | nsa.gov/Cybersecurity, cisa.gov | Vulnerabilities, malware, intrusions, data breaches, SIGINT |
+
+**Protocol:** TCP socket — `REPORT|<category>|<text>`, `SEARCH|<keyword>`, `STATUS`
+
+**Security:** Installer ID Tech™ on all tables, SecurityHeadersFilter, ConnectionRateLimiter (30/min), HardenedBaseServer (512 conn, 10/IP).
+
+**Source directories:**
+- `california/fbi/` — FBI crime reporting module
+- `california/cia/` — CIA intelligence reporting module
+- `california/nsa/` — NSA cybersecurity module
+
+---
+
+## North Carolina Academic Modules
+
+University and library interface modules for academic program discovery, catalog search, and institutional queries.
+
+| Server | Port | Database | Connector | Features |
+|--------|------|----------|-----------|----------|
+| DukeUniversity™ | 49213 | `nwe_duke` | duke.edu (Trinity, Pratt, Fuqua, Law, Medicine) | College queries, course catalog, admissions |
+| StanfordLibrary™ | 49214 | `nwe_library` | library.stanford.edu, searchworks.stanford.edu | Catalog search, digital collections, resource requests |
+
+**Protocol:** TCP socket — `COLLEGES`/`COLLECTIONS`, `SEARCH|<keyword>`, `QUERY|<college>|<text>`/`REQUEST|<resource>`, `STATUS`
+
+**Source directories:**
+- `north/carolina/duke/` — Duke University college interface
+- `north/carolina/library/` — Stanford Library catalog interface
 
 **Source directories:**
 - `source/international.radio.japan/` — Japan config and server

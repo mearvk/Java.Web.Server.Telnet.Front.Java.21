@@ -124,4 +124,59 @@
         <description>House of Lords + Commons contact module. Emerald Green — Royals. DKIM-signed email distribution.</description>
     </module>
 
+    <module id="CaliforniaFBI">
+        <name>CaliforniaFBI™</name>
+        <port>49210</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>source.CaliforniaFBIServer</class>
+        <trust-level>9.5</trust-level>
+        <source>california/fbi</source>
+        <block>California</block>
+        <description>FBI crime reporting. AI categorization via Strernary™. tips.fbi.gov connector. Installer ID Tech™ secured.</description>
+    </module>
+
+    <module id="CaliforniaCIA">
+        <name>CaliforniaCIA™</name>
+        <port>49211</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>source.CaliforniaCIAServer</class>
+        <trust-level>9.5</trust-level>
+        <source>california/cia</source>
+        <block>California</block>
+        <description>CIA intelligence reporting. AI categorization. cia.gov connector. FOIA support. Installer ID Tech™ secured.</description>
+    </module>
+
+    <module id="CaliforniaNSA">
+        <name>CaliforniaNSA™</name>
+        <port>49212</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>source.CaliforniaNSAServer</class>
+        <trust-level>9.5</trust-level>
+        <source>california/nsa</source>
+        <block>California</block>
+        <description>NSA cybersecurity reporting. AI categorization. nsa.gov/CISA connector. Installer ID Tech™ secured.</description>
+    </module>
+
+    <module id="DukeUniversity">
+        <name>DukeUniversity™</name>
+        <port>49213</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>source.DukeUniversityServer</class>
+        <trust-level>9.5</trust-level>
+        <source>north/carolina/duke</source>
+        <block>NC Socialist-College</block>
+        <description>Duke University college interface. Academic programs, course catalog, admissions.</description>
+    </module>
+
+    <module id="StanfordLibrary">
+        <name>StanfordLibrary™</name>
+        <port>49214</port>
+        <masquerade-aware>true</masquerade-aware>
+        <class>source.StanfordLibraryServer</class>
+        <trust-level>9.5</trust-level>
+        <source>north/carolina/library</source>
+        <block>NC Socialist-College</block>
+        <description>Stanford Library interface. SearchWorks catalog, digital collections, resource requests.</description>
+    </module>
+
 </masquerade-modules>
