@@ -15,7 +15,7 @@ import java.sql.*;
 import java.util.Properties;
 import java.io.InputStream;
 
-public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class art_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent,
                  org.apache.jasper.runtime.JspSourceImports,
                  org.apache.jasper.runtime.JspSourceDirectives {
@@ -132,7 +132,7 @@ public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    <meta charset=\"UTF-8\"/>\n");
       out.write("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\n");
       out.write("    <link rel=\"icon\" type=\"image/png\" href=\"images/favicon.png\"/>\n");
-      out.write("    <title>Postal — Brarner.M.Alete™</title>\n");
+      out.write("    <title>Art — Brarner.M.Alete™</title>\n");
       out.write("    <link rel=\"stylesheet\" href=\"css/style.css\"/>\n");
       out.write("</head>\n");
       out.write("<body>\n");
@@ -141,8 +141,8 @@ public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    <ul class=\"nav-links\">\n");
       out.write("        <li><a href=\"index.jsp\">Overview</a></li>\n");
       out.write("        <li><a href=\"species.jsp\">Species</a></li>\n");
-      out.write("        <li><a href=\"postal.jsp\" class=\"active\">Postal</a></li>\n");
-      out.write("        <li><a href=\"art.jsp\">Art</a></li>\n");
+      out.write("        <li><a href=\"postal.jsp\">Postal</a></li>\n");
+      out.write("        <li><a href=\"art.jsp\" class=\"active\">Art</a></li>\n");
       out.write("        <li><a href=\"science.jsp\">Science</a></li>\n");
       out.write("        <li><a href=\"status.jsp\">Status</a></li>\n");
       out.write("    </ul>\n");
@@ -155,9 +155,9 @@ public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("<section class=\"hero\" style=\"padding:4rem 2rem;\">\n");
       out.write("    <div class=\"hero-inner\">\n");
-      out.write("        <span class=\"hero-tag\">Address Standardization</span>\n");
-      out.write("        <h1>Postal Database</h1>\n");
-      out.write("        <p>US Postal code lookup and validation for all 50 states and territories.</p>\n");
+      out.write("        <span class=\"hero-tag\">Museum Collections</span>\n");
+      out.write("        <h1>Art Database</h1>\n");
+      out.write("        <p>Art museum collections indexer covering 22 major institutions with species-linked natural art references.</p>\n");
       out.write("    </div>\n");
       out.write("</section>\n");
       out.write("\n");
@@ -169,7 +169,7 @@ public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("</div>\n");
       out.write("<div id=\"cd1-overlay\" style=\"display:none;position:fixed;inset:0;z-index:299;background:transparent;\"></div>\n");
       out.write("<div id=\"cd1-dialog\" style=\"display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:300;background:#111118;border:1px solid #27272a;border-radius:12px;padding:1.25rem;width:520px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.6);\">\n");
-      out.write("    <div style=\"font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.75rem;\">BMA Connector &#8212; Postal Division</div>\n");
+      out.write("    <div style=\"font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.75rem;\">BMA Connector &#8212; Art Division</div>\n");
       out.write("    <div style=\"display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;\">\n");
       out.write("        <select id=\"cd1-action\" style=\"background:#1a1a24;color:#fff;border:1px solid #27272a;border-radius:8px;padding:0.45rem 2rem 0.45rem 0.75rem;font-size:0.8rem;cursor:pointer;appearance:none;\">\n");
       out.write("            <option value=\"connect\">Connect</option>\n");
@@ -186,7 +186,6 @@ public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<section class=\"section\">\n");
       out.write("    <div class=\"section-inner\">\n");
 
-    String stateFilter = request.getParameter("state");
     Connection conn = null;
     Properties dbProps = new Properties();
     boolean propsLoaded = false;
@@ -212,49 +211,45 @@ public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
             dbProps.getProperty("db.user", "root"),
             dbProps.getProperty("db.password", ""));
 
-        if (stateFilter != null && !stateFilter.isEmpty()) {
+        String museum = request.getParameter("museum");
+        if (museum != null && !museum.isEmpty()) {
             PreparedStatement ps = conn.prepareStatement(
-                "SELECT zip_code, city, state, county FROM postal WHERE state=? ORDER BY zip_code LIMIT 200");
-            ps.setString(1, stateFilter);
+                "SELECT title, artist, year_created, medium FROM art_works WHERE museum_name=? ORDER BY title LIMIT 200");
+            ps.setString(1, museum);
             ResultSet rs = ps.executeQuery();
 
       out.write("\n");
-      out.write("        <h3>ZIP Codes in ");
-      out.print( stateFilter );
+      out.write("        <h3>Works at ");
+      out.print( museum );
       out.write("</h3>\n");
-      out.write("        <p><a href=\"postal.jsp\">← Back to all states</a></p>\n");
+      out.write("        <p><a href=\"art.jsp\">← Back to museums</a></p>\n");
       out.write("        <div class=\"table-wrap\">\n");
       out.write("            <table>\n");
-      out.write("                <thead><tr><th>ZIP</th><th>City</th><th>State</th><th>County</th></tr></thead>\n");
+      out.write("                <thead><tr><th>Title</th><th>Artist</th><th>Year</th><th>Medium</th></tr></thead>\n");
       out.write("                <tbody>\n");
 
             boolean hasRows = false;
-            while (rs.next()) {
-                hasRows = true;
-
+            while (rs.next()) { hasRows = true; 
       out.write("\n");
       out.write("                    <tr>\n");
       out.write("                        <td>");
-      out.print( rs.getString("zip_code") != null ? rs.getString("zip_code") : "" );
+      out.print( rs.getString("title") != null ? rs.getString("title") : "" );
       out.write("</td>\n");
       out.write("                        <td>");
-      out.print( rs.getString("city") != null ? rs.getString("city") : "" );
+      out.print( rs.getString("artist") != null ? rs.getString("artist") : "" );
       out.write("</td>\n");
       out.write("                        <td>");
-      out.print( rs.getString("state") != null ? rs.getString("state") : "" );
+      out.print( rs.getString("year_created") != null ? rs.getString("year_created") : "" );
       out.write("</td>\n");
       out.write("                        <td>");
-      out.print( rs.getString("county") != null ? rs.getString("county") : "" );
+      out.print( rs.getString("medium") != null ? rs.getString("medium") : "" );
       out.write("</td>\n");
       out.write("                    </tr>\n");
           }
             if (!hasRows) { 
       out.write("\n");
-      out.write("                    <tr><td colspan=\"4\">No records found for state ");
-      out.print( stateFilter );
-      out.write(".</td></tr>\n");
-          }
-            rs.close(); ps.close();
+      out.write("                    <tr><td colspan=\"4\">No works found.</td></tr>\n");
+          } rs.close(); ps.close();
 
       out.write("\n");
       out.write("                </tbody>\n");
@@ -262,38 +257,33 @@ public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        </div>\n");
 
         } else {
-            // Show state summary
             PreparedStatement ps = conn.prepareStatement(
-                "SELECT state, COUNT(*) AS zip_count FROM postal WHERE state IS NOT NULL AND state!='' GROUP BY state ORDER BY state");
+                "SELECT museum_name, COUNT(*) AS works FROM art_works WHERE museum_name IS NOT NULL GROUP BY museum_name ORDER BY museum_name");
             ResultSet rs = ps.executeQuery();
 
       out.write("\n");
-      out.write("        <h3>States</h3>\n");
+      out.write("        <h3>Museums</h3>\n");
       out.write("        <div class=\"table-wrap\">\n");
       out.write("            <table>\n");
-      out.write("                <thead><tr><th>State</th><th>ZIP Codes</th></tr></thead>\n");
+      out.write("                <thead><tr><th>Museum</th><th>Works</th></tr></thead>\n");
       out.write("                <tbody>\n");
 
             boolean hasRows = false;
-            while (rs.next()) {
-                hasRows = true;
-                String st = rs.getString("state");
-
+            while (rs.next()) { hasRows = true; String m = rs.getString("museum_name"); 
       out.write("\n");
-      out.write("                    <tr><td><a href=\"postal.jsp?state=");
-      out.print( java.net.URLEncoder.encode(st, "UTF-8") );
+      out.write("                    <tr><td><a href=\"art.jsp?museum=");
+      out.print( java.net.URLEncoder.encode(m, "UTF-8") );
       out.write('"');
       out.write('>');
-      out.print( st );
+      out.print( m );
       out.write("</a></td><td>");
-      out.print( rs.getInt("zip_count") );
+      out.print( rs.getInt("works") );
       out.write("</td></tr>\n");
           }
             if (!hasRows) { 
       out.write("\n");
-      out.write("                    <tr><td colspan=\"2\">No postal data available.</td></tr>\n");
-          }
-            rs.close(); ps.close();
+      out.write("                    <tr><td colspan=\"2\">No art data available.</td></tr>\n");
+          } rs.close(); ps.close();
 
       out.write("\n");
       out.write("                </tbody>\n");
@@ -301,8 +291,7 @@ public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        </div>\n");
 
         }
-    } catch (Exception e) {
-
+    } catch (Exception e) { 
       out.write("\n");
       out.write("        <p style=\"color:#ef4444;\">Database error: ");
       out.print( e.getMessage() != null ? e.getMessage().replace("<","&lt;") : "unknown" );
@@ -314,10 +303,7 @@ public final class postal_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write(" | Props loaded: ");
       out.print( propsLoaded );
       out.write("</p>\n");
-
-    } finally {
-        if (conn != null) try { conn.close(); } catch (Exception ignored) {}
-    }
+  } finally { if (conn != null) try { conn.close(); } catch (Exception ignored) {} }
 
       out.write("\n");
       out.write("    </div>\n");
