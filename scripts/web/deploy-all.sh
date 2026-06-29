@@ -28,8 +28,11 @@ for SCRIPT in $ENABLED; do
     FULL_PATH="$PROJECT_ROOT/$SCRIPT"
     MODULE_ID=$(basename "$(dirname "$(dirname "$FULL_PATH")")")
     
-    # Check if module is enabled
-    MODULE_BLOCK=$(grep -A2 "$SCRIPT" "$CONFIG" | head -5)
+    # Run setup-db if it exists alongside deploy script
+    SETUP_DB="$(dirname "$FULL_PATH")/setup-db.sh"
+    if [ -f "$SETUP_DB" ]; then
+        bash "$SETUP_DB" 2>/dev/null && echo "  [DB] $(basename "$(dirname "$SETUP_DB")") database ready" || true
+    fi
     
     if [ -f "$FULL_PATH" ]; then
         echo ""

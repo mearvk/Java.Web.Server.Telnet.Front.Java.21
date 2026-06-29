@@ -29,6 +29,8 @@ ENABLED=$(grep -B5 '<install>true</install>' "$CONFIG" | grep -oP '(?<=<deploy-s
 PASS=0; FAIL=0
 for SCRIPT in $ENABLED; do
     FULL_PATH="$PROJECT_ROOT/$SCRIPT"
+    SETUP_DB="$(dirname "$FULL_PATH")/setup-db.sh"
+    [ -f "$SETUP_DB" ] && bash "$SETUP_DB" 2>/dev/null || true
     if [ -f "$FULL_PATH" ]; then
         echo "[*] Deploying: $SCRIPT"
         bash "$FULL_PATH" "$TOMCAT_HOME" 2>&1 | tail -2 && PASS=$((PASS + 1)) || FAIL=$((FAIL + 1))

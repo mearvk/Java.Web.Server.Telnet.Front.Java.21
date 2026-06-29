@@ -41,6 +41,11 @@ for %%M in (
     "modules\gray.a85\servlets\deploy-local.sh"
     "modules\languages\servlets\deploy-local.sh"
     "source\strernary\servlets\deploy-local.sh"
+    "california\fbi\servlets\deploy-local.sh"
+    "california\cia\servlets\deploy-local.sh"
+    "california\nsa\servlets\deploy-local.sh"
+    "north\carolina\duke\servlets\deploy-local.sh"
+    "north\carolina\library\servlets\deploy-local.sh"
 ) do (
     set SCRIPT=%PROJECT_ROOT%\%%~M
     if exist "!SCRIPT!" (

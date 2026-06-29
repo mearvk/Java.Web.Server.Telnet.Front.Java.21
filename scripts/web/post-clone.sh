@@ -48,6 +48,23 @@ echo "[OK] Tomcat: $TOMCAT_HOME"
 find "$PROJECT_ROOT" -name "*.sh" -exec chmod +x {} \;
 echo "[OK] Scripts: chmod +x applied"
 
+# 5.5. Setup module databases
+echo ""
+echo "[*] Setting up module databases..."
+SETUP_SCRIPTS=(
+    "california/fbi/servlets/setup-db.sh"
+    "california/cia/servlets/setup-db.sh"
+    "california/nsa/servlets/setup-db.sh"
+    "north/carolina/duke/servlets/setup-db.sh"
+    "north/carolina/library/servlets/setup-db.sh"
+)
+for SETUP in "${SETUP_SCRIPTS[@]}"; do
+    FULL="$PROJECT_ROOT/$SETUP"
+    if [ -f "$FULL" ]; then
+        bash "$FULL" 2>/dev/null && echo "  [OK] $SETUP" || echo "  [WARN] $SETUP (MySQL may not be ready)"
+    fi
+done
+
 # 6. Deploy all web modules
 echo ""
 bash "$SCRIPT_DIR/deploy-all.sh"
