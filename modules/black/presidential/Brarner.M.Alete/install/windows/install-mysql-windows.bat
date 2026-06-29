@@ -29,9 +29,9 @@ REM Prompt for credentials
 set /p DB_USER="MySQL admin username [root]: " || set DB_USER=root
 set /p DB_PASS="MySQL admin password: "
 
-REM Create database and user
-echo [*] Creating database and user...
-mysql -u%DB_USER% -p%DB_PASS% -e "CREATE DATABASE IF NOT EXISTS BrarnerScience CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE USER IF NOT EXISTS 'bma'@'localhost' IDENTIFIED BY 'bma123'; GRANT ALL PRIVILEGES ON BrarnerScience.* TO 'bma'@'localhost'; FLUSH PRIVILEGES;"
+REM Create database and configure root for JDBC
+echo [*] Creating database and configuring root access...
+mysql -u%DB_USER% -p%DB_PASS% -e "CREATE DATABASE IF NOT EXISTS BrarnerScience CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$$Ironman1'; FLUSH PRIVILEGES;"
 
 if %ERRORLEVEL% NEQ 0 (
     echo [FAIL] Could not connect to MySQL. Check credentials.
@@ -50,7 +50,7 @@ mysql -u%DB_USER% -p%DB_PASS% -e "USE BrarnerScience; SHOW TABLES;"
 echo.
 echo ═══════════════════════════════════════════════════════════════
 echo  [✓] MySQL setup complete
-echo      User: bma / bma123
+echo      User: root / $$Ironman1
 echo      Database: BrarnerScience
 echo      Next: Run populate-science-db.bat
 echo ═══════════════════════════════════════════════════════════════

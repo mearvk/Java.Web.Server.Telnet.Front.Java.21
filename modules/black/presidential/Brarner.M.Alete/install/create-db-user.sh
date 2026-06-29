@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Brarner.M.Alete™ — Create MySQL JDBC User
-# Creates a dedicated 'bma' user for JSP/JDBC connections and updates db.properties
+# Creates root@localhost access for JSP/JDBC connections and updates db.properties
 # Usage: sudo bash install/create-db-user.sh
 set -e
 
@@ -12,52 +12,37 @@ echo "════════════════════════�
 echo " Brarner.M.Alete™ — Create MySQL JDBC User"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
-echo " This creates a dedicated 'bma' MySQL user for JDBC connections."
+echo " This configures root@localhost for JDBC connections."
 echo " (root@localhost often uses unix_socket auth which blocks JDBC)"
 echo ""
 
-BMA_USER="bma"
+BMA_USER="root"
 BMA_PASS='$$Ironman1'
 DB_NAME="BrarnerScience"
 
 # Try connecting as root via socket (sudo mysql) first, then with password
-echo "[*] Attempting to create user..."
+echo "[*] Attempting to configure root for JDBC..."
 if sudo mysql -e "SELECT 1" 2>/dev/null | grep -q 1; then
     echo "[*] Connected via sudo mysql (unix_socket)"
     sudo mysql <<SQL
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
-CREATE USER IF NOT EXISTS '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
-ALTER USER '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
-CREATE USER IF NOT EXISTS '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
-ALTER USER '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'localhost';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'127.0.0.1';
+ALTER USER '${BMA_USER}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${BMA_PASS}';
 FLUSH PRIVILEGES;
 SQL
 elif mysql -u root -e "SELECT 1" 2>/dev/null | grep -q 1; then
     echo "[*] Connected as root (no password)"
     mysql -u root <<SQL
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
-CREATE USER IF NOT EXISTS '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
-ALTER USER '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
-CREATE USER IF NOT EXISTS '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
-ALTER USER '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'localhost';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'127.0.0.1';
+ALTER USER '${BMA_USER}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${BMA_PASS}';
 FLUSH PRIVILEGES;
 SQL
 else
-    echo "[*] Need root MySQL password to create JDBC user."
+    echo "[*] Need root MySQL password to configure JDBC access."
     read -rsp "    MySQL root password: " ROOT_PASS
     echo ""
     mysql -u root -p"$ROOT_PASS" <<SQL
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
-CREATE USER IF NOT EXISTS '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
-ALTER USER '${BMA_USER}'@'localhost' IDENTIFIED BY '${BMA_PASS}';
-CREATE USER IF NOT EXISTS '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
-ALTER USER '${BMA_USER}'@'127.0.0.1' IDENTIFIED BY '${BMA_PASS}';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'localhost';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${BMA_USER}'@'127.0.0.1';
+ALTER USER '${BMA_USER}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${BMA_PASS}';
 FLUSH PRIVILEGES;
 SQL
 fi
@@ -76,7 +61,6 @@ fi
 mkdir -p "$(dirname "$DB_PROPS")"
 cat > "$DB_PROPS" <<EOF
 # BMA Database Configuration — written by create-db-user.sh
-# JDBC user (dedicated, not root) for JSP server-side connections
 db.driver=com.mysql.cj.jdbc.Driver
 db.url=jdbc:mysql://127.0.0.1:3306/${DB_NAME}
 db.user=${BMA_USER}
