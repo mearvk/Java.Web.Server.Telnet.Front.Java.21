@@ -131,17 +131,58 @@
 <section class="section">
     <div class="section-inner">
         <h2>Whole Law Counts</h2>
-        <p>Aggregate statistics across all US federal legal data sources.</p>
+        <p>Aggregate statistics across all US federal legal data sources. Click a row to expand.</p>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>Category</th><th>Count</th><th>Notes</th><th>Source</th></tr></thead>
                 <tbody>
-                    <tr><td>US Code Titles</td><td>54</td><td>27 positive law</td><td><span class="source-badge source-govinfo">GovInfo</span></td></tr>
-                    <tr><td>USC Sections</td><td>~200,000</td><td>Total across all titles</td><td><span class="source-badge source-govinfo">GovInfo</span></td></tr>
-                    <tr><td>Court Opinions</td><td>6,800,000</td><td>1658–2026</td><td><span class="source-badge source-courtlistener">CourtListener</span></td></tr>
-                    <tr><td>Public Laws (119th Congress)</td><td>45</td><td>Enacted 2025–2026</td><td><span class="source-badge source-govinfo">GovInfo</span></td></tr>
-                    <tr><td>Landmark Precedents</td><td>24</td><td>Key SCOTUS decisions</td><td><span class="source-badge source-courtlistener">CourtListener</span></td></tr>
-                    <tr><td>Data Sources</td><td>3</td><td>GovInfo + CourtListener + Harvard CAP</td><td><span class="source-badge source-harvard">Harvard</span></td></tr>
+                    <tr class="expandable-row" onclick="toggleDetail('wlc-1')" style="cursor:pointer;"><td style="color:var(--accent)">US Code Titles</td><td>54</td><td>27 positive law</td><td><span class="source-badge source-govinfo">GovInfo</span></td></tr>
+                    <tr id="wlc-1" class="detail-row" style="display:none;"><td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">United States Code — 54 Titles</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">The US Code is the codification by subject matter of the general and permanent laws of the United States. Divided into 54 titles, published by the Office of the Law Revision Counsel. 27 titles have been enacted into positive law (the title itself is legal evidence of the law).</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Largest titles:</strong> Title 34 (Crime Control, ~44,000 sections), Title 52 (Voting, ~21,000), Title 42 (Public Health, ~19,000)</div>
+                        <div><a href="https://www.govinfo.gov/content/pkg/USCODE/html/USCODE.htm" target="_blank" style="color:var(--accent);">Browse US Code on GovInfo →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('wlc-2')" style="cursor:pointer;"><td style="color:var(--accent)">USC Sections</td><td>~200,000</td><td>Total across all titles</td><td><span class="source-badge source-govinfo">GovInfo</span></td></tr>
+                    <tr id="wlc-2" class="detail-row" style="display:none;"><td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">~200,000 Statutory Sections</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Each title is divided into chapters, subchapters, and sections. Sections are the basic unit of statutory law — each section contains one or more provisions. The total across all 54 titles is approximately 200,000 individual sections.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Format:</strong> Cited as "X U.S.C. § YYYY" (e.g., 18 U.S.C. § 1001 = false statements)</div>
+                        <div><a href="https://www.govinfo.gov/bulkdata/USCODE" target="_blank" style="color:var(--accent);">Download bulk USC XML →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('wlc-3')" style="cursor:pointer;"><td style="color:var(--accent)">Court Opinions</td><td>6,800,000</td><td>1658–2026</td><td><span class="source-badge source-courtlistener">CourtListener</span></td></tr>
+                    <tr id="wlc-3" class="detail-row" style="display:none;"><td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">6.8 Million Court Opinions</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">CourtListener (Free Law Project) maintains the largest open collection of US court opinions, spanning from colonial-era decisions (1658) through the present. Includes Supreme Court, all Circuit Courts of Appeals, District Courts, State Supreme Courts, and specialty courts.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>NC Coverage:</strong> NC Supreme Court (45,000 opinions since 1778), NC Court of Appeals (52,000 since 1968)</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>License:</strong> Public Domain (CC0) — bulk CSV available via S3</div>
+                        <div><a href="https://www.courtlistener.com/" target="_blank" style="color:var(--accent);">Search opinions on CourtListener →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('wlc-4')" style="cursor:pointer;"><td style="color:var(--accent)">Public Laws (119th Congress)</td><td>45</td><td>Enacted 2025–2026</td><td><span class="source-badge source-govinfo">GovInfo</span></td></tr>
+                    <tr id="wlc-4" class="detail-row" style="display:none;"><td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">Public Laws — 119th Congress</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Public laws are bills that have passed both chambers of Congress and been signed by the President (or enacted over a veto). The 119th Congress (2025–2026) has enacted 45 public laws to date.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Historical average:</strong> ~400 public laws per Congress (2-year term). Peak: 100th Congress (1987–88) with 713 laws.</div>
+                        <div><a href="https://www.govinfo.gov/app/collection/plaw" target="_blank" style="color:var(--accent);">Browse public laws on GovInfo →</a></div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('wlc-5')" style="cursor:pointer;"><td style="color:var(--accent)">Landmark Precedents</td><td>24</td><td>Key SCOTUS decisions</td><td><span class="source-badge source-courtlistener">CourtListener</span></td></tr>
+                    <tr id="wlc-5" class="detail-row" style="display:none;"><td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">24 Landmark Supreme Court Cases</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Curated index of the most consequential SCOTUS decisions from Marbury v. Madison (1803) through Loper Bright v. Raimondo (2024). Covers judicial review, civil rights, criminal procedure, privacy, First Amendment, equal protection, and administrative law.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>See below:</strong> Full expandable precedent table with holdings, justices, and opinion links.</div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('wlc-6')" style="cursor:pointer;"><td style="color:var(--accent)">Data Sources</td><td>3</td><td>GovInfo + CourtListener + Harvard CAP</td><td><span class="source-badge source-harvard">Harvard</span></td></tr>
+                    <tr id="wlc-6" class="detail-row" style="display:none;"><td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">Three Authoritative Sources</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>GovInfo (GPO):</strong> Official US government publishing. US Code, public laws, statutes, CFR, Federal Register. Free API with key.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>CourtListener (Free Law Project):</strong> 6.8M opinions, dockets, citations, judges. Bulk data via AWS S3. Public domain.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Harvard Caselaw Access Project:</strong> 6.5M+ historical decisions digitized from print reporters. NC is open-access. Transitioning to CourtListener as of 2024.</div>
+                    </td></tr>
                 </tbody>
             </table>
         </div>
@@ -254,14 +295,37 @@ Static data available in data/legal/safe/ directory.</div>
 <section class="section">
     <div class="section-inner">
         <h2>Data Sources &amp; Connectors</h2>
-        <p>Public domain legal data providers integrated into the BMA Legal module.</p>
+        <p>Public domain legal data providers. Click a row to expand.</p>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>Source</th><th>URL</th><th>Data Provided</th><th>License</th></tr></thead>
                 <tbody>
-                    <tr><td>GovInfo (GPO)</td><td><a href="https://www.govinfo.gov/" target="_blank" style="color:var(--accent);">govinfo.gov</a></td><td>US Code, Public Laws, Statutes at Large, CFR, Federal Register</td><td>Public Domain</td></tr>
-                    <tr><td>CourtListener (Free Law Project)</td><td><a href="https://www.courtlistener.com/" target="_blank" style="color:var(--accent);">courtlistener.com</a></td><td>6.8M court opinions, citations, dockets, judges</td><td>CC0</td></tr>
-                    <tr><td>Caselaw Access Project (Harvard)</td><td><a href="https://case.law/" target="_blank" style="color:var(--accent);">case.law</a></td><td>6.5M+ historical decisions (NC open-access)</td><td>Public Domain</td></tr>
+                    <tr class="expandable-row" onclick="toggleDetail('src-1')" style="cursor:pointer;"><td style="color:var(--accent)">GovInfo (GPO)</td><td><a href="https://www.govinfo.gov/" target="_blank" style="color:var(--accent);">govinfo.gov</a></td><td>US Code, Public Laws, Statutes, CFR</td><td>Public Domain</td></tr>
+                    <tr id="src-1" class="detail-row" style="display:none;"><td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">U.S. Government Publishing Office — GovInfo</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Official digital repository for all three branches of the Federal Government. Provides authenticated, digitally signed publications.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Collections:</strong> USCODE, PLAW, STATUTE, CFR, FR, BILLS, CRPT, USREPORTS</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>API:</strong> <a href="https://api.govinfo.gov/docs" target="_blank" style="color:var(--accent);">api.govinfo.gov</a> (free key required from <a href="https://www.govinfo.gov/api-signup" target="_blank" style="color:var(--accent);">api-signup</a>)</div>
+                        <div style="color:var(--text-secondary);"><strong>Bulk Data:</strong> <a href="https://www.govinfo.gov/bulkdata" target="_blank" style="color:var(--accent);">govinfo.gov/bulkdata</a> — XML downloads for Bills, CFR, Federal Register</div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('src-2')" style="cursor:pointer;"><td style="color:var(--accent)">CourtListener (Free Law Project)</td><td><a href="https://www.courtlistener.com/" target="_blank" style="color:var(--accent);">courtlistener.com</a></td><td>6.8M opinions, citations, dockets</td><td>CC0</td></tr>
+                    <tr id="src-2" class="detail-row" style="display:none;"><td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">CourtListener — Free Law Project</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">The largest open legal research platform. Provides case law, PACER dockets, oral arguments, judge profiles, and financial disclosures.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Bulk Data:</strong> CSV dumps via AWS S3 (<code>s3://com-courtlistener-storage/bulk-data/</code>). Regenerated quarterly. No sign-request needed.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>API:</strong> <a href="https://www.courtlistener.com/api/rest/v4/" target="_blank" style="color:var(--accent);">REST API v4</a> — 5,000 queries/hour for authenticated users</div>
+                        <div style="color:var(--text-secondary);"><strong>Semantic Search:</strong> <a href="https://www.courtlistener.com/help/citegeist/" target="_blank" style="color:var(--accent);">CiteGeist</a> — ModernBERT embeddings for 6.8M opinions</div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('src-3')" style="cursor:pointer;"><td style="color:var(--accent)">Caselaw Access Project (Harvard)</td><td><a href="https://case.law/" target="_blank" style="color:var(--accent);">case.law</a></td><td>6.5M+ historical decisions</td><td>Public Domain</td></tr>
+                    <tr id="src-3" class="detail-row" style="display:none;"><td colspan="4" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">Caselaw Access Project — Harvard Law Library</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Digitized 40 million pages of US case law from 360 years of court reports. Open jurisdictions (including North Carolina) are freely accessible.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Status:</strong> Winding down API/search as of March 2024. Data transitioning to CourtListener/Free Law Project.</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;"><strong>HuggingFace:</strong> <a href="https://huggingface.co/datasets/harvard-lil/cold-cases" target="_blank" style="color:var(--accent);">harvard-lil/cold-cases</a> dataset</div>
+                        <div style="color:var(--text-secondary);"><strong>Scanned PDFs:</strong> Available for open jurisdictions (AR, IL, NC, NM) with selectable text</div>
+                    </td></tr>
                 </tbody>
             </table>
         </div>
@@ -272,18 +336,59 @@ Static data available in data/legal/safe/ directory.</div>
 <section class="section">
     <div class="section-inner">
         <h2>TCP Protocol (Ports 18500–18507)</h2>
-        <p>Legal BaseServer protocol commands. Connect via telnet to any port in the range.</p>
+        <p>Legal BaseServer protocol commands. Click a row to expand.</p>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>Command</th><th>Format</th><th>Description</th></tr></thead>
                 <tbody>
-                    <tr><td>SEARCH</td><td><code>SEARCH|&lt;keyword&gt;</code></td><td>Search across all legal data</td></tr>
-                    <tr><td>CASE</td><td><code>CASE|&lt;case_name&gt;</code></td><td>Lookup specific case by name</td></tr>
-                    <tr><td>TITLE</td><td><code>TITLE|&lt;number&gt;</code></td><td>Lookup USC title by number</td></tr>
-                    <tr><td>PRECEDENT</td><td><code>PRECEDENT|&lt;keyword&gt;</code></td><td>Search landmark SCOTUS cases</td></tr>
-                    <tr><td>CITE</td><td><code>CITE|&lt;citation&gt;</code></td><td>Lookup by legal citation (e.g. "347 U.S. 483")</td></tr>
-                    <tr><td>COUNTS</td><td><code>COUNTS</code></td><td>Return whole law count statistics</td></tr>
-                    <tr><td>STATUS</td><td><code>STATUS</code></td><td>Health check</td></tr>
+                    <tr class="expandable-row" onclick="toggleDetail('tcp-1')" style="cursor:pointer;"><td style="color:var(--accent)">SEARCH</td><td><code>SEARCH|&lt;keyword&gt;</code></td><td>Search across all legal data</td></tr>
+                    <tr id="tcp-1" class="detail-row" style="display:none;"><td colspan="3" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">SEARCH — Full-text keyword search</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Searches all loaded CSV/RDNS/TXT data in memory. Returns up to 50 matching rows with source file name. Case-insensitive.</div>
+                        <div style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-section);padding:0.5rem;border-radius:4px;margin-top:0.5rem;"><strong>Example:</strong> SEARCH|due process<br/><strong>Response:</strong> RESULT|landmark-cases.csv|Roe v. Wade,410 U.S. 113,1973,...<br/>END|3 results</div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('tcp-2')" style="cursor:pointer;"><td style="color:var(--accent)">CASE</td><td><code>CASE|&lt;case_name&gt;</code></td><td>Lookup specific case by name</td></tr>
+                    <tr id="tcp-2" class="detail-row" style="display:none;"><td colspan="3" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">CASE — Case name lookup</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Searches the landmark-cases.csv by case_name field. Partial match supported.</div>
+                        <div style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-section);padding:0.5rem;border-radius:4px;margin-top:0.5rem;"><strong>Example:</strong> CASE|Miranda<br/><strong>Response:</strong> CASE|Miranda v. Arizona|384 U.S. 436|1966|criminal_procedure|Miranda warnings required<br/>END</div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('tcp-3')" style="cursor:pointer;"><td style="color:var(--accent)">TITLE</td><td><code>TITLE|&lt;number&gt;</code></td><td>Lookup USC title by number</td></tr>
+                    <tr id="tcp-3" class="detail-row" style="display:none;"><td colspan="3" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">TITLE — US Code title lookup</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Returns the title name, approximate section count, and positive law status for the given USC title number.</div>
+                        <div style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-section);padding:0.5rem;border-radius:4px;margin-top:0.5rem;"><strong>Example:</strong> TITLE|18<br/><strong>Response:</strong> TITLE|18|Crimes and Criminal Procedure|6700|yes</div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('tcp-4')" style="cursor:pointer;"><td style="color:var(--accent)">PRECEDENT</td><td><code>PRECEDENT|&lt;keyword&gt;</code></td><td>Search landmark SCOTUS cases</td></tr>
+                    <tr id="tcp-4" class="detail-row" style="display:none;"><td colspan="3" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">PRECEDENT — Landmark case search</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Searches all fields of the 24 landmark SCOTUS cases (name, citation, category, significance). Returns all matching rows.</div>
+                        <div style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-section);padding:0.5rem;border-radius:4px;margin-top:0.5rem;"><strong>Example:</strong> PRECEDENT|first amendment<br/><strong>Response:</strong> PRECEDENT|Citizens United v. FEC|558 U.S. 310|2010|...<br/>PRECEDENT|Texas v. Johnson|491 U.S. 397|1989|...<br/>END</div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('tcp-5')" style="cursor:pointer;"><td style="color:var(--accent)">CITE</td><td><code>CITE|&lt;citation&gt;</code></td><td>Lookup by legal citation</td></tr>
+                    <tr id="tcp-5" class="detail-row" style="display:none;"><td colspan="3" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">CITE — Citation lookup</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Searches by legal citation format (e.g. "347 U.S. 483"). Partial match on citation field.</div>
+                        <div style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-section);padding:0.5rem;border-radius:4px;margin-top:0.5rem;"><strong>Example:</strong> CITE|347 U.S. 483<br/><strong>Response:</strong> CITE|Brown v. Board of Education|347 U.S. 483|1954|civil_rights|...</div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('tcp-6')" style="cursor:pointer;"><td style="color:var(--accent)">COUNTS</td><td><code>COUNTS</code></td><td>Return whole law count statistics</td></tr>
+                    <tr id="tcp-6" class="detail-row" style="display:none;"><td colspan="3" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">COUNTS — Aggregate statistics</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Returns summary counts: USC titles, total sections, public laws per congress, court opinions total, and data source count.</div>
+                        <div style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-section);padding:0.5rem;border-radius:4px;margin-top:0.5rem;"><strong>Response:</strong> COUNTS|USC_TITLES=54|USC_SECTIONS=~200000|POSITIVE_LAW_TITLES=27<br/>COUNTS|COURT_OPINIONS=6800000|COURTS=16<br/>END</div>
+                    </td></tr>
+
+                    <tr class="expandable-row" onclick="toggleDetail('tcp-7')" style="cursor:pointer;"><td style="color:var(--accent)">STATUS</td><td><code>STATUS</code></td><td>Health check</td></tr>
+                    <tr id="tcp-7" class="detail-row" style="display:none;"><td colspan="3" style="background:var(--bg-card);padding:1.25rem;border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;margin-bottom:0.5rem;">STATUS — Instance health check</div>
+                        <div style="color:var(--text-secondary);margin-bottom:0.5rem;">Returns the instance name, port, dataset count, and trust rating for the connected legal server instance.</div>
+                        <div style="font-family:var(--font-mono);font-size:0.8rem;background:var(--bg-section);padding:0.5rem;border-radius:4px;margin-top:0.5rem;"><strong>Response:</strong> OK|legal.caselaw|port=18500|datasets=15|rating=9.5</div>
+                    </td></tr>
                 </tbody>
             </table>
         </div>
