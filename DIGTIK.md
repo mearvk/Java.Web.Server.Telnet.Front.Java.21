@@ -252,3 +252,78 @@ sudo bash source/strernary/servlets/deploy-local.sh
 Max Rupplin — MEARVK LLC  
 mearvk@mearvk.us | mearvk@outlook.com  
 555 South Mangum St, Durham, NC 27701
+
+
+---
+
+## Smartphone Edition
+
+Mobile-first responsive webapp at `modules/black/presidential/Brarner.M.Alete/smartphone/`. Served from `/brarner.m.alete/smartphone/` context. Shares `WEB-INF/db.properties`, images, and JARs with the desktop edition.
+
+### Smartphone Design Norms
+
+| Requirement | Implementation |
+|-------------|----------------|
+| Viewport | `width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes` |
+| Tap targets | Minimum 44px height/width (CSS `--tap-min: 44px`) |
+| Navigation | Hamburger top nav (slide-out) + fixed bottom nav bar |
+| Layout | Single-column, cards instead of tables, collapsible sections |
+| CD1 Button | 100px diameter (touch-optimized, larger than desktop 80px) |
+| Font sizes | Body 1rem minimum, headings 1.25-1.75rem, notes 0.8rem |
+| Dark theme | Same CSS variables as desktop (`--bg-dark`, `--accent`, etc.) |
+| Orientation | Landscape adjustments via `@media (orientation: landscape)` |
+| PWA-ready | `theme-color` meta, `apple-mobile-web-app-capable`, service worker stub |
+| Settings | localStorage persistence for port/role; syncs to session |
+
+### Smartphone Directory Structure
+
+```
+smartphone/
+├── css/mobile.css          — Mobile-first stylesheet
+├── js/mobile.js            — Touch handlers, hamburger, settings, CD1
+├── index.jsp               — Overview (modules as cards)
+├── legal.jsp               — Legal Database (cards, collapsible precedent)
+├── settings.jsp            — Port/role configuration
+├── species.jsp             — (future)
+├── postal.jsp              — (future)
+├── art.jsp                 — (future)
+├── science.jsp             — (future)
+└── status.jsp              — (future)
+```
+
+### Port Routing & Settings (Multi-Port Pages)
+
+Pages with multiple connector ports include port selector + role selector in the CD1 dialog:
+
+| Page | Ports | CD1 Commands |
+|------|-------|-------------|
+| Legal | 18500–18507 | counts, precedent, uscode, caselaw, status, setport, unsetport, saveconfig |
+| Art | 18400–18419 | connect, disconnect, poll, setport, unsetport, saveconfig |
+| Overview | any | connect, disconnect, status, setport, unsetport, saveconfig |
+
+**CD1 Port Commands:**
+- `Set Port` — Routes the active connector to the selected port number
+- `Unset Port` — Disconnects the connector from the selected port
+- `Save Config` — Persists port + role to localStorage (client) and session (server)
+
+**Role Levels:**
+| Role | Permissions |
+|------|-------------|
+| Guest | Read-only. View data, browse tables. No port connections. |
+| User | Search + connect. Can set/unset ports. Cannot persist server-side config. |
+| Admin | Full control. All commands, save config, access all endpoints. |
+
+Settings are stored in `localStorage` keys: `bma-port`, `bma-role`, `bma-save-time`. On page load, the CD1 dialog restores saved port/role values automatically.
+
+### Lesson 13: Smartphone Deployment
+
+The smartphone edition is deployed alongside the desktop webapp:
+
+```bash
+# In deploy-local.sh or after-pull.sh:
+cp -r "$BMA_ROOT/smartphone" "$DEPLOY_DIR/smartphone/"
+```
+
+Access: `http://localhost:8080/brarner.m.alete/smartphone/`
+
+The smartphone pages reference desktop images via `../servlets/servlet/src/main/webapp/images/` during development. In production (Tomcat deploy), use relative paths within the deployed context.

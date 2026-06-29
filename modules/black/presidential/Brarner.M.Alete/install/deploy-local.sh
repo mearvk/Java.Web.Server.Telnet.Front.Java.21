@@ -99,6 +99,16 @@ else
     echo "[!] Legal safe data not found — run: bash data/legal/download-legal-data.sh && bash data/legal/unzip-and-consume.sh"
 fi
 
+# Deploy smartphone edition
+SMARTPHONE_SRC="$BMA_ROOT/smartphone"
+if [ -d "$SMARTPHONE_SRC" ]; then
+    rm -rf "$DEPLOY_DIR/smartphone"
+    cp -r "$SMARTPHONE_SRC" "$DEPLOY_DIR/smartphone/"
+    echo "[*] Smartphone edition deployed to $DEPLOY_DIR/smartphone/"
+else
+    echo "[!] Smartphone edition not found at $SMARTPHONE_SRC"
+fi
+
 # Create www and web symlinks in BMA project root → canonical deploy dir
 ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/www"
 ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/web"

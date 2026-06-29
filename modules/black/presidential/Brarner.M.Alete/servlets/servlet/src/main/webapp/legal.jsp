@@ -111,6 +111,15 @@
             <option value="uscode">US Code Titles</option>
             <option value="caselaw">Case Law Stats</option>
             <option value="status">Server Status</option>
+            <option value="setport">Set Port</option>
+            <option value="unsetport">Unset Port</option>
+            <option value="saveconfig">Save Config</option>
+        </select>
+        <input id="cd1-port" type="number" min="18500" max="18507" value="18500" style="background:#1a1a24;color:#fff;border:1px solid #27272a;border-radius:8px;padding:0.45rem 0.75rem;font-size:0.8rem;width:80px;"/>
+        <select id="cd1-role" style="background:#1a1a24;color:#fff;border:1px solid #27272a;border-radius:8px;padding:0.45rem 0.75rem;font-size:0.8rem;">
+            <option value="guest">Guest</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
         </select>
         <button onclick="cd1Send()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Send</button>
         <button onclick="cd1Ok()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
@@ -231,6 +240,12 @@ Static data available in data/legal/safe/ directory.</div>
 </footer>
 <script>
 (function(){
+    // localStorage: restore saved port and role on page load
+    var savedPort = localStorage.getItem("bma-legal-port");
+    var savedRole = localStorage.getItem("bma-legal-role");
+    if (savedPort) { var pi = document.getElementById("cd1-port"); if (pi) pi.value = savedPort; }
+    if (savedRole) { var ri = document.getElementById("cd1-role"); if (ri) ri.value = savedRole; }
+
     var btn = document.getElementById("cd1-btn");
     var dialog = document.getElementById("cd1-dialog");
     var overlay = document.getElementById("cd1-overlay");
@@ -258,16 +273,28 @@ Static data available in data/legal/safe/ directory.</div>
 function cd1Send() {
     var s = document.getElementById("cd1-action");
     var t = document.getElementById("cd1-textarea");
+    var portInput = document.getElementById("cd1-port");
+    var roleInput = document.getElementById("cd1-role");
     if (!s || !t) return;
     var action = s.value;
     var ts = new Date().toLocaleTimeString();
+    var port = portInput ? portInput.value : "18500";
+    var role = roleInput ? roleInput.value : "guest";
     var responses = {
         "counts": "[" + ts + "] COUNTS\n─────────────────────────────────────────\nUS Code Titles:        54 (27 positive law)\nUSC Sections:          ~200,000 total\nCourt Opinions:        6,800,000 (1658-2026)\nPublic Laws (119th):   45 enacted (2025-2026)\nLandmark Precedents:   24 key SCOTUS decisions\nData Sources:          3\nEND\n",
         "precedent": "[" + ts + "] PRECEDENT|all\n─────────────────────────────────────────\nMarbury v. Madison        5 U.S. 137 (1803)      Judicial Review\nBrown v. Board            347 U.S. 483 (1954)    Civil Rights\nMiranda v. Arizona        384 U.S. 436 (1966)    Criminal Procedure\nRoe v. Wade               410 U.S. 113 (1973)    Privacy (overruled)\nCitizens United v. FEC    558 U.S. 310 (2010)    First Amendment\nObergefell v. Hodges      576 U.S. 644 (2015)    Equal Protection\nDobbs v. Jackson          597 U.S. 215 (2022)    Privacy\nLoper Bright v. Raimondo  144 S.Ct. 2244 (2024)  Admin Law\nEND|8 results (top 8 of 24)\n",
         "uscode": "[" + ts + "] TITLE|all\n─────────────────────────────────────────\n1  General Provisions          310 sec    positive law\n5  Gov Org & Employees         10400 sec  positive law\n10 Armed Forces                18000 sec  positive law\n18 Crimes & Criminal Procedure 6700 sec   positive law\n26 Internal Revenue Code       11400 sec  NOT positive law\n28 Judiciary & Judicial Proc   4800 sec   positive law\n34 Crime Control & Law Enf     44000 sec  positive law\n42 Public Health & Welfare     19000 sec  NOT positive law\n54 National Park Service       4200 sec   positive law\nEND|54 titles (~200,000 sections)\n",
         "caselaw": "[" + ts + "] CASELAW|stats\n─────────────────────────────────────────\nSCOTUS:     35,000 opinions (1754-2026)\n9th Cir:    145,000 opinions (1891-2026)\n5th Cir:    110,000 opinions (1891-2026)\n2nd Cir:    98,000 opinions (1891-2026)\nNC Supreme: 45,000 opinions (1778-2026)\nNC Appeals: 52,000 opinions (1968-2026)\nAll Courts: 6,800,000 total\nEND\n",
-        "status": "[" + ts + "] STATUS\n─────────────────────────────────────────\nOK|legal.caselaw|port=18500|rating=9.5\nOK|legal.uscode|port=18501|rating=9.5\nOK|legal.publiclaws|port=18502|rating=9.5\nOK|legal.precedent|port=18503|rating=9.5\nOK|legal.statutes|port=18504|rating=9.5\nOK|legal.cfr|port=18505|rating=9.5\nOK|legal.counts|port=18506|rating=9.5\nOK|legal.citations|port=18507|rating=9.5\nEND|8 instances healthy\n"
+        "status": "[" + ts + "] STATUS\n─────────────────────────────────────────\nOK|legal.caselaw|port=18500|rating=9.5\nOK|legal.uscode|port=18501|rating=9.5\nOK|legal.publiclaws|port=18502|rating=9.5\nOK|legal.precedent|port=18503|rating=9.5\nOK|legal.statutes|port=18504|rating=9.5\nOK|legal.cfr|port=18505|rating=9.5\nOK|legal.counts|port=18506|rating=9.5\nOK|legal.citations|port=18507|rating=9.5\nEND|8 instances healthy\n",
+        "setport": "[" + ts + "] SET PORT|" + port + " \u2014 Active connector routed to port " + port + "\n",
+        "unsetport": "[" + ts + "] UNSET PORT|" + port + " \u2014 Connector disconnected from port " + port + "\n",
+        "saveconfig": "[" + ts + "] SAVE|port=" + port + "|role=" + role + " \u2014 Configuration saved to " + role + " session\n"
     };
+    // Persist to localStorage on saveconfig
+    if (action === "saveconfig") {
+        localStorage.setItem("bma-legal-port", port);
+        localStorage.setItem("bma-legal-role", role);
+    }
     t.value += (responses[action] || "[" + ts + "] " + action + " sent.\n");
     t.scrollTop = t.scrollHeight;
 }
