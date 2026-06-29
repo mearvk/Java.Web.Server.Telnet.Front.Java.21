@@ -124,6 +124,42 @@ else
     mark_skip "No jars/ directory — skipping JAR sync"
 fi
 
+# ─── JDBC driver check ───
+echo ""
+echo "[4b] JDBC driver verification..."
+
+JDBC_JAR=$(find "$DEPLOY_DIR/WEB-INF/lib/" -name "mysql-connector-j*" -o -name "mysql-connector-java*" 2>/dev/null | head -1)
+if [ -n "$JDBC_JAR" ]; then
+    mark_ok "MySQL JDBC driver present: $(basename "$JDBC_JAR")"
+else
+    # Try to find it in source locations and copy
+    FOUND_JAR=""
+    for SEARCH in "$BMA_ROOT/jars" "$BMA_ROOT/lib" "/opt/tomcat/lib"; do
+        FOUND_JAR=$(find "$SEARCH" -name "mysql-connector-j*" 2>/dev/null | head -1)
+        [ -n "$FOUND_JAR" ] && break
+    done
+    if [ -n "$FOUND_JAR" ]; then
+        mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
+        cp "$FOUND_JAR" "$DEPLOY_DIR/WEB-INF/lib/"
+        mark_fix "JDBC driver copied: $(basename "$FOUND_JAR") → WEB-INF/lib/"
+        NEEDS_TOMCAT_RESTART=1
+    else
+        mark_fail "MySQL JDBC driver NOT FOUND in WEB-INF/lib/, jars/, lib/, or /opt/tomcat/lib/"
+        echo "         Download: https://dev.mysql.com/downloads/connector/j/"
+        echo "         Or run:   bash install/download-jars.sh"
+    fi
+fi
+
+# Also check Tomcat's shared lib as alternative classpath location
+TOMCAT_LIB_JDBC=$(find "$TOMCAT_HOME/lib/" -name "mysql-connector-j*" 2>/dev/null | head -1)
+if [ -n "$TOMCAT_LIB_JDBC" ]; then
+    mark_ok "JDBC driver also in Tomcat shared lib: $(basename "$TOMCAT_LIB_JDBC")"
+elif [ -n "$JDBC_JAR" ] && [ ! -f "$TOMCAT_HOME/lib/$(basename "$JDBC_JAR")" ]; then
+    # Symlink from WEB-INF/lib to Tomcat shared lib for reliability
+    ln -sf "$JDBC_JAR" "$TOMCAT_HOME/lib/$(basename "$JDBC_JAR")" 2>/dev/null && \
+        mark_fix "JDBC driver symlinked to $TOMCAT_HOME/lib/" || true
+fi
+
 # ─── Ownership & symlinks ───
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/www" 2>/dev/null || true
