@@ -290,6 +290,15 @@ KEY LESSON: ALTER TABLE ADD COLUMN IF NOT EXISTS does not work reliably across
 MySQL versions. Use DROP TABLE IF EXISTS + CREATE TABLE with the full correct
 schema instead. This guarantees the populate scripts work on any fresh install.
 
+KEY LESSON: MySQL 8.4+ removed mysql_native_password plugin. Use
+caching_sha2_password instead:
+  sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY '\$\$Ironman1'; FLUSH PRIVILEGES;"
+MySQL Connector/J 8.3.0 supports caching_sha2_password natively.
+
+KEY LESSON: db.url must use 127.0.0.1, NOT localhost. Even with the correct
+password, 'localhost' routes through unix socket and auth_socket plugin on Linux,
+which ignores the password entirely. 127.0.0.1 forces TCP authentication.
+
 
 Updates (2026-06-28, session 2)
 ================================
@@ -333,3 +342,15 @@ Updates (2026-06-28, session 2)
     - Reloads Apache2 only if css/ or images/ changed
     - No-op if nothing changed
     - Usage: sudo bash install/after-pull.sh [tomcat_home]
+
+18. REMOTE SERVER FIX — MySQL 8.4+ AUTH
+    - MySQL 8.4+ removed mysql_native_password plugin entirely
+    - root@localhost was using auth_socket (OS-level only, blocks JDBC)
+    - Fix: ALTER USER WITH caching_sha2_password BY '$$Ironman1'
+    - db.url MUST be jdbc:mysql://127.0.0.1:3306 (not localhost)
+    - localhost = unix socket = auth_socket = password ignored
+    - 127.0.0.1 = TCP = caching_sha2_password = password accepted
+    - MySQL Connector/J 8.3.0 supports caching_sha2_password natively
+    - after-pull.sh now ensures JDBC JAR in jars/, lib/, and WEB-INF/lib/
+    - after-pull.sh tests DB connection using deployed db.properties credentials
+    - Remote tables are born. Pages serve data.

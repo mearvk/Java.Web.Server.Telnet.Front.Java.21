@@ -1,4 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.net.*, java.io.*" %>
+<%
+    // Check GitHub repo authorization (public.key presence)
+    String ghKeyUrl = "https://raw.githubusercontent.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/main/psychiatry/secrets/public.key";
+    boolean authorized = false;
+    String authStatus = "Unknown";
+    try {
+        HttpURLConnection hc = (HttpURLConnection) new URL(ghKeyUrl).openConnection();
+        hc.setRequestMethod("HEAD");
+        hc.setConnectTimeout(5000);
+        hc.setReadTimeout(5000);
+        int code = hc.getResponseCode();
+        hc.disconnect();
+        authorized = (code == 200);
+        authStatus = authorized ? "Authorized (public.key present)" : "Revoked (HTTP " + code + ")";
+    } catch (Exception e) {
+        authStatus = "Check failed: " + (e.getMessage() != null ? e.getMessage() : "timeout");
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,6 +81,10 @@
 
 <section class="section" id="roadmap">
     <div class="section-inner">
+        <div style="margin-bottom:2rem;padding:1rem;border:1px solid <%= authorized ? "#22c55e" : "#ef4444" %>;border-radius:8px;background:<%= authorized ? "rgba(34,197,94,0.05)" : "rgba(239,68,68,0.05)" %>;">
+            <span style="font-size:0.85rem;color:<%= authorized ? "#22c55e" : "#ef4444" %>;font-weight:600;">&#9679; <%= authStatus %></span>
+            <span style="font-size:0.75rem;color:#71717a;margin-left:1rem;">Checked: <%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z").format(new java.util.Date()) %></span>
+        </div>
         <h2>Roadmap</h2>
         <p>Module release schedule and versioning. All releases LTS.</p>
         <div class="table-wrap">
