@@ -18,6 +18,12 @@ if [ ! -f "$CONFIG" ]; then
     echo "[FAIL] Config not found: $CONFIG"; exit 1
 fi
 
+# Setup all databases before deploying
+echo ""
+echo "[*] Setting up all module databases..."
+bash "$SCRIPT_DIR/setup-all-databases.sh" 2>/dev/null || echo "[WARN] Some databases may need manual setup"
+echo ""
+
 # Parse enabled modules from XML
 MODULES=$(grep -oP '(?<=<deploy-script>)[^<]+' "$CONFIG")
 ENABLED=$(grep -B5 '<install>true</install>' "$CONFIG" | grep -oP '(?<=<deploy-script>)[^<]+')
