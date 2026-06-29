@@ -64,6 +64,13 @@ public class AE6E66Main {
     public void run() throws Exception {
         print(". AE6E66™ House of Lords + Commons Contact Module starting .");
 
+        // Check Postfix is running
+        if (isPostfixRunning()) {
+            print(". Postfix SMTP is ACTIVE on localhost:25 .");
+        } else {
+            print(". WARNING: Postfix SMTP is NOT running — emails will fail .");
+        }
+
         Files.createDirectories(PORTRAITS_DIR);
         Files.createDirectories(MARRISTER_DIR);
         Files.createDirectories(SENT_DIR);
@@ -77,7 +84,7 @@ public class AE6E66Main {
             print(". MPUK already scanned this session — skipping crawl .");
             print(". Re-crawl on new election season (Lords/Commons) or delete .last-crawl .");
             // Load existing CSV for distribution
-            allRecords = Collections.emptyList();
+            allRecords = loadContactsCsv();
         } else {
             // 1. Crawl all member IDs 0–999 (covers both HOL and HOC)
             print(". Crawling member IDs 0–999 on members.parliament.uk .");
@@ -102,6 +109,34 @@ public class AE6E66Main {
 
         pool.shutdown();
         print(". AE6E66™ Complete .");
+    }
+
+    /** Check if Postfix SMTP is reachable on localhost:25 */
+    private boolean isPostfixRunning() {
+        try (var sock = new Socket()) {
+            sock.connect(new InetSocketAddress("localhost", 25), 2000);
+            return true;
+        } catch (Exception e) { return false; }
+    }
+
+    /** Reload contacts from existing CSV when crawl is skipped */
+    private List<MemberRecord> loadContactsCsv() {
+        List<MemberRecord> records = new ArrayList<>();
+        try {
+            if (!Files.exists(CONTACTS_CSV)) return records;
+            for (String line : Files.readAllLines(CONTACTS_CSV)) {
+                if (line.startsWith("#") || line.startsWith("id,") || line.isBlank()) continue;
+                String[] parts = line.split(",", -1);
+                if (parts.length < 3) continue;
+                MemberRecord r = new MemberRecord();
+                r.id = Integer.parseInt(parts[0].trim());
+                r.name = parts[1].replace("\"", "");
+                r.email = parts.length > 2 ? parts[2].replace("\"", "").trim() : null;
+                if (r.email != null && r.email.isEmpty()) r.email = null;
+                records.add(r);
+            }
+        } catch (Exception e) { /* fall through with what we have */ }
+        return records;
     }
 
     /** Check if MPUK was already crawled this parliament session */
@@ -319,22 +354,42 @@ public class AE6E66Main {
             List<String> emails = records.stream().map(r -> r.email).filter(Objects::nonNull).toList();
 
             int success = 0, failure = 0;
+            StringBuilder confirmations = new StringBuilder();
+            StringBuilder failures = new StringBuilder();
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
             for (String email : emails) {
                 try {
-                    EmailDistributor.sendOne(email, "Parliamentary Communication", content, attachments);
+                    String confirmation = EmailDistributor.sendOneWithConfirmation(email, "Parliamentary Communication", content, attachments);
+                    confirmations.append("[").append(timestamp).append("] ").append(email).append(" -> ").append(confirmation).append("\n");
+                    print(". " + email + " -> " + confirmation + " .");
                     success++;
                 } catch (Exception e) {
+                    failures.append("[").append(timestamp).append("] ").append(email).append(" -> ").append(e.getClass().getSimpleName()).append(": ").append(e.getMessage()).append("\n");
                     failure++;
                 }
             }
 
-            // Write separate success/failure logs
-            Files.writeString(dateDir.resolve(draft.getName() + ".success.log"),
-                    "Sent: " + success + "/" + (success + failure) + "\n");
-            Files.writeString(dateDir.resolve(draft.getName() + ".failure.log"),
-                    "Failed: " + failure + "/" + (success + failure) + "\n");
+            // Write delivery confirmations log (SMTP 250 responses with queue IDs)
+            Files.writeString(dateDir.resolve(draft.getName() + ".confirmations.log"),
+                    "# Delivery Confirmations — " + draft.getName() + "\n# " + timestamp + "\n# Confirmed: " + success + "/" + (success + failure) + "\n\n" + confirmations);
+
+            // Write failures log (exceptions and SMTP rejections)
+            Files.writeString(dateDir.resolve(draft.getName() + ".failures.log"),
+                    "# Delivery Failures — " + draft.getName() + "\n# " + timestamp + "\n# Failed: " + failure + "/" + (success + failure) + "\n\n" + failures);
 
             print(". Sent '" + draft.getName() + "' SHA-256:" + hash.substring(0, 12) + "… success=" + success + " failure=" + failure + " attachments=" + attachments.size() + " .");
+
+            // Notify owner if nothing was delivered
+            if (success == 0) {
+                try {
+                    String notice = "AE6E66™ NOTICE: 0 messages delivered for '" + draft.getName() + "' at " + timestamp + ".\nFailures:\n" + failures;
+                    EmailDistributor.sendOne("mearvk@outlook.com", "AE6E66 — No Deliveries", notice, Collections.emptyList());
+                    print(". Owner notified at mearvk@outlook.com — 0 deliveries .");
+                } catch (Exception notifyEx) {
+                    print(". WARN: Could not notify owner — " + notifyEx.getMessage() + " .");
+                }
+            }
         }
     }
 

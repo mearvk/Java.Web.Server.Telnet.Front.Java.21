@@ -27,6 +27,7 @@ public class EmailDistributor {
     private static final String SMTP_HOST = "localhost";
     private static final int SMTP_PORT = 25;
     private static final String FROM = "contact@lauradei.us";
+    private static final String DOMAIN = "lauradei.us";
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$");
 
     /** Send a single email with attachments — throws on failure */
@@ -51,6 +52,17 @@ public class EmailDistributor {
         return value.replaceAll("[\\r\\n]", "").trim();
     }
 
+    /** Write deliverability headers: Message-ID, Date, List-Unsubscribe, X-Mailer */
+    private static void writeDeliverabilityHeaders(PrintWriter out, String to) {
+        String msgId = "<" + UUID.randomUUID() + "@" + DOMAIN + ">";
+        out.println("Message-ID: " + msgId);
+        out.println("Date: " + java.time.ZonedDateTime.now(java.time.ZoneOffset.UTC)
+                .format(java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME));
+        out.println("List-Unsubscribe: <mailto:unsubscribe@" + DOMAIN + "?subject=unsubscribe>");
+        out.println("List-Unsubscribe-Post: List-Unsubscribe=One-Click");
+        out.println("X-Mailer: AE6E66/1.2");
+    }
+
     /** Plain text email — no attachments */
     private static void sendPlain(String to, String subject, String body) throws Exception {
         try (var sock = new Socket(SMTP_HOST, SMTP_PORT);
@@ -72,7 +84,7 @@ public class EmailDistributor {
             out.println("Subject: " + subject);
             out.println("Content-Type: text/plain; charset=UTF-8");
             out.println("MIME-Version: 1.0");
-            out.println("X-Mailer: AE6E66/1.2");
+            writeDeliverabilityHeaders(out, to);
             out.println();
             for (String line : body.split("\\r?\\n")) {
                 if (line.startsWith(".")) out.print(".");
@@ -107,7 +119,7 @@ public class EmailDistributor {
             out.println("Subject: " + subject);
             out.println("MIME-Version: 1.0");
             out.println("Content-Type: multipart/mixed; boundary=\"" + boundary + "\"");
-            out.println("X-Mailer: AE6E66/1.2");
+            writeDeliverabilityHeaders(out, to);
             out.println();
 
             // Body part
@@ -144,13 +156,124 @@ public class EmailDistributor {
         }
     }
 
-    private static void expect(BufferedReader in, String code) throws IOException {
+    /**
+     * Reads and returns the full SMTP response for the given expected code.
+     * Throws IOException if the response doesn't match the expected code.
+     */
+    private static String expect(BufferedReader in, String code) throws IOException {
         String line = in.readLine();
         if (line == null || !line.startsWith(code)) {
             throw new IOException("SMTP expected " + code + ", got: " + line);
         }
+        StringBuilder full = new StringBuilder(line);
         while (line != null && line.length() > 3 && line.charAt(3) == '-') {
             line = in.readLine();
+            full.append("\n").append(line);
+        }
+        return full.toString();
+    }
+
+    /**
+     * Sends and captures the SMTP delivery confirmation (the 250 response after DATA).
+     * Returns the full SMTP confirmation string (typically contains queue ID).
+     */
+    public static String sendOneWithConfirmation(String to, String subject, String body, List<File> attachments) throws Exception {
+        if (!isValidEmail(to)) throw new IllegalArgumentException("Invalid recipient: " + to);
+        subject = sanitizeHeader(subject);
+        if (attachments == null || attachments.isEmpty()) {
+            return sendPlainWithConfirmation(to, subject, body);
+        } else {
+            return sendWithAttachmentsConfirmation(to, subject, body, attachments);
+        }
+    }
+
+    private static String sendPlainWithConfirmation(String to, String subject, String body) throws Exception {
+        try (var sock = new Socket(SMTP_HOST, SMTP_PORT);
+             var in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+             var out = new PrintWriter(sock.getOutputStream(), true)) {
+
+            sock.setSoTimeout(30_000);
+            expect(in, "220");
+            out.println("EHLO localhost");
+            expect(in, "250");
+            out.println("MAIL FROM:<" + FROM + ">");
+            expect(in, "250");
+            out.println("RCPT TO:<" + to + ">");
+            expect(in, "250");
+            out.println("DATA");
+            expect(in, "354");
+            out.println("From: " + FROM);
+            out.println("To: " + to);
+            out.println("Subject: " + subject);
+            out.println("Content-Type: text/plain; charset=UTF-8");
+            out.println("MIME-Version: 1.0");
+            writeDeliverabilityHeaders(out, to);
+            out.println();
+            for (String line : body.split("\\r?\\n")) {
+                if (line.startsWith(".")) out.print(".");
+                out.println(line);
+            }
+            out.println(".");
+            String confirmation = expect(in, "250");
+            out.println("QUIT");
+            return confirmation;
+        }
+    }
+
+    private static String sendWithAttachmentsConfirmation(String to, String subject, String body, List<File> attachments) throws Exception {
+        String boundary = "----=_AE6E66_" + System.currentTimeMillis();
+
+        try (var sock = new Socket(SMTP_HOST, SMTP_PORT);
+             var in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+             var out = new PrintWriter(sock.getOutputStream(), true)) {
+
+            sock.setSoTimeout(30_000);
+            expect(in, "220");
+            out.println("EHLO localhost");
+            expect(in, "250");
+            out.println("MAIL FROM:<" + FROM + ">");
+            expect(in, "250");
+            out.println("RCPT TO:<" + to + ">");
+            expect(in, "250");
+            out.println("DATA");
+            expect(in, "354");
+            out.println("From: " + FROM);
+            out.println("To: " + to);
+            out.println("Subject: " + subject);
+            out.println("MIME-Version: 1.0");
+            out.println("Content-Type: multipart/mixed; boundary=\"" + boundary + "\"");
+            writeDeliverabilityHeaders(out, to);
+            out.println();
+
+            out.println("--" + boundary);
+            out.println("Content-Type: text/plain; charset=UTF-8");
+            out.println("Content-Transfer-Encoding: 7bit");
+            out.println();
+            for (String line : body.split("\\r?\\n")) {
+                if (line.startsWith(".")) out.print(".");
+                out.println(line);
+            }
+            out.println();
+
+            for (File file : attachments) {
+                if (!file.exists() || !file.isFile()) continue;
+                byte[] data = Files.readAllBytes(file.toPath());
+                String encoded = Base64.getMimeEncoder(76, "\r\n".getBytes()).encodeToString(data);
+
+                out.println("--" + boundary);
+                out.println("Content-Type: application/octet-stream; name=\"" + file.getName() + "\"");
+                out.println("Content-Disposition: attachment; filename=\"" + file.getName() + "\"");
+                out.println("Content-Transfer-Encoding: base64");
+                out.println();
+                out.println(encoded);
+                out.println();
+            }
+
+            out.println("--" + boundary + "--");
+            out.println(".");
+            String confirmation = expect(in, "250");
+            out.println("QUIT");
+            return confirmation;
         }
     }
 }
