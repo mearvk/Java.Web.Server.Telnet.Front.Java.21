@@ -44,8 +44,20 @@ for SCRIPT in $ENABLED; do
             FAIL=$((FAIL + 1))
         fi
     else
-        echo "[!] Script not found: $FULL_PATH"
-        FAIL=$((FAIL + 1))
+        # Try to create missing script for nested-repo modules
+        if [ -f "$PROJECT_ROOT/scripts/fix-missing-deploy-scripts.sh" ]; then
+            bash "$PROJECT_ROOT/scripts/fix-missing-deploy-scripts.sh" 2>/dev/null
+            if [ -f "$FULL_PATH" ]; then
+                echo "[*] Auto-created missing script, deploying: $SCRIPT"
+                bash "$FULL_PATH" 2>&1 | tail -3 && PASS=$((PASS + 1)) || FAIL=$((FAIL + 1))
+            else
+                echo "[!] Script not found (nested .git repo?): $FULL_PATH"
+                FAIL=$((FAIL + 1))
+            fi
+        else
+            echo "[!] Script not found: $FULL_PATH"
+            FAIL=$((FAIL + 1))
+        fi
     fi
 done
 
