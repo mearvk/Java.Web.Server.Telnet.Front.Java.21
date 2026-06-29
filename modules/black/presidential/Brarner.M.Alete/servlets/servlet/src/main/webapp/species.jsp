@@ -110,19 +110,139 @@
                 <thead><tr><th>Class</th><th>Orders</th><th>Families</th></tr></thead>
                 <tbody>
 <%
+        String selClass = request.getParameter("class");
         boolean hasRows = false;
         while (rsClass.next()) {
             hasRows = true;
             String className = rsClass.getString("class_name");
             int orders = rsClass.getInt("orders");
             int families = rsClass.getInt("families");
+            boolean isSelected = className != null && className.equals(selClass);
 %>
-                    <tr>
-                        <td><a href="species.jsp?kingdom=<%= kingdom %>&class=<%= java.net.URLEncoder.encode(className, "UTF-8") %>"><%= className != null ? className : "(unnamed)" %></a></td>
+                    <tr style="<%= isSelected ? "background:rgba(59,130,246,0.08);border-left:3px solid #3b82f6;" : "" %>">
+                        <td><a href="species.jsp?kingdom=<%= kingdom %><%= isSelected ? "" : "&class=" + java.net.URLEncoder.encode(className, "UTF-8") %>" style="<%= isSelected ? "color:#3b82f6;font-weight:600;" : "" %>"><%= className != null ? className : "(unnamed)" %><%= isSelected ? " ▼" : "" %></a></td>
                         <td><%= orders %></td>
                         <td><%= families %></td>
                     </tr>
 <%
+            // Expand orders inline under the selected class
+            if (isSelected) {
+                PreparedStatement psOrder = conn.prepareStatement(
+                    "SELECT DISTINCT order_name, COUNT(DISTINCT family_name) AS families " +
+                    "FROM animalia WHERE class_name=? AND order_name IS NOT NULL AND order_name!='' GROUP BY order_name ORDER BY order_name");
+                psOrder.setString(1, selClass);
+                ResultSet rsOrder = psOrder.executeQuery();
+                String selOrder = request.getParameter("order");
+%>
+                    <tr><td colspan="3" style="padding:0;">
+                        <div style="margin:0.5rem 1rem 1rem 1.5rem;">
+                            <strong style="font-size:0.85rem;color:#a1a1aa;">Orders in <%= selClass %></strong>
+                            <table style="margin-top:0.5rem;width:100%;">
+                                <thead><tr><th>Order</th><th>Families</th></tr></thead>
+                                <tbody>
+<%
+                boolean hasOrders = false;
+                while (rsOrder.next()) {
+                    hasOrders = true;
+                    String orderName = rsOrder.getString("order_name");
+                    int fam = rsOrder.getInt("families");
+                    boolean orderSelected = orderName != null && orderName.equals(selOrder);
+%>
+                                    <tr style="<%= orderSelected ? "background:rgba(59,130,246,0.06);" : "" %>">
+                                        <td><a href="species.jsp?kingdom=<%= kingdom %>&class=<%= java.net.URLEncoder.encode(selClass, "UTF-8") %><%= orderSelected ? "" : "&order=" + java.net.URLEncoder.encode(orderName, "UTF-8") %>" style="<%= orderSelected ? "color:#3b82f6;font-weight:600;" : "" %>"><%= orderName != null ? orderName : "(unnamed)" %><%= orderSelected ? " ▼" : "" %></a></td>
+                                        <td><%= fam %></td>
+                                    </tr>
+<%
+                    // Expand families inline under the selected order
+                    if (orderSelected) {
+                        PreparedStatement psFamily = conn.prepareStatement(
+                            "SELECT DISTINCT family_name FROM animalia WHERE order_name=? AND family_name IS NOT NULL AND family_name!='' ORDER BY family_name");
+                        psFamily.setString(1, selOrder);
+                        ResultSet rsFamily = psFamily.executeQuery();
+                        String selFamily = request.getParameter("family");
+%>
+                                    <tr><td colspan="2" style="padding:0;">
+                                        <div style="margin:0.5rem 0 0.5rem 1.5rem;">
+                                            <strong style="font-size:0.8rem;color:#a1a1aa;">Families in <%= selOrder %></strong>
+                                            <table style="margin-top:0.4rem;width:100%;">
+                                                <thead><tr><th>Family</th></tr></thead>
+                                                <tbody>
+<%
+                        boolean hasFamilies = false;
+                        while (rsFamily.next()) {
+                            hasFamilies = true;
+                            String familyName = rsFamily.getString("family_name");
+                            boolean famSelected = familyName != null && familyName.equals(selFamily);
+%>
+                                                    <tr style="<%= famSelected ? "background:rgba(59,130,246,0.06);" : "" %>">
+                                                        <td><a href="species.jsp?kingdom=<%= kingdom %>&class=<%= java.net.URLEncoder.encode(selClass, "UTF-8") %>&order=<%= java.net.URLEncoder.encode(selOrder, "UTF-8") %><%= famSelected ? "" : "&family=" + java.net.URLEncoder.encode(familyName, "UTF-8") %>" style="<%= famSelected ? "color:#3b82f6;font-weight:600;" : "" %>"><%= familyName != null ? familyName : "(unnamed)" %><%= famSelected ? " ▼" : "" %></a></td>
+                                                    </tr>
+<%
+                            // Expand species under selected family
+                            if (famSelected) {
+                                PreparedStatement psSpecies = conn.prepareStatement(
+                                    "SELECT species_name, common_name, description FROM species WHERE family_name=? ORDER BY species_name");
+                                psSpecies.setString(1, selFamily);
+                                ResultSet rsSpecies = psSpecies.executeQuery();
+%>
+                                                    <tr><td style="padding:0;">
+                                                        <div style="margin:0.5rem 0 0.5rem 1.5rem;">
+                                                            <strong style="font-size:0.8rem;color:#a1a1aa;">Species in <%= selFamily %></strong>
+                                                            <table style="margin-top:0.4rem;width:100%;">
+                                                                <thead><tr><th>Species</th><th>Common Name</th><th>Description</th></tr></thead>
+                                                                <tbody>
+<%
+                                boolean hasSpecies = false;
+                                while (rsSpecies.next()) {
+                                    hasSpecies = true;
+                                    String sName = rsSpecies.getString("species_name");
+                                    String cName = rsSpecies.getString("common_name");
+                                    String desc = rsSpecies.getString("description");
+%>
+                                                                    <tr><td><em><%= sName != null ? sName : "" %></em></td><td><%= cName != null ? cName : "" %></td><td><%= desc != null ? desc : "" %></td></tr>
+<%
+                                }
+                                if (!hasSpecies) {
+%>
+                                                                    <tr><td colspan="3">No species records yet.</td></tr>
+<%
+                                }
+                                rsSpecies.close(); psSpecies.close();
+%>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </td></tr>
+<%
+                            }
+                        }
+                        if (!hasFamilies) {
+%>
+                                                    <tr><td>No families found.</td></tr>
+<%
+                        }
+                        rsFamily.close(); psFamily.close();
+%>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td></tr>
+<%
+                    }
+                }
+                if (!hasOrders) {
+%>
+                                    <tr><td colspan="2">No orders found.</td></tr>
+<%
+                }
+                rsOrder.close(); psOrder.close();
+%>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td></tr>
+<%
+            }
         }
         if (!hasRows) {
 %>
@@ -136,126 +256,6 @@
             </table>
         </div>
 <%
-        // If a class is selected, show orders
-        String selClass = request.getParameter("class");
-        if (selClass != null && !selClass.isEmpty()) {
-            PreparedStatement psOrder = conn.prepareStatement(
-                "SELECT DISTINCT order_name, COUNT(DISTINCT family_name) AS families " +
-                "FROM animalia WHERE class_name=? AND order_name IS NOT NULL AND order_name!='' GROUP BY order_name ORDER BY order_name");
-            psOrder.setString(1, selClass);
-            ResultSet rsOrder = psOrder.executeQuery();
-%>
-        <h3>Orders in <%= selClass %></h3>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>Order</th><th>Families</th></tr></thead>
-                <tbody>
-<%
-            boolean hasOrders = false;
-            while (rsOrder.next()) {
-                hasOrders = true;
-                String orderName = rsOrder.getString("order_name");
-                int fam = rsOrder.getInt("families");
-%>
-                    <tr>
-                        <td><a href="species.jsp?kingdom=<%= kingdom %>&class=<%= java.net.URLEncoder.encode(selClass, "UTF-8") %>&order=<%= java.net.URLEncoder.encode(orderName, "UTF-8") %>"><%= orderName != null ? orderName : "(unnamed)" %></a></td>
-                        <td><%= fam %></td>
-                    </tr>
-<%
-            }
-            if (!hasOrders) {
-%>
-                    <tr><td colspan="2">No orders found.</td></tr>
-<%
-            }
-            rsOrder.close();
-            psOrder.close();
-%>
-                </tbody>
-            </table>
-        </div>
-<%
-        }
-
-        // If an order is selected, show families
-        String selOrder = request.getParameter("order");
-        if (selOrder != null && !selOrder.isEmpty()) {
-            PreparedStatement psFamily = conn.prepareStatement(
-                "SELECT DISTINCT family_name FROM animalia WHERE order_name=? AND family_name IS NOT NULL AND family_name!='' ORDER BY family_name");
-            psFamily.setString(1, selOrder);
-            ResultSet rsFamily = psFamily.executeQuery();
-%>
-        <h3>Families in <%= selOrder %></h3>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>Family</th></tr></thead>
-                <tbody>
-<%
-            boolean hasFamilies = false;
-            while (rsFamily.next()) {
-                hasFamilies = true;
-                String familyName = rsFamily.getString("family_name");
-%>
-                    <tr>
-                        <td><a href="species.jsp?kingdom=<%= kingdom %>&class=<%= java.net.URLEncoder.encode(selClass, "UTF-8") %>&order=<%= java.net.URLEncoder.encode(selOrder, "UTF-8") %>&family=<%= java.net.URLEncoder.encode(familyName, "UTF-8") %>"><%= familyName != null ? familyName : "(unnamed)" %></a></td>
-                    </tr>
-<%
-            }
-            if (!hasFamilies) {
-%>
-                    <tr><td>No families found.</td></tr>
-<%
-            }
-            rsFamily.close();
-            psFamily.close();
-%>
-                </tbody>
-            </table>
-        </div>
-<%
-        }
-
-        // If a family is selected, show species
-        String selFamily = request.getParameter("family");
-        if (selFamily != null && !selFamily.isEmpty()) {
-            PreparedStatement psSpecies = conn.prepareStatement(
-                "SELECT species_name, common_name, description FROM species WHERE family_name=? ORDER BY species_name");
-            psSpecies.setString(1, selFamily);
-            ResultSet rsSpecies = psSpecies.executeQuery();
-%>
-        <h3>Species in <%= selFamily %></h3>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>Species</th><th>Common Name</th><th>Description</th></tr></thead>
-                <tbody>
-<%
-            boolean hasSpecies = false;
-            while (rsSpecies.next()) {
-                hasSpecies = true;
-                String sName = rsSpecies.getString("species_name");
-                String cName = rsSpecies.getString("common_name");
-                String desc = rsSpecies.getString("description");
-%>
-                    <tr>
-                        <td><em><%= sName != null ? sName : "(unknown)" %></em></td>
-                        <td><%= cName != null ? cName : "" %></td>
-                        <td><%= desc != null ? desc : "" %></td>
-                    </tr>
-<%
-            }
-            if (!hasSpecies) {
-%>
-                    <tr><td colspan="3">No species records yet.</td></tr>
-<%
-            }
-            rsSpecies.close();
-            psSpecies.close();
-%>
-                </tbody>
-            </table>
-        </div>
-<%
-        }
     } catch (Exception e) {
 %>
         <p style="color:#ef4444;">Database error: <%= e.getMessage() != null ? e.getMessage().replace("<","&lt;") : "unknown" %></p>
