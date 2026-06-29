@@ -86,6 +86,11 @@ fi
 # Fix ownership
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 
+# Create www and web symlinks in BMA project root → canonical deploy dir
+ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/www"
+ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/web"
+echo "[*] Symlinks: www → $DEPLOY_DIR, web → $DEPLOY_DIR"
+
 echo ""
 echo "[✓] Deployed to: $DEPLOY_DIR"
 echo ""

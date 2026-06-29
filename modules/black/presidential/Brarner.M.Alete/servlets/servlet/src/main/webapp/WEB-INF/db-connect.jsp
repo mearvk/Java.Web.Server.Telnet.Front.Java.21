@@ -29,8 +29,9 @@
     // Try 3: Known absolute path (fallback for non-standard deploys)
     if (!propsLoaded) {
         String[] paths = {
-            "/mnt/blockstorage/Java.Web.Server.Telnet.Front.Java.21/modules/black/presidential/Brarner.M.Alete/servlets/servlet/src/main/webapp/WEB-INF/db.properties",
-            System.getProperty("user.dir") + "/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+            "/opt/tomcat/webapps/brarner.m.alete/WEB-INF/db.properties",
+            System.getProperty("user.dir") + "/servlets/servlet/src/main/webapp/WEB-INF/db.properties",
+            "/mnt/blockstorage/Java.Web.Server.Telnet.Front.Java.21/modules/black/presidential/Brarner.M.Alete/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
         };
         for (String p : paths) {
             File f = new File(p);

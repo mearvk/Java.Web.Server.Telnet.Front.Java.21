@@ -77,8 +77,7 @@ NEEDS_TOMCAT_RESTART=0
 NEEDS_APACHE_RELOAD=0
 
 # Check what would change
-DIFF=$(rsync -rcn --out-format="%n" "$WEBAPP_SRC/" "$DEPLOY_DIR/" \
-    --exclude="WEB-INF/db.properties" 2>/dev/null || true)
+DIFF=$(rsync -rcn --out-format="%n" "$WEBAPP_SRC/" "$DEPLOY_DIR/" 2>/dev/null || true)
 
 if [ -z "$DIFF" ]; then
     mark_ok "All webapp files are current — nothing to sync"
@@ -92,7 +91,7 @@ else
     OTHER_CHANGES=$(echo "$DIFF" | grep -vcE '\.(jsp|xhtml|css|xml)$|images/' || true)
 
     # Apply sync
-    rsync -rc "$WEBAPP_SRC/" "$DEPLOY_DIR/" --exclude="WEB-INF/db.properties"
+    rsync -rc "$WEBAPP_SRC/" "$DEPLOY_DIR/"
 
     [ "$JSP_CHANGES" -gt 0 ] && mark_fix "$JSP_CHANGES JSP file(s) updated"
     [ "$XHTML_CHANGES" -gt 0 ] && mark_fix "$XHTML_CHANGES XHTML file(s) updated"
@@ -125,8 +124,10 @@ else
     mark_skip "No jars/ directory — skipping JAR sync"
 fi
 
-# ─── Ownership ───
+# ─── Ownership & symlinks ───
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
+ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/www" 2>/dev/null || true
+ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/web" 2>/dev/null || true
 
 # ─── DB connectivity ───
 echo ""
