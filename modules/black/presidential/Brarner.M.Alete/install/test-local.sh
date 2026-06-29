@@ -34,12 +34,10 @@ check() {
 
 echo ""
 echo "[1] Page HTTP status checks..."
-check "/index.jsp" "index.jsp"
-check "/species.jsp" "species.jsp"
-check "/postal.jsp" "postal.jsp"
-check "/art.jsp" "art.jsp"
-check "/science.jsp" "science.jsp"
-check "/status.jsp" "status.jsp"
+WEBAPP_DIR="$BMA_ROOT/servlets/servlet/src/main/webapp"
+for jsp in $(find "$WEBAPP_DIR" -maxdepth 1 -name "*.jsp" -printf "%f\n" 2>/dev/null | sort); do
+    check "/${jsp}" "${jsp}"
+done
 check "/css/style.css" "css/style.css"
 
 echo ""

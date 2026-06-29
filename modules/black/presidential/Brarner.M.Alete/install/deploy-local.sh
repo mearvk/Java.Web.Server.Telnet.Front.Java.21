@@ -89,7 +89,8 @@ chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 echo ""
 echo "[✓] Deployed to: $DEPLOY_DIR"
 echo ""
-echo "    JSP:  index.jsp, species.jsp, postal.jsp, art.jsp, science.jsp, status.jsp"
+JSP_LIST=$(find "$WEBAPP_SRC" -maxdepth 1 -name "*.jsp" -printf "%f " 2>/dev/null | sort)
+echo "    JSP:  ${JSP_LIST}"
 echo "    DB:   WEB-INF/db.properties"
 echo "    URL:  http://localhost:8080/$CONTEXT/"
 echo ""

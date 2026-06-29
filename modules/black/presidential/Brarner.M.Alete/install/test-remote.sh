@@ -74,15 +74,13 @@ check "$BASE_HTTP/" "HTTP root (expect 301→HTTPS)"
 
 echo ""
 echo "[*] HTTPS pages (JSP — preferred, server-side DB)..."
-check "$BASE_HTTPS/" "Root (→ index.jsp welcome)"
-check "$BASE_HTTPS/index.jsp" "index.jsp"
-check "$BASE_HTTPS/species.jsp" "species.jsp"
+SCRIPT_DIR_REAL="$(cd "$(dirname "$0")" && pwd)"
+WEBAPP_DIR="$(dirname "$SCRIPT_DIR_REAL")/servlets/servlet/src/main/webapp"
+for jsp in $(find "$WEBAPP_DIR" -maxdepth 1 -name "*.jsp" -printf "%f\n" 2>/dev/null | sort); do
+    check "$BASE_HTTPS/${jsp}" "${jsp}"
+done
 check "$BASE_HTTPS/species.jsp?kingdom=Animalia" "species.jsp?kingdom=Animalia (DB query)"
 check "$BASE_HTTPS/species.jsp?kingdom=Animalia&class=Mammalia" "species.jsp drill-down (class)"
-check "$BASE_HTTPS/postal.jsp" "postal.jsp"
-check "$BASE_HTTPS/art.jsp" "art.jsp"
-check "$BASE_HTTPS/science.jsp" "science.jsp"
-check "$BASE_HTTPS/status.jsp" "status.jsp (live DB check)"
 
 echo ""
 echo "[*] HTTPS pages (XHTML — legacy/reference)..."
