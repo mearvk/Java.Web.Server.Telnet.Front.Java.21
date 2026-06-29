@@ -3,16 +3,36 @@
 # Usage: sudo bash scripts/web/apache-proxy-setup.sh
 set -e
 
-APACHE_CONF="/etc/apache2/sites-available/000-default-le-ssl.conf"
-[ ! -f "$APACHE_CONF" ] && APACHE_CONF="/etc/apache2/sites-enabled/default-ssl.conf"
-[ ! -f "$APACHE_CONF" ] && APACHE_CONF=$(find /etc/apache2/sites-enabled -name "*ssl*" -o -name "*le*" 2>/dev/null | head -1)
-[ ! -f "$APACHE_CONF" ] && APACHE_CONF="/etc/apache2/sites-enabled/000-default.conf"
+APACHE_CONF=""
+for F in \
+    /etc/apache2/sites-available/000-default-le-ssl.conf \
+    /etc/apache2/sites-enabled/default-ssl.conf \
+    /etc/apache2/sites-available/default-ssl.conf \
+    /etc/apache2/sites-enabled/000-default.conf \
+    /etc/apache2/sites-available/000-default.conf \
+    /etc/httpd/conf.d/ssl.conf \
+    /etc/httpd/conf/httpd.conf; do
+    [ -f "$F" ] && APACHE_CONF="$F" && break
+done
 
-if [ ! -f "$APACHE_CONF" ]; then
-    echo "[FAIL] Cannot find Apache SSL config. Checked:"
-    echo "  /etc/apache2/sites-available/000-default-le-ssl.conf"
-    echo "  /etc/apache2/sites-enabled/default-ssl.conf"
-    echo "  /etc/apache2/sites-enabled/000-default.conf"
+# If still not found, search for any config with VirtualHost *:443
+if [ -z "$APACHE_CONF" ]; then
+    APACHE_CONF=$(grep -rl "VirtualHost.*443" /etc/apache2/ /etc/httpd/ 2>/dev/null | head -1)
+fi
+
+# Last resort: any enabled site
+if [ -z "$APACHE_CONF" ]; then
+    APACHE_CONF=$(find /etc/apache2/sites-enabled /etc/apache2/sites-available /etc/httpd/conf.d -name "*.conf" 2>/dev/null | head -1)
+fi
+
+if [ -z "$APACHE_CONF" ] || [ ! -f "$APACHE_CONF" ]; then
+    echo "[FAIL] Cannot find any Apache config."
+    echo "  Searched: /etc/apache2/, /etc/httpd/"
+    echo ""
+    echo "  Listing available configs:"
+    ls /etc/apache2/sites-enabled/ /etc/apache2/sites-available/ /etc/httpd/conf.d/ 2>/dev/null || true
+    echo ""
+    echo "  Run manually: sudo find /etc -name '*.conf' | xargs grep -l VirtualHost"
     exit 1
 fi
 
