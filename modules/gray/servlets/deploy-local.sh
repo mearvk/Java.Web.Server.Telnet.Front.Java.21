@@ -9,12 +9,13 @@ DEPLOY_DIR="$TOMCAT_HOME/webapps/gray-registry"
 echo "═══════════════════════════════════════════════════════════════"
 echo " GrayPortRegistry™ — Deploy (port 9999)"
 echo "═══════════════════════════════════════════════════════════════"
+rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
 cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
 # JDBC driver
-for D in "$(dirname "$GRAY_ROOT")/black/presidential/Brarner.M.Alete/jars" "$GRAY_ROOT/jars"; do
-    ls "$D/mysql-connector-j"*.jar &>/dev/null 2>&1 && cp "$D/mysql-connector-j"*.jar "$DEPLOY_DIR/WEB-INF/lib/" && break
-done
+JDBC_JAR=$(find "$(dirname "$GRAY_ROOT")" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+[ -z "$JDBC_JAR" ] && JDBC_JAR=$(find "$TOMCAT_HOME/lib" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+[ -n "$JDBC_JAR" ] && cp "$JDBC_JAR" "$DEPLOY_DIR/WEB-INF/lib/" && echo "[*] MySQL connector: $(basename "$JDBC_JAR")"
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 # Setup DB
 mysql -u root -p'$$Ironman1' -h 127.0.0.1 <<'SQL'

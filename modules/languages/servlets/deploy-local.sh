@@ -9,11 +9,13 @@ DEPLOY_DIR="$TOMCAT_HOME/webapps/languages"
 echo "═══════════════════════════════════════════════════════════════"
 echo " Languages™ — Deploy (Violet — Polite Diplomacy)"
 echo "═══════════════════════════════════════════════════════════════"
+rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
 cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
 # JDBC driver
-BMA_JARS="$(find "$(dirname "$LANG_ROOT")" -path "*/Brarner.M.Alete/jars" -type d 2>/dev/null | head -1)"
-[ -n "$BMA_JARS" ] && ls "$BMA_JARS/mysql-connector-j"*.jar &>/dev/null && cp "$BMA_JARS/mysql-connector-j"*.jar "$DEPLOY_DIR/WEB-INF/lib/"
+JDBC_JAR=$(find "$(dirname "$(dirname "$LANG_ROOT")")" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+[ -z "$JDBC_JAR" ] && JDBC_JAR=$(find "$TOMCAT_HOME/lib" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+[ -n "$JDBC_JAR" ] && cp "$JDBC_JAR" "$DEPLOY_DIR/WEB-INF/lib/" && echo "[*] MySQL connector: $(basename "$JDBC_JAR")"
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 # Setup DB
 mysql -u root -p'$$Ironman1' -h 127.0.0.1 <<'SQL'

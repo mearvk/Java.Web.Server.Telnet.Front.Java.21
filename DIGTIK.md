@@ -186,7 +186,31 @@ Each module has a distinct dark theme with one accent color. CSS variables:
 - `--accent` — interactive elements, links, buttons
 - `--accent-hover` — hover state
 
-### Lesson 10: after-pull.sh for Remote Deployment
+### Lesson 10: Do NOT Redeclare Tomcat's Built-in JSP Servlet
+
+Tomcat 11 has `org.apache.jasper.servlet.JspServlet` pre-configured with the correct init-params and classpath setup (including `WEB-INF/lib` and `WEB-INF/classes`). Explicitly redeclaring it in `web.xml`:
+
+```xml
+<!-- BAD — breaks JSP compilation classpath on Tomcat 11 -->
+<servlet>
+    <servlet-name>jsp</servlet-name>
+    <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>jsp</servlet-name>
+    <url-pattern>*.jsp</url-pattern>
+</servlet-mapping>
+```
+
+This overrides Tomcat's internal defaults. The result: HTTP 200 on the response (Tomcat starts sending headers) but the JSP fails to compile because `WEB-INF/lib/*.jar` isn't on the Jasper compilation classpath. Browser shows blank. Scripts checking `curl -o /dev/null -w "%{http_code}"` see 200.
+
+**Fix:** Remove the explicit JSP servlet declaration. Tomcat handles `*.jsp` automatically. Only declare servlets/filters you actually wrote (like `SecurityHeadersFilter`).
+
+### Lesson 11: Clean Deploy (rm -rf) Before Copy
+
+Always `rm -rf "$DEPLOY_DIR"` before copying fresh webapp content. Without this, stale compiled `.class` files from previous JSP compilations (in `work/`) reference old code, and leftover files from deleted pages remain accessible. The California/Duke/Stanford modules got this right; the others were doing incremental overlay with `mkdir -p` + `cp -r`.
+
+### Lesson 12: after-pull.sh for Remote Deployment
 
 After `git pull` on the remote server:
 ```bash

@@ -20,8 +20,24 @@ if [ ! -d "$WEBAPP_SRC" ]; then
     echo "[!] Webapp source not found"; exit 1
 fi
 
+rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
+mkdir -p "$DEPLOY_DIR/WEB-INF/classes"
 cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
+
+# Compile servlet classes (SecurityHeadersFilter etc.)
+JAVA_SRC="$AE6E66_ROOT/servlets/servlet/src/main/java"
+if [ -d "$JAVA_SRC" ]; then
+    SERVLET_API="$TOMCAT_HOME/lib/servlet-api.jar"
+    if [ ! -f "$SERVLET_API" ]; then
+        SERVLET_API=$(find "$TOMCAT_HOME/lib" -name "jakarta.servlet-api*.jar" -o -name "servlet-api*.jar" 2>/dev/null | head -1)
+    fi
+    if [ -n "$SERVLET_API" ] && [ -f "$SERVLET_API" ]; then
+        find "$JAVA_SRC" -name "*.java" | xargs javac -d "$DEPLOY_DIR/WEB-INF/classes" -cp "$SERVLET_API" 2>&1 && echo "[*] Compiled servlet classes" || echo "[!] Compile failed — check Jakarta Servlet API in $TOMCAT_HOME/lib"
+    else
+        echo "[!] No servlet-api jar found in $TOMCAT_HOME/lib — filter class not compiled"
+    fi
+fi
 
 # Copy JDBC driver
 BMA_JARS="$(dirname "$(dirname "$AE6E66_ROOT")")/presidential/Brarner.M.Alete/jars"
