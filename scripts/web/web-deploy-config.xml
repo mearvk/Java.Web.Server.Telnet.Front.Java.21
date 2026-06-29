@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    NitroWebExpress™ — Web Module Deployment Configuration
+    Controls which servlet webapps are installed, started, and scheduled.
+    Edit this file to enable/disable modules before running deploy scripts.
+-->
+<web-deploy>
+    <tomcat-home>/opt/tomcat</tomcat-home>
+    <mysql-host>127.0.0.1</mysql-host>
+    <mysql-port>3306</mysql-port>
+    <mysql-user>root</mysql-user>
+
+    <modules>
+        <!-- install: deploy webapp to Tomcat -->
+        <!-- start: start on deploy -->
+        <!-- reboot: auto-start on system reboot (systemd/launchd/task-scheduler) -->
+        <!-- cron: schedule periodic tasks (crawl, sync, etc.) -->
+
+        <module id="brarner.m.alete">
+            <enabled>true</enabled>
+            <context>brarner.m.alete</context>
+            <deploy-script>modules/black/presidential/Brarner.M.Alete/install/deploy-local.sh</deploy-script>
+            <database>BrarnerScience</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="ae6e66">
+            <enabled>true</enabled>
+            <context>ae6e66</context>
+            <deploy-script>modules/AE6E66/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/AE6E66/servlets/setup-db.sh</setup-script>
+            <database>nwe_ae6e66</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="true" schedule="0 3 1 * *" job="crawl"/>
+        </module>
+
+        <module id="futures">
+            <enabled>true</enabled>
+            <context>futures</context>
+            <deploy-script>modules/black/red/Futures/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/black/red/Futures/servlets/setup-db.sh</setup-script>
+            <database>nwe_futures</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="gdgh">
+            <enabled>true</enabled>
+            <context>gdgh</context>
+            <deploy-script>modules/black/presidential/Green.Durham.Grass.and.Herb/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/black/presidential/Green.Durham.Grass.and.Herb/servlets/setup-db.sh</setup-script>
+            <database>nwe_gdgh</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="blackbelt">
+            <enabled>true</enabled>
+            <context>blackbelt</context>
+            <deploy-script>modules/black/belt/servlets/deploy-local.sh</deploy-script>
+            <database>nwe_blackbelt</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="gray-registry">
+            <enabled>true</enabled>
+            <context>gray-registry</context>
+            <deploy-script>modules/gray/servlets/deploy-local.sh</deploy-script>
+            <database>nwe_gray_registry</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="gray85-registry">
+            <enabled>true</enabled>
+            <context>gray85-registry</context>
+            <deploy-script>modules/gray.a85/servlets/deploy-local.sh</deploy-script>
+            <database>nwe_gray85_registry</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="languages">
+            <enabled>true</enabled>
+            <context>languages</context>
+            <deploy-script>modules/languages/servlets/deploy-local.sh</deploy-script>
+            <database>nwe_languages</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="strernary">
+            <enabled>true</enabled>
+            <context>strernary</context>
+            <deploy-script>source/strernary/servlets/deploy-local.sh</deploy-script>
+            <database>nwe_strernary</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+    </modules>
+</web-deploy>
