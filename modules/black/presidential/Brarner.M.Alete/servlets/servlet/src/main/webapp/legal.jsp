@@ -46,23 +46,14 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="icon" type="image/png" href="images/favicon.png"/>
-    <title>Brarner.M.Alete™ — Legal</title>
+    <title>Brarner.M.Alete™ — Legal Database</title>
     <link rel="stylesheet" href="css/style.css"/>
     <style>
-        .legal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .legal-card { background: var(--bg-card, #1e293b); border: 1px solid var(--border, #334155); border-radius: 12px; padding: 1.5rem; }
-        .legal-card h3 { margin: 0 0 0.75rem 0; color: var(--accent, #3b82f6); font-size: 1.1rem; }
-        .legal-card .stat { font-size: 2rem; font-weight: 700; color: #fff; }
-        .legal-card .label { color: #94a3b8; font-size: 0.85rem; margin-top: 0.25rem; }
         .legal-search { display: flex; gap: 0.5rem; margin: 1.5rem 0; }
         .legal-search input { flex: 1; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border, #334155); background: var(--bg-section, #0f172a); color: #fff; font-size: 1rem; }
         .legal-search button { padding: 0.75rem 1.5rem; border-radius: 8px; border: none; background: var(--accent, #3b82f6); color: #fff; font-weight: 600; cursor: pointer; }
         .legal-search button:hover { background: var(--accent-hover, #2563eb); }
         .results-box { background: var(--bg-section, #0f172a); border: 1px solid var(--border, #334155); border-radius: 8px; padding: 1rem; margin: 1rem 0; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; color: #e2e8f0; }
-        .precedent-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-        .precedent-table th, .precedent-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border, #334155); text-align: left; font-size: 0.85rem; }
-        .precedent-table th { color: var(--accent, #3b82f6); font-weight: 600; }
-        .precedent-table td { color: #e2e8f0; }
         .source-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; margin-left: 0.5rem; }
         .source-govinfo { background: #1e40af; color: #bfdbfe; }
         .source-courtlistener { background: #065f46; color: #a7f3d0; }
@@ -91,7 +82,7 @@
 <section class="hero">
     <div class="hero-inner">
         <span class="hero-tag">US Statutory Law &amp; Case Law</span>
-        <h1>Legal</h1>
+        <h1>Legal Database</h1>
         <p>US Code, public laws, case law, landmark precedent, citations, and federal regulations — sourced from GovInfo, CourtListener, and the Harvard Caselaw Access Project.</p>
     </div>
 </section>
@@ -104,9 +95,6 @@
 </div>
 <% } else { %>
 
-<!-- Law Count Statistics -->
-<h2>Whole Law Counts</h2>
-
 <!-- CD1 Connector Button + Floating Dialog -->
 <div style="display:flex;justify-content:center;align-items:center;width:100%;padding:2rem 0;">
     <button id="cd1-btn" type="button" aria-pressed="false" style="all:unset;display:block;margin:0 auto;cursor:pointer;padding:0;border:none;background:transparent;transition:transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84),filter 0.3s ease;">
@@ -115,7 +103,7 @@
 </div>
 <div id="cd1-overlay" style="display:none;position:fixed;inset:0;z-index:299;background:transparent;"></div>
 <div id="cd1-dialog" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:300;background:#111118;border:1px solid #27272a;border-radius:12px;padding:1.25rem;width:620px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
-    <div style="font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.75rem;">BMA Connector &#8212; Legal</div>
+    <div style="font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.75rem;">BMA Connector &#8212; Legal Database</div>
     <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
         <select id="cd1-action" style="background:#1a1a24;color:#fff;border:1px solid #27272a;border-radius:8px;padding:0.45rem 2rem 0.45rem 0.75rem;font-size:0.8rem;cursor:pointer;appearance:none;">
             <option value="counts">Whole Law Counts</option>
@@ -130,103 +118,110 @@
     <textarea id="cd1-textarea" placeholder="Connection idle..." spellcheck="false" style="width:100%;min-height:140px;background:#ffffff;color:#111;border:1px solid #27272a;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:0.8rem;resize:vertical;"></textarea>
 </div>
 
-<div class="legal-grid">
-    <div class="legal-card">
-        <h3>US Code Titles</h3>
-        <div class="stat">54</div>
-        <div class="label">Titles (27 positive law) <span class="source-badge source-govinfo">GovInfo</span></div>
+<!-- Whole Law Counts — CD1 table style -->
+<section class="section">
+    <div class="section-inner">
+        <h2>Whole Law Counts</h2>
+        <p>Aggregate statistics across all US federal legal data sources.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Category</th><th>Count</th><th>Notes</th><th>Source</th></tr></thead>
+                <tbody>
+                    <tr><td>US Code Titles</td><td>54</td><td>27 positive law</td><td><span class="source-badge source-govinfo">GovInfo</span></td></tr>
+                    <tr><td>USC Sections</td><td>~200,000</td><td>Total across all titles</td><td><span class="source-badge source-govinfo">GovInfo</span></td></tr>
+                    <tr><td>Court Opinions</td><td>6,800,000</td><td>1658–2026</td><td><span class="source-badge source-courtlistener">CourtListener</span></td></tr>
+                    <tr><td>Public Laws (119th Congress)</td><td>45</td><td>Enacted 2025–2026</td><td><span class="source-badge source-govinfo">GovInfo</span></td></tr>
+                    <tr><td>Landmark Precedents</td><td>24</td><td>Key SCOTUS decisions</td><td><span class="source-badge source-courtlistener">CourtListener</span></td></tr>
+                    <tr><td>Data Sources</td><td>3</td><td>GovInfo + CourtListener + Harvard CAP</td><td><span class="source-badge source-harvard">Harvard</span></td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="legal-card">
-        <h3>USC Sections</h3>
-        <div class="stat">~200,000</div>
-        <div class="label">Total sections across all titles <span class="source-badge source-govinfo">GovInfo</span></div>
-    </div>
-    <div class="legal-card">
-        <h3>Court Opinions</h3>
-        <div class="stat">6.8M</div>
-        <div class="label">Total opinions (1658–2026) <span class="source-badge source-courtlistener">CourtListener</span></div>
-    </div>
-    <div class="legal-card">
-        <h3>Public Laws (119th)</h3>
-        <div class="stat">45</div>
-        <div class="label">Enacted 2025–2026 <span class="source-badge source-govinfo">GovInfo</span></div>
-    </div>
-    <div class="legal-card">
-        <h3>Landmark Precedents</h3>
-        <div class="stat">24</div>
-        <div class="label">Key SCOTUS decisions cataloged <span class="source-badge source-courtlistener">CourtListener</span></div>
-    </div>
-    <div class="legal-card">
-        <h3>Data Sources</h3>
-        <div class="stat">3</div>
-        <div class="label">GovInfo + CourtListener + Harvard CAP <span class="source-badge source-harvard">Harvard</span></div>
-    </div>
-</div>
+</section>
 
-<!-- Search Interface -->
-<h2>Search Legal Data</h2>
-<form method="get" action="legal.jsp" class="legal-search">
-    <input type="text" name="q" placeholder="Search case law, USC titles, precedent..." value="<%= searchParam != null ? searchParam.replace("\"", "&quot;") : "" %>" maxlength="200" />
-    <button type="submit">Search</button>
-</form>
+<!-- Search Interface — CD1 section style -->
+<section class="section">
+    <div class="section-inner">
+        <h2>Search Legal Data</h2>
+        <form method="get" action="legal.jsp" class="legal-search">
+            <input type="text" name="q" placeholder="Search case law, USC titles, precedent..." value="<%= searchParam != null ? searchParam.replace("\"", "&quot;") : "" %>" maxlength="200" />
+            <button type="submit">Search</button>
+        </form>
 
-<% if (legalResponse != null && !legalResponse.isEmpty()) { %>
-<div class="results-box"><%= legalResponse.replace("<", "&lt;").replace(">", "&gt;") %></div>
-<% } else if (searchParam != null && !searchParam.isEmpty()) { %>
-<div class="results-box">Legal BaseServer offline (port 18500). Start with:
+        <% if (legalResponse != null && !legalResponse.isEmpty()) { %>
+        <div class="results-box"><%= legalResponse.replace("<", "&lt;").replace(">", "&gt;") %></div>
+        <% } else if (searchParam != null && !searchParam.isEmpty()) { %>
+        <div class="results-box">Legal BaseServer offline (port 18500). Start with:
 java -cp . presidential.Brarner.M.Alete.source.legal.BaseServer
 
 Static data available in data/legal/safe/ directory.</div>
-<% } %>
-
-<!-- Landmark Precedent Table -->
-<h2>Landmark Precedent Cases</h2>
-<div style="overflow-x:auto;">
-<table class="precedent-table">
-    <thead><tr><th>Case</th><th>Citation</th><th>Year</th><th>Category</th><th>Significance</th></tr></thead>
-    <tbody>
-        <tr><td>Marbury v. Madison</td><td>5 U.S. 137</td><td>1803</td><td>Judicial Review</td><td>Courts can strike down unconstitutional laws</td></tr>
-        <tr><td>Brown v. Board of Education</td><td>347 U.S. 483</td><td>1954</td><td>Civil Rights</td><td>Ended school segregation</td></tr>
-        <tr><td>Miranda v. Arizona</td><td>384 U.S. 436</td><td>1966</td><td>Criminal Procedure</td><td>Miranda warnings required</td></tr>
-        <tr><td>Roe v. Wade</td><td>410 U.S. 113</td><td>1973</td><td>Privacy</td><td>Overruled by Dobbs (2022)</td></tr>
-        <tr><td>Citizens United v. FEC</td><td>558 U.S. 310</td><td>2010</td><td>First Amendment</td><td>Corporate political speech protected</td></tr>
-        <tr><td>Obergefell v. Hodges</td><td>576 U.S. 644</td><td>2015</td><td>Equal Protection</td><td>Same-sex marriage nationwide</td></tr>
-        <tr><td>Dobbs v. Jackson</td><td>597 U.S. 215</td><td>2022</td><td>Privacy</td><td>Overruled Roe; no constitutional right to abortion</td></tr>
-        <tr><td>Loper Bright v. Raimondo</td><td>144 S.Ct. 2244</td><td>2024</td><td>Admin Law</td><td>Overruled Chevron deference</td></tr>
-    </tbody>
-</table>
-</div>
-<p style="color:#64748b;font-size:0.8rem;">Full 24-case precedent index in <code>data/legal/precedent/landmark-cases.csv</code></p>
-
-<!-- Data Sources -->
-<h2>Data Sources &amp; Connectors</h2>
-<div class="legal-grid">
-    <div class="legal-card">
-        <h3>GovInfo (GPO)</h3>
-        <p style="color:#94a3b8;font-size:0.85rem;">US Code, Public Laws, Statutes at Large, CFR, Federal Register. API: api.govinfo.gov</p>
-        <a href="https://www.govinfo.gov/" target="_blank" style="color:var(--accent);">govinfo.gov →</a>
+        <% } %>
     </div>
-    <div class="legal-card">
-        <h3>CourtListener (Free Law Project)</h3>
-        <p style="color:#94a3b8;font-size:0.85rem;">6.8M court opinions, citations, dockets, judges. Bulk CSV via S3. Public Domain (CC0).</p>
-        <a href="https://www.courtlistener.com/" target="_blank" style="color:var(--accent);">courtlistener.com →</a>
-    </div>
-    <div class="legal-card">
-        <h3>Caselaw Access Project (Harvard)</h3>
-        <p style="color:#94a3b8;font-size:0.85rem;">6.5M+ historical decisions. Transitioning to CourtListener. NC is open-access jurisdiction.</p>
-        <a href="https://case.law/" target="_blank" style="color:var(--accent);">case.law →</a>
-    </div>
-</div>
+</section>
 
-<!-- TCP Protocol Reference -->
-<h2>TCP Protocol (Ports 18500–18507)</h2>
-<div class="results-box">SEARCH|&lt;keyword&gt;         — Search across all legal data
-CASE|&lt;case_name&gt;         — Lookup specific case by name
-TITLE|&lt;number&gt;           — Lookup USC title by number
-PRECEDENT|&lt;keyword&gt;      — Search landmark SCOTUS cases
-CITE|&lt;citation&gt;          — Lookup by legal citation (e.g. "347 U.S. 483")
-COUNTS                   — Return whole law count statistics
-STATUS                   — Health check</div>
+<!-- Landmark Precedent — CD1 table style -->
+<section class="section">
+    <div class="section-inner">
+        <h2>Landmark Precedent Cases</h2>
+        <p>Key US Supreme Court decisions shaping constitutional law.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Case</th><th>Citation</th><th>Year</th><th>Category</th><th>Significance</th></tr></thead>
+                <tbody>
+                    <tr><td>Marbury v. Madison</td><td>5 U.S. 137</td><td>1803</td><td>Judicial Review</td><td>Courts can strike down unconstitutional laws</td></tr>
+                    <tr><td>Brown v. Board of Education</td><td>347 U.S. 483</td><td>1954</td><td>Civil Rights</td><td>Ended school segregation</td></tr>
+                    <tr><td>Miranda v. Arizona</td><td>384 U.S. 436</td><td>1966</td><td>Criminal Procedure</td><td>Miranda warnings required</td></tr>
+                    <tr><td>Roe v. Wade</td><td>410 U.S. 113</td><td>1973</td><td>Privacy</td><td>Overruled by Dobbs (2022)</td></tr>
+                    <tr><td>Citizens United v. FEC</td><td>558 U.S. 310</td><td>2010</td><td>First Amendment</td><td>Corporate political speech protected</td></tr>
+                    <tr><td>Obergefell v. Hodges</td><td>576 U.S. 644</td><td>2015</td><td>Equal Protection</td><td>Same-sex marriage nationwide</td></tr>
+                    <tr><td>Dobbs v. Jackson</td><td>597 U.S. 215</td><td>2022</td><td>Privacy</td><td>Overruled Roe; no constitutional right to abortion</td></tr>
+                    <tr><td>Loper Bright v. Raimondo</td><td>144 S.Ct. 2244</td><td>2024</td><td>Admin Law</td><td>Overruled Chevron deference</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="color:#64748b;font-size:0.8rem;margin-top:0.5rem;">Full 24-case precedent index in <code>data/legal/precedent/landmark-cases.csv</code></p>
+    </div>
+</section>
+
+<!-- Data Sources — CD1 table style -->
+<section class="section">
+    <div class="section-inner">
+        <h2>Data Sources &amp; Connectors</h2>
+        <p>Public domain legal data providers integrated into the BMA Legal module.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Source</th><th>URL</th><th>Data Provided</th><th>License</th></tr></thead>
+                <tbody>
+                    <tr><td>GovInfo (GPO)</td><td><a href="https://www.govinfo.gov/" target="_blank" style="color:var(--accent);">govinfo.gov</a></td><td>US Code, Public Laws, Statutes at Large, CFR, Federal Register</td><td>Public Domain</td></tr>
+                    <tr><td>CourtListener (Free Law Project)</td><td><a href="https://www.courtlistener.com/" target="_blank" style="color:var(--accent);">courtlistener.com</a></td><td>6.8M court opinions, citations, dockets, judges</td><td>CC0</td></tr>
+                    <tr><td>Caselaw Access Project (Harvard)</td><td><a href="https://case.law/" target="_blank" style="color:var(--accent);">case.law</a></td><td>6.5M+ historical decisions (NC open-access)</td><td>Public Domain</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- TCP Protocol — CD1 table style -->
+<section class="section">
+    <div class="section-inner">
+        <h2>TCP Protocol (Ports 18500–18507)</h2>
+        <p>Legal BaseServer protocol commands. Connect via telnet to any port in the range.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Command</th><th>Format</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>SEARCH</td><td><code>SEARCH|&lt;keyword&gt;</code></td><td>Search across all legal data</td></tr>
+                    <tr><td>CASE</td><td><code>CASE|&lt;case_name&gt;</code></td><td>Lookup specific case by name</td></tr>
+                    <tr><td>TITLE</td><td><code>TITLE|&lt;number&gt;</code></td><td>Lookup USC title by number</td></tr>
+                    <tr><td>PRECEDENT</td><td><code>PRECEDENT|&lt;keyword&gt;</code></td><td>Search landmark SCOTUS cases</td></tr>
+                    <tr><td>CITE</td><td><code>CITE|&lt;citation&gt;</code></td><td>Lookup by legal citation (e.g. "347 U.S. 483")</td></tr>
+                    <tr><td>COUNTS</td><td><code>COUNTS</code></td><td>Return whole law count statistics</td></tr>
+                    <tr><td>STATUS</td><td><code>STATUS</code></td><td>Health check</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
 
 <% } %>
 </main>
