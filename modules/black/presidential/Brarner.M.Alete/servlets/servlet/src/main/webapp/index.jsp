@@ -41,7 +41,7 @@
     <div class="nav-actions">
         <a href="guest.jsp" class="nav-cta">Guest</a>
         <a href="register.jsp" class="nav-cta">Register</a>
-        <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+        <a href="admin/login.jsp" class="nav-cta">Admin →</a>
     </div>
 </div></nav>
 

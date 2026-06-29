@@ -102,6 +102,22 @@
         <mime-type>text/html</mime-type>
     </mime-mapping>
 
+    <!-- Security: protect WEB-INF and admin area -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Protected</web-resource-name>
+            <url-pattern>/WEB-INF/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint/>
+    </security-constraint>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+        <cookie-config><http-only>true</http-only></cookie-config>
+    </session-config>
+
+    <error-page><error-code>404</error-code><location>/index.jsp</location></error-page>
+
     <resource-ref>
         <res-ref-name>jdbc/BrarnerDB</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
