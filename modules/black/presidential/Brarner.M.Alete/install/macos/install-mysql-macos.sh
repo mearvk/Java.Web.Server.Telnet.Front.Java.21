@@ -46,9 +46,9 @@ fi
 MYSQL_CMD="mysql -u${DB_USER}"
 [ -n "$DB_PASS" ] && MYSQL_CMD="$MYSQL_CMD -p${DB_PASS}"
 
-# Create user and database
-echo "[*] Creating database and user..."
-$MYSQL_CMD -e "CREATE DATABASE IF NOT EXISTS BrarnerScience CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE USER IF NOT EXISTS 'bma'@'localhost' IDENTIFIED BY 'bma123'; GRANT ALL PRIVILEGES ON BrarnerScience.* TO 'bma'@'localhost'; FLUSH PRIVILEGES;"
+# Create database and configure root for JDBC
+echo "[*] Creating database and configuring root access..."
+$MYSQL_CMD -e "CREATE DATABASE IF NOT EXISTS BrarnerScience CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '\$\$Ironman1'; FLUSH PRIVILEGES;"
 
 # Create tables
 echo "[*] Creating tables..."
@@ -60,7 +60,7 @@ $MYSQL_CMD -e "USE BrarnerScience; SHOW TABLES;"
 echo ""
 echo "═══════════════════════════════════════════════════════════════"
 echo " [✓] MySQL setup complete"
-echo "     User: bma / bma123"
+echo "     User: root / \$\$Ironman1"
 echo "     Database: BrarnerScience"
 echo "     Next: bash install/populate-science-db.sh"
 echo "═══════════════════════════════════════════════════════════════"
