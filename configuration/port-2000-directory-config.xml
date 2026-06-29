@@ -11,7 +11,7 @@
 -->
 <directory-config>
 
-    <!-- Which services are queryable from port 2000 -->
+    <!-- Which services are queryable from port 2000 — full module access -->
     <services>
         <port-20000>
             <enabled>true</enabled>
@@ -21,9 +21,45 @@
 
         <port-49152>
             <enabled>true</enabled>
-            <require-national-id>true</require-national-id>
+            <require-national-id>false</require-national-id>
             <description>NationalFinanceID registration server addresses</description>
         </port-49152>
+
+        <port-5000>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>Futures™ Democratic AI server</description>
+        </port-5000>
+
+        <port-9999>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>GrayPortRegistry™ standard registry</description>
+        </port-9999>
+
+        <port-10085>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>Gray85 Crème™ registry</description>
+        </port-10085>
+
+        <port-5512>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>AesCompliant™ encryption server</description>
+        </port-5512>
+
+        <port-6682>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>BitcoinCompliant™ trading server</description>
+        </port-6682>
+
+        <port-49199>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>Communicator™ chat server</description>
+        </port-49199>
     </services>
 
     <!-- Rank 4 JWSTNJ21 server registration via public.key -->

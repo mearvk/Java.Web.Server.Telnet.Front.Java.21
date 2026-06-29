@@ -355,11 +355,11 @@
                                   Premium option.
     ════════════════════════════════════════════════════════════════════ -->
     <server-class>
-        <option id="BASE_SERVER" selected="true" premium="false">
+        <option id="BASE_SERVER" selected="false" premium="false">
             <class>server.base.BaseServer</class>
             <description>Standard BaseServer. No connection limits or weight balancing.</description>
         </option>
-        <option id="HARDENED_BASE_SERVER" selected="false" premium="true">
+        <option id="HARDENED_BASE_SERVER" selected="true" premium="true">
             <class>server.experimental.HardenedBaseServer</class>
             <description>
                 Hardened server with 512 max connections, 10 per-IP limit,

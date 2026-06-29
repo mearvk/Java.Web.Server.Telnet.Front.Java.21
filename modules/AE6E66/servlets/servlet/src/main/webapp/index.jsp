@@ -86,6 +86,52 @@
     </div>
 </section>
 
+<section class="section">
+    <div class="section-inner">
+        <h2>NIO Protocol Access</h2>
+        <p style="margin-bottom:1rem;color:var(--text-muted);font-size:0.9rem;">Full module access via NIO masquerade layer — all ports routed.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Port</th><th>Protocol</th><th>Module</th></tr></thead>
+                <tbody>
+                    <tr><td>2000</td><td><code>NWE-DIRECTORY</code></td><td>Strernary™ Directory Server</td></tr>
+                    <tr><td>5000</td><td><code>NWE-FUTURES</code></td><td>Democratic ProFront National (Futures™)</td></tr>
+                    <tr><td>5512</td><td><code>AES</code></td><td>AesCompliant™</td></tr>
+                    <tr><td>6682</td><td><code>BITCOIN</code></td><td>BitcoinCompliant™</td></tr>
+                    <tr><td>7743</td><td><code>RSA</code></td><td>RsaCompliant™</td></tr>
+                    <tr><td>7744</td><td><code>DSA</code></td><td>DsaCompliant™</td></tr>
+                    <tr><td>9999</td><td><code>NWE-GRAY</code></td><td>GrayPortRegistry™</td></tr>
+                    <tr><td>10085</td><td><code>NWE-GRAY85</code></td><td>Gray85 Crème™</td></tr>
+                    <tr><td>20000</td><td><code>NWE-STRERNARY</code></td><td>Strernary™</td></tr>
+                    <tr><td>49152</td><td><code>NWE-FINANCE</code></td><td>NationalFinanceID</td></tr>
+                    <tr><td>49199</td><td><code>TCP</code></td><td>Communicator™</td></tr>
+                    <tr><td>49201-4</td><td><code>SIGNAL</code></td><td>International Signal Servers</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <h2>Security</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Feature</th><th>Status</th><th>Details</th></tr></thead>
+                <tbody>
+                    <tr><td>Rate Limiting</td><td style="color:#22c55e;">Active</td><td>30 conn/min per IP, 5-min block on exceed</td></tr>
+                    <tr><td>Input Sanitization</td><td style="color:#22c55e;">Active</td><td>Path traversal, null byte, shell injection prevention</td></tr>
+                    <tr><td>TLS (opt-in)</td><td style="color:#22c55e;">Available</td><td>TLSv1.3 via psychiatry/secrets/server.p12</td></tr>
+                    <tr><td>Heuristic Classifier</td><td style="color:#22c55e;">Active</td><td>Score ≥40 auto-drop, geo/port-scan/payload analysis</td></tr>
+                    <tr><td>Antivirus (ClamAV)</td><td style="color:#22c55e;">Active</td><td>Daily scan + file integrity baseline</td></tr>
+                    <tr><td>DKIM Email Signing</td><td style="color:#22c55e;">Active</td><td>2048-bit RSA, ae6e66 selector</td></tr>
+                    <tr><td>XXE Prevention</td><td style="color:#22c55e;">Active</td><td>DOCTYPE/ENTITY stripping on XML payloads</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
 <footer class="footer"><div>
     <span>&#169; 2026 MEARVK LLC. All rights reserved. AE6E66™ — Emerald Green.</span>
 </div></footer>
