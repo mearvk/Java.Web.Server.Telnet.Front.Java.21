@@ -79,15 +79,26 @@ Preferred Approach: JSP (Server-Side Rendering)
     art.jsp       — Queries art_works table; browse by ?museum=
     science.jsp   — Queries publications table; browse by ?source=
     status.jsp    — Live DB connectivity check, JVM info, servlet container info
+    guest.jsp     — Sets 24hr guest cookie, shows client IP, no DB
+    register.jsp  — Registration placeholder (points to GitHub Discussions)
 
-  DB Connection (all pages):
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BrarnerScience", "root", "");
+  DB Connection (all DB pages):
+    Properties dbProps and boolean propsLoaded declared OUTSIDE try block
+    (accessible in catch for error diagnostics).
+    Loads from WEB-INF/db.properties via application.getResourceAsStream(),
+    fallback to getRealPath(), fallback to hardcoded absolute paths.
+    Class.forName(dbProps.getProperty("db.driver", "com.mysql.cj.jdbc.Driver"));
+    conn = DriverManager.getConnection(url, user, pass);
 
   Navigation: Plain <a href="page.jsp?param=value"> links. No AJAX. No dynamic DOM.
+  Nav buttons: Guest (text/span on guest.jsp, link elsewhere), Register, Admin →
   Error display: Inline red <p> with e.getMessage() if DB fails.
   CD1 pop-up: Kept on species.jsp only. Minimal inline JS for show/hide toggle.
   welcome-file: index.jsp (configured in WEB-INF/web.xml)
+
+  XHTML equivalents (legacy, client-side JS):
+    guest.xhtml    — Client-side IP fetch (api.ipify.org), sets 24hr cookie via JS
+    register.xhtml — Registration form, IP detection, cookie-based session
 
   The .xhtml files remain in the webapp directory for reference but are no longer
   the active deployment. All nav links point to .jsp equivalents.
@@ -184,6 +195,7 @@ Run after clone/checkout to make all scripts executable:
   chmod +x install/test-local.sh
   chmod +x install/test-remote.sh
   chmod +x install/verify-integrity.sh
+  chmod +x install/after-pull.sh
   chmod +x install/macos/deploy-local.sh
   chmod +x install/macos/install-mysql-macos.sh
   chmod +x install/macos/populate-all.sh
@@ -277,3 +289,47 @@ fully operational on both local dev and remote server (Xenu-X900).
 KEY LESSON: ALTER TABLE ADD COLUMN IF NOT EXISTS does not work reliably across
 MySQL versions. Use DROP TABLE IF EXISTS + CREATE TABLE with the full correct
 schema instead. This guarantees the populate scripts work on any fresh install.
+
+
+Updates (2026-06-28, session 2)
+================================
+
+11. FIXED dbProps SCOPE BUG (all DB pages)
+    - Properties dbProps and boolean propsLoaded were declared inside the try block
+    - The catch block referenced them for error diagnostics → "cannot be resolved"
+    - Fix: moved declarations above try in species.jsp, postal.jsp, art.jsp,
+      science.jsp, status.jsp
+
+12. CREATED guest.jsp + register.jsp
+    - guest.jsp: sets bma_guest cookie (24hr), shows client IP via
+      request.getHeader("X-Forwarded-For") / request.getRemoteAddr()
+      "Guest" rendered as text (span), not a link, on that page
+    - register.jsp: placeholder pointing to GitHub Discussions for registration
+
+13. CREATED guest.xhtml (legacy equivalent)
+    - Client-side: fetches IP from api.ipify.org, sets bma_session cookie via JS
+    - Same nav structure as other .xhtml pages
+
+14. ADDED Guest + Register BUTTONS TO ALL PAGES
+    - All 6 main JSP pages (index, species, postal, art, science, status)
+      now show: Guest | Register | Admin → in nav-actions
+
+15. DEPLOY/TEST SCRIPTS NOW AUTO-DISCOVER JSP FILES
+    - deploy-local.sh, deploy-remote-linux.sh: dynamic find for JSP summary
+    - test-local.sh, test-remote.sh, macos/test-local.sh, windows/test-local.bat:
+      iterate all *.jsp in webapp dir instead of hardcoded list
+    - install.sh: updated hardcoded JSP list to include guest.jsp, register.jsp
+
+16. FIXED test-local.sh GREP PATTERNS
+    - Was using grep -qi with \| alternation (requires -E flag)
+    - Changed to grep -qiE throughout
+    - Updated species.jsp expected pattern to match actual rendered content
+      (Amphibia|Mammalia|Animalia|<td>)
+    - Result: 15 passed, 0 failed
+
+17. CREATED install/after-pull.sh
+    - Syncs webapp source → Tomcat deploy dir via rsync (skips db.properties)
+    - Restarts Tomcat only if JARs or web.xml changed
+    - Reloads Apache2 only if css/ or images/ changed
+    - No-op if nothing changed
+    - Usage: sudo bash install/after-pull.sh [tomcat_home]
