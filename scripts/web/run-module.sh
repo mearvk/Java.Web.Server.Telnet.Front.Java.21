@@ -23,9 +23,29 @@ case "$MODULE_ID" in
         echo "[*] Starting Strernary server..."
         cd "$PROJECT_ROOT" && java -cp "source/strernary:lib/*" source.strernary.StrernaryServer &
         ;;
+    california-fbi)
+        echo "[*] Starting CaliforniaFBI server..."
+        cd "$PROJECT_ROOT" && java -cp "california/fbi/source:out:jars/mysql/*" source.CaliforniaFBIServer &
+        ;;
+    california-cia)
+        echo "[*] Starting CaliforniaCIA server..."
+        cd "$PROJECT_ROOT" && java -cp "california/cia/source:out:jars/mysql/*" source.CaliforniaCIAServer &
+        ;;
+    california-nsa)
+        echo "[*] Starting CaliforniaNSA server..."
+        cd "$PROJECT_ROOT" && java -cp "california/nsa/source:out:jars/mysql/*" source.CaliforniaNSAServer &
+        ;;
+    duke)
+        echo "[*] Starting DukeUniversity server..."
+        cd "$PROJECT_ROOT" && java -cp "north/carolina/duke/source:out:jars/mysql/*" source.DukeUniversityServer &
+        ;;
+    stanford-library)
+        echo "[*] Starting StanfordLibrary server..."
+        cd "$PROJECT_ROOT" && java -cp "north/carolina/library/source:out:jars/mysql/*" source.StanfordLibraryServer &
+        ;;
     *)
         echo "[!] Unknown module: $MODULE_ID"
-        echo "    Available: ae6e66, futures, strernary"
+        echo "    Available: ae6e66, futures, strernary, california-fbi, california-cia, california-nsa, duke, stanford-library"
         exit 1
         ;;
 esac

@@ -14,6 +14,18 @@ CP="$OUT:$JAR:${DJL_JARS}$ROOT/jars/lanterna-3.1.5.jar"
 FORCE=0
 [[ "${1:-}" == "--force" ]] && FORCE=1
 
+# Module source directories to compile alongside core source/
+MODULE_SOURCES=(
+    "$ROOT/california/fbi/source"
+    "$ROOT/california/cia/source"
+    "$ROOT/california/nsa/source"
+    "$ROOT/north/carolina/duke/source"
+    "$ROOT/north/carolina/library/source"
+    "$ROOT/modules/AE6E66/source"
+    "$ROOT/modules/gray/source"
+    "$ROOT/modules/gray.a85/source"
+)
+
 echo ""
 echo "=== NitroWebExpress Installer ==="
 echo "ROOT : $ROOT"
@@ -83,6 +95,11 @@ echo "[2/3] Checking compilation status..."
 
 # Collect all .java source files
 mapfile -t SOURCES < <(find "$SRC" -name "*.java" | sort)
+for MSRC in "${MODULE_SOURCES[@]}"; do
+    if [[ -d "$MSRC" ]]; then
+        mapfile -t -O ${#SOURCES[@]} SOURCES < <(find "$MSRC" -name "*.java" | sort)
+    fi
+done
 
 if [[ ${#SOURCES[@]} -eq 0 ]]; then
     echo "      No .java files found under $SRC — nothing to compile."

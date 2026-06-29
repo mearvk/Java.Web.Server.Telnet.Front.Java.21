@@ -43,6 +43,12 @@ echo "[OK] Tomcat installed"
 # 6. Make scripts executable
 find "$PROJECT_ROOT" -name "*.sh" -exec chmod +x {} \;
 
+# 6.5. Setup module databases
+echo "[*] Setting up module databases..."
+for SETUP in california/fbi/servlets/setup-db.sh california/cia/servlets/setup-db.sh california/nsa/servlets/setup-db.sh north/carolina/duke/servlets/setup-db.sh north/carolina/library/servlets/setup-db.sh; do
+    [ -f "$PROJECT_ROOT/$SETUP" ] && bash "$PROJECT_ROOT/$SETUP" 2>/dev/null && echo "  [OK] $SETUP" || true
+done
+
 # 7. Deploy all
 bash "$SCRIPT_DIR/deploy-all-macos.sh"
 
