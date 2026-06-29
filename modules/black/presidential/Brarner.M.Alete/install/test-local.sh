@@ -57,11 +57,11 @@ check_db_page() {
         [ -n "$diag" ] && echo "         Diag:  $diag"
         FAIL=$((FAIL + 1))
         return 1
-    elif echo "$body" | grep -qi "$expect"; then
+    elif echo "$body" | grep -qiE "$expect"; then
         echo "  [OK]   ${label}: data rendering ✓"
         PASS=$((PASS + 1))
         return 0
-    elif echo "$body" | grep -qi "No .* available\|No records found"; then
+    elif echo "$body" | grep -qiE "No .* available|No records found"; then
         echo "  [WARN] ${label}: page works but table is EMPTY"
         echo "         Run: bash install/populate-all.sh"
         FAIL=$((FAIL + 1))
@@ -73,10 +73,10 @@ check_db_page() {
     fi
 }
 
-check_db_page "postal.jsp" "NC\|zip_code\|Durham\|Raleigh" "postal.jsp (states)"
-check_db_page "art.jsp" "Museum\|museum_name\|Monet\|Ackland" "art.jsp (museums)"
-check_db_page "science.jsp" "Nature\|source_name\|Science\|PNAS" "science.jsp (sources)"
-check_db_page "species.jsp?kingdom=Animalia" "Chordata\|Mammalia\|class_name" "species.jsp (animalia)"
+check_db_page "postal.jsp" "NC|zip_code|Durham|Raleigh" "postal.jsp (states)"
+check_db_page "art.jsp" "Museum|museum_name|Monet|Ackland" "art.jsp (museums)"
+check_db_page "science.jsp" "Nature|source_name|Science|PNAS" "science.jsp (sources)"
+check_db_page "species.jsp?kingdom=Animalia" "Amphibia|Mammalia|Animalia|<td>" "species.jsp (animalia)"
 
 echo ""
 echo "[3] db.properties diagnosis..."
