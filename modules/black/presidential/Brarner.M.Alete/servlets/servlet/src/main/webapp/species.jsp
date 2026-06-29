@@ -106,6 +106,30 @@
         </div>
 
         <h3><%= kingdom %> Classes</h3>
+<%
+        // Lookup kingdom description
+        PreparedStatement psDesc = conn.prepareStatement(
+            "SELECT description, characteristics, example_species, wikipedia_url FROM taxonomy_descriptions WHERE rank_level='kingdom' AND taxon_name=?");
+        psDesc.setString(1, kingdom);
+        ResultSet rsDesc = psDesc.executeQuery();
+        if (rsDesc.next()) {
+            String kdesc = rsDesc.getString("description");
+            String kchars = rsDesc.getString("characteristics");
+            String kwiki = rsDesc.getString("wikipedia_url");
+%>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:1rem;margin-bottom:1.5rem;">
+            <div style="font-weight:600;margin-bottom:0.5rem;">Kingdom: <%= kingdom %></div>
+            <div style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:0.5rem;"><%= kdesc != null ? kdesc : "" %></div>
+<% if (kchars != null && !kchars.isEmpty()) { %>
+            <div style="color:var(--text-muted);font-size:0.8rem;"><strong>Characteristics:</strong> <%= kchars %></div>
+<% } if (kwiki != null && !kwiki.isEmpty()) { %>
+            <div style="margin-top:0.5rem;"><a href="<%= kwiki %>" target="_blank" style="color:var(--accent);font-size:0.8rem;">Wikipedia →</a></div>
+<% } %>
+        </div>
+<%
+        }
+        rsDesc.close(); psDesc.close();
+%>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>Class</th><th>Orders</th><th>Families</th></tr></thead>
@@ -128,6 +152,32 @@
 <%
             // Expand orders inline under the selected class
             if (isSelected) {
+                // Show class description
+                PreparedStatement psClassDesc = conn.prepareStatement(
+                    "SELECT description, characteristics, example_species, wikipedia_url FROM taxonomy_descriptions WHERE rank_level='class' AND taxon_name=?");
+                psClassDesc.setString(1, selClass);
+                ResultSet rsClassDesc = psClassDesc.executeQuery();
+                if (rsClassDesc.next()) {
+                    String cdesc = rsClassDesc.getString("description");
+                    String cchars = rsClassDesc.getString("characteristics");
+                    String cex = rsClassDesc.getString("example_species");
+                    String cwiki = rsClassDesc.getString("wikipedia_url");
+%>
+                    <tr><td colspan="3" style="padding:0.75rem 1rem;background:var(--bg-card);border-left:3px solid var(--accent);">
+                        <div style="font-weight:600;font-size:0.9rem;margin-bottom:0.4rem;">Class: <%= selClass %></div>
+                        <div style="color:var(--text-secondary);font-size:0.82rem;margin-bottom:0.4rem;"><%= cdesc != null ? cdesc : "" %></div>
+<% if (cchars != null && !cchars.isEmpty()) { %>
+                        <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:0.3rem;"><strong>Characteristics:</strong> <%= cchars %></div>
+<% } if (cex != null && !cex.isEmpty()) { %>
+                        <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:0.3rem;"><strong>Examples:</strong> <em><%= cex %></em></div>
+<% } if (cwiki != null && !cwiki.isEmpty()) { %>
+                        <div><a href="<%= cwiki %>" target="_blank" style="color:var(--accent);font-size:0.78rem;">Wikipedia →</a></div>
+<% } %>
+                    </td></tr>
+<%
+                }
+                rsClassDesc.close(); psClassDesc.close();
+
                 PreparedStatement psOrder = conn.prepareStatement(
                     "SELECT DISTINCT order_name, COUNT(DISTINCT family_name) AS families " +
                     "FROM animalia WHERE class_name=? AND order_name IS NOT NULL AND order_name!='' GROUP BY order_name ORDER BY order_name");
@@ -156,6 +206,29 @@
 <%
                     // Expand families inline under the selected order
                     if (orderSelected) {
+                        // Order description
+                        PreparedStatement psOrdDesc = conn.prepareStatement(
+                            "SELECT description, characteristics, wikipedia_url FROM taxonomy_descriptions WHERE rank_level='order' AND taxon_name=?");
+                        psOrdDesc.setString(1, selOrder);
+                        ResultSet rsOrdDesc = psOrdDesc.executeQuery();
+                        if (rsOrdDesc.next()) {
+                            String odesc = rsOrdDesc.getString("description");
+                            String ochars = rsOrdDesc.getString("characteristics");
+                            String owiki = rsOrdDesc.getString("wikipedia_url");
+%>
+                                    <tr><td colspan="2" style="padding:0.6rem 1rem;background:var(--bg-card);border-left:3px solid var(--accent);">
+                                        <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.3rem;">Order: <%= selOrder %></div>
+                                        <div style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:0.3rem;"><%= odesc != null ? odesc : "" %></div>
+<% if (ochars != null && !ochars.isEmpty()) { %>
+                                        <div style="color:var(--text-muted);font-size:0.75rem;"><strong>Characteristics:</strong> <%= ochars %></div>
+<% } if (owiki != null && !owiki.isEmpty()) { %>
+                                        <div style="margin-top:0.3rem;"><a href="<%= owiki %>" target="_blank" style="color:var(--accent);font-size:0.75rem;">Wikipedia →</a></div>
+<% } %>
+                                    </td></tr>
+<%
+                        }
+                        rsOrdDesc.close(); psOrdDesc.close();
+
                         PreparedStatement psFamily = conn.prepareStatement(
                             "SELECT DISTINCT family_name FROM animalia WHERE order_name=? AND family_name IS NOT NULL AND family_name!='' ORDER BY family_name");
                         psFamily.setString(1, selOrder);
@@ -181,6 +254,29 @@
 <%
                             // Expand species under selected family
                             if (famSelected) {
+                                // Family description
+                                PreparedStatement psFamDesc = conn.prepareStatement(
+                                    "SELECT description, characteristics, wikipedia_url FROM taxonomy_descriptions WHERE rank_level='family' AND taxon_name=?");
+                                psFamDesc.setString(1, selFamily);
+                                ResultSet rsFamDesc = psFamDesc.executeQuery();
+                                if (rsFamDesc.next()) {
+                                    String fdesc = rsFamDesc.getString("description");
+                                    String fchars = rsFamDesc.getString("characteristics");
+                                    String fwiki = rsFamDesc.getString("wikipedia_url");
+%>
+                                                    <tr><td style="padding:0.6rem 0.75rem;background:var(--bg-card);border-left:3px solid var(--accent);">
+                                                        <div style="font-weight:600;font-size:0.82rem;margin-bottom:0.3rem;">Family: <%= selFamily %></div>
+                                                        <div style="color:var(--text-secondary);font-size:0.76rem;margin-bottom:0.3rem;"><%= fdesc != null ? fdesc : "" %></div>
+<% if (fchars != null && !fchars.isEmpty()) { %>
+                                                        <div style="color:var(--text-muted);font-size:0.72rem;"><strong>Characteristics:</strong> <%= fchars %></div>
+<% } if (fwiki != null && !fwiki.isEmpty()) { %>
+                                                        <div style="margin-top:0.3rem;"><a href="<%= fwiki %>" target="_blank" style="color:var(--accent);font-size:0.72rem;">Wikipedia →</a></div>
+<% } %>
+                                                    </td></tr>
+<%
+                                }
+                                rsFamDesc.close(); psFamDesc.close();
+
                                 PreparedStatement psSpecies = conn.prepareStatement(
                                     "SELECT species_name, common_name, description FROM species WHERE family_name=? ORDER BY species_name");
                                 psSpecies.setString(1, selFamily);
