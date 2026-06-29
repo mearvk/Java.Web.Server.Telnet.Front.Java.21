@@ -86,6 +86,19 @@ fi
 # Fix ownership
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 
+# Deploy legal data to webapp data directory (for direct JSP access if needed)
+LEGAL_SAFE="$BMA_ROOT/data/legal/safe"
+if [ -d "$LEGAL_SAFE" ]; then
+    mkdir -p "$DEPLOY_DIR/data/legal"
+    cp "$LEGAL_SAFE"/*.csv "$DEPLOY_DIR/data/legal/" 2>/dev/null || true
+    cp "$LEGAL_SAFE"/*.rdns "$DEPLOY_DIR/data/legal/" 2>/dev/null || true
+    cp "$LEGAL_SAFE"/*.txt "$DEPLOY_DIR/data/legal/" 2>/dev/null || true
+    chmod 444 "$DEPLOY_DIR/data/legal/"* 2>/dev/null || true
+    echo "[*] Legal data deployed to $DEPLOY_DIR/data/legal/ (read-only)"
+else
+    echo "[!] Legal safe data not found — run: bash data/legal/download-legal-data.sh && bash data/legal/unzip-and-consume.sh"
+fi
+
 # Create www and web symlinks in BMA project root → canonical deploy dir
 ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/www"
 ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/web"

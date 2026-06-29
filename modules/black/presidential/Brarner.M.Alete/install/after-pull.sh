@@ -257,6 +257,53 @@ else
     mark_skip "Tomcat not running — cannot check pages"
 fi
 
+# ─── Legal data integrity ───
+echo ""
+echo "[6b] Legal module data..."
+
+LEGAL_SAFE="$BMA_ROOT/data/legal/safe"
+if [ -d "$LEGAL_SAFE" ]; then
+    SAFE_COUNT=$(find "$LEGAL_SAFE" -type f \( -name "*.csv" -o -name "*.rdns" -o -name "*.txt" \) | wc -l)
+    if [ "$SAFE_COUNT" -ge 10 ]; then
+        mark_ok "Legal safe data: $SAFE_COUNT files"
+    else
+        mark_fail "Legal safe data incomplete ($SAFE_COUNT files, expected 10+)"
+        echo "         Fix: bash data/legal/download-legal-data.sh && bash data/legal/unzip-and-consume.sh"
+    fi
+    # Verify SHA-256 integrity
+    INTEGRITY="$LEGAL_SAFE/integrity.sha256"
+    if [ -f "$INTEGRITY" ]; then
+        if cd "$LEGAL_SAFE" && sha256sum -c "$INTEGRITY" &>/dev/null; then
+            mark_ok "Legal data integrity: SHA-256 verified"
+        else
+            mark_fail "Legal data integrity: SHA-256 mismatch — rerun unzip-and-consume.sh"
+        fi
+        cd "$BMA_ROOT" 2>/dev/null || true
+    else
+        mark_skip "No integrity.sha256 found — rerun unzip-and-consume.sh"
+    fi
+    # Check legal.jsp deployed
+    if [ -f "$DEPLOY_DIR/legal.jsp" ]; then
+        mark_ok "legal.jsp deployed"
+    else
+        mark_fail "legal.jsp missing from $DEPLOY_DIR — webapp needs redeploy"
+    fi
+    # Deploy legal safe data to webapp if missing
+    if [ ! -d "$DEPLOY_DIR/data/legal" ] || [ "$(find "$DEPLOY_DIR/data/legal" -type f 2>/dev/null | wc -l)" -lt "$SAFE_COUNT" ]; then
+        mkdir -p "$DEPLOY_DIR/data/legal"
+        cp "$LEGAL_SAFE"/*.csv "$DEPLOY_DIR/data/legal/" 2>/dev/null || true
+        cp "$LEGAL_SAFE"/*.rdns "$DEPLOY_DIR/data/legal/" 2>/dev/null || true
+        cp "$LEGAL_SAFE"/*.txt "$DEPLOY_DIR/data/legal/" 2>/dev/null || true
+        chmod 444 "$DEPLOY_DIR/data/legal/"* 2>/dev/null || true
+        mark_fix "Legal data synced to $DEPLOY_DIR/data/legal/"
+    else
+        mark_ok "Legal data in webapp is current"
+    fi
+else
+    mark_fail "Legal safe directory not found: $LEGAL_SAFE"
+    echo "         Fix: bash data/legal/download-legal-data.sh && bash data/legal/unzip-and-consume.sh"
+fi
+
 # ─── Restart decisions ───
 echo ""
 echo "[7] Service restart decisions..."

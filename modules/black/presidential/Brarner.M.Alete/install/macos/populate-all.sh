@@ -5,6 +5,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+BMA_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
 
 echo "═══════════════════════════════════════════════════════════════"
 echo " Brarner.M.Alete™ — Populate All Tables (macOS)"
@@ -22,7 +23,14 @@ echo ""
 bash "$SCRIPT_DIR/populate-ssa.sh"
 
 echo ""
+echo "[*] Populating legal data..."
+bash "$BMA_ROOT/data/legal/download-legal-data.sh"
+echo ""
+echo "[*] Processing legal data into safe formats..."
+bash "$BMA_ROOT/data/legal/unzip-and-consume.sh"
+
+echo ""
 echo "═══════════════════════════════════════════════════════════════"
 echo " [✓] All tables populated"
-echo "     animalia, species, postal, art_works, publications, ssa_offices"
+echo "     animalia, species, postal, art_works, publications, ssa_offices, legal"
 echo "═══════════════════════════════════════════════════════════════"

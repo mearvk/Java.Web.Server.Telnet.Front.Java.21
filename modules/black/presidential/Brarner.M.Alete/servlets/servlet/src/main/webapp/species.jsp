@@ -18,6 +18,7 @@
         <li><a href="postal.jsp">Postal</a></li>
         <li><a href="art.jsp">Art</a></li>
         <li><a href="science.jsp">Science</a></li>
+        <li><a href="legal.jsp">Legal</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
     <div class="nav-actions">
