@@ -85,21 +85,69 @@
             <span style="font-size:0.85rem;color:<%= authorized ? "#22c55e" : "#ef4444" %>;font-weight:600;">&#9679; <%= authStatus %></span>
             <span style="font-size:0.75rem;color:#71717a;margin-left:1rem;">Checked: <%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z").format(new java.util.Date()) %></span>
         </div>
-        <h2>Roadmap</h2>
-        <p>Module release schedule and versioning. All releases LTS.</p>
+        <h2>Editions <span id="editions-status" style="font-size:0.7rem;color:#71717a;font-weight:400;margin-left:0.5rem;"></span></h2>
+        <p>Module release schedule and versioning. All releases LTS. <span style="font-size:0.75rem;color:#71717a;">(Auto-refreshes every 5 minutes from GitHub Releases)</span></p>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>Release</th><th>GA Date</th><th>Tag</th><th>Min JDK</th><th>LTS</th></tr></thead>
-                <tbody>
-                    <tr><td><code>US.Congress.Edition</code></td><td>Jun 2026</td><td>Mearvk-US.Congress.Edition</td><td><code>21</code></td><td>yes</td></tr>
-                    <tr><td><code>v9.9.1</code></td><td>May 2026</td><td>v9.9.1</td><td><code>21</code></td><td>yes</td></tr>
-                    <tr><td><code>Mearvk-3.0</code></td><td>May 2026</td><td>Mearvk-3.0</td><td><code>21</code></td><td>yes</td></tr>
-                    <tr><td><code>Mearvk-2.0</code></td><td>May 2026</td><td>Mearvk-2.0</td><td><code>21</code></td><td>yes</td></tr>
+                <tbody id="editions-tbody">
+                    <tr><td colspan="5" style="text-align:center;color:#71717a;">Loading editions...</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 </section>
+<script>
+(function(){
+    var REPO='mearvk/Java.Web.Server.Telnet.Front.Java.21';
+    var API='https://api.github.com/repos/'+REPO+'/releases?per_page=20';
+    var TAGS_API='https://api.github.com/repos/'+REPO+'/tags?per_page=30';
+    var tbody=document.getElementById('editions-tbody');
+    var status=document.getElementById('editions-status');
+    var POLL_MS=300000; // 5 minutes
+
+    function formatDate(d){if(!d)return'—';var dt=new Date(d);return dt.toLocaleDateString('en-US',{month:'short',year:'numeric'});}
+    function esc(s){if(!s)return'';var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+    function renderRows(releases,tags){
+        if(!releases.length&&!tags.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#71717a;">No releases found</td></tr>';return;}
+        var html='';
+        // Releases first
+        releases.forEach(function(r){
+            html+='<tr><td><code>'+esc(r.name||r.tag_name)+'</code></td>';
+            html+='<td>'+formatDate(r.published_at)+'</td>';
+            html+='<td><a href="'+esc(r.html_url)+'" target="_blank">'+esc(r.tag_name)+'</a></td>';
+            html+='<td><code>21</code></td><td>yes</td></tr>';
+        });
+        // Tags that aren't in releases
+        var relTags=releases.map(function(r){return r.tag_name;});
+        tags.forEach(function(t){
+            if(relTags.indexOf(t.name)===-1){
+                html+='<tr><td><code>'+esc(t.name)+'</code></td><td>—</td>';
+                html+='<td><a href="https://github.com/'+REPO+'/releases/tag/'+encodeURIComponent(t.name)+'" target="_blank">'+esc(t.name)+'</a></td>';
+                html+='<td><code>21</code></td><td>yes</td></tr>';
+            }
+        });
+        tbody.innerHTML=html;
+    }
+
+    function poll(){
+        status.textContent='polling...';
+        Promise.all([
+            fetch(API).then(function(r){return r.ok?r.json():[]}).catch(function(){return[];}),
+            fetch(TAGS_API).then(function(r){return r.ok?r.json():[]}).catch(function(){return[];})
+        ]).then(function(results){
+            renderRows(results[0],results[1]);
+            status.textContent='updated '+new Date().toLocaleTimeString();
+        }).catch(function(){
+            status.textContent='fetch failed';
+        });
+    }
+
+    poll();
+    setInterval(poll,POLL_MS);
+})();
+</script>
 
 <section class="section">
     <div class="section-inner">
