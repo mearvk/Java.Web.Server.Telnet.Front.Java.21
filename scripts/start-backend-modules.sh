@@ -1,6 +1,6 @@
 #!/bin/bash
 # NitroWebExpress™ — Start All Backend Modules
-# Launches all TCP server modules as background processes.
+# Launches the NWE Main class which internally starts ALL sub-servers.
 # Usage: bash scripts/start-backend-modules.sh
 # Stop:  bash scripts/start-backend-modules.sh --stop
 set -uo pipefail
@@ -10,102 +10,97 @@ OUT="$PROJECT_ROOT/out"
 JARS="$PROJECT_ROOT/jars"
 CP="$OUT:$JARS/mysql/mysql-connector-j-9.7.0.jar:$JARS/lanterna-3.1.5.jar"
 DJL_CP=$(find "$JARS/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
-CP="$CP:${DJL_CP}"
+CP="$CP:${DJL_CP}$PROJECT_ROOT/source"
 LOG_DIR="$PROJECT_ROOT/logging"
-PID_DIR="$PROJECT_ROOT/data/pids"
+PID_FILE="$PROJECT_ROOT/data/nwe-main.pid"
 JVM_OPTS="-Xms256m -Xmx1024m -XX:+UseZGC"
 
-mkdir -p "$LOG_DIR" "$PID_DIR"
+mkdir -p "$LOG_DIR" "$PROJECT_ROOT/data"
 
 # ── Stop mode ────────────────────────────────────────────────────────────────
 if [[ "${1:-}" == "--stop" ]]; then
-    echo "[*] Stopping all NWE backend modules..."
-    for PID_FILE in "$PID_DIR"/*.pid; do
-        [ -f "$PID_FILE" ] || continue
+    echo "[*] Stopping NitroWebExpress™..."
+    if [ -f "$PID_FILE" ]; then
         PID=$(cat "$PID_FILE")
-        NAME=$(basename "$PID_FILE" .pid)
         if kill -0 "$PID" 2>/dev/null; then
             kill "$PID" 2>/dev/null
-            echo "  [STOP] $NAME (PID $PID)"
+            sleep 2
+            kill -0 "$PID" 2>/dev/null && kill -9 "$PID" 2>/dev/null
+            echo "[OK] NWE Main stopped (PID $PID)"
+        else
+            echo "[SKIP] PID $PID not running"
         fi
         rm -f "$PID_FILE"
-    done
-    echo "[OK] All modules stopped."
+    else
+        # Try to find by process name
+        pkill -f "java.*Main" 2>/dev/null && echo "[OK] NWE processes killed" || echo "[SKIP] No NWE processes found"
+    fi
     exit 0
 fi
 
-# ── Start function ────────────────────────────────────────────────────────────
-start_module() {
-    local NAME="$1" CLASS="$2" PORT="$3" EXTRA_CP="${4:-}"
-    local FULL_CP="$CP:$EXTRA_CP"
+# ── Check if already running ─────────────────────────────────────────────────
+if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+    echo "[SKIP] NWE already running (PID $(cat "$PID_FILE")). Use --stop first."
+    exit 0
+fi
 
-    # Skip if already running
-    if timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null; then
-        echo "  [SKIP] $NAME (port $PORT) — already running"
-        return
-    fi
-
-    cd "$PROJECT_ROOT"
-    java $JVM_OPTS -cp "$FULL_CP" "$CLASS" >> "$LOG_DIR/$NAME.log" 2>&1 &
-    local PID=$!
-    echo "$PID" > "$PID_DIR/$NAME.pid"
-
-    # Wait briefly and check it started
-    sleep 1
-    if kill -0 "$PID" 2>/dev/null; then
-        echo "  [OK] $NAME (port $PORT) — PID $PID"
-    else
-        echo "  [FAIL] $NAME (port $PORT) — exited immediately (check $LOG_DIR/$NAME.log)"
-    fi
-}
-
-# ── Launch ────────────────────────────────────────────────────────────────────
+# ── Start ─────────────────────────────────────────────────────────────────────
 echo "═══════════════════════════════════════════════════════════════"
 echo " NitroWebExpress™ — Start Backend Modules"
 echo " JVM: $JVM_OPTS"
-echo " Logs: $LOG_DIR/"
+echo " Classpath includes: out/, jars/, source/"
+echo " Log: $LOG_DIR/nwe-main.log"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
 
-# Core
-start_module "NitroWebExpress"     "server.nitro.NitroWebExpress"          49152
-start_module "ConnectionStatus"    "server.nitro.modules.ConnectionStatusServer" 49155
-start_module "Communicator"        "communicator.Communicator"             49199
+cd "$PROJECT_ROOT"
+java $JVM_OPTS -cp "$CP" Main >> "$LOG_DIR/nwe-main.log" 2>&1 &
+MAIN_PID=$!
+echo "$MAIN_PID" > "$PID_FILE"
 
-# Encryption
-start_module "AES"                 "server.nitro.NitroWebExpress\$AESCompliant" 5512
-start_module "Bitcoin"             "server.nitro.modules.BitcoinCompliant" 6682
+echo "[*] NWE Main starting (PID $MAIN_PID)..."
+echo "[*] Waiting for services to bind..."
+sleep 5
 
-# Strernary
-start_module "Strernary"           "strernary.StrernaryServer"             20000  "$PROJECT_ROOT/source/strernary"
-start_module "StrernaryDirectory"  "strernary.StrernaryDirectoryServer"    2000   "$PROJECT_ROOT/source/strernary"
+# ── Verify ports came up ──────────────────────────────────────────────────────
+EXPECTED_PORTS=(49152 49155 49199 5512 6682 20000 2000 49201 49202 49203 49204 49210 49211 49212 49213 49214 5000 9999 10085)
+UP=0; DOWN=0
 
-# Signal Servers
-start_module "JapanSignal"         "international.radio.japan.JapanSignalServer"   49201 "$PROJECT_ROOT/source/international/radio/japan"
-start_module "RussiaSignal"        "international.radio.russia.RussiaSignalServer" 49202 "$PROJECT_ROOT/source/international/radio/russia"
-start_module "MexicoSignal"        "international.radio.mexico.MexicoSignalServer" 49203 "$PROJECT_ROOT/source/international/radio/mexico"
-start_module "GreeceSignal"        "greece.international.GreeceInternationalSignalServer" 49204 "$PROJECT_ROOT/source/greece/international"
+for PORT in "${EXPECTED_PORTS[@]}"; do
+    if timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null; then
+        UP=$((UP + 1))
+    else
+        DOWN=$((DOWN + 1))
+    fi
+done
 
-# California Federal
-start_module "CaliforniaFBI"       "source.CaliforniaFBIServer"            49210  "$PROJECT_ROOT/california/fbi/source"
-start_module "CaliforniaCIA"       "source.CaliforniaCIAServer"            49211  "$PROJECT_ROOT/california/cia/source"
-start_module "CaliforniaNSA"       "source.CaliforniaNSAServer"            49212  "$PROJECT_ROOT/california/nsa/source"
+echo ""
+echo "  Ports up: $UP / ${#EXPECTED_PORTS[@]}"
 
-# NC Academic
-start_module "DukeUniversity"      "source.DukeUniversityServer"           49213  "$PROJECT_ROOT/north/carolina/duke/source"
-start_module "StanfordLibrary"     "source.StanfordLibraryServer"          49214  "$PROJECT_ROOT/north/carolina/library/source"
+if ! kill -0 "$MAIN_PID" 2>/dev/null; then
+    echo "  [FAIL] Main process exited. Check: $LOG_DIR/nwe-main.log"
+    echo "  Last 10 lines:"
+    tail -10 "$LOG_DIR/nwe-main.log" 2>/dev/null | sed 's/^/    /'
+    exit 1
+fi
 
-# Futures
-start_module "Futures"             "ai.server.DemocraticAIServer"          5000   "$PROJECT_ROOT/modules/black/red/Futures/source"
+# Show which are up/down
+echo ""
+declare -A PORT_NAMES=([49152]="NitroWebExpress" [49155]="ConnectionStatus" [49199]="Communicator" [5512]="AES" [6682]="Bitcoin" [20000]="Strernary" [2000]="StrernaryDirectory" [49201]="JapanSignal" [49202]="RussiaSignal" [49203]="MexicoSignal" [49204]="GreeceSignal" [49210]="CaliforniaFBI" [49211]="CaliforniaCIA" [49212]="CaliforniaNSA" [49213]="DukeUniversity" [49214]="StanfordLibrary" [5000]="Futures" [9999]="GrayPortRegistry" [10085]="Gray85Creme")
 
-# Gray Registries
-start_module "GrayPortRegistry"    "modules.gray.GrayPortRegistryServer"   9999   "$PROJECT_ROOT/modules/gray/source"
-start_module "Gray85Creme"         "modules.gray85.Gray85PortRegistryServer" 10085 "$PROJECT_ROOT/modules/gray.a85/source"
+for PORT in "${EXPECTED_PORTS[@]}"; do
+    NAME="${PORT_NAMES[$PORT]:-port-$PORT}"
+    if timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null; then
+        echo "  [OK] $NAME (port $PORT)"
+    else
+        echo "  [--] $NAME (port $PORT) — not yet (may need more time or is disabled in nwe-config.xml)"
+    fi
+done
 
 echo ""
 echo "═══════════════════════════════════════════════════════════════"
-echo " All modules launched. Verify: bash scripts/test-local.sh"
+echo " NWE Main running — PID $MAIN_PID"
 echo " Stop: bash scripts/start-backend-modules.sh --stop"
-echo " Logs: $LOG_DIR/*.log"
-echo " PIDs: $PID_DIR/*.pid"
+echo " Log:  tail -f $LOG_DIR/nwe-main.log"
+echo " Test: bash scripts/test-local.sh"
 echo "═══════════════════════════════════════════════════════════════"

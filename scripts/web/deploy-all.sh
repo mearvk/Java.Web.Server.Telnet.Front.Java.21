@@ -22,6 +22,10 @@ fi
 echo ""
 echo "[*] Setting up all module databases..."
 bash "$SCRIPT_DIR/setup-all-databases.sh" 2>/dev/null || echo "[WARN] Some databases may need manual setup"
+
+# Patch WEB-INF and check SSL
+echo ""
+bash "$SCRIPT_DIR/patch-webinf-and-ssl.sh" 2>/dev/null || echo "[WARN] WEB-INF/SSL patch had issues"
 echo ""
 
 # Parse enabled modules from XML
