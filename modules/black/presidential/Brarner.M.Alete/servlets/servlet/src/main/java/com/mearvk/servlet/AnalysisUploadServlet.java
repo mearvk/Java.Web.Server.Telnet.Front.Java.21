@@ -63,6 +63,14 @@ public class AnalysisUploadServlet extends HttpServlet {
         public int progress;          // 0-100
         public String error;
         public long createdAt;
+        // Full taxonomy hierarchy
+        public String kingdom;
+        public String className;
+        public String order;
+        public String family;
+        public String species;
+        public String commonName;
+        public String source;         // SCD1, analysis page, etc.
 
         public String toJson() {
             return "{\"id\":\"" + id + "\","
@@ -73,6 +81,13 @@ public class AnalysisUploadServlet extends HttpServlet {
                 + "\"stage\":\"" + stage + "\","
                 + "\"progress\":" + progress + ","
                 + "\"error\":" + (error != null ? "\"" + esc(error) + "\"" : "null") + ","
+                + "\"kingdom\":\"" + esc(kingdom) + "\","
+                + "\"className\":\"" + esc(className) + "\","
+                + "\"order\":\"" + esc(order) + "\","
+                + "\"family\":\"" + esc(family) + "\","
+                + "\"species\":\"" + esc(species) + "\","
+                + "\"commonName\":\"" + esc(commonName) + "\","
+                + "\"source\":\"" + esc(source) + "\","
                 + "\"resultReady\":" + ("complete".equals(stage)) + "}";
         }
 
@@ -122,6 +137,14 @@ public class AnalysisUploadServlet extends HttpServlet {
             job.stage = "uploading";
             job.progress = 5;
             job.createdAt = System.currentTimeMillis();
+            // Full taxonomy hierarchy from request
+            job.kingdom = req.getParameter("kingdom") != null ? req.getParameter("kingdom") : "";
+            job.className = req.getParameter("className") != null ? req.getParameter("className") : "";
+            job.order = req.getParameter("order") != null ? req.getParameter("order") : "";
+            job.family = req.getParameter("family") != null ? req.getParameter("family") : "";
+            job.species = req.getParameter("species") != null ? req.getParameter("species") : "";
+            job.commonName = req.getParameter("commonName") != null ? req.getParameter("commonName") : "";
+            job.source = req.getParameter("source") != null ? req.getParameter("source") : "web";
 
             // Store file
             Path uploadDir = Paths.get(UPLOAD_DIR, job.id);
@@ -237,14 +260,23 @@ public class AnalysisUploadServlet extends HttpServlet {
 
             try (BufferedWriter w = Files.newBufferedWriter(resultFile)) {
                 w.write("═══════════════════════════════════════════════════════════════\n");
-                w.write(" Brarner.M.Alete™ — Analysis Result\n");
+                w.write(" Brarner.M.Alete™ — SCD1 Analysis Result\n");
                 w.write("═══════════════════════════════════════════════════════════════\n");
                 w.write(" Job ID:      " + job.id + "\n");
                 w.write(" Timestamp:   " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\n");
+                w.write(" Source:      " + (job.source != null ? job.source : "web") + "\n");
                 w.write(" File:        " + job.originalName + "\n");
                 w.write(" Type:        " + job.type + "\n");
-                w.write(" Rank:        " + job.rank + "\n");
-                w.write(" Taxon:       " + job.taxon + "\n");
+                w.write("───────────────────────────────────────────────────────────────\n");
+                w.write(" Taxonomy Hierarchy:\n");
+                w.write("   Rank:        " + job.rank + "\n");
+                w.write("   Taxon:       " + job.taxon + "\n");
+                w.write("   Kingdom:     " + (job.kingdom != null ? job.kingdom : "") + "\n");
+                w.write("   Class:       " + (job.className != null ? job.className : "") + "\n");
+                w.write("   Order:       " + (job.order != null ? job.order : "") + "\n");
+                w.write("   Family:      " + (job.family != null ? job.family : "") + "\n");
+                w.write("   Species:     " + (job.species != null ? job.species : "") + "\n");
+                w.write("   Common Name: " + (job.commonName != null ? job.commonName : "") + "\n");
                 w.write("───────────────────────────────────────────────────────────────\n");
                 w.write(" ClamAV:      CLEAN\n");
                 w.write(" Heuristic:   " + heuristicResult + "\n");
@@ -352,9 +384,19 @@ public class AnalysisUploadServlet extends HttpServlet {
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
-            // Send analysis request with taxonomy context
-            String command = "ASK|ANALYZE " + job.type.toUpperCase() + " for " + job.rank + " " + job.taxon
-                + " file=" + job.originalName + " path=" + job.storedPath;
+            // Send analysis request with full taxonomy context
+            String command = "ASK|ANALYZE " + job.type.toUpperCase()
+                + " rank=" + job.rank
+                + " taxon=" + job.taxon
+                + " kingdom=" + (job.kingdom != null ? job.kingdom : "")
+                + " class=" + (job.className != null ? job.className : "")
+                + " order=" + (job.order != null ? job.order : "")
+                + " family=" + (job.family != null ? job.family : "")
+                + " species=" + (job.species != null ? job.species : "")
+                + " common=" + (job.commonName != null ? job.commonName : "")
+                + " file=" + job.originalName
+                + " path=" + job.storedPath
+                + " source=" + (job.source != null ? job.source : "web");
             out.println(command);
 
             // Read response (multi-line, terminated by empty line or timeout)
@@ -398,12 +440,17 @@ public class AnalysisUploadServlet extends HttpServlet {
                     + "id VARCHAR(12) PRIMARY KEY, rank_level VARCHAR(20), taxon_name VARCHAR(200), "
                     + "file_type VARCHAR(10), original_name VARCHAR(500), stored_path VARCHAR(1000), "
                     + "result_path VARCHAR(1000), stage VARCHAR(20), progress INT, error TEXT, "
+                    + "kingdom VARCHAR(200), class_name VARCHAR(200), order_name VARCHAR(200), "
+                    + "family_name VARCHAR(200), species_name VARCHAR(200), common_name VARCHAR(200), "
+                    + "source VARCHAR(50), "
                     + "created_at BIGINT, completed_at DATETIME DEFAULT NULL)");
 
                 PreparedStatement ps = conn.prepareStatement(
                     "INSERT INTO analysis_jobs (id, rank_level, taxon_name, file_type, original_name, "
-                    + "stored_path, result_path, stage, progress, error, created_at, completed_at) "
-                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW()) "
+                    + "stored_path, result_path, stage, progress, error, "
+                    + "kingdom, class_name, order_name, family_name, species_name, common_name, source, "
+                    + "created_at, completed_at) "
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW()) "
                     + "ON DUPLICATE KEY UPDATE stage=VALUES(stage), progress=VALUES(progress), "
                     + "error=VALUES(error), result_path=VALUES(result_path), completed_at=NOW()");
                 ps.setString(1, job.id);
@@ -416,7 +463,14 @@ public class AnalysisUploadServlet extends HttpServlet {
                 ps.setString(8, job.stage);
                 ps.setInt(9, job.progress);
                 ps.setString(10, job.error);
-                ps.setLong(11, job.createdAt);
+                ps.setString(11, job.kingdom);
+                ps.setString(12, job.className);
+                ps.setString(13, job.order);
+                ps.setString(14, job.family);
+                ps.setString(15, job.species);
+                ps.setString(16, job.commonName);
+                ps.setString(17, job.source);
+                ps.setLong(18, job.createdAt);
                 ps.executeUpdate();
             }
         } catch (Exception e) {
@@ -449,6 +503,13 @@ public class AnalysisUploadServlet extends HttpServlet {
                     job.progress = rs.getInt("progress");
                     job.error = rs.getString("error");
                     job.createdAt = rs.getLong("created_at");
+                    job.kingdom = rs.getString("kingdom");
+                    job.className = rs.getString("class_name");
+                    job.order = rs.getString("order_name");
+                    job.family = rs.getString("family_name");
+                    job.species = rs.getString("species_name");
+                    job.commonName = rs.getString("common_name");
+                    job.source = rs.getString("source");
                     return job;
                 }
             }
