@@ -89,6 +89,28 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>AnalysisUploadServlet</servlet-name>
+        <servlet-class>com.mearvk.servlet.AnalysisUploadServlet</servlet-class>
+        <multipart-config>
+            <max-file-size>52428800</max-file-size>
+            <max-request-size>52428800</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AnalysisUploadServlet</servlet-name>
+        <url-pattern>/api/analysis/upload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AnalysisUploadServlet</servlet-name>
+        <url-pattern>/api/analysis/status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AnalysisUploadServlet</servlet-name>
+        <url-pattern>/api/analysis/result</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ScienceApiServlet</servlet-name>
         <servlet-class>com.mearvk.servlet.ScienceApiServlet</servlet-class>
     </servlet>
