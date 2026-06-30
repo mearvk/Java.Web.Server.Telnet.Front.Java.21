@@ -71,18 +71,15 @@ run_mysql -N -B -e "SELECT CONCAT('      ', rank_level, ': ', COUNT(*)) FROM tax
 echo ""
 
 GBIF_API="https://api.gbif.org/v1"
+WIKI_API="https://en.wikipedia.org/api/rest_v1/page/summary"
 FIXED=0
 FAILED=0
 SKIPPED=0
 
-# ─── Fetch from GBIF and update existing row ───
+# ─── Fetch from Wikipedia + GBIF and update existing row ───
 fix_description() {
     local rank_level="$1"
     local taxon_name="$2"
-
-    # Map rank to GBIF format
-    local gbif_rank
-    gbif_rank=$(echo "$rank_level" | tr '[:lower:]' '[:upper:]')
 
     # URL-encode the taxon name
     local encoded
@@ -93,72 +90,99 @@ fix_description() {
         return 1
     fi
 
-    # Fetch from GBIF
-    local http_code
-    http_code=$(curl -s -w "%{http_code}" --max-time 15 "${GBIF_API}/species/search?q=${encoded}&rank=${gbif_rank}&limit=1" -o "$TMPFILE" 2>/dev/null)
+    # Fetch from Wikipedia Summary API (primary source)
+    local wiki_tmp="/tmp/wiki-fix-response.json"
+    curl -s --max-time 10 -H "User-Agent: BrarnerMAlete/1.0 (taxonomy-descriptions)" \
+        "${WIKI_API}/${encoded}" -o "$wiki_tmp" 2>/dev/null
 
-    if [ "$http_code" != "200" ] || [ ! -s "$TMPFILE" ]; then
-        FAILED=$((FAILED + 1))
-        return 1
-    fi
+    # Fetch from GBIF (for lineage/characteristics)
+    local gbif_rank
+    gbif_rank=$(echo "$rank_level" | tr '[:lower:]' '[:upper:]')
+    curl -s --max-time 10 "${GBIF_API}/species/search?q=${encoded}&rank=${gbif_rank}&limit=1" -o "$TMPFILE" 2>/dev/null
 
-    # Parse JSON and build UPDATE statement
+    # Parse both and build UPDATE statement
     local sql
-    sql=$(python3 - "$TMPFILE" "$rank_level" "$taxon_name" << 'PYEOF'
-import json, sys
+    sql=$(python3 - "$wiki_tmp" "$TMPFILE" "$rank_level" "$taxon_name" << 'PYEOF'
+import json, sys, os
 
 try:
-    tmpfile = sys.argv[1]
-    rank_level = sys.argv[2]
-    taxon_name = sys.argv[3]
+    wiki_file = sys.argv[1]
+    gbif_file = sys.argv[2]
+    rank_level = sys.argv[3]
+    taxon_name = sys.argv[4]
 
-    with open(tmpfile) as f:
-        data = json.load(f)
-    results = data.get("results", [])
-    if not results:
+    desc = ""
+    wiki_url = ""
+    characteristics = ""
+    gbif_key = 0
+
+    # ── Wikipedia: get the real English description ──
+    if os.path.exists(wiki_file) and os.path.getsize(wiki_file) > 0:
+        with open(wiki_file) as f:
+            try:
+                wd = json.load(f)
+                if wd.get("type") != "not_found" and wd.get("extract"):
+                    desc = wd["extract"]
+                    if len(desc) > 2000:
+                        cut = desc[:2000].rfind(". ")
+                        if cut > 200:
+                            desc = desc[:cut+1]
+                        else:
+                            desc = desc[:2000]
+                    wiki_url = wd.get("content_urls", {}).get("desktop", {}).get("page", "")
+                    if not wiki_url:
+                        wiki_url = f"https://en.wikipedia.org/wiki/{taxon_name.replace(' ', '_')}"
+            except (json.JSONDecodeError, KeyError):
+                pass
+
+    # ── GBIF: get lineage and key ──
+    if os.path.exists(gbif_file) and os.path.getsize(gbif_file) > 0:
+        with open(gbif_file) as f:
+            try:
+                gd = json.load(f)
+                results = gd.get("results", [])
+                if results:
+                    r = results[0]
+                    gbif_key = r.get("nubKey", r.get("key", 0))
+                    parts = []
+                    for k in ["kingdom", "phylum", "class", "order", "family"]:
+                        if r.get(k):
+                            parts.append(f"{k.title()}: {r[k]}")
+                    characteristics = ", ".join(parts)
+
+                    # Fallback: build basic desc from GBIF if Wikipedia had nothing
+                    if not desc:
+                        canonical = r.get("canonicalName", r.get("scientificName", taxon_name))
+                        rank_str = r.get("rank", "").lower()
+                        num_desc_count = r.get("numDescendants", 0)
+                        desc = f"{canonical} is a {rank_str}"
+                        if r.get("kingdom"):
+                            desc += f" in kingdom {r['kingdom']}"
+                        if r.get("phylum"):
+                            desc += f", phylum {r['phylum']}"
+                        if num_desc_count:
+                            desc += f". Contains approximately {num_desc_count:,} known descendant taxa"
+                        desc += "."
+                        wiki_url = f"https://en.wikipedia.org/wiki/{canonical.replace(' ', '_')}"
+            except (json.JSONDecodeError, KeyError):
+                pass
+
+    if not desc:
         sys.exit(1)
-    r = results[0]
-    key = r.get("key", 0)
-    canonical = r.get("canonicalName", r.get("scientificName", ""))
-    rank_str = r.get("rank", "").lower()
-    num_desc = r.get("numDescendants", 0)
-    status = r.get("taxonomicStatus", "")
-
-    # Build description
-    desc = f"{canonical} is a {rank_str}"
-    if r.get("kingdom"):
-        desc += f" in kingdom {r['kingdom']}"
-    if r.get("phylum"):
-        desc += f", phylum {r['phylum']}"
-    if rank_str in ("class", "order", "family") and r.get("class") and r.get("class") != canonical:
-        desc += f", class {r['class']}"
-    if rank_str in ("order", "family") and r.get("order") and r.get("order") != canonical:
-        desc += f", order {r['order']}"
-    if num_desc:
-        desc += f". Contains approximately {num_desc:,} known descendant taxa"
-    desc += "."
-    if status:
-        desc += f" Taxonomic status: {status}."
-
-    # Lineage as characteristics
-    parts = []
-    for k in ["kingdom", "phylum", "class", "order", "family"]:
-        if r.get(k):
-            parts.append(f"{k.title()}: {r[k]}")
-    lineage = ", ".join(parts)
-
-    wiki = f"https://en.wikipedia.org/wiki/{canonical.replace(' ', '_')}"
 
     # Escape for SQL
-    desc = desc.replace("\\", "\\\\").replace("'", "''")[:2000]
-    lineage = lineage.replace("\\", "\\\\").replace("'", "''")[:500]
+    desc = desc.replace("\\", "\\\\").replace("'", "''")
+    characteristics = characteristics.replace("\\", "\\\\").replace("'", "''")[:500]
+    wiki_url = wiki_url.replace("'", "''")[:500]
     safe_name = taxon_name.replace("\\", "\\\\").replace("'", "''")
 
-    print(f"UPDATE taxonomy_descriptions SET description='{desc}', characteristics='{lineage}', wikipedia_url='{wiki}', gbif_key={key} WHERE rank_level='{rank_level}' AND taxon_name='{safe_name}';")
+    print(f"UPDATE taxonomy_descriptions SET description='{desc}', characteristics='{characteristics}', wikipedia_url='{wiki_url}', gbif_key={gbif_key} WHERE rank_level='{rank_level}' AND taxon_name='{safe_name}';")
 except Exception:
     sys.exit(1)
 PYEOF
     )
+
+    rm -f "$wiki_tmp"
 
     if [ -n "$sql" ]; then
         if run_mysql -e "$sql"; then
