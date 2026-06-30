@@ -59,6 +59,21 @@ if [ "$HAS_GBIF_KEY" = "0" ]; then
     run_mysql -e "ALTER TABLE taxonomy_descriptions ADD COLUMN gbif_key INT;"
 fi
 
+# ─── Pre-download stats ───
+TOTAL_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions;")
+POPULATED_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description IS NOT NULL AND description!='Updating' AND TRIM(description)!='';")
+UPDATING_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='';")
+
+echo ""
+echo "[*] Current state:"
+echo "     Total entries:             $TOTAL_COUNT"
+echo "     Already populated:         $POPULATED_COUNT"
+echo "     Needing download:          $UPDATING_COUNT"
+echo ""
+echo "    Populated breakdown by rank:"
+run_mysql -N -B -e "SELECT CONCAT('      ', rank_level, ': ', COUNT(*)) FROM taxonomy_descriptions WHERE description IS NOT NULL AND description!='Updating' AND TRIM(description)!='' GROUP BY rank_level ORDER BY rank_level;"
+echo ""
+
 GBIF_API="https://api.gbif.org/v1"
 WIKI_API="https://en.wikipedia.org/api/rest_v1/page/summary"
 TOTAL_INSERTED=0

@@ -53,11 +53,18 @@ fi
 echo "[✓] MySQL connection OK"
 
 # ─── Count placeholder entries ───
-UPDATING_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='';")
 TOTAL_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions;")
+POPULATED_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description IS NOT NULL AND description!='Updating' AND TRIM(description)!='';")
+UPDATING_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='';")
 
 echo ""
-echo "[*] Found $UPDATING_COUNT / $TOTAL_COUNT entries needing real descriptions"
+echo "[*] Current state:"
+echo "     Total entries:             $TOTAL_COUNT"
+echo "     Already populated:         $POPULATED_COUNT"
+echo "     Needing fix ('Updating'):  $UPDATING_COUNT"
+echo ""
+echo "    Populated breakdown by rank:"
+run_mysql -N -B -e "SELECT CONCAT('      ', rank_level, ': ', COUNT(*)) FROM taxonomy_descriptions WHERE description IS NOT NULL AND description!='Updating' AND TRIM(description)!='' GROUP BY rank_level ORDER BY rank_level;"
 echo ""
 
 if [ "$UPDATING_COUNT" = "0" ]; then
@@ -65,8 +72,8 @@ if [ "$UPDATING_COUNT" = "0" ]; then
     exit 0
 fi
 
-# ─── Show breakdown ───
-echo "    Breakdown by rank:"
+# ─── Show breakdown of what needs fixing ───
+echo "    'Updating' breakdown by rank:"
 run_mysql -N -B -e "SELECT CONCAT('      ', rank_level, ': ', COUNT(*)) FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='' GROUP BY rank_level ORDER BY rank_level;"
 echo ""
 
