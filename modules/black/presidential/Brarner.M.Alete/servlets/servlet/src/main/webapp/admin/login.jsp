@@ -35,6 +35,7 @@
         .form-group input { width:100%; padding:0.65rem 0.75rem; font-size:0.9rem; background:var(--bg-dark); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); }
         .form-group input:focus { border-color:var(--accent); }
     </style>
+<script src="../js/scroll-preserve.js"></script>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">

@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="../servlets/servlet/src/main/webapp/images/favicon.png"/>
     <title>BMA™ — Settings</title>
     <link rel="stylesheet" href="css/mobile.css"/>
+<script src="js/scroll-preserve.js"></script>
 </head>
 <body>
 

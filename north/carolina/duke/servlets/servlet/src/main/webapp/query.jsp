@@ -2,7 +2,8 @@
 <%@ page import="java.sql.*, java.util.Properties, java.io.*" %>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Query — DukeUniversity™</title><link rel="stylesheet" href="css/style.css"/></head>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Query — DukeUniversity™</title><link rel="stylesheet" href="css/style.css"/><script src="js/scroll-preserve.js"></script>
+</head>
 <body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">DukeUniversity™</span><ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="colleges.jsp">Colleges</a></li><li><a href="query.jsp" class="active">Query</a></li><li><a href="status.jsp">Status</a></li></ul></div></nav>
 <section class="hero" style="padding:4rem 2rem;"><div class="hero-inner"><span class="hero-tag">College Query</span><h1>Submit Query</h1></div></section>

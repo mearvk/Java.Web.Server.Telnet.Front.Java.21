@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="images/favicon.png"/>
     <title>Status — Brarner.M.Alete™</title>
     <link rel="stylesheet" href="css/style.css"/>
+<script src="js/scroll-preserve.js"></script>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">

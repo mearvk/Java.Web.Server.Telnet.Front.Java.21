@@ -8,7 +8,8 @@
     } catch (Exception e) { authStatus = "Check failed"; }
 %>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Gray85 Crème Registry™</title><link rel="stylesheet" href="css/style.css"/></head><body>
+<title>Gray85 Crème Registry™</title><link rel="stylesheet" href="css/style.css"/><script src="js/scroll-preserve.js"></script>
+</head><body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">Gray85 Crème™</span>
 <ul class="nav-links"><li><a href="index.jsp" class="active">Overview</a></li><li><a href="leases.jsp">Leases</a></li><li><a href="bindings.jsp">Bindings</a></li><li><a href="creme.jsp">Crème</a></li><li><a href="status.jsp">Status</a></li></ul>
 </div></nav>

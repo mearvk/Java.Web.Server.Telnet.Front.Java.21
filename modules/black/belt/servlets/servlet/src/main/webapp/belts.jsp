@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Belt Ranks — Black Belt™</title><link rel="stylesheet" href="css/style.css"/></head><body>
+<title>Belt Ranks — Black Belt™</title><link rel="stylesheet" href="css/style.css"/><script src="js/scroll-preserve.js"></script>
+</head><body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">Black Belt™</span>
 <ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="ask.jsp">Ask</a></li><li><a href="belts.jsp" class="active">Belt Ranks</a></li><li><a href="history.jsp">History</a></li></ul>
 </div></nav>

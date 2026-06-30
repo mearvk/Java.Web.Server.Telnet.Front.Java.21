@@ -40,7 +40,8 @@
     }
 %>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Ask — Strernary™</title><link rel="stylesheet" href="css/style.css"/></head><body>
+<title>Ask — Strernary™</title><link rel="stylesheet" href="css/style.css"/><script src="js/scroll-preserve.js"></script>
+</head><body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">Strernary™</span>
 <ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="ask.jsp" class="active">Ask</a></li><li><a href="directory.jsp">Directory</a></li><li><a href="queries.jsp">Queries</a></li><li><a href="status.jsp">Status</a></li></ul>
 </div></nav>

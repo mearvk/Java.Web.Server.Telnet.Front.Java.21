@@ -2,7 +2,8 @@
 <%@ page import="java.sql.*, java.util.Properties, java.io.*" %>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Report — CaliforniaNSA™</title><link rel="stylesheet" href="css/style.css"/></head>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Report — CaliforniaNSA™</title><link rel="stylesheet" href="css/style.css"/><script src="js/scroll-preserve.js"></script>
+</head>
 <body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">CaliforniaNSA™</span><ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="report.jsp" class="active">Report</a></li><li><a href="advisories.jsp">Advisories</a></li><li><a href="search.jsp">Search</a></li><li><a href="status.jsp">Status</a></li></ul></div></nav>
 <section class="hero" style="padding:4rem 2rem;"><div class="hero-inner"><span class="hero-tag">Cybersecurity Reporting</span><h1>Report Incident</h1><p>Submit cybersecurity incidents, vulnerabilities, or threats. AI-categorized and queued for escalation.</p></div></section>

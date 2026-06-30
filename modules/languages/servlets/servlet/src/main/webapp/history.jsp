@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*, java.util.Properties, java.io.*" %>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>History — Languages™</title><link rel="stylesheet" href="css/style.css"/></head><body>
+<title>History — Languages™</title><link rel="stylesheet" href="css/style.css"/><script src="js/scroll-preserve.js"></script>
+</head><body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">Languages™</span>
 <ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="translate.jsp">Translate</a></li><li><a href="history.jsp" class="active">History</a></li></ul>
 </div></nav>

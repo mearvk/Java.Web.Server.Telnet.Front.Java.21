@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*, java.util.Properties, java.io.*" %>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Crème Unlocks — Gray85 Crème™</title><link rel="stylesheet" href="css/style.css"/></head><body>
+<title>Crème Unlocks — Gray85 Crème™</title><link rel="stylesheet" href="css/style.css"/><script src="js/scroll-preserve.js"></script>
+</head><body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">Gray85 Crème™</span>
 <ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="leases.jsp">Leases</a></li><li><a href="bindings.jsp">Bindings</a></li><li><a href="creme.jsp" class="active">Crème</a></li><li><a href="status.jsp">Status</a></li></ul></div></nav>
 <section class="hero" style="padding:4rem 2rem;"><div class="hero-inner"><span class="hero-tag">$1000/unlock/hour</span><h1>Crème Unlocks</h1><p>Active and recent Crème port unlocks. 15% of each block is Crème-locked by planetary auditor.</p></div></section>
