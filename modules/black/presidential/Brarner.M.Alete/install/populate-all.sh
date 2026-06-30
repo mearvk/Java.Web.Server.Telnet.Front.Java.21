@@ -33,7 +33,17 @@ echo "[*] Loading legal data into MySQL..."
 bash "$SCRIPT_DIR/populate-legal.sh"
 
 echo ""
+echo "[*] Populating Plantae, Fungi, Protista kingdoms from GBIF..."
+bash "$SCRIPT_DIR/populate-kingdoms.sh"
+
+echo ""
+echo "[*] Downloading taxonomy descriptions (Wikipedia)..."
+bash "$SCRIPT_DIR/download-taxonomy-descriptions.sh"
+
+echo ""
 echo "═══════════════════════════════════════════════════════════════"
 echo " [✓] All tables populated"
-echo "     animalia, species, postal, art_works, publications, ssa_offices, legal"
+echo "     animalia (Animalia, Plantae, Fungi, Protozoa), species,"
+echo "     postal, art_works, publications, ssa_offices, legal,"
+echo "     taxonomy_descriptions"
 echo "═══════════════════════════════════════════════════════════════"
