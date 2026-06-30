@@ -1,7 +1,5 @@
 package com.mearvk.servlet;
 
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.*;
@@ -15,7 +13,7 @@ import java.util.UUID;
 import java.util.concurrent.*;
 
 /**
- * Brarner.M.Alete™ — Analysis Upload Servlet
+ * Brarner.M.Alete™ — Analysis Upload Servlet (SCD1)
  *
  * Accepts file uploads (data, audio, images) for taxonomy-level analysis.
  * Pipeline: Upload → ClamAV Scan → Heuristic Check → SignalProcessor → Results File
@@ -31,19 +29,34 @@ import java.util.concurrent.*;
  * GET /api/analysis/result?id=<job-id>
  *   - Downloads the result file
  *
+ * Registered via web.xml (not annotation) to ensure multipart-config is honored.
+ *
  * MEARVK LLC — 2026
  */
-@WebServlet(urlPatterns = {"/api/analysis/upload", "/api/analysis/status", "/api/analysis/result"})
-@MultipartConfig(
-    maxFileSize = 52428800,       // 50 MB
-    maxRequestSize = 52428800,
-    fileSizeThreshold = 1048576   // 1 MB before disk spill
-)
 public class AnalysisUploadServlet extends HttpServlet {
 
     private static final String UPLOAD_DIR = "/opt/bma/analysis/uploads";
     private static final String RESULTS_DIR = "/opt/bma/analysis/results";
+    private static final String FALLBACK_DIR = System.getProperty("java.io.tmpdir") + "/bma-analysis";
     private static final int SIGNAL_PROCESSOR_PORT = 20000; // Strernary™ inference
+
+    private String getUploadDir() {
+        Path p = Paths.get(UPLOAD_DIR);
+        try { Files.createDirectories(p); return UPLOAD_DIR; }
+        catch (Exception e) {
+            try { Path fb = Paths.get(FALLBACK_DIR, "uploads"); Files.createDirectories(fb); return fb.toString(); }
+            catch (Exception e2) { return System.getProperty("java.io.tmpdir"); }
+        }
+    }
+
+    private String getResultsDir() {
+        Path p = Paths.get(RESULTS_DIR);
+        try { Files.createDirectories(p); return RESULTS_DIR; }
+        catch (Exception e) {
+            try { Path fb = Paths.get(FALLBACK_DIR, "results"); Files.createDirectories(fb); return fb.toString(); }
+            catch (Exception e2) { return System.getProperty("java.io.tmpdir"); }
+        }
+    }
 
     // In-memory job tracker (production: use DB or Redis)
     private static final ConcurrentHashMap<String, AnalysisJob> JOBS = new ConcurrentHashMap<>();
@@ -103,16 +116,33 @@ public class AnalysisUploadServlet extends HttpServlet {
         resp.setHeader("Access-Control-Allow-Origin", "*");
 
         try {
-            String rank = req.getParameter("rank");
-            String taxon = req.getParameter("taxon");
-            String type = req.getParameter("type");
+            // For multipart requests, getParameter should work on Tomcat 11+
+            // but we add fallback reading from parts for compatibility
+            String rank = getParam(req, "rank");
+            String taxon = getParam(req, "taxon");
+            String type = getParam(req, "type");
             Part filePart = req.getPart("file");
 
-            // Validate
-            if (rank == null || taxon == null || type == null || filePart == null || filePart.getSize() == 0) {
+            // Validate required params
+            if (filePart == null || filePart.getSize() == 0) {
                 resp.setStatus(400);
-                resp.getWriter().write("{\"error\":\"Missing required parameters: rank, taxon, type, file\"}");
+                resp.getWriter().write("{\"error\":\"No file uploaded\"}");
                 return;
+            }
+
+            // Default rank if missing
+            if (rank == null || rank.isEmpty()) rank = "kingdom";
+
+            // Accept rank values including 'scd1' (mapped to inferred rank from hierarchy)
+            if (rank.equals("scd1")) {
+                // Infer rank from whichever hierarchy field is most specific
+                String fam = getParam(req, "family");
+                String ord = getParam(req, "order");
+                String cls = getParam(req, "className");
+                if (fam != null && !fam.isEmpty()) rank = "family";
+                else if (ord != null && !ord.isEmpty()) rank = "order";
+                else if (cls != null && !cls.isEmpty()) rank = "class";
+                else rank = "kingdom";
             }
 
             if (!rank.matches("kingdom|phylum|class|order|family")) {
@@ -121,10 +151,22 @@ public class AnalysisUploadServlet extends HttpServlet {
                 return;
             }
 
+            // Default type
+            if (type == null || type.isEmpty()) type = "data";
             if (!type.matches("data|audio|image")) {
                 resp.setStatus(400);
                 resp.getWriter().write("{\"error\":\"Invalid type. Use: data, audio, image\"}");
                 return;
+            }
+
+            // Infer taxon from hierarchy if not provided
+            if (taxon == null || taxon.isEmpty()) {
+                taxon = switch (rank) {
+                    case "family" -> { String f = getParam(req, "family"); yield f != null ? f : ""; }
+                    case "order" -> { String o = getParam(req, "order"); yield o != null ? o : ""; }
+                    case "class" -> { String c = getParam(req, "className"); yield c != null ? c : ""; }
+                    default -> { String k = getParam(req, "kingdom"); yield k != null && !k.isEmpty() ? k : "Animalia"; }
+                };
             }
 
             // Create job
@@ -138,16 +180,17 @@ public class AnalysisUploadServlet extends HttpServlet {
             job.progress = 5;
             job.createdAt = System.currentTimeMillis();
             // Full taxonomy hierarchy from request
-            job.kingdom = req.getParameter("kingdom") != null ? req.getParameter("kingdom") : "";
-            job.className = req.getParameter("className") != null ? req.getParameter("className") : "";
-            job.order = req.getParameter("order") != null ? req.getParameter("order") : "";
-            job.family = req.getParameter("family") != null ? req.getParameter("family") : "";
-            job.species = req.getParameter("species") != null ? req.getParameter("species") : "";
-            job.commonName = req.getParameter("commonName") != null ? req.getParameter("commonName") : "";
-            job.source = req.getParameter("source") != null ? req.getParameter("source") : "web";
+            job.kingdom = getParam(req, "kingdom");
+            job.className = getParam(req, "className");
+            job.order = getParam(req, "order");
+            job.family = getParam(req, "family");
+            job.species = getParam(req, "species");
+            job.commonName = getParam(req, "commonName");
+            job.source = getParam(req, "source");
+            if (job.source == null || job.source.isEmpty()) job.source = "web";
 
             // Store file
-            Path uploadDir = Paths.get(UPLOAD_DIR, job.id);
+            Path uploadDir = Paths.get(getUploadDir(), job.id);
             Files.createDirectories(uploadDir);
             String safeFilename = job.id + "_" + sanitizeFilename(job.originalName);
             Path storedFile = uploadDir.resolve(safeFilename);
@@ -168,7 +211,9 @@ public class AnalysisUploadServlet extends HttpServlet {
 
         } catch (Exception e) {
             resp.setStatus(500);
-            resp.getWriter().write("{\"error\":\"Upload failed: " + e.getMessage().replace("\"", "'") + "\"}");
+            String msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
+            resp.getWriter().write("{\"error\":\"Upload failed: " + msg.replace("\"", "'").replace("\n", " ") + "\"}");
+            e.printStackTrace(System.err);
         }
     }
 
@@ -253,7 +298,7 @@ public class AnalysisUploadServlet extends HttpServlet {
             job.progress = 90;
 
             // Stage 4: Write results file
-            Path resultsDir = Paths.get(RESULTS_DIR, job.id);
+            Path resultsDir = Paths.get(getResultsDir(), job.id);
             Files.createDirectories(resultsDir);
             String resultFilename = "analysis-" + job.id + "-result.txt";
             Path resultFile = resultsDir.resolve(resultFilename);
@@ -518,6 +563,26 @@ public class AnalysisUploadServlet extends HttpServlet {
     }
 
     // ─── Helpers ───
+
+    /**
+     * Read a form parameter from a multipart request.
+     * Tries getParameter first (Tomcat 11+ supports this for multipart).
+     * Falls back to reading the Part as text if getParameter returns null.
+     */
+    private String getParam(HttpServletRequest req, String name) {
+        String val = req.getParameter(name);
+        if (val != null) return val;
+        try {
+            Part part = req.getPart(name);
+            if (part != null && part.getSize() > 0 && part.getSize() < 4096) {
+                try (InputStream is = part.getInputStream()) {
+                    return new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8).trim();
+                }
+            }
+        } catch (Exception ignored) {}
+        return "";
+    }
+
     private Properties loadDbProps() {
         Properties p = new Properties();
         try (InputStream is = getServletContext().getResourceAsStream("/WEB-INF/db.properties")) {
