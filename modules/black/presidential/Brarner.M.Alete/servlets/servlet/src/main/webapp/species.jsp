@@ -58,9 +58,9 @@
         <button onclick="cd1Ok()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
     </div>
     <textarea id="cd1-textarea" placeholder="Connection idle..." spellcheck="false" style="width:100%;min-height:140px;background:#ffffff;color:#111;border:1px solid #27272a;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:0.8rem;resize:vertical;"></textarea>
-    <!-- SCD1: Species Connector Division 1 — File Analysis -->
+    <!-- Signal Processor Upload — File Analysis (SCD1) -->
     <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid #27272a;">
-        <div style="font-size:0.78rem;font-weight:600;color:#a1a1aa;margin-bottom:0.5rem;">SCD1 &#8212; Species Analysis Upload</div>
+        <div style="font-size:0.78rem;font-weight:600;color:#a1a1aa;margin-bottom:0.5rem;">Signal Processor Upload</div>
         <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.5rem;">
             <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:#a1a1aa;cursor:pointer;padding:0.25rem 0.5rem;border:1px solid #27272a;border-radius:4px;"><input type="radio" name="type-scd1" value="data" checked style="accent-color:#dc2626;width:11px;height:11px;"/> Data</label>
             <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:#a1a1aa;cursor:pointer;padding:0.25rem 0.5rem;border:1px solid #27272a;border-radius:4px;"><input type="radio" name="type-scd1" value="audio" style="accent-color:#dc2626;width:11px;height:11px;"/> Audio</label>
@@ -148,7 +148,7 @@
             <!-- Analysis Upload for Kingdom -->
             <div class="analysis-upload-inline" style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);"
                  data-rank="kingdom" data-kingdom="<%= kingdom %>" data-class="" data-order="" data-family="" data-species="" data-common="">
-                <div style="font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;">&#128202; SCD1 Upload — Kingdom: <%= kingdom %></div>
+                <div style="font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;">Signal Processor Upload — Kingdom: <%= kingdom %></div>
                 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem;">
                     <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.75rem;color:var(--text-muted);cursor:pointer;padding:0.3rem 0.6rem;border:1px solid var(--border);border-radius:5px;"><input type="radio" name="type-kingdom" value="data" checked style="accent-color:#dc2626;width:12px;height:12px;"/> Data</label>
                     <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.75rem;color:var(--text-muted);cursor:pointer;padding:0.3rem 0.6rem;border:1px solid var(--border);border-radius:5px;"><input type="radio" name="type-kingdom" value="audio" style="accent-color:#dc2626;width:12px;height:12px;"/> Audio</label>
@@ -215,7 +215,7 @@
                         <!-- Analysis Upload for Class -->
                         <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);"
                              data-rank="class" data-kingdom="<%= kingdom %>" data-class="<%= selClass %>" data-order="" data-family="" data-species="" data-common="">
-                            <div style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.4rem;">&#128202; SCD1 Upload — Class: <%= selClass %></div>
+                            <div style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.4rem;">Signal Processor Upload — Class: <%= selClass %></div>
                             <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.4rem;">
                                 <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;padding:0.25rem 0.5rem;border:1px solid var(--border);border-radius:4px;"><input type="radio" name="type-class" value="data" checked style="accent-color:#dc2626;width:11px;height:11px;"/> Data</label>
                                 <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;padding:0.25rem 0.5rem;border:1px solid var(--border);border-radius:4px;"><input type="radio" name="type-class" value="audio" style="accent-color:#dc2626;width:11px;height:11px;"/> Audio</label>
@@ -285,7 +285,7 @@
                                         <!-- Analysis Upload for Order -->
                                         <div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border);"
                                              data-rank="order" data-kingdom="<%= kingdom %>" data-class="<%= selClass %>" data-order="<%= selOrder %>" data-family="" data-species="" data-common="">
-                                            <div style="font-size:0.72rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.35rem;">&#128202; SCD1 Upload — Order: <%= selOrder %></div>
+                                            <div style="font-size:0.72rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.35rem;">Signal Processor Upload — Order: <%= selOrder %></div>
                                             <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.35rem;">
                                                 <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.7rem;color:var(--text-muted);cursor:pointer;padding:0.2rem 0.45rem;border:1px solid var(--border);border-radius:4px;"><input type="radio" name="type-order" value="data" checked style="accent-color:#dc2626;width:10px;height:10px;"/> Data</label>
                                                 <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.7rem;color:var(--text-muted);cursor:pointer;padding:0.2rem 0.45rem;border:1px solid var(--border);border-radius:4px;"><input type="radio" name="type-order" value="audio" style="accent-color:#dc2626;width:10px;height:10px;"/> Audio</label>
@@ -352,7 +352,7 @@
                                                         <!-- Analysis Upload for Family -->
                                                         <div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border);"
                                                              data-rank="family" data-kingdom="<%= kingdom %>" data-class="<%= selClass %>" data-order="<%= selOrder %>" data-family="<%= selFamily %>" data-species="" data-common="">
-                                                            <div style="font-size:0.7rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.3rem;">&#128202; SCD1 Upload — Family: <%= selFamily %></div>
+                                                            <div style="font-size:0.7rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.3rem;">Signal Processor Upload — Family: <%= selFamily %></div>
                                                             <div style="display:flex;gap:0.35rem;flex-wrap:wrap;margin-bottom:0.3rem;">
                                                                 <label style="display:flex;align-items:center;gap:0.2rem;font-size:0.68rem;color:var(--text-muted);cursor:pointer;padding:0.2rem 0.4rem;border:1px solid var(--border);border-radius:4px;"><input type="radio" name="type-family" value="data" checked style="accent-color:#dc2626;width:10px;height:10px;"/> Data</label>
                                                                 <label style="display:flex;align-items:center;gap:0.2rem;font-size:0.68rem;color:var(--text-muted);cursor:pointer;padding:0.2rem 0.4rem;border:1px solid var(--border);border-radius:4px;"><input type="radio" name="type-family" value="audio" style="accent-color:#dc2626;width:10px;height:10px;"/> Audio</label>
@@ -495,7 +495,7 @@ function cd1Send() { var s = document.getElementById("cd1-action"); var t = docu
 function cd1Ok() { var t = document.getElementById("cd1-textarea"); if(!t)return; t.value += "[" + new Date().toLocaleTimeString() + "] OK.\n"; }
 </script>
 
-<!-- Analysis Upload Logic (SCD1) -->
+<!-- Signal Processor Upload Logic -->
 <script>
 (function() {
     'use strict';
@@ -593,7 +593,7 @@ function cd1Ok() { var t = document.getElementById("cd1-textarea"); if(!t)return
         // Log to CD1 textarea if SCD1
         if (rank === 'scd1') {
             var ta = document.getElementById('cd1-textarea');
-            if (ta) ta.value += '[' + new Date().toLocaleTimeString() + '] SCD1 upload: ' + file.name + ' (' + ctx.rank + ': ' + ctx.taxon + ')\n';
+            if (ta) ta.value += '[' + new Date().toLocaleTimeString() + '] Signal Processor upload: ' + file.name + ' (' + ctx.rank + ': ' + ctx.taxon + ')\n';
         }
 
         // Build FormData with full taxonomy context
@@ -626,7 +626,7 @@ function cd1Ok() { var t = document.getElementById("cd1-textarea"); if(!t)return
                 var resp = JSON.parse(xhr.responseText);
                 if (rank === 'scd1') {
                     var ta = document.getElementById('cd1-textarea');
-                    if (ta) ta.value += '[' + new Date().toLocaleTimeString() + '] SCD1 job started: ' + resp.id + '\n';
+                    if (ta) ta.value += '[' + new Date().toLocaleTimeString() + '] Signal Processor job: ' + resp.id + '\n';
                 }
                 pollAnalysisStatus(rank, resp.id);
             } else {
@@ -691,7 +691,7 @@ function cd1Ok() { var t = document.getElementById("cd1-textarea"); if(!t)return
         resetAnalysisBtn(rank);
         if (rank === 'scd1') {
             var ta = document.getElementById('cd1-textarea');
-            if (ta) ta.value += '[' + new Date().toLocaleTimeString() + '] SCD1 complete: ' + jobId + '\n';
+            if (ta) ta.value += '[' + new Date().toLocaleTimeString() + '] Signal Processor complete: ' + jobId + '\n';
         }
     }
 
