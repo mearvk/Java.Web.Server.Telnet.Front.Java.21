@@ -13,18 +13,29 @@ echo "════════════════════════�
 echo " Brarner.M.Alete™ — Download Taxonomy Descriptions (GBIF v3)"
 echo "═══════════════════════════════════════════════════════════════"
 
-# ─── Read DB credentials (handle special chars in password) ───
+# ─── Read DB credentials (prompt user) ───
 if [ -f "$DB_PROPS" ]; then
-    DB_USER=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-)
-    DB_PASS=$(grep '^db.password=' "$DB_PROPS" | cut -d= -f2-)
-    DB_HOST=$(grep '^db.url=' "$DB_PROPS" | sed -n 's|.*://\([^:/]*\).*|\1|p')
-    DB_PORT=$(grep '^db.url=' "$DB_PROPS" | sed -n 's|.*:\([0-9]*\)/.*|\1|p')
-    DB_HOST="${DB_HOST:-127.0.0.1}"
-    DB_PORT="${DB_PORT:-3306}"
+    DEFAULT_USER=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-)
+    DEFAULT_HOST=$(grep '^db.url=' "$DB_PROPS" | sed -n 's|.*://\([^:/]*\).*|\1|p')
+    DEFAULT_PORT=$(grep '^db.url=' "$DB_PROPS" | sed -n 's|.*:\([0-9]*\)/.*|\1|p')
+    DEFAULT_HOST="${DEFAULT_HOST:-127.0.0.1}"
+    DEFAULT_PORT="${DEFAULT_PORT:-3306}"
 else
-    echo "[!] db.properties not found at: $DB_PROPS"
-    exit 1
+    DEFAULT_USER="root"
+    DEFAULT_HOST="127.0.0.1"
+    DEFAULT_PORT="3306"
 fi
+
+echo ""
+read -rp "  MySQL username [${DEFAULT_USER}]: " DB_USER
+DB_USER="${DB_USER:-$DEFAULT_USER}"
+read -srp "  MySQL password: " DB_PASS
+echo ""
+read -rp "  MySQL host [${DEFAULT_HOST}]: " DB_HOST
+DB_HOST="${DB_HOST:-$DEFAULT_HOST}"
+read -rp "  MySQL port [${DEFAULT_PORT}]: " DB_PORT
+DB_PORT="${DB_PORT:-$DEFAULT_PORT}"
+echo ""
 
 # ─── MySQL helper function (handles special chars in password) ───
 run_mysql() {
