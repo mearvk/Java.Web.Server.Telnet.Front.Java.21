@@ -68,10 +68,31 @@ log "Block storage free: $((AVAIL_KB/1024)) MB | MySQL size: $((MYSQL_KB/1024)) 
 MAIN_BEFORE=$(df --output=avail / | tail -1 | tr -d ' ')
 
 # ── Step 1: Stop MySQL ────────────────────────────────────────────────────────
-log "Stopping MySQL..."
-systemctl stop mysql 2>/dev/null || systemctl stop mysqld 2>/dev/null
-sleep 3
-pgrep -x mysqld &>/dev/null && fail "MySQL still running."
+log "Stopping MySQL (may take 1-2 min for large databases)..."
+systemctl stop mysql 2>/dev/null || systemctl stop mysqld 2>/dev/null &
+STOP_PID=$!
+WAITED=0
+while kill -0 $STOP_PID 2>/dev/null; do
+    sleep 5
+    WAITED=$((WAITED + 5))
+    echo -n "."
+    if [ $WAITED -ge 120 ]; then
+        echo ""
+        warn "MySQL taking too long. Forcing shutdown..."
+        kill $STOP_PID 2>/dev/null || true
+        mysqladmin shutdown 2>/dev/null || killall mysqld 2>/dev/null || true
+        sleep 5
+        break
+    fi
+done
+echo ""
+sleep 2
+if pgrep -x mysqld &>/dev/null; then
+    warn "MySQL still running. Sending SIGTERM..."
+    killall mysqld 2>/dev/null
+    sleep 5
+    pgrep -x mysqld &>/dev/null && fail "MySQL refuses to stop. Kill manually: killall -9 mysqld"
+fi
 log "MySQL stopped."
 
 # ── Step 2: Copy data ─────────────────────────────────────────────────────────
