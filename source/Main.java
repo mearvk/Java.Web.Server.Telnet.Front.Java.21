@@ -236,7 +236,16 @@ public class Main
                 Thread.ofVirtual().name("STANFORD_LIBRARY_SERVER").start(new source.StanfordLibraryServer());
 
             if (NitroWebExpressConfig.isEnabled("DemocraticProFrontNational"))
-                new red.Futures.source.ai.server.DemocraticAIServer().start();
+            {
+                try { Class.forName("red.Futures.source.ai.server.DemocraticAIServer")
+                        .getDeclaredMethod("start").invoke(
+                            Class.forName("red.Futures.source.ai.server.DemocraticAIServer")
+                                .getDeclaredConstructor().newInstance());
+                } catch (ClassNotFoundException e) {
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". Futures module not compiled — skipping port 5000 .");
+                } catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
+            }
 
             if (NitroWebExpressConfig.isEnabled("BrarnerAlete"))
                 new brarner.m.alete.BrarnerAleteModule();
