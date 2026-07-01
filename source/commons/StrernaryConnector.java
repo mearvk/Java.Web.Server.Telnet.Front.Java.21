@@ -10,12 +10,18 @@ import java.net.*;
  * to the Strernary inference server and get a response. Handles connection
  * timeouts, read timeouts, and graceful fallback when Strernary is offline.
  *
+ * Protocol definition: configuration/strernary-protocol.xml
+ * Server config:       source/strernary/strernary-config.xml
+ *
  * Usage:
  *   String answer = StrernaryConnector.ask("What is the capital of Japan?");
  *   // returns null if Strernary is offline
  *
  *   String answer = StrernaryConnector.askOrDefault("...", "No AI inference available");
  *   // returns default if Strernary is offline
+ *
+ *   String classified = StrernaryConnector.classify("FBI", "ransomware attack");
+ *   // returns "CATEGORY|cyber|confidence=0.85" or null
  *
  *   boolean online = StrernaryConnector.isOnline();
  *
@@ -84,6 +90,70 @@ public class StrernaryConnector
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    /**
+     * Send a CLASSIFY request per strernary-protocol.xml.
+     * Format: CLASSIFY|{module_id}|{text}
+     *
+     * @param moduleId Module identifier (FBI, CIA, NSA, DUKE, LIBRARY)
+     * @param text     Text to classify
+     * @return Response like "CATEGORY|cyber|confidence=0.85", or null if offline
+     */
+    public static String classify(String moduleId, String text) {
+        try {
+            Socket sock = new Socket();
+            sock.connect(new InetSocketAddress(HOST, PORT), CONNECT_TIMEOUT);
+            sock.setSoTimeout(READ_TIMEOUT);
+
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+
+            out.println("CLASSIFY|" + moduleId + "|" + text);
+
+            StringBuilder response = new StringBuilder();
+            String line;
+            long deadline = System.currentTimeMillis() + READ_TIMEOUT;
+            while ((line = in.readLine()) != null && System.currentTimeMillis() < deadline) {
+                if (line.isEmpty()) break;
+                response.append(line).append("\n");
+            }
+
+            sock.close();
+            return response.length() > 0 ? response.toString().trim() : null;
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Send a TRAIN example per strernary-protocol.xml.
+     * Format: TRAIN|{module_id}|{category}|{example_text}
+     *
+     * @param moduleId Module identifier
+     * @param category Category label
+     * @param example  Example text for that category
+     * @return Response like "TRAINED|kb_size=1234", or null
+     */
+    public static String train(String moduleId, String category, String example) {
+        try {
+            Socket sock = new Socket();
+            sock.connect(new InetSocketAddress(HOST, PORT), CONNECT_TIMEOUT);
+            sock.setSoTimeout(READ_TIMEOUT);
+
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+
+            out.println("TRAIN|" + moduleId + "|" + category + "|" + example);
+
+            String line = in.readLine();
+            sock.close();
+            return line;
+
+        } catch (Exception e) {
+            return null;
         }
     }
 
