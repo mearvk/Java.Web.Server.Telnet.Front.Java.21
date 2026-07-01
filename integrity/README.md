@@ -4,71 +4,73 @@ Post-install SHA-256 file integrity verification with auto-restore.
 
 ## Gifted Install Tech ID
 
-This system operates under the **Gifted Install Tech ID** designation — not the Max Rupplin MEARVK LLC Installer Tech ID. It verifies software integrity against trusted GitHub commits and restores corrupted files automatically.
+Operates under **Gifted Install Tech ID** — not MEARVK LLC Installer Tech ID.
+Verifies software against trusted GitHub commits. Restores corrupted files automatically.
 
 ## How It Works
 
-1. **Cron runs every 2 days** (`0 6 */2 * *`) via `cron/integrity-check.sh`
-2. **Self-integrity first** — verifies its own scripts haven't been tampered with
-3. **Full scan** — SHA-256 + MD5 for all git-tracked files
-4. **Compare** — checks digests against stored database (same commit = must match)
-5. **On corruption** — fetches original from trusted repo, restores, backs up corrupted file
-6. **On software update** — preserves previous digests in `integrity/history/`
-7. **Non-blocking** — program continues running; concerns logged to `integrity/concerns/`
+1. Cron runs every 2 days (`0 6 */2 * *`) via `cron/integrity-check.sh`
+2. Self-integrity first — verifies its own scripts
+3. Full SHA-256 + MD5 scan of all git-tracked files
+4. Compares against stored digest database
+5. Corruption (same commit, different hash) → auto-restore from GitHub
+6. Update (different commit) → preserve originals in `integrity/history/`
+7. Non-blocking — concerns logged, program continues
+
+## Storage Awareness
+
+- Detects MySQL on main drive vs `/mnt/blockstorage` via `scripts/detect-mysql.sh`
+- Logs write to `/mnt/blockstorage/nwe/logs/` when mounted (keeps main drive free)
+- Fallback: local `logging/` directory
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `post-install-integrity-check.sh` | Main integrity script |
-| `integrity-schema.sql` | MySQL schema (`nwe_integrity` database) |
-| `digest.db` | Current file digests (auto-generated) |
-| `self.sha256` | SHA-256 of integrity scripts themselves |
-| `concerns/` | Concern files (timestamped, non-blocking) |
-| `history/` | Preserved original digests on update |
+| `integrity/post-install-integrity-check.sh` | Main integrity script |
+| `integrity/integrity-schema.sql` | MySQL schema (`nwe_integrity`) |
+| `cron/integrity-check.sh` | Cron wrapper |
+| `scripts/detect-mysql.sh` | MySQL location detection |
+
+## Module-Specific Integrity
+
+| Module | Script | Purpose |
+|--------|--------|---------|
+| BMA | `install/verify-integrity.sh` | Verify INTEGRITY.manifest |
+| BMA | `install/generate-integrity.sh` | Regenerate manifest |
+| BMA | `install/test-jdbc.sh` | MySQL location + JDBC + config check |
+| Futures | `bash/integrity.sh` | 39-file embedded SHA-256 baseline |
 
 ## Database (`nwe_integrity`)
 
-| Table | Purpose | Permissions |
-|-------|---------|-------------|
-| `honor_oath` | Locks integrity system — swears honor to process and country | Read-only |
-| `file_digests` | SHA-256/MD5 for all tracked files | SELECT, INSERT, limited UPDATE |
-| `file_digests_history` | Preserved originals (append-only) | SELECT, INSERT only |
-| `self_integrity` | SHA-256 of integrity scripts | SELECT, INSERT only |
-| `integrity_concerns` | Logged concerns (append-only) | SELECT, INSERT only |
-| `scan_history` | Scan results and stats | SELECT, INSERT only |
+- `honor_oath` — read-only after insert
+- `file_digests` — SELECT, INSERT, limited UPDATE
+- `file_digests_history` — append-only
+- `integrity_concerns` — append-only
+- `scan_history` — append-only
 
-**No DELETE granted on any table. No UPDATE on history or concerns.**
+**No DELETE. No UPDATE on history/concerns.**
 
 ## Trusted Servers
 
 - `github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21` (primary)
 - `github.com/ElisabethHarkins5509` (secondary)
 
-## Restore Behavior
+## Log Size Presets (nwe-config.xml)
 
-- Same commit + different hash = **corruption** → auto-restore from trusted repo
-- Different commit + different hash = **update** → preserve original, update digest
-- Self-integrity fail → restore integrity scripts first, then continue scan
+| Preset | Max/file | Rotations | Total (nwe-main.log) |
+|--------|---------|-----------|----------------------|
+| 1 large | 2 GB | 5 | 10 GB |
+| 2 medium | 512 MB | 4 | 2 GB |
+| 3 small | 64 MB | 3 | 192 MB |
+
+Block storage enabled by default for logs.
 
 ## Install
 
 ```bash
-# Create database
 mysql < integrity/integrity-schema.sql
-
-# Run first scan (creates digest.db)
 bash integrity/post-install-integrity-check.sh
-
-# Install cron (includes integrity check)
 sudo bash cron/install-cron.sh
+bash modules/black/presidential/Brarner.M.Alete/install/test-jdbc.sh
 ```
-
-## Configuration
-
-Configured in `configuration/nwe-config.xml` under `<integrity>`:
-- `enabled`: true
-- `restore-on-fail`: true
-- `preserve-originals`: true
-- `blocking`: false
-- `honor-oath-table`: honor_oath
