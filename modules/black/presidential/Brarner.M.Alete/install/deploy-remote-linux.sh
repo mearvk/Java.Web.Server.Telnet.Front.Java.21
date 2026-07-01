@@ -8,6 +8,9 @@
 # Usage: bash install/deploy-remote-linux.sh
 set -e
 
+# Detect MySQL location on remote
+# After deploy, the remote after-pull.sh will detect block storage automatically
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BMA_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$BMA_ROOT/servlets/servlet/src/main/webapp"

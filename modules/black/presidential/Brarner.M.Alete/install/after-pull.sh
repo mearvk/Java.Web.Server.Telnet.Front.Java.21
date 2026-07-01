@@ -4,6 +4,13 @@
 # Usage: sudo bash install/after-pull.sh [tomcat_home]
 set -e
 
+# Detect MySQL location (main drive or block storage)
+NWE_ROOT="$(cd "$BMA_ROOT/../../../.." 2>/dev/null && pwd || cd "$BMA_ROOT/../../.." 2>/dev/null && pwd)"
+if [ -f "$NWE_ROOT/scripts/detect-mysql.sh" ]; then
+    source "$NWE_ROOT/scripts/detect-mysql.sh"
+    echo "[*] MySQL datadir: $MYSQL_DATADIR (block=$MYSQL_ON_BLOCK)"
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BMA_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$BMA_ROOT/servlets/servlet/src/main/webapp"

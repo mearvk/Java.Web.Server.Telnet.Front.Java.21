@@ -4,6 +4,16 @@
 # Usage: sudo bash install/deploy-local.sh [tomcat_home]
 set -e
 
+# Detect MySQL location and check disk space
+_NWE="$(cd "$(dirname "$0")/../../../.." 2>/dev/null && pwd)"
+[ -f "$_NWE/scripts/detect-mysql.sh" ] && source "$_NWE/scripts/detect-mysql.sh"
+MAIN_AVAIL=$(df --output=avail / 2>/dev/null | tail -1 | tr -d " ")
+if [ "${MAIN_AVAIL:-999999}" -lt 524288 ]; then
+    echo "[!] WARNING: Main drive has less than 512MB free. Deploy may fail."
+    echo "    If MySQL is not on block storage, run: sudo bash scripts/migrate-mysql-to-blockstorage.sh"
+    df -h / | tail -1
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BMA_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$BMA_ROOT/servlets/servlet/src/main/webapp"

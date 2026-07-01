@@ -5,6 +5,9 @@
 # Stop:  bash scripts/start-backend-modules.sh --stop
 set -uo pipefail
 
+# Detect MySQL location (main drive vs block storage)
+[ -f "$PROJECT_ROOT/scripts/detect-mysql.sh" ] && source "$PROJECT_ROOT/scripts/detect-mysql.sh"
+
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$PROJECT_ROOT/out"
 JARS="$PROJECT_ROOT/jars"

@@ -4,6 +4,14 @@
 # Installs Tomcat 11 if not present (requires Jakarta Servlet 6.0+).
 set -e
 
+# Detect MySQL location (main drive or block storage)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+NWE_ROOT="$(cd "$SCRIPT_DIR/../../../.." 2>/dev/null && pwd)"
+if [ -f "$NWE_ROOT/scripts/detect-mysql.sh" ]; then
+    source "$NWE_ROOT/scripts/detect-mysql.sh"
+    echo "[*] MySQL: $MYSQL_DATADIR (block_storage=$MYSQL_ON_BLOCK)"
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BMA_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$BMA_ROOT/servlets/servlet/src/main/webapp"
