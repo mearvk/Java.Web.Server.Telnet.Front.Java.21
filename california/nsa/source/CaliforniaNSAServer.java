@@ -32,7 +32,7 @@ public class CaliforniaNSAServer implements Runnable {
     private static final String NSA_URL = "https://www.nsa.gov/";
     private static final String NSA_CYBERSECURITY_URL = "https://www.nsa.gov/Cybersecurity/";
     private static final String NSA_REPORT_URL = "https://www.nsa.gov/About/Cryptologic-Heritage/Historical-Figures-Posters/Report-a-Vulnerability/";
-    private static final String COLOR = ColorPalette.COLOR_SKY_BLUE;
+    private static final String COLOR = ColorPalette.COLOR_STANDARD_BLUE;
 
     private final HttpClient http = HttpClient.newBuilder()
             .followRedirects(HttpClient.Redirect.NORMAL)
@@ -108,7 +108,7 @@ public class CaliforniaNSAServer implements Runnable {
     private String searchReports(String keyword) {
         // Phase 1: Local DB search
         String localResults;
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement(
                      "SELECT id, category, LEFT(report_text, 80), created_at FROM cyber_reports WHERE report_text LIKE ? OR category LIKE ? ORDER BY created_at DESC LIMIT 10")) {
             ps.setString(1, "%" + keyword + "%");
@@ -135,7 +135,7 @@ public class CaliforniaNSAServer implements Runnable {
     }
 
     private void storeReport(String category, String text) throws Exception {
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement(
                      "INSERT INTO cyber_reports (category, report_text, status) VALUES (?, ?, 'pending')")) {
             ps.setString(1, category);
@@ -153,7 +153,7 @@ public class CaliforniaNSAServer implements Runnable {
     }
 
     private void initDatabase() {
-        try (var conn = database.N21AuthConfig.get(); var st = conn.createStatement()) {
+        try (var conn = database.N21DataSource.get(); var st = conn.createStatement()) {
             st.execute("CREATE DATABASE IF NOT EXISTS nwe_california_nsa");
             st.execute("USE nwe_california_nsa");
             st.execute("""

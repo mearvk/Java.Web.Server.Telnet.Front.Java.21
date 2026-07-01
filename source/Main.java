@@ -217,6 +217,27 @@ public class Main
             if (NitroWebExpressConfig.isEnabled("Strernary"))
                 new strernary.StrernaryServer("localhost");
 
+            if (NitroWebExpressConfig.isEnabled("StrernaryDirectory"))
+                new strernary.StrernaryDirectoryServer("localhost");
+
+            if (NitroWebExpressConfig.isEnabled("CaliforniaFBI"))
+                Thread.ofVirtual().name("CALIFORNIA_FBI_SERVER").start(new source.CaliforniaFBIServer());
+
+            if (NitroWebExpressConfig.isEnabled("CaliforniaCIA"))
+                Thread.ofVirtual().name("CALIFORNIA_CIA_SERVER").start(new source.CaliforniaCIAServer());
+
+            if (NitroWebExpressConfig.isEnabled("CaliforniaNSA"))
+                Thread.ofVirtual().name("CALIFORNIA_NSA_SERVER").start(new source.CaliforniaNSAServer());
+
+            if (NitroWebExpressConfig.isEnabled("DukeUniversity"))
+                Thread.ofVirtual().name("DUKE_UNIVERSITY_SERVER").start(new source.DukeUniversityServer());
+
+            if (NitroWebExpressConfig.isEnabled("StanfordLibrary"))
+                Thread.ofVirtual().name("STANFORD_LIBRARY_SERVER").start(new source.StanfordLibraryServer());
+
+            if (NitroWebExpressConfig.isEnabled("DemocraticProFrontNational"))
+                new red.Futures.source.ai.server.DemocraticAIServer().start();
+
             if (NitroWebExpressConfig.isEnabled("BrarnerAlete"))
                 new brarner.m.alete.BrarnerAleteModule();
 

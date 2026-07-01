@@ -12,9 +12,12 @@ CP="$ROOT/out:$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:${DJL_CP}$ROOT/jars/l
 # If already root, just exec directly.
 APACHE_DIR=$(grep -oP '(?<=<apache-root>)[^<]+' "$ROOT/configuration/nwe-config.xml" 2>/dev/null || echo "/var/www/html/nwe")
 
+cd "$ROOT"
+
 if [[ "$APACHE_DIR" == /var/www/* ]] && [[ "$(id -u)" -ne 0 ]]; then
     echo "[startup] Apache dir $APACHE_DIR requires root — restarting with sudo..."
     exec sudo java \
+      -Dnwe.root="$ROOT" \
       -Xms512m \
       -Xmx4g \
       -XX:+UseG1GC \
@@ -27,6 +30,7 @@ if [[ "$APACHE_DIR" == /var/www/* ]] && [[ "$(id -u)" -ne 0 ]]; then
 fi
 
 exec java \
+  -Dnwe.root="$ROOT" \
   -Xms512m \
   -Xmx4g \
   -XX:+UseG1GC \

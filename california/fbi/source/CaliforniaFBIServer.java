@@ -7,25 +7,25 @@ import commons.color.ColorPalette;
 import java.io.*;
 import java.net.*;
 import java.net.http.*;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.concurrent.*;
 
 /**
- * CaliforniaFBIServer — TCP AI-assisted crime reporting module on port 49210.
+ * CaliforniaFBIServer — TCP crime reporting module on port 49210.
  *
- * Connects to tips.fbi.gov for form submission and tip forwarding.
+ * Connects to tips.fbi.gov and IC3 for federal tip forwarding.
  * NIO masquerade-aware. MySQL backed (nwe_california_fbi).
  * Installer ID Tech™ secured tables.
  *
  * Protocol: TCP socket
- *   REPORT|<category>|<text>   — Submit a crime report/tip
+ *   REPORT|<category>|<text>   — Submit a crime report
+ *   SEARCH|<keyword>           — Search local report DB
  *   STATUS                     — Server health check
- *   SEARCH|<keyword>           — AI-assisted search of local report DB
  *   QUIT                       — Disconnect
  *
+ * Categories: violent_crime, cyber, fraud, terrorism, drugs, corruption
+ *
  * @author Max Rupplin — MEARVK LLC
- * @date June 29 2026
+ * @date July 1 2026
  */
 public class CaliforniaFBIServer implements Runnable {
 
@@ -73,8 +73,9 @@ public class CaliforniaFBIServer implements Runnable {
         try (var in = new BufferedReader(new InputStreamReader(client.getInputStream()));
              var out = new PrintWriter(client.getOutputStream(), true)) {
             client.setSoTimeout(300_000);
-            out.println("CaliforniaFBI™ — Crime Reporting & Tips (AI-assisted)");
+            out.println("CaliforniaFBI™ — Crime Reporting (AI-assisted)");
             out.println("Commands: REPORT|<category>|<text>, SEARCH|<keyword>, STATUS, QUIT");
+            out.println("Categories: violent_crime, cyber, fraud, terrorism, drugs, corruption");
             out.println();
 
             String line;
@@ -82,20 +83,18 @@ public class CaliforniaFBIServer implements Runnable {
                 line = line.trim();
                 if (line.equalsIgnoreCase("QUIT")) { out.println("Goodbye."); break; }
                 if (line.equalsIgnoreCase("STATUS")) {
-                    out.println("OK|port=" + PORT + "|db=nwe_california_fbi|fbi=" + checkFbiReachable());
+                    out.println("OK|port=" + PORT + "|db=nwe_california_fbi|fbi=" + checkReachable(FBI_TIPS_URL));
                     continue;
                 }
                 if (line.startsWith("REPORT|")) {
                     String[] parts = line.split("\\|", 3);
                     if (parts.length < 3) { out.println("ERR|Usage: REPORT|<category>|<text>"); continue; }
-                    String result = submitReport(parts[1], parts[2]);
-                    out.println(result);
+                    storeReport(parts[1], parts[2]);
+                    out.println("OK|Report stored|category=" + parts[1]);
                     continue;
                 }
                 if (line.startsWith("SEARCH|")) {
-                    String keyword = line.substring(7).trim();
-                    String result = searchReports(keyword);
-                    out.println(result);
+                    out.println(searchReports(line.substring(7).trim()));
                     continue;
                 }
                 out.println("ERR|Unknown command");
@@ -103,19 +102,10 @@ public class CaliforniaFBIServer implements Runnable {
         } catch (Exception e) { /* client disconnected */ }
     }
 
-    private String submitReport(String category, String text) {
-        try {
-            storeReport(category, text);
-            return "OK|Report stored locally|category=" + category + "|fbi_forward=queued";
-        } catch (Exception e) {
-            return "ERR|" + e.getMessage();
-        }
-    }
-
     private String searchReports(String keyword) {
         // Phase 1: Local DB search
         String localResults;
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement(
                      "SELECT id, category, LEFT(report_text, 80), created_at FROM crime_reports WHERE report_text LIKE ? OR category LIKE ? ORDER BY created_at DESC LIMIT 10")) {
             ps.setString(1, "%" + keyword + "%");
@@ -142,7 +132,7 @@ public class CaliforniaFBIServer implements Runnable {
     }
 
     private void storeReport(String category, String text) throws Exception {
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement(
                      "INSERT INTO crime_reports (category, report_text, status) VALUES (?, ?, 'pending')")) {
             ps.setString(1, category);
@@ -151,16 +141,16 @@ public class CaliforniaFBIServer implements Runnable {
         }
     }
 
-    private boolean checkFbiReachable() {
+    private boolean checkReachable(String url) {
         try {
-            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(FBI_TIPS_URL))
+            HttpRequest req = HttpRequest.newBuilder().uri(URI.create(url))
                     .method("HEAD", HttpRequest.BodyPublishers.noBody()).timeout(Duration.ofSeconds(5)).build();
-            return http.send(req, HttpResponse.BodyHandlers.discarding()).statusCode() == 200;
+            return http.send(req, HttpResponse.BodyHandlers.discarding()).statusCode() < 400;
         } catch (Exception e) { return false; }
     }
 
     private void initDatabase() {
-        try (var conn = database.N21AuthConfig.get(); var st = conn.createStatement()) {
+        try (var conn = database.N21DataSource.get(); var st = conn.createStatement()) {
             st.execute("CREATE DATABASE IF NOT EXISTS nwe_california_fbi");
             st.execute("USE nwe_california_fbi");
             st.execute("""
@@ -168,22 +158,11 @@ public class CaliforniaFBIServer implements Runnable {
                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
                     category VARCHAR(100) NOT NULL,
                     report_text TEXT NOT NULL,
-                    status ENUM('pending','forwarded','closed') DEFAULT 'pending',
+                    status ENUM('pending','reviewed','forwarded','closed') DEFAULT 'pending',
                     installer_id VARCHAR(64) DEFAULT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     INDEX idx_category (category),
-                    INDEX idx_status (status),
-                    INDEX idx_created (created_at)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-            """);
-            st.execute("""
-                CREATE TABLE IF NOT EXISTS fbi_forwarded_tips (
-                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                    report_id BIGINT NOT NULL,
-                    forwarded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    response_code INT,
-                    installer_id VARCHAR(64) NOT NULL,
-                    FOREIGN KEY (report_id) REFERENCES crime_reports(id)
+                    INDEX idx_status (status)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
             """);
             print(". Database nwe_california_fbi initialized .");

@@ -1809,3 +1809,15 @@ More help is available by typing NET HELPMSG 2185.
 
 More help is available by typing NET HELPMSG 2185.
 
+[2026-07-01T00:00:55.050239957] freshclam update (exit=10)
+ClamAV update process started at Wed Jul  1 00:00:55 2026
+ERROR: Can't create temporary directory /usr/local/share/clamav/tmp.44ee5bea8f
+Hint: The database directory must be writable for UID 1000 or GID 1000
+ERROR: Update failed.
+
+[2026-07-01T00:19:55.722828011] freshclam update (exit=10)
+ClamAV update process started at Wed Jul  1 00:19:55 2026
+ERROR: Can't create temporary directory /usr/local/share/clamav/tmp.827488970f
+Hint: The database directory must be writable for UID 1000 or GID 1000
+ERROR: Update failed.
+

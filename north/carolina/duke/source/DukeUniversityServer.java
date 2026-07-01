@@ -108,7 +108,7 @@ public class DukeUniversityServer implements Runnable {
     private String searchLocal(String keyword) {
         // Phase 1: Local DB search
         String localResults;
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement("SELECT id, college, LEFT(query_text,80), created_at FROM college_queries WHERE query_text LIKE ? OR college LIKE ? ORDER BY created_at DESC LIMIT 10")) {
             ps.setString(1, "%" + keyword + "%"); ps.setString(2, "%" + keyword + "%");
             var rs = ps.executeQuery(); StringBuilder sb = new StringBuilder(); int c = 0;
@@ -128,7 +128,7 @@ public class DukeUniversityServer implements Runnable {
     }
 
     private void storeQuery(String college, String text) throws Exception {
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement("INSERT INTO college_queries (college, query_text) VALUES (?, ?)")) {
             ps.setString(1, college); ps.setString(2, text); ps.executeUpdate();
         }
@@ -142,7 +142,7 @@ public class DukeUniversityServer implements Runnable {
     }
 
     private void initDatabase() {
-        try (var conn = database.N21AuthConfig.get(); var st = conn.createStatement()) {
+        try (var conn = database.N21DataSource.get(); var st = conn.createStatement()) {
             st.execute("CREATE DATABASE IF NOT EXISTS nwe_duke");
             st.execute("USE nwe_duke");
             st.execute("""

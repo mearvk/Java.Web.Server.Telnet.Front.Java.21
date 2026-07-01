@@ -107,7 +107,7 @@ public class StanfordLibraryServer implements Runnable {
     private String searchLocal(String keyword) {
         // Phase 1: Local DB search
         String localResults;
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement("SELECT id, resource_type, LEFT(title,80), created_at FROM library_requests WHERE title LIKE ? OR resource_type LIKE ? ORDER BY created_at DESC LIMIT 10")) {
             ps.setString(1, "%" + keyword + "%"); ps.setString(2, "%" + keyword + "%");
             var rs = ps.executeQuery(); StringBuilder sb = new StringBuilder(); int c = 0;
@@ -127,7 +127,7 @@ public class StanfordLibraryServer implements Runnable {
     }
 
     private void storeRequest(String resource) throws Exception {
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement("INSERT INTO library_requests (title, resource_type, status) VALUES (?, 'general', 'pending')")) {
             ps.setString(1, resource); ps.executeUpdate();
         }
@@ -141,7 +141,7 @@ public class StanfordLibraryServer implements Runnable {
     }
 
     private void initDatabase() {
-        try (var conn = database.N21AuthConfig.get(); var st = conn.createStatement()) {
+        try (var conn = database.N21DataSource.get(); var st = conn.createStatement()) {
             st.execute("CREATE DATABASE IF NOT EXISTS nwe_library");
             st.execute("USE nwe_library");
             st.execute("""

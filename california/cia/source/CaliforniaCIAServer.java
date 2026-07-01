@@ -110,7 +110,7 @@ public class CaliforniaCIAServer implements Runnable {
     private String searchReports(String keyword) {
         // Phase 1: Local DB search
         String localResults;
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement(
                      "SELECT id, category, LEFT(report_text, 80), created_at FROM intelligence_reports WHERE report_text LIKE ? OR category LIKE ? ORDER BY created_at DESC LIMIT 10")) {
             ps.setString(1, "%" + keyword + "%");
@@ -137,7 +137,7 @@ public class CaliforniaCIAServer implements Runnable {
     }
 
     private void storeReport(String category, String text) throws Exception {
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement(
                      "INSERT INTO intelligence_reports (category, report_text, status) VALUES (?, ?, 'pending')")) {
             ps.setString(1, category);
@@ -147,7 +147,7 @@ public class CaliforniaCIAServer implements Runnable {
     }
 
     private void storeFoia(String subject) throws Exception {
-        try (var conn = database.N21AuthConfig.get();
+        try (var conn = database.N21DataSource.get();
              var ps = conn.prepareStatement(
                      "INSERT INTO foia_requests (subject, status) VALUES (?, 'submitted')")) {
             ps.setString(1, subject);
@@ -164,7 +164,7 @@ public class CaliforniaCIAServer implements Runnable {
     }
 
     private void initDatabase() {
-        try (var conn = database.N21AuthConfig.get(); var st = conn.createStatement()) {
+        try (var conn = database.N21DataSource.get(); var st = conn.createStatement()) {
             st.execute("CREATE DATABASE IF NOT EXISTS nwe_california_cia");
             st.execute("USE nwe_california_cia");
             st.execute("""
