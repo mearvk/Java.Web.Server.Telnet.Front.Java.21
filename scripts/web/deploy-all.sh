@@ -95,3 +95,39 @@ echo "════════════════════════�
 echo " Results: $PASS deployed | $FAIL failed"
 echo " Tomcat: systemctl restart tomcat"
 echo "═══════════════════════════════════════════════════════════════"
+
+# ─── Start backend modules (Strernary™, SignalProcessors, all TCP servers) ───
+echo ""
+echo "[*] Ensuring backend modules are running..."
+BACKEND_SCRIPT="$PROJECT_ROOT/scripts/start-backend-modules.sh"
+PID_FILE="$PROJECT_ROOT/data/nwe-main.pid"
+
+if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+    echo "    Backend already running (PID $(cat "$PID_FILE"))"
+else
+    if [ -f "$BACKEND_SCRIPT" ]; then
+        echo "    Starting NitroWebExpress™ backend (Strernary™ port 20000, all modules)..."
+        bash "$BACKEND_SCRIPT" &
+        sleep 8
+        if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+            echo "    [✓] Backend started (PID $(cat "$PID_FILE"))"
+        else
+            echo "    [!] Backend may have failed — check: $PROJECT_ROOT/logging/nwe-main.log"
+        fi
+    else
+        echo "    [!] Backend start script not found: $BACKEND_SCRIPT"
+    fi
+fi
+
+# Quick port verification
+echo ""
+echo "    Port check:"
+for PORT in 20000 9999 49210 49211 49212 49213 49214; do
+    if timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null; then
+        echo "      port $PORT: UP"
+    else
+        echo "      port $PORT: --"
+    fi
+done
+echo ""
+echo "═══════════════════════════════════════════════════════════════"

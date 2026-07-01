@@ -363,6 +363,52 @@ echo " Tomcat:  /opt/tomcat/webapps/${TOMCAT_CONTEXT}"
 echo " Static:  ${REMOTE_PATH}/images, ${REMOTE_PATH}/css"
 echo " Cert:    Let's Encrypt (auto-renew 03:00 daily)"
 echo ""
+
+# ─── Start backend modules on remote server ───
+echo " [*] Ensuring backend modules are running on remote..."
+ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" '
+    NWE_ROOT="/mnt/blockstorage/Java.Web.Server.Telnet.Front.Java.21"
+    PID_FILE="$NWE_ROOT/data/nwe-main.pid"
+    BACKEND_SCRIPT="$NWE_ROOT/scripts/start-backend-modules.sh"
+
+    if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+        echo "     Backend already running (PID $(cat "$PID_FILE"))"
+        # Verify Strernary port
+        if timeout 2 bash -c "echo >/dev/tcp/localhost/20000" 2>/dev/null; then
+            echo "     Strernary™ (port 20000): UP"
+        else
+            echo "     Strernary™ (port 20000): not responding — restarting..."
+            bash "$BACKEND_SCRIPT" --stop 2>/dev/null
+            sleep 2
+            bash "$BACKEND_SCRIPT" &
+            sleep 8
+        fi
+    else
+        if [ -f "$BACKEND_SCRIPT" ]; then
+            echo "     Starting backend modules..."
+            bash "$BACKEND_SCRIPT" &
+            sleep 8
+            if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+                echo "     Backend started (PID $(cat "$PID_FILE"))"
+            else
+                echo "     [!] Backend may have failed — check $NWE_ROOT/logging/nwe-main.log"
+            fi
+        else
+            echo "     [!] Backend script not found at $BACKEND_SCRIPT"
+        fi
+    fi
+
+    # Verify key ports
+    for PORT in 20000 49210 49211 49212 49213 49214; do
+        if timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null; then
+            echo "     port $PORT: UP"
+        else
+            echo "     port $PORT: --"
+        fi
+    done
+' 2>/dev/null || echo "     [!] Could not verify backend on remote (SSH issue)"
+
+echo ""
 echo " Deployed resources:"
 JSP_LIST=$(find "$WEBAPP_SRC" -maxdepth 1 -name "*.jsp" -printf "%f " 2>/dev/null | sort)
 echo "   JSP  (preferred): ${JSP_LIST}"
