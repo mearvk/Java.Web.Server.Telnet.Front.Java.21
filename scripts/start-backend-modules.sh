@@ -72,23 +72,39 @@ MAIN_PID=$!
 echo "$MAIN_PID" > "$PID_FILE"
 
 echo "[*] NWE Main starting (PID $MAIN_PID)..."
-echo "[*] Waiting for services to bind..."
-sleep 5
+echo "[*] Waiting for services to bind (up to 2 minutes)..."
 
-# ── Verify ports came up ──────────────────────────────────────────────────────
+# ── Wait for ports with progress (2 min max, check every 10s) ────────────────
 EXPECTED_PORTS=(49152 49155 49199 5512 6682 20000 2000 49201 49202 49203 49204 49210 49211 49212 49213 49214 5000 9999 10085)
-UP=0; DOWN=0
+TOTAL=${#EXPECTED_PORTS[@]}
+MAX_WAIT=120
+ELAPSED=0
+UP=0
 
-for PORT in "${EXPECTED_PORTS[@]}"; do
-    if timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null; then
-        UP=$((UP + 1))
-    else
-        DOWN=$((DOWN + 1))
+while [ $ELAPSED -lt $MAX_WAIT ]; do
+    sleep 10
+    ELAPSED=$((ELAPSED + 10))
+    UP=0
+    for PORT in "${EXPECTED_PORTS[@]}"; do
+        timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null && UP=$((UP + 1))
+    done
+    echo "  [$ELAPSED s] Ports up: $UP / $TOTAL"
+
+    # All up — done waiting
+    if [ $UP -eq $TOTAL ]; then
+        break
+    fi
+
+    # Process died
+    if ! kill -0 "$MAIN_PID" 2>/dev/null; then
+        echo "  [FAIL] Main process exited. Check: $LOG_DIR/nwe-main.log"
+        tail -10 "$LOG_DIR/nwe-main.log" 2>/dev/null | sed 's/^/    /'
+        exit 1
     fi
 done
 
 echo ""
-echo "  Ports up: $UP / ${#EXPECTED_PORTS[@]}"
+echo "  Ports up: $UP / $TOTAL"
 
 if ! kill -0 "$MAIN_PID" 2>/dev/null; then
     echo "  [FAIL] Main process exited. Check: $LOG_DIR/nwe-main.log"
