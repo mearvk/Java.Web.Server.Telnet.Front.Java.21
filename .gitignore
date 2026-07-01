@@ -53,6 +53,7 @@ source/confermary/transfer.document.title
 source/confermary/
 
 ### Large logs ###
+logging/nwe-main.log
 logging/exceptions.log
 logging/archive/
 
@@ -62,6 +63,7 @@ source/city/analysis/data/durham.nc.addresses.csv
 
 ### Large files (>70MB) ###
 out/
+out/artifacts/
 **/jfxwebkit.dll
 **/javafx-sdk-26.0.1/bin/
 **/jars/java-fx/extracted/
