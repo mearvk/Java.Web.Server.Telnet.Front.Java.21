@@ -327,3 +327,136 @@ cp -r "$BMA_ROOT/smartphone" "$DEPLOY_DIR/smartphone/"
 Access: `http://localhost:8080/brarner.m.alete/smartphone/`
 
 The smartphone pages reference desktop images via `../servlets/servlet/src/main/webapp/images/` during development. In production (Tomcat deploy), use relative paths within the deployed context.
+
+---
+
+## Standards & Results (July 2026)
+
+### Lesson 14: MySQL Block Storage Migration
+
+On production servers with limited main drive space, MySQL data should live on block storage:
+
+```bash
+sudo bash scripts/migrate-mysql-to-blockstorage.sh
+```
+
+- Moves `/var/lib/mysql` → `/mnt/blockstorage/mysql`
+- Creates symlink so all existing paths continue working
+- Updates `/etc/mysql/mysql.conf.d/mysqld.cnf` datadir
+- Updates AppArmor if present (Ubuntu)
+- Rollback: `sudo bash scripts/migrate-mysql-to-blockstorage.sh --rollback`
+
+All install/deploy/after-pull scripts now source `scripts/detect-mysql.sh` to detect whether MySQL is on main drive or block storage, and warn if main drive is low (<512MB).
+
+### Lesson 15: Log Files Must Target Block Storage
+
+The `nwe-main.log` grows extremely fast (12GB+ per session due to ANSI fade animations). Configuration in `nwe-config.xml` under `<logging>`:
+
+| Preset | nwe-main.log max | Rotations | Total |
+|--------|-----------------|-----------|-------|
+| 1 (large) | 2 GB | 5 | 10 GB |
+| 2 (medium) | 512 MB | 4 | 2 GB |
+| 3 (small) | 64 MB | 3 | 192 MB |
+
+Block storage enabled by default: `<block-storage-enabled>true</block-storage-enabled>`. Logs write to `/mnt/blockstorage/nwe/logs/` when mounted. `start-backend-modules.sh` auto-detects and redirects.
+
+### Lesson 16: External Modules Need compile-all-modules.sh
+
+The standard `bash/compile.check.sh` only compiles files under `source/`. External modules (California, Duke, Stanford, Gray, Futures) live in separate directories and need explicit compilation:
+
+```bash
+bash scripts/compile-all-modules.sh
+```
+
+This single script compiles all 6 groups with correct sourcepaths. Without it, ports 49210-49214, 5000, 9999, 10085, and 2000 will not start.
+
+**Critical sourcepath note:** The Futures package is `red.Futures.source.ai.server` — javac needs `modules/black/` on the sourcepath (not `modules/black/red/Futures/source/`). The California modules use `package source;` so their sourcepath root is the directory containing `source/`.
+
+### Lesson 17: Reflection for Optional Modules
+
+If a module may not be present (e.g., Futures is a separate git repo), use reflection in Main.java:
+
+```java
+try { Class.forName("red.Futures.source.ai.server.DemocraticAIServer")
+        .getDeclaredMethod("start").invoke(
+            Class.forName("red.Futures.source.ai.server.DemocraticAIServer")
+                .getDeclaredConstructor().newInstance());
+} catch (ClassNotFoundException e) {
+    // Module not compiled — skip gracefully
+}
+```
+
+This allows `Main.java` to compile and run regardless of whether optional modules are present.
+
+### Lesson 18: Communicator Encrypted Sessions
+
+Communicator (port 49199) now supports end-to-end encryption:
+
+| # | Cipher | Key Exchange |
+|---|--------|-------------|
+| 1 | AES-256-GCM | DH-2048 (RFC 3526 Group 14) |
+| 2 | RSA-2048 | DH-2048 |
+| 3 | RSA-4096 | DH-2048 |
+| 4 | Twofish-256 | DH-2048 (BouncyCastle; fallback AES-CBC) |
+| 5 | ECC-secp256r1 | ECDH (secp256r1) |
+| 6 | ChaCha20-Poly1305 | DH-2048 |
+
+Protocol: `encrypt <n>` → server DH pubkey → `encrypt accept <client_pubkey_hex>` → session encrypted.
+Profile persistence: `profile cipher 6` saves default (auto-suggests on next login).
+
+Source: `source/communicator/CommunicatorCrypto.java`
+
+### Lesson 19: Strernary Protocol (strernary-protocol.xml)
+
+All module-to-Strernary communication follows `configuration/strernary-protocol.xml`:
+
+| Message | Format | Used By |
+|---------|--------|---------|
+| ASK | `ASK\|{query}` | All strernary-capable modules |
+| ASK (context) | `ASK\|{MODULE} SEARCH field=val context=table` | FBI, CIA, NSA, Duke, Stanford |
+| CLASSIFY | `CLASSIFY\|{module}\|{text}` | FBI, CIA, NSA (auto-categorize) |
+| TRAIN | `TRAIN\|{module}\|{category}\|{example}` | Knowledge base growth |
+| RELAY | `RELAY\|{text}` | Cross-module routing |
+| STATUS | `STATUS` | Health checks |
+
+Java client: `commons.StrernaryConnector.ask()`, `.classify()`, `.train()`, `.relay()`
+
+### Lesson 20: CD1 Connector Format
+
+Every BMA JSP page should include the CD1 connector dialog:
+
+1. Circular button (`images/black.button.png`, 80px desktop / 100px mobile)
+2. Overlay + fixed dialog with action dropdown, Send/OK buttons
+3. Direct Port checkbox (bypasses Strernary port 20000)
+4. Monospace textarea showing connection activity
+5. `<script src="js/cd1-connector.js"></script>` before `</body>`
+6. `<script>var CD1_MODULE_PORT = "49152";</script>` for module-specific port
+
+Pages with CD1: index, science, art, postal, legal, analysis.
+Pages without (intentional): status, register, guest, account-settings.
+
+### Lesson 21: Module Startup/Shutdown Scripts
+
+Every module has dedicated scripts at its root:
+
+| Module | Frontend | Backend |
+|--------|----------|---------|
+| BMA | `start.sh` / `shutdown.sh` | `start-backend.sh` / `shutdown-backend.sh` |
+| GDGH | `start-frontend.sh` / `shutdown-frontend.sh` | `installation/start.sh` / `stop.sh` |
+| Futures | `start-frontend.sh` / `shutdown-frontend.sh` | `bash/start.sh` / `shutdown.sh` |
+| Black Belt | `start.sh` / `shutdown.sh` | N/A (webapp only) |
+| NWE Main | `scripts/startup.sh` | `scripts/start-backend-modules.sh` |
+
+All frontend scripts: deploy + start Tomcat. All support `--stop-tomcat` flag.
+
+### Lesson 22: test-jdbc.sh Verifies Full Stack
+
+`install/test-jdbc.sh` now checks:
+1. MySQL data location (main drive vs `/mnt/blockstorage`)
+2. Config alignment (`mysql.auth.xml` vs `db.properties` — same host:port?)
+3. Queries `@@datadir` from running MySQL to confirm actual location
+4. JDBC connectivity with configured credentials
+5. Table existence checks (animalia, etc.)
+6. Lists all databases
+
+Run after any infrastructure change (migration, credential update, reinstall).
