@@ -106,7 +106,7 @@
 <div id="cd1-overlay" style="display:none;position:fixed;inset:0;z-index:299;background:transparent;"></div>
 <div id="cd1-dialog" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:300;background:#111118;border:1px solid #27272a;border-radius:12px;padding:1.25rem;width:620px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
     <div style="font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.75rem;">BMA Connector &#8212; Legal Database</div>
-    <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+    <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;align-items:center;">
         <select id="cd1-action" style="background:#1a1a24;color:#fff;border:1px solid #27272a;border-radius:8px;padding:0.45rem 2rem 0.45rem 0.75rem;font-size:0.8rem;cursor:pointer;appearance:none;">
             <option value="counts">Whole Law Counts</option>
             <option value="precedent">Landmark Precedent</option>
@@ -125,6 +125,13 @@
         </select>
         <button onclick="cd1Send()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Send</button>
         <button onclick="cd1Ok()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+        <label style="display:flex;align-items:center;gap:0.4rem;color:#a1a1aa;font-size:0.75rem;cursor:pointer;">
+            <input type="checkbox" id="cd1-direct-port" style="accent-color:#3b82f6;width:14px;height:14px;cursor:pointer;"/>
+            Direct Port (bypass Strernary™ 20000)
+        </label>
+        <span id="cd1-mode-badge" style="font-size:0.65rem;background:#1e3a5f;color:#60a5fa;padding:0.2rem 0.5rem;border-radius:4px;">STRERNARY</span>
     </div>
     <textarea id="cd1-textarea" placeholder="Connection idle..." spellcheck="false" style="width:100%;min-height:140px;background:#ffffff;color:#111;border:1px solid #27272a;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:0.8rem;resize:vertical;"></textarea>
 </div>
@@ -440,7 +447,9 @@ function cd1Send() {
     var t = document.getElementById("cd1-textarea");
     var portInput = document.getElementById("cd1-port");
     var roleInput = document.getElementById("cd1-role");
+    var directMode = document.getElementById("cd1-direct-port");
     if (!s || !t) return;
+    var isDirect = directMode && directMode.checked;
     var action = s.value;
     var ts = new Date().toLocaleTimeString();
     var port = portInput ? portInput.value : "18500";
@@ -460,7 +469,8 @@ function cd1Send() {
         localStorage.setItem("bma-legal-port", port);
         localStorage.setItem("bma-legal-role", role);
     }
-    t.value += (responses[action] || "[" + ts + "] " + action + " sent.\n");
+    var modePrefix = isDirect ? "[DIRECT port=" + port + "] " : "[STRERNARY] ";
+    t.value += modePrefix + (responses[action] || "[" + ts + "] " + action + " sent.\n");
     t.scrollTop = t.scrollHeight;
 }
 function cd1Ok() { var t = document.getElementById("cd1-textarea"); if(!t)return; t.value += "[" + new Date().toLocaleTimeString() + "] OK.\n"; t.scrollTop = t.scrollHeight; }
