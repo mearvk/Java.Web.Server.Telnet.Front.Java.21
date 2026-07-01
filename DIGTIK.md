@@ -460,3 +460,58 @@ All frontend scripts: deploy + start Tomcat. All support `--stop-tomcat` flag.
 6. Lists all databases
 
 Run after any infrastructure change (migration, credential update, reinstall).
+
+### Lesson 23: Sequential Module Startup Takes 2 Minutes
+
+NWE starts modules sequentially — each module does DB schema init (`CREATE DATABASE IF NOT EXISTS`, `CREATE TABLE IF NOT EXISTS`), opens `ServerSocket`, and starts accept loops. With 19 ports, this takes 60–120 seconds total.
+
+**Strategy:**
+- `start-backend-modules.sh` polls every 10 seconds for up to 2 minutes
+- Reports progress: `[10 s] Ports up: 10 / 19`, `[20 s] Ports up: 14 / 19`, etc.
+- Exits early when all 19 ports respond
+- Final per-port status report shows which succeeded and which are still pending
+
+**Do NOT** use a 5-second sleep and report "not yet" — this causes false alarms. The modules are working; they just haven't reached their turn in the sequential startup.
+
+**Typical startup timeline (production server):**
+
+| Time | Ports up | Modules starting |
+|------|----------|-----------------|
+| 10s | 3 | NWE, AES, Bitcoin (fast — no DB) |
+| 20s | 10 | +ConnectionStatus, Communicator, Strernary, Signal servers |
+| 40s | 14 | +StrernaryDirectory, CaliforniaFBI/CIA/NSA |
+| 60s | 17 | +DukeUniversity, StanfordLibrary, GrayPortRegistry |
+| 90s | 18-19 | +Gray85Creme, (Futures if cloned) |
+
+**If a module never starts:** Check `nwe-main.log` for that module's exception. Common causes:
+- `.class` file missing → run `bash scripts/compile-all-modules.sh`
+- MySQL connection refused → check `systemctl status mysql`
+- Port already in use → previous instance still running (`--stop` first)
+
+### Lesson 24: Production Deployment Checklist (July 2026)
+
+Successful production deploy at `lauradei.us` (45.32.31.139):
+
+```bash
+# 1. Pull latest
+cd /mnt/blockstorage/Java.Web.Server.Telnet.Front.Java.21
+git pull
+
+# 2. Compile all modules
+bash scripts/compile-all-modules.sh
+
+# 3. Migrate MySQL to block storage (if not done)
+sudo bash scripts/migrate-mysql-to-blockstorage.sh
+
+# 4. Start backend (waits up to 2 min for all 19 ports)
+bash scripts/start-backend-modules.sh
+
+# 5. Deploy webapp
+sudo bash modules/black/presidential/Brarner.M.Alete/install/deploy-local.sh
+
+# 6. Verify
+bash modules/black/presidential/Brarner.M.Alete/install/test-jdbc.sh
+curl -s -o /dev/null -w "%{http_code}" https://lauradei.us/brarner.m.alete/
+```
+
+**Result:** 19/19 ports up, 12/12 JSP pages → 200, MySQL on block storage, logs on block storage.
