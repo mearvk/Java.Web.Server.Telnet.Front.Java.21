@@ -20,6 +20,16 @@ JVM_OPTS="-Xms256m -Xmx1024m -XX:+UseZGC"
 
 mkdir -p "$LOG_DIR" "$PROJECT_ROOT/data"
 
+# ── Detect log storage location (prefer block storage) ────────────────────────
+if mountpoint -q /mnt/blockstorage 2>/dev/null; then
+    BLOCK_LOG_DIR="/mnt/blockstorage/nwe/logs"
+    mkdir -p "$BLOCK_LOG_DIR"
+    LOG_DIR="$BLOCK_LOG_DIR"
+    echo "[*] Logging to block storage: $LOG_DIR"
+else
+    echo "[*] Logging to local: $LOG_DIR"
+fi
+
 # ── Stop mode ────────────────────────────────────────────────────────────────
 if [[ "${1:-}" == "--stop" ]]; then
     echo "[*] Stopping NitroWebExpress™..."

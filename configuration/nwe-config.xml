@@ -659,6 +659,91 @@
     </hashcodes>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         LOGGING CONFIGURATION
+         ═══════════════════════════════════════════════════════════════════
+         Controls log file sizes, rotation, and storage location.
+         When block-storage is enabled, logs are written to /mnt/blockstorage/nwe/logs/
+         to prevent the main drive from filling up.
+
+         Size presets:
+           1 = large  (2 GB max per file, 5 rotations = 10 GB max)
+           2 = medium (512 MB max per file, 4 rotations = 2 GB max)
+           3 = small  (64 MB max per file, 3 rotations = 192 MB max)
+
+         Rotation: when a log file reaches max-size, it is renamed with a
+         numeric suffix (.1, .2, .3) and a fresh file is created. Oldest
+         rotations beyond max-rotations are deleted automatically.
+    ════════════════════════════════════════════════════════════════════ -->
+    <logging>
+        <enabled>true</enabled>
+
+        <!-- Size preset: 1=large, 2=medium, 3=small -->
+        <size-preset>2</size-preset>
+
+        <!-- Block storage: write logs here when mounted (keeps main drive free) -->
+        <block-storage-enabled>true</block-storage-enabled>
+        <block-storage-path>/mnt/blockstorage/nwe/logs</block-storage-path>
+
+        <!-- Fallback: local log directory (used when block storage not mounted) -->
+        <local-path>logging</local-path>
+
+        <!-- Main server log -->
+        <log id="nwe-main">
+            <file>nwe-main.log</file>
+            <description>Main NWE runtime output (all modules)</description>
+            <size-overrides>
+                <large  max-size-mb="2048" max-rotations="5"/>
+                <medium max-size-mb="512"  max-rotations="4"/>
+                <small  max-size-mb="64"   max-rotations="3"/>
+            </size-overrides>
+        </log>
+
+        <!-- Exception log -->
+        <log id="exceptions">
+            <file>exception.log</file>
+            <description>Fatal and unhandled exceptions</description>
+            <size-overrides>
+                <large  max-size-mb="512" max-rotations="5"/>
+                <medium max-size-mb="128" max-rotations="4"/>
+                <small  max-size-mb="32"  max-rotations="3"/>
+            </size-overrides>
+        </log>
+
+        <!-- Social/communication log -->
+        <log id="social">
+            <file>event.social.log</file>
+            <description>BrarnerAlete module communication events</description>
+            <size-overrides>
+                <large  max-size-mb="256" max-rotations="3"/>
+                <medium max-size-mb="64"  max-rotations="3"/>
+                <small  max-size-mb="16"  max-rotations="2"/>
+            </size-overrides>
+        </log>
+
+        <!-- Security log -->
+        <log id="security">
+            <file>security.log</file>
+            <description>HeuristicClassifier threat events</description>
+            <size-overrides>
+                <large  max-size-mb="512" max-rotations="5"/>
+                <medium max-size-mb="128" max-rotations="4"/>
+                <small  max-size-mb="32"  max-rotations="3"/>
+            </size-overrides>
+        </log>
+
+        <!-- ClamAV antivirus scan results -->
+        <log id="clamav">
+            <file>clamav.log</file>
+            <description>Antivirus scan output</description>
+            <size-overrides>
+                <large  max-size-mb="128" max-rotations="3"/>
+                <medium max-size-mb="32"  max-rotations="3"/>
+                <small  max-size-mb="8"   max-rotations="2"/>
+            </size-overrides>
+        </log>
+    </logging>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          NOBLE REGISTRY — CRON PATTERN
          A Noble Mear — reliable services before Noble Ministries.
          Enabled by default. Resets every 2 days (2x 24 hours).
