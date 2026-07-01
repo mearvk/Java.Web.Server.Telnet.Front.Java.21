@@ -1,475 +1,146 @@
-MearvK Ltd - MEARVK LLC
 
-Maximlian Eric Alexander Rupplin von Keffikon - MEARVK - MEARVK LLC
 
-Owner of Establishment of Corporate ongoing Finance - US United States a Minister
-
-Owner of Miramax Films UK & US United States and Settlement - NO GODZILLA
-
-Owner of Del Taco in Apple Valley, CA '95
-
-Owner of AtlAtl.phd Brand Clothing US United States
-
-Phone:      1.919.923.4239 (USA)
-
-Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
-
-Headquarters: 555 South Mangum St, Durham, NC 27701
-
-Purpose:    IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
-
-Sorceress:  Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
-
-Students:   Available on the 8th Floor after 8
-
-![Profile views](https://views.igorkowalczyk.dev/api/badge/@mearvk?style=flat)
 
 ---
 
-## Software Authorization & Key Terms
-
-This software verifies its operational authorization by checking the presence of `psychiatry/secrets/public.key` on the central GitHub repository (`github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21`).
-
-**If the public.key is present on GitHub**, the software is free to operate within all existing guidelines, agreements, and contracts as established by the Owner.
-
-**Key Files:**
-- `psychiatry/secrets/public.key` — Public authorization key. Pushed to GitHub. Presence authorizes operation.
-- `psychiatry/secrets/secret.key` — Private key. NEVER pushed to GitHub (excluded via .gitignore). A local copy is kept exclusively by the Owner of the Software.
-
-**Terms:**
-1. The Owner of the Software (Max Rupplin, MEARVK LLC) retains local copies of both key files at all times.
-2. The `secret.key` shall never be committed or pushed to any public or shared repository.
-3. Removal of the `public.key` from the GitHub repository constitutes a revocation of operational authorization for all installations that depend on this verification.
-4. All editions (Personal Executive, National, International, Free) are subject to this key verification at boot time.
-5. The software operates within existing guidelines, agreements, and contracts only while the `public.key` remains accessible at its canonical GitHub URL.
-
-**Contact:**
-- Max Rupplin — mearvk@mearvk.us | mearvk@outlook.com
-- Discussions / Rank Upgrades / Installer IDs / Public Key Requests: https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
-
----
-
-## Downloads
-
-- **NWE Key Listener (C, port 80):** [`apache/nwe-key-listener`](apache/nwe-key-listener) — Standalone executable for Linux/Apache. Listens on port 80 for `public.key` POST, sends ACK, 30-minute timeout. Run with `sudo ./nwe-key-listener`.
-- **NWE Module Installer (Java, port 8888):** [`standalone/nwe-module-installer.jar`](standalone/nwe-module-installer.jar) — Standalone JAR. Accepts modules from verified NWE instances. Run with `java -jar nwe-module-installer.jar`.
-- **NWE Apache Module (mod_nwe_key):** [`apache/modules/mod_nwe_key.c`](apache/modules/mod_nwe_key.c) — Drop-in Apache2 module. Install with `sudo bash apache/modules/build-module.sh`. Provides `/nwe-key-listener/handshake` and `/nwe-key-listener/install` endpoints.
-
-### NWE Key Listener — How It Works
-
-1. On startup, fetches `public.key` from this GitHub repository for comparison.
-2. **Phase 1 (Handshake):** Accepts POST on port 80. Strips HTTP headers, compares body byte-for-byte against the GitHub `public.key`. Sends `ACK` only on exact match. Records the verified IP.
-3. **Phase 2 (JAR Install):** Accepts the next binary from the **same verified IP**. Validates JAR signature (PK magic bytes), computes SHA-256, installs to `/opt/nwe/nwe-module-installer.jar`, opens port 8888 via ufw/iptables, and launches the module installer.
-4. Closes after 30 minutes if no valid `public.key` is received.
-
-**Build requirements:** `libcurl4-openssl-dev`, `libssl-dev` (standalone), plus `apache2-dev` (for the module).
-
----
-
-## Website Editions (Servlet Webapps)
-
-Each module has a JSP-driven website that interfaces with its running TCP server. Websites deploy to Tomcat and connect to MySQL for persistent data and to the module's TCP port for live interaction.
-
-**Quick Install (all platforms):**
-
-| Platform | Command |
-|----------|---------|
-| Linux | `sudo bash scripts/web/post-clone.sh` |
-| macOS | `bash scripts/web/post-clone-macos.sh` |
-| Windows | `scripts\web\post-clone.bat` (as Administrator) |
-
-**Deploy only websites (Tomcat + MySQL already installed):**
-
-| Platform | Command |
-|----------|---------|
-| Linux | `sudo bash scripts/web/deploy-all.sh` |
-| macOS | `bash scripts/web/deploy-all-macos.sh` |
-| Windows | `scripts\web\deploy-all.bat` |
-
-**Configuration:** Edit `scripts/web/web-deploy-config.xml` to enable/disable specific modules, configure reboot behavior, and cron schedules before running deploy.
-
-**Module Webapps:**
-
-| Module | URL Path | Color | Port Interface |
-|--------|----------|-------|----------------|
-| Brarner.M.Alete™ | `/brarner.m.alete` | Blue | — |
-| AE6E66™ | `/ae6e66` | Emerald | — |
-| Futures™ | `/futures` | Red | 5000 |
-| Green.Durham.Grass.and.Herb™ | `/gdgh` | Green | 20000, 40002–7, 49152 |
-| GrayPortRegistry™ | `/gray-registry` | Gray | 9999 |
-| Gray85 Crème™ | `/gray85-registry` | Amber | 10085 |
-| Black Belt™ | `/blackbelt` | Black/White | — |
-| Languages™ | `/languages` | Violet | — |
-| Strernary™ | `/strernary` | Cyan | 20000, 2000 |
-| CaliforniaFBI™ | `/california-fbi` | Red | 49210 |
-| CaliforniaCIA™ | `/california-cia` | Lime Green | 49211 |
-| CaliforniaNSA™ | `/california-nsa` | Sky Blue | 49212 |
-| DukeUniversity™ | `/duke` | Duke Blue | 49213 |
-| StanfordLibrary™ | `/stanford-library` | Cardinal | 49214 |
-
-**Requirements:** Java 21+, MySQL 8.x, Tomcat 11. See `DIGTIK.md` for full architecture, `BEST.PRACTICES.md` for security and financial framework.
-
----
-
-## International Signal Servers
-
-Country-specific signal servers that connect to international news, market, and data sources. Each runs on its own port, uses virtual threads (Java 21), and stores data in a dedicated MySQL database.
-
-| Server | Port | Database | Sources | Signals |
-|--------|------|----------|---------|---------|
-| JapanSignalServer™ | 49201 | `nwe_japan` | NHK, Mainichi, Asahi, Nikkei, Kyodo, JPX, JMA | Nikkei 225, JPY/USD, Seismic |
-| RussiaSignalServer™ | 49202 | `nwe_russia` | TASS, RIA, Interfax, RBC, MOEX, Kommersant, Vedomosti, RT | MOEX Index, RUB/USD, Brent Crude |
-| MexicoSignalServer™ | 49203 | `nwe_mexico` | El Universal, Reforma, Milenio, La Jornada, Expansión, El Financiero, BMV, Excélsior | IPC/BMV, MXN/USD, Pemex Crude |
-| GreeceInternationalSignalServer™ | 49204 | `nwe_greece_intl` | Kathimerini, AMNA, Naftemporiki, Capital.gr, Reuters, Al Jazeera, BBC, DW | Athens Exchange, EUR/USD, Baltic Dry Index |
-
-**Protocol:** TCP socket — `FETCH|<sourceId>|<url>`, `SIGNAL|<url>`, `STATUS`
-
-**Port-aware:** 21, 22, 80, 443, 8080, 8888 for outbound connections.
-
----
-
-## California Federal Modules
-
-Federal agency interface modules with AI-assisted reporting, NIO masquerade routing, Installer ID Tech™ secured MySQL databases, and connector buttons linking to official .gov sites.
-
-| Server | Port | Database | Connector | Categories |
-|--------|------|----------|-----------|------------|
-| CaliforniaFBI™ | 49210 | `nwe_california_fbi` | tips.fbi.gov, ic3.gov | Violent crime, cyber, fraud, terrorism, drugs, corruption |
-| CaliforniaCIA™ | 49211 | `nwe_california_cia` | cia.gov/report-information, FOIA | Counterintel, espionage, terrorism, cyber threats, WMD |
-| CaliforniaNSA™ | 49212 | `nwe_california_nsa` | nsa.gov/Cybersecurity, cisa.gov | Vulnerabilities, malware, intrusions, data breaches, SIGINT |
-
-**Protocol:** TCP socket — `REPORT|<category>|<text>`, `SEARCH|<keyword>`, `STATUS`
-
-**Security:** Installer ID Tech™ on all tables, SecurityHeadersFilter, ConnectionRateLimiter (30/min), HardenedBaseServer (512 conn, 10/IP).
-
-**Source directories:**
-- `california/fbi/` — FBI crime reporting module
-- `california/cia/` — CIA intelligence reporting module
-- `california/nsa/` — NSA cybersecurity module
-
----
-
-## North Carolina Academic Modules
-
-University and library interface modules for academic program discovery, catalog search, and institutional queries.
-
-| Server | Port | Database | Connector | Features |
-|--------|------|----------|-----------|----------|
-| DukeUniversity™ | 49213 | `nwe_duke` | duke.edu (Trinity, Pratt, Fuqua, Law, Medicine) | College queries, course catalog, admissions |
-| StanfordLibrary™ | 49214 | `nwe_library` | library.stanford.edu, searchworks.stanford.edu | Catalog search, digital collections, resource requests |
-
-**Protocol:** TCP socket — `COLLEGES`/`COLLECTIONS`, `SEARCH|<keyword>`, `QUERY|<college>|<text>`/`REQUEST|<resource>`, `STATUS`
-
-**Source directories:**
-- `north/carolina/duke/` — Duke University college interface
-- `north/carolina/library/` — Stanford Library catalog interface
-
-**Source directories:**
-- `source/international.radio.japan/` — Japan config and server
-- `source/international.radio.russia/` — Russia config and server
-- `source/international.radio.mexico/` — Mexico config and server
-- `source/greece/international/` — Greece/International config and server
-
----
-
-## Print System Configuration
-
-All terminal output is driven by `configuration/print-method.xml`. No recompile needed to adjust formatting.
-
-**Blocks (left-to-right):**
-| Block | Name | Example |
-|-------|------|---------|
-| 1 | Prefix | `-- : ` |
-| 2 | ObjectId | `[Object ID: 0925308434]` |
-| 3 | Date | `[Date: 2026-06-16 22:17:55 EDT]` |
-| 4 | Current | `[Current: @Main]` |
-| 5 | Message | `. NitroWebExpress™ now starting .` |
-
-**Additional controls in print-method.xml:**
-- `<starts>` — Canonical lifecycle verb (`starts`, `is starting`, `now starting`, etc.)
-- `<parent-class-prefix>` — Prepend owning class to message (enabled/disabled)
-- `<decorator-start>` / `<decorator-end>` — Message framing characters (default `.`)
-- `<grace>` — Fade animation timing (steps, delay, post-delay)
-- `<control>` — Color toggle, reset behavior, trademark color
-
-**Naming convention:** All module/service identifiers use CamelCase with ™ (trademark in red). Configured in `nwe-config.xml` with CamelCase server IDs (e.g. `AesCompliant`, `BitcoinWalletIndexer`).
-
-**Startup failure handling:** If NweConfig, MySQL systemctl, or JDBC login fails, the message prints in red, the cause is appended to `exception.log`, and the process halts.
-
----
-
-## Modules/Black — Forward Directives (Trusted 9.5+/10)
-
-Trusted AI and governance modules authored by Max Rupplin - NC - MEARVK LLC. Forward directives for US Democratic block and North Carolina Socialist-College block. All modules are masquerade-aware, discoverable by `NioModuleScanner` at startup, and registered in `configuration/masquerade-modules.xml`.
-
-| Module | Port(s) | Block | Source |
-|--------|---------|-------|--------|
-| Democratic ProFront National 1.0 (Futures™) | 5000 | US Democratic | `modules/black/red/Futures` |
-| Green.Durham.Grass.and.Herb™ | 2000, 20000, 40002, 40003, 40007, 49152 | NC Socialist-College | `modules/black/presidential/Green.Durham.Grass.and.Herb` |
-| Brarner.M.Alete™ | 49152 | NC Socialist-College | `modules/black/presidential/Brarner.M.Alete` |
-
-**Futures™ (US Democratic Block):** D500 Democratic President. AI tax defense speculation, protective procedural pipeline using Java `CompletableFuture` patterns (supplyAsync, thenCompose, thenCombine, allOf, exceptionally). DJL/PyTorch inference. Port 5000 with secure random wait. Local masquerade config at `modules/black/red/Futures/configuration/nio-masquerade-config.xml`.
-
-**Green.Durham.Grass.and.Herb™ (NC Socialist-College Block):** Appree contact server with labor/ethical/moral/mortality concerns database. JWSTFJ21 masquerade-integrated with extended virtual ports (70000–99152). Reflective integration degrades to standalone if parent absent. Local integration config at `modules/black/presidential/Green.Durham.Grass.and.Herb/configuration/jwstfj21-integration.xml`.
-
-**Brarner.M.Alete™ (NC Socialist-College Block):** Presidential species/postal/SSA/art/science module. Maven multi-module (servlets, EJB, EAR). NC college block. Gluon-styled servlet website with tabbed navigation (Overview, Species, Postal, Art, Science, Status), filterable download tables, admin dashboard, and config.xml-driven branding with split MEARVK LLC logos. Install scripts for Linux/macOS/Windows with optional remote Apache deploy to `http://name.com/brarner.m.alete`. JAR download scripts fetch Jakarta Servlet 6.1, MySQL Connector/J 8.3, and Tomcat Embed 11.0.2. Local masquerade config at `modules/black/presidential/Brarner.M.Alete/configuration/nio-masquerade-config.xml`.
-
-**Trust:** All modules rated 9.5+/10 by Author. Masquerade routing enabled globally.
-
----
-
-## CityAnalysis™ — Property Records & AI Speculation Engine
-
-City-level property and deed analysis module with AI-driven speculation. Fetches county Register of Deeds data, extracts financial entities, trains a moral-bound IQ spectrum spatial model, and generates recursive speculation reports.
-
-**Belt Requirement:** Green Belt or Brown Belt | **IQ Requirement:** 180+
-
-**Components:** `CityAnalysisMain`, `CityAnalysisServer`, `CitySpeculationEngine`, `CitySpeculationTrainer`
-
-**Configuration:**
-- `source/city-analysis/city-analysis-config.xml` — City list (15 NC cities, Durham default)
-- `source/city-analysis/cse-allowance-config.xml` — AI reasoning limits, IQ tiers, trainer params
-- `source/city-analysis/legalice.presumes.xml` — Citizen class presumptions
-
-**Output:** `source/city-analysis/speculations/` and `speculations/recursive/<date>/<time>/`
-
-**Source directory:** `source/city-analysis/`
-
----
-
-## Strernary™ — Best-Guess Inference Server
-
-Port 20000 inference server that accepts standard information and returns best-guess responses.
-
-**Dual-port architecture:** A public OS port and a Java edition port both occupy port 20000. They sometimes talk; sometimes they don't. Communication is opportunistic — the Java server probes the OS listener at startup and relays queries when it's alive.
-
-**Inference stack (priority order):**
-1. **DJL (Deep Java Library)** — Local PyTorch inference via Amazon's open-source DJL framework. Download jars with `scripts/bash/strernary/download-djl.sh`.
-2. **OS port relay** — Forwards to the OS-level listener on 20000 if alive.
-3. **Keyword heuristics** — Routes queries to known NWE services based on content keywords.
-
-**Protocol:** TCP socket — `ASK|<text>`, `RELAY|<text>`, `STATUS`
-
-**Source directory:** `source/strernary/`
-
----
-
-## Strernary™ Directory Server — Port 2000
-
-Telnet-accessible directory and routing server on port 2000. Provides an interactive menu for discovering known servers and registering new Rank 4 nodes, plus XML packet forwarding for NIO masquerade routing.
-
-**Interactive menu options:**
-| Option | Description | Auth |
-|--------|-------------|------|
-| 1 | List port 20000 server IPs (Strernary™) | NationalID (configurable) |
-| 2 | List port 49152 server IPs (NationalFinanceID) | NationalID required |
-| 3 | Register Rank 4 JWSTNJ21 server | public.key verification |
-| 4 | Quit | — |
-
-**XML forwarding mode:** If the first data received is an `<nwe-route>` XML packet, the server bypasses the interactive menu and forwards the payload directly to the target port via the NIO masquerade engine:
-```xml
-<nwe-route><port>20000</port><payload>ASK|What is life?</payload></nwe-route>
+## Communicator™ — Encrypted Chat (Port 49199)
+
+Persistent 1-hour telnet chat server with end-to-end encryption negotiation.
+
+**Cipher Options (dropdown):**
+
+| # | Cipher | Key Size | Notes |
+|---|--------|----------|-------|
+| 1 | AES-256-GCM | 256-bit | Default. Authenticated encryption. |
+| 2 | RSA-2048 | 2048-bit | DH derives symmetric key, RSA for signing. |
+| 3 | RSA-4096 | 4096-bit | Higher security RSA variant. |
+| 4 | Twofish-256 | 256-bit | BouncyCastle; falls back to AES-256-CBC. |
+| 5 | ECC-secp256r1 | 256-bit | ECDH key exchange + AES-GCM. |
+| 6 | ChaCha20-Poly1305 | 256-bit | Modern stream cipher with authentication. |
+
+**Key Exchange:** DH-2048 (RFC 3526 Group 14) for ciphers 1–4,6. ECDH (secp256r1) for cipher 5.
+
+**Protocol:**
+
+```
+telnet localhost 49199
+identify <nationalId>
+encrypt                          ← show cipher dropdown
+encrypt 1                        ← initiate AES-256-GCM via DH
+  → server sends DH public key (hex)
+encrypt accept <your_pubkey_hex> ← complete key exchange
+  → session now encrypted
+encrypt off                      ← disable encryption
 ```
 
-**Rank 4 registration:** Clients submit their `public.key` contents (base64, single line). The server compares byte-for-byte against the GitHub-hosted `public.key`. On match, the client's server address is added to the registered Rank 4 list.
+**Profile (persistent settings):**
 
-**Configuration:** `configuration/port-2000-directory-config.xml` — Controls which menu options are enabled, NationalID requirements, and XML forwarding toggle.
-
-**Known server lists:**
-- `configuration/known.port.20000.servers.xml` — Strernary™ endpoints
-- `configuration/known.port.49152.servers.xml` — NationalFinanceID endpoints
-
-**Source:** `source/strernary/StrernaryDirectoryServer.java`
-
----
-
-## NIO Masquerade Layer
-
-NIO-based front layer that binds local IPs 127.0.0.1 through 127.0.0.17 and bridges non-blocking NIO connections to the existing blocking architecture.
-
-**Port range modes:**
-| Mode | Range | Binding |
-|------|-------|---------|
-| standard (default) | 0–65535 | All managed ports on 127.0.0.1 |
-| extended | 0–1048576 | 65536 ports per IP across 127.0.0.1–17 |
-
-**Module discovery:** At startup, `NioModuleScanner` reads `nwe-config.xml` and `masquerade-modules.xml` to discover all MEARVK LLC modules with their port values (0 to MAX_PORT). Masquerade-aware modules are registered in the NIO routing table automatically.
-
-**Port 2000 XML forwarding:** Clients can send XML packets to port 2000 for direct routing:
-```xml
-<nwe-route><port>20000</port><payload>ASK|What is life?</payload></nwe-route>
 ```
-
-**Configuration files:**
-- `configuration/nio-masquerade-config.xml` — NIO settings, port range mode, managed ports
-- `configuration/masquerade-modules.xml` — Module registry with auto-discovery
-- `configuration/port-2000-directory-config.xml` — Port 2000 directory/forwarding settings
-
-**Source files:**
-- `source/strernary/NioMasqueradeEngine.java` — NIO Selector engine with local IP bindings
-- `source/strernary/NioModuleScanner.java` — Startup module discovery and registration
-- `source/strernary/StrernaryDirectoryServer.java` — Port 2000 menu + XML forwarding
-
----
-
-## Eigenvector Math System
-
-National observation vectors routed through eigenvector matrices via a programmable frame pipeline. Input values represent national momentums, real angular values, or national rain (caught as-is).
-
-**Pipeline:** `Input → BasicAnatomy × input → [Frame Pipeline] → PerceivedOutput × result → Colored Output`
-
-**Eigenvector Matrices (.CDNS files):**
-
-| Matrix | Role | Dimensions | File |
-|--------|------|------------|------|
-| BasicAnatomy | Input EV | 5×5 | `math/eigenlocator/BasicAnatomy.CDNS` |
-| PerceivedOutput | Output PO | 5×5 | `math/eigenlocator/PerceivedOutput.CDNS` |
-
-**Routing Rules:**
-
-| Parameter | Value |
-|-----------|-------|
-| Forward multipliers (Stage 1) | 1–4 |
-| Total hops | max 51 |
-| Procedure frames | 2–65 |
-| Frame dimensions | 128×128 min, 4000×12800 max |
-| Frame size policy | User-build specified |
-| Standard hops | 1, 2, 3, 4, 6 |
-| Max skip | 16 |
-
-**Path Types:**
-- **Orderly** — Same w.r.t. All spirits; pass through unchanged
-- **Virtue** — Achieve their own virtue; transform independently
-
-**Color assignment** reserved for higher math geniuses (Max Rupplin).
-
-**Source:**
-- `source/math/EigenMultiplier.java` — Direct matrix × vector multiplication
-- `source/math/EigenRouter.java` — Full EV → Frames → PO pipeline
-- `math/eigen-config.xml` — Routing configuration
-- `math/eigenlocator/` — Immutable .CDNS matrix files
-- `math/frames/` — User-programmable procedure frame definitions
-- `math/observations/` — National input vectors
-- `math/results/` — Computed output
-
----
-
-## Memory Footprint (Rough Estimates)
-
-Approximate heap/RSS at steady state on Linux x86_64, Java 21 with virtual threads.
-
-**Core:**
-
-| Component | Estimated Memory | Notes |
-|-----------|-----------------|-------|
-| NitroWebExpress™ (main server) | ~60 MB | Base JVM + NIO selector + config |
-| NIO Masquerade Layer | ~20 MB | Selector engine, 18 local IP bindings |
-| MySQL JDBC pool | ~15 MB | Connection pool (idle) |
-| Print system + CommonRails | ~5 MB | Formatting, color, XML config |
-
-**Modules (per-module, when active):**
-
-| Module | Estimated Memory | Notes |
-|--------|-----------------|-------|
-| DJL Inference (Strernary™) | ~350 MB | DistilBERT model weights (~250 MB) + PyTorch native |
-| Strernary™ Server (port 20000) | ~25 MB | TCP socket handler + knowledge DB cache |
-| Strernary™ Directory (port 2000) | ~10 MB | Menu, XML forwarding, registered server lists |
-| International Signal Servers (each) | ~30 MB | Per-country: Japan, Russia, Mexico, Greece, Ukraine, Britain |
-| CityAnalysis™ | ~40 MB | Speculation engine + trainer + recursive output buffers |
-| AIProctorModule™ (port 49111) | ~20 MB | Session state + NationalID verification |
-| AIIntegrativeEngine + Training | ~80 MB | Shared model + scouting buffer (up to 200 MB during training) |
-| HeuristicClassifier™ | ~15 MB | Rate tables, geo-concentration maps, findings |
-| BitcoinCompliant (port 6682) | ~25 MB | Wallet indexer + trade session state |
-| AES/DSA/RSA Encryption | ~10 MB | Key material + pass buffers |
-| NationalFinanceID (port 49152) | ~20 MB | Keypair generator + profile cache |
-| Communicator (port 49199) | ~15 MB | Chat history + message queues |
-| Weather/Calendar/ASCII | ~10 MB | Lightweight socket handlers |
-| GrayPortRegistry (port 9999) | ~30 MB | NIO selector + block map + AI gate + DB pool |
-| Gray85 Crème Registry (port 10085) | ~35 MB | NIO selector + block map + Crème state + AI gate + DB pool |
-
-**Totals (approximate):**
-
-| Profile | Estimated RSS | Description |
-|---------|---------------|-------------|
-| Minimal (core only) | ~100 MB | NitroWebExpress + NIO + MySQL |
-| Standard (no DJL) | ~450 MB | Core + all modules including Gray registries, DJL disabled |
-| Full (DJL loaded) | ~800 MB | All modules + PyTorch model loaded |
-| Training burst | ~1000 MB | Full + AITrainingThread scouting buffer at capacity |
-| Full + Gray registries active | ~865 MB | Full + both port registries with lease maps populated |
-
-**Recommended JVM flags:**
-```
--Xms256m -Xmx1024m -XX:+UseZGC
-```
-
----
-
-## GrayPortRegistry™ — 30M Port Block Leasing (Bitcoin/Dashcoin)
-
-Port registry service that leases blocks of 30,000,000 ports via Bitcoin or Dashcoin payment. Two tiers: standard (port 9999) and Crème (port 10085).
-
-**Brand:** Installer ID Tech™
-
-### Standard Registry (Port 9999)
-
-- **Block size:** 30,000,000 ports per block
-- **Available blocks:** 1000 (total capacity: 30 billion ports)
-- **Minimum donation:** $10 USD in Bitcoin or Dashcoin
-- **Terms:** `month` (30 days), `year` (1 year), `multi-year` (3 years)
-- **Database:** `nwe_gray_registry` (MySQL)
-- **AI Gate:** Each port binding passes through an AI binary gate for authorization
-
-**Protocol (TCP on port 9999):**
-
-| Command | Format | Description |
-|---------|--------|-------------|
-| LEASE | `LEASE\|<block_id>\|<term>\|<btc_txid>` | Lease a port block. Provide Bitcoin/Dashcoin transaction ID as payment proof. |
-| STATUS | `STATUS\|<block_id>` | Check if a block is available or leased (shows expiry). |
-| BIND | `BIND\|<block_id>\|<port>` | Bind a specific port within your leased block. AI-gated. |
-| LIST | `LIST` | List all active leases. |
-| QUIT | `QUIT` | Disconnect. |
-
-**How to Pay and Lease:**
-
-1. Send $10+ USD equivalent in Bitcoin or Dashcoin to the published wallet address.
-2. Connect to port 9999 via telnet/TCP: `telnet <server-ip> 9999`
-3. Issue: `LEASE|<block_id>|month|<your_btc_txid>`
-4. On success, server responds: `LEASED|block=<id>|ports=<start>-<end>|term=month|txid=<txid>`
-5. Bind individual ports: `BIND|<block_id>|<port_number>`
-6. Server responds with the resolved 127.0.X.X binding address.
-
-**Port resolution:** Absolute port numbers map to local IPs via `127.0.<octet3>.<octet4>:<local_port>` where `octet3 = port / 65536 / 256`, `octet4 = port / 65536 % 256`, `local_port = port % 65536`.
-
-### Gray85 Crème Registry (Port 10085)
-
-Same as standard but 15 out of every 100 ports are Crème-locked (planetary auditor control).
-
-- **Open ports:** 85% of block ($10 USD lease)
-- **Crème-locked ports:** 15% of block ($1000 USD to unlock, 1 hour minimum)
-- **Database:** `nwe_gray85_registry` (MySQL)
-
-**Additional commands:**
-
-| Command | Format | Description |
-|---------|--------|-------------|
-| UNLOCK | `UNLOCK\|<block_id>\|<port_offset>\|<hours>\|<btc_txid>` | Unlock a Crème port for N hours ($1000/unlock). |
-| CREME | `CREME\|<block_id>` | List which ports in a block are Crème-locked. |
-
-**Example session:**
-```
-$ telnet server.example.com 9999
-═══════════════════════════════════════════════════════════════
- Installer ID Tech™ — Port Registry Service
- $10 USD minimum donation — Bitcoin/Dashcoin accepted
- 30,000,000 ports per block — 1000 blocks available
-═══════════════════════════════════════════════════════════════
-LEASE|42|month|abc123def456txid
-LEASED|block=42|ports=1260000000-1289999999|term=month|txid=abc123def456txid
-BIND|42|1260000001
-BOUND|block=42|port=1260000001|ip=127.0.75.49:37761
-QUIT
+profile                      ← view current settings
+profile cipher 6             ← save ChaCha20 as default (auto-suggests on next login)
+profile clear                ← clear preference
 ```
 
 **Source:**
-- `modules/gray/source/GrayPortRegistryServer.java` — Standard registry (port 9999)
-- `modules/gray.a85/source/Gray85PortRegistryServer.java` — Crème registry (port 10085)
+- `source/communicator/Communicator.java` — Chat server
+- `source/communicator/CommunicatorCrypto.java` — Cipher negotiation, DH/ECDH, encrypt/decrypt
+- Database: `communicator_profiles` table (national_id → preferred_cipher)
+
+---
+
+## Module Startup/Shutdown Scripts
+
+All modules have dedicated scripts at their root for frontend (webapp) and backend (TCP servers).
+
+### Brarner.M.Alete™
+
+| Script | Purpose |
+|--------|---------|
+| `start.sh` | Build WAR + deploy to Tomcat + start Tomcat |
+| `shutdown.sh` | Undeploy from Tomcat (`--stop-tomcat` to also stop Tomcat) |
+| `start-backend.sh` | Start TCP servers (Postal, SSA, Art, Legal) |
+| `shutdown-backend.sh` | Stop all backend TCP servers |
+
+**Location:** `modules/black/presidential/Brarner.M.Alete/`
+
+### Green.Durham.Grass.and.Herb™
+
+| Script | Purpose |
+|--------|---------|
+| `start-frontend.sh` | Deploy webapp to Tomcat + start Tomcat |
+| `shutdown-frontend.sh` | Undeploy from Tomcat (`--stop-tomcat`) |
+| `installation/start.sh` | Start backend TCP server (Appree, listeners) |
+| `installation/stop.sh` | Stop backend |
+
+**Location:** `modules/black/presidential/Green.Durham.Grass.and.Herb/`
+
+### Futures™ (Democratic ProFront National 1.0)
+
+| Script | Purpose |
+|--------|---------|
+| `start-frontend.sh` | Deploy webapp to Tomcat + start Tomcat |
+| `shutdown-frontend.sh` | Undeploy from Tomcat (`--stop-tomcat`) |
+| `bash/start.sh` | Start AI server on port 5000 |
+| `bash/shutdown.sh` | Stop port 5000 server |
+
+**Location:** `modules/black/red/Futures/`
+
+### Black Belt™
+
+| Script | Purpose |
+|--------|---------|
+| `start.sh` | Deploy webapp to Tomcat + setup MySQL + start Tomcat |
+| `shutdown.sh` | Undeploy from Tomcat (`--stop-tomcat`) |
+
+**Location:** `modules/black/belt/`
+
+### Main NWE (all backend modules)
+
+| Script | Purpose |
+|--------|---------|
+| `scripts/startup.sh` | Start NWE Main (all servers, G1GC, 4GB heap) |
+| `scripts/start-backend-modules.sh` | Start NWE + verify all 19 ports |
+| `scripts/start-backend-modules.sh --stop` | Stop NWE Main |
+
+---
+
+## Integrity System
+
+Post-install SHA-256 file verification. Non-blocking — program continues running regardless of findings.
+
+**Tech ID:** Gifted Install Tech ID (not MEARVK LLC Installer Tech ID)
+
+**Schedule:** Every 2 days at 06:00 (`0 6 */2 * *`)
+
+**Scripts:**
+
+| File | Purpose |
+|------|---------|
+| `integrity/post-install-integrity-check.sh` | Main integrity scan (SHA-256 + MD5) |
+| `cron/integrity-check.sh` | Cron wrapper for periodic runs |
+| `integrity/integrity-schema.sql` | MySQL schema for `nwe_integrity` database |
+| `modules/black/red/Futures/bash/integrity.sh` | Futures-specific integrity check |
+| `modules/black/presidential/Brarner.M.Alete/install/verify-integrity.sh` | BMA integrity verification |
+| `modules/black/presidential/Brarner.M.Alete/install/generate-integrity.sh` | BMA digest generation |
+
+**Behavior:**
+1. Self-integrity check first (verifies its own scripts)
+2. Full SHA-256 + MD5 scan of all git-tracked files
+3. On corruption (same commit, different hash) → auto-restore from GitHub
+4. On update (different commit) → preserve original digests in `integrity/history/`
+5. Concerns logged to `integrity/concerns/` (non-blocking, append-only)
+
+**Database:** `nwe_integrity` — tables: `honor_oath`, `file_digests`, `file_digests_history`, `integrity_concerns`, `scan_history`
+
+**No DELETE on any table. No UPDATE on history or concerns.**
+
+**Trusted servers:**
+- `github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21` (primary)
+- `github.com/ElisabethHarkins5509` (secondary)
+
+**Install:**
+```bash
+mysql < integrity/integrity-schema.sql
+bash integrity/post-install-integrity-check.sh
+sudo bash cron/install-cron.sh
+```
