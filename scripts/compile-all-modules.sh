@@ -1,7 +1,7 @@
 #!/bin/bash
 # scripts/compile-all-modules.sh — Compile ALL NWE modules (core + external)
 # Usage: bash scripts/compile-all-modules.sh
-set -e
+set +e
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/out"
@@ -19,7 +19,7 @@ echo ""
 echo "[1/6] Core sources (source/)..."
 find "$ROOT/source" -name "*.java" > /tmp/nwe-core.txt
 javac -d "$OUT" -cp "$CP" \
-  -sourcepath "$ROOT/source:$ROOT/california/fbi/source:$ROOT/california/cia/source:$ROOT/california/nsa/source:$ROOT/north/carolina/duke/source:$ROOT/north/carolina/library/source:$ROOT/modules/gray/source:$ROOT/modules/gray.a85/source:$ROOT/modules/black/red/Futures/source" \
+  -sourcepath "$ROOT/source:$ROOT/california/fbi/source:$ROOT/california/cia/source:$ROOT/california/nsa/source:$ROOT/north/carolina/duke/source:$ROOT/north/carolina/library/source:$ROOT/modules/gray/source:$ROOT/modules/gray.a85/source:$ROOT/modules/black" \
   @/tmp/nwe-core.txt 2>&1 | grep -i error || echo "  OK"
 rm -f /tmp/nwe-core.txt
 
@@ -46,7 +46,7 @@ javac -d "$OUT" -cp "$CP" \
 echo "[4/6] Futures (DemocraticAIServer)..."
 find "$ROOT/modules/black/red/Futures/source" -name "*.java" > /tmp/futures.txt 2>/dev/null
 if [ -s /tmp/futures.txt ]; then
-    javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source:$ROOT/modules/black/red/Futures/source" @/tmp/futures.txt 2>&1 | grep -i error || echo "  OK"
+    javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source:$ROOT/modules/black" @/tmp/futures.txt 2>&1 | grep -i error || echo "  OK"
 else
     echo "  SKIP (no source found)"
 fi
