@@ -1,6 +1,7 @@
 package source;
 
 import commons.CommonRails;
+import commons.StrernaryConnector;
 import commons.color.ColorPalette;
 
 import java.io.*;
@@ -90,7 +91,13 @@ public class DukeUniversityServer implements Runnable {
                     String[] parts = line.split("\\|", 3);
                     if (parts.length < 3) { out.println("ERR|Usage: QUERY|<college>|<text>"); continue; }
                     storeQuery(parts[1], parts[2]);
-                    out.println("OK|Query stored|college=" + parts[1]);
+                    // AI-enhanced response via Strernary™ port 20000
+                    String aiAnswer = StrernaryConnector.ask("DUKE QUERY college=" + parts[1] + " question=" + parts[2]);
+                    if (aiAnswer != null) {
+                        out.println("OK|Query stored|college=" + parts[1] + "|AI|" + aiAnswer.replace("\n", " "));
+                    } else {
+                        out.println("OK|Query stored|college=" + parts[1]);
+                    }
                     continue;
                 }
                 out.println("ERR|Unknown command");
@@ -99,13 +106,25 @@ public class DukeUniversityServer implements Runnable {
     }
 
     private String searchLocal(String keyword) {
+        // Phase 1: Local DB search
+        String localResults;
         try (var conn = database.N21AuthConfig.get();
              var ps = conn.prepareStatement("SELECT id, college, LEFT(query_text,80), created_at FROM college_queries WHERE query_text LIKE ? OR college LIKE ? ORDER BY created_at DESC LIMIT 10")) {
             ps.setString(1, "%" + keyword + "%"); ps.setString(2, "%" + keyword + "%");
-            var rs = ps.executeQuery(); StringBuilder sb = new StringBuilder("RESULTS|"); int c = 0;
+            var rs = ps.executeQuery(); StringBuilder sb = new StringBuilder(); int c = 0;
             while (rs.next()) { sb.append(rs.getInt(1)).append(":").append(rs.getString(2)).append(":").append(rs.getString(3)).append("|"); c++; }
-            return c == 0 ? "RESULTS|none" : sb.toString();
-        } catch (Exception e) { return "ERR|" + e.getMessage(); }
+            localResults = c > 0 ? sb.toString() : null;
+        } catch (Exception e) { localResults = null; }
+
+        // Phase 2: Strernary™ AI inference on port 20000
+        String aiResult = StrernaryConnector.ask("DUKE SEARCH keyword=" + keyword + " context=college_queries courses");
+
+        // Combine results
+        StringBuilder combined = new StringBuilder("RESULTS|");
+        if (localResults != null) combined.append(localResults);
+        if (aiResult != null) combined.append("AI|").append(aiResult.replace("\n", " "));
+        if (localResults == null && aiResult == null) return "RESULTS|none";
+        return combined.toString();
     }
 
     private void storeQuery(String college, String text) throws Exception {

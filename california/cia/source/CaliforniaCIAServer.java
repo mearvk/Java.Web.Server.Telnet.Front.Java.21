@@ -1,6 +1,7 @@
 package source;
 
 import commons.CommonRails;
+import commons.StrernaryConnector;
 import commons.color.ColorPalette;
 
 import java.io.*;
@@ -107,20 +108,32 @@ public class CaliforniaCIAServer implements Runnable {
     }
 
     private String searchReports(String keyword) {
+        // Phase 1: Local DB search
+        String localResults;
         try (var conn = database.N21AuthConfig.get();
              var ps = conn.prepareStatement(
                      "SELECT id, category, LEFT(report_text, 80), created_at FROM intelligence_reports WHERE report_text LIKE ? OR category LIKE ? ORDER BY created_at DESC LIMIT 10")) {
             ps.setString(1, "%" + keyword + "%");
             ps.setString(2, "%" + keyword + "%");
             var rs = ps.executeQuery();
-            StringBuilder sb = new StringBuilder("RESULTS|");
+            StringBuilder sb = new StringBuilder();
             int count = 0;
             while (rs.next()) {
                 sb.append(rs.getInt(1)).append(":").append(rs.getString(2)).append(":").append(rs.getString(3)).append("|");
                 count++;
             }
-            return count == 0 ? "RESULTS|none" : sb.toString();
-        } catch (Exception e) { return "ERR|" + e.getMessage(); }
+            localResults = count > 0 ? sb.toString() : null;
+        } catch (Exception e) { localResults = null; }
+
+        // Phase 2: Strernary™ AI inference on port 20000
+        String aiResult = StrernaryConnector.ask("CIA SEARCH category=" + keyword + " context=intelligence_reports");
+
+        // Combine results
+        StringBuilder combined = new StringBuilder("RESULTS|");
+        if (localResults != null) combined.append(localResults);
+        if (aiResult != null) combined.append("AI|").append(aiResult.replace("\n", " "));
+        if (localResults == null && aiResult == null) return "RESULTS|none";
+        return combined.toString();
     }
 
     private void storeReport(String category, String text) throws Exception {

@@ -263,11 +263,13 @@
         <host>localhost</host>
         <port>49210</port>
         <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
         <description>
             California FBI crime reporting module. AI-assisted categorization via
-            Strernary™ (port 20000). Connects to tips.fbi.gov and IC3 for federal
-            tip forwarding. MySQL database: nwe_california_fbi. Installer ID Tech™
-            secures all table writes.
+            Strernary™ (port 20000). SEARCH commands query both local MySQL and
+            Strernary inference. Falls back to DB-only if port 20000 offline.
+            Connects to tips.fbi.gov and IC3 for federal tip forwarding.
+            MySQL database: nwe_california_fbi. Installer ID Tech™ secures all table writes.
         </description>
     </server>
 
@@ -278,8 +280,11 @@
         <host>localhost</host>
         <port>49211</port>
         <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
         <description>
-            California CIA intelligence reporting module. AI-assisted categorization.
+            California CIA intelligence reporting module. AI-assisted categorization
+            via Strernary™ (port 20000). SEARCH commands query both local MySQL and
+            Strernary inference. Falls back to DB-only if port 20000 offline.
             Connects to cia.gov/report-information and FOIA reading room.
             MySQL database: nwe_california_cia. Installer ID Tech™ secured.
         </description>
@@ -292,8 +297,11 @@
         <host>localhost</host>
         <port>49212</port>
         <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
         <description>
-            California NSA cybersecurity module. AI-assisted incident categorization.
+            California NSA cybersecurity module. AI-assisted incident categorization
+            via Strernary™ (port 20000). SEARCH commands query both local MySQL and
+            Strernary inference. Falls back to DB-only if port 20000 offline.
             Connects to nsa.gov/Cybersecurity and CISA for vulnerability disclosure.
             MySQL database: nwe_california_nsa. Installer ID Tech™ secured.
         </description>
@@ -306,7 +314,12 @@
         <host>localhost</host>
         <port>49213</port>
         <masquerade-aware>true</masquerade-aware>
-        <description>Duke University college interface. AI-assisted. MySQL: nwe_duke.</description>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            Duke University college interface. AI-assisted SEARCH and QUERY via
+            Strernary™ (port 20000). Falls back to DB-only if port 20000 offline.
+            MySQL: nwe_duke.
+        </description>
     </server>
 
     <server id="StanfordLibrary">
@@ -316,7 +329,12 @@
         <host>localhost</host>
         <port>49214</port>
         <masquerade-aware>true</masquerade-aware>
-        <description>Stanford Library interface. Connects to library.stanford.edu. MySQL: nwe_library.</description>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            Stanford Library interface. AI-assisted SEARCH and REQUEST via
+            Strernary™ (port 20000). Falls back to DB-only if port 20000 offline.
+            Connects to library.stanford.edu. MySQL: nwe_library.
+        </description>
     </server>
 
     <server id="Strernary">

@@ -1,6 +1,7 @@
 package source;
 
 import commons.CommonRails;
+import commons.StrernaryConnector;
 import commons.color.ColorPalette;
 
 import java.io.*;
@@ -89,7 +90,13 @@ public class StanfordLibraryServer implements Runnable {
                 if (line.startsWith("REQUEST|")) {
                     String resource = line.substring(8).trim();
                     storeRequest(resource);
-                    out.println("OK|Request stored|resource=" + resource);
+                    // AI-enhanced resource lookup via Strernary™ port 20000
+                    String aiAnswer = StrernaryConnector.ask("LIBRARY REQUEST resource=" + resource + " context=stanford_catalog searchworks");
+                    if (aiAnswer != null) {
+                        out.println("OK|Request stored|resource=" + resource + "|AI|" + aiAnswer.replace("\n", " "));
+                    } else {
+                        out.println("OK|Request stored|resource=" + resource);
+                    }
                     continue;
                 }
                 out.println("ERR|Unknown command");
@@ -98,13 +105,25 @@ public class StanfordLibraryServer implements Runnable {
     }
 
     private String searchLocal(String keyword) {
+        // Phase 1: Local DB search
+        String localResults;
         try (var conn = database.N21AuthConfig.get();
              var ps = conn.prepareStatement("SELECT id, resource_type, LEFT(title,80), created_at FROM library_requests WHERE title LIKE ? OR resource_type LIKE ? ORDER BY created_at DESC LIMIT 10")) {
             ps.setString(1, "%" + keyword + "%"); ps.setString(2, "%" + keyword + "%");
-            var rs = ps.executeQuery(); StringBuilder sb = new StringBuilder("RESULTS|"); int c = 0;
+            var rs = ps.executeQuery(); StringBuilder sb = new StringBuilder(); int c = 0;
             while (rs.next()) { sb.append(rs.getInt(1)).append(":").append(rs.getString(2)).append(":").append(rs.getString(3)).append("|"); c++; }
-            return c == 0 ? "RESULTS|none" : sb.toString();
-        } catch (Exception e) { return "ERR|" + e.getMessage(); }
+            localResults = c > 0 ? sb.toString() : null;
+        } catch (Exception e) { localResults = null; }
+
+        // Phase 2: Strernary™ AI inference on port 20000
+        String aiResult = StrernaryConnector.ask("LIBRARY SEARCH keyword=" + keyword + " context=catalog digital_collections");
+
+        // Combine results
+        StringBuilder combined = new StringBuilder("RESULTS|");
+        if (localResults != null) combined.append(localResults);
+        if (aiResult != null) combined.append("AI|").append(aiResult.replace("\n", " "));
+        if (localResults == null && aiResult == null) return "RESULTS|none";
+        return combined.toString();
     }
 
     private void storeRequest(String resource) throws Exception {
