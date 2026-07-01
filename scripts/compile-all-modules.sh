@@ -15,10 +15,12 @@ echo " NWE — Compile All Modules"
 echo "═══════════════════════════════════════════════════════════════"
 echo ""
 
-# 1. Core source/
+# 1. Core source/ (includes all sourcepaths so Main.java can resolve external modules)
 echo "[1/6] Core sources (source/)..."
 find "$ROOT/source" -name "*.java" > /tmp/nwe-core.txt
-javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source" @/tmp/nwe-core.txt 2>&1 | grep -i error || echo "  OK"
+javac -d "$OUT" -cp "$CP" \
+  -sourcepath "$ROOT/source:$ROOT/california/fbi/source:$ROOT/california/cia/source:$ROOT/california/nsa/source:$ROOT/north/carolina/duke/source:$ROOT/north/carolina/library/source:$ROOT/modules/gray/source:$ROOT/modules/gray.a85/source:$ROOT/modules/black/red/Futures/source" \
+  @/tmp/nwe-core.txt 2>&1 | grep -i error || echo "  OK"
 rm -f /tmp/nwe-core.txt
 
 # 2. California/Duke/Stanford
