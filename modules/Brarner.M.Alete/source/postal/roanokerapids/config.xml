@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-name>Roanoke Rapids Post Office</office-name>
+    <office-type>USPS</office-type>
+    <county>Halifax</county>
+    <city>Roanoke Rapids</city>
+    <zip-code>27870</zip-code>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9037</socket-port>
+    <local-input-path>source-code/postal/roanokerapids/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/postal/roanokerapids</output-dir>
+</signal-processing-config>

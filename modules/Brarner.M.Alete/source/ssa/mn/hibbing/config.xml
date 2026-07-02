@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>683</office-code>
+    <office-name>HIBBING MN</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1122 E 25TH STREET</address-3>
+    <city>HIBBING</city>
+    <state>MN</state>
+    <zip-code>55746</zip-code>
+    <phone>(866) 964-4320</phone>
+    <fax>(833) 950-2164</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10098</socket-port>
+    <local-input-path>source-code/ssa/mn/hibbing/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mn/hibbing</output-dir>
+</signal-processing-config>

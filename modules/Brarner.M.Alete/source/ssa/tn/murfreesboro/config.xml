@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>578</office-code>
+    <office-name>MURFREESBORO TN</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>2836 SAINT PATRICK CT</address-3>
+    <city>MURFREESBORO</city>
+    <state>TN</state>
+    <zip-code>37128</zip-code>
+    <phone>(866) 593-3112</phone>
+    <fax>(833) 905-2062</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10002</socket-port>
+    <local-input-path>source-code/ssa/tn/murfreesboro/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/tn/murfreesboro</output-dir>
+</signal-processing-config>

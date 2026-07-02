@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-name>Havelock Post Office</office-name>
+    <office-type>USPS</office-type>
+    <county>Craven</county>
+    <city>Havelock</city>
+    <zip-code>28532</zip-code>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9042</socket-port>
+    <local-input-path>source-code/postal/havelock/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/postal/havelock</output-dir>
+</signal-processing-config>

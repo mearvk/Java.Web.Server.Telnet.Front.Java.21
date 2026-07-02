@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>523</office-code>
+    <office-name>MANTECA CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>510 COMMERCE CT</address-3>
+    <city>MANTECA</city>
+    <state>CA</state>
+    <zip-code>95336</zip-code>
+    <phone>(866) 320-2587</phone>
+    <fax>(833) 950-3377</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9957</socket-port>
+    <local-input-path>source-code/ssa/ca/manteca/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/manteca</output-dir>
+</signal-processing-config>

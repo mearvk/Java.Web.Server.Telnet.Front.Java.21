@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>595</office-code>
+    <office-name>SUMTER SC</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>240 N BULTMAN DR</address-3>
+    <city>SUMTER</city>
+    <state>SC</state>
+    <zip-code>29150</zip-code>
+    <phone>(877) 445-0840</phone>
+    <fax>(833) 950-2552</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10019</socket-port>
+    <local-input-path>source-code/ssa/sc/sumter/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/sc/sumter</output-dir>
+</signal-processing-config>

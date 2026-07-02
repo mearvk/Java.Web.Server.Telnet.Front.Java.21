@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>D80</office-code>
+    <office-name>JACKSON KY</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>850 HWY 15 N</address-3>
+    <city>JACKSON</city>
+    <state>KY</state>
+    <zip-code>41339</zip-code>
+    <phone>(866) 366-4920</phone>
+    <fax>(833) 902-2708</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9448</socket-port>
+    <local-input-path>source-code/ssa/ky/jackson/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ky/jackson</output-dir>
+</signal-processing-config>

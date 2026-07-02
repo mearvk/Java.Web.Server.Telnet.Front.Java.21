@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>191</office-code>
+    <office-name>KENT WA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 401</address-2>
+    <address-3>321 RAMSAY WAY</address-3>
+    <city>KENT</city>
+    <state>WA</state>
+    <zip-code>98032</zip-code>
+    <phone>(866) 931-7671</phone>
+    <fax>(833) 912-2342</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9650</socket-port>
+    <local-input-path>source-code/ssa/wa/kent/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/wa/kent</output-dir>
+</signal-processing-config>

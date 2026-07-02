@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>704</office-code>
+    <office-name>WEST MEMPHIS AR</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE B</address-2>
+    <address-3>202 SHOPPINGWAY BLVD</address-3>
+    <city>WEST MEMPHIS</city>
+    <state>AR</state>
+    <zip-code>72301</zip-code>
+    <phone>(866) 627-6994</phone>
+    <fax>(833) 950-2692</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10117</socket-port>
+    <local-input-path>source-code/ssa/ar/westmemphis/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ar/westmemphis</output-dir>
+</signal-processing-config>

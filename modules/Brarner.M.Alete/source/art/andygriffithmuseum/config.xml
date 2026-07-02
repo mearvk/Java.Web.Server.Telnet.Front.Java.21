@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <museum-name>Andy Griffith Museum</museum-name>
+    <city>Mount Airy</city>
+    <type>Heritage Museum</type>
+    <notes>Cultural artifacts including visual materials</notes>
+    <installer-tax-id>MEARVK-LLC-2026</installer-tax-id>
+    <brand>Brarner.M.Alete</brand>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>18419</socket-port>
+    <local-input-path>source-code/art/andygriffithmuseum/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/BrarnerScience</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/art/andygriffithmuseum</output-dir>
+</signal-processing-config>

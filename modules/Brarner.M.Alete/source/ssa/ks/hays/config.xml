@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>776</office-code>
+    <office-name>HAYS KS</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1212 E 27TH ST</address-3>
+    <city>HAYS</city>
+    <state>KS</state>
+    <zip-code>67601</zip-code>
+    <phone>(888) 552-7176</phone>
+    <fax>(833) 950-2632</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10172</socket-port>
+    <local-input-path>source-code/ssa/ks/hays/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ks/hays</output-dir>
+</signal-processing-config>

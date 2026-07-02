@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>A71</office-code>
+    <office-name>KENNER LA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1616 JOE YENNI BLVD</address-3>
+    <city>KENNER</city>
+    <state>LA</state>
+    <zip-code>70065</zip-code>
+    <phone>(888) 850-2232</phone>
+    <fax>(833) 902-2568</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9252</socket-port>
+    <local-input-path>source-code/ssa/la/kenner/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/la/kenner</output-dir>
+</signal-processing-config>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-name>Charlotte Main Post Office</office-name>
+    <office-type>USPS</office-type>
+    <county>Mecklenburg</county>
+    <city>Charlotte</city>
+    <zip-code>28228</zip-code>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9003</socket-port>
+    <local-input-path>source-code/postal/charlotte002/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/postal/charlotte002</output-dir>
+</signal-processing-config>

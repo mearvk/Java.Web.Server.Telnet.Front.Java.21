@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>B80</office-code>
+    <office-name>LA MESA CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>7961 UNIVERSITY AVE</address-3>
+    <city>LA MESA</city>
+    <state>CA</state>
+    <zip-code>91942</zip-code>
+    <phone>(877) 405-1445</phone>
+    <fax>(833) 571-0636</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9334</socket-port>
+    <local-input-path>source-code/ssa/ca/lamesa/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/lamesa</output-dir>
+</signal-processing-config>

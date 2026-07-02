@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>996</office-code>
+    <office-name>JUNEAU AK</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>ROOM 831E</address-2>
+    <address-3>709 WEST NINTH STREET</address-3>
+    <city>JUNEAU</city>
+    <state>AK</state>
+    <zip-code>99801</zip-code>
+    <phone>(800) 478-7124</phone>
+    <fax>(833) 950-2928</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10373</socket-port>
+    <local-input-path>source-code/ssa/ak/juneau/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ak/juneau</output-dir>
+</signal-processing-config>
