@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 STRN_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$STRN_ROOT/servlets/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/strernary"
 echo "═══════════════════════════════════════════════════════════════"
 echo " Strernary™ — Deploy (port 20000 inference, web UI)"

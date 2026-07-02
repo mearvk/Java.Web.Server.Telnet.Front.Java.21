@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LANG_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$LANG_ROOT/servlets/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/languages"
 echo "═══════════════════════════════════════════════════════════════"
 echo " Languages™ — Deploy (Violet — Polite Diplomacy)"

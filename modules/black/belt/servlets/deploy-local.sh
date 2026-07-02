@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BELT_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$BELT_ROOT/servlets/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/blackbelt"
 echo "═══════════════════════════════════════════════════════════════"
 echo " Black Belt™ — Deploy"

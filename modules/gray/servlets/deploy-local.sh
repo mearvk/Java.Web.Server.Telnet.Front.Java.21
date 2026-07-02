@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 GRAY_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$GRAY_ROOT/servlets/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/gray-registry"
 echo "═══════════════════════════════════════════════════════════════"
 echo " GrayPortRegistry™ — Deploy (port 9999)"

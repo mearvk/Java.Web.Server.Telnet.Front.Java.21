@@ -6,7 +6,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AE6E66_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$AE6E66_ROOT/servlets/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
 CONTEXT="ae6e66"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/$CONTEXT"
 
@@ -39,13 +39,15 @@ if [ -d "$JAVA_SRC" ]; then
     fi
 fi
 
-# Copy JDBC driver
-BMA_JARS="$(dirname "$(dirname "$AE6E66_ROOT")")/presidential/Brarner.M.Alete/jars"
-if ls "$BMA_JARS/mysql-connector-j"*.jar &>/dev/null; then
-    cp "$BMA_JARS/mysql-connector-j"*.jar "$DEPLOY_DIR/WEB-INF/lib/"
-    echo "[*] MySQL connector copied from BMA jars/"
-elif ls "$AE6E66_ROOT/../../jars/mysql-connector-j"*.jar &>/dev/null 2>&1; then
-    cp "$AE6E66_ROOT/../../jars/mysql-connector-j"*.jar "$DEPLOY_DIR/WEB-INF/lib/"
+# Copy JDBC driver (canonical — from BMA jars/)
+NWE_ROOT="$(cd "$(dirname \"$0\")/../../../.." 2>/dev/null && pwd)"
+JDBC_JAR=$(find "$NWE_ROOT/modules/black/presidential/Brarner.M.Alete/jars" "$NWE_ROOT/jars/mysql" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+[ -z "$JDBC_JAR" ] && JDBC_JAR=$(find "$TOMCAT_HOME/lib" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+if [ -n "$JDBC_JAR" ]; then
+    cp "$JDBC_JAR" "$DEPLOY_DIR/WEB-INF/lib/"
+    echo "[*] MySQL connector: $(basename \"$JDBC_JAR\")"
+else
+    echo "[!] WARNING: mysql-connector-j not found — JDBC pages will fail"
 fi
 
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
