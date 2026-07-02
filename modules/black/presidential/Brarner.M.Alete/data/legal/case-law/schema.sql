@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>bulk-data/schema.sql</Key><RequestId>TFEB8PM1KN9RZXG4</RequestId><HostId>T6VrWPNXudvwBNzBrhXjQPBnEObpGftEwotTw+s64+ZjAr8VL+KW4+8ZQkm80vi377LDWDxwXAH8Tt9FvPFNJA/K2o47AFax</HostId></Error>

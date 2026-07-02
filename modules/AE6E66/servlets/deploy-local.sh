@@ -41,7 +41,7 @@ fi
 
 # Copy JDBC driver (canonical — from BMA jars/)
 NWE_ROOT="$(cd "$(dirname \"$0\")/../../../.." 2>/dev/null && pwd)"
-JDBC_JAR=$(find "$NWE_ROOT/modules/black/presidential/Brarner.M.Alete/jars" "$NWE_ROOT/jars/mysql" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+JDBC_JAR=$(find "$NWE_ROOT/modules/Brarner.M.Alete/jars" "$NWE_ROOT/jars/mysql" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
 [ -z "$JDBC_JAR" ] && JDBC_JAR=$(find "$TOMCAT_HOME/lib" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
 if [ -n "$JDBC_JAR" ]; then
     cp "$JDBC_JAR" "$DEPLOY_DIR/WEB-INF/lib/"
