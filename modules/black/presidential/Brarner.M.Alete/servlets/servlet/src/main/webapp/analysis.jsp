@@ -16,81 +16,22 @@
     <link rel="icon" type="image/png" href="images/favicon.png"/>
     <title>Analysis — Brarner.M.Alete™</title>
     <link rel="stylesheet" href="css/style.css"/>
-    <script src="js/scroll-preserve.js"></script>
+    <script>
+    (function() {
+        var k = 'bma-scroll-' + location.pathname;
+        var saved = sessionStorage.getItem(k);
+        if (saved) window.scrollTo(0, parseInt(saved, 10));
+        window.addEventListener('beforeunload', function() {
+            sessionStorage.setItem(k, window.scrollY);
+        });
+    })();
+    </script>
     <style>
-        .analysis-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .analysis-card h3 { font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-primary); }
-        .rank-badge {
-            display: inline-block; font-size: 0.7rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 0.05em;
-            padding: 0.2rem 0.6rem; border-radius: 4px; margin-right: 0.5rem;
-        }
-        .rank-kingdom { background: #7c3aed22; color: #a78bfa; border: 1px solid #7c3aed44; }
-        .rank-phylum  { background: #db277822; color: #f472b6; border: 1px solid #db277844; }
-        .rank-class   { background: #2563eb22; color: #60a5fa; border: 1px solid #2563eb44; }
-        .rank-order   { background: #0891b222; color: #22d3ee; border: 1px solid #0891b244; }
-        .rank-family  { background: #05966922; color: #34d399; border: 1px solid #05966944; }
-
-        .upload-zone {
-            border: 2px dashed var(--border); border-radius: var(--radius);
-            padding: 1.5rem; text-align: center; cursor: pointer;
-            transition: border-color 0.2s, background 0.2s; margin-top: 0.75rem;
-        }
-        .upload-zone:hover, .upload-zone.dragover { border-color: #dc2626; background: rgba(220,38,38,0.04); }
-        .upload-zone input[type="file"] { display: none; }
-        .upload-zone .icon { font-size: 2rem; margin-bottom: 0.5rem; }
-        .upload-zone p { color: var(--text-secondary); font-size: 0.85rem; margin: 0; }
-
-        .type-select { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
-        .type-select label {
-            display: flex; align-items: center; gap: 0.4rem; font-size: 0.82rem;
-            color: var(--text-secondary); cursor: pointer; padding: 0.4rem 0.8rem;
-            border: 1px solid var(--border); border-radius: 6px;
-            transition: border-color 0.2s, background 0.2s;
-        }
-        .type-select label:has(input:checked) { border-color: #dc2626; background: rgba(220,38,38,0.08); color: #fca5a5; }
-        .type-select input[type="radio"] { display: none; }
-
-        .upload-btn {
-            background: #dc2626; color: #fff; border: none; border-radius: var(--radius);
-            padding: 0.6rem 1.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;
-            margin-top: 1rem; transition: background 0.2s, transform 0.1s;
-        }
-        .upload-btn:hover { background: #b91c1c; }
-        .upload-btn:active { transform: scale(0.97); }
-        .upload-btn:disabled { background: #52525b; cursor: not-allowed; }
-
-        .progress-container { display: none; margin-top: 1rem; }
-        .progress-container.active { display: block; }
-        .progress-bar-outer { width: 100%; height: 8px; background: #27272a; border-radius: 4px; overflow: hidden; }
-        .progress-bar-inner {
-            height: 100%; background: linear-gradient(90deg, #dc2626, #ef4444);
-            border-radius: 4px; width: 0%; transition: width 0.4s ease;
-        }
-        .progress-label { display: flex; justify-content: space-between; margin-top: 0.4rem; font-size: 0.75rem; color: var(--text-muted); }
-        .progress-stage { color: #ef4444; font-weight: 600; }
-
-        .result-box { display: none; margin-top: 1rem; padding: 1rem; background: #0f1a0f; border: 1px solid #166534; border-radius: var(--radius); }
-        .result-box.active { display: block; }
-        .result-box.error { background: #1a0f0f; border-color: #991b1b; }
-        .result-download {
-            display: inline-flex; align-items: center; gap: 0.4rem;
-            background: #166534; color: #fff; padding: 0.5rem 1rem;
-            border-radius: 6px; font-size: 0.82rem; font-weight: 600;
-            text-decoration: none; margin-top: 0.5rem; transition: background 0.2s;
-        }
-        .result-download:hover { background: #15803d; color: #fff; }
-
-        .file-info { margin-top: 0.5rem; font-size: 0.78rem; color: var(--text-muted); display: none; }
-        .file-info.active { display: block; }
-
         .taxon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
+        .upload-zone:hover, .upload-zone.dragover { border-color: #3b82f6 !important; background: rgba(59,130,246,0.06) !important; }
+        .analyze-btn:hover:not(:disabled) { background: #2563eb !important; }
+        .analyze-btn:active:not(:disabled) { transform: scale(0.97); }
+        .type-radio-label:has(input:checked) { border-color: #3b82f6 !important; background: rgba(59,130,246,0.12) !important; color: #93c5fd !important; }
     </style>
 </head>
 <body>
@@ -232,34 +173,49 @@
         for (TaxonEntry te : rankEntries) {
             String cardId = rank + "-" + idx;
 %>
-            <div class="analysis-card" id="card-<%= cardId %>">
-                <h3><span class="rank-badge rank-<%= rank %>"><%= rank %></span> <%= te.name %></h3>
-                <div class="type-select">
-                    <label><input type="radio" name="type-<%= cardId %>" value="data" checked/> &#128202; Data</label>
-                    <label><input type="radio" name="type-<%= cardId %>" value="audio"/> &#127925; Audio</label>
-                    <label><input type="radio" name="type-<%= cardId %>" value="image"/> &#128247; Image</label>
+            <div id="card-<%= cardId %>" style="background:#1a1a24;border:1px solid #27272a;border-radius:12px;padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem;">
+                <div style="font-size:0.95rem;font-weight:600;color:#fff;display:flex;align-items:center;gap:0.5rem;">
+                    <span style="display:inline-block;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:0.2rem 0.55rem;border-radius:4px;<%
+                        if (rank.equals("kingdom")) { %>background:#1e1040;color:#a78bfa;border:1px solid #4c1d9544;<% }
+                        else if (rank.equals("phylum"))  { %>background:#1f0d1a;color:#f472b6;border:1px solid #9d174d44;<% }
+                        else if (rank.equals("class"))   { %>background:#0f1e3a;color:#60a5fa;border:1px solid #1d4ed844;<% }
+                        else if (rank.equals("order"))   { %>background:#0a1e24;color:#22d3ee;border:1px solid #0e749044;<% }
+                        else                             { %>background:#0a1f18;color:#34d399;border:1px solid #05966944;<% } %>"><%= rank %></span>
+                    <%= te.name %>
                 </div>
-                <div class="upload-zone" id="zone-<%= cardId %>" onclick="document.getElementById('file-<%= cardId %>').click();"
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                    <label class="type-radio-label" style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:#a1a1aa;cursor:pointer;padding:0.35rem 0.75rem;border:1px solid #27272a;border-radius:6px;transition:border-color 0.2s,background 0.2s;"><input type="radio" name="type-<%= cardId %>" value="data" checked style="display:none;"/> &#128202; Data</label>
+                    <label class="type-radio-label" style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:#a1a1aa;cursor:pointer;padding:0.35rem 0.75rem;border:1px solid #27272a;border-radius:6px;transition:border-color 0.2s,background 0.2s;"><input type="radio" name="type-<%= cardId %>" value="audio" style="display:none;"/> &#127925; Audio</label>
+                    <label class="type-radio-label" style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:#a1a1aa;cursor:pointer;padding:0.35rem 0.75rem;border:1px solid #27272a;border-radius:6px;transition:border-color 0.2s,background 0.2s;"><input type="radio" name="type-<%= cardId %>" value="image" style="display:none;"/> &#128247; Image</label>
+                </div>
+                <div class="upload-zone" id="zone-<%= cardId %>"
+                     style="border:2px dashed #27272a;border-radius:8px;padding:1.25rem;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;"
+                     onclick="document.getElementById('file-<%= cardId %>').click();"
                      ondragover="event.preventDefault();this.classList.add('dragover');"
                      ondragleave="this.classList.remove('dragover');"
                      ondrop="event.preventDefault();this.classList.remove('dragover');handleDrop(event,'<%= cardId %>');">
-                    <div class="icon">&#128194;</div>
-                    <p>Drop file here or click to browse</p>
-                    <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem;">Max 50MB &#8212; Data: CSV, JSON, XML, TXT &#8212; Audio: MP3, WAV, FLAC &#8212; Image: PNG, JPG, TIFF</p>
-                    <input type="file" id="file-<%= cardId %>" accept="*/*" onchange="fileSelected(this,'<%= cardId %>')"/>
+                    <div style="font-size:1.75rem;margin-bottom:0.4rem;">&#128194;</div>
+                    <p style="color:#a1a1aa;font-size:0.82rem;margin:0;">Drop file here or click to browse</p>
+                    <p style="font-size:0.72rem;color:#71717a;margin:0.25rem 0 0;">Max 50MB &#8212; Data: CSV, JSON, XML, TXT &#8212; Audio: MP3, WAV, FLAC &#8212; Image: PNG, JPG, TIFF</p>
+                    <input type="file" id="file-<%= cardId %>" accept="*/*" style="display:none;" onchange="fileSelected(this,'<%= cardId %>')"/>
                 </div>
-                <div class="file-info" id="info-<%= cardId %>"></div>
-                <button class="upload-btn" id="btn-<%= cardId %>" onclick="startUpload('<%= cardId %>','<%= rank %>','<%= te.name.replace("'", "\\'") %>')" disabled>
+                <div id="info-<%= cardId %>" style="display:none;font-size:0.75rem;color:#71717a;"></div>
+                <button class="analyze-btn" id="btn-<%= cardId %>"
+                        style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.5rem 1.25rem;font-size:0.82rem;font-weight:600;cursor:pointer;transition:background 0.2s,transform 0.1s;align-self:flex-start;"
+                        onclick="startUpload('<%= cardId %>','<%= rank %>','<%= te.name.replace("'", "\\'") %>')"
+                        disabled style="background:#3b3f4a;cursor:not-allowed;">
                     &#9654; Analyze
                 </button>
-                <div class="progress-container" id="prog-<%= cardId %>">
-                    <div class="progress-bar-outer"><div class="progress-bar-inner" id="bar-<%= cardId %>"></div></div>
-                    <div class="progress-label">
-                        <span class="progress-stage" id="stage-<%= cardId %>">Uploading...</span>
+                <div id="prog-<%= cardId %>" style="display:none;">
+                    <div style="width:100%;height:6px;background:#27272a;border-radius:3px;overflow:hidden;">
+                        <div id="bar-<%= cardId %>" style="height:100%;background:linear-gradient(90deg,#3b82f6,#60a5fa);border-radius:3px;width:0%;transition:width 0.4s ease;"></div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-top:0.35rem;font-size:0.72rem;color:#71717a;">
+                        <span id="stage-<%= cardId %>" style="color:#60a5fa;font-weight:600;">Uploading...</span>
                         <span id="pct-<%= cardId %>">0%</span>
                     </div>
                 </div>
-                <div class="result-box" id="result-<%= cardId %>"></div>
+                <div id="result-<%= cardId %>" style="display:none;"></div>
             </div>
 <%
             idx++;
@@ -289,8 +245,11 @@
         selectedFiles[cardId] = file;
         var info = document.getElementById('info-' + cardId);
         info.textContent = file.name + ' (' + formatSize(file.size) + ')';
-        info.classList.add('active');
-        document.getElementById('btn-' + cardId).disabled = false;
+        info.style.display = 'block';
+        var btn = document.getElementById('btn-' + cardId);
+        btn.disabled = false;
+        btn.style.background = '#3b82f6';
+        btn.style.cursor = 'pointer';
     };
 
     window.handleDrop = function(event, cardId) {
@@ -299,9 +258,11 @@
             selectedFiles[cardId] = files[0];
             var info = document.getElementById('info-' + cardId);
             info.textContent = files[0].name + ' (' + formatSize(files[0].size) + ')';
-            info.classList.add('active');
-            document.getElementById('btn-' + cardId).disabled = false;
-            // Update the file input too
+            info.style.display = 'block';
+            var btn = document.getElementById('btn-' + cardId);
+            btn.disabled = false;
+            btn.style.background = '#3b82f6';
+            btn.style.cursor = 'pointer';
             var input = document.getElementById('file-' + cardId);
             var dt = new DataTransfer();
             dt.items.add(files[0]);
@@ -326,10 +287,10 @@
         btn.textContent = 'Processing...';
 
         var prog = document.getElementById('prog-' + cardId);
-        prog.classList.add('active');
+        prog.style.display = 'block';
 
         var resultBox = document.getElementById('result-' + cardId);
-        resultBox.classList.remove('active', 'error');
+        resultBox.style.display = 'none';
 
         // Build FormData
         var fd = new FormData();
@@ -409,26 +370,27 @@
 
     function showResult(cardId, jobId) {
         var resultBox = document.getElementById('result-' + cardId);
-        resultBox.innerHTML = '<div style="color:#34d399;font-weight:600;margin-bottom:0.5rem;">&#10003; Analysis Complete</div>'
-            + '<div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.5rem;">File scanned, heuristic passed, processed by SignalProcessor\u2122.</div>'
-            + '<a href="api/analysis/result?id=' + jobId + '" class="result-download">&#128196; Download Results</a>'
-            + '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.75rem;">Graphs for results coming soon.</div>';
-        resultBox.classList.add('active');
-        resultBox.classList.remove('error');
+        resultBox.style.cssText = 'display:block;margin-top:0.5rem;padding:0.875rem;background:#0d1f18;border:1px solid #166534;border-radius:8px;';
+        resultBox.innerHTML = '<div style="color:#34d399;font-weight:600;font-size:0.82rem;margin-bottom:0.4rem;">&#10003; Analysis Complete</div>'
+            + '<div style="font-size:0.78rem;color:#a1a1aa;margin-bottom:0.5rem;">File scanned, heuristic passed, processed by SignalProcessor\u2122.</div>'
+            + '<a href="api/analysis/result?id=' + jobId + '" style="display:inline-flex;align-items:center;gap:0.35rem;background:#166534;color:#fff;padding:0.4rem 0.875rem;border-radius:6px;font-size:0.78rem;font-weight:600;text-decoration:none;">&#128196; Download Results</a>'
+            + '<div style="font-size:0.7rem;color:#71717a;margin-top:0.6rem;">Graphs for results coming soon.</div>';
         resetButton(cardId);
     }
 
     function showError(cardId, message) {
         var resultBox = document.getElementById('result-' + cardId);
-        resultBox.innerHTML = '<div style="color:#ef4444;font-weight:600;margin-bottom:0.3rem;">&#10007; Analysis Failed</div>'
-            + '<div style="font-size:0.82rem;color:#fca5a5;">' + escapeHtml(message) + '</div>';
-        resultBox.classList.add('active', 'error');
+        resultBox.style.cssText = 'display:block;margin-top:0.5rem;padding:0.875rem;background:#1a0f0f;border:1px solid #7f1d1d;border-radius:8px;';
+        resultBox.innerHTML = '<div style="color:#ef4444;font-weight:600;font-size:0.82rem;margin-bottom:0.3rem;">&#10007; Analysis Failed</div>'
+            + '<div style="font-size:0.78rem;color:#fca5a5;">' + escapeHtml(message) + '</div>';
         resetButton(cardId);
     }
 
     function resetButton(cardId) {
         var btn = document.getElementById('btn-' + cardId);
         btn.disabled = false;
+        btn.style.background = '#3b82f6';
+        btn.style.cursor = 'pointer';
         btn.textContent = '\u25B6 Analyze';
     }
 
@@ -445,6 +407,116 @@
     }
 })();
 </script>
-<script src="js/cd1-connector.js"></script>
+<script>
+(function() {
+    var btn = document.getElementById('cd1-btn');
+    var dialog = document.getElementById('cd1-dialog');
+    var overlay = document.getElementById('cd1-overlay');
+    var textarea = document.getElementById('cd1-textarea');
+    if (!btn || !dialog || !overlay || !textarea) return;
+
+    var directCheck = document.getElementById('cd1-direct-port');
+    if (directCheck) {
+        var saved = localStorage.getItem('bma-cd1-direct-port');
+        if (saved === 'true') directCheck.checked = true;
+        directCheck.addEventListener('change', function() {
+            localStorage.setItem('bma-cd1-direct-port', directCheck.checked);
+            var ts = new Date().toLocaleTimeString();
+            var badge = document.getElementById('cd1-mode-badge');
+            if (directCheck.checked) {
+                textarea.value += '[' + ts + '] MODE: Direct port (bypassing Strernary\u2122 port 20000)\n';
+                if (badge) { badge.textContent = 'DIRECT'; badge.style.background = '#1e3a1e'; badge.style.color = '#4ade80'; }
+            } else {
+                textarea.value += '[' + ts + '] MODE: Strernary\u2122 inference (port 20000)\n';
+                if (badge) { badge.textContent = 'STRERNARY'; badge.style.background = '#1e3a5f'; badge.style.color = '#60a5fa'; }
+            }
+            textarea.scrollTop = textarea.scrollHeight;
+        });
+    }
+
+    btn.addEventListener('click', function() {
+        if (dialog.style.display !== 'none') {
+            dialog.style.display = 'none';
+            overlay.style.display = 'none';
+            btn.setAttribute('aria-pressed', 'false');
+            btn.style.transform = '';
+            btn.style.filter = '';
+            return;
+        }
+        btn.setAttribute('aria-pressed', 'true');
+        btn.style.transform = 'scale(0.9)';
+        btn.style.filter = 'drop-shadow(0 0 8px #3b82f6)';
+        setTimeout(function() {
+            btn.style.transform = '';
+            btn.style.filter = '';
+            dialog.style.display = 'block';
+            overlay.style.display = 'block';
+        }, 750);
+    });
+
+    overlay.addEventListener('click', function() {
+        dialog.style.display = 'none';
+        overlay.style.display = 'none';
+        btn.setAttribute('aria-pressed', 'false');
+        btn.style.transform = '';
+        btn.style.filter = '';
+    });
+
+    textarea.addEventListener('dblclick', function() {
+        var prev = sessionStorage.getItem('bma-cd1-prev');
+        if (prev) textarea.value = prev;
+    });
+
+    var idleClose, idleReset;
+    function resetIdle() {
+        clearTimeout(idleClose); clearTimeout(idleReset);
+        idleClose = setTimeout(function() {
+            if (dialog.style.display !== 'none') {
+                sessionStorage.setItem('bma-cd1-prev', textarea.value);
+                textarea.value = '';
+                dialog.style.display = 'none';
+                overlay.style.display = 'none';
+                btn.setAttribute('aria-pressed', 'false');
+            }
+        }, 20 * 60 * 1000);
+        idleReset = setTimeout(function() {
+            sessionStorage.removeItem('bma-cd1-prev');
+            textarea.value = '';
+        }, 60 * 60 * 1000);
+    }
+    document.addEventListener('mousemove', resetIdle);
+    document.addEventListener('keydown', resetIdle);
+    resetIdle();
+})();
+
+function cd1IsDirectPort() {
+    var cb = document.getElementById('cd1-direct-port');
+    return cb ? cb.checked : false;
+}
+function cd1RoutingLabel() {
+    return cd1IsDirectPort() ? 'DIRECT' : 'STRERNARY';
+}
+function cd1Send() {
+    var s = document.getElementById('cd1-action');
+    var t = document.getElementById('cd1-textarea');
+    if (!s || !t) return;
+    var action = s.value;
+    var ts = new Date().toLocaleTimeString();
+    var mode = cd1RoutingLabel();
+    if (cd1IsDirectPort()) {
+        var dp = window.CD1_MODULE_PORT || '49152';
+        t.value += '[' + ts + '] [' + mode + '] ' + action.toUpperCase() + ' \u2192 port ' + dp + ' (direct, no Strernary relay)\n';
+    } else {
+        t.value += '[' + ts + '] [' + mode + '] ' + action.toUpperCase() + ' \u2192 port 20000 (Strernary\u2122 inference)\n';
+    }
+    t.scrollTop = t.scrollHeight;
+}
+function cd1Ok() {
+    var t = document.getElementById('cd1-textarea');
+    if (!t) return;
+    t.value += '[' + new Date().toLocaleTimeString() + '] OK.\n';
+    t.scrollTop = t.scrollHeight;
+}
+</script>
 </body>
 </html>
