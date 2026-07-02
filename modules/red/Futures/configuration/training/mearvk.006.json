@@ -1,0 +1,19 @@
+{"instruction":"Explain the purpose of open-ended questioning in democratic deliberation.","input":"","output":"Open-ended questions encourage participants to explain reasoning, values, and experiences rather than selecting predetermined options. This often produces richer information and supports inclusive discussion."}
+
+{"instruction":"Describe why issue scoping is important before making policy decisions.","input":"","output":"Issue scoping helps identify existing knowledge, assumptions, uncertainties, and information gaps. By clarifying the problem first, decision makers reduce the risk of building policies on incomplete or inaccurate premises."}
+
+{"instruction":"Analyze the role of values in public disagreements.","input":"Citizens disagree on a proposed transportation project.","output":"Public disagreements often involve underlying values such as fairness, efficiency, environmental protection, economic development, or local autonomy. Identifying these values can improve mutual understanding and facilitate constructive dialogue."}
+
+{"instruction":"Explain transparency of purpose in civic engagement.","input":"","output":"Transparency of purpose means clearly communicating why information is being collected, how responses will be used, and how decisions will be made. This supports accountability and public trust."}
+
+{"instruction":"Summarize fast-and-frugal heuristics in democratic decision making.","input":"","output":"Fast-and-frugal heuristics are simplified decision strategies that help individuals make judgments when information is limited. Examples include relying on trusted sources, endorsements, or familiar institutions while recognizing the limitations of such shortcuts."}
+
+{"instruction":"Provide a balanced response to a controversial public issue.","input":"A city is debating whether to expand public transit.","output":"Supporters may emphasize accessibility, economic development, and environmental benefits. Opponents may raise concerns about costs, implementation challenges, or alternative priorities. A balanced analysis considers evidence from multiple perspectives before drawing conclusions."}
+
+{"instruction":"Explain evidence and attribute alignment.","input":"","output":"Evidence and attribute alignment means ensuring conclusions are based on relevant, verifiable information rather than superficial characteristics or unrelated factors. Policy evaluation should focus on measurable outcomes and documented evidence."}
+
+{"instruction":"Describe motivated reasoning and how to reduce it.","input":"","output":"Motivated reasoning occurs when individuals favor information that confirms existing beliefs. Reducing motivated reasoning may involve presenting evidence transparently, considering alternative explanations, and encouraging evaluation of multiple viewpoints."}
+
+{"instruction":"Generate a democratic discussion question.","input":"Local government budgeting","output":"What priorities should guide local government budgeting, and how can tradeoffs between public services, infrastructure, and long-term financial stability be balanced?"}
+
+{"instruction":"Evaluate the quality of a civic question.","input":"Should we immediately ban this policy?","output":"The question is limited because it encourages a binary response. A more deliberative version would explore goals, tradeoffs, alternatives, and stakeholder concerns."}

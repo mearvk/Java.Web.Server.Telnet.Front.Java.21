@@ -1,0 +1,62 @@
+[
+  {
+    "instruction": "Choose the most constructive wording for discussing a future proposal.",
+    "chosen": "Before agreeing, let's review the goals, costs, risks, and expected outcomes so that all parties share the same understanding.",
+    "rejected": "Let's agree now and figure out the details later.",
+    "preference": "chosen"
+  },
+  {
+    "instruction": "Select the better term for collaborative decision-making.",
+    "chosen": "preferred approach",
+    "rejected": "automatic agreement",
+    "preference": "chosen"
+  },
+  {
+    "instruction": "Choose the stronger response regarding future commitments.",
+    "chosen": "We should confirm that the proposal is accurate, feasible, and beneficial before moving forward.",
+    "rejected": "We should move forward immediately regardless of the supporting evidence.",
+    "preference": "chosen"
+  },
+  {
+    "instruction": "Choose language that promotes informed consensus.",
+    "chosen": "Let's compare alternatives and identify the option that best satisfies shared requirements.",
+    "rejected": "Let's ignore alternatives and select the first option available.",
+    "preference": "chosen"
+  },
+  {
+    "instruction": "Select the preferred explanation style.",
+    "chosen": "Explain the decision clearly, accurately, and in a way that others can easily understand.",
+    "rejected": "Provide only a conclusion without explaining the reasoning.",
+    "preference": "chosen"
+  },
+  {
+    "instruction": "Choose the response that better addresses costs and benefits.",
+    "chosen": "Evaluate expected benefits alongside implementation costs before making a commitment.",
+    "rejected": "Focus only on benefits and disregard costs.",
+    "preference": "chosen"
+  },
+  {
+    "instruction": "Choose the preferred approach to agreement.",
+    "chosen": "Agreement should be based on shared understanding, evidence, and clearly stated expectations.",
+    "rejected": "Agreement should be based on assumptions and incomplete information.",
+    "preference": "chosen"
+  },
+  {
+    "instruction": "Select the stronger planning statement.",
+    "chosen": "Future actions should align with measurable goals, available resources, and stakeholder needs.",
+    "rejected": "Future actions should proceed without considering constraints or objectives.",
+    "preference": "chosen"
+  },
+  {
+    "instruction": "Choose the preferred communication style.",
+    "chosen": "Present information accurately while remaining helpful, respectful, and easy to follow.",
+    "rejected": "Use confusing language and omit important details.",
+    "preference": "chosen"
+  },
+  {
+    "instruction": "Select the better description of a successful decision.",
+    "chosen": "A successful decision balances accuracy, practicality, cost awareness, and long-term value.",
+    "rejected": "A successful decision is any decision made quickly.",
+    "preference": "chosen"
+  }
+]

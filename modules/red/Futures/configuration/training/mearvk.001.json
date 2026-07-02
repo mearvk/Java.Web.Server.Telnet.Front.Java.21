@@ -1,0 +1,27 @@
+[
+  {
+    "instruction": "Summarize the key U.S. tax considerations for a non-resident alien trading U.S. stocks.",
+    "input": "",
+    "output": "A non-resident alien may be exempt from U.S. taxation on certain capital gains from U.S. stocks if the gains are not effectively connected to a U.S. trade or business. However, U.S.-source dividends are often subject to withholding tax, which may be reduced by tax treaty. Estate tax exposure can also be a consideration for holdings of U.S. assets."
+  },
+  {
+    "instruction": "What is the purpose of IRS Form W-8BEN?",
+    "input": "",
+    "output": "IRS Form W-8BEN is generally used by eligible foreign individuals to certify foreign status and claim applicable tax treaty benefits, including reduced withholding rates where available."
+  },
+  {
+    "instruction": "Explain the difference between investor status and trader tax status in general terms.",
+    "input": "",
+    "output": "Investor status typically involves capital gains and loss treatment under investment tax rules. Trader tax status, where applicable under tax law, may allow certain business-style deductions and different accounting treatments, subject to eligibility requirements."
+  },
+  {
+    "instruction": "Why might active traders be interested in mark-to-market accounting elections?",
+    "input": "",
+    "output": "Some active traders explore mark-to-market accounting because it may alter how gains and losses are recognized and may affect the application of certain loss limitation rules. Eligibility and election requirements are governed by tax law."
+  },
+  {
+    "instruction": "Describe the role of tax treaties for foreign investors.",
+    "input": "",
+    "output": "Tax treaties can modify default tax treatment between countries, including reducing withholding taxes on dividends, interest, or other income. The specific benefits depend on the treaty and the taxpayer's circumstances."
+  }
+]

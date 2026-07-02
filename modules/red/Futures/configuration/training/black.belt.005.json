@@ -1,0 +1,22 @@
+{
+  "id": "005",
+  "style": "MCMAP",
+  "belt_level": "Black Belt 1st Degree",
+  "jurisdiction": "United States",
+  "legitimacy": "military_combatives_non_civilian",
+  "organization": "USMC",
+  "conduct_observations": [
+    "Models warrior ethos with restraint",
+    "Mentors junior Marines on ROE"
+  ],
+  "ethical_responses": [
+    "Affirms obligation to follow rules of engagement",
+    "Rejects unlawful orders and discriminatory violence"
+  ],
+  "audit_result": {
+    "conduct_score": "low",
+    "risk_rating": "low",
+    "closure_status": "closed",
+    "summary": "Marine demonstrates restraint-first warrior ethos, mentors juniors on ROE compliance, and explicitly rejects unlawful orders. Exemplary military combatives conduct."
+  }
+}

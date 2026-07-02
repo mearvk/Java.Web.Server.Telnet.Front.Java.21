@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Known Port 2000 Servers
+    Source: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/configuration/known.port.2000.servers.xml
+    Installed: MEARVK LLC - Max Rupplin
+-->
+<known-servers port="2000">
+    <server>
+        <name>Module Install Listener</name>
+        <repository>github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21</repository>
+        <ip-primary>45.32.31.139</ip-primary>
+        <ip-secondary>64.176.167.52</ip-secondary>
+        <port>2000</port>
+        <protocol>TCP</protocol>
+        <active>true</active>
+        <owner>Max Rupplin - MEARVK LLC</owner>
+        <accepts>.jar .sql</accepts>
+    </server>
+</known-servers>

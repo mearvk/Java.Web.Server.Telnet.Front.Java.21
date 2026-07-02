@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    NIO Masquerade Configuration
+    Source: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/configuration/nio-masquerade-config.xml
+    Installed: MEARVK LLC - Max Rupplin
+-->
+<nio-masquerade-config>
+    <enabled>false</enabled>
+    <port-range-mode>standard</port-range-mode>
+    <ip-range-start>127.0.0.1</ip-range-start>
+    <ip-range-end>127.0.0.17</ip-range-end>
+    <max-ports-per-ip>65536</max-ports-per-ip>
+    <auto-discovery>true</auto-discovery>
+
+    <xml-forwarding>
+        <description>Port 2000 accepts XML: &lt;nwe-route&gt;&lt;port&gt;N&lt;/port&gt;&lt;payload&gt;...&lt;/payload&gt;&lt;/nwe-route&gt;</description>
+        <note>The masquerade layer routes to the correct local IP based on port N.</note>
+    </xml-forwarding>
+
+    <selector>
+        <select-timeout-ms>2</select-timeout-ms>
+        <read-buffer-size>8192</read-buffer-size>
+        <write-buffer-size>30000</write-buffer-size>
+    </selector>
+
+    <managed-ports>
+        <port>2000</port>
+        <port>5000</port>
+        <port>20000</port>
+        <port>49152</port>
+    </managed-ports>
+</nio-masquerade-config>

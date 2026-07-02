@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Masquerade Modules (from github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21)
+    Installed: MEARVK LLC - Max Rupplin
+-->
+<masquerade-modules source="configuration/nwe-config.xml">
+    <module name="Democratic ProFront National 1.0 (Futures™)" port="5000" enabled="true" class="ai.server.DemocraticAIServer" masquerade-aware="true" trust-level="9.5" block="US Democratic"/>
+    <module name="Strernary™ DirectoryServer" port="2000" enabled="true" class="strernary.StrernaryDirectoryServer"/>
+    <module name="Strernary™" port="20000" enabled="true" class="strernary.StrernaryServer"/>
+    <module name="Strernary™ OS Port" port="20000" enabled="true" class="strernary.StrernaryOsPortModule"/>
+    <module name="NioMasquerade™" port="0" enabled="false" class="strernary.NioMasqueradeEngine">
+        <note>The masquerade layer itself — not routable through itself.</note>
+    </module>
+</masquerade-modules>

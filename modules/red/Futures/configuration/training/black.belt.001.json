@@ -1,0 +1,22 @@
+{
+  "id": "001",
+  "style": "Taekwondo WT",
+  "belt_level": "1st Dan Black Belt",
+  "jurisdiction": "United States",
+  "legitimacy": "recognized_national_or_international",
+  "organization": "World Taekwondo / Kukkiwon",
+  "conduct_observations": [
+    "Consistently arrives early and assists with warmups",
+    "Intervenes calmly in minor student conflicts"
+  ],
+  "ethical_responses": [
+    "States preference for de-escalation before physical engagement",
+    "Affirms refusal to use skills in non-defensive situations"
+  ],
+  "audit_result": {
+    "conduct_score": "low",
+    "risk_rating": "low",
+    "closure_status": "closed",
+    "summary": "The practitioner demonstrates exemplary conduct, affirms non-violence as first resort, and aligns with U.S. self-defense proportionality norms. No ethical or legal concerns identified."
+  }
+}

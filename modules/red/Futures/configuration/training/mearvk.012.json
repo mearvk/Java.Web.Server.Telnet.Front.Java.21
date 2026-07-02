@@ -1,0 +1,6 @@
+{
+  "instruction": "Create a public consultation question.",
+  "chosen": "What concerns, priorities, and opportunities should policymakers consider when evaluating this proposal?",
+  "rejected": "Do you support this proposal, yes or no?",
+  "preference": "chosen"
+}

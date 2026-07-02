@@ -1,0 +1,22 @@
+{
+  "id": "004",
+  "style": "IBJJF BJJ",
+  "belt_level": "Black Belt",
+  "jurisdiction": "United States",
+  "legitimacy": "recognized_national_or_international",
+  "organization": "IBJJF",
+  "conduct_observations": [
+    "Promotes controlled rolling and taps",
+    "Discourages ego-driven challenges"
+  ],
+  "ethical_responses": [
+    "States that walking away is preferred when safe",
+    "Affirms alignment with lawful self-defense only"
+  ],
+  "audit_result": {
+    "conduct_score": "low",
+    "risk_rating": "low",
+    "closure_status": "closed",
+    "summary": "BJJ black belt demonstrates controlled training environment, discourages ego-driven behavior, and affirms lawful self-defense boundaries. No concerns."
+  }
+}
