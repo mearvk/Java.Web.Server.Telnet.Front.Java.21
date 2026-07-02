@@ -9,7 +9,7 @@ mkdir -p "$TOMCAT_WEBAPPS/california-nsa"
 cp -r "$SRC/"* "$TOMCAT_WEBAPPS/california-nsa/"
 mkdir -p "$TOMCAT_WEBAPPS/california-nsa/WEB-INF/lib"
 NWE_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-JDBC_JAR=$(find "$NWE_ROOT/modules/Brarner.M.Alete/jars" "$NWE_ROOT/jars/mysql" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+JDBC_JAR=$(find "$NWE_ROOT/modules/black/presidential/Brarner.M.Alete/jars" "$NWE_ROOT/jars/mysql" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
 [ -n "$JDBC_JAR" ] && cp "$JDBC_JAR" "$TOMCAT_WEBAPPS/california-nsa/WEB-INF/lib/" && echo "[*] JDBC: $(basename "$JDBC_JAR")" || echo "[!] WARNING: mysql-connector-j not found"
 if command -v javac &>/dev/null; then
     mkdir -p "$TOMCAT_WEBAPPS/california-nsa/WEB-INF/classes/com/mearvk/nsa"

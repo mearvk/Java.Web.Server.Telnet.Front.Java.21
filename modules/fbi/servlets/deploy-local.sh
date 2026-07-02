@@ -13,7 +13,7 @@ mkdir -p "$TOMCAT_WEBAPPS/$WAR_NAME"
 cp -r "$SRC/"* "$TOMCAT_WEBAPPS/$WAR_NAME/"
 mkdir -p "$TOMCAT_WEBAPPS/$WAR_NAME/WEB-INF/lib"
 NWE_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-JDBC_JAR=$(find "$NWE_ROOT/modules/Brarner.M.Alete/jars" "$NWE_ROOT/jars/mysql" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+JDBC_JAR=$(find "$NWE_ROOT/modules/black/presidential/Brarner.M.Alete/jars" "$NWE_ROOT/jars/mysql" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
 [ -n "$JDBC_JAR" ] && cp "$JDBC_JAR" "$TOMCAT_WEBAPPS/$WAR_NAME/WEB-INF/lib/" && echo "[*] JDBC: $(basename "$JDBC_JAR")" || echo "[!] WARNING: mysql-connector-j not found"
 
 # Compile servlets if javac available
