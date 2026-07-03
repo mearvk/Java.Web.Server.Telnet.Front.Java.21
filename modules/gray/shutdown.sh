@@ -1,13 +1,14 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════
-# gray — Shutdown Script
-# Undeploys the webapp from Tomcat. Optionally stops Tomcat.
+# ═══════════════════════════════════════════════════════════════════════════════════
+# NitroWebExpress™ — gray Frontend Shutdown
+# Undeploys the webapp from Tomcat.
 # Usage: bash shutdown.sh [tomcat_home] [--stop-tomcat]
-# ═══════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════════
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MOD_ROOT="$SCRIPT_DIR"
+PROJECT_ROOT="$(cd "$MOD_ROOT/../.." && pwd)"
 TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
 CONTEXT="gray-registry"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/$CONTEXT"
@@ -17,41 +18,49 @@ for arg in "$@"; do
     if [ "$arg" = "--stop-tomcat" ]; then STOP_TOMCAT=true; fi
 done
 
-echo "═══════════════════════════════════════════════════════════════"
-echo " gray — Shutdown"
-echo "═══════════════════════════════════════════════════════════════"
+echo ""
+echo "╔═══════════════════════════════════════════════════════════════════════════╗"
+echo "║  gray Frontend — Shutdown                                               ║"
+echo "║  Context: /$CONTEXT                                                      ║"
+echo "║  Tomcat:  $TOMCAT_HOME                                                    ║"
+echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
-# ── 1. Remove webapp from Tomcat ─────────────────────────────────────────
+# ── 1. Remove webapp from Tomcat ─────────────────────────────────────────────
 if [ -d "$DEPLOY_DIR" ]; then
-    echo "[*] Removing deployment: $DEPLOY_DIR"
+    echo "  [*] Removing deployment..."
     rm -rf "$DEPLOY_DIR"
-    echo "[✓] Webapp undeployed"
+    echo "  [✓] Webapp undeployed"
 else
-    echo "[*] Webapp not deployed at: $DEPLOY_DIR"
+    echo "  [--] Webapp not deployed"
 fi
 
 # Remove WAR file if present
 WAR_FILE="$TOMCAT_HOME/webapps/$CONTEXT.war"
 if [ -f "$WAR_FILE" ]; then
     rm -f "$WAR_FILE"
-    echo "[*] WAR file removed: $WAR_FILE"
+    echo "  [✓] WAR removed"
 fi
 
-# ── 2. Optionally stop Tomcat ────────────────────────────────────────────
+# ── 2. Optionally stop Tomcat ────────────────────────────────────────────────
 if [ "$STOP_TOMCAT" = true ]; then
-    echo "[*] Stopping Tomcat..."
+    echo "  [*] Stopping Tomcat..."
     if [ -x "$TOMCAT_HOME/bin/shutdown.sh" ]; then
-        "$TOMCAT_HOME/bin/shutdown.sh" 2>/dev/null || true
+        "$TOMCAT_HOME/bin/shutdown.sh" > /dev/null 2>&1 || true
     else
         sudo systemctl stop tomcat 2>/dev/null || true
     fi
     sleep 2
-    echo "[✓] Tomcat stopped"
+    echo "  [✓] Tomcat stopped"
 fi
 
 echo ""
-echo "[✓] gray shut down"
+echo "╔═══════════════════════════════════════════════════════════════════════════╗"
+echo "║  gray Frontend Stopped                                                  ║"
+echo "║                                                                            ║"
+echo "║  Management:                                                               ║"
+echo "║  Restart module:   bash start.sh                                           ║"
+echo "║  Stop backend:     bash shutdown-backend.sh                               ║"
+echo "║  Shutdown all:     bash ../../scripts/shutdown-all.sh                     ║"
+echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
-echo "    Restart: bash start.sh"
-echo "═══════════════════════════════════════════════════════════════"

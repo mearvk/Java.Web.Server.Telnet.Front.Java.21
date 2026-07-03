@@ -1,0 +1,337 @@
+╔══════════════════════════════════════════════════════════════════════════════════
+║                       NitroWebExpress™ QUICK REFERENCE                          ║
+║                    Master Control Scripts — Command Cheatsheet                   ║
+╚══════════════════════════════════════════════════════════════════════════════════
+
+PROJECT ROOT: /home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21
+
+═══════════════════════════════════════════════════════════════════════════════════
+COMPLETE SYSTEM
+═══════════════════════════════════════════════════════════════════════════════════
+
+Start everything:
+  $ cd /home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21
+  $ bash scripts/start-all.sh
+  OR with explicit Tomcat:
+  $ bash scripts/start-all.sh /opt/tomcat
+
+Stop everything:
+  $ bash scripts/shutdown-all.sh
+  OR with Tomcat stop:
+  $ bash scripts/shutdown-all.sh /opt/tomcat --stop-tomcat
+
+Check system status:
+  $ bash scripts/status.sh
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+PARTIAL STARTUP (step by step)
+═══════════════════════════════════════════════════════════════════════════════════
+
+Start MySQL only:
+  $ bash scripts/start-mysql.sh
+
+Start all backend servers only:
+  $ bash scripts/start-backends.sh
+
+Start all frontend modules only:
+  $ bash scripts/start-frontends.sh [/opt/tomcat]
+
+Start backends + stop:
+  $ bash scripts/start-backends.sh --stop
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+INDIVIDUAL MODULE CONTROL
+═══════════════════════════════════════════════════════════════════════════════════
+
+Start AE6E66 backend:
+  $ cd modules/AE6E66 && bash start-backend.sh
+
+Start AE6E66 frontend:
+  $ cd modules/AE6E66 && bash start.sh
+
+Stop AE6E66:
+  $ cd modules/AE6E66 && bash shutdown.sh && bash shutdown-backend.sh
+
+Other modules: Replace "AE6E66" with:
+  cia, duke, fbi, gray, gray.a85, Green.Durham.Grass.and.Herb, library, nsa
+  (black-belt, languages are webapp-only — no backend)
+
+Futures module (special naming):
+  $ cd modules/red/Futures
+  $ bash start-backend.sh          # instead of separate files
+  $ bash start-frontend.sh         # instead of start.sh
+  $ bash shutdown-backend.sh
+  $ bash shutdown-frontend.sh      # instead of shutdown.sh
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+VERIFY SERVICES
+═══════════════════════════════════════════════════════════════════════════════════
+
+Full system status:
+  $ bash scripts/status.sh
+
+Test HTTP endpoints:
+  $ curl http://localhost:8080/ae6e66/       # AE6E66
+  $ curl http://localhost:8080/california-cia/   # CIA
+  $ curl http://localhost:8080/california-duke/  # Duke
+  (etc.)
+
+Check running Java processes:
+  $ ps aux | grep java
+
+Check MySQL:
+  $ mysqladmin ping
+  $ mysql -u mearvk -p'$$Ironman1' -e "SHOW DATABASES;"
+
+View Tomcat logs:
+  $ tail -f /opt/tomcat/logs/catalina.out
+
+View module logs:
+  $ tail -f modules/AE6E66/logging/backend.log
+  $ tail -f modules/AE6E66/logging/*.log
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+COMMON TASKS
+═══════════════════════════════════════════════════════════════════════════════════
+
+Setup MySQL (first time):
+  $ bash bash/MySQL.setup.sh
+  [or with custom password]
+  $ bash bash/MySQL.setup.sh --password MyPassword123
+
+Verify single backend starts:
+  $ cd modules/AE6E66
+  $ bash start-backend.sh
+  $ bash shutdown-backend.sh
+
+Deploy single module:
+  $ cd modules/cia
+  $ bash start.sh /opt/tomcat
+
+Undeploy single module:
+  $ cd modules/cia
+  $ bash shutdown.sh /opt/tomcat
+
+Graceful shutdown:
+  $ bash scripts/shutdown-all.sh
+
+Force shutdown:
+  $ bash scripts/shutdown-all.sh /opt/tomcat --stop-tomcat
+
+Clean restart (stop + start):
+  $ bash scripts/shutdown-all.sh && sleep 5 && bash scripts/start-all.sh
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+ENVIRONMENT SETUP
+═══════════════════════════════════════════════════════════════════════════════════
+
+Set Tomcat home for all operations:
+  $ export CATALINA_HOME=/opt/tomcat
+  $ bash scripts/start-all.sh      # uses $CATALINA_HOME
+
+Verify MySQL location:
+  $ bash scripts/detect-mysql.sh
+
+Check block storage (if available):
+  $ df -h /mnt/blockstorage
+  $ ls -la /mnt/blockstorage/nwe/  # NWE data on block storage
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+DEBUGGING
+═══════════════════════════════════════════════════════════════════════════════════
+
+Module failed to start? Check its logs:
+  $ tail -20 modules/AE6E66/logging/backend.log
+  $ tail -20 /opt/tomcat/logs/catalina.out
+
+Find what's using a port:
+  $ lsof -i :9999
+  $ lsof -i :8080
+
+Kill a stuck process:
+  $ kill -9 <PID>
+  OR
+  $ pkill -f "AE6E66Main"
+
+Reset PID files:
+  $ find modules -name "*.pid" -delete
+
+Clear all Tomcat deployments:
+  $ rm -rf /opt/tomcat/webapps/*
+
+See all running backends:
+  $ ps aux | grep java | grep -v grep
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+MODULES REFERENCE
+═══════════════════════════════════════════════════════════════════════════════════
+
+FRONTEND + BACKEND (10 modules):
+  AE6E66                      ae6e66              AE6E66Main
+  CIA                         california-cia      CaliforniaCIAServer
+  Duke                        california-duke     DukeUniversityServer
+  FBI                         california-fbi      CaliforniaFBIServer
+  Gray Port Registry          gray-registry       GrayPortRegistryServer (port 9999)
+  Gray85 Crème                gray85-registry     Gray85PortRegistryServer (port 10085)
+  Green.Durham.Grass.Herb     gdgh                Main
+  Library                     library             StanfordLibraryServer
+  NSA                         california-nsa      CaliforniaNSAServer
+
+FRONTEND ONLY (2 modules):
+  Black Belt                  blackbelt           (no backend)
+  Languages                   languages           (no backend)
+
+SPECIAL NAMING (1 module):
+  Futures                     futures             DemocraticAIServer
+  Location: modules/red/Futures/
+  Uses: start-frontend.sh, shutdown-frontend.sh, start-backend.sh, shutdown-backend.sh
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+MASTER SCRIPTS SUMMARY
+═══════════════════════════════════════════════════════════════════════════════════
+
+Master Control Files in /scripts:
+
+  start-all.sh              Complete system startup (MySQL → backends → frontends)
+  shutdown-all.sh           Complete system shutdown (frontends → backends → MySQL)
+  start-mysql.sh            MySQL startup only
+  shutdown-mysql.sh         MySQL shutdown only
+  start-backends.sh         All backend servers startup
+  shutdown-backends.sh      All backend servers shutdown
+  start-frontends.sh        All frontend modules startup
+  shutdown-frontends.sh     All frontend modules shutdown
+  status.sh                 Complete system status check
+  detect-mysql.sh           MySQL detection utility
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+OUTPUT EXAMPLES
+═══════════════════════════════════════════════════════════════════════════════════
+
+Successful backend start:
+
+  ╔═══════════════════════════════════════════════════════════════════════════╗
+  ║  AE6E66 Backend Server — Startup                                          ║
+  ║  JVM: -Xms64m -Xmx256m                                                    ║
+  ╚═══════════════════════════════════════════════════════════════════════════╝
+
+    [*] Starting AE6E66Main... ✓ (PID 12345)
+
+  ╔═══════════════════════════════════════════════════════════════════════════╗
+  ║  Backend Running                                                          ║
+  ║  PID: 12345                                                                ║
+  ║  Logs: modules/AE6E66/logging/backend.log                                 ║
+
+
+Successful frontend start:
+
+  ╔═══════════════════════════════════════════════════════════════════════════╗
+  ║  AE6E66 Frontend — Startup                                                ║
+  ║  Context: /ae6e66                                                         ║
+  ║  Tomcat:  /opt/tomcat                                                     ║
+  ╚═══════════════════════════════════════════════════════════════════════════╝
+
+    [*] Deploying to Tomcat...
+    [✓] Deployed
+    [✓] Tomcat already running
+    [✓] AE6E66 Frontend is UP
+        URL: http://localhost:8080/ae6e66/
+
+
+System status:
+
+  ╔═══════════════════════════════════════════════════════════════════════════╗
+  ║  NitroWebExpress™ — System Status Report                                  ║
+  ╚═══════════════════════════════════════════════════════════════════════════╝
+
+  MySQL:
+  [✓] MySQL is running (Host: localhost, Port: 3306)
+    Databases: 5
+
+  Tomcat / Web Services:
+  [✓] Tomcat is running (HTTP 200)
+
+  Backend Modules (TCP Servers):
+  [✓] AE6E66 (PID 12345)
+  [✓] CIA (PID 12346)
+  ...
+  Running: 10 / 11
+
+  Frontend Modules (Tomcat Webapps):
+  [✓] /ae6e66 (HTTP 200)
+  [✓] /california-cia (HTTP 200)
+  ...
+  Running: 12 / 12
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+TIPS & TRICKS
+═══════════════════════════════════════════════════════════════════════════════════
+
+Run everything in background with logging:
+  $ bash scripts/start-all.sh | tee start-all.log &
+
+Monitor startup progress:
+  $ tail -f start-all.log
+
+Set default Tomcat home for session:
+  $ export CATALINA_HOME=/opt/tomcat
+
+Log all commands for debugging:
+  $ set -x
+  $ bash scripts/start-all.sh
+
+Redirect output to file:
+  $ bash scripts/start-all.sh > startup.log 2>&1
+
+Parallel startup (risky, advanced):
+  $ bash scripts/start-backends.sh &
+  $ bash scripts/start-frontends.sh &
+  $ wait
+
+Safe shutdown before restart:
+  $ bash scripts/shutdown-all.sh && sleep 5 && bash scripts/start-all.sh
+
+Test only one backend:
+  $ cd modules/AE6E66 && bash start-backend.sh && bash shutdown-backend.sh
+
+Full diagnostic:
+  $ bash scripts/status.sh > pre-check.log
+  $ bash scripts/start-all.sh | tee startup.log
+  $ bash scripts/status.sh > post-check.log
+  $ diff pre-check.log post-check.log
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+SUPPORT & DOCUMENTATION
+═══════════════════════════════════════════════════════════════════════════════════
+
+Comprehensive documentation:
+  → ORCHESTRATION_SYSTEM.md       (this system overview)
+  → MODULES_STARTUP_STANDARDIZATION.md  (detailed guide)
+  → MODULES_STARTUP_SUMMARY.txt   (inventory and statistics)
+  → DIGTIK.md                     (architecture & lessons)
+
+Questions? Check these files in order:
+  1. This file (QUICK_REFERENCE.txt) — commands
+  2. ORCHESTRATION_SYSTEM.md — detailed explanation
+  3. DIGTIK.md — architecture & best practices
+  4. Module logs — debugging info
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+
+Created: July 3, 2026
+System: NitroWebExpress™
+Version: 1.0
+
+═══════════════════════════════════════════════════════════════════════════════════
+

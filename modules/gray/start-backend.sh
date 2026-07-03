@@ -1,12 +1,13 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════
-# gray — Backend Startup Script
-# Starts the TCP backend server(s).
+# ═══════════════════════════════════════════════════════════════════════════════════
+# NitroWebExpress™ — gray Backend Startup
+# Starts the TCP backend server.
 # Usage: bash start-backend.sh
-# ═══════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════════
 set -uo pipefail
 
 MOD_ROOT="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$MOD_ROOT/../.." && pwd)"
 PID_DIR="$MOD_ROOT/data/pids"
 LOG_DIR="$MOD_ROOT/logging"
 SOURCE="$MOD_ROOT/source"
@@ -16,9 +17,11 @@ JVM_OPTS="-Xms64m -Xmx256m"
 
 mkdir -p "$PID_DIR" "$LOG_DIR"
 
-echo "═══════════════════════════════════════════════════════════════"
-echo " gray — Backend Server"
-echo "═══════════════════════════════════════════════════════════════"
+echo ""
+echo "╔═══════════════════════════════════════════════════════════════════════════╗"
+echo "║  gray Backend Server — Startup                                          ║"
+echo "║  JVM: $JVM_OPTS                                                            ║"
+echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
 # Build classpath
@@ -26,31 +29,51 @@ CP="$SOURCE"
 if [ -d "$LIB" ]; then CP="$CP:$LIB/*"; fi
 if [ -d "$JARS" ]; then CP="$CP:$JARS/*"; fi
 
-# ── Module definition ─────────────────────────────────────────────────────
+# ── Module definition ─────────────────────────────────────────────────────────
 MODULE_CLASS="GrayPortRegistryServer"
 PID_FILE="$PID_DIR/backend.pid"
 
 # Check if already running
 if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
-    echo "  [SKIP] Backend — already running (PID $(cat "$PID_FILE"))"
-else
-    echo -n "  [*] Starting $MODULE_CLASS..."
-    cd "$MOD_ROOT"
-    java $JVM_OPTS -cp "$CP" "$MODULE_CLASS" >> "$LOG_DIR/backend.log" 2>&1 &
-    PID=$!
-    echo "$PID" > "$PID_FILE"
-    sleep 1
+    echo "  [✓] Backend already running (PID $(cat "$PID_FILE"))"
+    echo ""
+    echo "╔═══════════════════════════════════════════════════════════════════════════╗"
+    echo "║  To stop:    bash shutdown-backend.sh                                     ║"
+    echo "║  To restart: bash shutdown-backend.sh && bash start-backend.sh            ║"
+    echo "║  System:     bash ../../scripts/status.sh                                 ║"
+    echo "╚═══════════════════════════════════════════════════════════════════════════╝"
+    echo ""
+    exit 0
+fi
 
-    if kill -0 "$PID" 2>/dev/null; then
-        echo " OK (PID $PID)"
-    else
-        echo " FAILED (check $LOG_DIR/backend.log)"
-        rm -f "$PID_FILE"
-    fi
+echo -n "  [*] Starting $MODULE_CLASS... "
+
+cd "$MOD_ROOT"
+java $JVM_OPTS -cp "$CP" "$MODULE_CLASS" >> "$LOG_DIR/backend.log" 2>&1 &
+PID=$!
+echo "$PID" > "$PID_FILE"
+sleep 1
+
+if kill -0 "$PID" 2>/dev/null; then
+    echo "✓ (PID $PID)"
+else
+    echo "✗ (FAILED)"
+    rm -f "$PID_FILE"
+    echo ""
+    echo "  Check logs: tail -f $LOG_DIR/backend.log"
+    exit 1
 fi
 
 echo ""
-echo "═══════════════════════════════════════════════════════════════"
-echo " Stop: bash shutdown-backend.sh"
-echo " Logs: $LOG_DIR/"
-echo "═══════════════════════════════════════════════════════════════"
+echo "╔═══════════════════════════════════════════════════════════════════════════╗"
+echo "║  Backend Running                                                          ║"
+echo "║  PID: $PID                                                                 ║"
+echo "║  Logs: $LOG_DIR/backend.log                                                ║"
+echo "║                                                                            ║"
+echo "║  Management:                                                               ║"
+echo "║  Stop backend:     bash shutdown-backend.sh                               ║"
+echo "║  Start frontend:   bash start.sh                                           ║"
+echo "║  Start all:        bash ../../scripts/start-all.sh                         ║"
+echo "║  System status:    bash ../../scripts/status.sh                            ║"
+echo "╚═══════════════════════════════════════════════════════════════════════════╝"
+echo ""
