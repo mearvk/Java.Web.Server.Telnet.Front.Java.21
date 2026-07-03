@@ -9,7 +9,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MOD_ROOT="$SCRIPT_DIR"
 PROJECT_ROOT="$(cd "$MOD_ROOT/../.." && pwd)"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
 CONTEXT="california-duke"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/$CONTEXT"
 STOP_TOMCAT=false
