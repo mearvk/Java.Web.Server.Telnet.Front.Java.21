@@ -1,6 +1,6 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════
-# black-belt — Startup Script
+# AE6E66 — Startup Script
 # Builds, deploys to Tomcat, and starts the webapp.
 # Usage: bash start.sh [tomcat_home]
 # ═══════════════════════════════════════════════════════════════
@@ -9,10 +9,10 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MOD_ROOT="$SCRIPT_DIR"
 TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
-CONTEXT="blackbelt"
+CONTEXT="ae6e66"
 
 echo "═══════════════════════════════════════════════════════════════"
-echo " black-belt — Startup"
+echo " AE6E66 — Startup"
 echo " Tomcat: $TOMCAT_HOME"
 echo " Context: /$CONTEXT"
 echo "═══════════════════════════════════════════════════════════════"
@@ -44,7 +44,7 @@ echo ""
 HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8080/$CONTEXT/" 2>/dev/null || echo "000")
 
 if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
-    echo "[✓] black-belt is UP"
+    echo "[✓] AE6E66 is UP"
     echo "    URL: http://localhost:8080/$CONTEXT/"
 else
     echo "[!] HTTP $HTTP_CODE — webapp may still be loading"

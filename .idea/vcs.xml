@@ -9,7 +9,6 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/modules/Futures" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/modules/Green.Durham.Grass.and.Herb" vcs="Git" />
   </component>
 </project>

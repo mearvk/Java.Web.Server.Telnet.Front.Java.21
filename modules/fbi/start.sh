@@ -1,6 +1,6 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════
-# black-belt — Startup Script
+# fbi — Startup Script
 # Builds, deploys to Tomcat, and starts the webapp.
 # Usage: bash start.sh [tomcat_home]
 # ═══════════════════════════════════════════════════════════════
@@ -9,10 +9,10 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MOD_ROOT="$SCRIPT_DIR"
 TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
-CONTEXT="blackbelt"
+CONTEXT="california-fbi"
 
 echo "═══════════════════════════════════════════════════════════════"
-echo " black-belt — Startup"
+echo " fbi — Startup"
 echo " Tomcat: $TOMCAT_HOME"
 echo " Context: /$CONTEXT"
 echo "═══════════════════════════════════════════════════════════════"
@@ -44,7 +44,7 @@ echo ""
 HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8080/$CONTEXT/" 2>/dev/null || echo "000")
 
 if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
-    echo "[✓] black-belt is UP"
+    echo "[✓] fbi is UP"
     echo "    URL: http://localhost:8080/$CONTEXT/"
 else
     echo "[!] HTTP $HTTP_CODE — webapp may still be loading"
