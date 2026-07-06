@@ -1,208 +1,146 @@
-MearvK Ltd - MEARVK LLC
 
-Maximlian Eric Alexander Rupplin von Keffikon - MEARVK - MEARVK LLC
 
-Owner of Establishment of Corporate ongoing Finance - US United States a Minister
-
-Owner of Miramax Films UK & US United States and Settlement - NO GODZILLA
-
-Owner of Del Taco in Apple Valley, CA '95
-
-Owner of AtlAtl.phd Brand Clothing US United States
-
-Phone:      1.919.923.4239 (USA)
-
-Languages:  American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, Turkish
-
-Headquarters: 555 South Mangum St, Durham, NC 27701
-
-Purpose:    IQ Conservatorship and Systems Design PhD+ of NCSU Math and Science and Harvard Law Final
-
-Sorceress:  Elisabeth R. Harkins of Stanford Math and Yale Sciences (https://github.com/ElisabethHarkins5509)
-
-Students:   Available on the 8th Floor after 8
-
-![Profile views](https://views.igorkowalczyk.dev/api/badge/@mearvk?style=flat)
 
 ---
 
-## Software Authorization & Key Terms
+## Communicator™ — Encrypted Chat (Port 49199)
 
-This software verifies its operational authorization by checking the presence of `psychiatry/secrets/public.key` on the central GitHub repository (`github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21`).
+Persistent 1-hour telnet chat server with end-to-end encryption negotiation.
 
-**If the public.key is present on GitHub**, the software is free to operate within all existing guidelines, agreements, and contracts as established by the Owner.
+**Cipher Options (dropdown):**
 
-**Key Files:**
-- `psychiatry/secrets/public.key` — Public authorization key. Pushed to GitHub. Presence authorizes operation.
-- `psychiatry/secrets/secret.key` — Private key. NEVER pushed to GitHub (excluded via .gitignore). A local copy is kept exclusively by the Owner of the Software.
+| # | Cipher | Key Size | Notes |
+|---|--------|----------|-------|
+| 1 | AES-256-GCM | 256-bit | Default. Authenticated encryption. |
+| 2 | RSA-2048 | 2048-bit | DH derives symmetric key, RSA for signing. |
+| 3 | RSA-4096 | 4096-bit | Higher security RSA variant. |
+| 4 | Twofish-256 | 256-bit | BouncyCastle; falls back to AES-256-CBC. |
+| 5 | ECC-secp256r1 | 256-bit | ECDH key exchange + AES-GCM. |
+| 6 | ChaCha20-Poly1305 | 256-bit | Modern stream cipher with authentication. |
 
-**Terms:**
-1. The Owner of the Software (Max Rupplin, MEARVK LLC) retains local copies of both key files at all times.
-2. The `secret.key` shall never be committed or pushed to any public or shared repository.
-3. Removal of the `public.key` from the GitHub repository constitutes a revocation of operational authorization for all installations that depend on this verification.
-4. All editions (Personal Executive, National, International, Free) are subject to this key verification at boot time.
-5. The software operates within existing guidelines, agreements, and contracts only while the `public.key` remains accessible at its canonical GitHub URL.
+**Key Exchange:** DH-2048 (RFC 3526 Group 14) for ciphers 1–4,6. ECDH (secp256r1) for cipher 5.
 
-**Contact:**
-- Max Rupplin — mearvk@mearvk.us | mearvk@outlook.com
-- Discussions / Rank Upgrades / Installer IDs / Public Key Requests: https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+**Protocol:**
 
----
-
-## Downloads
-
-- **NWE Key Listener (C, port 80):** [`apache/nwe-key-listener`](apache/nwe-key-listener) — Standalone executable for Linux/Apache. Listens on port 80 for `public.key` POST, sends ACK, 30-minute timeout. Run with `sudo ./nwe-key-listener`.
-- **NWE Module Installer (Java, port 8888):** [`standalone/nwe-module-installer.jar`](standalone/nwe-module-installer.jar) — Standalone JAR. Accepts modules from verified NWE instances. Run with `java -jar nwe-module-installer.jar`.
-- **NWE Apache Module (mod_nwe_key):** [`apache/modules/mod_nwe_key.c`](apache/modules/mod_nwe_key.c) — Drop-in Apache2 module. Install with `sudo bash apache/modules/build-module.sh`. Provides `/nwe-key-listener/handshake` and `/nwe-key-listener/install` endpoints.
-
-### NWE Key Listener — How It Works
-
-1. On startup, fetches `public.key` from this GitHub repository for comparison.
-2. **Phase 1 (Handshake):** Accepts POST on port 80. Strips HTTP headers, compares body byte-for-byte against the GitHub `public.key`. Sends `ACK` only on exact match. Records the verified IP.
-3. **Phase 2 (JAR Install):** Accepts the next binary from the **same verified IP**. Validates JAR signature (PK magic bytes), computes SHA-256, installs to `/opt/nwe/nwe-module-installer.jar`, opens port 8888 via ufw/iptables, and launches the module installer.
-4. Closes after 30 minutes if no valid `public.key` is received.
-
-**Build requirements:** `libcurl4-openssl-dev`, `libssl-dev` (standalone), plus `apache2-dev` (for the module).
-
----
-
-## International Signal Servers
-
-Country-specific signal servers that connect to international news, market, and data sources. Each runs on its own port, uses virtual threads (Java 21), and stores data in a dedicated MySQL database.
-
-| Server | Port | Database | Sources | Signals |
-|--------|------|----------|---------|---------|
-| JapanSignalServer™ | 49201 | `nwe_japan` | NHK, Mainichi, Asahi, Nikkei, Kyodo, JPX, JMA | Nikkei 225, JPY/USD, Seismic |
-| RussiaSignalServer™ | 49202 | `nwe_russia` | TASS, RIA, Interfax, RBC, MOEX, Kommersant, Vedomosti, RT | MOEX Index, RUB/USD, Brent Crude |
-| MexicoSignalServer™ | 49203 | `nwe_mexico` | El Universal, Reforma, Milenio, La Jornada, Expansión, El Financiero, BMV, Excélsior | IPC/BMV, MXN/USD, Pemex Crude |
-| GreeceInternationalSignalServer™ | 49204 | `nwe_greece_intl` | Kathimerini, AMNA, Naftemporiki, Capital.gr, Reuters, Al Jazeera, BBC, DW | Athens Exchange, EUR/USD, Baltic Dry Index |
-
-**Protocol:** TCP socket — `FETCH|<sourceId>|<url>`, `SIGNAL|<url>`, `STATUS`
-
-**Port-aware:** 21, 22, 80, 443, 8080, 8888 for outbound connections.
-
-**Source directories:**
-- `source/international.radio.japan/` — Japan config and server
-- `source/international.radio.russia/` — Russia config and server
-- `source/international.radio.mexico/` — Mexico config and server
-- `source/greece/international/` — Greece/International config and server
-
----
-
-## Print System Configuration
-
-All terminal output is driven by `configuration/print-method.xml`. No recompile needed to adjust formatting.
-
-**Blocks (left-to-right):**
-| Block | Name | Example |
-|-------|------|---------|
-| 1 | Prefix | `-- : ` |
-| 2 | ObjectId | `[Object ID: 0925308434]` |
-| 3 | Date | `[Date: 2026-06-16 22:17:55 EDT]` |
-| 4 | Current | `[Current: @Main]` |
-| 5 | Message | `. NitroWebExpress™ now starting .` |
-
-**Additional controls in print-method.xml:**
-- `<starts>` — Canonical lifecycle verb (`starts`, `is starting`, `now starting`, etc.)
-- `<parent-class-prefix>` — Prepend owning class to message (enabled/disabled)
-- `<decorator-start>` / `<decorator-end>` — Message framing characters (default `.`)
-- `<grace>` — Fade animation timing (steps, delay, post-delay)
-- `<control>` — Color toggle, reset behavior, trademark color
-
-**Naming convention:** All module/service identifiers use CamelCase with ™ (trademark in red). Configured in `nwe-config.xml` with CamelCase server IDs (e.g. `AesCompliant`, `BitcoinWalletIndexer`).
-
-**Startup failure handling:** If NweConfig, MySQL systemctl, or JDBC login fails, the message prints in red, the cause is appended to `exception.log`, and the process halts.
-
----
-
-## CityAnalysis™ — Property Records & AI Speculation Engine
-
-City-level property and deed analysis module with AI-driven speculation. Fetches county Register of Deeds data, extracts financial entities, trains a moral-bound IQ spectrum spatial model, and generates recursive speculation reports.
-
-**Belt Requirement:** Green Belt or Brown Belt | **IQ Requirement:** 180+
-
-**Components:** `CityAnalysisMain`, `CityAnalysisServer`, `CitySpeculationEngine`, `CitySpeculationTrainer`
-
-**Configuration:**
-- `source/city-analysis/city-analysis-config.xml` — City list (15 NC cities, Durham default)
-- `source/city-analysis/cse-allowance-config.xml` — AI reasoning limits, IQ tiers, trainer params
-- `source/city-analysis/legalice.presumes.xml` — Citizen class presumptions
-
-**Output:** `source/city-analysis/speculations/` and `speculations/recursive/<date>/<time>/`
-
-**Source directory:** `source/city-analysis/`
-
----
-
-## Strernary™ — Best-Guess Inference Server
-
-Port 20000 inference server that accepts standard information and returns best-guess responses.
-
-**Dual-port architecture:** A public OS port and a Java edition port both occupy port 20000. They sometimes talk; sometimes they don't. Communication is opportunistic — the Java server probes the OS listener at startup and relays queries when it's alive.
-
-**Inference stack (priority order):**
-1. **DJL (Deep Java Library)** — Local PyTorch inference via Amazon's open-source DJL framework. Download jars with `scripts/bash/strernary/download-djl.sh`.
-2. **OS port relay** — Forwards to the OS-level listener on 20000 if alive.
-3. **Keyword heuristics** — Routes queries to known NWE services based on content keywords.
-
-**Protocol:** TCP socket — `ASK|<text>`, `RELAY|<text>`, `STATUS`
-
-**Source directory:** `source/strernary/`
-
----
-
-## Strernary™ Directory Server — Port 2000
-
-Telnet-accessible directory and routing server on port 2000. Provides an interactive menu for discovering known servers and registering new Rank 4 nodes, plus XML packet forwarding for NIO masquerade routing.
-
-**Interactive menu options:**
-| Option | Description | Auth |
-|--------|-------------|------|
-| 1 | List port 20000 server IPs (Strernary™) | NationalID (configurable) |
-| 2 | List port 49152 server IPs (NationalFinanceID) | NationalID required |
-| 3 | Register Rank 4 JWSTNJ21 server | public.key verification |
-| 4 | Quit | — |
-
-**XML forwarding mode:** If the first data received is an `<nwe-route>` XML packet, the server bypasses the interactive menu and forwards the payload directly to the target port via the NIO masquerade engine:
-```xml
-<nwe-route><port>20000</port><payload>ASK|What is life?</payload></nwe-route>
+```
+telnet localhost 49199
+identify <nationalId>
+encrypt                          ← show cipher dropdown
+encrypt 1                        ← initiate AES-256-GCM via DH
+  → server sends DH public key (hex)
+encrypt accept <your_pubkey_hex> ← complete key exchange
+  → session now encrypted
+encrypt off                      ← disable encryption
 ```
 
-**Rank 4 registration:** Clients submit their `public.key` contents (base64, single line). The server compares byte-for-byte against the GitHub-hosted `public.key`. On match, the client's server address is added to the registered Rank 4 list.
+**Profile (persistent settings):**
 
-**Configuration:** `configuration/port-2000-directory-config.xml` — Controls which menu options are enabled, NationalID requirements, and XML forwarding toggle.
+```
+profile                      ← view current settings
+profile cipher 6             ← save ChaCha20 as default (auto-suggests on next login)
+profile clear                ← clear preference
+```
 
-**Known server lists:**
-- `configuration/known.port.20000.servers.xml` — Strernary™ endpoints
-- `configuration/known.port.49152.servers.xml` — NationalFinanceID endpoints
-
-**Source:** `source/strernary/StrernaryDirectoryServer.java`
+**Source:**
+- `source/communicator/Communicator.java` — Chat server
+- `source/communicator/CommunicatorCrypto.java` — Cipher negotiation, DH/ECDH, encrypt/decrypt
+- Database: `communicator_profiles` table (national_id → preferred_cipher)
 
 ---
 
-## NIO Masquerade Layer
+## Module Startup/Shutdown Scripts
 
-NIO-based front layer that binds local IPs 127.0.0.1 through 127.0.0.17 and bridges non-blocking NIO connections to the existing blocking architecture.
+All modules have dedicated scripts at their root for frontend (webapp) and backend (TCP servers).
 
-**Port range modes:**
-| Mode | Range | Binding |
-|------|-------|---------|
-| standard (default) | 0–65535 | All managed ports on 127.0.0.1 |
-| extended | 0–1048576 | 65536 ports per IP across 127.0.0.1–17 |
+### Brarner.M.Alete™
 
-**Module discovery:** At startup, `NioModuleScanner` reads `nwe-config.xml` and `masquerade-modules.xml` to discover all MEARVK LLC modules with their port values (0 to MAX_PORT). Masquerade-aware modules are registered in the NIO routing table automatically.
+| Script | Purpose |
+|--------|---------|
+| `start.sh` | Build WAR + deploy to Tomcat + start Tomcat |
+| `shutdown.sh` | Undeploy from Tomcat (`--stop-tomcat` to also stop Tomcat) |
+| `start-backend.sh` | Start TCP servers (Postal, SSA, Art, Legal) |
+| `shutdown-backend.sh` | Stop all backend TCP servers |
 
-**Port 2000 XML forwarding:** Clients can send XML packets to port 2000 for direct routing:
-```xml
-<nwe-route><port>20000</port><payload>ASK|What is life?</payload></nwe-route>
+**Location:** `modules/black/presidential/Brarner.M.Alete/`
+
+### Green.Durham.Grass.and.Herb™
+
+| Script | Purpose |
+|--------|---------|
+| `start-frontend.sh` | Deploy webapp to Tomcat + start Tomcat |
+| `shutdown-frontend.sh` | Undeploy from Tomcat (`--stop-tomcat`) |
+| `installation/start.sh` | Start backend TCP server (Appree, listeners) |
+| `installation/stop.sh` | Stop backend |
+
+**Location:** `modules/black/presidential/Green.Durham.Grass.and.Herb/`
+
+### Futures™ (Democratic ProFront National 1.0)
+
+| Script | Purpose |
+|--------|---------|
+| `start-frontend.sh` | Deploy webapp to Tomcat + start Tomcat |
+| `shutdown-frontend.sh` | Undeploy from Tomcat (`--stop-tomcat`) |
+| `bash/start.sh` | Start AI server on port 5000 |
+| `bash/shutdown.sh` | Stop port 5000 server |
+
+**Location:** `modules/black/red/Futures/`
+
+### Black Belt™
+
+| Script | Purpose |
+|--------|---------|
+| `start.sh` | Deploy webapp to Tomcat + setup MySQL + start Tomcat |
+| `shutdown.sh` | Undeploy from Tomcat (`--stop-tomcat`) |
+
+**Location:** `modules/black/belt/`
+
+### Main NWE (all backend modules)
+
+| Script | Purpose |
+|--------|---------|
+| `scripts/startup.sh` | Start NWE Main (all servers, G1GC, 4GB heap) |
+| `scripts/start-backend-modules.sh` | Start NWE + verify all 19 ports |
+| `scripts/start-backend-modules.sh --stop` | Stop NWE Main |
+
+---
+
+## Integrity System
+
+Post-install SHA-256 file verification. Non-blocking — program continues running regardless of findings.
+
+**Tech ID:** Gifted Install Tech ID (not MEARVK LLC Installer Tech ID)
+
+**Schedule:** Every 2 days at 06:00 (`0 6 */2 * *`)
+
+**Scripts:**
+
+| File | Purpose |
+|------|---------|
+| `integrity/post-install-integrity-check.sh` | Main integrity scan (SHA-256 + MD5) |
+| `cron/integrity-check.sh` | Cron wrapper for periodic runs |
+| `integrity/integrity-schema.sql` | MySQL schema for `nwe_integrity` database |
+| `modules/black/red/Futures/bash/integrity.sh` | Futures-specific integrity check |
+| `modules/black/presidential/Brarner.M.Alete/install/verify-integrity.sh` | BMA integrity verification |
+| `modules/black/presidential/Brarner.M.Alete/install/generate-integrity.sh` | BMA digest generation |
+
+**Behavior:**
+1. Self-integrity check first (verifies its own scripts)
+2. Full SHA-256 + MD5 scan of all git-tracked files
+3. On corruption (same commit, different hash) → auto-restore from GitHub
+4. On update (different commit) → preserve original digests in `integrity/history/`
+5. Concerns logged to `integrity/concerns/` (non-blocking, append-only)
+
+**Database:** `nwe_integrity` — tables: `honor_oath`, `file_digests`, `file_digests_history`, `integrity_concerns`, `scan_history`
+
+**No DELETE on any table. No UPDATE on history or concerns.**
+
+**Trusted servers:**
+- `github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21` (primary)
+- `github.com/ElisabethHarkins5509` (secondary)
+
+**Install:**
+```bash
+mysql < integrity/integrity-schema.sql
+bash integrity/post-install-integrity-check.sh
+sudo bash cron/install-cron.sh
 ```
-
-**Configuration files:**
-- `configuration/nio-masquerade-config.xml` — NIO settings, port range mode, managed ports
-- `configuration/masquerade-modules.xml` — Module registry with auto-discovery
-- `configuration/port-2000-directory-config.xml` — Port 2000 directory/forwarding settings
-
-**Source files:**
-- `source/strernary/NioMasqueradeEngine.java` — NIO Selector engine with local IP bindings
-- `source/strernary/NioModuleScanner.java` — Startup module discovery and registration
-- `source/strernary/StrernaryDirectoryServer.java` — Port 2000 menu + XML forwarding

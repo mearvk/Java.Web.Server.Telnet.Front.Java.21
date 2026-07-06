@@ -1,0 +1,22 @@
+{
+  "id": "009",
+  "style": "Hapkido",
+  "belt_level": "Black Belt",
+  "jurisdiction": "United States",
+  "legitimacy": "school_or_federation_specific",
+  "organization": "Korean Hapkido Federation",
+  "conduct_observations": [
+    "Demonstrates control in joint locks",
+    "Avoids excessive pain compliance"
+  ],
+  "ethical_responses": [
+    "States awareness of legal risk in joint manipulation",
+    "Commits to proportional response only"
+  ],
+  "audit_result": {
+    "conduct_score": "low",
+    "risk_rating": "low",
+    "closure_status": "closed",
+    "summary": "Hapkido practitioner shows technical control, awareness of legal implications of joint techniques, and commitment to proportional force. No concerns."
+  }
+}

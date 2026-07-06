@@ -57,10 +57,36 @@
     </nio>
 
     <!-- Which existing ports to bind on NIO front (in standard mode) -->
+    <!-- Full module access: all active service ports routed through NIO -->
     <managed-ports>
         <port>2000</port>
+        <port>5000</port>
+        <port>5512</port>
+        <port>6682</port>
+        <port>7743</port>
+        <port>7744</port>
+        <port>9999</port>
+        <port>10085</port>
         <port>20000</port>
+        <port>49111</port>
+        <port>49133</port>
+        <port>49144</port>
         <port>49152</port>
+        <port>49155</port>
+        <port>49166</port>
+        <port>49177</port>
+        <port>49188</port>
+        <port>49199</port>
+        <port>49200</port>
+        <port>49201</port>
+        <port>49202</port>
+        <port>49203</port>
+        <port>49204</port>
+        <port>49210</port>
+        <port>49211</port>
+        <port>49212</port>
+        <port>49213</port>
+        <port>49214</port>
     </managed-ports>
 
 </nio-masquerade-config>

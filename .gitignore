@@ -3,6 +3,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Build artifacts ###
+*.war
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -43,14 +46,31 @@ build/
 
 ### Secrets ###
 psychiatry/secrets/secret.key
+**/.db-credentials
 
 ### Transfer Documents ###
 source/confermary/transfer.document.title
 source/confermary/
 
 ### Large logs ###
+logging/nwe-main.log
 logging/exceptions.log
 logging/archive/
 
 ### Large PyTorch native binary ###
 jars/djl/pytorch-native-cpu-2.5.1-linux-x86_64.jar
+source/city/analysis/data/durham.nc.addresses.csv
+
+### Large files (>70MB) ###
+out/
+out/artifacts/
+**/jfxwebkit.dll
+**/javafx-sdk-26.0.1/bin/
+**/jars/java-fx/extracted/
+modules/black/presidential/Brarner.M.Alete.zip
+
+### DNS Settings ###
+modules/AE6E66/configuration/dns.settings
+
+### Legal Documents ###
+modules/black/presidential/Brarner.M.Alete/data/legal/Legal Tasking Document - US Custodial Authority Above Territory.docx

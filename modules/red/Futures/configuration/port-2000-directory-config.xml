@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Port 2000 Directory Configuration
+    Source: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/configuration/port-2000-directory-config.xml
+    Installed: MEARVK LLC - Max Rupplin
+-->
+<directory-config port="2000">
+    <enabled>true</enabled>
+    <interactive-menu>false</interactive-menu>
+
+    <menu-options>
+        <option id="1">
+            <description>Strernary™ inference server addresses</description>
+            <enabled>true</enabled>
+            <requires-national-id>true</requires-national-id>
+        </option>
+        <option id="2">
+            <description>NationalFinanceID registration server addresses</description>
+            <enabled>true</enabled>
+            <requires-national-id>true</requires-national-id>
+        </option>
+        <option id="3">
+            <public-key-url>https://raw.githubusercontent.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/main/psychiatry/secrets/public.key</public-key-url>
+            <description>A connecting Rank 4 Java.Telnet.Finance.Server must POST the public.key contents for byte-for-byte verification before it can register itself with this running server instance.</description>
+            <enabled>true</enabled>
+        </option>
+    </menu-options>
+
+    <xml-forwarding enabled="true">
+        <description>Accept XML packets: &lt;nwe-route&gt;&lt;port&gt;N&lt;/port&gt;&lt;payload&gt;...&lt;/payload&gt;&lt;/nwe-route&gt;</description>
+        <note>Forward payload to resolved local IP based on nio-masquerade-config.xml.</note>
+    </xml-forwarding>
+</directory-config>

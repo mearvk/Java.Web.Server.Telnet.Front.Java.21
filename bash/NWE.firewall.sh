@@ -21,14 +21,23 @@ PORTS=(
     49202   # RussiaSignalServer
     49203   # MexicoSignalServer
     49204   # GreeceInternationalSignalServer
+    49210   # CaliforniaFBI
+    49211   # CaliforniaCIA
+    49212   # CaliforniaNSA
+    49213   # DukeUniversity
+    49214   # StanfordLibrary
     49144   # BinaryHttpServer
     49133   # WeatherServer
     49111   # AIProctorModule
     20000   # Strernary (best-guess inference)
+    2000    # Strernary Directory
+    5000    # Futures (Democratic AI)
     5512    # AES 2.0 Compliant
     6682    # Bitcoin Compliant
     7743    # RSA Compliant
     7744    # DSA Compliant
+    9999    # GrayPortRegistry
+    10085   # Gray85 Crème Registry
     8888    # MiddleDirectorServer / NWE Module Installer
 )
 

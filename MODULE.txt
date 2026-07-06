@@ -1,7 +1,7 @@
 NIO MASQUERADE & DIRECTORY MODULE — MODULE.txt
 =================================================
-Version:        2911.14.2
-Date:           2026-06-23
+Version:        2911.15.1
+Date:           2026-06-26
 Owner:          Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
 Contact:        https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
 Email:          mearvk@mearvk.us | mearvk@outlook.com
@@ -40,10 +40,30 @@ COMPONENTS
                               Rank 4 JWSTNJ21 server registration (public.key required).
                               Source: source/strernary/StrernaryDirectoryServer.java
 
+  GrayPortRegistryServer    — Port 9999 block leasing service.
+                              Leases blocks of 30,000,000 ports via Bitcoin/Dashcoin ($10 min).
+                              Commands: LEASE, STATUS, BIND, LIST, QUIT.
+                              AI binary gate for port binding authorization.
+                              Source: modules/gray/source/GrayPortRegistryServer.java
+
+  Gray85PortRegistryServer  — Port 10085 Crème registry.
+                              Same as standard but 15% of ports are Crème-locked ($1000 unlock).
+                              Additional commands: UNLOCK, CREME.
+                              Source: modules/gray.a85/source/Gray85PortRegistryServer.java
+
+  Brarner.M.Alete™         — Port 49152 (masquerade-routed) servlet website.
+                              Presidential species/postal/SSA/art/science module.
+                              Gluon-styled tabbed UI with config.xml-driven split logos.
+                              Install scripts with remote Apache deploy to name.com.
+                              Source: modules/black/presidential/Brarner.M.Alete/servlets/
+
 
 PORT ASSIGNMENTS
 ----------------
   2000    StrernaryDirectoryServer (directory menu + XML forwarding)
+  9999    GrayPortRegistryServer (30M port block leasing)
+  10085   Gray85PortRegistryServer (Crème registry, 85/15 split)
+  49152   Brarner.M.Alete™ (masquerade-routed servlet website)
   0-*     NioMasqueradeEngine (all managed ports, mode-dependent)
 
 

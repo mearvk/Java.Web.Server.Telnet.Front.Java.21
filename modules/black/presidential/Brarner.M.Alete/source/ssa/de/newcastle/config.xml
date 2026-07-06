@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>267</office-code>
+    <office-name>WILMINGTON DE</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 200</address-2>
+    <address-3>920 W BASIN ROAD</address-3>
+    <city>NEW CASTLE</city>
+    <state>DE</state>
+    <zip-code>19720</zip-code>
+    <phone>(866) 667-7221</phone>
+    <fax>(833) 912-2300</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9717</socket-port>
+    <local-input-path>source-code/ssa/de/newcastle/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/de/newcastle</output-dir>
+</signal-processing-config>

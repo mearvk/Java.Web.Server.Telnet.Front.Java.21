@@ -58,6 +58,66 @@
         <expect>HTTP/</expect>
         <template>GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n</template>
     </handler>
+    <handler port="8888" protocol="NWE-MODULE" tls="false">
+        <probe></probe>
+        <expect>NWE</expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="5000" protocol="NWE-FUTURES" tls="false">
+        <probe></probe>
+        <expect></expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="20000" protocol="NWE-STRERNARY" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect></expect>
+        <template>ASK|{message}\r\n</template>
+    </handler>
+    <handler port="2000" protocol="NWE-DIRECTORY" tls="false">
+        <probe></probe>
+        <expect></expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49152" protocol="NWE-FINANCE" tls="false">
+        <probe></probe>
+        <expect></expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="9999" protocol="NWE-GRAY" tls="false">
+        <probe></probe>
+        <expect></expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="10085" protocol="NWE-GRAY85" tls="false">
+        <probe></probe>
+        <expect></expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49210" protocol="NWE-FBI" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49211" protocol="NWE-CIA" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49212" protocol="NWE-NSA" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49213" protocol="NWE-DUKE" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
+    <handler port="49214" protocol="NWE-LIBRARY" tls="false">
+        <probe>STATUS\r\n</probe>
+        <expect>OK|</expect>
+        <template>{message}\r\n</template>
+    </handler>
     <!--
         HTTP Method Commands
         ====================

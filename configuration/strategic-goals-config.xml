@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Strategic Goals Configuration — Middle Director
+    ================================================
+    Defines IQ thresholds, initiative parameters, wealth aggregation,
+    state savings programs, presidential real-stats, and feeling-good indices.
+
+    Loaded by StrategicGoalsModule.
+
+    Author: Max Rupplin — MEARVK LLC
+-->
+<strategic-goals-config>
+
+    <!-- IQ: raw intelligence — most important in base training state -->
+    <iq>
+        <baseline>100</baseline>
+        <minimum-for-trade>120</minimum-for-trade>
+        <minimum-for-initiative>135</minimum-for-initiative>
+        <minimum-for-leadership>150</minimum-for-leadership>
+        <weight>1.00</weight>
+    </iq>
+
+    <!-- Initiatives: state and national programs -->
+    <initiatives>
+        <state-initiatives enabled="true">
+            <savings-program name="NC-College-Savings" target="50000" currency="USD"/>
+            <savings-program name="NC-Socialist-Reserve" target="100000" currency="USD"/>
+        </state-initiatives>
+        <national-initiatives enabled="true">
+            <program name="IQ-Wealth-Redistribution" type="merit-based"/>
+            <program name="Education-Capital-Growth" type="investment"/>
+        </national-initiatives>
+        <weight>0.90</weight>
+    </initiatives>
+
+    <!-- Total IQ Wealth: aggregate intelligence capital -->
+    <total-iq-wealth>
+        <aggregation-method>sum-of-participants</aggregation-method>
+        <bonus-multiplier iq-above="160">1.5</bonus-multiplier>
+        <bonus-multiplier iq-above="180">2.0</bonus-multiplier>
+        <weight>0.95</weight>
+    </total-iq-wealth>
+
+    <!-- State Savings: fiscal and moral savings -->
+    <state-savings>
+        <moral-savings enabled="true" description="Savings tied to ethical conduct"/>
+        <fiscal-savings enabled="true" description="Savings tied to financial discipline"/>
+        <compound-interval>monthly</compound-interval>
+        <weight>0.85</weight>
+    </state-savings>
+
+    <!-- Main Money: presidents at their real stats -->
+    <main-money>
+        <evaluation-method>real-stats-post-count</evaluation-method>
+        <presidents-real-stats enabled="true"
+            description="Count presidents at their actual statistical contribution"/>
+        <post-evaluation-capital enabled="true"/>
+        <weight>0.80</weight>
+    </main-money>
+
+    <!-- Feeling Good Natures: morale, well-being, feelings -->
+    <feeling-good>
+        <morale-index baseline="0.70"/>
+        <well-being-factors>
+            <factor name="community" weight="0.30"/>
+            <factor name="achievement" weight="0.25"/>
+            <factor name="security" weight="0.25"/>
+            <factor name="purpose" weight="0.20"/>
+        </well-being-factors>
+        <feelings-tracking enabled="true"/>
+        <weight>0.75</weight>
+    </feeling-good>
+
+</strategic-goals-config>

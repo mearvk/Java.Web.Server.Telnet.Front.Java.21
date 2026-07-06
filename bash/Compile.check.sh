@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
+# compile.check.sh — Compile all source Java files and report errors.
+# Uses the project's jar dependencies and --release 25.
 set -e
-REPO_URL="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21"
-TARGET_DIR="Java.Web.Server.Telnet.Front.Java.21"
-BIN_DIR="bin"
 
-if ! command -v git &> /dev/null || ! command -v javac &> /dev/null; then
-    echo "Error: git and javac must be installed." >&2
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+SRC="$ROOT/source"
+OUT="$ROOT/out"
+
+if ! command -v javac &> /dev/null; then
+    echo "Error: javac must be installed." >&2
     exit 1
 fi
 
-if [ ! -d "$TARGET_DIR" ]; then
-    git clone "$REPO_URL"
-fi
-cd "$TARGET_DIR"
-mkdir -p "$BIN_DIR"
+mkdir -p "$OUT"
 
-find . -name "*.java" > java_files.txt
-javac -d "$BIN_DIR" --release 21 @java_files.txt
-rm -f java_files.txt
+DJL_CP=$(find "$ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$OUT:$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:${DJL_CP}$ROOT/jars/lanterna-3.1.5.jar"
+
+find "$SRC" -name "*.java" > /tmp/nwe-compile-check.txt
+javac -d "$OUT" --release 25 -cp "$CP" -sourcepath "$SRC" @/tmp/nwe-compile-check.txt
+rm -f /tmp/nwe-compile-check.txt
 echo "Compilation successful."

@@ -1,0 +1,149 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                     REGISTRY DESCRIPTOR RECORD SHEET                        ║
+║                              AE6E66.RDRS                                    ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Module:          AE6E66™                                                    ║
+║  Full Name:       House of Lords + House of Commons Contact Module            ║
+║  Author:          Max Rupplin — MEARVK LLC                                   ║
+║  Trust:           9.5/10                                                     ║
+║  Color:           Emerald Green (\033[38;5;35m) — Royals                     ║
+║  Version:         1.2                                                        ║
+║  Created:         2026-06-27                                                 ║
+║  Updated:         2026-06-27                                                 ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  LOCATION                                                                    ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Path:            modules/AE6E66/                                            ║
+║  Source:          modules/AE6E66/source/                                     ║
+║  Config:          modules/AE6E66/configuration/ae6e66-config.xml             ║
+║  Scripts:         modules/AE6E66/scripts/                                    ║
+║  Stationary:      modules/AE6E66/marrister/                                  ║
+║  Portraits:       modules/AE6E66/portraits/{Ministry}/                       ║
+║  Sent Archive:    modules/AE6E66/sent/{YYYY-MM-DD}/                          ║
+║  Personal:        modules/AE6E66/personal/                                   ║
+║  Contacts:        modules/AE6E66/contacts.csv                                ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  DESCRIPTORY                                                                 ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Purpose:         Crawl UK Parliament (Lords + Commons) members 0–999,       ║
+║                   gather contact data (email, phone, ministry, career),      ║
+║                   download portraits by ministry, and distribute messages    ║
+║                   via DKIM-signed SMTP from mail.lauradei.us.                ║
+║                                                                              ║
+║  Crawl Sources:                                                              ║
+║    - https://members.parliament.uk/member/{0..999}/contact                   ║
+║    - https://members.parliament.uk/member/{0..999}/career                    ║
+║    - https://members.parliament.uk/member/{0..999}/portrait                  ║
+║    - https://www.parliament.uk/.../house-of-commons-enquiries-service/...    ║
+║                                                                              ║
+║  Output:                                                                     ║
+║    - contacts.csv       HOL + HOC with "Year of Our Lord" headings           ║
+║    - personal/          Outlook-importable CSV (Lords/Ministers only)         ║
+║    - portraits/         JPEGs sorted by ministry folder                      ║
+║    - sent/              SHA-256 hashed messages + success/failure logs        ║
+║                                                                              ║
+║  Crawl Policy:    Skip if .last-crawl < 30 days. Re-crawl on new election   ║
+║                   season (House of Lords / House of Commons).                ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  SECURITY                                                                    ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  TLS:             Enforced TLS 1.2+ for all outbound SMTP                    ║
+║  DKIM:            2048-bit, Unix socket milter (no inet exposure)             ║
+║  SPF:             -all (hard fail)                                            ║
+║  DMARC:           p=quarantine; pct=100                                      ║
+║  Relay:           reject_unauth_destination (no open relay)                  ║
+║  HELO:            Required + validated (reject invalid/non-FQDN)             ║
+║  Headers:         Internal IPs stripped via header_checks                    ║
+║  Email Input:     RFC 5321 validated, 254-char max, injection-safe           ║
+║  Body Encoding:   Dot-stuffed per RFC 5321 §4.5.2                            ║
+║  MySQL:           Minimal-privilege user (SELECT/INSERT/UPDATE)               ║
+║  Credentials:     .db-credentials chmod 600, .gitignore excluded             ║
+║  Keys:            Private 600, keys dir 700, RequireSafeKeys=yes             ║
+║  Timeouts:        30s socket timeout on SMTP                                 ║
+║  Scripts:         set -euo pipefail, input validation                        ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  MAIL SERVER                                                                 ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Server ID:       mail.lauradei.us                                           ║
+║  Static IP:       45.32.31.139                                               ║
+║  Domain:          lauradei.us                                                ║
+║  From:            contact@lauradei.us                                        ║
+║  DKIM Selector:   ae6e66 (2048-bit RSA)                                      ║
+║  Target Host:     Japanese VPS (chance/luck install)                         ║
+║  Stack:           Postfix + Dovecot + OpenDKIM                               ║
+║  Rate Limit:      2s/destination, 2 concurrent connections                   ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  MYSQL DATABASE                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Database:        nwe_ae6e66                                                 ║
+║  User:            ae6e66_svc@localhost (minimal privileges)                   ║
+║  Tables:          contacts, sent_log, crawl_history                          ║
+║  Engine:          InnoDB                                                     ║
+║  Charset:         utf8mb4_unicode_ci                                         ║
+║  Setup:           scripts/setup-mysql.sh                                     ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  CRON & NOBLE REGISTRY                                                       ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Job Name:        AE6E66-Crawl                                               ║
+║  Schedule:        0 3 1 * * (monthly, 1st, 03:00)                            ║
+║  Noble Registry:  Registered — enabled by default                            ║
+║  Reset Interval:  48 hours (noble 2rways)                                    ║
+║  Shutdown:        State saved to cron/.noble-state                           ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  INTEGRITY                                                                   ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  Tech ID:         Gifted Install Tech ID                                     ║
+║  Digest:          SHA-256 + MD5                                              ║
+║  Database:        nwe_integrity (MySQL)                                      ║
+║  Honor Oath:      Swears honor to process and country                        ║
+║  On Corruption:   Auto-restore from trusted GitHub commit                    ║
+║  On Update:       Preserve originals in integrity/history/                   ║
+║  Blocking:        false (program continues on concern)                       ║
+║  Schedule:        Every 2 days (0 6 */2 * *)                                 ║
+║  Trusted:         github.com/mearvk, github.com/ElisabethHarkins5509        ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  FILES                                                                       ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  AE6E66Main.java              Main crawl/distribute engine                   ║
+║  EmailDistributor.java        Validated SMTP sender (RFC 5321 compliant)     ║
+║  ae6e66-config.xml            URLs, SMTP, domain, crawl, cron, integrity     ║
+║  install-postfix-dovecot.sh   Postfix install (TLS 1.2+, relay-restricted)   ║
+║  configure-local-server.sh    Static IP + HELO validation + header cleanup   ║
+║  setup-dkim-lauradei.sh       DKIM/SPF/DMARC (Unix socket, quarantine)       ║
+║  setup-mysql.sh               Database + tables + minimal-privilege user      ║
+║  message.txt                  Welcome from US Capitalist Class               ║
+║  .last-crawl                  Crawl timestamp (auto-managed)                 ║
+║  .db-credentials              MySQL credentials (chmod 600)                  ║
+║  contacts.csv                 All scraped contacts                           ║
+║  lords-ministers-outlook.csv  Outlook import (personal/)                     ║
+║  AE6E66.RDRS                  This descriptor                                ║
+║  README.md                    Human-readable documentation                   ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  MASQUERADE                                                                  ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  NIO Port:        None (batch process, no listener)                          ║
+║  Masquerade:      Discoverable by NioModuleScanner                           ║
+║  Integration:     Standalone — runs on demand or via cron                    ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  END OF RECORD                                                               ║
+╚══════════════════════════════════════════════════════════════════════════════╝

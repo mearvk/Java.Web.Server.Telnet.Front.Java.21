@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/png" href="images/favicon.png"/>
+    <title>Linux Downloads — Brarner.M.Alete™</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/expandable.css"/>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+    <a href="index.xhtml" class="nav-brand"><img src="images/mearvk.ltd.logo.left.png" alt="" style="height:40px;vertical-align:middle;margin-right:8px;background:transparent;"/>Brarner.M.Alete™<img src="images/mearvk.ltd.logo.right.png" alt="" style="height:40px;vertical-align:middle;margin-left:8px;background:transparent;"/></a>
+    <ul class="nav-links">
+        <li><a href="index.xhtml">Overview</a></li>
+        <li><a href="species.xhtml">Species</a></li>
+        <li><a href="postal.xhtml">Postal</a></li>
+        <li><a href="art.xhtml">Art</a></li>
+        <li><a href="science.xhtml">Science</a></li>
+        <li><a href="status.xhtml">Status</a></li>
+    </ul>
+    <div class="nav-actions">
+        <a href="register.xhtml" class="nav-cta">Register</a>
+        <a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a>
+        <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+    </div>
+</div></nav>
+
+<section class="hero" style="padding:4rem 2rem;">
+    <div class="hero-inner">
+        <span class="hero-tag">Linux x64 / aarch64</span>
+        <h1>Linux Downloads</h1>
+        <p>All Brarner.M.Alete™ release archives for Linux. tar.gz format.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <h3>Available Releases</h3>
+        <p>Direct download links from <a href="https://github.com/mearvk/Brarner.M.Alete">github.com/mearvk/Brarner.M.Alete</a>. All releases are LTS.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Release</th><th>Date</th><th>Format</th><th>Download</th></tr></thead>
+                <tbody>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk-US.Congress.Edition</td><td>Jun 2026</td><td>tar.gz</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk-US.Congress.Edition.tar.gz" class="btn-download">Download tar.gz →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Latest release. US Congress Edition — GitHub Workforce Wiki, digital labor infrastructure.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>v9.9.1</td><td>May 2026</td><td>tar.gz</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/v9.9.1.tar.gz" class="btn-download">Download tar.gz →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Version 9.9.1 — Support status update.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk-3.0</td><td>May 2026</td><td>tar.gz</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk-3.0.tar.gz" class="btn-download">Download tar.gz →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Major version 3.0 release.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk-2.0</td><td>May 2026</td><td>tar.gz</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk-2.0.tar.gz" class="btn-download">Download tar.gz →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Major version 2.0 release.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk.GMnA</td><td>May 2026</td><td>tar.gz</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk.GMnA.tar.gz" class="btn-download">Download tar.gz →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>GMnA edition release.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Mearvk_Evil.Anar</td><td>May 2026</td><td>tar.gz</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/Mearvk_Evil.Anar.tar.gz" class="btn-download">Download tar.gz →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Evil.Anar edition release.</p></td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>MearvK-Attal.a</td><td>May 2026</td><td>tar.gz</td><td><a href="https://github.com/mearvk/Brarner.M.Alete/archive/refs/tags/MearvK-Attal.a.tar.gz" class="btn-download">Download tar.gz →</a></td></tr>
+                    <tr class="a1-child"><td colspan="4"><p>Attal.a edition release.</p></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
+    <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
+</div></footer>
+
+<script>
+/* === session.js (inlined — external JS not served by this deployment) === */
+var BMA_SESSION_COOKIE = 'bma_session';
+var BMA_SESSION_HOURS = 24;
+function setCookie(name, value, hours) { var d = new Date(); d.setTime(d.getTime() + (hours * 60 * 60 * 1000)); document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax'; }
+function getCookie(name) { var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)')); return match ? decodeURIComponent(match[2]) : null; }
+function deleteCookie(name) { document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;'; }
+function getSession() { var raw = getCookie(BMA_SESSION_COOKIE); if (!raw) return null; try { return JSON.parse(raw); } catch(e) { return null; } }
+function setSession(type, ip, settings) { var session = { type: type, ip: ip, settings: settings || {}, created: Date.now() }; setCookie(BMA_SESSION_COOKIE, JSON.stringify(session), BMA_SESSION_HOURS); return session; }
+function enterGuest() { var session = setSession('guest', '', {}); updateNavForSession(session); alert('Logged in as Guest. Session expires in 24 hours.'); }
+function logout() { deleteCookie(BMA_SESSION_COOKIE); updateNavForSession(null); }
+function updateNavForSession(session) { var actions = document.querySelector('.nav-actions'); if (!actions) return; if (session) { var label = session.type === 'registered' ? 'Registered' : 'Guest'; actions.innerHTML = '<span class="nav-session-label">' + label + '</span><a href="javascript:void(0)" class="nav-cta" onclick="logout()">Logout</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } else { actions.innerHTML = '<a href="register.xhtml" class="nav-cta">Register</a><a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } }
+(function() { var session = getSession(); if (session) updateNavForSession(session); })();
+
+/* === expandable.js (inlined) === */
+function toggleA1Row(row) { var child = row.nextElementSibling; if (child && child.classList.contains('a1-child')) { child.classList.toggle('open'); } }
+function toggleBmaPanel(event, el) { if (el.classList.contains('open') && !event.target.closest('.expandable-header')) return; var wasOpen = el.classList.contains('open'); el.classList.toggle('open'); if (wasOpen) { var ta = el.querySelector('.bma-textarea'); if (ta) ta.value = ''; } }
+function bmaSend(btn) { var panel = btn.closest('.bma-panel'); var select = panel.querySelector('.bma-action-select'); var textarea = panel.querySelector('.bma-textarea'); var action = select.value; var ts = new Date().toLocaleTimeString(); var msg = ''; switch (action) { case 'connect': msg = '[' + ts + '] Connecting to BMA server port 49152...\n[' + ts + '] Connected. Ready for commands.\n'; break; case 'disconnect': msg = '[' + ts + '] Disconnecting from BMA server...\n[' + ts + '] Disconnected.\n'; break; case 'poll': msg = '[' + ts + '] Polling area data...\n[' + ts + '] Poll complete. Data refreshed.\n'; break; case 'hardreset': msg = '[' + ts + '] Requesting formal hard reset...\n[' + ts + '] Connection formally closed by server. Reset complete.\n'; break; } textarea.value += msg; textarea.scrollTop = textarea.scrollHeight; }
+function bmaOk(btn) { var panel = btn.closest('.bma-panel'); var textarea = panel.querySelector('.bma-textarea'); var ts = new Date().toLocaleTimeString(); textarea.value += '[' + ts + '] OK \u2014 Acknowledged.\n'; textarea.scrollTop = textarea.scrollHeight; }
+
+/* === connector.js (inlined) === */
+(function() {
+    var btn = document.getElementById('cd1-btn');
+    var dialog = document.getElementById('cd1-dialog');
+    var overlay = document.getElementById('cd1-overlay');
+    var textarea = document.getElementById('cd1-textarea');
+    if (!btn || !dialog || !overlay || !textarea) return;
+    var IDLE_CLOSE_MS = 20 * 60 * 1000;
+    var FULL_RESET_MS = 60 * 60 * 1000;
+    var idleTimer = null, resetTimer = null, savedContent = '';
+    function isOpen() { return dialog.style.display !== 'none'; }
+    function openDialog() { btn.setAttribute('aria-pressed', 'true'); btn.style.transform = 'scale(0.9)'; btn.style.filter = 'drop-shadow(0 0 8px rgba(59,130,246,0.6))'; setTimeout(function() { dialog.style.display = 'block'; overlay.style.display = 'block'; resetIdleTimer(); }, 300); }
+    function closeDialog() { dialog.style.display = 'none'; overlay.style.display = 'none'; btn.setAttribute('aria-pressed', 'false'); btn.style.transform = ''; btn.style.filter = ''; if (textarea.value && textarea.value !== 'Connection idle...') savedContent = textarea.value; textarea.value = ''; textarea.placeholder = 'Connection idle...'; clearTimeout(idleTimer); }
+    function fullReset() { savedContent = ''; textarea.value = ''; textarea.placeholder = 'Connection idle...'; closeDialog(); clearTimeout(resetTimer); resetTimer = null; }
+    function resetIdleTimer() { clearTimeout(idleTimer); clearTimeout(resetTimer); idleTimer = setTimeout(function() { savedContent = textarea.value || savedContent; textarea.value = ''; textarea.placeholder = 'Connection idle...'; closeDialog(); resetTimer = setTimeout(fullReset, FULL_RESET_MS - IDLE_CLOSE_MS); }, IDLE_CLOSE_MS); }
+    btn.addEventListener('click', function() { if (isOpen()) closeDialog(); else openDialog(); });
+    overlay.addEventListener('click', function() { closeDialog(); });
+    textarea.addEventListener('dblclick', function() { if (savedContent) textarea.value = savedContent; });
+    dialog.addEventListener('click', function() { resetIdleTimer(); });
+    dialog.addEventListener('keydown', function() { resetIdleTimer(); });
+    resetTimer = setTimeout(fullReset, FULL_RESET_MS);
+})();
+function cd1Send() { var select = document.getElementById('cd1-action'); var textarea = document.getElementById('cd1-textarea'); if (!select || !textarea) return; var action = select.value; var ts = new Date().toLocaleTimeString(); var msg = ''; switch (action) { case 'connect': msg = '[' + ts + '] Connecting to BMA server port 49152...\n[' + ts + '] Connected.\n'; break; case 'disconnect': msg = '[' + ts + '] Disconnecting...\n[' + ts + '] Disconnected.\n'; break; case 'poll': msg = '[' + ts + '] Polling area data...\n[' + ts + '] Poll complete.\n'; break; case 'hardreset': msg = '[' + ts + '] Hard reset...\n[' + ts + '] Reset complete.\n'; break; } textarea.value += msg; textarea.scrollTop = textarea.scrollHeight; }
+function cd1Ok() { var textarea = document.getElementById('cd1-textarea'); if (!textarea) return; var ts = new Date().toLocaleTimeString(); textarea.value += '[' + ts + '] OK \u2014 Acknowledged.\n'; textarea.scrollTop = textarea.scrollHeight; }
+</script>
+</body>
+</html>

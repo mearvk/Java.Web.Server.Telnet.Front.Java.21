@@ -2,10 +2,20 @@
 <!--
     Middle Director Module Configuration
     =====================================
-    Defines the synchronization modules for finance and target goals
-    consumed on port 8888.
+    Defines synchronization modules, strategic goals, SSL checkin service,
+    and full server topology (main/middle/occupy-writ/endpoint).
+
+    Server topology:
+      - main:         Core NWE installations. Full authority. Many allowed.
+      - middle:       Intermediate directors. Synchronize goals. Many allowed.
+      - occupy-writ:  Occupy only a mode, not the whole scenario. Many allowed.
+      - endpoint:     Terminal game servers. Occupy total game. Many allowed.
+
+    Author: Max Rupplin — MEARVK LLC
 -->
 <middle-director port="8888">
+
+    <!-- ═══ Synchronization Modules ════════════════════════════════════════════ -->
     <module name="ShortHops" class="middle.director.ShortHopsModule"
             description="Short-range finance synchronization hops between middle nodes"/>
     <module name="MediumHops" class="middle.director.MediumHopsModule"
@@ -20,9 +30,57 @@
             description="Angular math roughing sketches (.mdmd), IQ-gated submissions, composure and trade review"/>
     <module name="AuditorContent" class="middle.director.AuditorContentModule"
             description="Auditor content verification and goal compliance"/>
+    <module name="StrategicGoals" class="middle.director.StrategicGoalsModule"
+            config="configuration/strategic-goals-config.xml"
+            description="IQ, initiatives, total IQ wealth, state savings, main money, feelings"/>
 
+    <!-- ═══ SSL Checkin Service ═════════════════════════════════════════════════ -->
+    <ssl-checkin enabled="true" interval-seconds="60"
+                 class="middle.director.SSLCheckinService"/>
+
+    <!-- ═══ Server Topology ════════════════════════════════════════════════════ -->
+
+    <!-- Main servers: full authority, core NWE installations -->
+    <servers tier="main" description="Core NWE installations — full authority">
+        <server host="127.0.0.1" port="8888" role="primary"/>
+        <!-- Add additional main servers as needed -->
+    </servers>
+
+    <!-- Middle servers: intermediate directors, synchronize goals -->
+    <servers tier="middle" description="Intermediate directors — goal synchronization">
+        <server host="127.0.0.1" port="8889" role="peer"/>
+        <!-- Add additional middle servers as needed -->
+    </servers>
+
+    <!-- Occupy-writ servers: occupy only a mode, not the whole scenario -->
+    <servers tier="occupy-writ" description="Mode-occupying servers — partial scenario only">
+        <server host="127.0.0.1" port="8890" role="modal"/>
+        <!-- Add additional occupy-writ servers as needed -->
+    </servers>
+
+    <!-- Endpoint servers: occupy total game -->
+    <servers tier="endpoint" description="Terminal game servers — total game occupation">
+        <server host="127.0.0.1" port="49152" role="national"/>
+        <server host="127.0.0.1" port="49155" role="finance"/>
+        <!-- Add additional endpoint servers as needed -->
+    </servers>
+
+    <!-- ═══ Strategic Goals Configuration ══════════════════════════════════════ -->
+    <strategic-goals>
+        <goal name="IQ" weight="1.00" description="Raw intelligence measurement and initiative scoring"/>
+        <goal name="Initiatives" weight="0.90" description="State and national initiative tracking"/>
+        <goal name="TotalIQWealth" weight="0.95" description="Aggregate intelligence capital across participants"/>
+        <goal name="StateSavings" weight="0.85" description="State initiatives for fiscal/moral savings programs"/>
+        <goal name="MainMoney" weight="0.80" description="Presidents at real stats — post-evaluation capital"/>
+        <goal name="FeelingGood" weight="0.75" description="Feeling good natures — morale, well-being, feelings"/>
+    </strategic-goals>
+
+    <!-- ═══ Targets (routing) ══════════════════════════════════════════════════ -->
     <targets>
-        <target type="middle" description="Forward to other middle nodes on port 8888"/>
-        <target type="national" description="Forward to final NWE installations on port 49152"/>
+        <target type="main" description="Forward to main NWE core servers"/>
+        <target type="middle" description="Forward to other middle nodes on port 8888+"/>
+        <target type="occupy-writ" description="Forward to modal occupy-writ servers"/>
+        <target type="endpoint" description="Forward to terminal endpoint servers (total game)"/>
     </targets>
+
 </middle-director>

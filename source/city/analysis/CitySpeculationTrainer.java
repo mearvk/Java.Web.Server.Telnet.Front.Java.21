@@ -1,4 +1,4 @@
-package city_analysis;
+package city.analysis;
 
 import java.io.*;
 import java.nio.file.*;
@@ -44,6 +44,7 @@ public class CitySpeculationTrainer
     protected double learningRate;
     protected double moralBoundWeight;
     protected int dimensions;
+    protected String[] dimensionLabels;
     protected String falloffModel;
     protected double spectrumMin;
     protected double spectrumMax;
@@ -102,6 +103,8 @@ public class CitySpeculationTrainer
             learningRate = Double.parseDouble(getTag(doc, "learning-rate"));
             moralBoundWeight = Double.parseDouble(getTag(doc, "moral-bound-weight"));
             dimensions = Integer.parseInt(getTag(doc, "dimensions"));
+            String labels = getTag(doc, "dimension-labels");
+            dimensionLabels = (labels != null && !labels.isEmpty()) ? labels.split(",") : new String[dimensions];
             falloffModel = getTag(doc, "falloff-model");
             spectrumMin = Double.parseDouble(getTag(doc, "spectrum-min"));
             spectrumMax = Double.parseDouble(getTag(doc, "spectrum-max"));
@@ -190,7 +193,15 @@ public class CitySpeculationTrainer
 
         trained = true;
         long elapsed = System.currentTimeMillis() - startTime;
-        System.out.println("-- : [CitySpeculationTrainer] Training complete in " + elapsed + "ms. Weights: " + Arrays.toString(spatialWeights));
+        StringBuilder weightStr = new StringBuilder("[");
+        for (int d = 0; d < dimensions; d++)
+        {
+            if (d > 0) weightStr.append(", ");
+            String label = (dimensionLabels != null && d < dimensionLabels.length && dimensionLabels[d] != null) ? dimensionLabels[d] : "d" + d;
+            weightStr.append(label).append("=").append(String.format("%.3f", spatialWeights[d]));
+        }
+        weightStr.append("]");
+        System.out.println("-- : [CitySpeculationTrainer] Training complete in " + elapsed + "ms. Weights: " + weightStr);
     }
 
     /**

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    NWE Configuration (from github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21)
+    Training source for AI module
+    Installed: MEARVK LLC - Max Rupplin
+-->
+<nwe-config>
+    <admin>
+        <username>mearvk</username>
+        <password>n21admin</password>
+        <description>Initial NWE administrator. Responsible for database configuration, server document management, and module authority.</description>
+        <enabled>true</enabled>
+    </admin>
+
+    <servers>
+        <server id="NitroWebExpress" type="WEBEXPRESS_TELNET_PROXY_SERVER" host="localhost" port="49152" enabled="true">
+            <description>Main NitroWebExpress entry point. Telnet-proxy enabled.</description>
+        </server>
+        <server id="AesCompliant" type="WEBEXPRESS_AES2_SERVER" host="localhost" port="5512" enabled="true">
+            <description>AES 2.0 compliant sub-server. Cryptographic compliance layer.</description>
+        </server>
+        <server id="RsaCompliant" type="WEBEXPRESS_RSA_SERVER" host="localhost" port="7743" enabled="true"/>
+        <server id="DsaCompliant" type="WEBEXPRESS_DSA_SERVER" host="localhost" port="7744" enabled="true"/>
+        <server id="BitcoinCompliant" type="WEBEXPRESS_BITCOIN_SERVER" host="localhost" port="6682" enabled="true"/>
+        <server id="ConnectionStatus" host="localhost" port="49155" enabled="true"/>
+        <server id="AsciiCreator" host="localhost" port="49177" enabled="true"/>
+        <server id="ModuleInstallation" host="localhost" port="49166" enabled="true"/>
+        <server id="ModuleLoaderDaemon" host="localhost" port="49188" enabled="true"/>
+        <server id="Communicator" host="localhost" port="49199" enabled="true"/>
+        <server id="Weather" host="localhost" port="49133" enabled="true"/>
+        <server id="CalendarD44" type="CALENDAR_D44_SERVER" host="localhost" port="49200" enabled="true"/>
+        <server id="JapanSignalServer" type="JAPAN_SIGNAL_SERVER" host="localhost" port="49201" enabled="true"/>
+        <server id="RussiaSignalServer" type="RUSSIA_SIGNAL_SERVER" host="localhost" port="49202" enabled="true"/>
+        <server id="MexicoSignalServer" type="MEXICO_SIGNAL_SERVER" host="localhost" port="49203" enabled="true"/>
+        <server id="GreeceInternationalSignalServer" type="GREECE_INTL_SIGNAL_SERVER" host="localhost" port="49204" enabled="true"/>
+        <server id="Strernary" type="STRERNARY_SERVER" host="localhost" port="20000" enabled="true">
+            <description>Best-guess inference server. DJL for local inference, keyword heuristics as fallback.</description>
+        </server>
+        <server id="BinaryHttp" host="localhost" port="49144" enabled="true"/>
+        <server id="StrernaryDirectory" type="STRERNARY_DIRECTORY_2000" host="localhost" port="2000" enabled="true"/>
+    </servers>
+
+    <modules>
+        <module id="NioMasquerade" type="NIO_MASQUERADE" bind="127.0.0.1-17" port="0" enabled="true"/>
+        <module id="NioModuleScanner" enabled="true"/>
+        <module id="BrarnerAlete" enabled="true"/>
+        <module id="Antivirus" schedule="daily" enabled="true"/>
+        <module id="HeuristicClassifier" enabled="true"/>
+        <module id="BitcoinWalletIndexer" enabled="true"/>
+        <module id="TransferSummaryMailer" config="configuration/transfer-contacts.xml" enabled="true"/>
+    </modules>
+
+    <server-classes>
+        <class name="server.base.BaseServer">Standard BaseServer. No connection limits or weight balancing.</class>
+        <class name="server.experimental.HardenedBaseServer">Hardened server with 512 max, 10 per-IP, 30-min timeout.</class>
+        <class name="server.hardened.experimental.m.NationalAwareHardService">Weight-balanced hardened. 5040 max, 1 per-IP, 58-min timeout.</class>
+    </server-classes>
+
+    <remote-servers>
+        <remote name="AES 2.0 Remote" host="mearvk.us" ip="45.32.31.139" description="Production AES remote target."/>
+        <remote name="Bitcoin v24.0+ Remote" host="mearvk.us" ip="45.32.31.139" description="Production Bitcoin remote target."/>
+    </remote-servers>
+</nwe-config>

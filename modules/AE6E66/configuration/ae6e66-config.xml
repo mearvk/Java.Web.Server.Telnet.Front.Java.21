@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ae6e66-config>
+    <module>
+        <name>AE6E66</name>
+        <description>House of Lords + House of Commons Contact and Portrait Module</description>
+        <version>1.2</version>
+        <author>Max Rupplin - MEARVK LLC</author>
+        <color>Emerald Green</color>
+        <trust>9.5/10</trust>
+    </module>
+
+    <crawl>
+        <members-url>https://members.parliament.uk/members/Lords</members-url>
+        <commons-url>https://members.parliament.uk/members/Commons</commons-url>
+        <hoc-enquiries-url>https://www.parliament.uk/mps-lords-and-offices/offices/commons/house-of-commons-enquiries-service/contact-us/</hoc-enquiries-url>
+        <portrait-url-template>https://members.parliament.uk/member/{id}/portrait</portrait-url-template>
+        <contact-url-template>https://members.parliament.uk/member/{id}/contact</contact-url-template>
+        <career-url-template>https://members.parliament.uk/member/{id}/career</career-url-template>
+        <id-range-start>0</id-range-start>
+        <id-range-end>999</id-range-end>
+        <portraits-dir>portraits</portraits-dir>
+        <contacts-file>contacts.csv</contacts-file>
+        <personal-dir>personal</personal-dir>
+        <last-crawl-file>configuration/.last-crawl</last-crawl-file>
+        <skip-days>30</skip-days>
+        <parliament-session></parliament-session>
+    </crawl>
+
+    <messaging>
+        <stationary-dir>marrister</stationary-dir>
+        <sent-dir>sent</sent-dir>
+        <hash-algorithm>SHA-256</hash-algorithm>
+        <success-log-suffix>.success.log</success-log-suffix>
+        <failure-log-suffix>.failure.log</failure-log-suffix>
+    </messaging>
+
+    <email>
+        <server-id>mail.lauradei.us</server-id>
+        <smtp-host>localhost</smtp-host>
+        <smtp-port>25</smtp-port>
+        <from-address>contact@lauradei.us</from-address>
+        <from-name>MEARVK LLC</from-name>
+        <domain>lauradei.us</domain>
+        <static-ip>45.32.31.139</static-ip>
+        <dkim-selector>ae6e66</dkim-selector>
+        <dkim-bits>2048</dkim-bits>
+        <install-target>Japanese VPS (chance/luck)</install-target>
+        <require-postfix>true</require-postfix>
+        <rate-limit-seconds>2</rate-limit-seconds>
+        <socket-timeout-seconds>30</socket-timeout-seconds>
+    </email>
+
+    <security>
+        <tls-minimum>TLSv1.2</tls-minimum>
+        <tls-ciphers>high</tls-ciphers>
+        <spf-policy>-all</spf-policy>
+        <dmarc-policy>quarantine</dmarc-policy>
+        <relay-restriction>reject_unauth_destination</relay-restriction>
+        <helo-required>true</helo-required>
+        <dkim-socket>unix:/run/opendkim/opendkim.sock</dkim-socket>
+        <require-safe-keys>true</require-safe-keys>
+        <email-validation>RFC5321</email-validation>
+        <header-injection-prevention>true</header-injection-prevention>
+    </security>
+
+    <mysql>
+        <database>nwe_ae6e66</database>
+        <user>ae6e66_svc</user>
+        <credentials-file>configuration/.db-credentials</credentials-file>
+        <tables>contacts, sent_log, crawl_history</tables>
+        <engine>InnoDB</engine>
+        <charset>utf8mb4_unicode_ci</charset>
+        <setup-script>scripts/setup-mysql.sh</setup-script>
+    </mysql>
+
+    <cron>
+        <registered>true</registered>
+        <job-name>AE6E66-Crawl</job-name>
+        <schedule>0 3 1 * *</schedule>
+        <noble-registry>true</noble-registry>
+    </cron>
+
+    <integrity>
+        <tracked>true</tracked>
+        <tech-id>Gifted Install Tech ID</tech-id>
+        <restore-on-fail>true</restore-on-fail>
+    </integrity>
+</ae6e66-config>

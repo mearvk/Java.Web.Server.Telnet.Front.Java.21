@@ -217,6 +217,36 @@ public class Main
             if (NitroWebExpressConfig.isEnabled("Strernary"))
                 new strernary.StrernaryServer("localhost");
 
+            if (NitroWebExpressConfig.isEnabled("StrernaryDirectory"))
+                new strernary.StrernaryDirectoryServer("localhost");
+
+            if (NitroWebExpressConfig.isEnabled("CaliforniaFBI"))
+                Thread.ofVirtual().name("CALIFORNIA_FBI_SERVER").start(new source.CaliforniaFBIServer());
+
+            if (NitroWebExpressConfig.isEnabled("CaliforniaCIA"))
+                Thread.ofVirtual().name("CALIFORNIA_CIA_SERVER").start(new source.CaliforniaCIAServer());
+
+            if (NitroWebExpressConfig.isEnabled("CaliforniaNSA"))
+                Thread.ofVirtual().name("CALIFORNIA_NSA_SERVER").start(new source.CaliforniaNSAServer());
+
+            if (NitroWebExpressConfig.isEnabled("DukeUniversity"))
+                Thread.ofVirtual().name("DUKE_UNIVERSITY_SERVER").start(new source.DukeUniversityServer());
+
+            if (NitroWebExpressConfig.isEnabled("StanfordLibrary"))
+                Thread.ofVirtual().name("STANFORD_LIBRARY_SERVER").start(new source.StanfordLibraryServer());
+
+            if (NitroWebExpressConfig.isEnabled("DemocraticProFrontNational"))
+            {
+                try { Class.forName("red.Futures.source.ai.server.DemocraticAIServer")
+                        .getDeclaredMethod("start").invoke(
+                            Class.forName("red.Futures.source.ai.server.DemocraticAIServer")
+                                .getDeclaredConstructor().newInstance());
+                } catch (ClassNotFoundException e) {
+                    CommonRails.printSystemComponent(this, this.hashCode(),
+                        ". Futures module not compiled — skipping port 5000 .");
+                } catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
+            }
+
             if (NitroWebExpressConfig.isEnabled("BrarnerAlete"))
                 new brarner.m.alete.BrarnerAleteModule();
 
@@ -229,6 +259,12 @@ public class Main
                 bitcoin.module.BitcoinWalletIndexer.seedDefaults();
 
             NITRO.BRIDGE.MYSQL_COMPONENT = mysqlComponent;
+
+            // Gray Port Registry — Installer ID Tech™ (enabled by default)
+            new modules.gray.source.GrayPortRegistryServer().start();
+
+            // Gray.85 Crème Port Registry — Installer ID Tech™ (enabled by default)
+            new modules.gray.a85.source.Gray85PortRegistryServer().start();
 
             new lanterna.TerminalMenu().start();
 

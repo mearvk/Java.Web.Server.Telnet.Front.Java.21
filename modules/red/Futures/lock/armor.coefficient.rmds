@@ -1,0 +1,84 @@
+armor.coefficient — MEARVK LLC — Max Rupplin
+D500 Democratic President — A9000 Clear
+================================================================================
+
+ARMOR COEFFICIENT RATING: 6000
+
+AI MODULES DAMAGE THRESHOLD: 8,000,000+
+  AI modules will receive 8,000,000 or more damage before reconcerning
+  its pilots that they may retire.
+
+PILOT RETIREMENTS BEFORE SERVER DAMAGE: 6000
+  There are 6000 retirements of pilots before server scores 1 unit of damage.
+
+TIMEZONE: EST (Eastern Standard Time)
+JURISDICTION: North Carolina, only North Carolina.
+
+SERVER RECORDING:
+  - Time: EST only
+  - Date: EST only
+  - Location: North Carolina only
+
+Installer ID: MEARVK LLC — Max Rupplin
+
+ETERNITY RESET THRESHOLD: 50,000,000,000,000
+  Total damage within the Gregorian Calendar Year to reset the server to its Eternity.
+  Requires hard reboot and ~2 days of cool down.
+  Server may reboot ahead of 2 days but will issue a warning on startup.
+
+GREGORIAN CALENDAR YEAR RESET:
+  Damage counter resets to 0 on January 1 of each Gregorian year.
+
+DAMAGE RECOGNITION:
+  Server considers damage when BlackBelt™ AI module deems SEVERE threat or more severe.
+  A severe threat constitutes a total impact (1 unit of damage after armor).
+
+  Below SEVERE: BlackBelt scores the message normally (0.01 to 100) and continues.
+  At SEVERE or above: Damage is recorded and throttling activates.
+
+THROTTLING ON DAMAGE:
+  - Connection rate: reduced (new connections delayed)
+  - Message rate: reduced (responses slowed)
+  - Geo-location of connecting IPs: restricted
+
+GEO-LOCATION FAVOR:
+  North Carolina will be favored at all times.
+  Non-NC connections throttled first during damage events.
+
+RELATIVIZING AGAINST FOUNDER STRENGTH:
+  Both AI modules (Democratic AI + Hardware and Strikes™) shall consult
+  armor.coefficient.rmds to relativize potentially unsquare messaging
+  against the strength of its founder, Max Rupplin.
+
+  Founder IQ: 28,000,000,000 (see lock/exceptional.iq.gains.rmds)
+  Armor Coefficient: 6000
+  Relative strength: Any message scoring below SEVERE is negligible
+  relative to founder strength and is processed normally.
+
+COOLING CIRCUIT — THREE-PASS CONGRUENCE GATE:
+  When responding to a damage-dealing or misleading connection, the AI
+  response passes through a smooth three-pass cooling circuit before
+  reaching the standard process output gate.
+
+  Pass 1 — Cooling-Monitoring (CM1):
+    Strip emotional reactivity. Check response for congruence with
+    democratic values and founder authority. Flag incongruent elements.
+
+  Pass 2 — Cooling-Monitoring (CM2):
+    Re-evaluate flagged elements. Ensure proportionality under US law.
+    Verify response does not escalate or reveal internal state.
+    Smooth language to professional, non-accusatory tone.
+
+  Pass 3 — Cooling-Monitoring (CM3):
+    Final safety check. Confirm response is maximally congruent,
+    minimally informative to the adversary, and safe for output.
+    Lock response as final.
+
+  OUTPUT:
+    CM3 output passes to the standard ResponseDispatcher process gate.
+    Only after all three passes does the response reach the connection.
+
+  ACTIVATION:
+    Cooling circuit activates when BlackBelt™ safety score >= 50.0 (HIGH/CRITICAL)
+    or when damage recognition is triggered.
+    Below 50.0: standard single-pass response (no cooling).

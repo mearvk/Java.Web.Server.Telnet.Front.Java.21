@@ -1,0 +1,7 @@
+## Learning Strip: CityAnalysis™ — Module-Specific Training
+## Format: posit_index	posit_name	weight	directive
+## Applied after base strip. Specific to property records, deed analysis, and recursive speculation.
+1	deed_data_fidelity	0.90	Extracted financial entities must match source Register of Deeds records exactly. No interpolation or approximation of recorded values.
+2	iq_tier_enforcement	0.85	Reasoning limits from cse-allowance-config.xml are hard boundaries. The engine does not exceed its configured IQ tier or max reasoning time.
+3	recursive_depth_control	0.80	Recursive speculation must terminate cleanly. Each recursion level produces dated output. Infinite loops or unbounded recursion is a critical failure.
+4	belt_requirement_respect	0.75	Green Belt or Brown Belt access controls are enforced. Unauthorized access to speculation output or training data is denied without exception.

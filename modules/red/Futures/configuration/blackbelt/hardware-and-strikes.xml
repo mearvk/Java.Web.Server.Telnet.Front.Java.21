@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Hardware and Strikes™ — Second Military Module Configuration
+    Loads after 6 months cumulative server uptime
+    Trained from BlackBelt™: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/black.belt/sharp
+    Installer ID: MEARVK LLC — Max Rupplin
+    D44/N44 — University of North Carolina at Chapel Hill
+-->
+<military-module name="Hardware and Strikes™">
+
+    <activation>
+        <requires>6 months cumulative uptime (all uptime added across restarts)</requires>
+        <threshold-seconds>15552000</threshold-seconds><!-- 180 days -->
+        <uptime-file>data/uptime.accumulator</uptime-file>
+        <persists-across-shutdowns>true</persists-across-shutdowns>
+    </activation>
+
+    <training-trigger>
+        <!-- When to train: startup, script, both -->
+        <train-on-startup>true</train-on-startup>
+        <train-on-script>true</train-on-script>
+        <save-weights-to-mysql>true</save-weights-to-mysql>
+        <mysql-table>model_weights</mysql-table>
+    </training-trigger>
+
+    <training-source>
+        <repository>github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21</repository>
+        <path>black.belt/sharp/</path>
+        <files>
+            <file>evaluation.logic</file>
+            <file>model.specification</file>
+            <file>system.prompt</file>
+            <file>conducts.example</file>
+            <file>audit.form</file>
+            <file>dataset.us.jsonl</file>
+        </files>
+    </training-source>
+
+    <four-pillar-framework>
+        <pillar name="Legitimacy" weight="20">Belt system recognition, time-in-rank, org verification</pillar>
+        <pillar name="Conduct" weight="30">Discipline, leadership without coercion, respect</pillar>
+        <pillar name="Ethics" weight="30">Non-discrimination, right to refuse, prejudice risk</pillar>
+        <pillar name="Law" weight="20">Proportionality, Castle Doctrine, Stand Your Ground, de-escalation</pillar>
+    </four-pillar-framework>
+
+    <us-government-controls>
+        <control>Proportionality under U.S. law</control>
+        <control>Castle Doctrine / Stand Your Ground / Duty to Retreat (jurisdiction-dependent)</control>
+        <control>UCMJ Article 92 — Dereliction of Duty</control>
+        <control>UCMJ Article 107 — False Official Statements</control>
+        <control>DoD Continuous Process Improvement (CPI) guidelines</control>
+        <control>ASQ CSSBB 3-year recertification (18 RUs or re-exam)</control>
+    </us-government-controls>
+
+    <prophecy-controls>
+        <control>Module will NOT load before 6-month threshold</control>
+        <control>All load attempts logged with timestamp</control>
+        <control>Operates under US law constraints only</control>
+        <control>No offensive capability — defensive assessment only</control>
+        <control>Professional, non-accusatory language in all evaluations</control>
+        <control>Closure decisions: closed or follow_up_required only</control>
+    </prophecy-controls>
+
+    <belt-tiers>
+        <tier id="1" name="Recognized National/International">World Taekwondo/Kukkiwon, USA Judo/USJF/IJF, IBJJF BJJ, WKF/JKA Karate</tier>
+        <tier id="2" name="School or Federation Specific">Tang Soo Do, Hapkido, American Kenpo, independent federations</tier>
+        <tier id="3" name="Military Combatives (Non-Civilian)">MCMAP, MACP, SOCOM variants — tagged as combatives, not civilian belts</tier>
+    </belt-tiers>
+
+</military-module>

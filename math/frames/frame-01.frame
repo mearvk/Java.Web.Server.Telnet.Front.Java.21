@@ -1,0 +1,5 @@
+# Frame 01 — Ricochet frame (achieves own virtue)
+index=1
+hop=2
+transform=scale:1.1
+link=next

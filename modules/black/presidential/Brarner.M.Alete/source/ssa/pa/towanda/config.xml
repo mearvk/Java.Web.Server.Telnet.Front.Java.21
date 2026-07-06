@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>C85</office-code>
+    <office-name>TOWANDA PA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 1</address-2>
+    <address-3>1 ELIZABETH STREET</address-3>
+    <city>TOWANDA</city>
+    <state>PA</state>
+    <zip-code>18848</zip-code>
+    <phone>(888) 841-6546</phone>
+    <fax>(833) 950-2590</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9388</socket-port>
+    <local-input-path>source-code/ssa/pa/towanda/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/pa/towanda</output-dir>
+</signal-processing-config>

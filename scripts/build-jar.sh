@@ -21,7 +21,7 @@ DJL_CP=$(find "$DJL_DIR" -name "*.jar" 2>/dev/null | tr '\n' ':')
 CP="$OUT:$MYSQL_JAR:${DJL_CP}$LANTERNA_JAR"
 
 find "$SRC" -name "*.java" > /tmp/nwe-sources.txt
-javac --release 25 -cp "$CP" -sourcepath "$SRC" -d "$OUT" @/tmp/nwe-sources.txt
+javac --release 25 -cp "$CP" -sourcepath "$SRC" -d "$OUT" @/tmp/nwe-sources.txt 2>&1
 rm -f /tmp/nwe-sources.txt
 echo "      Compiled."
 

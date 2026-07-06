@@ -36,5 +36,6 @@ Students:   Available on the 8th Floor after 8
 ## Documentation
 
 - STRUCTURE.txt is comprehensive but manually maintained. It will drift from reality. Consider auto-generating portions from source annotations or a build-time scan.
-- The README.md is sparse compared to the system's complexity. Add a quickstart guide, architecture diagram, and port reference table for new developers or administrators.
+- The README.md is now comprehensive with module tables, memory estimates, GrayPortRegistry protocol docs, and full BMA website details. Keep it in sync when new modules are added.
 - Configuration options across 8+ XML files are not cross-referenced. A single configuration reference document (or --help output) would help administrators.
+- The BMA servlet website now has its own `config.xml` for branding. Document all config.xml files and their purposes in a central reference (README already covers most).

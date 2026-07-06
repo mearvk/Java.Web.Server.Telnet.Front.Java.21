@@ -1,0 +1,11 @@
+{
+  "text": "What values should guide environmental policy, and how should economic and ecological concerns be balanced?",
+  "labels": {
+    "openness": 0.95,
+    "inclusiveness": 0.91,
+    "evidence_orientation": 0.72,
+    "value_exploration": 0.96,
+    "polarization_risk": 0.18,
+    "democratic_quality": 0.92
+  }
+}

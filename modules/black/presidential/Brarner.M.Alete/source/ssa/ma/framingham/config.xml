@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>53</office-code>
+    <office-name>FRAMINGHAM MA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 101</address-2>
+    <address-3>ONE CLARKS HILL</address-3>
+    <city>FRAMINGHAM</city>
+    <state>MA</state>
+    <zip-code>1702</zip-code>
+    <phone>(844) 587-1390</phone>
+    <fax>(833) 926-1862</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9535</socket-port>
+    <local-input-path>source-code/ssa/ma/framingham/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ma/framingham</output-dir>
+</signal-processing-config>

@@ -10,7 +10,7 @@
  *
  * Grading: A (95-100), B (80-94), C (60-79), D (40-59), F (<40) based on row yield
  *
- * Run standalone: java -cp <classpath> city_analysis.RodQueryTestFramework
+ * Run standalone: java -cp <classpath> city.analysis.RodQueryTestFramework
  *
  * @author Max Rupplin
  * @javaowner Max Rupplin
@@ -50,8 +50,10 @@ public class RodQueryTestFramework
 
         testInputCsvExists();
         testDisclaimerHandlerConnects();
+        testThreeStepSearchFormula();
         testQueryHandlerProducesResults();
         testCsvAppendedAfterQuery();
+        testDownloadsSaved();
         testRandom100Parcels();
 
         print("=== Results: " + passed + " passed, " + failed + " failed ===");
@@ -76,12 +78,56 @@ public class RodQueryTestFramework
         print("[TEST] RodDisclaimerHandler accepts disclaimer and returns content");
         try
         {
-            city_analysis.RodDisclaimerHandler handler = new city_analysis.RodDisclaimerHandler();
+            RodDisclaimerHandler handler = new RodDisclaimerHandler();
             String html = handler.acceptAndFetch();
             if (html == null) { fail("Disclaimer handler returned null — site unreachable or form changed"); return; }
             if (html.isEmpty()) { fail("Disclaimer handler returned empty content"); return; }
             if (handler.getSessionCookie() == null) { fail("No session cookie acquired"); return; }
             pass("Disclaimer accepted, got " + html.length() + " chars, cookie set");
+        }
+        catch (Exception e) { fail("Exception: " + e.getMessage()); }
+    }
+
+    /**
+     * Tests the proven 3-step ROD search formula:
+     * 1. GET /web/search/DOCSEARCH5S1 → establish session (JSESSIONID)
+     * 2. POST /web/user/disclaimer (X-Requested-With: XMLHttpRequest) → "true"
+     * 3. GET /web/search/DOCSEARCH5S1 → search form (56KB+)
+     * 4. POST /web/searchPost/DOCSEARCH5S1 (form fields + XMLHttpRequest) → JSON pagination
+     * 5. GET /web/searchResults/DOCSEARCH5S1 (XMLHttpRequest) → results HTML with document links
+     */
+    private void testThreeStepSearchFormula()
+    {
+        print("[TEST] Three-step search formula (disclaimer → searchPost → searchResults)");
+        try
+        {
+            // Step 1+2: Disclaimer accept
+            RodDisclaimerHandler disclaimer = new RodDisclaimerHandler();
+            String searchPage = disclaimer.acceptAndFetch();
+            if (searchPage == null) { fail("Step 1-2: disclaimer accept returned null"); return; }
+            if (searchPage.length() < 10000) { fail("Step 3: search page too small (" + searchPage.length() + " chars) — likely still on disclaimer"); return; }
+            if (!searchPage.contains("field_BothNamesID_DOT_Surname")) { fail("Step 3: search page missing expected form field"); return; }
+            pass("Steps 1-3: Session established, disclaimer accepted, search form loaded (" + searchPage.length() + " chars)");
+
+            // Step 4+5: Submit search and get results
+            String cookie = disclaimer.getSessionCookie();
+            RodPropertyQueryEngine engine = new RodPropertyQueryEngine(cookie);
+            engine.setNameType(RodPropertyQueryEngine.NameType.HUMAN);
+            List<String> results = engine.queryByName("DUKE", "");
+
+            if (results.isEmpty())
+            {
+                fail("Steps 4-5: search for 'DUKE' returned 0 document results (searchPost/searchResults may have failed)");
+                return;
+            }
+
+            pass("Steps 4-5: Search for 'DUKE' returned " + results.size() + " document records");
+
+            // Verify result format has expected pipe-delimited fields
+            String first = results.get(0);
+            int pipes = (int) first.chars().filter(c -> c == '|').count();
+            if (pipes < 3) { fail("Result format invalid — expected pipe-delimited fields, got: " + first.substring(0, Math.min(80, first.length()))); return; }
+            pass("Result format valid (" + (pipes + 1) + " fields per record)");
         }
         catch (Exception e) { fail("Exception: " + e.getMessage()); }
     }
@@ -92,7 +138,7 @@ public class RodQueryTestFramework
         long sizeBefore = getFileSize(OUTPUT_CSV);
         try
         {
-            city_analysis.RodQueryHandler handler = new city_analysis.RodQueryHandler();
+            RodQueryHandler handler = new RodQueryHandler();
             int results = handler.queryAndAppend(3);
             if (results < 0) { fail("queryAndAppend returned negative: " + results); return; }
             long sizeAfter = getFileSize(OUTPUT_CSV);
@@ -132,6 +178,51 @@ public class RodQueryTestFramework
     }
 
     /**
+     * Verifies downloads/DATE/WEBSITE/00X.data files are created with processed text.
+     */
+    private void testDownloadsSaved()
+    {
+        print("[TEST] Downloads saved as processed .data per website per date");
+        Path dlDir = Path.of("downloads");
+        if (!Files.exists(dlDir)) { fail("downloads/ directory does not exist"); return; }
+        try
+        {
+            // Run a fetch to generate downloads
+            CityAnalysisServer server = new CityAnalysisServer();
+            server.fetchAllSources();
+
+            // Check structure: downloads/DATE/WEBSITE/00X.data
+            var dateDirs = Files.list(dlDir).filter(Files::isDirectory).toList();
+            if (dateDirs.isEmpty()) { fail("No date subdirectories in downloads/"); return; }
+
+            Path latestDate = dateDirs.stream().sorted(java.util.Comparator.reverseOrder()).findFirst().get();
+            var websiteDirs = Files.list(latestDate).filter(Files::isDirectory).toList();
+            if (websiteDirs.isEmpty()) { fail("No website subdirectories in " + latestDate); return; }
+
+            int totalFiles = 0;
+            for (Path wsDir : websiteDirs)
+            {
+                var dataFiles = Files.list(wsDir).filter(p -> p.toString().endsWith(".data")).toList();
+                totalFiles += dataFiles.size();
+
+                // Verify files contain text not HTML
+                for (Path df : dataFiles)
+                {
+                    String content = Files.readString(df);
+                    if (content.contains("<!doctype") || content.contains("<html"))
+                    {
+                        fail(df + " contains raw HTML — should be processed text");
+                        return;
+                    }
+                }
+            }
+
+            pass("Downloads: " + websiteDirs.size() + " websites, " + totalFiles + " .data files, all processed text");
+        }
+        catch (Exception e) { fail("Exception: " + e.getMessage()); }
+    }
+
+    /**
      * Selects 100 random parcels from the input CSV, queries ROD for all available
      * property/owner data on each using human/soundex selectors, follows document
      * result links (e.g., /web/document/DOC255S471?search=DOCSEARCH5S1), extracts
@@ -154,7 +245,7 @@ public class RodQueryTestFramework
         print("  Selected " + sample.size() + " random parcels from " + allRecords.size() + " total");
 
         // Step 3: Accept disclaimer
-        city_analysis.RodDisclaimerHandler disclaimerHandler = new city_analysis.RodDisclaimerHandler();
+        RodDisclaimerHandler disclaimerHandler = new RodDisclaimerHandler();
         String html = disclaimerHandler.acceptAndFetch();
         if (html == null)
         {
@@ -171,7 +262,7 @@ public class RodQueryTestFramework
         // Step 5: Query each parcel — HUMAN first, SOUNDEX fallback
         int parcelsWithResults = 0;
         int totalRows = 0;
-        city_analysis.RodPropertyQueryEngine engine = new city_analysis.RodPropertyQueryEngine(cookie);
+        RodPropertyQueryEngine engine = new RodPropertyQueryEngine(cookie);
 
         for (int i = 0; i < sample.size(); i++)
         {
@@ -182,14 +273,14 @@ public class RodQueryTestFramework
             String streetName = record[3];
 
             // Try HUMAN search type first
-            engine.setNameType(city_analysis.RodPropertyQueryEngine.NameType.HUMAN);
+            engine.setNameType(RodPropertyQueryEngine.NameType.HUMAN);
             List<String> results = engine.queryAllData(parcelId, pin, address, streetName);
             String searchType = "human";
 
             // Fallback to SOUNDEX if no results
             if (results.isEmpty())
             {
-                engine.setNameType(city_analysis.RodPropertyQueryEngine.NameType.SOUNDEX);
+                engine.setNameType(RodPropertyQueryEngine.NameType.SOUNDEX);
                 results = engine.queryAllData(parcelId, pin, address, streetName);
                 searchType = "soundex";
             }

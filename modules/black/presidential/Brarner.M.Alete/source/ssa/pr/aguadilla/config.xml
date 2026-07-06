@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>528</office-code>
+    <office-name>AGUADILLA PR</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>5000 PEDRO ALBIZU CAMPOS AVE</address-3>
+    <city>AGUADILLA</city>
+    <state>PR</state>
+    <zip-code>603</zip-code>
+    <phone>(833) 882-1201</phone>
+    <fax>(833) 950-3621</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9959</socket-port>
+    <local-input-path>source-code/ssa/pr/aguadilla/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/pr/aguadilla</output-dir>
+</signal-processing-config>

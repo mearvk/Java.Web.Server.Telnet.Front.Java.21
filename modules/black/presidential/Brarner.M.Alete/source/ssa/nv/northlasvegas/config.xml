@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>D49</office-code>
+    <office-name>NORTH LAS VEGAS NV</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>4340 SIMMONS STREET</address-3>
+    <city>NORTH LAS VEGAS</city>
+    <state>NV</state>
+    <zip-code>89032</zip-code>
+    <phone>(866) 614-9667</phone>
+    <fax>(833) 902-2608</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9431</socket-port>
+    <local-input-path>source-code/ssa/nv/northlasvegas/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/nv/northlasvegas</output-dir>
+</signal-processing-config>

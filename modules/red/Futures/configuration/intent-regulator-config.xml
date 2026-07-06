@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    NitroWebExpress Configuration
+    ==============================
+    MEARVK LLC — National Finance Engine v2811.1
+    Author: Max Rupplin
+    All ports listed here are the authoritative reference for NWE services.
+    Port privilege for MODULE_LOADER_DAEMON is established externally by the
+    national port-aware program and its database.  All other ports are bound
+    locally on startup.
+
+    Intent Regulator — AI Module
+    Determines whether an incoming request on port 5000 is:
+      (A) A general knowledge question (communication response), or
+      (B) A server function command (execute against the server itself).
+-->
+<intent-regulator>
+
+    <port>5000</port>
+    <module>DemocraticAIServer</module>
+
+    <!--
+        Classification: two modes of response.
+        COMMUNICATION = answer as knowledge/information (CSV/XML output of known data)
+        SERVER_FUNCTION = execute a command that changes server state
+    -->
+    <intent-classes>
+        <intent id="COMMUNICATION" default="true">
+            <description>General question about knowable values — respond with information</description>
+            <response-formats>csv,xml,plain</response-formats>
+            <max-paragraphs>3800</max-paragraphs>
+            <requires-agreement>true</requires-agreement>
+        </intent>
+        <intent id="SERVER_FUNCTION" default="false">
+            <description>Command acting upon the server's own state or configuration</description>
+            <response-formats>xml</response-formats>
+            <requires-admin>true</requires-admin>
+            <requires-agreement>true</requires-agreement>
+        </intent>
+    </intent-classes>
+
+    <!--
+        Regulator rules: keyword and structural heuristics to classify intent.
+        Evaluated top-down; first match wins.
+    -->
+    <regulator>
+        <rule intent="SERVER_FUNCTION">
+            <description>Request contains server-action verbs targeting internal state</description>
+            <match type="verb-object">
+                <verbs>restart,shutdown,reload,reconfigure,kill,stop,start,deploy,update,patch,flush,purge</verbs>
+                <objects>server,port,module,config,daemon,database,pool,executor,thread,uptime,ledger</objects>
+            </match>
+        </rule>
+        <rule intent="SERVER_FUNCTION">
+            <description>Request references internal file paths or configuration</description>
+            <match type="pattern">
+                <patterns>configuration/.*\.xml,data/.*,logging/.*,sql/.*,models/.*</patterns>
+            </match>
+        </rule>
+        <rule intent="COMMUNICATION">
+            <description>Request asks about external knowable values — people, places, facts</description>
+            <match type="verb-object">
+                <verbs>get,list,build,show,find,tell,give,explain,describe,who,what,where</verbs>
+                <objects>person,people,contact,city,state,country,fact,history,law,senator,president</objects>
+            </match>
+        </rule>
+        <rule intent="COMMUNICATION">
+            <description>Default fallback — treat as knowledge question unless server-action detected</description>
+            <match type="fallback"/>
+        </rule>
+    </regulator>
+
+    <!--
+        Response behavior per intent class.
+    -->
+    <response-policy>
+        <on intent="COMMUNICATION">
+            <action>Query knowledge base, format as requested (CSV/XML), return to client</action>
+            <log>true</log>
+            <learn>true</learn>
+        </on>
+        <on intent="SERVER_FUNCTION">
+            <action>Verify admin credentials, execute if authorized, return status XML</action>
+            <log>true</log>
+            <learn>true</learn>
+            <reject-if-not-admin>
+                <message>Contact your Local Senator.</message>
+            </reject-if-not-admin>
+        </on>
+    </response-policy>
+
+</intent-regulator>

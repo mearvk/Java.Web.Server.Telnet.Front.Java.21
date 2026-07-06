@@ -256,6 +256,87 @@
         </description>
     </server>
 
+    <server id="CaliforniaFBI">
+        <enabled>true</enabled>
+        <name>CaliforniaFBI™</name>
+        <thread>CALIFORNIA_FBI_SERVER</thread>
+        <host>localhost</host>
+        <port>49210</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            California FBI crime reporting module. AI-assisted categorization via
+            Strernary™ (port 20000). SEARCH commands query both local MySQL and
+            Strernary inference. Falls back to DB-only if port 20000 offline.
+            Connects to tips.fbi.gov and IC3 for federal tip forwarding.
+            MySQL database: nwe_california_fbi. Installer ID Tech™ secures all table writes.
+        </description>
+    </server>
+
+    <server id="CaliforniaCIA">
+        <enabled>true</enabled>
+        <name>CaliforniaCIA™</name>
+        <thread>CALIFORNIA_CIA_SERVER</thread>
+        <host>localhost</host>
+        <port>49211</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            California CIA intelligence reporting module. AI-assisted categorization
+            via Strernary™ (port 20000). SEARCH commands query both local MySQL and
+            Strernary inference. Falls back to DB-only if port 20000 offline.
+            Connects to cia.gov/report-information and FOIA reading room.
+            MySQL database: nwe_california_cia. Installer ID Tech™ secured.
+        </description>
+    </server>
+
+    <server id="CaliforniaNSA">
+        <enabled>true</enabled>
+        <name>CaliforniaNSA™</name>
+        <thread>CALIFORNIA_NSA_SERVER</thread>
+        <host>localhost</host>
+        <port>49212</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            California NSA cybersecurity module. AI-assisted incident categorization
+            via Strernary™ (port 20000). SEARCH commands query both local MySQL and
+            Strernary inference. Falls back to DB-only if port 20000 offline.
+            Connects to nsa.gov/Cybersecurity and CISA for vulnerability disclosure.
+            MySQL database: nwe_california_nsa. Installer ID Tech™ secured.
+        </description>
+    </server>
+
+    <server id="DukeUniversity">
+        <enabled>true</enabled>
+        <name>DukeUniversity™</name>
+        <thread>DUKE_UNIVERSITY_SERVER</thread>
+        <host>localhost</host>
+        <port>49213</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            Duke University college interface. AI-assisted SEARCH and QUERY via
+            Strernary™ (port 20000). Falls back to DB-only if port 20000 offline.
+            MySQL: nwe_duke.
+        </description>
+    </server>
+
+    <server id="StanfordLibrary">
+        <enabled>true</enabled>
+        <name>StanfordLibrary™</name>
+        <thread>STANFORD_LIBRARY_SERVER</thread>
+        <host>localhost</host>
+        <port>49214</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            Stanford Library interface. AI-assisted SEARCH and REQUEST via
+            Strernary™ (port 20000). Falls back to DB-only if port 20000 offline.
+            Connects to library.stanford.edu. MySQL: nwe_library.
+        </description>
+    </server>
+
     <server id="Strernary">
         <enabled>true</enabled>
         <name>Strernary™</name>
@@ -355,11 +436,11 @@
                                   Premium option.
     ════════════════════════════════════════════════════════════════════ -->
     <server-class>
-        <option id="BASE_SERVER" selected="true" premium="false">
+        <option id="BASE_SERVER" selected="false" premium="false">
             <class>server.base.BaseServer</class>
             <description>Standard BaseServer. No connection limits or weight balancing.</description>
         </option>
-        <option id="HARDENED_BASE_SERVER" selected="false" premium="true">
+        <option id="HARDENED_BASE_SERVER" selected="true" premium="true">
             <class>server.experimental.HardenedBaseServer</class>
             <description>
                 Hardened server with 512 max connections, 10 per-IP limit,
@@ -474,6 +555,56 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         MODULES/BLACK — FORWARD DIRECTIVES
+         Trusted 9.5+/10 from Author Max Rupplin - NC - MEARVK LLC
+         US Democratic Block & North Carolina Socialist-College Block
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="DemocraticProFrontNational">
+        <enabled>true</enabled>
+        <name>Democratic ProFront National 1.0 (Futures™)</name>
+        <port>5000</port>
+        <trust-level>9.5</trust-level>
+        <block>US Democratic</block>
+        <source>modules/black/red/Futures</source>
+        <masquerade-aware>true</masquerade-aware>
+        <description>
+            D500 Democratic President — AI futures, tax defense speculation,
+            protective pipeline (Java Futures patterns). Port 5000 with DJL/PyTorch.
+            Forward directive: US Democratic block.
+        </description>
+    </server>
+
+    <server id="GreenDurhamGrassAndHerb">
+        <enabled>true</enabled>
+        <name>Green.Durham.Grass.and.Herb™</name>
+        <port>20000</port>
+        <trust-level>9.5</trust-level>
+        <block>NC Socialist-College</block>
+        <source>modules/black/presidential/Green.Durham.Grass.and.Herb</source>
+        <masquerade-aware>true</masquerade-aware>
+        <virtual-ports>70000,70002,70003,70007,80000,99152</virtual-ports>
+        <description>
+            Appree contact server, labor/ethical/moral/mortality concerns.
+            JWSTFJ21 masquerade-integrated with extended virtual ports.
+            Forward directive: NC Socialist-College block.
+        </description>
+    </server>
+
+    <server id="BrarnerMAlete">
+        <enabled>true</enabled>
+        <name>Brarner.M.Alete™</name>
+        <port>49152</port>
+        <trust-level>9.5</trust-level>
+        <block>NC Socialist-College</block>
+        <source>modules/black/presidential/Brarner.M.Alete</source>
+        <masquerade-aware>true</masquerade-aware>
+        <description>
+            Presidential species/postal/SSA/art/science module. NC college block.
+            Maven multi-module (servlets, EJB, EAR). Forward directive: NC Socialist-College block.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          COLOR MAPPINGS
          Terminal print color assignments for each component category.
          These are enforced by commons.color.ColorResolver at runtime.
@@ -526,5 +657,188 @@
         <entry class="StrernaryDirectoryServer">0831200800</entry>
         <entry class="NioModuleScanner">0831200900</entry>
     </hashcodes>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         LOGGING CONFIGURATION
+         ═══════════════════════════════════════════════════════════════════
+         Controls log file sizes, rotation, and storage location.
+         When block-storage is enabled, logs are written to /mnt/blockstorage/nwe/logs/
+         to prevent the main drive from filling up.
+
+         Size presets:
+           1 = large  (2 GB max per file, 5 rotations = 10 GB max)
+           2 = medium (512 MB max per file, 4 rotations = 2 GB max)
+           3 = small  (64 MB max per file, 3 rotations = 192 MB max)
+
+         Rotation: when a log file reaches max-size, it is renamed with a
+         numeric suffix (.1, .2, .3) and a fresh file is created. Oldest
+         rotations beyond max-rotations are deleted automatically.
+    ════════════════════════════════════════════════════════════════════ -->
+    <logging>
+        <enabled>true</enabled>
+
+        <!-- Size preset: 1=large, 2=medium, 3=small -->
+        <size-preset>2</size-preset>
+
+        <!-- Block storage: write logs here when mounted (keeps main drive free) -->
+        <block-storage-enabled>true</block-storage-enabled>
+        <block-storage-path>/mnt/blockstorage/nwe/logs</block-storage-path>
+
+        <!-- Fallback: local log directory (used when block storage not mounted) -->
+        <local-path>logging</local-path>
+
+        <!-- Main server log -->
+        <log id="nwe-main">
+            <file>nwe-main.log</file>
+            <description>Main NWE runtime output (all modules)</description>
+            <size-overrides>
+                <large  max-size-mb="2048" max-rotations="5"/>
+                <medium max-size-mb="512"  max-rotations="4"/>
+                <small  max-size-mb="64"   max-rotations="3"/>
+            </size-overrides>
+        </log>
+
+        <!-- Exception log -->
+        <log id="exceptions">
+            <file>exception.log</file>
+            <description>Fatal and unhandled exceptions</description>
+            <size-overrides>
+                <large  max-size-mb="512" max-rotations="5"/>
+                <medium max-size-mb="128" max-rotations="4"/>
+                <small  max-size-mb="32"  max-rotations="3"/>
+            </size-overrides>
+        </log>
+
+        <!-- Social/communication log -->
+        <log id="social">
+            <file>event.social.log</file>
+            <description>BrarnerAlete module communication events</description>
+            <size-overrides>
+                <large  max-size-mb="256" max-rotations="3"/>
+                <medium max-size-mb="64"  max-rotations="3"/>
+                <small  max-size-mb="16"  max-rotations="2"/>
+            </size-overrides>
+        </log>
+
+        <!-- Security log -->
+        <log id="security">
+            <file>security.log</file>
+            <description>HeuristicClassifier threat events</description>
+            <size-overrides>
+                <large  max-size-mb="512" max-rotations="5"/>
+                <medium max-size-mb="128" max-rotations="4"/>
+                <small  max-size-mb="32"  max-rotations="3"/>
+            </size-overrides>
+        </log>
+
+        <!-- ClamAV antivirus scan results -->
+        <log id="clamav">
+            <file>clamav.log</file>
+            <description>Antivirus scan output</description>
+            <size-overrides>
+                <large  max-size-mb="128" max-rotations="3"/>
+                <medium max-size-mb="32"  max-rotations="3"/>
+                <small  max-size-mb="8"   max-rotations="2"/>
+            </size-overrides>
+        </log>
+    </logging>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         NOBLE REGISTRY — CRON PATTERN
+         A Noble Mear — reliable services before Noble Ministries.
+         Enabled by default. Resets every 2 days (2x 24 hours).
+    ════════════════════════════════════════════════════════════════════ -->
+    <noble-registry>
+        <enabled>true</enabled>
+        <reset-interval-hours>48</reset-interval-hours>
+        <cron-dir>cron</cron-dir>
+        <log-dir>/var/log/nwe</log-dir>
+        <shutdown-concern>
+            <enabled>true</enabled>
+            <save-state-on-shutdown>true</save-state-on-shutdown>
+            <state-file>cron/.noble-state</state-file>
+            <save-brothers>true</save-brothers>
+        </shutdown-concern>
+        <jobs>
+            <job name="AE6E66-Crawl" schedule="0 3 1 * *" script="cron/install-cron.sh" enabled="true"/>
+            <job name="GitHubPullNewer" schedule="0 4 * * *" script="scripts/github/pull-newer-only.sh" enabled="true"/>
+            <job name="SignalHealth" schedule="*/15 * * * *" script="cron/signal-health.sh" enabled="true"/>
+            <job name="PostfixFlush" schedule="*/30 * * * *" script="/usr/sbin/postqueue -f" enabled="true"/>
+            <job name="MySQLBackup" schedule="0 2 * * *" script="cron/mysql-backup.sh" enabled="true"/>
+            <job name="StrernaryLiveness" schedule="*/5 * * * *" script="cron/strernary-liveness.sh" enabled="true"/>
+            <job name="GrayLeaseCheck" schedule="0 * * * *" script="cron/gray-lease-check.sh" enabled="true"/>
+            <job name="CryptoVerify" schedule="0 */48 * * *" script="cron/crypto-verify.sh" enabled="true"/>
+            <job name="IntegrityCheck" schedule="0 6 */2 * *" script="cron/integrity-check.sh" enabled="true"/>
+        </jobs>
+    </noble-registry>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         CRYPTO BINARIES — Bitcoin, Dashcoin, Starcoin, Litecoin
+         Downloads CLI binaries to scripts/bash/bitcoin/{coin}/
+         BTC-aware ports: 6682 (BitcoinCompliant), 9999/10085 (GrayPortRegistry)
+         Configurable per-coin. SHA-256 verified on download.
+    ════════════════════════════════════════════════════════════════════ -->
+    <crypto-binaries>
+        <enabled>true</enabled>
+        <install-dir>scripts/bash/bitcoin</install-dir>
+        <installer-script>scripts/bash/bitcoin/install-crypto-binaries.sh</installer-script>
+        <coins>
+            <coin name="Bitcoin" enabled="true">
+                <versions>24,25,26,27,28,29,30,31</versions>
+                <base-url>https://bitcoincore.org/bin/bitcoin-core-</base-url>
+                <binary-names>bitcoind,bitcoin-cli</binary-names>
+                <aware-ports>6682,9999,10085</aware-ports>
+            </coin>
+            <coin name="Dashcoin" enabled="true">
+                <version>21.1.1</version>
+                <url>https://github.com/dashpay/dash/releases/download/v{version}/dashcore-{version}-x86_64-linux-gnu.tar.gz</url>
+                <binary-names>dashd,dash-cli</binary-names>
+                <aware-ports>9999,10085</aware-ports>
+            </coin>
+            <coin name="Starcoin" enabled="true">
+                <version>1.13.7</version>
+                <url>https://github.com/starcoinorg/starcoin/releases/download/v{version}/starcoin-ubuntu-v{version}.zip</url>
+                <binary-names>starcoin</binary-names>
+                <aware-ports>9999,10085</aware-ports>
+            </coin>
+            <coin name="Litecoin" enabled="true">
+                <version>0.21.3</version>
+                <url>https://download.litecoin.org/litecoin-{version}/linux/litecoin-{version}-x86_64-linux-gnu.tar.gz</url>
+                <binary-names>litecoind,litecoin-cli</binary-names>
+                <aware-ports>9999,10085</aware-ports>
+            </coin>
+        </coins>
+    </crypto-binaries>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         INTEGRITY — Post-Install SHA-256 File Verification
+         Gifted Install Tech ID (not Max Rupplin MEARVK LLC Installer Tech ID)
+         Validates against trusted git commits. Non-blocking — concerns logged.
+         Program continues running regardless of findings.
+    ════════════════════════════════════════════════════════════════════ -->
+    <integrity>
+        <enabled>true</enabled>
+        <tech-id>Gifted Install Tech ID</tech-id>
+        <digest-algorithms>SHA-256,MD5</digest-algorithms>
+        <digest-db>integrity/digest.db</digest-db>
+        <self-integrity-db>integrity/self.sha256</self-integrity-db>
+        <concerns-dir>integrity/concerns</concerns-dir>
+        <history-dir>integrity/history</history-dir>
+        <database>nwe_integrity</database>
+        <schema>integrity/integrity-schema.sql</schema>
+        <blocking>false</blocking>
+        <restore-on-fail>true</restore-on-fail>
+        <preserve-originals>true</preserve-originals>
+        <honor-oath-table>honor_oath</honor-oath-table>
+        <read-only-tables>file_digests,integrity_concerns,file_digests_history</read-only-tables>
+        <trusted-servers>
+            <server name="mearvk" url="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" branch="main"/>
+            <server name="ElisabethHarkins5509" url="https://github.com/ElisabethHarkins5509" branch="main"/>
+        </trusted-servers>
+        <schedule>
+            <cron>0 6 */2 * *</cron>
+            <description>Every 2 days at 06:00 — noble 2rways</description>
+        </schedule>
+    </integrity>
 
 </nwe-config>

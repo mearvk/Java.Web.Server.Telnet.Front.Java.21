@@ -1,0 +1,101 @@
+STRUCTURE.txt — Democratic ProFront National 1.0
+Installer ID: MEARVK LLC — Max Rupplin
+D500 Democratic President — A9000 Clear
+================================================================================
+
+├── README.md                          Project documentation
+├── STRUCTURE.txt                      This file
+├── STRUCTURE.rdns                     Reverse-DNS notation copy of this structure
+├── Futures.iml                        IntelliJ project module
+├── LICENSE                            MIT License
+│
+├── install.sh                         Full installation script (7 steps)
+├── start.sh                           Start server (kills existing, backgrounds)
+├── shutdown.sh                        Stop server (PID file + port 5000 sweep)
+├── test.sh                            Evaluative test suite (86 tests, 9 sections)
+├── dump.sh                            MySQL database dump to /dumps
+├── fetch-44h.sh                       Fetch 44H pledge document
+├── integrity.sh                       SHA-256 tamper detection (16 critical files)
+├── verify.sh                          GitHub commit authenticity verification
+│
+├── source/
+│   ├── Main.java                      Entry point
+│   │
+│   ├── ai/
+│   │   ├── module/
+│   │   │   └── TaxDefenseSpeculator.java       AI model: INT tax defense speculation (DJL/PyTorch)
+│   │   ├── trainers/
+│   │   │   ├── TaxClosureTrainer.java          Trains tax closure model
+│   │   │   └── DefenseStrategyTrainer.java     Trains defense strategy model
+│   │   ├── server/
+│   │   │   ├── DemocraticAIServer.java         Main server: port 5000, AI-integrated, trains+serves
+│   │   │   ├── DemocraticHardServer.java       Hardened server (standalone, no AI)
+│   │   │   ├── DiskAwarenessMonitor.java       MySQL disk space monitoring
+│   │   │   ├── EncryptionService.java          RSA-2048/4096, Diffie-Hellman 2048-bit
+│   │   │   ├── OutboundPortAwareness.java      Ports 80,443,25,22,21 + cert/cookie store
+│   │   │   └── Pledge44HFetcher.java           44H document fetch + safety validation
+│   │   └── military/
+│   │       ├── UptimeAccumulator.java          Cumulative uptime tracker (persists across restarts)
+│   │       └── HardwareAndStrikes.java         Second Military Module (loads after 6 months)
+│   │
+│   ├── pro/national/                  Protective procedural pipeline (Java Futures patterns)
+│   │   ├── ConnectionGuard.java       supplyAsync() — non-blocking intake
+│   │   ├── DueProcessPipeline.java    thenCompose() — sequential verification
+│   │   ├── ParallelVetting.java       thenCombine() — geo + IQ + profile in parallel
+│   │   ├── ConsentGate.java           allOf() — all checks must pass
+│   │   ├── EjectionFuture.java        exceptionally() — rule of law dismissal
+│   │   ├── ResponseDispatcher.java    thenApplyAsync() — CSV/XML formatting
+│   │   ├── GracefulTransfer.java      shutdown() + new pool — peaceful transfer
+│   │   └── LearningAccumulator.java   handle() — learns from every outcome
+│   │
+│   ├── examples/example001-012/       Java Futures examples (standalone main classes)
+│   ├── lessons/lesson01-10/           Before/After code beautification pairs
+│   └── democratic/d500/               Democratic principles as Future patterns
+│
+├── configuration/
+│   ├── ai-module-config.xml           AI module settings, capabilities, jars
+│   ├── server-config.xml              Port 5000 hardening settings
+│   ├── database-config.xml            MySQL connection (Installer ID: MEARVK LLC)
+│   ├── nwe-config.xml                 Full NWE server registry (from GitHub)
+│   ├── programs.xml                   NWE program inventory (from GitHub)
+│   ├── known.port.20000.servers.xml   Strernary™ endpoints
+│   ├── known.port.49152.servers.xml   NationalFinanceID endpoints
+│   ├── known.port.2000.servers.xml    Module install listener
+│   ├── nio-masquerade-config.xml      NIO masquerade layer settings
+│   ├── port-2000-directory-config.xml Port 2000 directory/XML forwarding
+│   ├── masquerade-modules.xml         Masquerade module registry
+│   ├── protocol-handlers.xml          Protocol probes (HTTP/SSH/SMTP/Redis)
+│   ├── transfer-contacts.xml          Transfer summary contacts
+│   ├── receiver.only.xml             TLS receiver on 443
+│   ├── democratic/
+│   │   ├── democratic.answers.txt     Q&A best practices (training)
+│   │   ├── us.tax.laws.explained.txt  US tax law defense (training)
+│   │   ├── tax.survivors.txt          Tax survivor strategies (training)
+│   │   └── defensive.heurstics...txt  IQ/opponent profiling heuristics (training)
+│   └── blackbelt/
+│       └── hardware-and-strikes.xml   Hardware and Strikes™ module config
+│
+├── sql/
+│   ├── schema.sql                     Base schema: democratic_d500 (8 tables)
+│   ├── schema-update-ai.sql           AI tables: profiles, agreements, dismissals, etc.
+│   ├── schema-44h.sql                 44H pledge database: pledge_44h
+│   └── install.sh                     MySQL database setup script
+│
+├── jars/                              DJL 0.31.0 + PyTorch dependencies (12 jars)
+├── data/
+│   ├── certs/                         PKS/SSL certificate store (19-day expiry)
+│   ├── cookies/                       Cookie store (19-day expiry)
+│   ├── uptime.accumulator             Cumulative uptime (seconds)
+│   └── safety.ledger.csv             Safety scores: score,timestamp,days,ip
+│
+├── logging/
+│   ├── integrity.log                  Tamper detection audit log
+│   ├── verification.log               GitHub authenticity verification log
+│   ├── verification.attempts.csv      All verification attempts (hostile analysis)
+│   └── hardware-and-strikes.log       Military module load attempts
+│
+├── models/
+│   ├── tax-defense/                   Trained tax defense model output
+│   └── defense-strategy/              Trained defense strategy model output
+│
+└── dumps/                             MySQL database dumps (timestamped)

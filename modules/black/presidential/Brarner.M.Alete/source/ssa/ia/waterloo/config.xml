@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>693</office-code>
+    <office-name>WATERLOO IA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>3121 GREYHOUND DR</address-3>
+    <city>WATERLOO</city>
+    <state>IA</state>
+    <zip-code>50701</zip-code>
+    <phone>(888) 456-9554</phone>
+    <fax>(833) 515-0425</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10107</socket-port>
+    <local-input-path>source-code/ssa/ia/waterloo/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ia/waterloo</output-dir>
+</signal-processing-config>

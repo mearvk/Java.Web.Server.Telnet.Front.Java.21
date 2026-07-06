@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    NWE Website Config — Auto-discovered from: modules/black/presidential/Brarner.M.Alete/data/legal/safe
+    Generated: 2026-06-29T21:06:05Z
+    Module: LegalTest
+    
+    Edit this file to refine pages, nouns, and port assignments.
+    Then run: bash scripts/generate-website.sh LegalTest /home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/scripts/website-subjects/LegalTest.xml
+-->
+<website-config>
+    <module name="LegalTest" color="#3b82f6" database="nwe_legaltest"/>
+    <ports start="19000" end="19005"/>
+    <pages>
+        <page name="Overview" file="index" default="true"/>
+        <page name="Status" file="status"/>
+
+    </pages>
+    <nouns>
+        <noun name="court_opinion_counts" table="legaltest_court_opinion_counts" columns="court,full_name,total_opinions,earliest_year,latest_year"/>
+        <noun name="usc_title_counts" table="legaltest_usc_title_counts" columns="title,name,sections,chapters,positive_law"/>
+        <noun name="uscode_summary" table="legaltest_uscode_summary" columns="title_number,title_name,approx_sections,positive_law"/>
+        <noun name="public_law_counts" table="legaltest_public_law_counts" columns="congress,years,public_laws_enacted,private_laws_enacted"/>
+        <noun name="landmark_cases" table="legaltest_landmark_cases" columns="case_name,citation,year,court,category,significance"/>
+    </nouns>
+</website-config>

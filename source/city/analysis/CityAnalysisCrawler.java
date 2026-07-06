@@ -1,4 +1,4 @@
-package city_analysis;
+package city.analysis;
 
 import java.io.*;
 import java.net.*;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>D29</office-code>
+    <office-name>CANON CITY CO</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>115 N 10TH ST</address-3>
+    <city>CANON CITY</city>
+    <state>CO</state>
+    <zip-code>81212</zip-code>
+    <phone>(866) 272-5728</phone>
+    <fax>(833) 950-2910</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9418</socket-port>
+    <local-input-path>source-code/ssa/co/canoncity/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/co/canoncity</output-dir>
+</signal-processing-config>

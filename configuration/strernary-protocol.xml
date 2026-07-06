@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Strernary™ Input Protocol Definition
+    ═══════════════════════════════════════════════════════════════
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+    Date: July 1 2026
+
+    Defines the protocol for module-to-Strernary communication on port 20000.
+    All NWE modules (CaliforniaFBI, CaliforniaCIA, CaliforniaNSA, DukeUniversity,
+    StanfordLibrary, and any masquerade-aware module) use this protocol when
+    sending inference/search queries to the Strernary™ server.
+
+    Transport: TCP (plaintext) on port 20000 (localhost)
+    Encoding: UTF-8
+    Line terminator: \r\n (CRLF)
+    Response terminator: empty line (\r\n\r\n) or connection close
+
+    Reference: commons.StrernaryConnector (Java client)
+    Config:    source/strernary/strernary-config.xml (server config)
+-->
+<strernary-protocol version="1.0" port="20000" host="127.0.0.1">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CONNECTION PARAMETERS
+    ════════════════════════════════════════════════════════════════ -->
+    <connection>
+        <connect-timeout-ms>3000</connect-timeout-ms>
+        <read-timeout-ms>25000</read-timeout-ms>
+        <encoding>UTF-8</encoding>
+        <line-terminator>CRLF</line-terminator>
+        <response-terminator>empty-line</response-terminator>
+        <max-request-length>65536</max-request-length>
+        <max-response-length>131072</max-response-length>
+    </connection>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MESSAGE TYPES
+         Format: TYPE|key1=value1|key2=value2|payload
+         All messages are single-line. Response may be multi-line
+         (terminated by empty line).
+    ════════════════════════════════════════════════════════════════ -->
+    <messages>
+
+        <!-- ASK — General inference query -->
+        <message type="ASK" direction="request">
+            <format>ASK|{query_text}</format>
+            <description>
+                General-purpose inference query. Strernary returns its best
+                guess based on DJL model, keyword heuristics, or OS relay.
+            </description>
+            <example>ASK|What is the capital of Japan?</example>
+            <response>
+                <format>{inference_result}</format>
+                <on-offline>null (caller handles gracefully)</on-offline>
+            </response>
+            <used-by>
+                <module>CaliforniaFBIServer</module>
+                <module>CaliforniaCIAServer</module>
+                <module>CaliforniaNSAServer</module>
+                <module>DukeUniversityServer</module>
+                <module>StanfordLibraryServer</module>
+                <module>StrernaryDirectoryServer</module>
+            </used-by>
+        </message>
+
+        <!-- ASK with context — Structured inference with module context -->
+        <message type="ASK_CONTEXT" direction="request">
+            <format>ASK|{module} SEARCH {field}={value} context={table}</format>
+            <description>
+                Structured query with module identification, search field,
+                and database context. Strernary uses this to weight results
+                and provide module-aware inference.
+            </description>
+            <example>ASK|FBI SEARCH category=cyber context=crime_reports</example>
+            <example>ASK|CIA SEARCH category=espionage context=intelligence_reports</example>
+            <example>ASK|NSA SEARCH category=vulnerability context=cyber_incidents</example>
+            <example>ASK|DUKE SEARCH subject=mathematics context=courses</example>
+            <example>ASK|LIBRARY SEARCH title=algorithms context=catalog</example>
+            <response>
+                <format>{inference_result} (may include confidence score)</format>
+            </response>
+            <used-by>
+                <module>CaliforniaFBIServer (SEARCH command)</module>
+                <module>CaliforniaCIAServer (SEARCH command)</module>
+                <module>CaliforniaNSAServer (SEARCH command)</module>
+                <module>DukeUniversityServer (QUERY command)</module>
+                <module>StanfordLibraryServer (SEARCH command)</module>
+            </used-by>
+        </message>
+
+        <!-- RELAY — Cross-module routing through Strernary -->
+        <message type="RELAY" direction="request">
+            <format>RELAY|{text}</format>
+            <description>
+                Routes a message through Strernary to other modules or the
+                OS-level port 20000 listener. Used for inter-module communication
+                when direct TCP is not available.
+            </description>
+            <example>RELAY|CaliforniaFBI needs response from DukeUniversity</example>
+            <response>
+                <format>{relay_result}</format>
+                <on-offline>null</on-offline>
+            </response>
+        </message>
+
+        <!-- STATUS — Health check -->
+        <message type="STATUS" direction="request">
+            <format>STATUS</format>
+            <description>
+                Returns server health: uptime, query count, inference engine,
+                knowledge base size, connected modules.
+            </description>
+            <example>STATUS</example>
+            <response>
+                <format>OK|uptime={seconds}|queries={count}|engine={djl|heuristic|os-relay}|kb={entries}</format>
+            </response>
+        </message>
+
+        <!-- CLASSIFY — Category classification -->
+        <message type="CLASSIFY" direction="request">
+            <format>CLASSIFY|{module_id}|{text_to_classify}</format>
+            <description>
+                Requests AI-assisted classification of input text into categories.
+                Module ID determines which category set is used (e.g., FBI uses
+                crime categories, CIA uses intelligence categories).
+            </description>
+            <example>CLASSIFY|FBI|suspicious financial transfer to offshore account</example>
+            <example>CLASSIFY|NSA|buffer overflow in OpenSSL 3.x</example>
+            <response>
+                <format>CATEGORY|{category_name}|confidence={0.0-1.0}</format>
+            </response>
+            <used-by>
+                <module>CaliforniaFBIServer (auto-categorize reports)</module>
+                <module>CaliforniaCIAServer (auto-categorize intelligence)</module>
+                <module>CaliforniaNSAServer (auto-categorize incidents)</module>
+            </used-by>
+        </message>
+
+        <!-- TRAIN — Submit training data -->
+        <message type="TRAIN" direction="request">
+            <format>TRAIN|{module_id}|{category}|{example_text}</format>
+            <description>
+                Submits a training example to improve future classification.
+                Strernary accumulates these in its knowledge base.
+            </description>
+            <example>TRAIN|FBI|cyber|ransomware attack on hospital network</example>
+            <response>
+                <format>TRAINED|kb_size={count}</format>
+            </response>
+        </message>
+
+        <!-- NIO-ROUTE — NIO masquerade packet forwarding -->
+        <message type="NIO-ROUTE" direction="request">
+            <format><![CDATA[<nwe-route><port>{port}</port><module>{module_id}</module><payload>{data}</payload></nwe-route>]]></format>
+            <description>
+                XML-formatted packet for NIO masquerade forwarding.
+                StrernaryDirectoryServer (port 2000) accepts these and routes
+                to the appropriate module via NioMasqueradeEngine.
+            </description>
+            <port>2000</port>
+            <note>This message type uses port 2000 (StrernaryDirectory), not 20000.</note>
+        </message>
+
+    </messages>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MODULE REGISTRATION
+         Modules that are strernary-capable (query Strernary for AI assistance).
+         Listed here for reference; actual capability is declared in nwe-config.xml
+         via <strernary-capable>true</strernary-capable>.
+    ════════════════════════════════════════════════════════════════ -->
+    <registered-modules>
+        <module id="CaliforniaFBI"   port="49210" query-prefix="FBI"     db="nwe_california_fbi"/>
+        <module id="CaliforniaCIA"   port="49211" query-prefix="CIA"     db="nwe_california_cia"/>
+        <module id="CaliforniaNSA"   port="49212" query-prefix="NSA"     db="nwe_california_nsa"/>
+        <module id="DukeUniversity"  port="49213" query-prefix="DUKE"    db="nwe_duke"/>
+        <module id="StanfordLibrary" port="49214" query-prefix="LIBRARY" db="nwe_library"/>
+        <module id="Futures"         port="5000"  query-prefix="FUTURES" db="nwe_futures"/>
+        <module id="CalendarD44"     port="49200" query-prefix="CAL"     db="nwe_calendar_d44"/>
+    </registered-modules>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FALLBACK BEHAVIOR
+         When Strernary is offline, modules fall back to DB-only mode.
+         The protocol allows graceful degradation.
+    ════════════════════════════════════════════════════════════════ -->
+    <fallback>
+        <on-connect-fail>return-null</on-connect-fail>
+        <on-timeout>return-null</on-timeout>
+        <on-invalid-response>log-and-return-null</on-invalid-response>
+        <retry-after-ms>30000</retry-after-ms>
+        <max-retries>0</max-retries>
+        <description>
+            All modules must handle null responses from StrernaryConnector.
+            When Strernary is offline, SEARCH commands fall back to local
+            MySQL-only results. No retry loop — single attempt per request.
+        </description>
+    </fallback>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SECURITY
+    ════════════════════════════════════════════════════════════════ -->
+    <security>
+        <localhost-only>true</localhost-only>
+        <description>
+            Port 20000 accepts connections only from 127.0.0.1.
+            External requests are rejected by HeuristicClassifier before
+            reaching Strernary. No authentication required for localhost.
+        </description>
+    </security>
+
+</strernary-protocol>

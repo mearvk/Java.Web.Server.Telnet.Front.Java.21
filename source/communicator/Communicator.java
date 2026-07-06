@@ -74,6 +74,7 @@ public class Communicator extends Thread
         try
         {
             database.N21Store.createCommunicatorTables();
+            CommunicatorCrypto.ensureProfileTable();
             serverSocket = new ServerSocket(PORT, 64, InetAddress.getByName(HOST));
             CommonRails.printSystemComponent(this, this.hashCode(),
                 ". Communicator listening on port " + PORT + " .");
@@ -101,13 +102,35 @@ public class Communicator extends Thread
         String         timezone    = "UTC";
         BufferedWriter out;
 
+        // ── Crypto session state ──────────────────────────────────────────────
+        CommunicatorCrypto.CipherSuite activeCipher = null;
+        byte[] sharedSecret = null;
+        CommunicatorCrypto.DHSession   dhSession   = null;
+        CommunicatorCrypto.ECDHSession ecdhSession = null;
+        boolean encrypted = false;
+
         Session(final String ip) { this.ip = ip; }
 
         boolean expired() { return System.currentTimeMillis() - connectedAt > SESSION_LIMIT_MS; }
 
         void writeLine(final String line)
         {
-            try { out.write(line + "\r\n"); out.flush(); } catch (Exception ignored) {}
+            try
+            {
+                if (encrypted && sharedSecret != null && activeCipher != null)
+                {
+                    byte[] ct = CommunicatorCrypto.encrypt(
+                        line.getBytes(java.nio.charset.StandardCharsets.UTF_8), sharedSecret, activeCipher);
+                    out.write("[ENC:" + activeCipher.displayName + "] " +
+                        java.util.HexFormat.of().formatHex(ct) + "\r\n");
+                }
+                else
+                {
+                    out.write(line + "\r\n");
+                }
+                out.flush();
+            }
+            catch (Exception ignored) {}
         }
     }
 
@@ -162,6 +185,8 @@ public class Communicator extends Thread
                                          else writeLine(out, cmdBroadcast(line.substring("broadcast ".length()), session)); }
                     case "schedule"  -> writeLine(out, cmdSchedule(parts, line, session));
                     case "history"   -> writeLine(out, cmdHistory());
+                    case "encrypt"   -> writeLine(out, cmdEncrypt(parts, session));
+                    case "profile"   -> writeLine(out, cmdProfile(parts, session));
                     case "lang"      -> { if (parts.length < 2) writeLine(out, "Usage: lang <code>");
                                          else writeLine(out, languages.LanguagePack.handleLangCommand(session.ip, parts[1])); }
                     default          -> writeLine(out, "Unknown command. Type 'help' for commands or 'quit' to exit.\r\n" + HELP);
@@ -190,7 +215,18 @@ public class Communicator extends Thread
             LIVE.put(idStr, session);
             CommonRails.printSystemComponent(this, this.hashCode(),
                 ". Communicator National ID " + id + " connected from " + session.ip + " .");
-            return "[identify] Welcome, National ID " + id + ". Connected users: " + LIVE.size() + ".\r\n" + HELP;
+
+            // Auto-negotiate if profile has saved cipher preference
+            CommunicatorCrypto.CipherSuite savedCipher = CommunicatorCrypto.loadProfileCipher(id);
+            String cryptoHint = "";
+            if (savedCipher != null)
+            {
+                session.activeCipher = savedCipher;
+                cryptoHint = "\r\n[crypto] Profile cipher: " + savedCipher.displayName +
+                    ". Send 'encrypt " + savedCipher.displayName + "' to negotiate, or 'encrypt off' to skip.";
+            }
+
+            return "[identify] Welcome, National ID " + id + ". Connected users: " + LIVE.size() + "." + cryptoHint + "\r\n" + HELP;
         }
         catch (NumberFormatException e) { return "[identify] Invalid National ID."; }
     }
@@ -273,6 +309,183 @@ public class Communicator extends Thread
         catch (Exception e) { return "[history] Error: " + e.getMessage(); }
     }
 
+    // ── Encrypt command ─────────────────────────────────────────────────────
+
+    /**
+     * encrypt                     — Show available ciphers (dropdown)
+     * encrypt <cipher>            — Initiate DH/ECDH key exchange with chosen cipher
+     * encrypt accept <pubkey_hex> — Client sends their DH/ECDH public key to complete exchange
+     * encrypt off                 — Disable encryption for this session
+     */
+    private String cmdEncrypt(final String[] parts, final Session session)
+    {
+        if (parts.length < 2)
+        {
+            return "[encrypt] Available ciphers:\r\n" +
+                   CommunicatorCrypto.CipherSuite.listAll() + "\r\n" +
+                   "Usage: encrypt <cipher-name>   — initiate negotiation\r\n" +
+                   "       encrypt off             — disable encryption\r\n" +
+                   (session.activeCipher != null ? "Active: " + session.activeCipher.displayName : "Status: plaintext");
+        }
+
+        String arg = parts[1].toLowerCase();
+
+        // Disable encryption
+        if (arg.equals("off") || arg.equals("none") || arg.equals("disable"))
+        {
+            session.encrypted = false;
+            session.sharedSecret = null;
+            session.activeCipher = null;
+            session.dhSession = null;
+            session.ecdhSession = null;
+            return "[encrypt] Encryption disabled. Session is now plaintext.";
+        }
+
+        // Accept client public key (Phase 2 of handshake)
+        if (arg.equals("accept") && parts.length >= 3)
+        {
+            try
+            {
+                byte[] clientPubKey = java.util.HexFormat.of().parseHex(parts[2]);
+                if (session.ecdhSession != null)
+                {
+                    session.ecdhSession.computeSharedSecret(clientPubKey);
+                    session.sharedSecret = session.ecdhSession.sharedSecret;
+                }
+                else if (session.dhSession != null)
+                {
+                    session.dhSession.computeSharedSecret(clientPubKey);
+                    session.sharedSecret = session.dhSession.sharedSecret;
+                }
+                else
+                {
+                    return "[encrypt] No pending key exchange. Run 'encrypt <cipher>' first.";
+                }
+                session.encrypted = true;
+                // Save to profile if user has a national ID
+                if (session.nationalId > 0 && session.activeCipher != null)
+                    CommunicatorCrypto.saveProfileCipher(session.nationalId, session.activeCipher);
+                return "[encrypt] Key exchange complete. Session encrypted with " +
+                       session.activeCipher.displayName + ". All messages now encrypted.";
+            }
+            catch (Exception e)
+            {
+                return "[encrypt] Key exchange failed: " + e.getMessage();
+            }
+        }
+
+        // Initiate negotiation — resolve cipher name
+        // Support numeric selection (1-6) or name
+        CommunicatorCrypto.CipherSuite suite;
+        try
+        {
+            int idx = Integer.parseInt(arg) - 1;
+            CommunicatorCrypto.CipherSuite[] all = CommunicatorCrypto.CipherSuite.values();
+            if (idx < 0 || idx >= all.length) return "[encrypt] Invalid selection. Choose 1-" + all.length;
+            suite = all[idx];
+        }
+        catch (NumberFormatException e)
+        {
+            suite = CommunicatorCrypto.CipherSuite.fromName(parts[1]);
+        }
+
+        if (suite == null)
+            return "[encrypt] Unknown cipher. Available:\r\n" + CommunicatorCrypto.CipherSuite.listAll();
+
+        session.activeCipher = suite;
+
+        // Choose key exchange method: ECDH for ECC, DH for everything else
+        try
+        {
+            String serverPubHex;
+            if (suite == CommunicatorCrypto.CipherSuite.ECC_SECP256R1)
+            {
+                session.ecdhSession = new CommunicatorCrypto.ECDHSession();
+                session.dhSession = null;
+                serverPubHex = java.util.HexFormat.of().formatHex(session.ecdhSession.getPublicKeyEncoded());
+                return "[encrypt] Negotiating " + suite.displayName + " via ECDH (secp256r1)\r\n" +
+                       "[encrypt] Server public key (ECDH): " + serverPubHex + "\r\n" +
+                       "[encrypt] Send your public key: encrypt accept <your_pubkey_hex>";
+            }
+            else
+            {
+                session.dhSession = new CommunicatorCrypto.DHSession(true); // RFC 3526 group 14
+                session.ecdhSession = null;
+                serverPubHex = java.util.HexFormat.of().formatHex(session.dhSession.getPublicKeyEncoded());
+                return "[encrypt] Negotiating " + suite.displayName + " via DH-2048 (RFC 3526 Group 14)\r\n" +
+                       "[encrypt] Server public key (DH): " + serverPubHex + "\r\n" +
+                       "[encrypt] Send your public key: encrypt accept <your_pubkey_hex>";
+            }
+        }
+        catch (Exception e)
+        {
+            return "[encrypt] Failed to initialize key exchange: " + e.getMessage();
+        }
+    }
+
+    // ── Profile command ───────────────────────────────────────────────────────
+
+    /**
+     * profile                  — Show current profile settings
+     * profile cipher <name>   — Set default cipher (auto-negotiates on next connect)
+     * profile clear            — Clear profile settings
+     */
+    private String cmdProfile(final String[] parts, final Session session)
+    {
+        if (session.nationalId < 0) return "[profile] Identify yourself first.";
+
+        if (parts.length < 2)
+        {
+            CommunicatorCrypto.CipherSuite saved = CommunicatorCrypto.loadProfileCipher(session.nationalId);
+            return "[profile] National ID: " + session.nationalId + "\r\n" +
+                   "  Preferred cipher: " + (saved != null ? saved.displayName : "none (plaintext)") + "\r\n" +
+                   "  Active cipher:    " + (session.activeCipher != null ? session.activeCipher.displayName : "none") + "\r\n" +
+                   "  Encrypted:        " + session.encrypted + "\r\n" +
+                   "Usage:\r\n" +
+                   "  profile cipher <name|number>  — Set default cipher\r\n" +
+                   "  profile clear                 — Clear preference\r\n" +
+                   "Available ciphers:\r\n" + CommunicatorCrypto.CipherSuite.listAll();
+        }
+
+        String sub = parts[1].toLowerCase();
+
+        if (sub.equals("clear") || sub.equals("reset"))
+        {
+            try
+            {
+                var conn = database.N21DataSource.get();
+                var ps = conn.prepareStatement("DELETE FROM communicator_profiles WHERE national_id = ?");
+                ps.setLong(1, session.nationalId);
+                ps.executeUpdate(); ps.close();
+            }
+            catch (Exception ignored) {}
+            return "[profile] Cipher preference cleared. Next session will be plaintext unless negotiated.";
+        }
+
+        if (sub.equals("cipher") && parts.length >= 3)
+        {
+            CommunicatorCrypto.CipherSuite suite;
+            try
+            {
+                int idx = Integer.parseInt(parts[2]) - 1;
+                CommunicatorCrypto.CipherSuite[] all = CommunicatorCrypto.CipherSuite.values();
+                if (idx < 0 || idx >= all.length) return "[profile] Invalid selection.";
+                suite = all[idx];
+            }
+            catch (NumberFormatException e)
+            {
+                suite = CommunicatorCrypto.CipherSuite.fromName(parts[2]);
+            }
+            if (suite == null) return "[profile] Unknown cipher.\r\n" + CommunicatorCrypto.CipherSuite.listAll();
+
+            CommunicatorCrypto.saveProfileCipher(session.nationalId, suite);
+            return "[profile] Default cipher set to: " + suite.displayName +
+                   "\r\n  This will auto-negotiate on your next connection (after identify).";
+        }
+
+        return "[profile] Usage: profile cipher <name>, profile clear";
+    }
+
     // ── Geo resolution ────────────────────────────────────────────────────────
 
     private static void resolveGeo(final Session session)
@@ -328,6 +541,13 @@ public class Communicator extends Thread
         "  schedule <nationalId|broadcast> <HH:mm> <text>\r\n" +
         "                                        Scheduled message (recipient local time)\r\n" +
         "  history                               Last 20 chat messages\r\n" +
+        "  encrypt                               Show cipher options (dropdown)\r\n" +
+        "  encrypt <cipher>                      Negotiate encrypted session (DH/ECDH)\r\n" +
+        "  encrypt accept <pubkey_hex>           Complete key exchange\r\n" +
+        "  encrypt off                           Disable encryption\r\n" +
+        "  profile                               Show/set profile preferences\r\n" +
+        "  profile cipher <name|number>          Set default cipher permanently\r\n" +
+        "  profile clear                         Clear cipher preference\r\n" +
         "  lang <code>                           Switch language (ja cn ru th es fr de it en)\r\n" +
         "  quit                                  Disconnect";
 

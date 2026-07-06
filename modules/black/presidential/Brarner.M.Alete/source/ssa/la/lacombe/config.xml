@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>D18</office-code>
+    <office-name>ST TAMMANY LA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>64285 HIGHWAY 434</address-3>
+    <city>LACOMBE</city>
+    <state>LA</state>
+    <zip-code>70445</zip-code>
+    <phone>(866) 887-8997</phone>
+    <fax>(833) 939-2009</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9411</socket-port>
+    <local-input-path>source-code/ssa/la/lacombe/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/la/lacombe</output-dir>
+</signal-processing-config>

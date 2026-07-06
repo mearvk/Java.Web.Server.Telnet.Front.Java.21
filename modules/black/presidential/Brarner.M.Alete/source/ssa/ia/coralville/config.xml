@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>B34</office-code>
+    <office-name>CORALVILLE IA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 100</address-2>
+    <address-3>1100 6TH ST</address-3>
+    <city>CORALVILLE</city>
+    <state>IA</state>
+    <zip-code>52241</zip-code>
+    <phone>(866) 964-2039</phone>
+    <fax>(833) 950-2642</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9301</socket-port>
+    <local-input-path>source-code/ssa/ia/coralville/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ia/coralville</output-dir>
+</signal-processing-config>

@@ -44,4 +44,7 @@ public final class ColorPalette {
     public static final String COLOR_STANDARD_GREEN  = "\033[38;5;46m";
     public static final String COLOR_STANDARD_YELLOW = "\033[38;5;226m";
     public static final String COLOR_STANDARD_BLUE   = "\033[38;5;75m";
+
+    // Royals — House of Lords (AE6E66)
+    public static final String COLOR_EMERALD_GREEN   = "\033[38;5;35m";
 }

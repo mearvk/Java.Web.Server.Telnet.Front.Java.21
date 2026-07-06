@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>A53</office-code>
+    <office-name>MORONGO BASIN CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>56492 29 PALMS HWY</address-3>
+    <city>YUCCA VALLEY</city>
+    <state>CA</state>
+    <zip-code>92284</zip-code>
+    <phone>(877) 325-7417</phone>
+    <fax>(833) 950-3363</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9236</socket-port>
+    <local-input-path>source-code/ssa/ca/yuccavalley/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/yuccavalley</output-dir>
+</signal-processing-config>

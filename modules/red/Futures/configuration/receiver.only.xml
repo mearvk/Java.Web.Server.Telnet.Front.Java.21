@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Receiver-Only Mode Configuration
+    Source: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/configuration/receiver.only.xml
+    Installed: MEARVK LLC - Max Rupplin
+-->
+<receiver-only>
+    <mode>receiver-only</mode>
+    <enabled>true</enabled>
+
+    <listener>
+        <bind>0.0.0.0</bind>
+        <port>443</port>
+        <protocol>TLS</protocol>
+        <tls-version>TLSv1.3</tls-version>
+        <keystore>psychiatry/secrets/receiver.keystore.jks</keystore>
+        <keystore-password-env>changeit</keystore-password-env>
+        <require-client-cert>false</require-client-cert>
+        <require-password>false</require-password>
+        <description>HTTPS receiver on 443. RSA/TLS encrypted channel. No password required — auth via TLS cert verification only.</description>
+    </listener>
+
+    <storage>
+        <mysql>
+            <host>localhost</host>
+            <port>3306</port>
+            <database>nwe_receiver</database>
+            <username>nwe</username>
+            <password-env>nwe_receiver_pass</password-env>
+            <table>received_data</table>
+            <enabled>true</enabled>
+        </mysql>
+        <binary-wallet>
+            <path>data/receiver.wallet.bin</path>
+            <max-entries>512</max-entries>
+            <hash>SHA-256</hash>
+            <enabled>true</enabled>
+        </binary-wallet>
+    </storage>
+
+    <heartbeat>
+        <contact>SSA Durham NC</contact>
+        <address>411 W Chapel Hill St, Suite 1200, Durham, NC 27701</address>
+        <phone>1-877-803-6311</phone>
+        <method>HTTP-GET</method>
+        <interval-sec>60</interval-sec>
+        <url>https://localhost:443/receiver/heartbeat</url>
+    </heartbeat>
+
+    <logging>
+        <path>logging/receiver.log</path>
+        <level>INFO</level>
+    </logging>
+</receiver-only>

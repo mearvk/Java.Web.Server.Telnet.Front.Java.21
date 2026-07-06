@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>241</office-code>
+    <office-name>ROSTRAVER PA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 320</address-2>
+    <address-3>800 PLAZA DR</address-3>
+    <city>ROSTRAVER TWP</city>
+    <state>PA</state>
+    <zip-code>15012</zip-code>
+    <phone>(866) 931-4826</phone>
+    <fax>(833) 603-0369</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9698</socket-port>
+    <local-input-path>source-code/ssa/pa/rostravertwp/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/pa/rostravertwp</output-dir>
+</signal-processing-config>

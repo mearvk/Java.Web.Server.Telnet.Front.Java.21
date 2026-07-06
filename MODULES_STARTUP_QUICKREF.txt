@@ -1,0 +1,76 @@
+QUICK REFERENCE — Module Startup Scripts
+═══════════════════════════════════════════════════════════════════════════
+
+START A MODULE
+──────────────────────────────────────────────────────────────────────────
+
+With Backend (TCP Server):
+  $ cd modules/<module-name>
+  $ bash start-backend.sh          # Start TCP server
+  $ bash start.sh                  # Deploy + Start Tomcat
+
+Without Backend (Webapp Only):
+  $ cd modules/<module-name>
+  $ bash start.sh                  # Deploy + Start Tomcat
+
+Stop a Module
+──────────────────────────────────────────────────────────────────────────
+
+With Backend:
+  $ cd modules/<module-name>
+  $ bash shutdown.sh               # Undeploy from Tomcat
+  $ bash shutdown-backend.sh       # Stop TCP server
+
+Stop Everything (including Tomcat):
+  $ bash shutdown.sh --stop-tomcat
+  $ bash shutdown-backend.sh
+
+═══════════════════════════════════════════════════════════════════════════
+
+MODULES & THEIR URLS
+──────────────────────────────────────────────────────────────────────────
+
+✓ AE6E66                        http://localhost:8080/ae6e66/
+✓ Black Belt                    http://localhost:8080/blackbelt/
+✓ CIA                           http://localhost:8080/california-cia/
+✓ Duke                          http://localhost:8080/california-duke/
+✓ FBI                           http://localhost:8080/california-fbi/
+✓ Gray                          http://localhost:8080/gray-registry/
+✓ Gray85                        http://localhost:8080/gray85-registry/
+✓ Green.Durham.Grass.and.Herb  http://localhost:8080/gdgh/
+✓ Languages                     http://localhost:8080/languages/
+✓ Library                       http://localhost:8080/library/
+✓ NSA                           http://localhost:8080/california-nsa/
+✓ Futures                       http://localhost:8080/<endpoint>/
+
+═══════════════════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING
+──────────────────────────────────────────────────────────────────────────
+
+Website shows 404:
+  $ tail -f /opt/tomcat/logs/catalina.out
+  $ bash shutdown.sh --stop-tomcat
+  $ bash start.sh
+
+Backend not starting:
+  $ tail -f logging/backend.log
+  $ bash shutdown-backend.sh
+  $ bash start-backend.sh
+
+Both still failing:
+  $ ps aux | grep java          # Find stray processes
+  $ pkill -f ModuleClassName    # Kill if needed
+  $ bash start.sh
+
+═══════════════════════════════════════════════════════════════════════════
+
+DOCUMENTATION
+──────────────────────────────────────────────────────────────────────────
+
+Comprehensive Guide:  MODULES_STARTUP_STANDARDIZATION.md
+Summary Report:       MODULES_STARTUP_SUMMARY.txt (this file's parent)
+
+═══════════════════════════════════════════════════════════════════════════
+Generated: July 3, 2026 | Reference: BMA Prototype + DIGTIK.md
+

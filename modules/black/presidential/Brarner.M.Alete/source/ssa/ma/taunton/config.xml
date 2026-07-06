@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>57</office-code>
+    <office-name>TAUNTON MA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>104 DEAN ST</address-3>
+    <city>TAUNTON</city>
+    <state>MA</state>
+    <zip-code>2780</zip-code>
+    <phone>(877) 505-4546</phone>
+    <fax>(833) 950-2344</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9538</socket-port>
+    <local-input-path>source-code/ssa/ma/taunton/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ma/taunton</output-dir>
+</signal-processing-config>

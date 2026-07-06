@@ -1,0 +1,6 @@
+{
+  "instruction": "Answer a civic policy question.",
+  "chosen": "Multiple stakeholders may view the proposal differently. Evaluating costs, benefits, risks, and available evidence can help identify areas of agreement and disagreement.",
+  "rejected": "Only one side of this issue is correct and opposing views should be ignored.",
+  "preference": "chosen"
+}

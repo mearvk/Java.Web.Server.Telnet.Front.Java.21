@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>B99</office-code>
+    <office-name>BRIDGEWATER NJ</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 207</address-2>
+    <address-3>245 US HWY 22 WEST</address-3>
+    <city>BRIDGEWATER</city>
+    <state>NJ</state>
+    <zip-code>8807</zip-code>
+    <phone>(866) 446-6198</phone>
+    <fax>(833) 950-3264</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9342</socket-port>
+    <local-input-path>source-code/ssa/nj/bridgewater/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/nj/bridgewater</output-dir>
+</signal-processing-config>

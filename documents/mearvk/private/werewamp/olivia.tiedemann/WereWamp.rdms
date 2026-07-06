@@ -1,0 +1,37 @@
+---
+title: "WereWamp™ — RDMS Class Record"
+schema: "mearvk.private.werewamp"
+version: "1.0"
+created: "2026-06-27"
+---
+
+# RDMS: WereWamp™
+
+## Record Definition
+
+```
+TABLE: werewamp_class
+  class_name      VARCHAR(64)   "WereWamp™"
+  class_type      VARCHAR(32)   "Stealth"
+  guild           VARCHAR(64)   "Ownership Guild"
+  slaughter_turns INT           9
+  ownership_mode  VARCHAR(64)   "PlayersSpeak™"
+  actual_required BOOLEAN       FALSE
+  checkout_req    BOOLEAN       FALSE
+  checkin_req     BOOLEAN       FALSE
+  divine_priv     BOOLEAN       TRUE
+
+TABLE: werewamp_targets
+  target_type     VARCHAR(32)   "UnDead™"
+  condition       ENUM("timed_out", "non_ally")
+
+TABLE: known_werewamps
+  player_name     VARCHAR(128)  "Olivia Tiedemann"
+  title           VARCHAR(64)   "Terrible of Man"
+  status          VARCHAR(32)   "Active"
+```
+
+## Keys
+
+- public.key: Authorization key (present = operational)
+- safety.key: Safety verification key (present = safe operational state)

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>C51</office-code>
+    <office-name>ST LOUIS SOUTHWEST</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>650 GRAVOIS BLUFF BLVD</address-3>
+    <city>FENTON</city>
+    <state>MO</state>
+    <zip-code>63026</zip-code>
+    <phone>(866) 331-2307</phone>
+    <fax>(833) 950-2938</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9368</socket-port>
+    <local-input-path>source-code/ssa/mo/fenton/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mo/fenton</output-dir>
+</signal-processing-config>

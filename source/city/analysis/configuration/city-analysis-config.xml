@@ -68,13 +68,6 @@
                 <source delisted-at="2026-06-23 22:15:43" delisted-code="520" status="delisted" type="demographics">https://www.census.gov/quickfacts/durhamcountynorthcarolina</source>
                                 
                 <source file="source/city/analysis/census/2024.census.csv" type="census-local">file://source/city/analysis/census/2024.census.csv</source>
-
-                <!-- ROD Document Search (DOCSEARCH5S1) Configuration -->
-                <source type="rod-docsearch" handler="RodDisclaimerHandler" data-dir="source/city/analysis/data">https://rodweb.dconc.gov/web/search/DOCSEARCH5S1</source>
-
-                <source type="rod-query" handler="RodQueryHandler" input="source/city/analysis/data/durham.nc.addresses.csv" output="source/city/analysis/data/durham.nc.rod.query.results.csv">https://rodweb.dconc.gov/web/search/DOCSEARCH5S1</source>
-
-                <source type="rod-property-engine" handler="RodPropertyQueryEngine" test-output="source/city/analysis/data/durham.nc.rod.test.100.results.csv">https://rodweb.dconc.gov/web/search/DOCSEARCH5S1</source>
                             
             </additional-sources>
                                 
@@ -481,66 +474,6 @@
                     
     
     </search-engine>
-
-    <!-- ROD Search Configuration — Durham County Register of Deeds DOCSEARCH5S1 -->
-    <rod-search-config>
-        <base-url>https://rodweb.dconc.gov</base-url>
-        <search-url>/web/search/DOCSEARCH5S1</search-url>
-        <document-url-pattern>/web/document/DOC{id}S{step}?search=DOCSEARCH5S1</document-url-pattern>
-
-        <!-- Search type selectors (buttons on the ROD form) -->
-        <search-types>
-            <type id="human" default="true">Exact name match</type>
-            <type id="soundex">Phonetic/soundex name match</type>
-        </search-types>
-
-        <!-- Document groups available on DOCSEARCH5S1 -->
-        <document-groups>
-            <group id="deeds">Deeds</group>
-            <group id="mortgages">Mortgages</group>
-            <group id="liens">Liens</group>
-            <group id="plats">Plats</group>
-            <group id="maps">Maps</group>
-            <group id="corporate">Corporate Books</group>
-            <group id="condo">Condo Books</group>
-            <group id="all" default="true">All Document Types</group>
-        </document-groups>
-
-        <!-- Fields extracted from document detail pages -->
-        <result-fields>
-            <field>BOOK_TYPE</field>
-            <field>BOOK</field>
-            <field>PAGE</field>
-            <field>RECORDED_DATE</field>
-            <field>FILED_DATE</field>
-            <field>DOCUMENT_TYPE</field>
-            <field>GRANTORS</field>
-            <field>GRANTEES</field>
-            <field>LEGAL_DESCRIPTION</field>
-        </result-fields>
-
-        <!-- Query strategy: parcel first, then name, with soundex fallback -->
-        <query-strategy>
-            <primary>parcel-id</primary>
-            <secondary>name-human</secondary>
-            <fallback>name-soundex</fallback>
-        </query-strategy>
-
-        <!-- Known common names to search (owners from local property records) -->
-        <known-names>
-            <name lastName="RUPPLIN" firstName=""/>
-            <name lastName="DUKE" firstName=""/>
-            <name lastName="DURHAM" firstName=""/>
-        </known-names>
-
-        <!-- Output -->
-        <output-csv>source/city/analysis/data/durham.nc.rod.query.results.csv</output-csv>
-        <test-csv>source/city/analysis/data/durham.nc.rod.test.100.results.csv</test-csv>
-
-        <!-- Rate limiting -->
-        <delay-between-requests-ms>3000</delay-between-requests-ms>
-        <max-document-follows-per-search>25</max-document-follows-per-search>
-    </rod-search-config>
             
     
     <connection>

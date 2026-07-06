@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>948</office-code>
+    <office-name>WATSONVILLE CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 301</address-2>
+    <address-3>180 WESTGATE DRIVE</address-3>
+    <city>WATSONVILLE</city>
+    <state>CA</state>
+    <zip-code>95076</zip-code>
+    <phone>(800) 521-3385</phone>
+    <fax>(833) 571-2679</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10330</socket-port>
+    <local-input-path>source-code/ssa/ca/watsonville/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/watsonville</output-dir>
+</signal-processing-config>

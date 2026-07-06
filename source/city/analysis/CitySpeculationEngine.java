@@ -1,6 +1,6 @@
-package city_analysis;
+package city.analysis;
 
-import city_analysis.CitySpeculationTrainer;
+import city.analysis.CitySpeculationTrainer;
 
 import java.io.*;
 import java.nio.file.*;
@@ -80,6 +80,11 @@ public class CitySpeculationEngine
         extractedEntities.put("mortgages", new ArrayList<>());
         extractedEntities.put("tax-values", new ArrayList<>());
         extractedEntities.put("zoning-codes", new ArrayList<>());
+        extractedEntities.put("rod-grantors", new ArrayList<>());
+        extractedEntities.put("rod-grantees", new ArrayList<>());
+        extractedEntities.put("rod-book-types", new ArrayList<>());
+        extractedEntities.put("rod-documents", new ArrayList<>());
+        extractedEntities.put("rod-legal-descriptions", new ArrayList<>());
 
         Pattern dollarPattern = Pattern.compile("\\$[\\d,]+\\.?\\d*");
         Pattern percentPattern = Pattern.compile("\\d+\\.?\\d*\\s*%");
@@ -132,13 +137,85 @@ public class CitySpeculationEngine
         }
 
         int totalEntities = extractedEntities.values().stream().mapToInt(List::size).sum();
+
+        // Extract ROD CSV data if present in input
+        extractRodCsvData();
+
+        totalEntities = extractedEntities.values().stream().mapToInt(List::size).sum();
         System.out.println("-- : [CitySpeculationEngine] Extracted " + totalEntities + "/" + maxInputs + " input objects across " + extractedEntities.size() + " types — dollars:" +
                 extractedEntities.get("dollar-amounts").size() +
                 " percents:" + extractedEntities.get("percentages").size() +
                 " keywords:" + extractedEntities.get("keywords").size() +
                 " lenders:" + extractedEntities.get("lenders").size() +
                 " foreclosures:" + extractedEntities.get("foreclosures").size() +
-                " mortgages:" + extractedEntities.get("mortgages").size());
+                " mortgages:" + extractedEntities.get("mortgages").size() +
+                " rod-docs:" + extractedEntities.get("rod-documents").size());
+    }
+
+    /**
+     * Parse ROD deeds query CSV data from input lines.
+     * Recognizes header: QUERY_DATE,PARCEL_ID,PIN,ADDRESS,SEARCH_TYPE,BOOK_TYPE,BOOK,PAGE,...
+     */
+    protected void extractRodCsvData()
+    {
+        boolean inRodSection = false;
+        for (String line : inputLines)
+        {
+            if (line.contains("ROD DEEDS QUERY RESULTS") || line.contains("BOOK_TYPE,BOOK,PAGE"))
+            {
+                inRodSection = true;
+                continue;
+            }
+            if (!inRodSection) continue;
+            if (line.startsWith("QUERY_DATE,")) continue; // skip header
+
+            String[] cols = parseCsvLine(line);
+            if (cols.length < 14) continue;
+
+            String parcelId = cols[1].trim();
+            String address = cols[3].trim();
+            String bookType = cols[5].trim();
+            String book = cols[6].trim();
+            String page = cols[7].trim();
+            String recordedDate = cols[8].trim();
+            String docType = cols[10].trim();
+            String grantors = cols[11].trim();
+            String grantees = cols[12].trim();
+            String legal = cols[13].trim();
+
+            if (!parcelId.isEmpty()) extractedEntities.get("parcel-ids").add(parcelId);
+            if (!address.isEmpty()) extractedEntities.get("addresses").add(address);
+            if (!grantors.isEmpty()) extractedEntities.get("rod-grantors").add(grantors);
+            if (!grantees.isEmpty()) extractedEntities.get("rod-grantees").add(grantees);
+            if (!bookType.isEmpty()) extractedEntities.get("rod-book-types").add(bookType + " " + book + ":" + page);
+            if (!legal.isEmpty()) extractedEntities.get("rod-legal-descriptions").add(legal);
+            if (!recordedDate.isEmpty()) extractedEntities.get("dates").add(recordedDate);
+
+            if (!docType.isEmpty())
+            {
+                extractedEntities.get("rod-documents").add(docType);
+                String docLower = docType.toLowerCase();
+                if (docLower.contains("mortgage")) extractedEntities.get("mortgages").add(grantors + " -> " + grantees);
+                if (docLower.contains("deed") || docLower.contains("transfer")) extractedEntities.get("transfers").add(grantors + " -> " + grantees);
+                if (docLower.contains("foreclos")) extractedEntities.get("foreclosures").add(grantors + " " + address);
+            }
+        }
+    }
+
+    private String[] parseCsvLine(String line)
+    {
+        List<String> fields = new ArrayList<>();
+        boolean inQuotes = false;
+        StringBuilder field = new StringBuilder();
+        for (int i = 0; i < line.length(); i++)
+        {
+            char c = line.charAt(i);
+            if (c == '"') { inQuotes = !inQuotes; }
+            else if (c == ',' && !inQuotes) { fields.add(field.toString()); field.setLength(0); }
+            else { field.append(c); }
+        }
+        fields.add(field.toString());
+        return fields.toArray(new String[0]);
     }
 
     /**
@@ -225,6 +302,34 @@ public class CitySpeculationEngine
             speculations.add("--- VOLUME SPECULATION ---");
             speculations.add("Speculation: Large dataset (" + inputLines.size() + " lines) suggests institutional-grade data source");
             speculations.add("Speculation: Likely sourced from county records system or bulk export");
+            speculations.add("");
+        }
+
+        // ROD Deeds data speculation
+        List<String> rodDocs = extractedEntities.get("rod-documents");
+        if (!rodDocs.isEmpty())
+        {
+            speculations.add("--- ROD DEEDS DATA ANALYSIS ---");
+            speculations.add("Documents found: " + rodDocs.size());
+            speculations.add("Grantors: " + extractedEntities.get("rod-grantors").size());
+            speculations.add("Grantees: " + extractedEntities.get("rod-grantees").size());
+            speculations.add("Book/page references: " + extractedEntities.get("rod-book-types").size());
+            speculations.add("Legal descriptions: " + extractedEntities.get("rod-legal-descriptions").size());
+
+            // Document type frequency
+            Map<String, Integer> docFreq = new HashMap<>();
+            for (String d : rodDocs) docFreq.merge(d, 1, Integer::sum);
+            docFreq.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .limit(10)
+                .forEach(e -> speculations.add("  " + e.getKey() + ": " + e.getValue()));
+
+            speculations.add("");
+            speculations.add("Speculation: " + rodDocs.size() + " recorded documents indicate " +
+                (rodDocs.size() > 50 ? "high" : rodDocs.size() > 20 ? "moderate" : "low") + " transaction volume");
+            speculations.add("Speculation: Transfers=" + extractedEntities.get("transfers").size() +
+                " Mortgages=" + extractedEntities.get("mortgages").size() +
+                " Foreclosures=" + extractedEntities.get("foreclosures").size());
             speculations.add("");
         }
 

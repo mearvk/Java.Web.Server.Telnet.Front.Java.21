@@ -30,7 +30,7 @@ public class CityAnalysisMain
         System.out.println("-- : [CityAnalysisMain] . CityAnalysis™ now starting .");
 
         // Start the city analysis server
-        city_analysis.CityAnalysisServer server = new city_analysis.CityAnalysisServer();
+        CityAnalysisServer server = new CityAnalysisServer();
 
         if (args.length > 0)
         {
@@ -45,7 +45,7 @@ public class CityAnalysisMain
         if (args.length > 1)
         {
             // Explicit file input
-            city_analysis.CitySpeculationEngine engine = new city_analysis.CitySpeculationEngine(args[1]);
+            CitySpeculationEngine engine = new CitySpeculationEngine(args[1]);
             engine.speculateRecursively();
             engine.writeResults();
         }
@@ -53,7 +53,7 @@ public class CityAnalysisMain
         {
             // Crawl mode — crawl sites, store raw, speculate on results
             System.out.println("-- : [CityAnalysisMain] Input mode: crawl");
-            city_analysis.CityAnalysisCrawler crawler = new city_analysis.CityAnalysisCrawler();
+            CityAnalysisCrawler crawler = new CityAnalysisCrawler();
             String[] seeds = new String[3 + server.additionalSources.size()];
             seeds[0] = server.deedsUrl;
             seeds[1] = server.propertyRecordsUrl;
@@ -67,7 +67,7 @@ public class CityAnalysisMain
             // Speculate on each stored raw file
             for (Path rawFile : rawFiles)
             {
-                city_analysis.CitySpeculationEngine engine = new city_analysis.CitySpeculationEngine(rawFile.toString());
+                CitySpeculationEngine engine = new CitySpeculationEngine(rawFile.toString());
                 engine.speculateRecursively();
                 engine.writeResults();
             }
@@ -76,10 +76,30 @@ public class CityAnalysisMain
         {
             // File mode (default) — fetch all sources, run search engine, save, speculate
             System.out.println("-- : [CityAnalysisMain] Input mode: file");
+
+            // Run ROD queries to populate deeds data CSV before speculation
+            System.out.println("-- : [CityAnalysisMain] Running ROD query handler for deeds data...");
+            RodQueryHandler rodHandler = new RodQueryHandler();
+            int rodResults = rodHandler.queryAndAppend(50);
+            System.out.println("-- : [CityAnalysisMain] ROD query produced " + rodResults + " results");
+
             String allContent = server.fetchAllSources();
 
+            // Append ROD query results CSV to content for speculation
+            Path rodCsv = Paths.get("source/city/analysis/data/durham.nc.rod.query.results.csv");
+            if (Files.exists(rodCsv))
+            {
+                try
+                {
+                    String rodData = Files.readString(rodCsv);
+                    allContent = (allContent != null ? allContent : "") + "\n=== ROD DEEDS QUERY RESULTS ===\n" + rodData;
+                    System.out.println("-- : [CityAnalysisMain] Appended ROD CSV (" + rodData.length() + " chars) to speculation input");
+                }
+                catch (Exception e) { System.err.println("-- : [CityAnalysisMain] Cannot read ROD CSV: " + e.getMessage()); }
+            }
+
             // Search engine integration — query web for additional real estate/lending data
-            city_analysis.CityAnalysisSearchEngine searchEngine = new city_analysis.CityAnalysisSearchEngine();
+            CityAnalysisSearchEngine searchEngine = new CityAnalysisSearchEngine();
             if (searchEngine.isEnabled())
             {
                 String searchContent = searchEngine.search(server.cityName, server.county, server.state);
@@ -114,10 +134,14 @@ public class CityAnalysisMain
             {
                 Files.createDirectories(fetchDir);
                 Path fetchFile = fetchDir.resolve(server.cityName + ".fetched.data");
-                if (allContent != null) Files.writeString(fetchFile, allContent);
-                System.out.println("-- : [CityAnalysisMain] Fetched data saved to " + fetchFile);
 
-                city_analysis.CitySpeculationEngine engine = new city_analysis.CitySpeculationEngine(fetchFile.toString());
+                // Strip HTML tags — store extracted text, not raw markup
+                if (allContent != null) allContent = stripHtml(allContent);
+
+                if (allContent != null) Files.writeString(fetchFile, allContent);
+                System.out.println("-- : [CityAnalysisMain] Fetched data saved to " + fetchFile + " (" + (allContent != null ? allContent.length() : 0) + " chars text)");
+
+                CitySpeculationEngine engine = new CitySpeculationEngine(fetchFile.toString());
                 engine.speculateRecursively();
                 engine.writeResults();
             }
@@ -140,7 +164,7 @@ public class CityAnalysisMain
     /**
      * Store Major 5 city record to MySQL database
      */
-    protected static void storeMajor5(city_analysis.CityAnalysisServer server)
+    protected static void storeMajor5(CityAnalysisServer server)
     {
         try
         {
@@ -295,5 +319,30 @@ public class CityAnalysisMain
         {
             System.err.println("-- : [CityAnalysisMain] Failed to update sources XML: " + e.getMessage());
         }
+    }
+
+    /**
+     * Strips HTML tags, scripts, styles from content. Collapses whitespace.
+     * Preserves text content as paragraph/line summary.
+     */
+    protected static String stripHtml(String html)
+    {
+        if (html == null) return null;
+        // Remove script and style blocks entirely
+        String text = html.replaceAll("(?is)<script[^>]*>.*?</script>", "");
+        text = text.replaceAll("(?is)<style[^>]*>.*?</style>", "");
+        // Replace <br>, <p>, <div>, <li>, <tr> with newlines
+        text = text.replaceAll("(?i)<(br|/p|/div|/li|/tr|/h[1-6])[^>]*>", "\n");
+        // Strip remaining tags
+        text = text.replaceAll("<[^>]+>", "");
+        // Decode common entities
+        text = text.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+                   .replace("&nbsp;", " ").replace("&quot;", "\"").replace("&#39;", "'");
+        // Collapse multiple blank lines
+        text = text.replaceAll("\\n\\s*\\n\\s*\\n+", "\n\n");
+        // Trim leading/trailing whitespace per line
+        text = text.lines().map(String::strip).filter(l -> !l.isEmpty())
+                   .reduce("", (a, b) -> a + "\n" + b).strip();
+        return text;
     }
 }
