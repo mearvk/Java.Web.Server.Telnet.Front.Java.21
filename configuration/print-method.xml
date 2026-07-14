@@ -120,8 +120,9 @@
             StrernaryKnowledgeFetcher,StrernaryTranslationLayer,StrernaryLaborLawFetcher,
             StrernaryTrainingLoader,BrarnerAleteModule
         </known-modules>
-        <preserved-acronyms>JDBC,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA</preserved-acronyms>
+        <preserved-acronyms>JDBC,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA,FBI,NSA,CIA</preserved-acronyms>
         <special-spellings>MySQL,NWEConfig,cmd.exe,sc,net</special-spellings>
+        <proper-nouns>Duke,Stanford,California,Chapel Hill,Harvard,Yale,Princeton,Oxford,Cambridge,Japan,Russia,Mexico,Greece,France,Germany,Italy,Spain,China,Canada,Australia,America,United States,Los Angeles,New York,San Francisco,Chicago,Washington,Durham,Raleigh,Charlotte,Atlanta,Boston,Seattle,Denver,Phoenix,Dallas,Houston,Miami,Nashville,Portland,Baltimore,Philadelphia,Detroit,Minneapolis,Cleveland,Pittsburgh,Cincinnati,Orlando,Tampa,Sacramento,Oakland,Richmond,Norfolk,Virginia,Maryland,Carolina,Texas,Florida,Georgia,Ohio,Michigan,Illinois,Tennessee,Kentucky,Missouri,Indiana,Wisconsin,Minnesota,Iowa,Kansas,Nebraska,Colorado,Arizona,Nevada,Oregon,Alabama,Mississippi,Arkansas,Louisiana,Oklahoma,New Mexico,Utah,Montana,Wyoming,Idaho,Alaska,Hawaii</proper-nouns>
         <description>
             Status message enclosed in decorator characters.
             Example: . AesCompliant™ CommonRails now starting .
@@ -136,6 +137,12 @@
             special-spellings: comma-separated words with exact casing that
             override the normal CamelCase/InitialCap sanitization. Any
             occurrence (case-insensitive) is replaced with the spelling here.
+
+            proper-nouns: comma-separated place names, institutions, and
+            geographic proper nouns whose first letter must always be
+            uppercased. Multi-word entries (e.g. "Chapel Hill") are matched
+            as a phrase. Any occurrence (case-insensitive) is replaced with
+            the InitialCap form defined here.
 
             NOTE: Do NOT repeat the class name in the message body. Block 4
             [Current: @ClassName] already identifies the owning class. Repeating
