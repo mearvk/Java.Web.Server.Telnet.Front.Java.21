@@ -164,6 +164,7 @@ DEPLOY_SCRIPTS=(
     "modules/black/presidential/Brarner.M.Alete/install/deploy-local.sh"
 )
 
+set +e  # Disable exit-on-error for deploy loop (individual failures are handled)
 for DS in "${DEPLOY_SCRIPTS[@]}"; do
     FULL="$PROJECT_ROOT/$DS"
     MODULE_NAME=$(echo "$DS" | sed 's|modules/||;s|/servlets.*||;s|/install.*||;s|source/||')
@@ -185,6 +186,7 @@ for DS in "${DEPLOY_SCRIPTS[@]}"; do
         DEPLOY_FAIL=$((DEPLOY_FAIL + 1))
     fi
 done
+set -e  # Re-enable exit-on-error
 
 echo ""
 echo "[OK] Deployed: $DEPLOY_PASS | Failed: $DEPLOY_FAIL"
