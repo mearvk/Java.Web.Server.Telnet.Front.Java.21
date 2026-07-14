@@ -24,13 +24,14 @@ echo "║  JVM: $JVM_OPTS                                                       
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
-# Build classpath
-CP="$SOURCE"
-if [ -d "$LIB" ]; then CP="$CP:$LIB/*"; fi
-if [ -d "$JARS" ]; then CP="$CP:$JARS/*"; fi
+# Build classpath — compiled classes live in the central out/ directory
+PROJECT_ROOT="$(cd "$MOD_ROOT/../.." && pwd)"
+CP="$PROJECT_ROOT/out:$PROJECT_ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:$PROJECT_ROOT/jars/lanterna-3.1.5.jar"
+DJL_CP=$(find "$PROJECT_ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$CP:${DJL_CP}"
 
 # ── Module definition ─────────────────────────────────────────────────────────
-MODULE_CLASS="GrayPortRegistryServer"
+MODULE_CLASS="modules.gray.source.GrayPortRegistryServer"
 PID_FILE="$PID_DIR/backend.pid"
 
 # Check if already running
