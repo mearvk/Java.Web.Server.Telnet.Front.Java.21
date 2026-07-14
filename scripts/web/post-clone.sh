@@ -91,13 +91,13 @@ SETUP_SCRIPTS=(
 for SETUP in "${SETUP_SCRIPTS[@]}"; do
     FULL="$PROJECT_ROOT/$SETUP"
     if [ -f "$FULL" ]; then
-        bash "$FULL" 2>/dev/null && echo "  [OK] $SETUP" || echo "  [WARN] $SETUP (MySQL may not be ready)"
+        timeout 30 bash "$FULL" 2>/dev/null && echo "  [OK] $SETUP" || echo "  [WARN] $SETUP (timeout or MySQL not ready)"
     fi
 done
 
-# 6. Deploy all web modules
+# 6. Deploy all web modules (60s timeout per module)
 echo ""
-bash "$SCRIPT_DIR/deploy-all.sh"
+timeout 600 bash "$SCRIPT_DIR/deploy-all.sh" || echo "[WARN] deploy-all.sh timed out (10 min) — some modules may need manual deploy"
 
 # 7. Start Tomcat
 systemctl start tomcat 2>/dev/null || "$TOMCAT_HOME/bin/startup.sh"

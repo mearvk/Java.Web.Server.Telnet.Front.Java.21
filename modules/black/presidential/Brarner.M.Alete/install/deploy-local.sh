@@ -53,28 +53,50 @@ elif ls "$BMA_ROOT/lib/"*.jar &>/dev/null; then
     echo "[*] JARs copied from lib/ to WEB-INF/lib/"
 fi
 
-# Ensure db.properties exists — prompt if missing
+# Ensure db.properties exists — use .nwe-credentials or prompt if interactive
 DB_PROPS="$DEPLOY_DIR/WEB-INF/db.properties"
-if [ ! -f "$DB_PROPS" ] || ! grep -q "db.password=." "$DB_PROPS" 2>/dev/null; then
-    echo ""
-    echo "[*] db.properties needs MySQL credentials for JSP pages."
-    read -rp "    MySQL user [root]: " DB_USER
-    DB_USER="${DB_USER:-root}"
-    read -rsp "    MySQL password: " DB_PASS
-    echo ""
-    read -rp "    MySQL host [localhost]: " DB_HOST
-    DB_HOST="${DB_HOST:-localhost}"
-    read -rp "    MySQL port [3306]: " DB_PORT
-    DB_PORT="${DB_PORT:-3306}"
-    cat > "$DB_PROPS" <<EOF
+if [ ! -f "$DB_PROPS" ] || ! grep -q "db.password=." "$DB_PROPS" 2>/dev/null || grep -q "CHANGE_ME" "$DB_PROPS" 2>/dev/null; then
+    # Try .nwe-credentials first (non-interactive safe)
+    NWE_ROOT="$(cd "$SCRIPT_DIR/../../../.." 2>/dev/null && pwd)"
+    if [ -f "$NWE_ROOT/.nwe-credentials" ]; then
+        source "$NWE_ROOT/.nwe-credentials"
+        mkdir -p "$DEPLOY_DIR/WEB-INF"
+        cat > "$DB_PROPS" <<EOF
+# BMA Database Configuration — auto-generated from .nwe-credentials
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://${NWE_DB_HOST:-127.0.0.1}:${NWE_DB_PORT:-3306}/BrarnerScience
+db.user=${NWE_DB_USER:-root}
+db.password=${NWE_DB_PASS}
+EOF
+        chmod 600 "$DB_PROPS"
+        echo "[*] db.properties generated from .nwe-credentials"
+    elif [ -t 0 ]; then
+        # Interactive terminal — prompt for credentials
+        echo ""
+        echo "[*] db.properties needs MySQL credentials for JSP pages."
+        read -rp "    MySQL user [root]: " DB_USER
+        DB_USER="${DB_USER:-root}"
+        read -rsp "    MySQL password: " DB_PASS
+        echo ""
+        read -rp "    MySQL host [localhost]: " DB_HOST
+        DB_HOST="${DB_HOST:-localhost}"
+        read -rp "    MySQL port [3306]: " DB_PORT
+        DB_PORT="${DB_PORT:-3306}"
+        mkdir -p "$DEPLOY_DIR/WEB-INF"
+        cat > "$DB_PROPS" <<EOF
 # BMA Database Configuration — written by deploy-local.sh
 db.driver=com.mysql.cj.jdbc.Driver
 db.url=jdbc:mysql://${DB_HOST}:${DB_PORT}/BrarnerScience
 db.user=${DB_USER}
 db.password=${DB_PASS}
 EOF
-    chmod 600 "$DB_PROPS"
-    echo "[*] db.properties written"
+        chmod 600 "$DB_PROPS"
+        echo "[*] db.properties written"
+    else
+        # Non-interactive and no credentials file — skip (don't hang)
+        echo "[!] db.properties missing and no .nwe-credentials found (non-interactive)"
+        echo "    JSP database pages will fail. Create .nwe-credentials and redeploy."
+    fi
 else
     echo "[*] db.properties present (user=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-))"
 fi

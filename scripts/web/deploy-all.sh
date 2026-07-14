@@ -41,16 +41,21 @@ for SCRIPT in $ENABLED; do
     # Run setup-db if it exists alongside deploy script
     SETUP_DB="$(dirname "$FULL_PATH")/setup-db.sh"
     if [ -f "$SETUP_DB" ]; then
-        bash "$SETUP_DB" 2>/dev/null && echo "  [DB] $(basename "$(dirname "$SETUP_DB")") database ready" || true
+        timeout 30 bash "$SETUP_DB" 2>/dev/null && echo "  [DB] $(basename "$(dirname "$SETUP_DB")") database ready" || true
     fi
     
     if [ -f "$FULL_PATH" ]; then
         echo ""
         echo "[*] Deploying: $SCRIPT"
-        if bash "$FULL_PATH" 2>&1 | tail -3; then
+        if timeout 60 bash "$FULL_PATH" 2>&1 | tail -3; then
             PASS=$((PASS + 1))
         else
-            echo "[!] Failed: $SCRIPT"
+            EXIT_CODE=$?
+            if [ $EXIT_CODE -eq 124 ]; then
+                echo "[!] TIMEOUT (60s): $SCRIPT — skipping (may need manual deploy)"
+            else
+                echo "[!] Failed: $SCRIPT"
+            fi
             FAIL=$((FAIL + 1))
         fi
     else
@@ -59,7 +64,7 @@ for SCRIPT in $ENABLED; do
             bash "$PROJECT_ROOT/scripts/fix-missing-deploy-scripts.sh" 2>/dev/null
             if [ -f "$FULL_PATH" ]; then
                 echo "[*] Auto-created missing script, deploying: $SCRIPT"
-                bash "$FULL_PATH" 2>&1 | tail -3 && PASS=$((PASS + 1)) || FAIL=$((FAIL + 1))
+                timeout 60 bash "$FULL_PATH" 2>&1 | tail -3 && PASS=$((PASS + 1)) || FAIL=$((FAIL + 1))
             else
                 echo "[!] Script not found (nested .git repo?): $FULL_PATH"
                 FAIL=$((FAIL + 1))
