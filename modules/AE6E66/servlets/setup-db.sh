@@ -7,7 +7,10 @@ set -e
 # Can be run repeatedly after git pull without risk to production databases.
 
 DB_USER="root"
-DB_PASS='$$Ironman1'
+# Load from .nwe-credentials
+NWE_ROOT="$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)"
+[ -f "$NWE_ROOT/.nwe-credentials" ] && source "$NWE_ROOT/.nwe-credentials"
+DB_PASS="${NWE_DB_PASS:-'$$Ironman1'}" 
 DB_HOST="127.0.0.1"
 DB_NAME="nwe_ae6e66"
 MYSQL="mysql -u$DB_USER -p$DB_PASS -h$DB_HOST"

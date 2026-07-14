@@ -47,6 +47,10 @@ build/
 ### Secrets ###
 psychiatry/secrets/secret.key
 **/.db-credentials
+**/db.properties
+!**/db.properties.example
+.nwe-credentials
+configuration/credentials.local
 
 ### Transfer Documents ###
 source/confermary/transfer.document.title

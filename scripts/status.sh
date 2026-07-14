@@ -22,7 +22,9 @@ echo "MySQL:"
 echo "───────────────────────────────────────────────────────────────────────────"
 if mysqladmin ping -h "$MYSQL_HOST" -P "$MYSQL_PORT" --silent 2>/dev/null; then
     echo "  [✓] MySQL is running (Host: $MYSQL_HOST, Port: $MYSQL_PORT)"
-    DATABASES=$(mysql -h "$MYSQL_HOST" -u mearvk -p'$$Ironman1' -e "SHOW DATABASES;" 2>/dev/null | tail -n +2 | wc -l)
+    # Source credentials for DB query
+    [ -f "$PROJECT_ROOT/.nwe-credentials" ] && source "$PROJECT_ROOT/.nwe-credentials"
+    DATABASES=$(mysql -h "$MYSQL_HOST" -u "${NWE_DB_USER:-root}" -p"${NWE_DB_PASS:-}" -e "SHOW DATABASES;" 2>/dev/null | tail -n +2 | wc -l)
     echo "    Databases: $DATABASES"
 else
     echo "  [✗] MySQL is NOT running"
@@ -145,16 +147,20 @@ echo ""
 
 # ── Overall Summary ───────────────────────────────────────────────────────────
 echo ""
-MYSQL_STATUS=$(mysqladmin ping -h "$MYSQL_HOST" -P "$MYSQL_PORT" --silent 2>/dev/null && echo "[✓] Running" || echo "[✗] Stopped")
+if mysqladmin ping -h "$MYSQL_HOST" -P "$MYSQL_PORT" --silent 2>/dev/null; then
+    MYSQL_DISPLAY="Running"
+else
+    MYSQL_DISPLAY="Stopped"
+fi
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  Overall Status                                                           ║"
-printf "║  MySQL:     %-60s ║\n" "$MYSQL_STATUS"
-printf "║  Backends:  %-60s ║\n" "$BACKENDS_UP up / $(( BACKENDS_UP + BACKENDS_DOWN )) total"
-printf "║  Frontends: %-60s ║\n" "$FRONTENDS_UP up / $(( FRONTENDS_UP + FRONTENDS_DOWN )) total"
-echo "║                                                                           ║"
-echo "║  Start:     bash scripts/start-all.sh                                     ║"
-echo "║  Shutdown:  bash scripts/shutdown-all.sh                                   ║"
-echo "║  View logs: tail -f logging/*.log                                          ║"
+echo "║  Overall Status                                                         ║"
+echo "║  MySQL:     $MYSQL_DISPLAY                                                    ║"
+echo "║  Backends:  $BACKENDS_UP up / $(( BACKENDS_UP + BACKENDS_DOWN )) total                                             ║"
+echo "║  Frontends: $FRONTENDS_UP up / $(( FRONTENDS_UP + FRONTENDS_DOWN )) total                                             ║"
+echo "║                                                                         ║"
+echo "║  Start:     bash scripts/start-all.sh                                   ║"
+echo "║  Shutdown:  bash scripts/shutdown-all.sh                                 ║"
+echo "║  View logs: tail -f logging/*.log                                        ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 

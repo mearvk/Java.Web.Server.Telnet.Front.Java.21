@@ -1,0 +1,11 @@
+# NWE Module Database Configuration — Example Template
+# Copy to db.properties and fill in your values:
+#   cp db.properties.example db.properties
+#
+# db.properties is .gitignored and will never be committed.
+# Deploy scripts auto-generate this from .nwe-credentials if missing.
+
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://127.0.0.1:3306/DATABASE_NAME_HERE
+db.user=root
+db.password=CHANGE_ME

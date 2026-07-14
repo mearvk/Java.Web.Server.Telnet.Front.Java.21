@@ -30,7 +30,29 @@ echo "[OK] MySQL: $(mysql --version 2>/dev/null | head -1)"
 
 # 3. Configure MySQL root for JDBC
 echo "[*] Configuring MySQL root for JDBC (caching_sha2_password)..."
-sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY '\$\$Ironman1'; FLUSH PRIVILEGES;" 2>/dev/null || true
+# NOTE: This sets the initial MySQL password. Change it after install via .nwe-credentials.
+if [ -f "$PROJECT_ROOT/.nwe-credentials" ]; then
+    source "$PROJECT_ROOT/.nwe-credentials"
+    sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${NWE_DB_PASS}'; FLUSH PRIVILEGES;" 2>/dev/null || true
+    echo "[OK] MySQL password set from .nwe-credentials"
+else
+    sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY '\$\$Ironman1'; FLUSH PRIVILEGES;" 2>/dev/null || true
+    echo "[OK] MySQL password set to default ($$Ironman1)"
+    echo ""
+    echo "  ┌────────────────────────────────────────────────────────────────────"
+    echo "  │ ⚠  DEFAULT PASSWORD SET"
+    echo "  │ The MySQL root password is currently the install default."
+    echo "  │ Change it for production:"
+    echo "  │"
+    echo "  │   cp .nwe-credentials.example .nwe-credentials"
+    echo "  │   nano .nwe-credentials       (set a strong password)"
+    echo "  │   chmod 600 .nwe-credentials"
+    echo "  │   sudo mysql -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'your_new_pass';\""
+    echo "  │"
+    echo "  │ Then redeploy: bash scripts/web/deploy-all.sh"
+    echo "  └────────────────────────────────────────────────────────────────────"
+    echo ""
+fi
 
 # 4. Ensure Tomcat
 TOMCAT_HOME="/home/mearvk/tomcat"

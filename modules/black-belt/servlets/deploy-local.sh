@@ -21,7 +21,7 @@ JDBC_JAR=$(find "$(dirname "$BELT_ROOT")" -name "mysql-connector-j*.jar" -type f
 [ -n "$JDBC_JAR" ] && cp "$JDBC_JAR" "$DEPLOY_DIR/WEB-INF/lib/" && echo "[*] MySQL connector: $(basename "$JDBC_JAR")"
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 # Setup DB
-mysql -u root -p'$$Ironman1' -h 127.0.0.1 <<'SQL'
+_NWE="$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)"; [ -f "$_NWE/.nwe-credentials" ] && source "$_NWE/.nwe-credentials"; mysql -u "${NWE_DB_USER:-root}" -p"${NWE_DB_PASS:-'$$Ironman1'}"  -h 127.0.0.1 <<'SQL'
 CREATE DATABASE IF NOT EXISTS nwe_blackbelt CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE nwe_blackbelt;
 CREATE TABLE IF NOT EXISTS questions (id INT AUTO_INCREMENT PRIMARY KEY, question TEXT, answer TEXT, ip VARCHAR(45), asked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, INDEX idx_time(asked_at));

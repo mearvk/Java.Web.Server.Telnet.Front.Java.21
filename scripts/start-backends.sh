@@ -81,9 +81,9 @@ fi
 
 # ── START MODE ────────────────────────────────────────────────────────────────
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-printf "║  NitroWebExpress™ — Start All Backend Modules                           ║\n"
-printf "║  Backend Modules: %-54s ║\n" "${#MODULES[@]}"
-printf "║  Webapp-Only:     %-54s ║\n" "${#WEBAPP_ONLY_MODULES[@]}"
+echo "║  NitroWebExpress™ — Start All Backend Modules                           ║"
+echo "║  Backend Modules: ${#MODULES[@]}                                                     ║"
+echo "║  Webapp-Only:     ${#WEBAPP_ONLY_MODULES[@]}                                                     ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -149,13 +149,13 @@ fi
 
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  Backend Status Summary                                                   ║"
-printf "║  Running: %-62s ║\n" "${#SUCCESS[@]} / $(( ${#MODULES[@]} + 1 ))"
+echo "║  Backend Status Summary                                                 ║"
+echo "║  Running: ${#SUCCESS[@]} / $(( ${#MODULES[@]} + 1 ))                                                    ║"
 if [ ${#FAILED[@]} -gt 0 ]; then
-    printf "║  Failed:  %-62s ║\n" "${#FAILED[@]}"
+    echo "║  Failed:  ${#FAILED[@]}                                                       ║"
 fi
-echo "║  Stop:    bash scripts/start-backends.sh --stop                           ║"
-echo "║  Monitor: ps aux | grep java                                              ║"
+echo "║  Stop:    bash scripts/start-backends.sh --stop                         ║"
+echo "║  Monitor: ps aux | grep java                                            ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 
 [ ${#FAILED[@]} -eq 0 ]

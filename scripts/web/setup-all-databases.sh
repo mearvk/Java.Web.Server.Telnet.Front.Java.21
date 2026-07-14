@@ -9,7 +9,24 @@
 # Usage: bash scripts/web/setup-all-databases.sh
 set -uo pipefail
 
-MYSQL="mysql -u root --password=\$\$Ironman1"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
+
+# Load credentials from .nwe-credentials (gitignored, never committed)
+if [ -f "$PROJECT_ROOT/.nwe-credentials" ]; then
+    source "$PROJECT_ROOT/.nwe-credentials"
+else
+    echo "[!] No .nwe-credentials found. Copy from example:"
+    echo "    cp .nwe-credentials.example .nwe-credentials"
+    echo "    Then fill in your MySQL password."
+    echo ""
+    echo "    Trying with default credentials..."
+    NWE_DB_USER="root"
+    NWE_DB_PASS='$$Ironman1'
+    NWE_DB_HOST="127.0.0.1"
+fi
+
+MYSQL="mysql -u $NWE_DB_USER -p$NWE_DB_PASS -h ${NWE_DB_HOST:-127.0.0.1}"
 
 echo "═══════════════════════════════════════════════════════════════"
 echo " NitroWebExpress™ — Setup All Databases"

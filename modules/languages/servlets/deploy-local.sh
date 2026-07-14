@@ -21,7 +21,7 @@ JDBC_JAR=$(find "$(dirname "$(dirname "$LANG_ROOT")")" -name "mysql-connector-j*
 [ -n "$JDBC_JAR" ] && cp "$JDBC_JAR" "$DEPLOY_DIR/WEB-INF/lib/" && echo "[*] MySQL connector: $(basename "$JDBC_JAR")"
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 # Setup DB
-mysql -u root -p'$$Ironman1' -h 127.0.0.1 <<'SQL'
+_NWE="$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)"; [ -f "$_NWE/.nwe-credentials" ] && source "$_NWE/.nwe-credentials"; mysql -u "${NWE_DB_USER:-root}" -p"${NWE_DB_PASS:-'$$Ironman1'}"  -h 127.0.0.1 <<'SQL'
 CREATE DATABASE IF NOT EXISTS nwe_languages CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE nwe_languages;
 CREATE TABLE IF NOT EXISTS translations (id INT AUTO_INCREMENT PRIMARY KEY, source_text TEXT, from_lang VARCHAR(10), to_lang VARCHAR(10), result TEXT, ip VARCHAR(45), translated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, INDEX idx_time(translated_at));
