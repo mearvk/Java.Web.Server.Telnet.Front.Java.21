@@ -1,28 +1,28 @@
 #!/bin/bash
-# CaliforniaFBI™ — Deploy to local Tomcat
+# CaliforniaFBI™ — Deploy Local
+# Deploys JSP webapp to Tomcat with JDBC connector and compiled servlet classes.
+# Usage: bash modules/fbi/servlets/deploy-local.sh [tomcat_home]
 set -e
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-WAR_NAME="california-fbi"
-TOMCAT_WEBAPPS="${TOMCAT_HOME:-/home/mearvk/tomcat}/webapps"
-SRC="$SCRIPT_DIR/servlet/src/main/webapp"
-
-echo "[*] Deploying CaliforniaFBI™ to $TOMCAT_WEBAPPS/$WAR_NAME"
-
-rm -rf "$TOMCAT_WEBAPPS/$WAR_NAME"
-mkdir -p "$TOMCAT_WEBAPPS/$WAR_NAME"
-cp -r "$SRC/"* "$TOMCAT_WEBAPPS/$WAR_NAME/"
-mkdir -p "$TOMCAT_WEBAPPS/$WAR_NAME/WEB-INF/lib"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
 NWE_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-JDBC_JAR=$(find "$NWE_ROOT/modules/black/presidential/Brarner.M.Alete/jars" "$NWE_ROOT/jars/mysql" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
-[ -n "$JDBC_JAR" ] && cp "$JDBC_JAR" "$TOMCAT_WEBAPPS/$WAR_NAME/WEB-INF/lib/" && echo "[*] JDBC: $(basename "$JDBC_JAR")" || echo "[!] WARNING: mysql-connector-j not found"
 
-# Compile servlets if javac available
-if command -v javac &>/dev/null; then
-    CLASSES="$TOMCAT_WEBAPPS/$WAR_NAME/WEB-INF/classes/com/mearvk/fbi"
-    mkdir -p "$CLASSES"
-    CLASSPATH="$TOMCAT_WEBAPPS/$WAR_NAME/WEB-INF/lib/*:${TOMCAT_HOME:-/home/mearvk/tomcat}/lib/*"
-    javac -cp "$CLASSPATH" -d "$TOMCAT_WEBAPPS/$WAR_NAME/WEB-INF/classes" \
-        "$SCRIPT_DIR/servlet/src/main/java/com/mearvk/fbi/"*.java 2>/dev/null || echo "[!] Servlet compilation skipped (missing deps)"
+source "$NWE_ROOT/scripts/deploy-functions.sh" 2>/dev/null || true
+
+if type nwe_deploy_module &>/dev/null; then
+    nwe_deploy_module "CaliforniaFBI" "california-fbi" \
+        "$SCRIPT_DIR/servlet/src/main/webapp" \
+        "$SCRIPT_DIR/servlet/src/main/java/com/mearvk/fbi" \
+        "$TOMCAT_HOME" "$NWE_ROOT"
+else
+    # Fallback if shared library unavailable
+    DEPLOY_DIR="$TOMCAT_HOME/webapps/california-fbi"
+    echo "[*] Deploying CaliforniaFBI™ to $DEPLOY_DIR"
+    rm -rf "$DEPLOY_DIR"
+    mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
+    cp -r "$SCRIPT_DIR/servlet/src/main/webapp/"* "$DEPLOY_DIR/"
+    JDBC_JAR=$(find "$NWE_ROOT/jars/mysql" -name "mysql-connector-j*.jar" -type f 2>/dev/null | head -1)
+    [ -n "$JDBC_JAR" ] && cp "$JDBC_JAR" "$DEPLOY_DIR/WEB-INF/lib/"
+    echo "[OK] CaliforniaFBI™ deployed at /california-fbi"
 fi
-
-echo "[OK] CaliforniaFBI™ deployed at /$WAR_NAME"

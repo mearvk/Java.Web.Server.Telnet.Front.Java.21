@@ -1,5 +1,5 @@
 #!/bin/bash
-# AE6E66™ — Deploy Local (Embedded Tomcat or /opt/tomcat)
+# AE6E66™ — Deploy Local (Deploy to local Tomcat)
 # Usage: bash modules/AE6E66/servlets/deploy-local.sh [tomcat_home]
 set -e
 
@@ -7,8 +7,18 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AE6E66_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$AE6E66_ROOT/servlets/servlet/src/main/webapp"
 TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+
+# Source shared deploy library for validation
+_NWE="$(cd "$(dirname "$0")" && cd ../../.. 2>/dev/null && pwd)"
+[ -f "$_NWE/scripts/deploy-functions.sh" ] && source "$_NWE/scripts/deploy-functions.sh"
+if type nwe_validate_tomcat &>/dev/null; then nwe_validate_tomcat "$TOMCAT_HOME" || exit 1; fi
 CONTEXT="ae6e66"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/$CONTEXT"
+
+# Source shared deploy library for validation
+_NWE="$(cd "$(dirname "$0")" && cd ../../.. 2>/dev/null && pwd)"
+[ -f "$_NWE/scripts/deploy-functions.sh" ] && source "$_NWE/scripts/deploy-functions.sh"
+if type nwe_validate_tomcat &>/dev/null; then nwe_validate_tomcat "$TOMCAT_HOME" || exit 1; fi
 
 echo "═══════════════════════════════════════════════════════════════"
 echo " AE6E66™ — Deploy Local"
