@@ -9,6 +9,8 @@ set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
+source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
+
 # Module definitions: MOD_DIR -> Context
 declare -A MODULES=(
     ["AE6E66"]="ae6e66"
@@ -79,9 +81,9 @@ fi
 
 # ── START MODE ────────────────────────────────────────────────────────────────
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  NitroWebExpress™ — Start All Backend Modules                            ║"
-echo "║  Backend Modules: ${#MODULES[@]}                                          ║"
-echo "║  Webapp-Only: ${#WEBAPP_ONLY_MODULES[@]}                                  ║"
+printf "║  NitroWebExpress™ — Start All Backend Modules                           ║\n"
+printf "║  Backend Modules: %-54s ║\n" "${#MODULES[@]}"
+printf "║  Webapp-Only:     %-54s ║\n" "${#WEBAPP_ONLY_MODULES[@]}"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -148,9 +150,9 @@ fi
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
 echo "║  Backend Status Summary                                                   ║"
-echo "║  Running: ${#SUCCESS[@]} / $(( ${#MODULES[@]} + 1 ))                       ║"
+printf "║  Running: %-62s ║\n" "${#SUCCESS[@]} / $(( ${#MODULES[@]} + 1 ))"
 if [ ${#FAILED[@]} -gt 0 ]; then
-    echo "║  Failed:  ${#FAILED[@]}                                                 ║"
+    printf "║  Failed:  %-62s ║\n" "${#FAILED[@]}"
 fi
 echo "║  Stop:    bash scripts/start-backends.sh --stop                           ║"
 echo "║  Monitor: ps aux | grep java                                              ║"

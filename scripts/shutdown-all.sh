@@ -12,15 +12,17 @@ set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+
+source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 STOP_TOMCAT="${2:-}"
 
 echo ""
-echo "╔══════════════════════════════════════════════════════════════════════════════"
-echo "║                                                                              ║"
-echo "║   ▌ NitroWebExpress™ — Complete System Shutdown                            ║"
-echo "║   ▌ Sequence: Frontends → Backends → MySQL                                  ║"
-echo "║   ▌                                                                          ║"
-echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+echo "╔═══════════════════════════════════════════════════════════════════════════╗"
+echo "║                                                                           ║"
+echo "║   NitroWebExpress™ — Complete System Shutdown                             ║"
+echo "║   Sequence: Frontends → Backends → MySQL                                  ║"
+echo "║                                                                           ║"
+echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
 # ── Phase 1: Frontend Modules ─────────────────────────────────────────────────
@@ -75,15 +77,15 @@ fi
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
 echo ""
-echo "╔══════════════════════════════════════════════════════════════════════════════"
-echo "║                                                                              ║"
-echo "║   ✓ NitroWebExpress™ System Shutdown Complete!                             ║"
-echo "║                                                                              ║"
-echo "║   NEXT STEPS:                                                                ║"
-echo "║   • Verify services stopped: bash scripts/status.sh                         ║"
-echo "║   • Restart system: bash scripts/start-all.sh                               ║"
-echo "║   • View logs: tail -f logging/*.log                                        ║"
-echo "║                                                                              ║"
-echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+echo "╔═══════════════════════════════════════════════════════════════════════════╗"
+echo "║                                                                           ║"
+echo "║   ✓ NitroWebExpress™ System Shutdown Complete!                            ║"
+echo "║                                                                           ║"
+echo "║   NEXT STEPS:                                                             ║"
+echo "║   • Verify stopped:  bash scripts/status.sh                               ║"
+echo "║   • Restart system:  bash scripts/start-all.sh                            ║"
+echo "║   • View logs:       tail -f logging/*.log                                ║"
+echo "║                                                                           ║"
+echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 

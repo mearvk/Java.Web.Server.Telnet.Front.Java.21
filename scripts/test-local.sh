@@ -6,6 +6,7 @@
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 PASS=0; FAIL=0; WARN=0
 
 ok()   { echo "  [PASS] $1"; PASS=$((PASS + 1)); }
@@ -63,12 +64,11 @@ WEBAPPS=(
     "/gray85-registry/:Gray85Creme"
     "/blackbelt/:BlackBelt"
     "/languages/:Languages"
-    "/strernary/:Strernary"
     "/california-fbi/:CaliforniaFBI"
     "/california-cia/:CaliforniaCIA"
     "/california-nsa/:CaliforniaNSA"
-    "/duke/:DukeUniversity"
-    "/stanford-library/:StanfordLibrary"
+    "/california-duke/:DukeUniversity"
+    "/library/:StanfordLibrary"
 )
 
 TOMCAT_PORT=8080
@@ -96,9 +96,9 @@ XML_FILES=(
     "configuration/port-2000-directory-config.xml"
     "configuration/print-method.xml"
     "scripts/web/web-deploy-config.xml"
-    "california/fbi/configuration/california-fbi-config.xml"
-    "california/cia/configuration/california-cia-config.xml"
-    "california/nsa/configuration/california-nsa-config.xml"
+    "modules/fbi/configuration/california-fbi-config.xml"
+    "modules/cia/configuration/california-cia-config.xml"
+    "modules/nsa/configuration/california-nsa-config.xml"
 )
 
 for XML in "${XML_FILES[@]}"; do

@@ -565,7 +565,7 @@
         <port>5000</port>
         <trust-level>9.5</trust-level>
         <block>US Democratic</block>
-        <source>modules/black/red/Futures</source>
+        <source>modules/red/Futures</source>
         <masquerade-aware>true</masquerade-aware>
         <description>
             D500 Democratic President — AI futures, tax defense speculation,
@@ -580,7 +580,7 @@
         <port>20000</port>
         <trust-level>9.5</trust-level>
         <block>NC Socialist-College</block>
-        <source>modules/black/presidential/Green.Durham.Grass.and.Herb</source>
+        <source>modules/Green.Durham.Grass.and.Herb</source>
         <masquerade-aware>true</masquerade-aware>
         <virtual-ports>70000,70002,70003,70007,80000,99152</virtual-ports>
         <description>

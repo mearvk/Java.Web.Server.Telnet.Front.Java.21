@@ -1,0 +1,332 @@
+[DemocraticAIServer] Scanning /configuration and /data for training inputs...
+[DemocraticAIServer] Trained from: configuration/democratic/fiduciary/standard.fiduciary.rdns
+[DemocraticAIServer] Trained from: configuration/democratic/fiduciary/black.belt.fiduciary.rdns
+[DemocraticAIServer] Trained from: configuration/democratic/defensive.heurstics.and.tactics.for.US.personnel.txt
+[DemocraticAIServer] Trained from: configuration/democratic/legal/standard.federal.rdns
+[DemocraticAIServer] Trained from: configuration/democratic/legal/black.belt.federal.rdns
+[DemocraticAIServer] Trained from: configuration/democratic/us.tax.laws.explained.txt
+[DemocraticAIServer] Trained from: configuration/democratic/democratic.answers.txt
+[DemocraticAIServer] Trained from: configuration/democratic/tax.survivors.txt
+[DemocraticAIServer] Trained from config: configuration/intent-regulator-config.xml
+[DemocraticAIServer] Trained from config: configuration/nio-masquerade-config.xml
+[DemocraticAIServer] Trained from config: configuration/programs.xml
+[DemocraticAIServer] Trained from config: configuration/known.port.20000.servers.xml
+[DemocraticAIServer] Trained from config: configuration/protocol-handlers.xml
+[DemocraticAIServer] Trained from config: configuration/receiver.only.xml
+[DemocraticAIServer] Trained from config: configuration/nwe-config.xml
+[DemocraticAIServer] Trained from config: configuration/ai-module-config.xml
+[DemocraticAIServer] Trained from config: configuration/transfer-contacts.xml
+[DemocraticAIServer] Trained from config: configuration/masquerade-modules.xml
+[DemocraticAIServer] Trained from config: configuration/known.port.49152.servers.xml
+[DemocraticAIServer] Trained from config: configuration/port-2000-directory-config.xml
+[DemocraticAIServer] Trained from config: configuration/database-config.xml
+[DemocraticAIServer] Trained from config: configuration/blackbelt/hardware-and-strikes.xml
+[DemocraticAIServer] Trained from config: configuration/server-config.xml
+[DemocraticAIServer] Trained from config: configuration/known.port.2000.servers.xml
+[DemocraticAIServer] Trained from data: data/safety.ledger.csv
+[DemocraticAIServer] Trained from data: data/uptime.accumulator
+[DemocraticAIServer] Trained from data: data/pids/backend.pid
+[DemocraticAIServer] Training from GitHub: mearvk/Java.Web.Server.Telnet.Front.Java.21...
+[DemocraticAIServer] Trained from GitHub: configuration/nwe-config.xml (39397 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/programs.xml (26674 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/known.port.20000.servers.xml (465 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/known.port.49152.servers.xml (441 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/known.port.2000.servers.xml (1042 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/masquerade-modules.xml (7796 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/nio-masquerade-config.xml (2970 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/port-2000-directory-config.xml (3278 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/protocol-handlers.xml (5589 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/transfer-contacts.xml (1302 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/receiver.only.xml (3654 bytes)
+[DemocraticAIServer] Trained from GitHub: configuration/print-method.xml (12970 bytes)
+[WeightPersistence] Table init deferred: Access denied for user 'mearvk_admin'@'localhost' (using password: NO)
+[WeightPersistence] Session start deferred: Access denied for user 'mearvk_admin'@'localhost' (using password: NO)
+[ConfigurationTrainer] Found 41 JSON training files.
+[ConfigurationTrainer] Knowledge files: 30
+[ConfigurationTrainer] Ethics files: 10
+[ConfigurationTrainer] Preference files: 1
+[ConfigurationTrainer] Training knowledge-model on 30 files...
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.sun.jna.Native in an unnamed module (file:/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/jars/djl/jna-5.14.0.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+[main] INFO ai.djl.util.Platform - Found matching platform from: jar:file:/home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/jars/djl/pytorch-native-cpu-2.5.1-linux-x86_64.jar!/native/lib/pytorch.properties
+[main] INFO ai.djl.pytorch.engine.PtEngine - PyTorch graph executor optimizer is enabled, this may impact your inference latency and throughput. See: https://docs.djl.ai/master/docs/development/inference_performance_optimization.html#graph-executor-optimization
+[main] INFO ai.djl.pytorch.engine.PtEngine - Number of inter-op threads is 10
+[main] INFO ai.djl.pytorch.engine.PtEngine - Number of intra-op threads is 10
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Training on: cpu().
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Load PyTorch Engine Version 2.5.1 in 0.075 ms.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 1 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 2 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 3 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 4 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 5 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 6 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 7 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 8 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 9 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 10 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 11 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 12 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 13 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 14 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 15 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 16 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 17 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 18 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 19 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 20 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 21 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 22 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 23 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 24 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 25 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 26 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 27 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 28 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 29 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 30 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 31 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 32 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 33 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 34 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 35 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 36 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 37 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 38 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 39 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 40 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 41 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 42 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 43 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 44 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 45 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 46 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 47 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 48 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 49 finished.
+Training:     16% |███████                                 | Training:     30% |█████████████                           | Training:     43% |██████████████████                      | Training:     56% |███████████████████████                 | Training:     70% |█████████████████████████████           | Training:     83% |██████████████████████████████████      | Training:     96% |███████████████████████████████████████ | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 50 finished.
+[ConfigurationTrainer] Saved: training/weights/knowledge-model/knowledge-model
+[WeightPersistence] Save deferred: Access denied for user 'mearvk_admin'@'localhost' (using password: NO)
+[ConfigurationTrainer] Training ethics-model on 10 files...
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Training on: cpu().
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Load PyTorch Engine Version 2.5.1 in 0.012 ms.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 1 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 2 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 3 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 4 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 5 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 6 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 7 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 8 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 9 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 10 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 11 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 12 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 13 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 14 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 15 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 16 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 17 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 18 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 19 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 20 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 21 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 22 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 23 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 24 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 25 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 26 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 27 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 28 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 29 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 30 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 31 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 32 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 33 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 34 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 35 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 36 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 37 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 38 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 39 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 40 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 41 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 42 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 43 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 44 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 45 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 46 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 47 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 48 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 49 finished.
+Training:     50% |█████████████████████                   | Training:     90% |█████████████████████████████████████   | Training:    100% |████████████████████████████████████████| 
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 50 finished.
+[ConfigurationTrainer] Saved: training/weights/ethics-model/ethics-model
+[WeightPersistence] Save deferred: Access denied for user 'mearvk_admin'@'localhost' (using password: NO)
+[ConfigurationTrainer] Training preference-model on 1 files...
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Training on: cpu().
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Load PyTorch Engine Version 2.5.1 in 0.007 ms.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 1 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 2 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 3 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 4 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 5 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 6 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 7 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 8 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 9 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 10 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 11 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 12 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 13 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 14 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 15 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 16 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 17 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 18 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 19 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 20 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 21 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 22 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 23 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 24 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 25 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 26 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 27 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 28 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 29 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 30 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 31 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 32 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 33 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 34 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 35 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 36 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 37 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 38 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 39 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 40 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 41 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 42 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 43 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 44 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 45 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 46 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 47 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 48 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 49 finished.
+[main] INFO ai.djl.training.listener.LoggingTrainingListener - Epoch 50 finished.
+[ConfigurationTrainer] Saved: training/weights/preference-model/preference-model
+[WeightPersistence] Save deferred: Access denied for user 'mearvk_admin'@'localhost' (using password: NO)
+[WeightPersistence] Session end deferred: Access denied for user 'mearvk_admin'@'localhost' (using password: NO)
+[ConfigurationTrainer] All training complete. Weights saved to: training/weights
+[ConfigurationTrainer] Weights persisted to MySQL (model_weights table).
+[DemocraticAIServer] Configuration training complete — weights in /training/weights/
+[DemocraticAIServer] AI speculator init deferred: Parameter file not found in: /home/mearvk/IdeaProjects/Java.Web.Server.Telnet.Front.Java.21/modules/red/Futures/training/weights/knowledge-model. If you only specified model path, make sure path name match your saved model file name.
+[DemocraticAIServer] Training complete. Knowledge entries: 38
+[DemocraticAIServer] Heuristic entries: 1
+[DemocraticAIServer] Secure random wait: 140 seconds before opening port...
+[DemocraticAIServer] Port 5000 OPEN. Accepting democratic connections.
+[DemocraticAIServer] Cumulative uptime: 0 days
+[Hardware and Strikes™] [2026-07-14T17:03:08.246246082] LOAD DENIED — Hardware and Strikes™ requires 6 months uptime. Remaining: 179 days

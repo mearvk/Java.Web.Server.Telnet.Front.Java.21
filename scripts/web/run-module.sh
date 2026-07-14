@@ -25,23 +25,23 @@ case "$MODULE_ID" in
         ;;
     california-fbi)
         echo "[*] Starting CaliforniaFBI server..."
-        cd "$PROJECT_ROOT" && java -cp "california/fbi/source:out:jars/mysql/*" source.CaliforniaFBIServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.CaliforniaFBIServer &
         ;;
     california-cia)
         echo "[*] Starting CaliforniaCIA server..."
-        cd "$PROJECT_ROOT" && java -cp "california/cia/source:out:jars/mysql/*" source.CaliforniaCIAServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.CaliforniaCIAServer &
         ;;
     california-nsa)
         echo "[*] Starting CaliforniaNSA server..."
-        cd "$PROJECT_ROOT" && java -cp "california/nsa/source:out:jars/mysql/*" source.CaliforniaNSAServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.CaliforniaNSAServer &
         ;;
     duke)
         echo "[*] Starting DukeUniversity server..."
-        cd "$PROJECT_ROOT" && java -cp "north/carolina/duke/source:out:jars/mysql/*" source.DukeUniversityServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.DukeUniversityServer &
         ;;
-    stanford-library)
+    library)
         echo "[*] Starting StanfordLibrary server..."
-        cd "$PROJECT_ROOT" && java -cp "north/carolina/library/source:out:jars/mysql/*" source.StanfordLibraryServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.StanfordLibraryServer &
         ;;
     *)
         echo "[!] Unknown module: $MODULE_ID"

@@ -4,6 +4,7 @@
 set +e
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+source "$ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 OUT="$ROOT/out"
 mkdir -p "$OUT"
 

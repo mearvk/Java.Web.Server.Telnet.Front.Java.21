@@ -156,7 +156,7 @@
 
         <module id="duke">
             <enabled>true</enabled>
-            <context>duke</context>
+            <context>california-duke</context>
             <deploy-script>modules/duke/servlets/deploy-local.sh</deploy-script>
             <setup-script>modules/duke/servlets/setup-db.sh</setup-script>
             <database>nwe_duke</database>
@@ -168,7 +168,7 @@
 
         <module id="stanford-library">
             <enabled>true</enabled>
-            <context>stanford-library</context>
+            <context>library</context>
             <deploy-script>modules/library/servlets/deploy-local.sh</deploy-script>
             <setup-script>modules/library/servlets/setup-db.sh</setup-script>
             <database>nwe_library</database>

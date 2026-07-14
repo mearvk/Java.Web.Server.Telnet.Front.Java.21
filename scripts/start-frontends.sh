@@ -8,6 +8,9 @@ set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+
+source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
+
 MODULES=(
     "AE6E66:ae6e66"
     "black-belt:blackbelt"
@@ -26,8 +29,8 @@ FUTURES_FRONTEND="red/Futures/start-frontend.sh"
 
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
 echo "║  NitroWebExpress™ — Start All Frontend Modules                            ║"
-echo "║  Tomcat: $TOMCAT_HOME                                                     ║"
-echo "║  Modules: ${#MODULES[@]}                                                  ║"
+printf "║  Tomcat:  %-62s ║\n" "$TOMCAT_HOME"
+printf "║  Modules: %-62s ║\n" "${#MODULES[@]}"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -120,9 +123,9 @@ done
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
 echo "║  Frontend Deployment Summary                                              ║"
-echo "║  Success: ${#SUCCESS[@]} / $(( ${#MODULES[@]} + 1 ))                       ║"
+printf "║  Success: %-62s ║\n" "${#SUCCESS[@]} / $(( ${#MODULES[@]} + 1 ))"
 if [ ${#FAILED[@]} -gt 0 ]; then
-    echo "║  Failed:  ${#FAILED[@]}                                                 ║"
+    printf "║  Failed:  %-62s ║\n" "${#FAILED[@]}"
 fi
 echo "║  Tomcat:  http://localhost:8080                                           ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"

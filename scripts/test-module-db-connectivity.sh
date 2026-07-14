@@ -57,11 +57,11 @@ echo ""
 echo "── db.properties Verification ──"
 DB_PROPS=(
     "modules/AE6E66/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "california/fbi/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "california/cia/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "california/nsa/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "north/carolina/duke/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "north/carolina/library/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/fbi/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/cia/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/nsa/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/duke/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/library/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
 )
 for PROP in "${DB_PROPS[@]}"; do
     FULL="$PROJECT_ROOT/$PROP"
