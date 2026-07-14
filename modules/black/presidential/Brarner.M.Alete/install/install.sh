@@ -11,6 +11,9 @@ if [ -f "$NWE_ROOT/scripts/detect-mysql.sh" ]; then
     source "$NWE_ROOT/scripts/detect-mysql.sh"
     echo "[*] MySQL: $MYSQL_DATADIR (block_storage=$MYSQL_ON_BLOCK)"
 fi
+if [ -f "$NWE_ROOT/scripts/nwe-ports.sh" ]; then
+    source "$NWE_ROOT/scripts/nwe-ports.sh"
+fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BMA_ROOT="$(dirname "$SCRIPT_DIR")"
@@ -182,6 +185,19 @@ fi
 
 echo ""
 echo "[✓] Local install complete"
+
+# ─── Firewall (UFW) ───
+echo ""
+echo "[*] Configuring firewall..."
+if type nwe_ensure_ufw &>/dev/null; then
+    nwe_ensure_ufw
+    sudo ufw allow 8080/tcp >/dev/null 2>&1 && echo "    Port 8080 (Tomcat) opened ✓" || true
+    sudo ufw allow 49152/tcp >/dev/null 2>&1 && echo "    Port 49152 (NWE Main) opened ✓" || true
+else
+    echo "    (NWE port library not available — open ports 8080, 49152 manually)"
+fi
+
+echo ""
 echo "    URL: http://localhost:8080/${TOMCAT_CONTEXT}/"
 echo ""
 echo "    Deployed resources:"

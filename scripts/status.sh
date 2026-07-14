@@ -9,6 +9,7 @@ set -uo pipefail
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 source "$PROJECT_ROOT/scripts/detect-mysql.sh" 2>/dev/null || true
+source "$PROJECT_ROOT/scripts/nwe-ports.sh" 2>/dev/null || true
 
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
@@ -135,17 +136,25 @@ echo "  ────────────────────────
 echo "  Running: $FRONTENDS_UP / $(( FRONTENDS_UP + FRONTENDS_DOWN ))"
 echo ""
 
+# ── Firewall Port Status ──────────────────────────────────────────────────────
+echo ""
+echo "Firewall:"
+echo "───────────────────────────────────────────────────────────────────────────"
+nwe_port_status 2>/dev/null || echo "  (firewall status unavailable)"
+echo ""
+
 # ── Overall Summary ───────────────────────────────────────────────────────────
 echo ""
+MYSQL_STATUS=$(mysqladmin ping -h "$MYSQL_HOST" -P "$MYSQL_PORT" --silent 2>/dev/null && echo "[✓] Running" || echo "[✗] Stopped")
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  Overall Status                                                          ║"
-echo "║  MySQL:          $([ "$HTTP_CODE" != "000" ] && echo "[✓] Running" || echo "[✗] Stopped")  ║"
-echo "║  Backends:       [$BACKENDS_UP up] / [$(( BACKENDS_UP + BACKENDS_DOWN )) total]                  ║"
-echo "║  Frontends:      [$FRONTENDS_UP up] / [$(( FRONTENDS_UP + FRONTENDS_DOWN )) total]               ║"
-echo "║                                                                          ║"
-echo "║  Start:          bash scripts/start-all.sh                               ║"
-echo "║  Shutdown:       bash scripts/shutdown-all.sh                            ║"
-echo "║  View logs:      tail -f logging/*.log                                   ║"
+echo "║  Overall Status                                                           ║"
+printf "║  MySQL:     %-60s ║\n" "$MYSQL_STATUS"
+printf "║  Backends:  %-60s ║\n" "$BACKENDS_UP up / $(( BACKENDS_UP + BACKENDS_DOWN )) total"
+printf "║  Frontends: %-60s ║\n" "$FRONTENDS_UP up / $(( FRONTENDS_UP + FRONTENDS_DOWN )) total"
+echo "║                                                                           ║"
+echo "║  Start:     bash scripts/start-all.sh                                     ║"
+echo "║  Shutdown:  bash scripts/shutdown-all.sh                                   ║"
+echo "║  View logs: tail -f logging/*.log                                          ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 

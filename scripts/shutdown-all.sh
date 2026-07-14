@@ -74,6 +74,16 @@ else
     echo "  [!] MySQL shutdown had issues"
 fi
 
+# ── Close Firewall Ports ──────────────────────────────────────────────────────
+echo ""
+echo "───────────────────────────────────────────────────────────────────────────────"
+echo "Closing Firewall Ports..."
+echo "───────────────────────────────────────────────────────────────────────────────"
+echo ""
+
+source "$PROJECT_ROOT/scripts/nwe-ports.sh"
+nwe_close_ports
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
 echo ""

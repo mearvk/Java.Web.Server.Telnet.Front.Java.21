@@ -300,6 +300,9 @@
         <script file="ufw-allow-all.sh" title="Open All NWE Firewall Ports">
             Configures UFW to allow TCP traffic on all 29 NWE service ports.
         </script>
+        <script file="nwe-ports.sh" title="NWE Port Manager">
+            Shared library: nwe_open_ports, nwe_close_ports, nwe_port_status functions for firewall management.
+        </script>
         <script file="detect-mysql.sh" title="Detect MySQL Location">
             Detects MySQL datadir (main drive or block storage) and exports connection variables.
         </script>

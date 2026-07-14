@@ -1,9 +1,10 @@
 #!/bin/bash
 # ============================================================
 
-# Detect MySQL location
+# Detect NWE root and source shared libraries
 _NWE_ROOT="$(cd "$(dirname "$0")/../../../.." 2>/dev/null && pwd)"
 [ -f "$_NWE_ROOT/scripts/detect-mysql.sh" ] && source "$_NWE_ROOT/scripts/detect-mysql.sh"
+[ -f "$_NWE_ROOT/scripts/nwe-ports.sh" ] && source "$_NWE_ROOT/scripts/nwe-ports.sh"
 # INSTALL SCRIPT — Democratic ProFront National 1.0
 # Installer ID: MEARVK LLC - Max Rupplin
 # D500 Democratic President
@@ -129,6 +130,15 @@ echo ""
 echo "[7/7] Creating data directory..."
 mkdir -p "$PROJECT_DIR/data"
 echo "       data/ ✓"
+
+echo ""
+echo "[*] Configuring firewall (UFW)..."
+if type nwe_ensure_ufw &>/dev/null; then
+    nwe_ensure_ufw
+    sudo ufw allow 5000/tcp >/dev/null 2>&1 && echo "       Port 5000 opened ✓" || echo "       Port 5000 (manual open required)"
+else
+    echo "       (NWE port library not found — open port 5000 manually)"
+fi
 
 echo ""
 echo "============================================================"
