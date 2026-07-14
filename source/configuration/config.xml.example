@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copy this file to config.xml and fill in your server IPs.      -->
+<!-- config.xml is gitignored — never commit real server addresses. -->
+<servers>
+    <server>
+        <id>100</id>
+        <name>AES 2.0 Remote Server</name>
+        <domain>YOUR_DOMAIN</domain>
+        <ip>YOUR_SERVER_IP</ip>
+    </server>
+    <server>
+        <id>200</id>
+        <name>Bitcoin v24.0+ Remote Server</name>
+        <domain>YOUR_DOMAIN</domain>
+        <ip>YOUR_SERVER_IP</ip>
+    </server>
+    <server>
+        <id>300</id>
+        <name>ModuleLoaderDaemon</name>
+        <port>49188</port>
+        <host>localhost</host>
+        <description>OS-installable module loader daemon. Push, pull, list, remove, and replicate modules.</description>
+    </server>
+    <server>
+        <id>400</id>
+        <name>Communicator</name>
+        <port>49199</port>
+        <host>localhost</host>
+        <description>Persistent 1-hour telnet chat server. Direct messaging, broadcast, scheduled delivery.</description>
+    </server>
+</servers>

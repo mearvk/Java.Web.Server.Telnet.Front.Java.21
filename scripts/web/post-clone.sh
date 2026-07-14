@@ -52,11 +52,11 @@ echo "[OK] Scripts: chmod +x applied"
 echo ""
 echo "[*] Setting up module databases..."
 SETUP_SCRIPTS=(
-    "california/fbi/servlets/setup-db.sh"
-    "california/cia/servlets/setup-db.sh"
-    "california/nsa/servlets/setup-db.sh"
-    "north/carolina/duke/servlets/setup-db.sh"
-    "north/carolina/library/servlets/setup-db.sh"
+    "modules/fbi/servlets/setup-db.sh"
+    "modules/cia/servlets/setup-db.sh"
+    "modules/nsa/servlets/setup-db.sh"
+    "modules/duke/servlets/setup-db.sh"
+    "modules/library/servlets/setup-db.sh"
 )
 for SETUP in "${SETUP_SCRIPTS[@]}"; do
     FULL="$PROJECT_ROOT/$SETUP"
