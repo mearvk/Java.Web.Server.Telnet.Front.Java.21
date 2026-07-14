@@ -3,8 +3,6 @@
 # Prompts for remote user and root password before deploying.
 # Usage: bash scripts/remote-deploy-script.sh
 
-set -euo pipefail
-
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/out"
 CONFIG="$ROOT/configuration/nwe-config.xml"
@@ -22,25 +20,34 @@ echo "=============================================="
 echo ""
 
 # ── Prompt: Remote user ───────────────────────────────────────────────────────
-read -rp "Remote user [$DEFAULT_USER]: " REMOTE_USER
+printf "Remote user [%s]: " "$DEFAULT_USER"
+read -r REMOTE_USER || true
 REMOTE_USER="${REMOTE_USER:-$DEFAULT_USER}"
 
 # ── Prompt: Remote host ───────────────────────────────────────────────────────
-read -rp "Remote host [$DEFAULT_HOST]: " REMOTE_HOST
+printf "Remote host [%s]: " "$DEFAULT_HOST"
+read -r REMOTE_HOST || true
 REMOTE_HOST="${REMOTE_HOST:-$DEFAULT_HOST}"
 
 # ── Prompt: Remote directory ──────────────────────────────────────────────────
-read -rp "Remote deploy directory [$DEFAULT_REMOTE_DIR]: " REMOTE_DIR
+printf "Remote deploy directory [%s]: " "$DEFAULT_REMOTE_DIR"
+read -r REMOTE_DIR || true
 REMOTE_DIR="${REMOTE_DIR:-$DEFAULT_REMOTE_DIR}"
 
 # ── Prompt: Root password ─────────────────────────────────────────────────────
 echo ""
-read -rsp "Enter root password for $REMOTE_USER@$REMOTE_HOST: " ROOT_PASSWORD
+printf "Enter root password for %s@%s: " "$REMOTE_USER" "$REMOTE_HOST"
+read -rs ROOT_PASSWORD || true
 echo ""
 echo ""
 
+if [ -z "$ROOT_PASSWORD" ]; then
+    echo "[ERROR] No password provided. Exiting."
+    exit 1
+fi
+
 # ── Validate local build ──────────────────────────────────────────────────────
-if [[ ! -d "$OUT" ]] || [[ -z "$(ls -A "$OUT" 2>/dev/null)" ]]; then
+if [ ! -d "$OUT" ] || [ -z "$(ls -A "$OUT" 2>/dev/null)" ]; then
     echo "[ERROR] No compiled classes found in $OUT"
     echo "        Run 'bash bash/NWE.install.sh' first to compile."
     exit 1
@@ -51,19 +58,19 @@ echo ""
 
 # ── Helper: run remote command via sshpass ────────────────────────────────────
 remote_exec() {
-    sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no "$REMOTE_USER@$REMOTE_HOST" "$@"
+    sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 "$REMOTE_USER@$REMOTE_HOST" "$@"
 }
 
 remote_copy() {
-    sshpass -p "$ROOT_PASSWORD" scp -o StrictHostKeyChecking=no -r "$@"
+    sshpass -p "$ROOT_PASSWORD" scp -o StrictHostKeyChecking=no -o ConnectTimeout=10 -r "$@"
 }
 
 # ── Check sshpass is available ────────────────────────────────────────────────
-if ! command -v sshpass &>/dev/null; then
-    echo "[WARN] sshpass not found. Installing..."
-    if command -v apt-get &>/dev/null; then
+if ! command -v sshpass >/dev/null 2>&1; then
+    echo "[WARN] sshpass not found. Attempting to install..."
+    if command -v apt-get >/dev/null 2>&1; then
         sudo apt-get install -y sshpass
-    elif command -v yum &>/dev/null; then
+    elif command -v yum >/dev/null 2>&1; then
         sudo yum install -y sshpass
     else
         echo "[ERROR] Cannot install sshpass automatically."
@@ -74,12 +81,19 @@ fi
 
 # ── 2. Create remote directory structure ──────────────────────────────────────
 echo "[2/5] Creating remote directory structure..."
-remote_exec "mkdir -p $REMOTE_DIR/{out,configuration,scripts,bash,jars,logging}"
+if ! remote_exec "mkdir -p $REMOTE_DIR/out $REMOTE_DIR/configuration $REMOTE_DIR/scripts $REMOTE_DIR/bash $REMOTE_DIR/jars $REMOTE_DIR/logging"; then
+    echo "[ERROR] Failed to connect to $REMOTE_USER@$REMOTE_HOST"
+    echo "        Check your password and that the server is reachable."
+    exit 1
+fi
 echo "      Done."
 
 # ── 3. Upload compiled classes ────────────────────────────────────────────────
 echo "[3/5] Uploading compiled classes (out/)..."
-remote_copy "$OUT/" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/out/"
+if ! remote_copy "$OUT/" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/out/"; then
+    echo "[ERROR] Failed to upload classes."
+    exit 1
+fi
 echo "      Done."
 
 # ── 4. Upload configuration, scripts, jars ───────────────────────────────────
@@ -89,15 +103,14 @@ remote_copy "$SCRIPTS/startup.sh" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/scripts
 remote_copy "$BASH_DIR/NWE.install.sh" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/bash/NWE.install.sh"
 
 # Upload jars (MySQL connector, Lanterna)
-if [[ -d "$ROOT/jars" ]]; then
+if [ -d "$ROOT/jars" ]; then
     remote_copy "$ROOT/jars/" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/jars/"
 fi
 echo "      Done."
 
 # ── 5. Set permissions and verify ────────────────────────────────────────────
 echo "[5/5] Setting permissions and verifying deployment..."
-remote_exec "chmod +x $REMOTE_DIR/scripts/*.sh $REMOTE_DIR/bash/*.sh 2>/dev/null || true"
-remote_exec "ls -la $REMOTE_DIR/out/ | head -20"
+remote_exec "chmod +x $REMOTE_DIR/scripts/*.sh $REMOTE_DIR/bash/*.sh 2>/dev/null; ls -la $REMOTE_DIR/out/ | head -20"
 echo ""
 
 # ── Summary ───────────────────────────────────────────────────────────────────
