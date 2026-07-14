@@ -17,7 +17,7 @@ case "$MODULE_ID" in
         ;;
     futures)
         echo "[*] Running Futures pipeline..."
-        cd "$PROJECT_ROOT" && java -cp "modules/black/red/Futures/source:modules/black/red/Futures/jars/*" source.Main
+        cd "$PROJECT_ROOT" && java -cp "modules/red/Futures/source:modules/red/Futures/jars/*" source.Main
         ;;
     strernary)
         echo "[*] Starting Strernary server..."

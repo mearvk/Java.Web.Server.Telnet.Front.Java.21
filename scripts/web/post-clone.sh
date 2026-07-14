@@ -33,7 +33,7 @@ echo "[*] Configuring MySQL root for JDBC (caching_sha2_password)..."
 sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY '\$\$Ironman1'; FLUSH PRIVILEGES;" 2>/dev/null || true
 
 # 4. Ensure Tomcat
-TOMCAT_HOME="/opt/tomcat"
+TOMCAT_HOME="/home/mearvk/tomcat"
 if [ ! -f "$TOMCAT_HOME/bin/catalina.sh" ]; then
     echo "[*] Installing Tomcat 11..."
     cd /tmp && curl -sfLO "https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz"

@@ -19,7 +19,7 @@ echo ""
 echo "[1/6] Core sources (source/)..."
 find "$ROOT/source" -name "*.java" > /tmp/nwe-core.txt
 javac -d "$OUT" -cp "$CP" \
-  -sourcepath "$ROOT/source:$ROOT/modules/fbi/source:$ROOT/modules/cia/source:$ROOT/modules/nsa/source:$ROOT/modules/duke/source:$ROOT/modules/library/source:$ROOT/modules/gray/source:$ROOT/modules/gray.a85/source:$ROOT/modules/black" \
+  -sourcepath "$ROOT/source:$ROOT/modules/fbi/source:$ROOT/modules/cia/source:$ROOT/modules/nsa/source:$ROOT/modules/duke/source:$ROOT/modules/library/source:$ROOT/modules/gray/source:$ROOT/modules/gray.a85/source:$ROOT/modules/red/Futures/source" \
   @/tmp/nwe-core.txt 2>&1 | grep -i error || echo "  OK"
 rm -f /tmp/nwe-core.txt
 
@@ -44,9 +44,9 @@ javac -d "$OUT" -cp "$CP" \
 
 # 4. Futures (DemocraticAIServer)
 echo "[4/6] Futures (DemocraticAIServer)..."
-find "$ROOT/modules/black/red/Futures/source" -name "*.java" > /tmp/futures.txt 2>/dev/null
+find "$ROOT/modules/red/Futures/source" -name "*.java" > /tmp/futures.txt 2>/dev/null
 if [ -s /tmp/futures.txt ]; then
-    javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source:$ROOT/modules/black" @/tmp/futures.txt 2>&1 | grep -i error || echo "  OK"
+    javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source:$ROOT/modules/red/Futures/source" @/tmp/futures.txt 2>&1 | grep -i error || echo "  OK"
 else
     echo "  SKIP (no source found)"
 fi
