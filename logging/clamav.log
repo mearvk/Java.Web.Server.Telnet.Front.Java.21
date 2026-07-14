@@ -1821,3 +1821,9 @@ ERROR: Can't create temporary directory /usr/local/share/clamav/tmp.827488970f
 Hint: The database directory must be writable for UID 1000 or GID 1000
 ERROR: Update failed.
 
+[2026-07-14T18:42:53.320283476] freshclam update (exit=10)
+ClamAV update process started at Tue Jul 14 18:42:53 2026
+ERROR: Can't create temporary directory /usr/local/share/clamav/tmp.f9b4315b59
+Hint: The database directory must be writable for UID 1000 or GID 1000
+ERROR: Update failed.
+

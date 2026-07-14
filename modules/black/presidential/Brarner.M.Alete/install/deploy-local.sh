@@ -155,36 +155,18 @@ echo "    DB:   WEB-INF/db.properties"
 echo "    URL:  http://localhost:8080/$CONTEXT/"
 echo ""
 
-# ─── Start backend modules (Strernary™ port 20000, SignalProcessors, etc.) ───
-NWE_ROOT="$(cd "$BMA_ROOT/../../../.." && pwd)"
-BACKEND_SCRIPT="$NWE_ROOT/scripts/start-backend-modules.sh"
+# ─── Backend note (deploy does NOT start backends — use start-all.sh) ────────
+NWE_ROOT="$(cd "$BMA_ROOT/../../../.." 2>/dev/null && pwd)"
 PID_FILE="$NWE_ROOT/data/nwe-main.pid"
 
 if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
-    echo "[*] Backend already running (PID $(cat "$PID_FILE")) — Strernary™ port 20000 available"
+    echo "[*] Backend already running (PID $(cat "$PID_FILE"))"
 else
-    if [ -f "$BACKEND_SCRIPT" ]; then
-        echo "[*] Starting backend modules (Strernary™, SignalProcessors, California, Duke, Stanford...)"
-        bash "$BACKEND_SCRIPT" &
-        sleep 6
-        if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
-            echo "[✓] Backend started (PID $(cat "$PID_FILE"))"
-            # Quick port 20000 check
-            if timeout 2 bash -c "echo >/dev/tcp/localhost/20000" 2>/dev/null; then
-                echo "    Strernary™ (port 20000): UP"
-            else
-                echo "    Strernary™ (port 20000): starting (may need a few more seconds)"
-            fi
-        else
-            echo "[!] Backend start may have failed — check: $NWE_ROOT/logging/nwe-main.log"
-        fi
-    else
-        echo "[!] Backend script not found: $BACKEND_SCRIPT"
-        echo "    Strernary™ port 20000 will not be available — SignalProcessor will use deferred mode"
-    fi
+    echo "[*] Backend not running. Start separately with:"
+    echo "    bash scripts/start-all.sh"
+    echo "    — or —"
+    echo "    bash scripts/start-backend-modules.sh"
 fi
 
 echo ""
-echo "    If Tomcat is running, pages are available immediately."
-echo "    Otherwise: sudo systemctl start tomcat"
 echo "═══════════════════════════════════════════════════════════════"

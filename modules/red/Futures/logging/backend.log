@@ -330,3 +330,14 @@ WARNING: Restricted methods will be blocked in a future release unless native ac
 [DemocraticAIServer] Port 5000 OPEN. Accepting democratic connections.
 [DemocraticAIServer] Cumulative uptime: 0 days
 [Hardware and Strikes™] [2026-07-14T17:03:08.246246082] LOAD DENIED — Hardware and Strikes™ requires 6 months uptime. Remaining: 179 days
+[DemocraticAIServer] LEARNED — 127.0.0.1 geo=UNKNOWN/UNKNOWN/UNKNOWN IQ≈85
+[DemocraticAIServer] SAFETY COUNSEL — score=0.01 day=0.09 ip=127.0.0.1 → CLEAR — negligible hostility (linear=0.0001 exp=0.0067)
+[DemocraticAIServer] LEARNED — 127.0.0.1 geo=UNKNOWN/UNKNOWN/UNKNOWN IQ≈85
+[DemocraticAIServer] SAFETY COUNSEL — score=0.01 day=0.09 ip=127.0.0.1 → CLEAR — negligible hostility (linear=0.0001 exp=0.0067)
+[DemocraticAIServer] LEARNED — 127.0.0.1 geo=UNKNOWN/UNKNOWN/UNKNOWN IQ≈85
+[DemocraticAIServer] SAFETY COUNSEL — score=0.01 day=0.09 ip=127.0.0.1 → CLEAR — negligible hostility (linear=0.0001 exp=0.0067)
+[DemocraticAIServer] LEARNED — 127.0.0.1 geo=UNKNOWN/UNKNOWN/UNKNOWN IQ≈85
+[DemocraticAIServer] SAFETY COUNSEL — score=0.01 day=0.09 ip=127.0.0.1 → CLEAR — negligible hostility (linear=0.0001 exp=0.0067)
+[DemocraticAIServer] REJECTED 127.0.0.1 — per-IP limit
+[DemocraticAIServer] LEARNED — 127.0.0.1 geo=UNKNOWN/UNKNOWN/UNKNOWN IQ≈85
+[DemocraticAIServer] SAFETY COUNSEL — score=0.01 day=0.09 ip=127.0.0.1 → CLEAR — negligible hostility (linear=0.0001 exp=0.0067)
