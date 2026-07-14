@@ -52,12 +52,21 @@ cd "$MOD_ROOT"
 java $JVM_OPTS -cp "$CP" "$MODULE_CLASS" >> "$LOG_DIR/backend.log" 2>&1 &
 PID=$!
 echo "$PID" > "$PID_FILE"
-sleep 1
 
-if kill -0 "$PID" 2>/dev/null; then
-    echo "✓ (PID $PID)"
+# ── Liveness callback (10s timeout — no TCP port for this module) ────────────
+DEADLINE=$((SECONDS + 10))
+ALIVE=0
+while [ $SECONDS -lt $DEADLINE ]; do
+    if kill -0 "$PID" 2>/dev/null; then
+        ALIVE=1; break
+    fi
+    sleep 1
+done
+
+if [ $ALIVE -eq 1 ]; then
+    echo "✓ (PID $PID alive)"
 else
-    echo "✗ (FAILED)"
+    echo "✗ (FAILED — exited within 10s)"
     rm -f "$PID_FILE"
     echo ""
     echo "  Check logs: tail -f $LOG_DIR/backend.log"

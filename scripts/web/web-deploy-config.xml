@@ -5,7 +5,7 @@
     Edit this file to enable/disable modules before running deploy scripts.
 -->
 <web-deploy>
-    <tomcat-home>/home/mearvk/tomcat</tomcat-home>
+    <tomcat-home>/opt/tomcat</tomcat-home>
     <mysql-host>127.0.0.1</mysql-host>
     <mysql-port>3306</mysql-port>
     <mysql-user>root</mysql-user>
@@ -42,8 +42,8 @@
         <module id="futures">
             <enabled>true</enabled>
             <context>futures</context>
-            <deploy-script>modules/black/red/Futures/servlets/deploy-local.sh</deploy-script>
-            <setup-script>modules/black/red/Futures/servlets/setup-db.sh</setup-script>
+            <deploy-script>modules/red/Futures/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/red/Futures/servlets/setup-db.sh</setup-script>
             <database>nwe_futures</database>
             <install>true</install>
             <start>true</start>
@@ -54,8 +54,8 @@
         <module id="gdgh">
             <enabled>true</enabled>
             <context>gdgh</context>
-            <deploy-script>modules/black/presidential/Green.Durham.Grass.and.Herb/servlets/deploy-local.sh</deploy-script>
-            <setup-script>modules/black/presidential/Green.Durham.Grass.and.Herb/servlets/setup-db.sh</setup-script>
+            <deploy-script>modules/Green.Durham.Grass.and.Herb/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/Green.Durham.Grass.and.Herb/servlets/setup-db.sh</setup-script>
             <database>nwe_gdgh</database>
             <install>true</install>
             <start>true</start>
@@ -66,7 +66,7 @@
         <module id="blackbelt">
             <enabled>true</enabled>
             <context>blackbelt</context>
-            <deploy-script>modules/black/belt/servlets/deploy-local.sh</deploy-script>
+            <deploy-script>modules/black-belt/servlets/deploy-local.sh</deploy-script>
             <database>nwe_blackbelt</database>
             <install>true</install>
             <start>true</start>
@@ -121,8 +121,8 @@
         <module id="california-fbi">
             <enabled>true</enabled>
             <context>california-fbi</context>
-            <deploy-script>california/fbi/servlets/deploy-local.sh</deploy-script>
-            <setup-script>california/fbi/servlets/setup-db.sh</setup-script>
+            <deploy-script>modules/fbi/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/fbi/servlets/setup-db.sh</setup-script>
             <database>nwe_california_fbi</database>
             <install>true</install>
             <start>true</start>
@@ -133,8 +133,8 @@
         <module id="california-cia">
             <enabled>true</enabled>
             <context>california-cia</context>
-            <deploy-script>california/cia/servlets/deploy-local.sh</deploy-script>
-            <setup-script>california/cia/servlets/setup-db.sh</setup-script>
+            <deploy-script>modules/cia/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/cia/servlets/setup-db.sh</setup-script>
             <database>nwe_california_cia</database>
             <install>true</install>
             <start>true</start>
@@ -145,8 +145,8 @@
         <module id="california-nsa">
             <enabled>true</enabled>
             <context>california-nsa</context>
-            <deploy-script>california/nsa/servlets/deploy-local.sh</deploy-script>
-            <setup-script>california/nsa/servlets/setup-db.sh</setup-script>
+            <deploy-script>modules/nsa/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/nsa/servlets/setup-db.sh</setup-script>
             <database>nwe_california_nsa</database>
             <install>true</install>
             <start>true</start>
@@ -157,8 +157,8 @@
         <module id="duke">
             <enabled>true</enabled>
             <context>duke</context>
-            <deploy-script>north/carolina/duke/servlets/deploy-local.sh</deploy-script>
-            <setup-script>north/carolina/duke/servlets/setup-db.sh</setup-script>
+            <deploy-script>modules/duke/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/duke/servlets/setup-db.sh</setup-script>
             <database>nwe_duke</database>
             <install>true</install>
             <start>true</start>
@@ -169,8 +169,8 @@
         <module id="stanford-library">
             <enabled>true</enabled>
             <context>stanford-library</context>
-            <deploy-script>north/carolina/library/servlets/deploy-local.sh</deploy-script>
-            <setup-script>north/carolina/library/servlets/setup-db.sh</setup-script>
+            <deploy-script>modules/library/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/library/servlets/setup-db.sh</setup-script>
             <database>nwe_library</database>
             <install>true</install>
             <start>true</start>

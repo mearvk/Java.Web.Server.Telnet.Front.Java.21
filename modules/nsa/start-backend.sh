@@ -52,10 +52,21 @@ cd "$MOD_ROOT"
 java $JVM_OPTS -cp "$CP" "$MODULE_CLASS" >> "$LOG_DIR/backend.log" 2>&1 &
 PID=$!
 echo "$PID" > "$PID_FILE"
-sleep 1
 
-if kill -0 "$PID" 2>/dev/null; then
-    echo "✓ (PID $PID)"
+# ── Port-probe callback (10s timeout) ────────────────────────────────────────
+DEADLINE=$((SECONDS + 10))
+READY=0
+while [ $SECONDS -lt $DEADLINE ]; do
+    if timeout 1 bash -c "echo >/dev/tcp/localhost/49212" 2>/dev/null; then
+        READY=1; break
+    fi
+    sleep 1
+done
+
+if [ $READY -eq 1 ]; then
+    echo "✓ (PID $PID, port 49212 UP)"
+elif kill -0 "$PID" 2>/dev/null; then
+    echo "~ (PID $PID alive, port 49212 not yet bound — timeout)"
 else
     echo "✗ (FAILED)"
     rm -f "$PID_FILE"
