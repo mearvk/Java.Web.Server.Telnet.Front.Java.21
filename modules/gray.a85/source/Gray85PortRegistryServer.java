@@ -368,4 +368,12 @@ public class Gray85PortRegistryServer extends Thread
 
         boolean isExpired() { return LocalDateTime.now().isAfter(unlockedAt.plusHours(hours)); }
     }
+
+    /** Standalone entry point — allows start-backend.sh to launch directly. */
+    public static void main(String[] args) throws InterruptedException
+    {
+        Gray85PortRegistryServer server = new Gray85PortRegistryServer();
+        server.start();
+        server.join();
+    }
 }

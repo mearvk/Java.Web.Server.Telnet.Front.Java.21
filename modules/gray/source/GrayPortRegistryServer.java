@@ -302,4 +302,12 @@ public class GrayPortRegistryServer extends Thread
             };
         }
     }
+
+    /** Standalone entry point — allows start-backend.sh to launch directly. */
+    public static void main(String[] args) throws InterruptedException
+    {
+        GrayPortRegistryServer server = new GrayPortRegistryServer();
+        server.start();
+        server.join();
+    }
 }
