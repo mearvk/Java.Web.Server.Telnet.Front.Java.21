@@ -140,9 +140,54 @@ for SETUP in "${SETUP_SCRIPTS[@]}"; do
     fi
 done
 
-# 6. Deploy all web modules (60s timeout per module)
+# 6. Deploy all web modules (30s timeout per module, inline for reliability)
 echo ""
-timeout 600 bash "$SCRIPT_DIR/deploy-all.sh" || echo "[WARN] deploy-all.sh timed out (10 min) — some modules may need manual deploy"
+echo "[*] Deploying all web modules (30s timeout each)..."
+echo ""
+
+DEPLOY_PASS=0
+DEPLOY_FAIL=0
+DEPLOY_SCRIPTS=(
+    "modules/AE6E66/servlets/deploy-local.sh"
+    "modules/fbi/servlets/deploy-local.sh"
+    "modules/cia/servlets/deploy-local.sh"
+    "modules/nsa/servlets/deploy-local.sh"
+    "modules/duke/servlets/deploy-local.sh"
+    "modules/library/servlets/deploy-local.sh"
+    "modules/gray/servlets/deploy-local.sh"
+    "modules/gray.a85/servlets/deploy-local.sh"
+    "modules/black-belt/servlets/deploy-local.sh"
+    "modules/languages/servlets/deploy-local.sh"
+    "modules/Green.Durham.Grass.and.Herb/servlets/deploy-local.sh"
+    "modules/red/Futures/servlets/deploy-local.sh"
+    "source/strernary/servlets/deploy-local.sh"
+    "modules/black/presidential/Brarner.M.Alete/install/deploy-local.sh"
+)
+
+for DS in "${DEPLOY_SCRIPTS[@]}"; do
+    FULL="$PROJECT_ROOT/$DS"
+    MODULE_NAME=$(echo "$DS" | sed 's|modules/||;s|/servlets.*||;s|/install.*||;s|source/||')
+    if [ ! -f "$FULL" ]; then
+        echo "  [SKIP] $MODULE_NAME — script not found"
+        continue
+    fi
+    echo -n "  [*] $MODULE_NAME... "
+    DEPLOY_OUT=$(timeout 30 bash "$FULL" "$TOMCAT_HOME" </dev/null 2>&1)
+    EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo "✓"
+        DEPLOY_PASS=$((DEPLOY_PASS + 1))
+    elif [ $EXIT_CODE -eq 124 ]; then
+        echo "TIMEOUT (30s) — skipping"
+        DEPLOY_FAIL=$((DEPLOY_FAIL + 1))
+    else
+        echo "✗ (exit $EXIT_CODE)"
+        DEPLOY_FAIL=$((DEPLOY_FAIL + 1))
+    fi
+done
+
+echo ""
+echo "[OK] Deployed: $DEPLOY_PASS | Failed: $DEPLOY_FAIL"
 
 # 7. Start Tomcat
 systemctl start tomcat 2>/dev/null || "$TOMCAT_HOME/bin/startup.sh"

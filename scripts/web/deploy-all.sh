@@ -1,6 +1,7 @@
 #!/bin/bash
 # NitroWebExpress™ — Deploy All Web Modules (Linux)
 # Reads web-deploy-config.xml and deploys enabled modules.
+# Each module deploy has a 60-second timeout to prevent hangs.
 # Usage: sudo bash scripts/web/deploy-all.sh
 set -e
 
@@ -21,22 +22,20 @@ fi
 # Setup all databases before deploying
 echo ""
 echo "[*] Setting up all module databases (non-destructive — existing data preserved)..."
-bash "$SCRIPT_DIR/setup-all-databases.sh" 2>/dev/null || echo "[WARN] Some databases may need manual setup"
+timeout 120 bash "$SCRIPT_DIR/setup-all-databases.sh" 2>/dev/null || echo "[WARN] Some databases may need manual setup"
 
 # Patch WEB-INF and check SSL
 echo ""
-bash "$SCRIPT_DIR/patch-webinf-and-ssl.sh" 2>/dev/null || echo "[WARN] WEB-INF/SSL patch had issues"
+timeout 60 bash "$SCRIPT_DIR/patch-webinf-and-ssl.sh" 2>/dev/null || echo "[WARN] WEB-INF/SSL patch had issues"
 echo ""
 
 # Parse enabled modules from XML
-MODULES=$(grep -oP '(?<=<deploy-script>)[^<]+' "$CONFIG")
 ENABLED=$(grep -B5 '<install>true</install>' "$CONFIG" | grep -oP '(?<=<deploy-script>)[^<]+')
 
 PASS=0; FAIL=0
 
 for SCRIPT in $ENABLED; do
     FULL_PATH="$PROJECT_ROOT/$SCRIPT"
-    MODULE_ID=$(basename "$(dirname "$(dirname "$FULL_PATH")")")
     
     # Run setup-db if it exists alongside deploy script
     SETUP_DB="$(dirname "$FULL_PATH")/setup-db.sh"
@@ -47,26 +46,30 @@ for SCRIPT in $ENABLED; do
     if [ -f "$FULL_PATH" ]; then
         echo ""
         echo "[*] Deploying: $SCRIPT"
-        if timeout 60 bash "$FULL_PATH" 2>&1 | tail -3; then
+        DEPLOY_OUT=$(timeout 60 bash "$FULL_PATH" 2>&1)
+        EXIT_CODE=$?
+        echo "$DEPLOY_OUT" | tail -3
+        if [ $EXIT_CODE -eq 0 ]; then
             PASS=$((PASS + 1))
+        elif [ $EXIT_CODE -eq 124 ]; then
+            echo "[!] TIMEOUT (60s): $SCRIPT — skipping"
+            FAIL=$((FAIL + 1))
         else
-            EXIT_CODE=$?
-            if [ $EXIT_CODE -eq 124 ]; then
-                echo "[!] TIMEOUT (60s): $SCRIPT — skipping (may need manual deploy)"
-            else
-                echo "[!] Failed: $SCRIPT"
-            fi
+            echo "[!] Failed (exit $EXIT_CODE): $SCRIPT"
             FAIL=$((FAIL + 1))
         fi
     else
-        # Try to create missing script for nested-repo modules
+        # Try to create missing script
         if [ -f "$PROJECT_ROOT/scripts/fix-missing-deploy-scripts.sh" ]; then
             bash "$PROJECT_ROOT/scripts/fix-missing-deploy-scripts.sh" 2>/dev/null
             if [ -f "$FULL_PATH" ]; then
-                echo "[*] Auto-created missing script, deploying: $SCRIPT"
-                timeout 60 bash "$FULL_PATH" 2>&1 | tail -3 && PASS=$((PASS + 1)) || FAIL=$((FAIL + 1))
+                echo "[*] Auto-created, deploying: $SCRIPT"
+                DEPLOY_OUT=$(timeout 60 bash "$FULL_PATH" 2>&1)
+                EXIT_CODE=$?
+                echo "$DEPLOY_OUT" | tail -3
+                [ $EXIT_CODE -eq 0 ] && PASS=$((PASS + 1)) || FAIL=$((FAIL + 1))
             else
-                echo "[!] Script not found (nested .git repo?): $FULL_PATH"
+                echo "[!] Script not found: $FULL_PATH"
                 FAIL=$((FAIL + 1))
             fi
         else
@@ -76,24 +79,11 @@ for SCRIPT in $ENABLED; do
     fi
 done
 
-# Setup Tomcat to start on reboot
+# Tomcat service setup
 TOMCAT_HOME=$(grep -oP '(?<=<tomcat-home>)[^<]+' "$CONFIG")
 if systemctl list-unit-files | grep -q tomcat; then
     systemctl enable tomcat 2>/dev/null && echo "[*] Tomcat enabled on reboot"
 fi
-
-# Setup cron jobs for modules that have cron enabled
-echo ""
-echo "[*] Configuring cron jobs..."
-CRON_MODULES=$(grep -B10 '<cron enabled="true"' "$CONFIG" | grep -oP '(?<=<module id=")[^"]+')
-for MOD in $CRON_MODULES; do
-    SCHEDULE=$(grep -A15 "id=\"$MOD\"" "$CONFIG" | grep -oP '(?<=schedule=")[^"]+')
-    if [ -n "$SCHEDULE" ]; then
-        CRON_LINE="$SCHEDULE root cd $PROJECT_ROOT && bash scripts/web/run-module.sh $MOD"
-        echo "$CRON_LINE" > "/etc/cron.d/nwe-$MOD" 2>/dev/null || true
-        echo "  [OK] $MOD: $SCHEDULE"
-    fi
-done
 
 echo ""
 echo "═══════════════════════════════════════════════════════════════"
@@ -101,33 +91,10 @@ echo " Results: $PASS deployed | $FAIL failed"
 echo " Tomcat: systemctl restart tomcat"
 echo "═══════════════════════════════════════════════════════════════"
 
-# ─── Start backend modules (Strernary™, SignalProcessors, all TCP servers) ───
-echo ""
-echo "[*] Ensuring backend modules are running..."
-BACKEND_SCRIPT="$PROJECT_ROOT/scripts/start-backend-modules.sh"
-PID_FILE="$PROJECT_ROOT/data/nwe-main.pid"
-
-if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
-    echo "    Backend already running (PID $(cat "$PID_FILE"))"
-else
-    if [ -f "$BACKEND_SCRIPT" ]; then
-        echo "    Starting NitroWebExpress™ backend (Strernary™ port 20000, all modules)..."
-        bash "$BACKEND_SCRIPT" &
-        sleep 8
-        if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
-            echo "    [✓] Backend started (PID $(cat "$PID_FILE"))"
-        else
-            echo "    [!] Backend may have failed — check: $PROJECT_ROOT/logging/nwe-main.log"
-        fi
-    else
-        echo "    [!] Backend start script not found: $BACKEND_SCRIPT"
-    fi
-fi
-
 # Quick port verification
 echo ""
 echo "    Port check:"
-for PORT in 20000 9999 49210 49211 49212 49213 49214; do
+for PORT in 20000 9999 49210 49211 49212 49213 49214 8080; do
     if timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null; then
         echo "      port $PORT: UP"
     else
@@ -135,4 +102,3 @@ for PORT in 20000 9999 49210 49211 49212 49213 49214; do
     fi
 done
 echo ""
-echo "═══════════════════════════════════════════════════════════════"
