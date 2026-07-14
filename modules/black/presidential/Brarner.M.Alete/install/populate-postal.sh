@@ -1,4 +1,6 @@
 #!/bin/bash
+# ⚠️  DESTRUCTIVE: This script TRUNCATES/DROPS tables before reloading data.
+# Do NOT run as part of git-pull automation. Run manually only when reloading reference data.
 # Brarner.M.Alete™ — Populate Postal Data (Linux/macOS)
 # Downloads US ZIP code data and inserts into BrarnerScience.postal
 # Usage: bash install/populate-postal.sh

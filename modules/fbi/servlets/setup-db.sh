@@ -1,6 +1,8 @@
 #!/bin/bash
 # CaliforniaFBI™ — Setup MySQL database
 set -e
+# SAFE: Uses CREATE IF NOT EXISTS. Never drops or overwrites existing data.
+# Can be run repeatedly after git pull without risk to production databases.
 echo "[*] Creating nwe_california_fbi database..."
 
 mysql -u root -e "

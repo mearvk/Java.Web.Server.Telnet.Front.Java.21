@@ -1,4 +1,6 @@
 #!/bin/bash
+# ⚠️  DESTRUCTIVE: This script TRUNCATES/DROPS tables before reloading data.
+# Do NOT run as part of git-pull automation. Run manually only when reloading reference data.
 # Brarner.M.Alete™ — Populate Science Database from CSV/XML source data
 # Reads species config.xml files and inserts into BrarnerScience.species
 # Usage: bash install/populate-science-db.sh

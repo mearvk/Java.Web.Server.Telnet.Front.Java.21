@@ -1,6 +1,11 @@
 #!/bin/bash
 # NitroWebExpress™ — Setup All Module Databases
 # Creates ALL module databases and tables in one shot.
+#
+# SAFE TO RUN REPEATEDLY: Uses CREATE DATABASE/TABLE IF NOT EXISTS throughout.
+# Will NEVER drop, truncate, or overwrite existing databases or data.
+# New tables are added alongside existing ones. Existing rows are untouched.
+#
 # Usage: bash scripts/web/setup-all-databases.sh
 set -uo pipefail
 

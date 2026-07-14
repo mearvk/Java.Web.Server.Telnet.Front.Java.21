@@ -3,6 +3,8 @@
 # Creates nwe_ae6e66 database and tables
 # Usage: bash modules/AE6E66/servlets/setup-db.sh
 set -e
+# SAFE: Uses CREATE IF NOT EXISTS. Never drops or overwrites existing data.
+# Can be run repeatedly after git pull without risk to production databases.
 
 DB_USER="root"
 DB_PASS='$$Ironman1'

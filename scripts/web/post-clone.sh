@@ -56,9 +56,9 @@ nwe_ensure_ufw
 nwe_open_ports
 echo "[OK] Firewall configured"
 
-# 5.5. Setup module databases
+# 5.5. Setup module databases (safe — uses CREATE IF NOT EXISTS, never drops)
 echo ""
-echo "[*] Setting up module databases..."
+echo "[*] Setting up module databases (non-destructive — existing data preserved)..."
 SETUP_SCRIPTS=(
     "modules/fbi/servlets/setup-db.sh"
     "modules/cia/servlets/setup-db.sh"

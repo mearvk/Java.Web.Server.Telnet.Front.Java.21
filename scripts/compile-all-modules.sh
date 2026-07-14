@@ -1,5 +1,7 @@
 #!/bin/bash
 # scripts/compile-all-modules.sh — Compile ALL NWE modules (core + external)
+# Compiles .java → .class into out/. Does NOT touch databases, configs, or runtime data.
+# Safe to run after every git pull.
 # Usage: bash scripts/compile-all-modules.sh
 set +e
 

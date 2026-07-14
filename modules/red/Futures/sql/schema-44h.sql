@@ -15,7 +15,7 @@ USE pledge_44h;
 
 -- ── 44H Document Versions ─────────────────────────────────────
 
-CREATE TABLE document_versions (
+CREATE TABLE IF NOT EXISTS document_versions (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     content         TEXT NOT NULL,
     content_hash    VARCHAR(64) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE document_versions (
 
 -- ── Fetch Attempts (all attempts logged for security) ─────────
 
-CREATE TABLE fetch_attempts (
+CREATE TABLE IF NOT EXISTS fetch_attempts (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     attempted_ts    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     http_code       INT,

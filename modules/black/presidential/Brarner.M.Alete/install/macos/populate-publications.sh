@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# ⚠️  DESTRUCTIVE: This script TRUNCATES tables before reloading data.
+# Do NOT run as part of git-pull automation. Run manually only when reloading reference data.
 # Brarner.M.Alete™ — Populate Publications Database (macOS)
 # Usage: bash install/macos/populate-publications.sh
 set -e

@@ -1,4 +1,6 @@
 #!/bin/bash
+# ⚠️  DESTRUCTIVE: This script TRUNCATES/DROPS tables before reloading data.
+# Do NOT run as part of git-pull automation. Run manually only when reloading reference data.
 # Brarner.M.Alete™ — Populate Art Museum Data (Linux/macOS)
 # Inserts museum and artwork records into BrarnerScience.art_works
 # Usage: bash install/populate-art.sh

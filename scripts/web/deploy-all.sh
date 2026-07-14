@@ -20,7 +20,7 @@ fi
 
 # Setup all databases before deploying
 echo ""
-echo "[*] Setting up all module databases..."
+echo "[*] Setting up all module databases (non-destructive — existing data preserved)..."
 bash "$SCRIPT_DIR/setup-all-databases.sh" 2>/dev/null || echo "[WARN] Some databases may need manual setup"
 
 # Patch WEB-INF and check SSL
