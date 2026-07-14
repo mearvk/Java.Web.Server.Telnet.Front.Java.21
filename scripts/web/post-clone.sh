@@ -48,6 +48,26 @@ echo "[OK] Tomcat: $TOMCAT_HOME"
 find "$PROJECT_ROOT" -name "*.sh" -exec chmod +x {} \;
 echo "[OK] Scripts: chmod +x applied"
 
+# 5.1. Open all NWE ports (UFW firewall)
+echo ""
+echo "[*] Configuring firewall — opening all NWE service ports..."
+if command -v ufw &>/dev/null; then
+    bash "$PROJECT_ROOT/scripts/ufw-allow-all.sh"
+    echo "[OK] UFW: ports opened and firewall enabled"
+elif command -v firewall-cmd &>/dev/null; then
+    # RHEL/CentOS/Fedora — firewalld fallback
+    for PORT in 2000 5000 5512 6682 7743 7744 8080 8888 9999 10085 20000 \
+                49111 49133 49144 49152 49155 49166 49177 49188 49199 49200 \
+                49201 49202 49203 49204 49210 49211 49212 49213 49214; do
+        firewall-cmd --permanent --add-port="$PORT/tcp" >/dev/null 2>&1
+    done
+    firewall-cmd --reload >/dev/null 2>&1
+    echo "[OK] firewalld: ports opened"
+else
+    echo "[WARN] No ufw or firewalld found — manually open ports:"
+    echo "       9999, 10085, 49152, 49210-49214, 20000, 8080, etc."
+fi
+
 # 5.5. Setup module databases
 echo ""
 echo "[*] Setting up module databases..."
