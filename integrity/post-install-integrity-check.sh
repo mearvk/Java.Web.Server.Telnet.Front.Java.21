@@ -40,10 +40,29 @@ if [ -f "$SELF_DB" ]; then
         if [ -n "$EXPECTED" ] && [ "$ACTUAL" != "$EXPECTED" ]; then
             echo "-- : [integrity] SELF-INTEGRITY FAIL: ${sf}"
             echo "${TIMESTAMP}|SELF_FAIL|${sf}|expected=${EXPECTED}|actual=${ACTUAL}" >> "$CONCERN_FILE"
-            # Restore from trusted repo
+            # Attempt restore from trusted repo — but require approval if interactive
             if curl -sf "${RAW}/${sf}" -o "${PROJECT_ROOT}/${sf}.restored"; then
-                mv "${PROJECT_ROOT}/${sf}.restored" "${PROJECT_ROOT}/${sf}"
-                echo "-- : [integrity] RESTORED: ${sf} from trusted repo"
+                if [ -t 0 ]; then
+                    # Interactive: ask for confirmation before overwriting
+                    echo "-- : [integrity] File differs from trusted source: ${sf}"
+                    printf "-- : [integrity] Restore from GitHub? [y/N]: "
+                    read -r CONFIRM
+                    if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
+                        mv "${PROJECT_ROOT}/${sf}.restored" "${PROJECT_ROOT}/${sf}"
+                        echo "-- : [integrity] RESTORED: ${sf} from trusted repo"
+                    else
+                        rm -f "${PROJECT_ROOT}/${sf}.restored"
+                        echo "-- : [integrity] SKIPPED restore of ${sf} (user declined)"
+                        echo "${TIMESTAMP}|RESTORE_DECLINED|${sf}" >> "$CONCERN_FILE"
+                        SELF_OK=false
+                    fi
+                else
+                    # Non-interactive: do NOT auto-restore. Log what would be restored.
+                    rm -f "${PROJECT_ROOT}/${sf}.restored"
+                    echo "-- : [integrity] NON-INTERACTIVE: Would restore ${sf} — logging only (no auto-restore)"
+                    echo "${TIMESTAMP}|RESTORE_PENDING|${sf}|expected=${EXPECTED}|actual=${ACTUAL}|action=none_non_interactive" >> "$CONCERN_FILE"
+                    SELF_OK=false
+                fi
             else
                 SELF_OK=false
             fi
@@ -101,11 +120,28 @@ for filepath in $FILES; do
                 if curl -sf "${RAW}/${filepath}" -o "${filepath}.restore.tmp"; then
                     RESTORE_SHA=$(sha256sum "${filepath}.restore.tmp" | awk '{print $1}')
                     if [ "$RESTORE_SHA" = "$EXPECTED_SHA" ]; then
-                        cp "$filepath" "${filepath}.corrupted.bak"
-                        mv "${filepath}.restore.tmp" "$filepath"
-                        echo "-- : [integrity] RESTORED: ${filepath}"
-                        echo "${TIMESTAMP}|RESTORED|${filepath}|sha256=${EXPECTED_SHA}" >> "$CONCERN_FILE"
-                        RESTORED=$((RESTORED + 1))
+                        if [ -t 0 ]; then
+                            # Interactive: ask for confirmation before overwriting
+                            echo "-- : [integrity] Corruption detected in: ${filepath}"
+                            printf "-- : [integrity] Restore from GitHub (commit ${COMMIT_SHA})? [y/N]: "
+                            read -r CONFIRM
+                            if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
+                                cp "$filepath" "${filepath}.corrupted.bak"
+                                mv "${filepath}.restore.tmp" "$filepath"
+                                echo "-- : [integrity] RESTORED: ${filepath}"
+                                echo "${TIMESTAMP}|RESTORED|${filepath}|sha256=${EXPECTED_SHA}" >> "$CONCERN_FILE"
+                                RESTORED=$((RESTORED + 1))
+                            else
+                                rm -f "${filepath}.restore.tmp"
+                                echo "-- : [integrity] SKIPPED restore of ${filepath} (user declined)"
+                                echo "${TIMESTAMP}|RESTORE_DECLINED|${filepath}" >> "$CONCERN_FILE"
+                            fi
+                        else
+                            # Non-interactive: do NOT auto-restore. Log what would be restored.
+                            rm -f "${filepath}.restore.tmp"
+                            echo "-- : [integrity] NON-INTERACTIVE: Would restore ${filepath} — logging only (no auto-restore)"
+                            echo "${TIMESTAMP}|RESTORE_PENDING|${filepath}|expected=${EXPECTED_SHA}|actual=${CURRENT_SHA}|action=none_non_interactive" >> "$CONCERN_FILE"
+                        fi
                     else
                         rm -f "${filepath}.restore.tmp"
                         echo "-- : [integrity] WARN: Remote also differs for ${filepath}"

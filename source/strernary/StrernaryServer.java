@@ -21,6 +21,7 @@
 package strernary;
 
 import commons.CommonRails;
+import database.N21AuthConfig;
 import exceptions.ExceptionHandler;
 
 import java.io.*;
@@ -181,7 +182,7 @@ public class StrernaryServer implements Runnable
     private void recordInteraction(long nationalId, String question, String answer)
     {
         try (Connection conn = java.sql.DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/nwe_strernary", "mearvk", "$$Ironman1"))
+            "jdbc:mysql://localhost:3306/nwe_strernary", N21AuthConfig.get().USERNAME, N21AuthConfig.get().PASSWORD))
         {
             try (PreparedStatement ps = conn.prepareStatement(
                 "INSERT INTO user_sessions (national_id, port, question, answer) VALUES (?, ?, ?, ?)"))
@@ -197,7 +198,7 @@ public class StrernaryServer implements Runnable
 
         // Populate D44 database
         try (Connection conn = java.sql.DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/nwe_calendar_d44", "mearvk", "$$Ironman1"))
+            "jdbc:mysql://localhost:3306/nwe_calendar_d44", N21AuthConfig.get().USERNAME, N21AuthConfig.get().PASSWORD))
         {
             try (PreparedStatement ps = conn.prepareStatement(
                 "INSERT INTO d44_interactions (national_id, source_port, question, answer) VALUES (?, ?, ?, ?)"))

@@ -95,6 +95,12 @@ NWE_PORTS=(
 nwe_open_ports() {
     local OPENED=0 FAILED=0 SKIPPED=0
 
+    # SECURITY: Set NWE_TRUSTED_IP to restrict access to a specific IP.
+    # Without it, ports are open to ALL sources (0.0.0.0).
+    if [ -z "$NWE_TRUSTED_IP" ]; then
+        echo "[WARN] NWE_TRUSTED_IP not set — opening ports to ALL sources. Set NWE_TRUSTED_IP for production."
+    fi
+
     echo "  [*] Opening NWE service ports..."
 
     # Ensure UFW is installed and active
@@ -104,10 +110,18 @@ nwe_open_ports() {
         for PORT in "${NWE_PORTS[@]}"; do
             if ufw status | grep -q "$PORT/tcp.*ALLOW" 2>/dev/null; then
                 SKIPPED=$((SKIPPED + 1))
-            elif sudo ufw allow "$PORT/tcp" >/dev/null 2>&1; then
-                OPENED=$((OPENED + 1))
+            elif [ -n "$NWE_TRUSTED_IP" ]; then
+                if sudo ufw allow from "$NWE_TRUSTED_IP" to any port "$PORT" proto tcp comment "NWE: $PORT" 2>/dev/null; then
+                    OPENED=$((OPENED + 1))
+                else
+                    FAILED=$((FAILED + 1))
+                fi
             else
-                FAILED=$((FAILED + 1))
+                if sudo ufw allow "$PORT/tcp" comment "NWE: $PORT" 2>/dev/null; then
+                    OPENED=$((OPENED + 1))
+                else
+                    FAILED=$((FAILED + 1))
+                fi
             fi
         done
         sudo ufw --force enable >/dev/null 2>&1

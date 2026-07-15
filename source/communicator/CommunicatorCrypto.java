@@ -128,6 +128,9 @@ public class CommunicatorCrypto
             ka.doPhase(clientPub, true);
             byte[] secret = ka.generateSecret();
 
+            // SECURITY NOTE: Single-pass SHA-256 over the raw DH shared secret is a weak KDF.
+            // A proper HKDF (RFC 5869) with salt and info context should be used here.
+            // Kept as-is to avoid breaking existing clients that depend on this derivation.
             // Derive 256-bit key via SHA-256
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
             sharedSecret = sha256.digest(secret);
@@ -166,6 +169,9 @@ public class CommunicatorCrypto
             ka.doPhase(clientPub, true);
             byte[] secret = ka.generateSecret();
 
+            // SECURITY NOTE: Single-pass SHA-256 over the raw ECDH shared secret is a weak KDF.
+            // A proper HKDF (RFC 5869) with salt and info context should be used here.
+            // Kept as-is to avoid breaking existing clients that depend on this derivation.
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
             sharedSecret = sha256.digest(secret);
         }
@@ -319,17 +325,15 @@ public class CommunicatorCrypto
     /** Store user's preferred cipher in their profile. */
     public static void saveProfileCipher(long nationalId, CipherSuite suite)
     {
-        try
-        {
-            var conn = database.N21DataSource.get();
-            var ps = conn.prepareStatement(
+        try (var conn = database.N21DataSource.get();
+             var ps = conn.prepareStatement(
                 "INSERT INTO communicator_profiles (national_id, preferred_cipher, updated_at) " +
-                "VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE preferred_cipher = ?, updated_at = NOW()");
+                "VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE preferred_cipher = ?, updated_at = NOW()"))
+        {
             ps.setLong(1, nationalId);
             ps.setString(2, suite.name());
             ps.setString(3, suite.name());
             ps.executeUpdate();
-            ps.close();
         }
         catch (Exception e) { /* profile save is non-critical */ }
     }
@@ -337,20 +341,16 @@ public class CommunicatorCrypto
     /** Load user's preferred cipher from profile, or null if not set. */
     public static CipherSuite loadProfileCipher(long nationalId)
     {
-        try
+        try (var conn = database.N21DataSource.get();
+             var ps = conn.prepareStatement(
+                "SELECT preferred_cipher FROM communicator_profiles WHERE national_id = ?"))
         {
-            var conn = database.N21DataSource.get();
-            var ps = conn.prepareStatement(
-                "SELECT preferred_cipher FROM communicator_profiles WHERE national_id = ?");
             ps.setLong(1, nationalId);
-            var rs = ps.executeQuery();
-            if (rs.next())
+            try (var rs = ps.executeQuery())
             {
-                CipherSuite cs = CipherSuite.fromName(rs.getString(1));
-                rs.close(); ps.close();
-                return cs;
+                if (rs.next())
+                    return CipherSuite.fromName(rs.getString(1));
             }
-            rs.close(); ps.close();
         }
         catch (Exception ignored) {}
         return null;

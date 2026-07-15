@@ -19,7 +19,7 @@ source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 DEFAULT_HOST="45.32.31.139"
-DEFAULT_USER="root"
+DEFAULT_USER="nwe"
 DEFAULT_PATH="/opt/NitroWebExpress"
 
 REMOTE="${1:-${NWE_REMOTE_USER:-$DEFAULT_USER}@${NWE_REMOTE_HOST:-$DEFAULT_HOST}}"
@@ -27,7 +27,7 @@ REMOTE_PATH="${2:-$DEFAULT_PATH}"
 REMOTE_USER="${REMOTE%%@*}"
 REMOTE_HOST="${REMOTE##*@}"
 
-SSH_OPTS="-o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
+SSH_OPTS="-o ConnectTimeout=10 -o StrictHostKeyChecking=yes -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
 
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
 echo "║  NitroWebExpress™ — Remote Linux Server Deploy                          ║"
@@ -57,6 +57,9 @@ if ! $SSH_CMD -o BatchMode=yes "$REMOTE" "echo OK" &>/dev/null; then
         sudo apt-get install -y -qq sshpass 2>/dev/null || sudo dnf install -y -q sshpass 2>/dev/null || true
     fi
     if command -v sshpass &>/dev/null; then
+        # SECURITY WARNING: sshpass exposes passwords via process listing (/proc).
+        # Prefer SSH key-based authentication for production deployments.
+        # Use this only for initial setup, then switch to key auth immediately.
         read -rsp "  SSH password for $REMOTE: " SSH_PASS
         echo ""
         if sshpass -p "$SSH_PASS" ssh $SSH_OPTS "$REMOTE" "echo OK" &>/dev/null; then
@@ -68,9 +71,11 @@ if ! $SSH_CMD -o BatchMode=yes "$REMOTE" "echo OK" &>/dev/null; then
             # Offer to copy SSH key for future passwordless access
             echo "  [*] Copying SSH key for future passwordless access..."
             if [ ! -f ~/.ssh/id_ed25519 ] && [ ! -f ~/.ssh/id_rsa ]; then
+                # WARNING: Empty passphrase (-N "") means the private key is unprotected on disk.
+                # For production, generate keys manually with a passphrase and use ssh-agent.
                 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" -q
             fi
-            sshpass -p "$SSH_PASS" ssh-copy-id -o StrictHostKeyChecking=accept-new "$REMOTE" &>/dev/null && \
+            sshpass -p "$SSH_PASS" ssh-copy-id -o StrictHostKeyChecking=yes "$REMOTE" &>/dev/null && \
                 echo "  [✓] SSH key installed — password not needed next time" || true
         else
             echo "  [!] Password auth failed"

@@ -152,6 +152,10 @@ public class NioMasqueradeEngine implements Runnable
         catch (Exception e) { ExceptionHandler.dispatch(e); }
     }
 
+    // SECURITY: NIO masquerade connections are currently unauthenticated. Any process on
+    // 127.0.0.X can connect and have traffic bridged to internal services without identity
+    // verification. Traffic on the bridge is unencrypted. This is a design-level issue that
+    // requires a larger refactor to add mutual authentication and TLS on the NIO bridge layer.
     private void read(SelectionKey key)
     {
         SocketChannel client = (SocketChannel) key.channel();

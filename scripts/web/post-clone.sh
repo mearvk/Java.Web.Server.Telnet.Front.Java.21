@@ -79,6 +79,27 @@ TOMCAT_HOME="/home/mearvk/tomcat"
 if [ ! -f "$TOMCAT_HOME/bin/catalina.sh" ]; then
     echo "[*] Installing Tomcat 11..."
     cd /tmp && curl -sfLO "https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz"
+
+    # SECURITY: Verify download integrity before extracting.
+    # Tomcat archives have been targeted by supply-chain attacks in the past.
+    # SHA-512 hash sourced from https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz.sha512
+    echo "[*] Verifying Tomcat SHA-512 checksum..."
+    TOMCAT_SHA512_URL="https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz.sha512"
+    EXPECTED_SHA512=$(curl -sfL "$TOMCAT_SHA512_URL" | awk '{print $1}')
+    ACTUAL_SHA512=$(sha512sum /tmp/apache-tomcat-11.0.2.tar.gz | awk '{print $1}')
+    if [ -z "$EXPECTED_SHA512" ]; then
+        echo "[WARN] Could not fetch SHA-512 from Apache — skipping verification (network issue?)"
+    elif [ "$ACTUAL_SHA512" != "$EXPECTED_SHA512" ]; then
+        echo "[ERROR] SHA-512 MISMATCH! Downloaded Tomcat archive may be corrupted or tampered with."
+        echo "        Expected: $EXPECTED_SHA512"
+        echo "        Actual:   $ACTUAL_SHA512"
+        echo "        Aborting Tomcat installation. Remove /tmp/apache-tomcat-11.0.2.tar.gz and retry."
+        rm -f /tmp/apache-tomcat-11.0.2.tar.gz
+        exit 1
+    else
+        echo "[OK] SHA-512 verified"
+    fi
+
     mkdir -p "$TOMCAT_HOME" && tar -xzf apache-tomcat-11.0.2.tar.gz -C "$TOMCAT_HOME" --strip-components=1
     rm -f apache-tomcat-11.0.2.tar.gz
     id tomcat &>/dev/null || useradd -r -M -d "$TOMCAT_HOME" -s /bin/false tomcat

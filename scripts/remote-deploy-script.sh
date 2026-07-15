@@ -2,6 +2,15 @@
 # remote-deploy-script.sh — Deploy NWE to remote server via SSH/SCP
 # Prompts for remote user and root password before deploying.
 # Usage: bash scripts/remote-deploy-script.sh
+#
+# ╔═══════════════════════════════════════════════════════════════════════════════╗
+# ║  SECURITY WARNING: This script uses password-based SSH (sshpass).            ║
+# ║  Passwords are exposed in process listings and shell history.                ║
+# ║  For production deployments, use SSH key-based authentication instead:       ║
+# ║    1. Generate a key: ssh-keygen -t ed25519                                  ║
+# ║    2. Copy to server: ssh-copy-id user@host                                  ║
+# ║    3. Use deploy-remote-linux.sh which supports key auth natively.           ║
+# ╚═══════════════════════════════════════════════════════════════════════════════╝
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/out"
@@ -10,7 +19,7 @@ SCRIPTS="$ROOT/scripts"
 BASH_DIR="$ROOT/bash"
 
 # ── Remote defaults (from nwe-config.xml) ─────────────────────────────────────
-DEFAULT_USER="root"
+DEFAULT_USER="nwe"
 DEFAULT_HOST="45.32.31.139"
 DEFAULT_REMOTE_DIR="/opt/nwe"
 
@@ -58,11 +67,11 @@ echo ""
 
 # ── Helper: run remote command via sshpass ────────────────────────────────────
 remote_exec() {
-    sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 "$REMOTE_USER@$REMOTE_HOST" "$@"
+    sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=yes -o ConnectTimeout=10 "$REMOTE_USER@$REMOTE_HOST" "$@"
 }
 
 remote_copy() {
-    sshpass -p "$ROOT_PASSWORD" scp -o StrictHostKeyChecking=no -o ConnectTimeout=10 -r "$@"
+    sshpass -p "$ROOT_PASSWORD" scp -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -r "$@"
 }
 
 # ── Check sshpass is available ────────────────────────────────────────────────

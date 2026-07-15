@@ -521,7 +521,7 @@ public class N21Store
                 ps.setString(5, FILE_TYPE    != null ? FILE_TYPE    : "");
                 ps.setInt(6,    BYTE_COUNT);
                 ps.setString(7, SIG_HEX      != null ? SIG_HEX      : "");
-                ps.setString(8, ADMIN_TOKEN  != null ? ADMIN_TOKEN  : "");
+                ps.setString(8, ADMIN_TOKEN != null ? "[REDACTED]" : "");
                 ps.setString(9, RESULT       != null ? RESULT       : "");
                 ps.executeUpdate(); ps.close();
                 return;
@@ -723,13 +723,13 @@ public class N21Store
 
     public static Connection getConnection() throws Exception
     {
-        String url  = "jdbc:mysql://localhost:3306/n21db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
-        String user = "root";        // change if needed
-        String pass = "password";    // change if needed
+        N21AuthConfig auth = N21AuthConfig.get();
+        String url  = "jdbc:mysql://" + auth.HOST + ":" + auth.PORT
+            + "/n21db?useSSL=true&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        return (Connection) DriverManager.getConnection(url, user, pass);
+        return (Connection) DriverManager.getConnection(url, auth.USERNAME, auth.PASSWORD);
     }
 
     public static void storeChatMessage(final long FROM, final long TO, final String MESSAGE, final String TYPE)
