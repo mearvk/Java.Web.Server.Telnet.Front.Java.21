@@ -10,6 +10,102 @@
 #   nwe_compile_servlets  — Compile servlet Java classes against Tomcat API
 #   nwe_validate_webapp   — Check web.xml, JSP files, and lib presence
 #   nwe_deploy_module     — All-in-one: validate → deploy → JDBC → compile → validate
+#   nwe_progress          — Display a progress bar for long operations
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# nwe_progress — Display a progress bar during a copy/rsync operation
+# Args: $1 = source dir, $2 = dest dir, $3 = operation label
+# Uses rsync with --progress if available, else cp with file counting
+# ═══════════════════════════════════════════════════════════════════════════════
+nwe_progress_copy() {
+    local SRC="$1" DEST="$2" LABEL="${3:-Copying}"
+
+    # Count total files for progress
+    local TOTAL_FILES
+    TOTAL_FILES=$(find "$SRC" -type f 2>/dev/null | wc -l)
+
+    if [ "$TOTAL_FILES" -eq 0 ]; then
+        echo "  [$LABEL] (empty source)"
+        return 0
+    fi
+
+    if command -v rsync &>/dev/null; then
+        # rsync with progress indicator
+        echo -n "  [$LABEL] $TOTAL_FILES files... "
+        rsync -a --delete --exclude='db.properties' "$SRC/" "$DEST/" 2>/dev/null
+        echo "✓"
+    else
+        # cp with a simple progress counter
+        rm -rf "$DEST"
+        mkdir -p "$DEST"
+
+        local COUNT=0
+        local LAST_PCT=-1
+
+        # Use cp -r but show progress by counting copied files
+        cp -r "$SRC/"* "$DEST/" &
+        local CP_PID=$!
+
+        # Show a spinner while cp runs
+        local SPINNER=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+        local SPIN_IDX=0
+        echo -n "  [$LABEL] $TOTAL_FILES files "
+        while kill -0 "$CP_PID" 2>/dev/null; do
+            echo -ne "\r  [$LABEL] $TOTAL_FILES files ${SPINNER[$SPIN_IDX]} "
+            SPIN_IDX=$(( (SPIN_IDX + 1) % ${#SPINNER[@]} ))
+            sleep 0.2
+        done
+        wait "$CP_PID"
+        echo -e "\r  [$LABEL] $TOTAL_FILES files ✓ "
+    fi
+    return 0
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# nwe_progress_bar — Print a progress bar inline
+# Args: $1 = current, $2 = total, $3 = label (optional)
+# ═══════════════════════════════════════════════════════════════════════════════
+nwe_progress_bar() {
+    local CURRENT="$1" TOTAL="$2" LABEL="${3:-Progress}"
+    local WIDTH=30
+    local PCT=$((CURRENT * 100 / TOTAL))
+    local FILLED=$((CURRENT * WIDTH / TOTAL))
+    local EMPTY=$((WIDTH - FILLED))
+    printf "\r  [%s] [%s%s] %3d%% (%d/%d)" "$LABEL" \
+        "$(printf '█%.0s' $(seq 1 $FILLED 2>/dev/null) 2>/dev/null)" \
+        "$(printf '░%.0s' $(seq 1 $EMPTY 2>/dev/null) 2>/dev/null)" \
+        "$PCT" "$CURRENT" "$TOTAL"
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# nwe_download_with_progress — Download a file with a progress bar
+# Args: $1 = URL, $2 = output file, $3 = label (optional)
+# ═══════════════════════════════════════════════════════════════════════════════
+nwe_download_with_progress() {
+    local URL="$1" OUTPUT="$2" LABEL="${3:-Downloading}"
+
+    echo -n "  [$LABEL] $(basename "$OUTPUT")... "
+
+    if command -v curl &>/dev/null; then
+        curl -# -fL "$URL" -o "$OUTPUT" 2>&1 | tr '\r' '\n' | tail -1
+        if [ ${PIPESTATUS[0]} -eq 0 ]; then
+            local SIZE
+            SIZE=$(du -h "$OUTPUT" 2>/dev/null | cut -f1)
+            echo "✓ ($SIZE)"
+            return 0
+        else
+            echo "✗ (download failed)"
+            return 1
+        fi
+    elif command -v wget &>/dev/null; then
+        wget --progress=bar:force "$URL" -O "$OUTPUT" 2>&1 | tail -1
+        [ -f "$OUTPUT" ] && echo "✓" || echo "✗"
+        return ${PIPESTATUS[0]}
+    else
+        echo "✗ (no curl or wget)"
+        return 1
+    fi
+}
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # nwe_validate_tomcat — Check Tomcat installation
@@ -44,9 +140,8 @@ nwe_deploy_webapp() {
         echo "[!] Webapp source not found: $SRC"
         return 1
     fi
-    rm -rf "$DEST"
     mkdir -p "$DEST/WEB-INF/lib" "$DEST/WEB-INF/classes"
-    cp -r "$SRC/"* "$DEST/"
+    nwe_progress_copy "$SRC" "$DEST" "Deploy"
     echo "[✓] Webapp deployed to $DEST"
     return 0
 }

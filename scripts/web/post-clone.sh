@@ -80,7 +80,7 @@ echo "[OK] MySQL password configured for user=${NWE_DB_USER:-root}"
 TOMCAT_HOME="/home/mearvk/tomcat"
 if [ ! -f "$TOMCAT_HOME/bin/catalina.sh" ]; then
     echo "[*] Installing Tomcat 11..."
-    cd /tmp && curl -sfLO "https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz"
+    cd /tmp && curl -# -fL "https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz" -o apache-tomcat-11.0.2.tar.gz
 
     # SECURITY: Verify download integrity before extracting.
     # Tomcat archives have been targeted by supply-chain attacks in the past.

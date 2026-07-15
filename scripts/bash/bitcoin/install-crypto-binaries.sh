@@ -39,8 +39,10 @@ install_bitcoin() {
     echo "-- : [crypto] Installing Bitcoin Core v${VER} to ${DIR}"
 
     cd /tmp
-    curl -sfLO "$URL" || { echo "SKIP v${VER} (download failed)"; return; }
-    curl -sfLO "$CHECKSUM_URL" || true
+    echo -n "    Downloading ${TARBALL}... "
+    curl -# -fL "$URL" -o "$TARBALL" 2>&1 || { echo "SKIP v${VER} (download failed)"; return; }
+    echo "    ✓ $(du -h "$TARBALL" | cut -f1)"
+    curl -sfL "$CHECKSUM_URL" -o SHA256SUMS 2>/dev/null || true
 
     # Verify if checksum available
     if [ -f SHA256SUMS ]; then
@@ -66,8 +68,12 @@ install_dash() {
     echo "-- : [crypto] Installing Dash Core v${DASH_VERSION}"
 
     cd /tmp
-    curl -sfLO "$DASH_URL" || { echo "FAIL: Dash download"; return; }
+    echo -n "    Downloading Dash Core v${DASH_VERSION}... "
+    curl -# -fL "$DASH_URL" -o "dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz" 2>&1 || { echo "FAIL: Dash download"; return; }
+    echo "    ✓ $(du -h "dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz" | cut -f1)"
+    echo -n "    Extracting... "
     tar -xzf "dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz"
+    echo "✓"
     cp dashcore-${DASH_VERSION}/bin/dashd "$DIR/"
     cp dashcore-${DASH_VERSION}/bin/dash-cli "$DIR/"
     chmod +x "$DIR/dashd" "$DIR/dash-cli"
@@ -83,8 +89,12 @@ install_litecoin() {
     echo "-- : [crypto] Installing Litecoin Core v${LITECOIN_VERSION}"
 
     cd /tmp
-    curl -sfLO "$LITECOIN_URL" || { echo "FAIL: Litecoin download"; return; }
+    echo -n "    Downloading Litecoin Core v${LITECOIN_VERSION}... "
+    curl -# -fL "$LITECOIN_URL" -o "litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz" 2>&1 || { echo "FAIL: Litecoin download"; return; }
+    echo "    ✓ $(du -h "litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz" | cut -f1)"
+    echo -n "    Extracting... "
     tar -xzf "litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz"
+    echo "✓"
     cp litecoin-${LITECOIN_VERSION}/bin/litecoind "$DIR/"
     cp litecoin-${LITECOIN_VERSION}/bin/litecoin-cli "$DIR/"
     chmod +x "$DIR/litecoind" "$DIR/litecoin-cli"
@@ -100,8 +110,12 @@ install_starcoin() {
     echo "-- : [crypto] Installing Starcoin v${STARCOIN_VERSION}"
 
     cd /tmp
-    curl -sfLO "$STARCOIN_URL" || { echo "FAIL: Starcoin download"; return; }
+    echo -n "    Downloading Starcoin v${STARCOIN_VERSION}... "
+    curl -# -fL "$STARCOIN_URL" -o "starcoin-ubuntu-v${STARCOIN_VERSION}.zip" 2>&1 || { echo "FAIL: Starcoin download"; return; }
+    echo "    ✓ $(du -h "starcoin-ubuntu-v${STARCOIN_VERSION}.zip" | cut -f1)"
+    echo -n "    Extracting... "
     unzip -qo "starcoin-ubuntu-v${STARCOIN_VERSION}.zip" -d starcoin-extract || true
+    echo "✓"
     cp starcoin-extract/starcoin "$DIR/" 2>/dev/null || cp starcoin-extract/*/starcoin "$DIR/" 2>/dev/null || true
     chmod +x "$DIR/starcoin" 2>/dev/null
     sudo ln -sf "$DIR/starcoin" /usr/local/bin/starcoin 2>/dev/null

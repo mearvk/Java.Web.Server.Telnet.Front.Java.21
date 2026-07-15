@@ -33,8 +33,11 @@ echo ""
 ENABLED=$(grep -B5 '<install>true</install>' "$CONFIG" | grep -oP '(?<=<deploy-script>)[^<]+')
 
 PASS=0; FAIL=0
+TOTAL_MODULES=$(echo "$ENABLED" | wc -w)
+CURRENT_MODULE=0
 
 for SCRIPT in $ENABLED; do
+    CURRENT_MODULE=$((CURRENT_MODULE + 1))
     FULL_PATH="$PROJECT_ROOT/$SCRIPT"
     
     # Run setup-db if it exists alongside deploy script
@@ -45,7 +48,7 @@ for SCRIPT in $ENABLED; do
     
     if [ -f "$FULL_PATH" ]; then
         echo ""
-        echo "[*] Deploying: $SCRIPT"
+        echo "[*] [$CURRENT_MODULE/$TOTAL_MODULES] Deploying: $SCRIPT"
         DEPLOY_OUT=$(timeout 60 bash "$FULL_PATH" 2>&1)
         EXIT_CODE=$?
         echo "$DEPLOY_OUT" | tail -3

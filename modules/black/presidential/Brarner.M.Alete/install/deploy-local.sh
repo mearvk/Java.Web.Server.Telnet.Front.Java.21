@@ -38,11 +38,21 @@ if [ ! -d "$TOMCAT_HOME/webapps" ]; then
     exit 1
 fi
 
-# Deploy exploded webapp
+# Deploy exploded webapp (rsync for speed — only copies changed files)
 echo "[*] Deploying exploded webapp..."
-rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/classes" "$DEPLOY_DIR/WEB-INF/lib"
-cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
+TOTAL_FILES=$(find "$WEBAPP_SRC" -type f 2>/dev/null | wc -l)
+echo "    Source: $TOTAL_FILES files ($(du -sh "$WEBAPP_SRC" | cut -f1))"
+if command -v rsync &>/dev/null; then
+    rsync -a --delete --info=progress2 --exclude='db.properties' "$WEBAPP_SRC/" "$DEPLOY_DIR/"
+    echo "    [✓] rsync complete"
+else
+    rm -rf "$DEPLOY_DIR"
+    mkdir -p "$DEPLOY_DIR/WEB-INF/classes" "$DEPLOY_DIR/WEB-INF/lib"
+    echo -n "    Copying... "
+    cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
+    echo "✓"
+fi
 
 # Copy JARs from jars/ directory (preferred) or lib/
 if ls "$BMA_ROOT/jars/"*.jar &>/dev/null; then
