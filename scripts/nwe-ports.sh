@@ -88,6 +88,40 @@ NWE_PORTS=(
     49214   # Stanford Library
 )
 
+# Port → service name mapping for display
+declare -A NWE_PORT_NAMES=(
+    [2000]="StrernaryDirectory"
+    [5000]="Futures (DemocraticAI)"
+    [5512]="AES Encryption"
+    [6682]="Bitcoin"
+    [7743]="RSA Encryption"
+    [7744]="DSA Encryption"
+    [8080]="Tomcat"
+    [8888]="Reserved"
+    [9999]="Gray Port Registry"
+    [10085]="Gray85 Crème"
+    [20000]="Strernary AI"
+    [49111]="Reserved"
+    [49133]="WeatherServer"
+    [49144]="BinaryHttp"
+    [49152]="NitroWebExpress"
+    [49155]="ConnectionStatus"
+    [49166]="ModuleInstallation"
+    [49177]="AsciiCreator"
+    [49188]="ModuleLoaderDaemon"
+    [49199]="Communicator"
+    [49200]="CalendarD44"
+    [49201]="JapanSignal"
+    [49202]="RussiaSignal"
+    [49203]="MexicoSignal"
+    [49204]="GreeceInternational"
+    [49210]="California FBI"
+    [49211]="California CIA"
+    [49212]="California NSA"
+    [49213]="Duke University"
+    [49214]="Stanford Library"
+)
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # nwe_open_ports — Open all NWE ports in the system firewall
 # Called by: start-all.sh, start-backends.sh, post-clone.sh
@@ -108,16 +142,19 @@ nwe_open_ports() {
 
     if command -v ufw &>/dev/null; then
         for PORT in "${NWE_PORTS[@]}"; do
+            local SVCNAME="${NWE_PORT_NAMES[$PORT]:-unknown}"
             if ufw status | grep -q "$PORT/tcp.*ALLOW" 2>/dev/null; then
                 SKIPPED=$((SKIPPED + 1))
             elif [ -n "${NWE_TRUSTED_IP:-}" ]; then
                 if sudo ufw allow from "$NWE_TRUSTED_IP" to any port "$PORT" proto tcp comment "NWE: $PORT" 2>/dev/null; then
+                    printf "      %-5s  %-25s  ✓ (restricted to %s)\n" "$PORT" "$SVCNAME" "$NWE_TRUSTED_IP"
                     OPENED=$((OPENED + 1))
                 else
                     FAILED=$((FAILED + 1))
                 fi
             else
                 if sudo ufw allow "$PORT/tcp" comment "NWE: $PORT" 2>/dev/null; then
+                    printf "      %-5s  %-25s  ✓\n" "$PORT" "$SVCNAME"
                     OPENED=$((OPENED + 1))
                 else
                     FAILED=$((FAILED + 1))
