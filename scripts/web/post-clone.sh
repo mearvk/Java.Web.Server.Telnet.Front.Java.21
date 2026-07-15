@@ -124,6 +124,20 @@ echo "[OK] Firewall configured"
 # 5.5. Setup module databases (safe — uses CREATE IF NOT EXISTS, never drops)
 echo ""
 echo "[*] Setting up module databases (non-destructive — existing data preserved)..."
+
+# Wait for MySQL to be fully ready before running setup scripts
+echo "[*] Waiting for MySQL to accept connections..."
+for i in $(seq 1 30); do
+    if mysql -u "$NWE_DB_USER" -p"$NWE_DB_PASS" -h "${NWE_DB_HOST:-127.0.0.1}" -P "${NWE_DB_PORT:-3306}" -e "SELECT 1" &>/dev/null; then
+        echo "[OK] MySQL is ready (attempt $i)"
+        break
+    fi
+    if [ "$i" -eq 30 ]; then
+        echo "[ERROR] MySQL did not become ready within 30 seconds. Skipping database setup."
+        echo "        Run manually: bash scripts/web/setup-all-databases.sh"
+    fi
+    sleep 1
+done
 echo ""
 echo "    ┌─────────────────────────────────────────────────────────────"
 echo "    │  Database                     Module"
@@ -146,6 +160,9 @@ echo "    │  BrarnerScience               Brarner.M.Alete"
 echo "    └─────────────────────────────────────────────────────────────"
 echo ""
 
+# Export MYSQL_PWD so child setup scripts can connect without -p on command line
+export MYSQL_PWD="$NWE_DB_PASS"
+
 SETUP_SCRIPTS=(
     "modules/fbi/servlets/setup-db.sh"
     "modules/cia/servlets/setup-db.sh"
@@ -162,6 +179,8 @@ for SETUP in "${SETUP_SCRIPTS[@]}"; do
         timeout 30 bash "$FULL" 2>/dev/null && echo "  [OK] $SETUP" || echo "  [WARN] $SETUP (timeout or MySQL not ready)"
     fi
 done
+
+unset MYSQL_PWD
 
 # 6. Deploy all web modules (30s timeout per module, inline for reliability)
 echo ""
