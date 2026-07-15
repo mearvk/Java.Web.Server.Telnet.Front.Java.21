@@ -65,8 +65,10 @@ if ! command -v mysql &>/dev/null; then
     echo "[*] Installing MySQL..."
     apt install -y -qq mysql-server 2>/dev/null || dnf install -y mysql-server 2>/dev/null || true
     systemctl enable mysql 2>/dev/null || systemctl enable mysqld 2>/dev/null
-    systemctl start mysql 2>/dev/null || systemctl start mysqld 2>/dev/null
 fi
+# Always ensure MySQL is running (may be installed but stopped after reboot)
+echo "[*] Starting MySQL service..."
+systemctl start mysql 2>/dev/null || systemctl start mysqld 2>/dev/null || true
 echo "[OK] MySQL: $(mysql --version 2>/dev/null | head -1)"
 
 # 3. Configure MySQL root for JDBC
