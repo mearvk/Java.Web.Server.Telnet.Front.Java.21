@@ -50,8 +50,8 @@ for SCRIPT in $ENABLED; do
         echo ""
         echo "[*] [$CURRENT_MODULE/$TOTAL_MODULES] Deploying: $SCRIPT"
         set +e
-        timeout 180 bash "$FULL_PATH" 2>&1 | tail -20
-        EXIT_CODE=${PIPESTATUS[0]}
+        timeout 180 bash "$FULL_PATH" 2>&1
+        EXIT_CODE=$?
         set -e
         if [ $EXIT_CODE -eq 0 ]; then
             PASS=$((PASS + 1))

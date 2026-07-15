@@ -42,16 +42,26 @@ fi
 echo "[*] Deploying exploded webapp..."
 mkdir -p "$DEPLOY_DIR/WEB-INF/classes" "$DEPLOY_DIR/WEB-INF/lib"
 TOTAL_FILES=$(find "$WEBAPP_SRC" -type f 2>/dev/null | wc -l)
-echo "    Source: $TOTAL_FILES files ($(du -sh "$WEBAPP_SRC" | cut -f1))"
+SRC_SIZE=$(du -sh "$WEBAPP_SRC" 2>/dev/null | cut -f1)
+echo "    Source: $TOTAL_FILES files ($SRC_SIZE)"
 if command -v rsync &>/dev/null; then
-    rsync -a --delete --info=progress2 --exclude='db.properties' "$WEBAPP_SRC/" "$DEPLOY_DIR/"
-    echo "    [✓] rsync complete"
+    echo "    Syncing to $DEPLOY_DIR ..."
+    rsync -a --delete --progress --exclude='db.properties' "$WEBAPP_SRC/" "$DEPLOY_DIR/" 2>&1 | \
+        awk 'BEGIN{n=0} /to-chk/{n++; printf "\r    [rsync] %d files transferred...", n; fflush()} END{printf "\r    [rsync] %d files transferred ✓\n", n}'
+    echo "    [✓] rsync complete ($SRC_SIZE)"
 else
     rm -rf "$DEPLOY_DIR"
     mkdir -p "$DEPLOY_DIR/WEB-INF/classes" "$DEPLOY_DIR/WEB-INF/lib"
-    echo -n "    Copying... "
-    cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
-    echo "✓"
+    echo -n "    Copying $TOTAL_FILES files ($SRC_SIZE)... "
+    cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/" &
+    CP_PID=$!
+    while kill -0 "$CP_PID" 2>/dev/null; do
+        DONE=$(find "$DEPLOY_DIR" -type f 2>/dev/null | wc -l)
+        printf "\r    Copying: %d / %d files " "$DONE" "$TOTAL_FILES"
+        sleep 1
+    done
+    wait "$CP_PID"
+    printf "\r    Copying: %d / %d files ✓\n" "$TOTAL_FILES" "$TOTAL_FILES"
 fi
 
 # Copy JARs from jars/ directory (preferred) or lib/
