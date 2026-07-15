@@ -118,10 +118,16 @@
             GreeceInternationalSignalServer,
             StrernaryServer,StrernaryOsPortModule,DjlInferenceEngine,
             StrernaryKnowledgeFetcher,StrernaryTranslationLayer,StrernaryLaborLawFetcher,
-            StrernaryTrainingLoader,BrarnerAleteModule
+            StrernaryTrainingLoader,BrarnerAleteModule,
+            CaliforniaFBIServer,CaliforniaCIAServer,CaliforniaNSAServer,
+            DukeUniversityServer,StanfordLibraryServer,
+            GrayPortRegistryServer,Gray85PortRegistryServer,
+            DemocraticAIServer,NWEModuleInstaller,
+            NioMasqueradeEngine,StrernaryDirectoryServer,NioModuleScanner,
+            PortBindingGate,StrernaryConnector
         </known-modules>
-        <preserved-acronyms>JDBC,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA,FBI,NSA,CIA</preserved-acronyms>
-        <special-spellings>MySQL,NWEConfig,cmd.exe,sc,net</special-spellings>
+        <preserved-acronyms>JDBC,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA,FBI,NSA,CIA,DJL,NIO,API,URL,UUID,PID,DB,GCM,DH,ECDH,ECC,HMAC,HKDF,SSRF,XXE,OOM,DOS,DDOS,BTC,UFW,DKIM,SMTP,POP3,IMAP,FTP,DNS,FOIA</preserved-acronyms>
+        <special-spellings>MySQL,NWEConfig,cmd.exe,sc,net,nwe_california_fbi,nwe_california_cia,nwe_california_nsa,nwe_duke,nwe_library,nwe_strernary,nwe_gray_registry,nwe_gray85_registry,nwe_integrity,nwe_futures,nwe_gdgh,nwe_ae6e66</special-spellings>
         <proper-nouns>Duke,Stanford,California,Chapel Hill,Harvard,Yale,Princeton,Oxford,Cambridge,Japan,Russia,Mexico,Greece,France,Germany,Italy,Spain,China,Canada,Australia,America,United States,Los Angeles,New York,San Francisco,Chicago,Washington,Durham,Raleigh,Charlotte,Atlanta,Boston,Seattle,Denver,Phoenix,Dallas,Houston,Miami,Nashville,Portland,Baltimore,Philadelphia,Detroit,Minneapolis,Cleveland,Pittsburgh,Cincinnati,Orlando,Tampa,Sacramento,Oakland,Richmond,Norfolk,Virginia,Maryland,Carolina,Texas,Florida,Georgia,Ohio,Michigan,Illinois,Tennessee,Kentucky,Missouri,Indiana,Wisconsin,Minnesota,Iowa,Kansas,Nebraska,Colorado,Arizona,Nevada,Oregon,Alabama,Mississippi,Arkansas,Louisiana,Oklahoma,New Mexico,Utah,Montana,Wyoming,Idaho,Alaska,Hawaii</proper-nouns>
         <description>
             Status message enclosed in decorator characters.

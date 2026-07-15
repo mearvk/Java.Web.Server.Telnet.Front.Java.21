@@ -45,7 +45,7 @@ case "$MODULE_ID" in
         ;;
     *)
         echo "[!] Unknown module: $MODULE_ID"
-        echo "    Available: ae6e66, futures, strernary, california-fbi, california-cia, california-nsa, duke, stanford-library"
+        echo "    Available: ae6e66, futures, strernary, california-FBI, california-CIA, california-NSA, duke, stanford-library"
         exit 1
         ;;
 esac
