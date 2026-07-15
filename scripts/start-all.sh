@@ -26,6 +26,57 @@ echo "║                                                                       
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
+# ── Phase 0: Stop existing services if running ────────────────────────────────
+echo ""
+echo "───────────────────────────────────────────────────────────────────────────────"
+echo "Pre-flight: Checking for running services..."
+echo "───────────────────────────────────────────────────────────────────────────────"
+echo ""
+
+NEED_STOP=0
+
+# Check if Tomcat is running
+if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/ 2>/dev/null | grep -q "200\|302\|401\|403"; then
+    echo "  [*] Tomcat is running — will shut down before redeploy"
+    NEED_STOP=1
+fi
+
+# Check if Main.java / backends are running
+if [ -f "$PROJECT_ROOT/data/nwe-main.pid" ] && kill -0 "$(cat "$PROJECT_ROOT/data/nwe-main.pid" 2>/dev/null)" 2>/dev/null; then
+    echo "  [*] NWE Main process running (PID $(cat "$PROJECT_ROOT/data/nwe-main.pid")) — will shut down"
+    NEED_STOP=1
+fi
+
+# Check if any NWE backend ports are active
+for PORT in 49152 20000 2000 49199 5512 6682; do
+    if timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null; then
+        echo "  [*] Port $PORT is active — existing backends detected"
+        NEED_STOP=1
+        break
+    fi
+done
+
+if [ "$NEED_STOP" -eq 1 ]; then
+    echo ""
+    echo "  [*] Stopping existing services first..."
+    if [ -f "$PROJECT_ROOT/scripts/shutdown-all.sh" ]; then
+        bash "$PROJECT_ROOT/scripts/shutdown-all.sh" 2>/dev/null || true
+    else
+        # Manual shutdown
+        if [ -x "$TOMCAT_HOME/bin/shutdown.sh" ]; then
+            "$TOMCAT_HOME/bin/shutdown.sh" >/dev/null 2>&1 || true
+        fi
+        if [ -f "$PROJECT_ROOT/data/nwe-main.pid" ]; then
+            kill "$(cat "$PROJECT_ROOT/data/nwe-main.pid" 2>/dev/null)" 2>/dev/null || true
+        fi
+        bash "$PROJECT_ROOT/scripts/shutdown-backends.sh" 2>/dev/null || true
+    fi
+    sleep 3
+    echo "  [✓] Existing services stopped"
+else
+    echo "  [✓] No running services detected — clean start"
+fi
+
 # ── Phase 1: MySQL ────────────────────────────────────────────────────────────
 echo ""
 echo "───────────────────────────────────────────────────────────────────────────────"
