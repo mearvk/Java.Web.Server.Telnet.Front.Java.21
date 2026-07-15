@@ -3,8 +3,9 @@
 # NitroWebExpress™ — Start All Services
 # Orchestrates complete startup sequence:
 #   1. MySQL
-#   2. Backend modules (TCP servers)
-#   3. Frontend modules (Tomcat webapps)
+#   2. Compile all modules
+#   3. Backend modules (TCP servers)
+#   4. Frontend modules (Tomcat webapps)
 #
 # Usage: bash scripts/start-all.sh [tomcat_home]
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -19,7 +20,7 @@ echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
 echo "║                                                                           ║"
 echo "║   NitroWebExpress™ — Complete System Startup                              ║"
-echo "║   Sequence: MySQL → Backends → Frontends                                  ║"
+echo "║   Sequence: MySQL → Compile → Backends → Frontends                        ║"
 echo "║   Log all commands with: tee start-all.log                                ║"
 echo "║                                                                           ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
@@ -28,7 +29,7 @@ echo ""
 # ── Phase 1: MySQL ────────────────────────────────────────────────────────────
 echo ""
 echo "───────────────────────────────────────────────────────────────────────────────"
-echo "Phase 1/3: Starting MySQL..."
+echo "Phase 1/4: Starting MySQL..."
 echo "───────────────────────────────────────────────────────────────────────────────"
 echo ""
 
@@ -54,10 +55,25 @@ nwe_open_ports
 
 sleep 1
 
-# ── Phase 2: Backend Modules ──────────────────────────────────────────────────
+# ── Phase 2: Compile All Modules ──────────────────────────────────────────────
 echo ""
 echo "───────────────────────────────────────────────────────────────────────────────"
-echo "Phase 2/3: Starting Backend Modules..."
+echo "Phase 2/4: Compiling All Modules..."
+echo "───────────────────────────────────────────────────────────────────────────────"
+echo ""
+
+if bash "$PROJECT_ROOT/scripts/compile-all-modules.sh"; then
+    echo ""
+    echo "  [✓] Compilation complete"
+else
+    echo ""
+    echo "  [!] Compilation had errors (backends may fail — check out/ directory)"
+fi
+
+# ── Phase 3: Backend Modules ──────────────────────────────────────────────────
+echo ""
+echo "───────────────────────────────────────────────────────────────────────────────"
+echo "Phase 3/4: Starting Backend Modules..."
 echo "───────────────────────────────────────────────────────────────────────────────"
 echo ""
 
@@ -71,10 +87,10 @@ fi
 
 sleep 3
 
-# ── Phase 3: Frontend Modules ─────────────────────────────────────────────────
+# ── Phase 4: Frontend Modules ─────────────────────────────────────────────────
 echo ""
 echo "───────────────────────────────────────────────────────────────────────────────"
-echo "Phase 3/3: Starting Frontend Modules..."
+echo "Phase 4/4: Starting Frontend Modules..."
 echo "───────────────────────────────────────────────────────────────────────────────"
 echo ""
 
