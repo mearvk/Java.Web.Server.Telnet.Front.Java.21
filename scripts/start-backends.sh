@@ -124,11 +124,18 @@ for MOD_DIR in "${!MODULES[@]}"; do
 
     echo -n "  [*] Starting $MOD_DIR backend... "
 
-    if cd "$MOD_PATH" && bash start-backend.sh > /dev/null 2>&1; then
+    set +e
+    BACKEND_OUT=$(cd "$MOD_PATH" && bash start-backend.sh 2>&1)
+    BACKEND_RC=$?
+    set -e
+
+    if [ $BACKEND_RC -eq 0 ]; then
         echo "✓"
         SUCCESS+=("$MOD_DIR")
     else
         echo "✗"
+        # Show last line of error for quick diagnosis
+        echo "$BACKEND_OUT" | grep -i "error\|fail\|exception\|not found" | tail -2 | sed 's/^/        /'
         FAILED+=("$MOD_DIR")
     fi
 done
