@@ -61,15 +61,23 @@ javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source" \
   "$ROOT/source/strernary/StrernaryDirectoryServer.java" 2>&1 | grep -i error || echo "  OK"
 
 # 6. AE6E66
-echo "[6/7] AE6E66 (UK Parliament)..."
+echo "[6/8] AE6E66 (UK Parliament)..."
 find "$ROOT/modules/AE6E66/source" -name "*.java" > /tmp/ae6e66.txt 2>/dev/null
 if [ -s /tmp/ae6e66.txt ]; then
     javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source:$ROOT/modules/AE6E66/source" @/tmp/ae6e66.txt 2>&1 | grep -i error || echo "  OK"
 fi
 rm -f /tmp/ae6e66.txt
 
-# 7. Verify key classes exist
-echo "[7/7] Verifying..."
+# 7. Green.Durham.Grass.and.Herb (GDGH)
+echo "[7/8] Green.Durham.Grass.and.Herb (GDGH)..."
+find "$ROOT/modules/Green.Durham.Grass.and.Herb/source" -name "*.java" > /tmp/gdgh.txt 2>/dev/null
+if [ -s /tmp/gdgh.txt ]; then
+    javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source:$ROOT/modules/Green.Durham.Grass.and.Herb/source" @/tmp/gdgh.txt 2>&1 | grep -i error || echo "  OK"
+fi
+rm -f /tmp/gdgh.txt
+
+# 8. Verify key classes exist
+echo "[8/8] Verifying..."
 MISSING=0
 for cls in Main.class source/CaliforniaFBIServer.class source/CaliforniaCIAServer.class \
            source/CaliforniaNSAServer.class source/DukeUniversityServer.class \

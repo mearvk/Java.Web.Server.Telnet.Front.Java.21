@@ -30,7 +30,7 @@ if [ -d "$LIB" ]; then CP="$CP:$LIB/*"; fi
 if [ -d "$JARS" ]; then CP="$CP:$JARS/*"; fi
 
 # ── Module definition ─────────────────────────────────────────────────────────
-MODULE_CLASS="AE6E66Main"
+MODULE_CLASS="source.AE6E66Main"
 PID_FILE="$PID_DIR/backend.pid"
 
 # Check if already running

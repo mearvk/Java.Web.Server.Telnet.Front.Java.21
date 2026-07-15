@@ -25,7 +25,7 @@ MODULES=(
     "library|modules/library/servlets/deploy-local.sh|source.StanfordLibraryServer|49214|nwe_library"
     "ae6e66|modules/AE6E66/servlets/deploy-local.sh|source.AE6E66Main|0|nwe_ae6e66"
     "futures|modules/red/Futures/servlets/deploy-local.sh|red.Futures.source.ai.server.DemocraticAIServer|5000|nwe_futures"
-    "gdgh|modules/Green.Durham.Grass.and.Herb/servlets/deploy-local.sh|listeners.BaseListener|20000|nwe_gdgh"
+    "gdgh|modules/Green.Durham.Grass.and.Herb/servlets/deploy-local.sh|presidential.Green.Durham.Grass.and.Herb.source.listeners.BaseListener|20000|nwe_gdgh"
     "gray-registry|modules/gray/servlets/deploy-local.sh|modules.gray.source.GrayPortRegistryServer|9999|nwe_gray_registry"
     "gray85-registry|modules/gray.a85/servlets/deploy-local.sh|modules.gray.a85.source.Gray85PortRegistryServer|10085|nwe_gray85_registry"
     "blackbelt|modules/black-belt/servlets/deploy-local.sh||0|"
@@ -227,9 +227,18 @@ if [ "$HTTP_FAIL" -gt 0 ]; then
 
         FULL="$PROJECT_ROOT/$SCRIPT"
         if [ -f "$FULL" ]; then
+            # Skip BMA in auto-fix (165MB, too slow for diagnosis) — just check dir
+            if [[ "$CTX" == "brarner.m.alete" ]]; then
+                if [ -d "$WEBAPPS_DIR/$CTX" ] && [ -f "$WEBAPPS_DIR/$CTX/WEB-INF/web.xml" ]; then
+                    echo "  [*] /$CTX — webapp exists, skipping large redeploy (restart Tomcat instead)"
+                else
+                    echo "  [*] /$CTX — needs full deploy (165MB): bash $FULL"
+                fi
+                continue
+            fi
             echo -n "  [*] Redeploying /$CTX... "
             set +e
-            timeout 90 bash "$FULL" "$TOMCAT_HOME" >/dev/null 2>&1
+            timeout 60 bash "$FULL" "$TOMCAT_HOME" 2>&1 | tail -1
             RC=$?
             set -e
             [ $RC -eq 0 ] && echo "✓" || echo "✗ (exit $RC)"
