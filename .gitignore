@@ -78,3 +78,6 @@ modules/AE6E66/configuration/dns.settings
 
 ### Legal Documents ###
 modules/black/presidential/Brarner.M.Alete/data/legal/Legal Tasking Document - US Custodial Authority Above Territory.docx
+
+# TLS keystore (contains private key — never commit)
+psychiatry/secrets/server.p12

@@ -50,14 +50,13 @@ for SCRIPT in $ENABLED; do
         echo ""
         echo "[*] [$CURRENT_MODULE/$TOTAL_MODULES] Deploying: $SCRIPT"
         set +e
-        DEPLOY_OUT=$(timeout 120 bash "$FULL_PATH" 2>&1)
-        EXIT_CODE=$?
+        timeout 180 bash "$FULL_PATH" 2>&1 | tail -20
+        EXIT_CODE=${PIPESTATUS[0]}
         set -e
-        echo "$DEPLOY_OUT" | tail -3
         if [ $EXIT_CODE -eq 0 ]; then
             PASS=$((PASS + 1))
         elif [ $EXIT_CODE -eq 124 ]; then
-            echo "[!] TIMEOUT (120s): $SCRIPT — skipping"
+            echo "[!] TIMEOUT (180s): $SCRIPT — skipping"
             FAIL=$((FAIL + 1))
         else
             echo "[!] Failed (exit $EXIT_CODE): $SCRIPT"
