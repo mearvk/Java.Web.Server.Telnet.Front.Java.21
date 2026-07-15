@@ -56,17 +56,26 @@ fi
 rm -f /tmp/futures.txt
 
 # 5. StrernaryDirectory
-echo "[5/6] StrernaryDirectory (port 2000)..."
+echo "[5/7] StrernaryDirectory (port 2000)..."
 javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source" \
   "$ROOT/source/strernary/StrernaryDirectoryServer.java" 2>&1 | grep -i error || echo "  OK"
 
-# 6. Verify key classes exist
-echo "[6/6] Verifying..."
+# 6. AE6E66
+echo "[6/7] AE6E66 (UK Parliament)..."
+find "$ROOT/modules/AE6E66/source" -name "*.java" > /tmp/ae6e66.txt 2>/dev/null
+if [ -s /tmp/ae6e66.txt ]; then
+    javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source:$ROOT/modules/AE6E66/source" @/tmp/ae6e66.txt 2>&1 | grep -i error || echo "  OK"
+fi
+rm -f /tmp/ae6e66.txt
+
+# 7. Verify key classes exist
+echo "[7/7] Verifying..."
 MISSING=0
 for cls in Main.class source/CaliforniaFBIServer.class source/CaliforniaCIAServer.class \
            source/CaliforniaNSAServer.class source/DukeUniversityServer.class \
            source/StanfordLibraryServer.class modules/gray/source/GrayPortRegistryServer.class \
            modules/gray/a85/source/Gray85PortRegistryServer.class \
+           source/AE6E66Main.class \
            strernary/StrernaryDirectoryServer.class; do
     if [ ! -f "$OUT/$cls" ]; then
         echo "  [MISSING] $cls"

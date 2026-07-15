@@ -87,6 +87,24 @@ echo "║  Webapp-Only:     ${#WEBAPP_ONLY_MODULES[@]}                          
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
+# ── Start Main.java (core servers: NWE, Strernary, Communicator, Signals, etc.)
+echo "  [*] Starting NWE Main process (Strernary, Communicator, Signals, Crypto)..."
+if [ -f "$PROJECT_ROOT/scripts/start-backend-modules.sh" ]; then
+    bash "$PROJECT_ROOT/scripts/start-backend-modules.sh" 2>&1 | sed 's/^/      /'
+    if [ -f "$PROJECT_ROOT/data/nwe-main.pid" ] && kill -0 "$(cat "$PROJECT_ROOT/data/nwe-main.pid" 2>/dev/null)" 2>/dev/null; then
+        echo "  [✓] NWE Main started (PID $(cat "$PROJECT_ROOT/data/nwe-main.pid"))"
+    else
+        echo "  [!] NWE Main may have failed — check logging/nwe-main.log"
+    fi
+else
+    echo "  [!] start-backend-modules.sh not found — core servers will not start"
+fi
+echo ""
+
+# ── Start individual module backends ──────────────────────────────────────────
+echo "  [*] Starting individual module backends..."
+echo ""
+
 SUCCESS=()
 FAILED=()
 SKIPPED=()
