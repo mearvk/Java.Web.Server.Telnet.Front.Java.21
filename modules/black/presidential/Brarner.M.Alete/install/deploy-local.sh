@@ -55,6 +55,7 @@ else
 fi
 
 # Copy JARs from jars/ directory (preferred) or lib/
+mkdir -p "$DEPLOY_DIR/WEB-INF/lib" "$DEPLOY_DIR/WEB-INF/classes"
 if ls "$BMA_ROOT/jars/"*.jar &>/dev/null; then
     cp "$BMA_ROOT/jars/"*.jar "$DEPLOY_DIR/WEB-INF/lib/"
     echo "[*] JARs copied from jars/ to WEB-INF/lib/"
