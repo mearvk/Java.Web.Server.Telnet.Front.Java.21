@@ -53,7 +53,7 @@ public class CaliforniaCIAServer implements Runnable {
         print(". CaliforniaCIA™ starting on port " + PORT + " .");
         initDatabase();
         try {
-            server = new ServerSocket(PORT);
+            server = new ServerSocket(PORT, 50, java.net.InetAddress.getByName("localhost"));
             print(". CaliforniaCIA™ listening on port " + PORT + " .");
             while (running) {
                 Socket client = server.accept();

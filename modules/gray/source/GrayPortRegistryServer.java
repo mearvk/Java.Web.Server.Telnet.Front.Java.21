@@ -69,7 +69,7 @@ public class GrayPortRegistryServer extends Thread
         try
         {
             serverChannel = ServerSocketChannel.open();
-            serverChannel.bind(new InetSocketAddress("0.0.0.0", PORT));
+            serverChannel.bind(new InetSocketAddress("localhost", PORT));
             serverChannel.configureBlocking(false);
 
             Selector selector = Selector.open();

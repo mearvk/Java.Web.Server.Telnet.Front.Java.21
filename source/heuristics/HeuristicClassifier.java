@@ -64,6 +64,9 @@ public class HeuristicClassifier
     private final Map<String, Integer> countryCount         = new ConcurrentHashMap<>();
     private int totalConnections = 0;
 
+    /** Maximum tracked IPs before eviction of oldest entries (prevents OOM). */
+    private static final int MAX_TRACKED_IPS = 50_000;
+
     // ─────────────────────────────────────────────────────────────────────────
     // Extensibility model
     // ─────────────────────────────────────────────────────────────────────────
@@ -277,6 +280,19 @@ public class HeuristicClassifier
     private void recordConnection(final ConnectionEvent event)
     {
         long now = Instant.now().getEpochSecond();
+
+        // Evict oldest entries if tracking exceeds memory budget
+        if (ipTimestamps.size() > MAX_TRACKED_IPS)
+        {
+            // Remove entries older than 5 minutes
+            long cutoff = now - 300;
+            ipTimestamps.entrySet().removeIf(e -> {
+                e.getValue().removeIf(t -> t < cutoff);
+                return e.getValue().isEmpty();
+            });
+            ipPorts.entrySet().removeIf(e -> !ipTimestamps.containsKey(e.getKey()));
+        }
+
         ipTimestamps.computeIfAbsent(event.ip, k -> new ArrayList<>()).add(now);
         totalConnections++;
         if (event.countryCode != null && !event.countryCode.isBlank())

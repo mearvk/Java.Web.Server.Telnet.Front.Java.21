@@ -10,7 +10,7 @@ ADMIN_USER="mearvk"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 _NWE="$(cd "$SCRIPT_DIR/../.." 2>/dev/null && pwd)"
 [ -f "$_NWE/.nwe-credentials" ] && source "$_NWE/.nwe-credentials"
-ADMIN_PASS="${NWE_DB_PASS:-'$$Ironman1'}"
+ADMIN_PASS="${NWE_DB_PASS:?ERROR: NWE_DB_PASS not set. Create .nwe-credentials or export NWE_DB_PASS.}"
 
 echo "=== NWE MySQL Database Setup ==="
 

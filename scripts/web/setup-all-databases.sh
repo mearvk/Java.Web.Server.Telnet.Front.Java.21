@@ -20,10 +20,9 @@ else
     echo "    cp .nwe-credentials.example .nwe-credentials"
     echo "    Then fill in your MySQL password."
     echo ""
-    echo "    Trying with default credentials..."
-    NWE_DB_USER="root"
-    NWE_DB_PASS='$$Ironman1'
-    NWE_DB_HOST="127.0.0.1"
+    echo "    ERROR: Cannot proceed without .nwe-credentials file."
+    echo "    Set NWE_DB_USER, NWE_DB_PASS, NWE_DB_HOST environment variables or create the file."
+    exit 1
 fi
 
 MYSQL="mysql -u $NWE_DB_USER -p$NWE_DB_PASS -h ${NWE_DB_HOST:-127.0.0.1}"
