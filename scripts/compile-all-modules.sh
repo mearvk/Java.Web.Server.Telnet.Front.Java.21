@@ -19,7 +19,7 @@ echo "════════════════════════�
 echo ""
 
 # 1. Core source/ (includes all sourcepaths so Main.java can resolve external modules)
-echo "[1/6] Core sources (source/)..."
+echo "[1/8] Core sources (source/)..."
 find "$ROOT/source" -name "*.java" > /tmp/nwe-core.txt
 javac -d "$OUT" -cp "$CP" \
   -sourcepath "$ROOT/source:$ROOT/modules/fbi/source:$ROOT/modules/cia/source:$ROOT/modules/nsa/source:$ROOT/modules/duke/source:$ROOT/modules/library/source:$ROOT/modules/gray/source:$ROOT/modules/gray.a85/source:$ROOT/modules/red/Futures/source" \
@@ -27,7 +27,7 @@ javac -d "$OUT" -cp "$CP" \
 rm -f /tmp/nwe-core.txt
 
 # 2. FBI/CIA/NSA, Duke, Library
-echo "[2/6] FBI/CIA/NSA, Duke, Library..."
+echo "[2/8] FBI/CIA/NSA, Duke, Library..."
 javac -d "$OUT" -cp "$CP" \
   -sourcepath "$ROOT/source:$ROOT/modules/fbi/source:$ROOT/modules/cia/source:$ROOT/modules/nsa/source:$ROOT/modules/duke/source:$ROOT/modules/library/source" \
   "$ROOT/modules/fbi/source/CaliforniaFBIServer.java" \
@@ -37,7 +37,7 @@ javac -d "$OUT" -cp "$CP" \
   "$ROOT/modules/library/source/StanfordLibraryServer.java" 2>&1 | grep -i error || echo "  OK"
 
 # 3. Gray registries
-echo "[3/6] Gray Port Registry + Gray85..."
+echo "[3/8] Gray Port Registry + Gray85..."
 javac -d "$OUT" -cp "$CP" \
   -sourcepath "$ROOT/source:$ROOT/modules/gray/source:$ROOT/modules/gray.a85/source" \
   "$ROOT/modules/gray/source/PortBindingGate.java" \
@@ -46,7 +46,7 @@ javac -d "$OUT" -cp "$CP" \
   "$ROOT/modules/gray.a85/source/Gray85PortRegistryServer.java" 2>&1 | grep -i error || echo "  OK"
 
 # 4. Futures (DemocraticAIServer)
-echo "[4/6] Futures (DemocraticAIServer)..."
+echo "[4/8] Futures (DemocraticAIServer)..."
 find "$ROOT/modules/red/Futures/source" -name "*.java" > /tmp/futures.txt 2>/dev/null
 if [ -s /tmp/futures.txt ]; then
     javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source:$ROOT/modules/red/Futures/source" @/tmp/futures.txt 2>&1 | grep -i error || echo "  OK"
@@ -56,7 +56,7 @@ fi
 rm -f /tmp/futures.txt
 
 # 5. StrernaryDirectory
-echo "[5/7] StrernaryDirectory (port 2000)..."
+echo "[5/8] StrernaryDirectory (port 2000)..."
 javac -d "$OUT" -cp "$CP" -sourcepath "$ROOT/source" \
   "$ROOT/source/strernary/StrernaryDirectoryServer.java" 2>&1 | grep -i error || echo "  OK"
 
