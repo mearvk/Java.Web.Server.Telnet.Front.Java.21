@@ -152,6 +152,10 @@ public class NioMasqueradeEngine implements Runnable
         catch (Exception e) { ExceptionHandler.dispatch(e); }
     }
 
+    // SECURITY: NIO masquerade connections are currently unauthenticated. Any process on
+    // 127.0.0.X can connect and have traffic bridged to internal services without identity
+    // verification. Traffic on the bridge is unencrypted. This is a design-level issue that
+    // requires a larger refactor to add mutual authentication and TLS on the NIO bridge layer.
     private void read(SelectionKey key)
     {
         SocketChannel client = (SocketChannel) key.channel();
@@ -305,7 +309,11 @@ public class NioMasqueradeEngine implements Runnable
         {
             File f = new File(CONFIG_PATH);
             if (!f.exists()) return;
-            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(f);
 
             enabled = getBool(doc, "enabled", true);

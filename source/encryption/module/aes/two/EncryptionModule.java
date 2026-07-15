@@ -2,9 +2,32 @@
  * EncryptionModule — AES 2.0 DSS5.0 encryption module with mixed-radix
  * transformations across 21 configurable rounds.
  *
+ * ╔══════════════════════════════════════════════════════════════════════════╗
+ * ║  SECURITY WARNING — DEPRECATED                                         ║
+ * ║                                                                        ║
+ * ║  This module does NOT provide cryptographic security. It performs       ║
+ * ║  deterministic, reversible radix conversions and bitwise OR with        ║
+ * ║  hardcoded constants — this is obfuscation, not encryption.            ║
+ * ║                                                                        ║
+ * ║  Known weaknesses:                                                     ║
+ * ║    1. Uses java.util.Random (predictable PRNG, not SecureRandom)       ║
+ * ║    2. Hardcoded constants (0xDA717018470E213F, 0x88034321)             ║
+ * ║    3. Only 3 of 21 passes are implemented (passes 4-21 are no-ops)    ║
+ * ║    4. No key-dependent diffusion or confusion properties               ║
+ * ║    5. Transformations are trivially reversible                          ║
+ * ║                                                                        ║
+ * ║  DO NOT USE for protecting sensitive data. Use standard JCA ciphers:   ║
+ * ║    - AES-256-GCM (javax.crypto.Cipher "AES/GCM/NoPadding")           ║
+ * ║    - ChaCha20-Poly1305                                                 ║
+ * ║                                                                        ║
+ * ║  This module is retained for backward compatibility only.              ║
+ * ╚══════════════════════════════════════════════════════════════════════════╝
+ *
  * @author Max Rupplin
  * @javaowner Max Rupplin
  * @date June 03 2026 EST
+ * @deprecated Use standard JCA ciphers (AES-256-GCM) instead. This module
+ *             provides no cryptographic security.
  */
 
 package encryption.module.aes.two;

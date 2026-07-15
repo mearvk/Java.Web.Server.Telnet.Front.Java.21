@@ -6,6 +6,7 @@
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 PASS=0; FAIL=0; WARN=0
 
 ok()   { echo "  [PASS] $1"; PASS=$((PASS + 1)); }
@@ -63,12 +64,11 @@ WEBAPPS=(
     "/gray85-registry/:Gray85Creme"
     "/blackbelt/:BlackBelt"
     "/languages/:Languages"
-    "/strernary/:Strernary"
     "/california-fbi/:CaliforniaFBI"
     "/california-cia/:CaliforniaCIA"
     "/california-nsa/:CaliforniaNSA"
-    "/duke/:DukeUniversity"
-    "/stanford-library/:StanfordLibrary"
+    "/california-duke/:DukeUniversity"
+    "/library/:StanfordLibrary"
 )
 
 TOMCAT_PORT=8080
@@ -96,9 +96,9 @@ XML_FILES=(
     "configuration/port-2000-directory-config.xml"
     "configuration/print-method.xml"
     "scripts/web/web-deploy-config.xml"
-    "california/fbi/configuration/california-fbi-config.xml"
-    "california/cia/configuration/california-cia-config.xml"
-    "california/nsa/configuration/california-nsa-config.xml"
+    "modules/fbi/configuration/california-fbi-config.xml"
+    "modules/cia/configuration/california-cia-config.xml"
+    "modules/nsa/configuration/california-nsa-config.xml"
 )
 
 for XML in "${XML_FILES[@]}"; do
@@ -122,6 +122,62 @@ if [[ "$ADMIN_PASS" == "n21admin" ]]; then
     warn "Admin password is still default (n21admin) — change before production"
 else
     ok "Admin password changed from default"
+fi
+
+# ── Database Credential Validation ────────────────────────────────────────────
+# Verify .nwe-credentials exists and the stored password works against MySQL
+if [ -f "$PROJECT_ROOT/.nwe-credentials" ]; then
+    ok ".nwe-credentials file exists (mode: $(stat -c %a "$PROJECT_ROOT/.nwe-credentials"))"
+    source "$PROJECT_ROOT/.nwe-credentials"
+
+    # Check file permissions (should be 600)
+    CRED_MODE=$(stat -c %a "$PROJECT_ROOT/.nwe-credentials" 2>/dev/null)
+    if [ "$CRED_MODE" != "600" ]; then
+        warn ".nwe-credentials has mode $CRED_MODE (should be 600 — run: chmod 600 .nwe-credentials)"
+    fi
+
+    # Validate credentials work against MySQL
+    if command -v mysqladmin &>/dev/null; then
+        if mysqladmin ping -u "${NWE_DB_USER:-root}" --password="${NWE_DB_PASS}" --silent 2>/dev/null; then
+            ok "MySQL credentials validated (user=${NWE_DB_USER:-root}, host=${NWE_DB_HOST:-127.0.0.1})"
+        else
+            fail "MySQL credentials in .nwe-credentials are INVALID"
+            echo ""
+            echo "  ┌────────────────────────────────────────────────────────────────────"
+            echo "  │ The MySQL password has changed or is incorrect."
+            echo "  │"
+            echo "  │ UPDATE: nano $PROJECT_ROOT/.nwe-credentials"
+            echo "  │ THEN:   bash scripts/web/deploy-all.sh  (regenerates db.properties)"
+            echo "  │"
+            echo "  │ Or reset MySQL password:"
+            echo "  │   sudo mysql -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_pass';\""
+            echo "  │   Then update .nwe-credentials with the new password."
+            echo "  └────────────────────────────────────────────────────────────────────"
+            echo ""
+        fi
+    else
+        warn "mysqladmin not on PATH — cannot validate DB credentials"
+    fi
+
+    # Check password isn't the default
+    if [[ "${NWE_DB_PASS}" == '$$Ironman1' ]]; then
+        warn "MySQL password is still the default — change for production"
+    fi
+else
+    fail ".nwe-credentials file MISSING"
+    echo ""
+    echo "  ┌────────────────────────────────────────────────────────────────────"
+    echo "  │ No .nwe-credentials file found."
+    echo "  │ Database-dependent features (JSP pages, setup scripts) will fail."
+    echo "  │"
+    echo "  │ CREATE:"
+    echo "  │   cp .nwe-credentials.example .nwe-credentials"
+    echo "  │   nano .nwe-credentials    (set your MySQL password)"
+    echo "  │   chmod 600 .nwe-credentials"
+    echo "  │"
+    echo "  │ Then redeploy: bash scripts/web/deploy-all.sh"
+    echo "  └────────────────────────────────────────────────────────────────────"
+    echo ""
 fi
 
 # Check HardenedBaseServer is selected

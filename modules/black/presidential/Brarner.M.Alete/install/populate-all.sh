@@ -1,4 +1,6 @@
 #!/bin/bash
+# ⚠️  DESTRUCTIVE: This script TRUNCATES/DROPS tables before reloading data.
+# Do NOT run as part of git-pull automation. Run manually only when reloading reference data.
 # Brarner.M.Alete™ — Populate ALL Tables (Linux/macOS)
 # Runs all population scripts in sequence.
 # Usage: bash install/populate-all.sh

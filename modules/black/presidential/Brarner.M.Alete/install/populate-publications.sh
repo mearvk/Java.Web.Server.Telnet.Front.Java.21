@@ -1,4 +1,6 @@
 #!/bin/bash
+# ⚠️  DESTRUCTIVE: This script TRUNCATES/DROPS tables before reloading data.
+# Do NOT run as part of git-pull automation. Run manually only when reloading reference data.
 # Brarner.M.Alete™ — Populate Publications Data (Linux/macOS)
 # Inserts scientific publication records into BrarnerScience.publications
 # Usage: bash install/populate-publications.sh

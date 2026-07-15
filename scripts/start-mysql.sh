@@ -11,8 +11,8 @@ source "$PROJECT_ROOT/scripts/detect-mysql.sh"
 
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
 echo "║  NitroWebExpress™ — Start MySQL                                           ║"
-echo "║  Datadir: $MYSQL_DATADIR                                                  ║"
-echo "║  Block Storage: $MYSQL_ON_BLOCK                                           ║"
+printf "║  Datadir:       %-55s ║\n" "$MYSQL_DATADIR"
+printf "║  Block Storage: %-55s ║\n" "$MYSQL_ON_BLOCK"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -46,8 +46,8 @@ for i in $(seq 1 30); do
         echo ""
         echo "╔═══════════════════════════════════════════════════════════════════════════╗"
         echo "║  MySQL is ready!                                                          ║"
-        echo "║  Host: $MYSQL_HOST:$MYSQL_PORT                                            ║"
-        echo "║  Datadir: $MYSQL_DATADIR                                                  ║"
+        printf "║  Host:    %-62s ║\n" "$MYSQL_HOST:$MYSQL_PORT"
+        printf "║  Datadir: %-62s ║\n" "$MYSQL_DATADIR"
         echo "╚═══════════════════════════════════════════════════════════════════════════╝"
         exit 0
     fi

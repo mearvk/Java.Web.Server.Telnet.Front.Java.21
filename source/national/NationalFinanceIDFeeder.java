@@ -288,6 +288,22 @@ public class NationalFinanceIDFeeder
         String host = sel[0];
         int port = Integer.parseInt(sel[1]);
 
+        // SECURITY: Block connections to internal/private/loopback addresses (SSRF prevention)
+        try
+        {
+            java.net.InetAddress resolved = java.net.InetAddress.getByName(host);
+            if (resolved.isLoopbackAddress() || resolved.isSiteLocalAddress()
+                || resolved.isLinkLocalAddress() || resolved.isAnyLocalAddress())
+            {
+                logSessionEvent(NFID.nationalId, "connect_proxy_blocked", host, port);
+                return "✗  Cannot proxy to internal/private/loopback addresses.";
+            }
+        }
+        catch (Exception e)
+        {
+            return "✗  Cannot resolve host: " + host;
+        }
+
         logSessionEvent(NFID.nationalId, "connect_proxy", host, port);
         write(CONN, "  Connected to proxy " + host + ":" + port + ". Type 'disconnect' to return.");
 

@@ -9,7 +9,7 @@ PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 echo "[*] Creating missing deploy scripts for nested-repo modules..."
 
 # ── Futures deploy-local.sh ──────────────────────────────────────────────────
-FUTURES_DIR="$PROJECT_ROOT/modules/black/red/Futures/servlets"
+FUTURES_DIR="$PROJECT_ROOT/modules/red/Futures/servlets"
 mkdir -p "$FUTURES_DIR/servlet/src/main/webapp/WEB-INF"
 if [ ! -f "$FUTURES_DIR/deploy-local.sh" ]; then
 cat > "$FUTURES_DIR/deploy-local.sh" << 'EOF'
@@ -17,7 +17,7 @@ cat > "$FUTURES_DIR/deploy-local.sh" << 'EOF'
 set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WEBAPP_SRC="$SCRIPT_DIR/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/futures"
 echo "[*] Deploying Futures™ to $DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
@@ -32,7 +32,7 @@ echo "  [SKIP] Already exists: $FUTURES_DIR/deploy-local.sh"
 fi
 
 # ── GDGH deploy-local.sh ────────────────────────────────────────────────────
-GDGH_DIR="$PROJECT_ROOT/modules/black/presidential/Green.Durham.Grass.and.Herb/servlets"
+GDGH_DIR="$PROJECT_ROOT/modules/Green.Durham.Grass.and.Herb/servlets"
 mkdir -p "$GDGH_DIR/servlet/src/main/webapp/WEB-INF"
 if [ ! -f "$GDGH_DIR/deploy-local.sh" ]; then
 cat > "$GDGH_DIR/deploy-local.sh" << 'EOF'
@@ -40,7 +40,7 @@ cat > "$GDGH_DIR/deploy-local.sh" << 'EOF'
 set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WEBAPP_SRC="$SCRIPT_DIR/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/gdgh"
 echo "[*] Deploying Green.Durham.Grass.and.Herb™ to $DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/lib"

@@ -61,7 +61,7 @@
         <masquerade-aware>true</masquerade-aware>
         <class>ai.server.DemocraticAIServer</class>
         <trust-level>9.5</trust-level>
-        <source>modules/black/red/Futures</source>
+        <source>modules/red/Futures</source>
         <block>US Democratic</block>
         <description>D500 Democratic President — AI futures, tax defense, protective pipeline. Port 5000.</description>
     </module>
@@ -72,7 +72,7 @@
         <masquerade-aware>true</masquerade-aware>
         <class>listeners.BaseListener</class>
         <trust-level>9.5</trust-level>
-        <source>modules/black/presidential/Green.Durham.Grass.and.Herb</source>
+        <source>modules/Green.Durham.Grass.and.Herb</source>
         <block>NC Socialist-College</block>
         <virtual-ports>70000,70002,70003,70007,80000,99152</virtual-ports>
         <description>Appree contact server, labor/ethical/moral concerns. NC labor laws. JWSTFJ21 masquerade-integrated.</description>
@@ -95,7 +95,7 @@
         <name>Installer ID Tech™ Port Registry</name>
         <port>9999</port>
         <masquerade-aware>true</masquerade-aware>
-        <class>modules.gray.GrayPortRegistryServer</class>
+        <class>modules.gray.source.GrayPortRegistryServer</class>
         <trust-level>9.0</trust-level>
         <source>modules/gray</source>
         <block>Independent</block>
@@ -106,9 +106,9 @@
         <name>Installer ID Tech™ Gray.85 Crème Registry</name>
         <port>10085</port>
         <masquerade-aware>true</masquerade-aware>
-        <class>modules.gray85.Gray85PortRegistryServer</class>
+        <class>modules.gray.a85.source.Gray85PortRegistryServer</class>
         <trust-level>9.0</trust-level>
-        <source>modules/gray.85</source>
+        <source>modules/gray.a85</source>
         <block>Independent</block>
         <description>85/100 open, 15/100 Crème-locked (planetary clean). $1000 USD Crème unlock. AI-gated.</description>
     </module>
@@ -131,7 +131,7 @@
         <strernary-capable>true</strernary-capable>
         <class>source.CaliforniaFBIServer</class>
         <trust-level>9.5</trust-level>
-        <source>california/fbi</source>
+        <source>modules/fbi</source>
         <block>California</block>
         <description>FBI crime reporting. AI categorization via Strernary™ port 20000. tips.fbi.gov connector. Installer ID Tech™ secured.</description>
     </module>
@@ -143,7 +143,7 @@
         <strernary-capable>true</strernary-capable>
         <class>source.CaliforniaCIAServer</class>
         <trust-level>9.5</trust-level>
-        <source>california/cia</source>
+        <source>modules/cia</source>
         <block>California</block>
         <description>CIA intelligence reporting. AI categorization via Strernary™ port 20000. cia.gov connector. FOIA support. Installer ID Tech™ secured.</description>
     </module>
@@ -155,7 +155,7 @@
         <strernary-capable>true</strernary-capable>
         <class>source.CaliforniaNSAServer</class>
         <trust-level>9.5</trust-level>
-        <source>california/nsa</source>
+        <source>modules/nsa</source>
         <block>California</block>
         <description>NSA cybersecurity reporting. AI categorization via Strernary™ port 20000. nsa.gov/CISA connector. Installer ID Tech™ secured.</description>
     </module>
@@ -167,7 +167,7 @@
         <strernary-capable>true</strernary-capable>
         <class>source.DukeUniversityServer</class>
         <trust-level>9.5</trust-level>
-        <source>north/carolina/duke</source>
+        <source>modules/duke</source>
         <block>NC Socialist-College</block>
         <description>Duke University college interface. AI-enhanced queries via Strernary™ port 20000. Academic programs, course catalog, admissions.</description>
     </module>
@@ -179,7 +179,7 @@
         <strernary-capable>true</strernary-capable>
         <class>source.StanfordLibraryServer</class>
         <trust-level>9.5</trust-level>
-        <source>north/carolina/library</source>
+        <source>modules/library</source>
         <block>NC Socialist-College</block>
         <description>Stanford Library interface. AI-enhanced catalog search via Strernary™ port 20000. SearchWorks catalog, digital collections, resource requests.</description>
     </module>

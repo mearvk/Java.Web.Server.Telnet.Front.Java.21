@@ -24,13 +24,14 @@ echo "║  JVM: $JVM_OPTS                                                       
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
-# Build classpath
-CP="$SOURCE"
-if [ -d "$LIB" ]; then CP="$CP:$LIB/*"; fi
-if [ -d "$JARS" ]; then CP="$CP:$JARS/*"; fi
+# Build classpath — compiled classes live in the central out/ directory
+PROJECT_ROOT="$(cd "$MOD_ROOT/../.." && pwd)"
+CP="$PROJECT_ROOT/out:$PROJECT_ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:$PROJECT_ROOT/jars/lanterna-3.1.5.jar"
+DJL_CP=$(find "$PROJECT_ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$CP:${DJL_CP}"
 
 # ── Module definition ─────────────────────────────────────────────────────────
-MODULE_CLASS="CaliforniaCIAServer"
+MODULE_CLASS="source.CaliforniaCIAServer"
 PID_FILE="$PID_DIR/backend.pid"
 
 # Check if already running
@@ -52,10 +53,21 @@ cd "$MOD_ROOT"
 java $JVM_OPTS -cp "$CP" "$MODULE_CLASS" >> "$LOG_DIR/backend.log" 2>&1 &
 PID=$!
 echo "$PID" > "$PID_FILE"
-sleep 1
 
-if kill -0 "$PID" 2>/dev/null; then
-    echo "✓ (PID $PID)"
+# ── Port-probe callback (10s timeout) ────────────────────────────────────────
+DEADLINE=$((SECONDS + 10))
+READY=0
+while [ $SECONDS -lt $DEADLINE ]; do
+    if timeout 1 bash -c "echo >/dev/tcp/localhost/49211" 2>/dev/null; then
+        READY=1; break
+    fi
+    sleep 1
+done
+
+if [ $READY -eq 1 ]; then
+    echo "✓ (PID $PID, port 49211 UP)"
+elif kill -0 "$PID" 2>/dev/null; then
+    echo "~ (PID $PID alive, port 49211 not yet bound — timeout)"
 else
     echo "✗ (FAILED)"
     rm -f "$PID_FILE"

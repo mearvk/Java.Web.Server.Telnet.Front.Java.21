@@ -16,11 +16,11 @@ FORCE=0
 
 # Module source directories to compile alongside core source/
 MODULE_SOURCES=(
-    "$ROOT/california/fbi/source"
-    "$ROOT/california/cia/source"
-    "$ROOT/california/nsa/source"
-    "$ROOT/north/carolina/duke/source"
-    "$ROOT/north/carolina/library/source"
+    "$ROOT/modules/fbi/source"
+    "$ROOT/modules/cia/source"
+    "$ROOT/modules/nsa/source"
+    "$ROOT/modules/duke/source"
+    "$ROOT/modules/library/source"
     "$ROOT/modules/AE6E66/source"
     "$ROOT/modules/gray/source"
     "$ROOT/modules/gray.a85/source"

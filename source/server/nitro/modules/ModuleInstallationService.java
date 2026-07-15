@@ -145,6 +145,8 @@ public class ModuleInstallationService extends Thread
                 // install <name> <sha256hex> <bytecount>
                 if (parts.length < 4) return "Usage: install <name> <sha256hex> <bytecount>";
                 if (SESSION.nationalId < 0) return "[install] Identify yourself first: identify <nationalId>";
+                if (!admin.ModuleAdmin.isAdmin(SESSION.adminToken))
+                    return "[install] Admin authentication required. Use: admin <password>";
                 return installModule(parts[1], parts[2], parts[3], RAW, OUT, SESSION);
             case "unload":
                 if (parts.length < 2) return "Usage: unload <name>";
@@ -158,6 +160,8 @@ public class ModuleInstallationService extends Thread
                 return restartModule(parts[1], SESSION);
             case "comment":
                 if (parts.length < 3) return "Usage: comment <nationalId> <text>";
+                if (!admin.ModuleAdmin.isAdmin(SESSION.adminToken))
+                    return "[comment] Admin authentication required.";
                 return addComment(parts[1], parts[2]);
             case "signatory":
                 if (parts.length < 2) return "Usage: signatory <nationalId>";
@@ -285,8 +289,10 @@ public class ModuleInstallationService extends Thread
             }
             catch (Exception hEx)
             {
-                // Heuristics failure must not block install — log and continue
-                CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService heuristics error [" + NAME + "]: " + hEx.getMessage() + " — proceeding .");
+                // Heuristics failure BLOCKS install — security gate must not be bypassed
+                CommonRails.printSystemComponent(this, this.hashCode(), ". ModuleInstallationService heuristics error [" + NAME + "]: " + hEx.getMessage() + " — REJECTING install .");
+                database.N21Store.storeModuleAction(SESSION.nationalId, NAME, "install-reject", SESSION.remoteIp, detectedType, byteCount, SIG_HEX, "", "heuristics-exception: " + hEx.getMessage());
+                return "[install] REJECTED — heuristics scan failed: " + hEx.getMessage();
             }
 
             String filename = NAME.replaceAll("[^a-zA-Z0-9._-]", "_") + "." + detectedType;

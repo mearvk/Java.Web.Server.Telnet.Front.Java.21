@@ -17,7 +17,7 @@ case "$MODULE_ID" in
         ;;
     futures)
         echo "[*] Running Futures pipeline..."
-        cd "$PROJECT_ROOT" && java -cp "modules/black/red/Futures/source:modules/black/red/Futures/jars/*" source.Main
+        cd "$PROJECT_ROOT" && java -cp "modules/red/Futures/source:modules/red/Futures/jars/*" source.Main
         ;;
     strernary)
         echo "[*] Starting Strernary server..."
@@ -25,27 +25,27 @@ case "$MODULE_ID" in
         ;;
     california-fbi)
         echo "[*] Starting CaliforniaFBI server..."
-        cd "$PROJECT_ROOT" && java -cp "california/fbi/source:out:jars/mysql/*" source.CaliforniaFBIServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.CaliforniaFBIServer &
         ;;
     california-cia)
         echo "[*] Starting CaliforniaCIA server..."
-        cd "$PROJECT_ROOT" && java -cp "california/cia/source:out:jars/mysql/*" source.CaliforniaCIAServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.CaliforniaCIAServer &
         ;;
     california-nsa)
         echo "[*] Starting CaliforniaNSA server..."
-        cd "$PROJECT_ROOT" && java -cp "california/nsa/source:out:jars/mysql/*" source.CaliforniaNSAServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.CaliforniaNSAServer &
         ;;
     duke)
         echo "[*] Starting DukeUniversity server..."
-        cd "$PROJECT_ROOT" && java -cp "north/carolina/duke/source:out:jars/mysql/*" source.DukeUniversityServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.DukeUniversityServer &
         ;;
-    stanford-library)
+    library)
         echo "[*] Starting StanfordLibrary server..."
-        cd "$PROJECT_ROOT" && java -cp "north/carolina/library/source:out:jars/mysql/*" source.StanfordLibraryServer &
+        cd "$PROJECT_ROOT" && java -cp "out:jars/mysql/mysql-connector-j-9.7.0.jar:jars/lanterna-3.1.5.jar" source.StanfordLibraryServer &
         ;;
     *)
         echo "[!] Unknown module: $MODULE_ID"
-        echo "    Available: ae6e66, futures, strernary, california-fbi, california-cia, california-nsa, duke, stanford-library"
+        echo "    Available: ae6e66, futures, strernary, california-FBI, california-CIA, california-NSA, duke, stanford-library"
         exit 1
         ;;
 esac

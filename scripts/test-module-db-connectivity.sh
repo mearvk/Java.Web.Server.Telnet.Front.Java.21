@@ -13,16 +13,82 @@ echo "── Module Database Connectivity ──"
 
 if ! command -v mysql &>/dev/null; then fail "mysql client not on PATH"; exit 1; fi
 
-# Determine working MySQL credentials (try password, then no password)
-MY=""
-if mysqladmin ping -u root --password='$$Ironman1' --silent 2>/dev/null; then
-    MY="mysql -u root --password=\$\$Ironman1 --silent --skip-column-names"
-elif mysqladmin ping -u root --silent 2>/dev/null; then
-    MY="mysql -u root --silent --skip-column-names"
-else
-    fail "MySQL server not responding"; exit 1
+# ── Credential Resolution ─────────────────────────────────────────────────────
+# Priority: .nwe-credentials → environment → prompt
+NWE_DB_USER="${NWE_DB_USER:-}"
+NWE_DB_PASS="${NWE_DB_PASS:-}"
+
+if [ -f "$PROJECT_ROOT/.nwe-credentials" ]; then
+    source "$PROJECT_ROOT/.nwe-credentials"
+    echo "  [*] Loaded credentials from .nwe-credentials"
 fi
-ok "MySQL server responding"
+
+# Validate credentials actually work
+DB_VALIDATED=false
+if [ -n "$NWE_DB_PASS" ]; then
+    if mysqladmin ping -u "${NWE_DB_USER:-root}" --password="${NWE_DB_PASS}" --silent 2>/dev/null; then
+        MY="mysql -u ${NWE_DB_USER:-root} --password=${NWE_DB_PASS} --silent --skip-column-names"
+        DB_VALIDATED=true
+        ok "MySQL credentials validated (user=${NWE_DB_USER:-root})"
+    else
+        fail "MySQL credentials in .nwe-credentials are INVALID"
+        echo ""
+        echo "  ┌────────────────────────────────────────────────────────────────────"
+        echo "  │ The password in .nwe-credentials does not work against MySQL."
+        echo "  │"
+        echo "  │ This can happen when:"
+        echo "  │   • MySQL password was changed after initial setup"
+        echo "  │   • A different MySQL user is configured on this server"
+        echo "  │   • MySQL is using a different auth plugin"
+        echo "  │"
+        echo "  │ FIX: Edit .nwe-credentials with the correct password:"
+        echo "  │      nano $PROJECT_ROOT/.nwe-credentials"
+        echo "  │"
+        echo "  │ Or reset the MySQL password:"
+        echo "  │      sudo mysql -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';\""
+        echo "  └────────────────────────────────────────────────────────────────────"
+        echo ""
+    fi
+fi
+
+# Fallback: try passwordless root (some dev setups)
+if [ "$DB_VALIDATED" = false ]; then
+    if mysqladmin ping -u root --silent 2>/dev/null; then
+        MY="mysql -u root --silent --skip-column-names"
+        DB_VALIDATED=true
+        warn "Using passwordless MySQL root (set a password for production!)"
+    fi
+fi
+
+# Last resort: prompt
+if [ "$DB_VALIDATED" = false ] && [ -t 0 ]; then
+    echo ""
+    echo "  [?] MySQL credentials not working. Enter manually:"
+    read -rp "      MySQL user [root]: " PROMPT_USER
+    PROMPT_USER="${PROMPT_USER:-root}"
+    read -rsp "      MySQL password: " PROMPT_PASS
+    echo ""
+    if mysqladmin ping -u "$PROMPT_USER" --password="$PROMPT_PASS" --silent 2>/dev/null; then
+        MY="mysql -u $PROMPT_USER --password=$PROMPT_PASS --silent --skip-column-names"
+        DB_VALIDATED=true
+        ok "MySQL credentials validated (manual entry)"
+        echo ""
+        echo "  [*] TIP: Save these credentials for future runs:"
+        echo "      echo \"NWE_DB_USER='$PROMPT_USER'\" > $PROJECT_ROOT/.nwe-credentials"
+        echo "      echo \"NWE_DB_PASS='...'\" >> $PROJECT_ROOT/.nwe-credentials"
+        echo "      chmod 600 $PROJECT_ROOT/.nwe-credentials"
+        echo ""
+    else
+        fail "Manual credentials also failed"
+    fi
+fi
+
+if [ "$DB_VALIDATED" = false ]; then
+    fail "Cannot connect to MySQL — all credential methods exhausted"
+    echo ""
+    echo "  ── DB Test Summary: $PASS passed | $FAIL failed ──"
+    exit 1
+fi
 
 # All module databases
 declare -A DATABASES=(
@@ -57,27 +123,57 @@ echo ""
 echo "── db.properties Verification ──"
 DB_PROPS=(
     "modules/AE6E66/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "california/fbi/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "california/cia/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "california/nsa/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "north/carolina/duke/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
-    "north/carolina/library/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/fbi/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/cia/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/nsa/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/duke/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+    "modules/library/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
 )
+DB_PROPS_FAILED=0
 for PROP in "${DB_PROPS[@]}"; do
     FULL="$PROJECT_ROOT/$PROP"
-    if [ ! -f "$FULL" ]; then fail "$PROP — file missing"; continue; fi
+    if [ ! -f "$FULL" ]; then
+        fail "$PROP — file missing (run deploy to generate from .nwe-credentials)"
+        DB_PROPS_FAILED=$((DB_PROPS_FAILED + 1))
+        continue
+    fi
+    # Check for placeholder passwords
+    if grep -q "CHANGE_ME" "$FULL" 2>/dev/null; then
+        fail "$PROP — contains CHANGE_ME placeholder (update .nwe-credentials and redeploy)"
+        DB_PROPS_FAILED=$((DB_PROPS_FAILED + 1))
+        continue
+    fi
     DB_URL=$(grep "db.url" "$FULL" | cut -d= -f2-)
     DB_NAME=$(echo "$DB_URL" | grep -oP '[^/]+$')
     DB_USER=$(grep "db.user" "$FULL" | cut -d= -f2-)
-    DB_PASS=$(grep "db.password" "$FULL" | cut -d= -f2-)
-    # Use the credentials from the properties file itself
-    CONN=$(mysql -u "$DB_USER" --password="$DB_PASS" --silent --skip-column-names -e "USE $DB_NAME; SELECT 1;" 2>/dev/null)
+    DB_PASS_LOCAL=$(grep "db.password" "$FULL" | cut -d= -f2-)
+    # Test actual connectivity with the stored credentials
+    CONN=$(mysql -u "$DB_USER" --password="$DB_PASS_LOCAL" --silent --skip-column-names -e "USE $DB_NAME; SELECT 1;" 2>/dev/null)
     if [ "$CONN" == "1" ]; then
         ok "$PROP → $DB_NAME (user=$DB_USER)"
     else
-        fail "$PROP → $DB_NAME — connection failed (user=$DB_USER)"
+        fail "$PROP → $DB_NAME — connection FAILED (user=$DB_USER)"
+        DB_PROPS_FAILED=$((DB_PROPS_FAILED + 1))
     fi
 done
+
+if [ $DB_PROPS_FAILED -gt 0 ]; then
+    echo ""
+    echo "  ┌────────────────────────────────────────────────────────────────────"
+    echo "  │ $DB_PROPS_FAILED db.properties file(s) have invalid credentials."
+    echo "  │"
+    echo "  │ FIX: Update .nwe-credentials with the correct MySQL password,"
+    echo "  │ then redeploy the affected modules:"
+    echo "  │"
+    echo "  │   nano $PROJECT_ROOT/.nwe-credentials"
+    echo "  │   bash scripts/start-frontends.sh    (re-deploys missing)"
+    echo "  │   — OR manually per module: —"
+    echo "  │   bash modules/<name>/servlets/deploy-local.sh"
+    echo "  │"
+    echo "  │ The deploy scripts auto-generate db.properties from .nwe-credentials."
+    echo "  └────────────────────────────────────────────────────────────────────"
+    echo ""
+fi
 
 # Installer ID Tech™
 echo ""

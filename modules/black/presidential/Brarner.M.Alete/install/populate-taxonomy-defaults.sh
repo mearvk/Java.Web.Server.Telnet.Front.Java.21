@@ -1,4 +1,6 @@
 #!/bin/bash
+# ⚠️  DESTRUCTIVE: This script TRUNCATES/DROPS tables before reloading data.
+# Do NOT run as part of git-pull automation. Run manually only when reloading reference data.
 # ============================================================================
 # Brarner.M.Alete™ — Populate Taxonomy Defaults (Remote Install)
 # Ensures every taxon in animalia has an entry in taxonomy_descriptions.

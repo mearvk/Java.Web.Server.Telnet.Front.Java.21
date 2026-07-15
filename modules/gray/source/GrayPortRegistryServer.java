@@ -69,7 +69,7 @@ public class GrayPortRegistryServer extends Thread
         try
         {
             serverChannel = ServerSocketChannel.open();
-            serverChannel.bind(new InetSocketAddress("0.0.0.0", PORT));
+            serverChannel.bind(new InetSocketAddress("localhost", PORT));
             serverChannel.configureBlocking(false);
 
             Selector selector = Selector.open();
@@ -301,5 +301,13 @@ public class GrayPortRegistryServer extends Thread
                 default -> leasedAt.plusMonths(1);
             };
         }
+    }
+
+    /** Standalone entry point — allows start-backend.sh to launch directly. */
+    public static void main(String[] args) throws InterruptedException
+    {
+        GrayPortRegistryServer server = new GrayPortRegistryServer();
+        server.start();
+        server.join();
     }
 }

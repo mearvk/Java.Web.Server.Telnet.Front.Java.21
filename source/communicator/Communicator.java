@@ -237,9 +237,6 @@ public class Communicator extends Thread
         StringBuilder sb = new StringBuilder("[list] Connected users (" + LIVE.size() + "):\r\n");
         LIVE.forEach((id, s) ->
             sb.append("  NID=").append(id)
-              .append("  IP=").append(s.ip)
-              .append("  Geo=").append(s.geoCity).append(", ").append(s.geoCountry)
-              .append("  TZ=").append(s.timezone)
               .append("  Online=").append((System.currentTimeMillis() - s.connectedAt) / 60000).append("min")
               .append("\r\n"));
         return sb.toString().stripTrailing();
@@ -495,9 +492,9 @@ public class Communicator extends Thread
             boolean priv = session.ip.startsWith("127.") || session.ip.startsWith("10.")
                 || session.ip.startsWith("192.168.") || session.ip.equals("::1");
             java.net.HttpURLConnection c = (java.net.HttpURLConnection)
-                new java.net.URL("http://ip-api.com/json/" + (priv ? "" : session.ip)
+                new java.net.URL("https://ip-api.com/json/" + (priv ? "" : session.ip)
                     + "?fields=city,country,timezone").openConnection();
-            c.setConnectTimeout(2000); c.setConnectTimeout(2000);
+            c.setConnectTimeout(2000); c.setReadTimeout(2000);
             try (BufferedReader r = new BufferedReader(new InputStreamReader(c.getInputStream())))
             {
                 String body = r.lines().collect(java.util.stream.Collectors.joining());

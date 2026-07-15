@@ -13,7 +13,7 @@ USE democratic_d500;
 
 -- ── Registrations ─────────────────────────────────────────────
 
-CREATE TABLE registrations (
+CREATE TABLE IF NOT EXISTS registrations (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     citizen_id      VARCHAR(64) NOT NULL,
     full_name       VARCHAR(255) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE registrations (
 
 -- ── Deregistrations ───────────────────────────────────────────
 
-CREATE TABLE deregistrations (
+CREATE TABLE IF NOT EXISTS deregistrations (
     id                  BIGINT AUTO_INCREMENT PRIMARY KEY,
     registration_id     BIGINT NOT NULL,
     citizen_id          VARCHAR(64) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE deregistrations (
 
 -- ── Questions ─────────────────────────────────────────────────
 
-CREATE TABLE questions (
+CREATE TABLE IF NOT EXISTS questions (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     citizen_id      VARCHAR(64) NOT NULL,
     question_text   TEXT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE questions (
 
 -- ── Answers ───────────────────────────────────────────────────
 
-CREATE TABLE answers (
+CREATE TABLE IF NOT EXISTS answers (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     question_id     BIGINT NOT NULL,
     answer_text     TEXT NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE answers (
 
 -- ── Speculation Requests ──────────────────────────────────────
 
-CREATE TABLE speculation_requests (
+CREATE TABLE IF NOT EXISTS speculation_requests (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     citizen_id      VARCHAR(64) NOT NULL,
     input_features  JSON NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE speculation_requests (
 
 -- ── Speculation Results ───────────────────────────────────────
 
-CREATE TABLE speculation_results (
+CREATE TABLE IF NOT EXISTS speculation_results (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     request_id      BIGINT NOT NULL,
     closure_prob    FLOAT,
@@ -91,7 +91,7 @@ CREATE TABLE speculation_results (
 
 -- ── Tax Closures ──────────────────────────────────────────────
 
-CREATE TABLE tax_closures (
+CREATE TABLE IF NOT EXISTS tax_closures (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     case_number     VARCHAR(64) NOT NULL UNIQUE,
     citizen_id      VARCHAR(64) NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE tax_closures (
 
 -- ── Defense Cases ─────────────────────────────────────────────
 
-CREATE TABLE defense_cases (
+CREATE TABLE IF NOT EXISTS defense_cases (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
     closure_id      BIGINT NOT NULL,
     strategy_id     INT,

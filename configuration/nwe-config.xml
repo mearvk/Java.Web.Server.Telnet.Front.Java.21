@@ -32,12 +32,14 @@
          (ModuleInstallationService, ModuleLoaderDaemon) using these credentials.
     ════════════════════════════════════════════════════════════════════ -->
     <admin>
-        <username>mearvk</username>
-        <password>n21admin</password>
+        <username>${NWE_ADMIN_USER:admin}</username>
+        <password>${NWE_ADMIN_PASS:CHANGE_ME_BEFORE_DEPLOY}</password>
         <description>
-            Initial NWE administrator.  Responsible for database configuration,
-            server document management, and module authority.
-            Change the password before production deployment.
+            NWE administrator credentials. MUST be set via environment variables:
+              NWE_ADMIN_USER — admin username (default: admin)
+              NWE_ADMIN_PASS — admin password (REQUIRED — server refuses to start if default)
+            Responsible for database configuration, server document management,
+            and module authority.
         </description>
     </admin>
 
@@ -565,7 +567,7 @@
         <port>5000</port>
         <trust-level>9.5</trust-level>
         <block>US Democratic</block>
-        <source>modules/black/red/Futures</source>
+        <source>modules/red/Futures</source>
         <masquerade-aware>true</masquerade-aware>
         <description>
             D500 Democratic President — AI futures, tax defense speculation,
@@ -580,7 +582,7 @@
         <port>20000</port>
         <trust-level>9.5</trust-level>
         <block>NC Socialist-College</block>
-        <source>modules/black/presidential/Green.Durham.Grass.and.Herb</source>
+        <source>modules/Green.Durham.Grass.and.Herb</source>
         <masquerade-aware>true</masquerade-aware>
         <virtual-ports>70000,70002,70003,70007,80000,99152</virtual-ports>
         <description>

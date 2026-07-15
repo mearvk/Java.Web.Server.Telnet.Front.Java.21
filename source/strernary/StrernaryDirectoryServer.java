@@ -274,7 +274,11 @@ public class StrernaryDirectoryServer implements Runnable
 
         try
         {
-            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new org.xml.sax.InputSource(new StringReader(xml.toString())));
 
             NodeList portNodes = doc.getElementsByTagName("port");
@@ -288,6 +292,17 @@ public class StrernaryDirectoryServer implements Runnable
 
             int targetPort = Integer.parseInt(portNodes.item(0).getTextContent().trim());
             String payload = payloadNodes.getLength() > 0 ? payloadNodes.item(0).getTextContent().trim() : "";
+
+            // Only allow forwarding to known NWE service ports
+            int[] ALLOWED_FORWARD_PORTS = {2000, 5000, 5512, 6682, 7743, 7744, 9999, 10085, 20000, 49133, 49144, 49152, 49155, 49166, 49177, 49188, 49199, 49200, 49201, 49202, 49203, 49204, 49210, 49211, 49212, 49213, 49214};
+            boolean portAllowed = false;
+            for (int allowed : ALLOWED_FORWARD_PORTS)
+                if (targetPort == allowed) { portAllowed = true; break; }
+            if (!portAllowed)
+            {
+                write(out, "ERROR|PORT_NOT_WHITELISTED|" + targetPort + "\n");
+                return;
+            }
 
             int maxPort = nioEngine != null ? nioEngine.getMaxPort() : 65535;
             if (targetPort < 0 || targetPort > maxPort)
@@ -341,7 +356,11 @@ public class StrernaryDirectoryServer implements Runnable
         {
             File f = new File(xmlPath);
             if (!f.exists()) { write(out, "    (config file not found)\n"); return; }
-            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(f);
             NodeList servers = doc.getElementsByTagName("server");
             for (int i = 0; i < servers.getLength(); i++)
@@ -386,7 +405,11 @@ public class StrernaryDirectoryServer implements Runnable
         {
             File f = new File(CONFIG_PATH);
             if (!f.exists()) return;
-            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(f);
 
             port20000Enabled = getBool(doc, "port-20000", "enabled", true);

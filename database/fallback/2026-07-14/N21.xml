@@ -1,0 +1,19 @@
+<N21>
+  <record TABLE="exceptions" ts="2026-07-14T22:42:31.204605870Z">
+    <exception_type>MysqlDataTruncation</exception_type>
+    <message>Data truncation: Data too long for column 'source' at row 1</message>
+    <origin>com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:96)</origin>
+    <stack_trace>com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:96)
+com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:988)
+com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1166)
+com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1101)
+com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1448)
+com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:1084)
+strernary.StrernaryKnowledgeFetcher.storeTrainingPair(StrernaryKnowledgeFetcher.java:199)
+strernary.StrernaryTrainingLoader.loadCsv(StrernaryTrainingLoader.java:125)
+strernary.StrernaryTrainingLoader.loadAll(StrernaryTrainingLoader.java:63)
+strernary.StrernaryServer.lambda$new$0(StrernaryServer.java:56)
+java.base/java.lang.VirtualThread.run(VirtualThread.java:460)</stack_trace>
+    <security>false</security>
+    <recorded_at>2026-07-14T22:42:31.150912091Z</recorded_at>
+  </record>

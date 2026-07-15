@@ -7,7 +7,9 @@
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 source "$PROJECT_ROOT/scripts/detect-mysql.sh" 2>/dev/null || true
+source "$PROJECT_ROOT/scripts/nwe-ports.sh" 2>/dev/null || true
 
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
@@ -20,7 +22,9 @@ echo "MySQL:"
 echo "───────────────────────────────────────────────────────────────────────────"
 if mysqladmin ping -h "$MYSQL_HOST" -P "$MYSQL_PORT" --silent 2>/dev/null; then
     echo "  [✓] MySQL is running (Host: $MYSQL_HOST, Port: $MYSQL_PORT)"
-    DATABASES=$(mysql -h "$MYSQL_HOST" -u mearvk -p'$$Ironman1' -e "SHOW DATABASES;" 2>/dev/null | tail -n +2 | wc -l)
+    # Source credentials for DB query
+    [ -f "$PROJECT_ROOT/.nwe-credentials" ] && source "$PROJECT_ROOT/.nwe-credentials"
+    DATABASES=$(mysql -h "$MYSQL_HOST" -u "${NWE_DB_USER:-root}" -p"${NWE_DB_PASS:-}" -e "SHOW DATABASES;" 2>/dev/null | tail -n +2 | wc -l)
     echo "    Databases: $DATABASES"
 else
     echo "  [✗] MySQL is NOT running"
@@ -113,6 +117,7 @@ CONTEXTS=(
     "languages"
     "library"
     "california-nsa"
+    "futures"
 )
 
 FRONTENDS_UP=0
@@ -134,17 +139,29 @@ echo "  ────────────────────────
 echo "  Running: $FRONTENDS_UP / $(( FRONTENDS_UP + FRONTENDS_DOWN ))"
 echo ""
 
+# ── Firewall Port Status ──────────────────────────────────────────────────────
+echo ""
+echo "Firewall:"
+echo "───────────────────────────────────────────────────────────────────────────"
+nwe_port_status 2>/dev/null || echo "  (firewall status unavailable)"
+echo ""
+
 # ── Overall Summary ───────────────────────────────────────────────────────────
 echo ""
+if mysqladmin ping -h "$MYSQL_HOST" -P "$MYSQL_PORT" --silent 2>/dev/null; then
+    MYSQL_DISPLAY="Running"
+else
+    MYSQL_DISPLAY="Stopped"
+fi
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  Overall Status                                                          ║"
-echo "║  MySQL:          $([ "$HTTP_CODE" != "000" ] && echo "[✓] Running" || echo "[✗] Stopped")  ║"
-echo "║  Backends:       [$BACKENDS_UP up] / [$(( BACKENDS_UP + BACKENDS_DOWN )) total]                  ║"
-echo "║  Frontends:      [$FRONTENDS_UP up] / [$(( FRONTENDS_UP + FRONTENDS_DOWN )) total]               ║"
-echo "║                                                                          ║"
-echo "║  Start:          bash scripts/start-all.sh                               ║"
-echo "║  Shutdown:       bash scripts/shutdown-all.sh                            ║"
-echo "║  View logs:      tail -f logging/*.log                                   ║"
+echo "║  Overall Status                                                         ║"
+echo "║  MySQL:     $MYSQL_DISPLAY                                                    ║"
+echo "║  Backends:  $BACKENDS_UP up / $(( BACKENDS_UP + BACKENDS_DOWN )) total                                             ║"
+echo "║  Frontends: $FRONTENDS_UP up / $(( FRONTENDS_UP + FRONTENDS_DOWN )) total                                             ║"
+echo "║                                                                         ║"
+echo "║  Start:     bash scripts/start-all.sh                                   ║"
+echo "║  Shutdown:  bash scripts/shutdown-all.sh                                 ║"
+echo "║  View logs: tail -f logging/*.log                                        ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 

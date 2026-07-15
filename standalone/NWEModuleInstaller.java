@@ -123,8 +123,15 @@ public class NWEModuleInstaller
             return;
         }
 
-        // Install
-        Path dest = Path.of(MODULES_DIR, filename);
+        // Path traversal prevention: sanitize filename and verify destination
+        String safeFilename = Path.of(filename).getFileName().toString().replaceAll("[^a-zA-Z0-9._-]", "_");
+        Path dest = Path.of(MODULES_DIR, safeFilename).normalize();
+        if (!dest.startsWith(Path.of(MODULES_DIR).normalize()))
+        {
+            out.write("REJECTED path traversal detected\r\n".getBytes());
+            System.out.println("[REJECTED] " + filename + " — path traversal attempt");
+            return;
+        }
         Files.write(dest, data);
         out.write(("INSTALLED " + filename + " (" + byteCount + " bytes, SHA verified)\r\n").getBytes());
         System.out.println("[INSTALLED] " + filename + " — " + byteCount + " bytes, SHA OK");
@@ -183,6 +190,16 @@ public class NWEModuleInstaller
         }
     }
 
+    /**
+     * SECURITY NOTE: This verification only confirms the public.key file exists
+     * on GitHub (HTTP 200). This is NOT real authentication — it does not verify
+     * the connecting client's identity. A proper implementation would:
+     * 1. Download the public key from GitHub
+     * 2. Require the client to sign a challenge with the corresponding private key
+     * 3. Verify the signature before accepting any modules
+     *
+     * TODO: Replace with cryptographic challenge-response authentication.
+     */
     private static boolean verifyPublicKey()
     {
         try
@@ -191,9 +208,18 @@ public class NWEModuleInstaller
             conn.setRequestMethod("HEAD");
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);
-            return conn.getResponseCode() == 200;
+            int code = conn.getResponseCode();
+            if (code != 200)
+            {
+                System.out.println("[SECURITY] public.key not found on GitHub (HTTP " + code + ") — rejecting.");
+            }
+            return code == 200;
         }
-        catch (Exception e) { return false; }
+        catch (Exception e)
+        {
+            System.out.println("[SECURITY] Failed to verify public.key: " + e.getMessage());
+            return false;
+        }
     }
 
     private static String sha256(byte[] data)

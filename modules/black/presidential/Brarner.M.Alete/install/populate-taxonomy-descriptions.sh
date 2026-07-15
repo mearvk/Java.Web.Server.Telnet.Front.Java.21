@@ -1,4 +1,6 @@
 #!/bin/bash
+# ⚠️  DESTRUCTIVE: This script TRUNCATES/DROPS tables before reloading data.
+# Do NOT run as part of git-pull automation. Run manually only when reloading reference data.
 # Brarner.M.Alete™ — Populate Taxonomy Descriptions
 # Creates taxonomy_descriptions table and populates with Wikipedia-sourced descriptions
 # for kingdom, class, order, and family taxonomic levels.

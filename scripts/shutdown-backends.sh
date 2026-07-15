@@ -7,6 +7,7 @@
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 
 # Module definitions
 declare -A MODULES=(

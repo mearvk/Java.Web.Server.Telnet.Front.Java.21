@@ -57,7 +57,11 @@ public class N21AuthConfig
 
         try
         {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            DocumentBuilder builder = dbf.newDocumentBuilder();
             Document doc = builder.parse(file);
             doc.getDocumentElement().normalize();
             Element root = doc.getDocumentElement();
@@ -123,7 +127,7 @@ public class N21AuthConfig
         try
         {
             String url = "jdbc:mysql://" + HOST + ":" + PORT
-                + "/N21?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=3000";
+                + "/N21?useSSL=true&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=3000";
 
             Class.forName("com.mysql.cj.jdbc.Driver");
 

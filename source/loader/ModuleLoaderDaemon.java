@@ -208,11 +208,14 @@ public class ModuleLoaderDaemon extends Thread
     {
         if (SESSION.nationalId < 0) return "[token] Identify yourself first.";
 
-        // Accept if: token is registered in PORT_TOKENS for this nationalId,
-        // OR if PORT_TOKENS is empty (trusted/local install with no external authority yet).
+        // Accept only if token is registered in PORT_TOKENS for this nationalId.
+        // Empty PORT_TOKENS means NO authority has been configured — reject all tokens
+        // until the port authority populates them. This prevents open access on fresh installs.
+        if (PORT_TOKENS.isEmpty())
+            return "[token] No port authority configured. Contact system administrator.";
+
         Long registered = PORT_TOKENS.get(TOKEN);
-        boolean valid = PORT_TOKENS.isEmpty()
-            || (registered != null && registered == SESSION.nationalId);
+        boolean valid = (registered != null && registered == SESSION.nationalId);
 
         if (!valid) return "[token] Invalid or expired port-registry token.";
 
@@ -329,8 +332,10 @@ public class ModuleLoaderDaemon extends Thread
                 if (reply == null || !reply.contains("recognised"))
                     return "[replicate] Remote did not recognise National ID " + SESSION.nationalId + ": " + reply;
 
-                // Present token on remote
+                // Present a dedicated replication token (not our session token)
+                // The remote daemon must have a token pre-registered for our nationalId
                 send(out, "token " + SESSION.token);
+                // NOTE: Token is shared with remote peer. Ensure remote is trusted.
                 reply = in.readLine();
                 if (reply == null || !reply.contains("accepted"))
                     return "[replicate] Remote rejected token: " + reply;

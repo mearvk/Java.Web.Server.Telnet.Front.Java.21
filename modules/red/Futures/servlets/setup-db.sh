@@ -2,6 +2,8 @@
 # Futures™ — Setup MySQL Database
 # Usage: bash modules/Futures/servlets/setup-db.sh
 set -e
+# SAFE: Uses CREATE IF NOT EXISTS. Never drops or overwrites existing data.
+# Can be run repeatedly after git pull without risk to production databases.
 
 DB_USER="root"
 DB_PASS='$$Ironman1'

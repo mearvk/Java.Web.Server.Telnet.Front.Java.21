@@ -38,13 +38,34 @@ if [ ! -d "$TOMCAT_HOME/webapps" ]; then
     exit 1
 fi
 
-# Deploy exploded webapp
+# Deploy exploded webapp (rsync for speed — only copies changed files)
 echo "[*] Deploying exploded webapp..."
-rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/classes" "$DEPLOY_DIR/WEB-INF/lib"
-cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
+TOTAL_FILES=$(find "$WEBAPP_SRC" -type f 2>/dev/null | wc -l)
+SRC_SIZE=$(du -sh "$WEBAPP_SRC" 2>/dev/null | cut -f1)
+echo "    Source: $TOTAL_FILES files ($SRC_SIZE)"
+if command -v rsync &>/dev/null; then
+    echo "    Syncing to $DEPLOY_DIR ..."
+    rsync -a --delete --progress --exclude='db.properties' "$WEBAPP_SRC/" "$DEPLOY_DIR/" 2>&1 | \
+        awk 'BEGIN{n=0} /to-chk/{n++; printf "\r    [rsync] %d files transferred...", n; fflush()} END{printf "\r    [rsync] %d files transferred ✓\n", n}'
+    echo "    [✓] rsync complete ($SRC_SIZE)"
+else
+    rm -rf "$DEPLOY_DIR"
+    mkdir -p "$DEPLOY_DIR/WEB-INF/classes" "$DEPLOY_DIR/WEB-INF/lib"
+    echo -n "    Copying $TOTAL_FILES files ($SRC_SIZE)... "
+    cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/" &
+    CP_PID=$!
+    while kill -0 "$CP_PID" 2>/dev/null; do
+        DONE=$(find "$DEPLOY_DIR" -type f 2>/dev/null | wc -l)
+        printf "\r    Copying: %d / %d files " "$DONE" "$TOTAL_FILES"
+        sleep 1
+    done
+    wait "$CP_PID"
+    printf "\r    Copying: %d / %d files ✓\n" "$TOTAL_FILES" "$TOTAL_FILES"
+fi
 
 # Copy JARs from jars/ directory (preferred) or lib/
+mkdir -p "$DEPLOY_DIR/WEB-INF/lib" "$DEPLOY_DIR/WEB-INF/classes"
 if ls "$BMA_ROOT/jars/"*.jar &>/dev/null; then
     cp "$BMA_ROOT/jars/"*.jar "$DEPLOY_DIR/WEB-INF/lib/"
     echo "[*] JARs copied from jars/ to WEB-INF/lib/"
@@ -53,28 +74,50 @@ elif ls "$BMA_ROOT/lib/"*.jar &>/dev/null; then
     echo "[*] JARs copied from lib/ to WEB-INF/lib/"
 fi
 
-# Ensure db.properties exists — prompt if missing
+# Ensure db.properties exists — use .nwe-credentials or prompt if interactive
 DB_PROPS="$DEPLOY_DIR/WEB-INF/db.properties"
-if [ ! -f "$DB_PROPS" ] || ! grep -q "db.password=." "$DB_PROPS" 2>/dev/null; then
-    echo ""
-    echo "[*] db.properties needs MySQL credentials for JSP pages."
-    read -rp "    MySQL user [root]: " DB_USER
-    DB_USER="${DB_USER:-root}"
-    read -rsp "    MySQL password: " DB_PASS
-    echo ""
-    read -rp "    MySQL host [localhost]: " DB_HOST
-    DB_HOST="${DB_HOST:-localhost}"
-    read -rp "    MySQL port [3306]: " DB_PORT
-    DB_PORT="${DB_PORT:-3306}"
-    cat > "$DB_PROPS" <<EOF
+if [ ! -f "$DB_PROPS" ] || ! grep -q "db.password=." "$DB_PROPS" 2>/dev/null || grep -q "CHANGE_ME" "$DB_PROPS" 2>/dev/null; then
+    # Try .nwe-credentials first (non-interactive safe)
+    NWE_ROOT="$(cd "$SCRIPT_DIR/../../../.." 2>/dev/null && pwd)"
+    if [ -f "$NWE_ROOT/.nwe-credentials" ]; then
+        source "$NWE_ROOT/.nwe-credentials"
+        mkdir -p "$DEPLOY_DIR/WEB-INF"
+        cat > "$DB_PROPS" <<EOF
+# BMA Database Configuration — auto-generated from .nwe-credentials
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://${NWE_DB_HOST:-127.0.0.1}:${NWE_DB_PORT:-3306}/BrarnerScience
+db.user=${NWE_DB_USER:-root}
+db.password=${NWE_DB_PASS}
+EOF
+        chmod 600 "$DB_PROPS"
+        echo "[*] db.properties generated from .nwe-credentials"
+    elif [ -t 0 ]; then
+        # Interactive terminal — prompt for credentials
+        echo ""
+        echo "[*] db.properties needs MySQL credentials for JSP pages."
+        read -rp "    MySQL user [root]: " DB_USER
+        DB_USER="${DB_USER:-root}"
+        read -rsp "    MySQL password: " DB_PASS
+        echo ""
+        read -rp "    MySQL host [localhost]: " DB_HOST
+        DB_HOST="${DB_HOST:-localhost}"
+        read -rp "    MySQL port [3306]: " DB_PORT
+        DB_PORT="${DB_PORT:-3306}"
+        mkdir -p "$DEPLOY_DIR/WEB-INF"
+        cat > "$DB_PROPS" <<EOF
 # BMA Database Configuration — written by deploy-local.sh
 db.driver=com.mysql.cj.jdbc.Driver
 db.url=jdbc:mysql://${DB_HOST}:${DB_PORT}/BrarnerScience
 db.user=${DB_USER}
 db.password=${DB_PASS}
 EOF
-    chmod 600 "$DB_PROPS"
-    echo "[*] db.properties written"
+        chmod 600 "$DB_PROPS"
+        echo "[*] db.properties written"
+    else
+        # Non-interactive and no credentials file — skip (don't hang)
+        echo "[!] db.properties missing and no .nwe-credentials found (non-interactive)"
+        echo "    JSP database pages will fail. Create .nwe-credentials and redeploy."
+    fi
 else
     echo "[*] db.properties present (user=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-))"
 fi
@@ -133,36 +176,18 @@ echo "    DB:   WEB-INF/db.properties"
 echo "    URL:  http://localhost:8080/$CONTEXT/"
 echo ""
 
-# ─── Start backend modules (Strernary™ port 20000, SignalProcessors, etc.) ───
-NWE_ROOT="$(cd "$BMA_ROOT/../../../.." && pwd)"
-BACKEND_SCRIPT="$NWE_ROOT/scripts/start-backend-modules.sh"
+# ─── Backend note (deploy does NOT start backends — use start-all.sh) ────────
+NWE_ROOT="$(cd "$BMA_ROOT/../../../.." 2>/dev/null && pwd)"
 PID_FILE="$NWE_ROOT/data/nwe-main.pid"
 
 if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
-    echo "[*] Backend already running (PID $(cat "$PID_FILE")) — Strernary™ port 20000 available"
+    echo "[*] Backend already running (PID $(cat "$PID_FILE"))"
 else
-    if [ -f "$BACKEND_SCRIPT" ]; then
-        echo "[*] Starting backend modules (Strernary™, SignalProcessors, California, Duke, Stanford...)"
-        bash "$BACKEND_SCRIPT" &
-        sleep 6
-        if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
-            echo "[✓] Backend started (PID $(cat "$PID_FILE"))"
-            # Quick port 20000 check
-            if timeout 2 bash -c "echo >/dev/tcp/localhost/20000" 2>/dev/null; then
-                echo "    Strernary™ (port 20000): UP"
-            else
-                echo "    Strernary™ (port 20000): starting (may need a few more seconds)"
-            fi
-        else
-            echo "[!] Backend start may have failed — check: $NWE_ROOT/logging/nwe-main.log"
-        fi
-    else
-        echo "[!] Backend script not found: $BACKEND_SCRIPT"
-        echo "    Strernary™ port 20000 will not be available — SignalProcessor will use deferred mode"
-    fi
+    echo "[*] Backend not running. Start separately with:"
+    echo "    bash scripts/start-all.sh"
+    echo "    — or —"
+    echo "    bash scripts/start-backend-modules.sh"
 fi
 
 echo ""
-echo "    If Tomcat is running, pages are available immediately."
-echo "    Otherwise: sudo systemctl start tomcat"
 echo "═══════════════════════════════════════════════════════════════"

@@ -1,10 +1,31 @@
 #!/bin/bash
 # NitroWebExpress™ — Setup All Module Databases
 # Creates ALL module databases and tables in one shot.
+#
+# SAFE TO RUN REPEATEDLY: Uses CREATE DATABASE/TABLE IF NOT EXISTS throughout.
+# Will NEVER drop, truncate, or overwrite existing databases or data.
+# New tables are added alongside existing ones. Existing rows are untouched.
+#
 # Usage: bash scripts/web/setup-all-databases.sh
 set -uo pipefail
 
-MYSQL="mysql -u root --password=\$\$Ironman1"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
+
+# Load credentials from .nwe-credentials (gitignored, never committed)
+if [ -f "$PROJECT_ROOT/.nwe-credentials" ]; then
+    source "$PROJECT_ROOT/.nwe-credentials"
+else
+    echo "[!] No .nwe-credentials found. Copy from example:"
+    echo "    cp .nwe-credentials.example .nwe-credentials"
+    echo "    Then fill in your MySQL password."
+    echo ""
+    echo "    ERROR: Cannot proceed without .nwe-credentials file."
+    echo "    Set NWE_DB_USER, NWE_DB_PASS, NWE_DB_HOST environment variables or create the file."
+    exit 1
+fi
+
+MYSQL="mysql -u $NWE_DB_USER -p$NWE_DB_PASS -h ${NWE_DB_HOST:-127.0.0.1}"
 
 echo "═══════════════════════════════════════════════════════════════"
 echo " NitroWebExpress™ — Setup All Databases"

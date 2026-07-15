@@ -6,10 +6,18 @@
 set -euo pipefail
 
 ADMIN_USER="mearvk"
-ADMIN_PASS='$$Ironman1'
+# Source credentials if available (falls back to default)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+_NWE="$(cd "$SCRIPT_DIR/../.." 2>/dev/null && pwd)"
+[ -f "$_NWE/.nwe-credentials" ] && source "$_NWE/.nwe-credentials"
+ADMIN_PASS="${NWE_DB_PASS:?ERROR: NWE_DB_PASS not set. Create .nwe-credentials or export NWE_DB_PASS.}"
 
 echo "=== NWE MySQL Database Setup ==="
 
+# Source credentials if available (falls back to default)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+_NWE="$(cd "$SCRIPT_DIR/../.." 2>/dev/null && pwd)"
+[ -f "$_NWE/.nwe-credentials" ] && source "$_NWE/.nwe-credentials"
 mysql -u "$ADMIN_USER" -p"$ADMIN_PASS" <<'SQL'
 CREATE DATABASE IF NOT EXISTS nwe_calendar_d44 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE IF NOT EXISTS nwe_calendar_france CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

@@ -1,4 +1,6 @@
 #!/bin/bash
+# ⚠️  DESTRUCTIVE: This script TRUNCATES/DROPS tables before reloading data.
+# Do NOT run as part of git-pull automation. Run manually only when reloading reference data.
 # Brarner.M.Alete™ — Populate Legal Database from CSV/RDNS data
 # Creates legal tables and loads US Code, case law, precedent, public laws, counts
 # Usage: bash install/populate-legal.sh

@@ -101,8 +101,12 @@ public class BinaryHttpServer extends Thread
 
         // Read 4-byte big-endian length prefix, then that many bytes
         int len = IN.readInt();
-        if (len <= 0 || len > 256 * 1024 * 1024)
-            return "ERR invalid length: " + len;
+        if (len <= 0 || len > 64 * 1024 * 1024)
+            return "ERR invalid length (max 64MB): " + len;
+
+        // Extension whitelist for uploads too
+        if (!isAllowedExtension(safe))
+            return "ERR file extension not allowed (permitted: .png, .jpg, .gif, .pdf, .txt, .csv, .json, .xml, .zip, .tar.gz, .bin, .dat)";
 
         byte[] data = new byte[len];
         IN.readFully(data);
@@ -129,8 +133,19 @@ public class BinaryHttpServer extends Thread
 
         URL url = new URI(URL_STR).toURL();
 
+        // SSRF protection: block internal/private IPs
+        InetAddress resolved = InetAddress.getByName(url.getHost());
+        if (resolved.isLoopbackAddress() || resolved.isSiteLocalAddress()
+            || resolved.isLinkLocalAddress() || resolved.isAnyLocalAddress())
+            return "ERR internal/private addresses are not permitted";
+
         String basename  = safeName(Path.of(url.getPath()).getFileName() != null
             ? Path.of(url.getPath()).getFileName().toString() : "file");
+
+        // Extension whitelist
+        if (!isAllowedExtension(basename))
+            return "ERR file extension not allowed (permitted: .png, .jpg, .gif, .pdf, .txt, .csv, .json, .xml, .zip, .tar.gz)";
+
         String uid  = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         Path   dest = APACHE_DIR.resolve(uid + "-" + basename);
 
@@ -138,17 +153,50 @@ public class BinaryHttpServer extends Thread
         conn.setConnectTimeout(10_000);
         conn.setReadTimeout(30_000);
         conn.setRequestProperty("User-Agent", "NWE-BinaryHttpServer/1.0");
+        conn.setInstanceFollowRedirects(false);
+
+        int status = conn.getResponseCode();
+        if (status != 200)
+            return "ERR remote returned HTTP " + status;
+
+        // Limit download size to 64MB
+        long contentLength = conn.getContentLengthLong();
+        if (contentLength > 64 * 1024 * 1024)
+            return "ERR remote file too large (max 64MB)";
 
         try (InputStream is = conn.getInputStream();
              OutputStream os = new FileOutputStream(dest.toFile()))
         {
-            is.transferTo(os);
+            byte[] buf = new byte[8192];
+            long total = 0;
+            int read;
+            while ((read = is.read(buf)) != -1)
+            {
+                total += read;
+                if (total > 64 * 1024 * 1024)
+                {
+                    Files.deleteIfExists(dest);
+                    return "ERR download exceeded 64MB limit";
+                }
+                os.write(buf, 0, read);
+            }
         }
 
         String result = APACHE_URL + "/" + dest.getFileName();
         CommonRails.printSystemComponent(this, this.hashCode(),
             ". BinaryHttpServer GET " + URL_STR + " → " + result + " .");
         return "OK " + result;
+    }
+
+    /** Whitelist of safe file extensions that may be stored/served. */
+    private static boolean isAllowedExtension(final String FILENAME)
+    {
+        String lower = FILENAME.toLowerCase();
+        return lower.endsWith(".png") || lower.endsWith(".jpg") || lower.endsWith(".jpeg")
+            || lower.endsWith(".gif") || lower.endsWith(".pdf") || lower.endsWith(".txt")
+            || lower.endsWith(".csv") || lower.endsWith(".json") || lower.endsWith(".xml")
+            || lower.endsWith(".zip") || lower.endsWith(".tar.gz") || lower.endsWith(".bin")
+            || lower.endsWith(".dat");
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────

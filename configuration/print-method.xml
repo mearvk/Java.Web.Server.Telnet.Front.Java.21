@@ -118,10 +118,17 @@
             GreeceInternationalSignalServer,
             StrernaryServer,StrernaryOsPortModule,DjlInferenceEngine,
             StrernaryKnowledgeFetcher,StrernaryTranslationLayer,StrernaryLaborLawFetcher,
-            StrernaryTrainingLoader,BrarnerAleteModule
+            StrernaryTrainingLoader,BrarnerAleteModule,
+            CaliforniaFBIServer,CaliforniaCIAServer,CaliforniaNSAServer,
+            DukeUniversityServer,StanfordLibraryServer,
+            GrayPortRegistryServer,Gray85PortRegistryServer,
+            DemocraticAIServer,NWEModuleInstaller,
+            NioMasqueradeEngine,StrernaryDirectoryServer,NioModuleScanner,
+            PortBindingGate,StrernaryConnector
         </known-modules>
-        <preserved-acronyms>JDBC,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA</preserved-acronyms>
-        <special-spellings>MySQL,NWEConfig,cmd.exe,sc,net</special-spellings>
+        <preserved-acronyms>JDBC,SQL,TCP,UDP,HTTP,HTTPS,SSH,SSL,TLS,AES,RSA,DSA,DSS,IP,USA,EDT,EST,UTC,XML,JSON,JAR,SHA,MD5,ACK,FATAL,FAILED,OK,ID,NWE,JAVA,FBI,NSA,CIA,DJL,NIO,API,URL,UUID,PID,DB,GCM,DH,ECDH,ECC,HMAC,HKDF,SSRF,XXE,OOM,DOS,DDOS,BTC,UFW,DKIM,SMTP,POP3,IMAP,FTP,DNS,FOIA</preserved-acronyms>
+        <special-spellings>MySQL,NWEConfig,cmd.exe,sc,net,nwe_california_fbi,nwe_california_cia,nwe_california_nsa,nwe_duke,nwe_library,nwe_strernary,nwe_gray_registry,nwe_gray85_registry,nwe_integrity,nwe_futures,nwe_gdgh,nwe_ae6e66</special-spellings>
+        <proper-nouns>Duke,Stanford,California,Chapel Hill,Harvard,Yale,Princeton,Oxford,Cambridge,Japan,Russia,Mexico,Greece,France,Germany,Italy,Spain,China,Canada,Australia,America,United States,Los Angeles,New York,San Francisco,Chicago,Washington,Durham,Raleigh,Charlotte,Atlanta,Boston,Seattle,Denver,Phoenix,Dallas,Houston,Miami,Nashville,Portland,Baltimore,Philadelphia,Detroit,Minneapolis,Cleveland,Pittsburgh,Cincinnati,Orlando,Tampa,Sacramento,Oakland,Richmond,Norfolk,Virginia,Maryland,Carolina,Texas,Florida,Georgia,Ohio,Michigan,Illinois,Tennessee,Kentucky,Missouri,Indiana,Wisconsin,Minnesota,Iowa,Kansas,Nebraska,Colorado,Arizona,Nevada,Oregon,Alabama,Mississippi,Arkansas,Louisiana,Oklahoma,New Mexico,Utah,Montana,Wyoming,Idaho,Alaska,Hawaii</proper-nouns>
         <description>
             Status message enclosed in decorator characters.
             Example: . AesCompliant™ CommonRails now starting .
@@ -136,6 +143,12 @@
             special-spellings: comma-separated words with exact casing that
             override the normal CamelCase/InitialCap sanitization. Any
             occurrence (case-insensitive) is replaced with the spelling here.
+
+            proper-nouns: comma-separated place names, institutions, and
+            geographic proper nouns whose first letter must always be
+            uppercased. Multi-word entries (e.g. "Chapel Hill") are matched
+            as a phrase. Any occurrence (case-insensitive) is replaced with
+            the InitialCap form defined here.
 
             NOTE: Do NOT repeat the class name in the message body. Block 4
             [Current: @ClassName] already identifies the owning class. Repeating
@@ -199,6 +212,156 @@
             separator: character(s) between parent class and module name.
         </description>
     </parent-class-prefix>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SCRIPT DESCRIPTORS
+         Title Case names and purpose descriptions for all NWE scripts.
+         Scripts read this section at invocation to print their identity.
+         Format: <script file="filename.sh" title="Title Case Name">
+                   Description of what the script does.
+                 </script>
+
+         Capitalization rules from this file apply to all titles:
+           • Proper nouns from <proper-nouns> always InitialCap
+           • Acronyms from <preserved-acronyms> always UPPERCASE
+           • All other words in Title Case (first letter uppercase)
+    ════════════════════════════════════════════════════════════════════ -->
+    <script-descriptors>
+
+        <!-- Orchestration -->
+        <script file="start-all.sh" title="Start All Services">
+            Complete system startup: MySQL → Backend TCP Servers → Tomcat Frontend Webapps.
+        </script>
+        <script file="shutdown-all.sh" title="Shutdown All Services">
+            Complete system shutdown: Frontends → Backends → MySQL. Reverse startup order.
+        </script>
+        <script file="start-backends.sh" title="Start All Backend Modules">
+            Launches individual TCP backend servers for all configured modules.
+        </script>
+        <script file="shutdown-backends.sh" title="Shutdown All Backend Modules">
+            Stops all running TCP backend servers by PID file.
+        </script>
+        <script file="start-frontends.sh" title="Start All Frontend Modules">
+            Deploys all module webapps to Tomcat and verifies HTTP endpoints.
+        </script>
+        <script file="shutdown-frontends.sh" title="Shutdown All Frontend Modules">
+            Undeploys all module webapps from Tomcat.
+        </script>
+        <script file="start-mysql.sh" title="Start MySQL Database">
+            Detects MySQL location (main drive or block storage) and starts the service.
+        </script>
+        <script file="shutdown-mysql.sh" title="Shutdown MySQL Database">
+            Gracefully stops the MySQL service.
+        </script>
+        <script file="startup.sh" title="Start NWE Main Process">
+            Launches Main.java with G1GC, 4GB heap. All core servers start internally.
+        </script>
+        <script file="start-backend-modules.sh" title="Start NWE Main With Port Verification">
+            Launches Main.java and monitors all 19 expected TCP ports until bound.
+        </script>
+        <script file="status.sh" title="System Status Report">
+            Reports running state of MySQL, all backend TCP servers, and Tomcat frontends.
+        </script>
+
+        <!-- Build and Compile -->
+        <script file="compile-all-modules.sh" title="Compile All Modules">
+            Compiles all JAVA source (core + FBI + CIA + NSA + Duke + Library + Gray + Futures) into out/.
+        </script>
+        <script file="build-jar.sh" title="Build Fat JAR">
+            Compiles source and packages a runnable nwe.jar with all dependencies.
+        </script>
+        <script file="generate-structure.sh" title="Generate Project Structure">
+            Scans the project tree and writes STRUCTURE.txt with all directories and files.
+        </script>
+
+        <!-- Deployment -->
+        <script file="post-clone.sh" title="Post-Clone Server Setup">
+            First-time install: JAVA 21, MySQL, Tomcat, firewall ports, databases, webapp deploy.
+        </script>
+        <script file="deploy-all.sh" title="Deploy All Web Modules">
+            Reads web-deploy-config.xml and deploys all enabled modules to Tomcat.
+        </script>
+        <script file="deploy-all-macos.sh" title="Deploy All Web Modules (macOS)">
+            macOS variant: deploys all modules to Homebrew Tomcat.
+        </script>
+        <script file="deploy-missing.sh" title="Deploy Missing Webapps">
+            Re-deploys individual modules that are returning HTTP 404.
+        </script>
+        <script file="patch-webinf-and-ssl.sh" title="Patch WEB-INF and SSL Configuration">
+            Ensures all module WEB-INF directories have correct db.properties and SSL settings.
+        </script>
+        <script file="setup-all-databases.sh" title="Setup All Module Databases">
+            Creates MySQL databases and tables for all modules that have setup-db.sh scripts.
+        </script>
+
+        <!-- Testing -->
+        <script file="test-local.sh" title="Master Local Test Suite">
+            Full test: TCP ports, HTTP status codes, XML validity, settings integrity, memory.
+        </script>
+        <script file="test-module-db-connectivity.sh" title="Test Module Database Connectivity">
+            Verifies JDBC connectivity and db.properties for all module databases.
+        </script>
+
+        <!-- Infrastructure -->
+        <script file="ufw-allow-all.sh" title="Open All NWE Firewall Ports">
+            Configures UFW to allow TCP traffic on all 29 NWE service ports.
+        </script>
+        <script file="nwe-ports.sh" title="NWE Port Manager">
+            Shared library: nwe_open_ports, nwe_close_ports, nwe_port_status functions for firewall management.
+        </script>
+        <script file="detect-mysql.sh" title="Detect MySQL Location">
+            Detects MySQL datadir (main drive or block storage) and exports connection variables.
+        </script>
+        <script file="migrate-mysql-to-blockstorage.sh" title="Migrate MySQL to Block Storage">
+            Moves MySQL datadir to /mnt/blockstorage with symlink preservation.
+        </script>
+        <script file="fix-missing-deploy-scripts.sh" title="Fix Missing Deploy Scripts">
+            Auto-generates deploy-local.sh for modules that are missing one.
+        </script>
+
+        <!-- Utility -->
+        <script file="run-module.sh" title="Run Single Module">
+            Starts a single named module (Futures, FBI, CIA, NSA, Duke, Library).
+        </script>
+        <script file="run-jar.sh" title="Run NWE From JAR">
+            Launches nwe.jar with DJL native library on classpath.
+        </script>
+        <script file="generate-website.sh" title="Generate Static Website">
+            Builds the NWE static HTML website from module metadata and templates.
+        </script>
+        <script file="discover-subjects.sh" title="Discover Website Subjects">
+            Scans modules for subject XML definitions used by the website generator.
+        </script>
+        <script file="send-transfer-summary.sh" title="Send Transfer Summary Email">
+            Emails a daily transfer/activity summary via SMTP.
+        </script>
+
+        <!-- Module-Level (per-module scripts) -->
+        <script file="start-backend.sh" title="Start Module Backend Server">
+            Starts this module's TCP backend server and writes PID to data/pids/backend.pid.
+        </script>
+        <script file="shutdown-backend.sh" title="Shutdown Module Backend Server">
+            Stops this module's TCP backend server by PID file.
+        </script>
+        <script file="start-frontend.sh" title="Start Module Frontend Webapp">
+            Deploys this module's webapp to Tomcat and verifies the HTTP endpoint.
+        </script>
+        <script file="shutdown-frontend.sh" title="Shutdown Module Frontend Webapp">
+            Undeploys this module's webapp from Tomcat.
+        </script>
+        <script file="start.sh" title="Start Module (Legacy)">
+            Deploys webapp to Tomcat and starts Tomcat if not running.
+        </script>
+        <script file="shutdown.sh" title="Shutdown Module (Legacy)">
+            Undeploys webapp from Tomcat. Use --stop-tomcat to also stop Tomcat.
+        </script>
+
+        <!-- GitHub -->
+        <script file="pull-newer-only.sh" title="Pull Newer Files Only">
+            Git pull with conflict resolution: keeps newer local files, pulls newer remote files.
+        </script>
+
+    </script-descriptors>
 
     <!-- ═══════════════════════════════════════════════════════════════════
          GRACE — fade animation timing

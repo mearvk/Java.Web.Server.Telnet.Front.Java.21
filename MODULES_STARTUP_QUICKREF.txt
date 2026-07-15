@@ -32,16 +32,17 @@ MODULES & THEIR URLS
 
 ✓ AE6E66                        http://localhost:8080/ae6e66/
 ✓ Black Belt                    http://localhost:8080/blackbelt/
+✓ Brarner.M.Alete              http://localhost:8080/brarner.m.alete/
 ✓ CIA                           http://localhost:8080/california-cia/
 ✓ Duke                          http://localhost:8080/california-duke/
 ✓ FBI                           http://localhost:8080/california-fbi/
+✓ Futures                       http://localhost:8080/futures/
 ✓ Gray                          http://localhost:8080/gray-registry/
 ✓ Gray85                        http://localhost:8080/gray85-registry/
 ✓ Green.Durham.Grass.and.Herb  http://localhost:8080/gdgh/
 ✓ Languages                     http://localhost:8080/languages/
 ✓ Library                       http://localhost:8080/library/
 ✓ NSA                           http://localhost:8080/california-nsa/
-✓ Futures                       http://localhost:8080/<endpoint>/
 
 ═══════════════════════════════════════════════════════════════════════════
 
@@ -49,7 +50,7 @@ TROUBLESHOOTING
 ──────────────────────────────────────────────────────────────────────────
 
 Website shows 404:
-  $ tail -f /opt/tomcat/logs/catalina.out
+  $ tail -f ~/tomcat/logs/catalina.out
   $ bash shutdown.sh --stop-tomcat
   $ bash start.sh
 

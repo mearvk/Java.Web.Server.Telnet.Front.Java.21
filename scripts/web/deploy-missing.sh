@@ -4,7 +4,7 @@
 set -e
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-TOMCAT_HOME="${CATALINA_HOME:-/opt/tomcat}"
+TOMCAT_HOME="${CATALINA_HOME:-/home/mearvk/tomcat}"
 WEBAPPS="$TOMCAT_HOME/webapps"
 
 deploy() {
@@ -20,8 +20,8 @@ deploy() {
 echo "[*] Deploying missing webapps..."
 
 deploy "ae6e66" "$PROJECT_ROOT/modules/AE6E66/servlets/servlet/src/main/webapp"
-deploy "futures" "$PROJECT_ROOT/modules/black/red/Futures/servlets/servlet/src/main/webapp"
-deploy "gdgh" "$PROJECT_ROOT/modules/black/presidential/Green.Durham.Grass.and.Herb/servlets/servlet/src/main/webapp"
-deploy "california-nsa" "$PROJECT_ROOT/california/nsa/servlets/servlet/src/main/webapp"
+deploy "futures" "$PROJECT_ROOT/modules/red/Futures/servlets/servlet/src/main/webapp"
+deploy "gdgh" "$PROJECT_ROOT/modules/Green.Durham.Grass.and.Herb/servlets/servlet/src/main/webapp"
+deploy "california-nsa" "$PROJECT_ROOT/modules/nsa/servlets/servlet/src/main/webapp"
 
 echo "[*] Done. Verify: curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/ae6e66/"

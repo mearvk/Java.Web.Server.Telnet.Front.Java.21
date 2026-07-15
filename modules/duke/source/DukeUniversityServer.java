@@ -51,7 +51,7 @@ public class DukeUniversityServer implements Runnable {
         print(". DukeUniversity™ starting on port " + PORT + " .");
         initDatabase();
         try {
-            server = new ServerSocket(PORT);
+            server = new ServerSocket(PORT, 50, java.net.InetAddress.getByName("localhost"));
             print(". DukeUniversity™ listening on port " + PORT + " .");
             while (running) {
                 Socket client = server.accept();

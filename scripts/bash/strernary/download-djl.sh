@@ -32,21 +32,35 @@ JARS=(
 )
 
 echo "[Strernary] Downloading DJL ${DJL_VERSION} jars to ${TARGET_DIR}..."
+echo "    Total: ${#JARS[@]} jars"
+echo ""
+
+DOWNLOADED=0
+SKIPPED=0
+FAILED=0
 
 for JAR_PATH in "${JARS[@]}"; do
     FILENAME=$(basename "$JAR_PATH")
+    CURRENT=$(( DOWNLOADED + SKIPPED + FAILED + 1 ))
     if [ -f "${TARGET_DIR}/${FILENAME}" ]; then
-        echo "  [SKIP] ${FILENAME} already exists."
+        printf "  [%2d/%d] [SKIP] %s (exists)\n" "$CURRENT" "${#JARS[@]}" "$FILENAME"
+        SKIPPED=$((SKIPPED + 1))
     else
-        echo "  [GET]  ${FILENAME}..."
-        wget -q -O "${TARGET_DIR}/${FILENAME}" "${MAVEN_BASE}/${JAR_PATH}" || {
-            echo "  [WARN] Failed to download ${FILENAME}. Continuing..."
+        printf "  [%2d/%d] [GET]  %s... " "$CURRENT" "${#JARS[@]}" "$FILENAME"
+        if curl -# -fL "${MAVEN_BASE}/${JAR_PATH}" -o "${TARGET_DIR}/${FILENAME}" 2>&1; then
+            SIZE=$(du -h "${TARGET_DIR}/${FILENAME}" 2>/dev/null | cut -f1)
+            echo "✓ ($SIZE)"
+            DOWNLOADED=$((DOWNLOADED + 1))
+        else
+            echo "✗"
             rm -f "${TARGET_DIR}/${FILENAME}"
-        }
+            FAILED=$((FAILED + 1))
+        fi
     fi
 done
 
-echo "[Strernary] DJL download complete."
+echo ""
+echo "[Strernary] DJL download complete: $DOWNLOADED new, $SKIPPED cached, $FAILED failed"
 echo "[Strernary] Native PyTorch libs will auto-download on first inference run."
 
 # Add all jars to CLASSPATH environment variable
