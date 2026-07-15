@@ -23,8 +23,9 @@ import java.util.UUID;
  *      returns the resulting HTTP URL.
  *
  * The Apache2 document root is read from nwe-config.xml <apache-root>
- * (default: /var/www/html/nwe).  The public base URL is read from
- * <apache-url> (default: http://localhost/nwe).
+ * (default: /var/www/html/nwe) or from <web-servers><apache><install-dir>
+ * + <app-subdir>.  The public base URL is read from <apache-url> or
+ * <web-servers><apache><public-url> (default: http://localhost/nwe).
  */
 public class BinaryHttpServer extends Thread
 {
@@ -242,6 +243,11 @@ public class BinaryHttpServer extends Thread
     {
         String configured = null;
         try { configured = NitroWebExpressConfig.get("apache-root"); } catch (Exception ignored) {}
+        // Fall back to structured <web-servers><apache> config
+        if (configured == null || configured.isBlank())
+        {
+            try { configured = NitroWebExpressConfig.apacheDocRoot(); } catch (Exception ignored) {}
+        }
         Path preferred = Paths.get(configured != null && !configured.isBlank() ? configured : "/var/www/html/nwe");
         try
         {
@@ -269,6 +275,9 @@ public class BinaryHttpServer extends Thread
         try
         {
             String v = NitroWebExpressConfig.get("apache-url");
+            if (v != null && !v.isBlank()) return v;
+            // Fall back to structured <web-servers><apache><public-url>
+            v = NitroWebExpressConfig.get("public-url");
             return (v != null && !v.isBlank()) ? v : "http://localhost/nwe";
         }
         catch (Exception e) { return "http://localhost/nwe"; }

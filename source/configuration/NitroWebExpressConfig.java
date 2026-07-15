@@ -38,17 +38,46 @@ public class NitroWebExpressConfig
     private final String ANTIVIRUS_SCHEDULE;  // hourly|daily|weekly|monthly|yearly
     private final String ANTIVIRUS_SCAN_PATH;
 
+    // Web-servers configuration (Tomcat & Apache)
+    private final String TOMCAT_VERSION;
+    private final String TOMCAT_INSTALL_DIR;
+    private final String TOMCAT_TECH_ID;
+    private final String TOMCAT_SERVICE_NAME;
+    private final String APACHE_VERSION;
+    private final String APACHE_INSTALL_DIR;
+    private final String APACHE_APP_SUBDIR;
+    private final String APACHE_TECH_ID;
+    private final String APACHE_SERVICE_NAME;
+
     private NitroWebExpressConfig(final Map<String, Boolean> ENABLED,
                                   final String ADMIN_USERNAME,
                                   final String ADMIN_PASSWORD,
                                   final String ANTIVIRUS_SCHEDULE,
-                                  final String ANTIVIRUS_SCAN_PATH)
+                                  final String ANTIVIRUS_SCAN_PATH,
+                                  final String TOMCAT_VERSION,
+                                  final String TOMCAT_INSTALL_DIR,
+                                  final String TOMCAT_TECH_ID,
+                                  final String TOMCAT_SERVICE_NAME,
+                                  final String APACHE_VERSION,
+                                  final String APACHE_INSTALL_DIR,
+                                  final String APACHE_APP_SUBDIR,
+                                  final String APACHE_TECH_ID,
+                                  final String APACHE_SERVICE_NAME)
     {
         this.ENABLED.putAll(ENABLED);
         this.ADMIN_USERNAME       = ADMIN_USERNAME;
         this.ADMIN_PASSWORD       = ADMIN_PASSWORD;
         this.ANTIVIRUS_SCHEDULE   = ANTIVIRUS_SCHEDULE;
         this.ANTIVIRUS_SCAN_PATH  = ANTIVIRUS_SCAN_PATH;
+        this.TOMCAT_VERSION       = TOMCAT_VERSION;
+        this.TOMCAT_INSTALL_DIR   = TOMCAT_INSTALL_DIR;
+        this.TOMCAT_TECH_ID       = TOMCAT_TECH_ID;
+        this.TOMCAT_SERVICE_NAME  = TOMCAT_SERVICE_NAME;
+        this.APACHE_VERSION       = APACHE_VERSION;
+        this.APACHE_INSTALL_DIR   = APACHE_INSTALL_DIR;
+        this.APACHE_APP_SUBDIR    = APACHE_APP_SUBDIR;
+        this.APACHE_TECH_ID       = APACHE_TECH_ID;
+        this.APACHE_SERVICE_NAME  = APACHE_SERVICE_NAME;
     }
 
     // ── Public API ────────────────────────────────────────────────────────────
@@ -64,6 +93,43 @@ public class NitroWebExpressConfig
     public static String adminPassword()        { return get().ADMIN_PASSWORD; }
     public static String antivirusSchedule()    { return get().ANTIVIRUS_SCHEDULE; }
     public static String antivirusScanPath()    { return get().ANTIVIRUS_SCAN_PATH; }
+
+    // ── Web-Servers Accessors (from <web-servers> section) ────────────────────
+
+    /** Tomcat version from &lt;web-servers&gt;&lt;tomcat&gt;&lt;version&gt;. Default: "11.0.2". */
+    public static String tomcatVersion()       { return get().TOMCAT_VERSION; }
+
+    /** Tomcat install directory from &lt;web-servers&gt;&lt;tomcat&gt;&lt;install-dir&gt;. Default: "/opt/apache-tomcat-11.0.2". */
+    public static String tomcatInstallDir()    { return get().TOMCAT_INSTALL_DIR; }
+
+    /** Installer tech ID for Tomcat from &lt;web-servers&gt;&lt;tomcat&gt;&lt;tech-id&gt;. */
+    public static String tomcatTechId()        { return get().TOMCAT_TECH_ID; }
+
+    /** Tomcat system service name from &lt;web-servers&gt;&lt;tomcat&gt;&lt;service-name&gt;. Default: "tomcat". */
+    public static String tomcatServiceName()   { return get().TOMCAT_SERVICE_NAME; }
+
+    /** Apache version from &lt;web-servers&gt;&lt;apache&gt;&lt;version&gt;. Default: "2.4". */
+    public static String apacheVersion()       { return get().APACHE_VERSION; }
+
+    /** Apache document root from &lt;web-servers&gt;&lt;apache&gt;&lt;install-dir&gt;. Default: "/var/www/html". */
+    public static String apacheInstallDir()    { return get().APACHE_INSTALL_DIR; }
+
+    /** Apache NWE subdirectory from &lt;web-servers&gt;&lt;apache&gt;&lt;app-subdir&gt;. Default: "nwe". */
+    public static String apacheAppSubdir()     { return get().APACHE_APP_SUBDIR; }
+
+    /** Installer tech ID for Apache from &lt;web-servers&gt;&lt;apache&gt;&lt;tech-id&gt;. */
+    public static String apacheTechId()        { return get().APACHE_TECH_ID; }
+
+    /** Apache system service name from &lt;web-servers&gt;&lt;apache&gt;&lt;service-name&gt;. Default: "apache2". */
+    public static String apacheServiceName()   { return get().APACHE_SERVICE_NAME; }
+
+    /** Returns the full Apache document root path: install-dir + "/" + app-subdir. */
+    public static String apacheDocRoot()
+    {
+        String dir = get().APACHE_INSTALL_DIR;
+        String sub = get().APACHE_APP_SUBDIR;
+        return (dir.endsWith("/") ? dir : dir + "/") + sub;
+    }
 
     /** Returns the fully-qualified class name of the selected server-class option.
      *  Defaults to "server.base.BaseServer" if not configured. */
@@ -173,11 +239,27 @@ public class NitroWebExpressConfig
                 }
 
                 INSTANCE = new NitroWebExpressConfig(enabled, adminUser, adminPass,
-                    antivirusSchedule(doc), antivirusScanPath(doc));
+                    antivirusSchedule(doc), antivirusScanPath(doc),
+                    webServerText(doc, "tomcat", "version", "11.0.2"),
+                    webServerText(doc, "tomcat", "install-dir", "/opt/apache-tomcat-11.0.2"),
+                    webServerText(doc, "tomcat", "tech-id", "MEARVK-LLC-Default"),
+                    webServerText(doc, "tomcat", "service-name", "tomcat"),
+                    webServerText(doc, "apache", "version", "2.4"),
+                    webServerText(doc, "apache", "install-dir", "/var/www/html"),
+                    webServerText(doc, "apache", "app-subdir", "nwe"),
+                    webServerText(doc, "apache", "tech-id", "MEARVK-LLC-Default"),
+                    webServerText(doc, "apache", "service-name", "apache2"));
 
                 CommonRails.printSystemComponent(
                     NitroWebExpressConfig.class, NitroWebExpressConfig.class.hashCode(),
                     ". NWECONFIG loaded — " + enabled.size() + " server entries, admin='" + adminUser + "' .",
+                    ColorPalette.COLOR_LIME_GREEN);
+
+                CommonRails.printSystemComponent(
+                    NitroWebExpressConfig.class, NitroWebExpressConfig.class.hashCode(),
+                    ". WEB-SERVERS — Tomcat " + INSTANCE.TOMCAT_VERSION + " at " + INSTANCE.TOMCAT_INSTALL_DIR
+                        + " | Apache " + INSTANCE.APACHE_VERSION + " at " + INSTANCE.APACHE_INSTALL_DIR + "/" + INSTANCE.APACHE_APP_SUBDIR
+                        + " | tech-id=" + INSTANCE.TOMCAT_TECH_ID + " .",
                     ColorPalette.COLOR_LIME_GREEN);
             }
             catch (Exception e)
@@ -207,7 +289,9 @@ public class NitroWebExpressConfig
 
     private static NitroWebExpressConfig defaults()
     {
-        return new NitroWebExpressConfig(new HashMap<>(), "mearvk", "n21admin", "daily", ".");
+        return new NitroWebExpressConfig(new HashMap<>(), "mearvk", "n21admin", "daily", ".",
+            "11.0.2", "/opt/apache-tomcat-11.0.2", "MEARVK-LLC-Default", "tomcat",
+            "2.4", "/var/www/html", "nwe", "MEARVK-LLC-Default", "apache2");
     }
 
     /** Extract &lt;schedule&gt; from the ANTIVIRUS server block, default "daily". */
@@ -242,6 +326,25 @@ public class NitroWebExpressConfig
         if (nl.getLength() == 0) return DEF;
         String v = nl.item(0).getTextContent().trim();
         return v.isEmpty() ? DEF : v;
+    }
+
+    /** Extract a value from &lt;web-servers&gt;&lt;serverType&gt;&lt;tag&gt;...&lt;/tag&gt;&lt;/serverType&gt;&lt;/web-servers&gt;.
+     *  @param serverType "tomcat" or "apache"
+     *  @param tag        child element name (e.g. "version", "install-dir", "tech-id")
+     *  @param def        default value if not found */
+    private static String webServerText(final Document DOC, final String serverType, final String tag, final String def)
+    {
+        try
+        {
+            NodeList wsList = DOC.getElementsByTagName("web-servers");
+            if (wsList.getLength() == 0) return def;
+            Element wsEl = (Element) wsList.item(0);
+            NodeList typeList = wsEl.getElementsByTagName(serverType);
+            if (typeList.getLength() == 0) return def;
+            Element typeEl = (Element) typeList.item(0);
+            return text(typeEl, tag, def);
+        }
+        catch (Exception e) { return def; }
     }
 
     private static void haltWithException(Exception cause)
