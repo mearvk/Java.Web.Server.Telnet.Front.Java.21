@@ -45,41 +45,47 @@
     </div>
 </section>
 
-<!-- FBI Connector Button (BMA pattern) -->
+<!-- CD1 Connector Button + Floating Dialog (BMA Template) -->
 <div style="display:flex;justify-content:center;align-items:center;width:100%;padding:2rem 0;">
-    <button id="fbi-btn" type="button" style="all:unset;display:block;cursor:pointer;transition:transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84),filter 0.3s ease;">
-        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#7f1d1d);display:flex;align-items:center;justify-content:center;border:2px solid #991b1b;box-shadow:0 4px 24px rgba(220,38,38,0.3);">
-            <span style="font-size:1.5rem;font-weight:800;color:#fff;">FBI</span>
-        </div>
+    <button id="cd1-btn" type="button" aria-pressed="false" style="all:unset;display:block;margin:0 auto;cursor:pointer;padding:0;border:none;background:transparent;transition:transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84),filter 0.3s ease;">
+        <img src="images/black.button.png" alt="Connector" style="display:block;width:80px;height:80px;border-radius:50%;background:transparent;"/>
     </button>
 </div>
-<div id="fbi-overlay" style="display:none;position:fixed;inset:0;z-index:299;background:transparent;"></div>
-<div id="fbi-dialog" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:300;background:#111118;border:1px solid #27272a;border-radius:12px;padding:1.25rem;width:560px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
-    <div style="font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.75rem;">FBI Connector — tips.fbi.gov</div>
-    <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
-        <select id="fbi-action" style="background:#1a1a24;color:#fff;border:1px solid #27272a;border-radius:8px;padding:0.45rem 2rem 0.45rem 0.75rem;font-size:0.8rem;cursor:pointer;">
-            <option value="connect">Connect to FBI Tips</option>
-            <option value="ic3">Connect to IC3 (Cyber)</option>
-            <option value="field">LA Field Office</option>
-            <option value="status">Check Status</option>
+<div id="cd1-overlay" style="display:none;position:fixed;inset:0;z-index:299;background:transparent;"></div>
+<div id="cd1-dialog" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:300;background:#111118;border:1px solid #27272a;border-radius:12px;padding:1.25rem;width:520px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+    <div style="font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.75rem;">CaliforniaFBI Connector &#8212; Overview</div>
+    <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;align-items:center;">
+        <select id="cd1-action" style="background:#1a1a24;color:#fff;border:1px solid #27272a;border-radius:8px;padding:0.45rem 2rem 0.45rem 0.75rem;font-size:0.8rem;cursor:pointer;appearance:none;">
+            <option value="connect">Connect</option>
+            <option value="disconnect">Disconnect</option>
+            <option value="poll">Poll Area Data</option>
+            <option value="hardreset">Hard Reset Connection</option>
         </select>
-        <button onclick="fbiSend()" style="background:#dc2626;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Send</button>
-        <button onclick="fbiClose()" style="background:#dc2626;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
+        <button onclick="cd1Send()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Send</button>
+        <button onclick="cd1Ok()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
     </div>
-    <textarea id="fbi-textarea" placeholder="Connection idle..." spellcheck="false" style="width:100%;min-height:140px;background:#fff;color:#111;border:1px solid #27272a;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:0.8rem;resize:vertical;"></textarea>
+    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+        <label style="display:flex;align-items:center;gap:0.4rem;color:#a1a1aa;font-size:0.75rem;cursor:pointer;">
+            <input type="checkbox" id="cd1-direct-port" style="accent-color:#3b82f6;width:14px;height:14px;cursor:pointer;"/>
+            Direct Port (bypass Strernary&#8482; 20000)
+        </label>
+        <span id="cd1-mode-badge" style="font-size:0.65rem;background:#1e3a5f;color:#60a5fa;padding:0.2rem 0.5rem;border-radius:4px;">STRERNARY</span>
+    </div>
+    <textarea id="cd1-textarea" placeholder="Connection idle..." spellcheck="false" style="width:100%;min-height:140px;background:#ffffff;color:#111;border:1px solid #27272a;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:0.8rem;resize:vertical;"></textarea>
 </div>
+<script>window.CD1_MODULE_PORT = "49210";</script>
+<script src="js/cd1-connector.js"></script>
 <script>
-const btn=document.getElementById('fbi-btn'),dlg=document.getElementById('fbi-dialog'),ov=document.getElementById('fbi-overlay'),ta=document.getElementById('fbi-textarea');
-btn.onclick=()=>{dlg.style.display='block';ov.style.display='block';};
-ov.onclick=()=>{dlg.style.display='none';ov.style.display='none';};
-function fbiClose(){dlg.style.display='none';ov.style.display='none';}
-function fbiSend(){
-    const action=document.getElementById('fbi-action').value;
-    const urls={connect:'https://tips.fbi.gov/',ic3:'https://www.ic3.gov/',field:'https://www.fbi.gov/contact-us/field-offices/losangeles',status:'STATUS'};
-    if(action==='status'){ta.value='Connecting to CaliforniaFBI™ port 49210...\nSTATUS|OK|port=49210|db=nwe_california_fbi';return;}
-    ta.value='Opening: '+urls[action]+'\n';
-    window.open(urls[action],'_blank');
-}
+(function() {
+    var cb = document.getElementById("cd1-direct-port");
+    var badge = document.getElementById("cd1-mode-badge");
+    if (!cb || !badge) return;
+    function update() { badge.textContent = cb.checked ? "DIRECT" : "STRERNARY"; badge.style.background = cb.checked ? "#1e3f1e" : "#1e3a5f"; badge.style.color = cb.checked ? "#4ade80" : "#60a5fa"; }
+    cb.addEventListener("change", update);
+    var saved = localStorage.getItem("nwe-cd1-direct-port");
+    if (saved === "true") { cb.checked = true; update(); }
+    cb.addEventListener("change", function() { localStorage.setItem("nwe-cd1-direct-port", cb.checked); });
+})();
 </script>
 
 <section class="section">
