@@ -14,10 +14,128 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/jars/mysql/mysql-connector-j-9.7.0.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.lanterna</groupId>
+            <artifactId>lanterna</artifactId>
+            <version>3.1.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/lanterna-3.1.5.jar</systemPath>
+        </dependency>
+        <!-- Pre-compiled module classes (gray.a85 — non-standard dir layout) -->
+        <dependency>
+            <groupId>mearvk.us</groupId>
+            <artifactId>nwe-compiled-modules</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/nwe-modules-stub.jar</systemPath>
+        </dependency>
+        <!-- DJL (Deep Java Library) — AI inference for Strernary and Futures -->
+        <dependency>
+            <groupId>ai.djl</groupId>
+            <artifactId>api</artifactId>
+            <version>0.31.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/api-0.31.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ai.djl</groupId>
+            <artifactId>basicdataset</artifactId>
+            <version>0.31.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/basicdataset-0.31.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ai.djl</groupId>
+            <artifactId>model-zoo</artifactId>
+            <version>0.31.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/model-zoo-0.31.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ai.djl.pytorch</groupId>
+            <artifactId>pytorch-engine</artifactId>
+            <version>0.31.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/pytorch-engine-0.31.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ai.djl.pytorch</groupId>
+            <artifactId>pytorch-model-zoo</artifactId>
+            <version>0.31.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/pytorch-model-zoo-0.31.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ai.djl</groupId>
+            <artifactId>tokenizers</artifactId>
+            <version>0.31.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/tokenizers-0.31.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/gson-2.11.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.14.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/jna-5.14.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.12</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/slf4j-api-2.0.12.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.12</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/slf4j-simple-2.0.12.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.26.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/djl/commons-compress-1.26.1.jar</systemPath>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>${project.basedir}/source</sourceDirectory>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>add-module-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>add-source</goal></goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.basedir}/modules/fbi/source</source>
+                                <source>${project.basedir}/modules/cia/source</source>
+                                <source>${project.basedir}/modules/nsa/source</source>
+                                <source>${project.basedir}/modules/duke/source</source>
+                                <source>${project.basedir}/modules/library/source</source>
+                                <source>${project.basedir}/modules/gray/source</source>
+                                <source>${project.basedir}/modules/red/Futures/source</source>
+                                <source>${project.basedir}/modules/AE6E66/source</source>
+                                <source>${project.basedir}/modules/Green.Durham.Grass.and.Herb/source</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
