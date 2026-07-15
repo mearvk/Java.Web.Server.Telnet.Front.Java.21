@@ -135,6 +135,34 @@ if [ ${#MISSING[@]} -gt 0 ]; then
     sleep 3
 fi
 
+# ── Force Tomcat to reload all contexts if any show 404 ──────────────────────
+echo ""
+echo "  [*] Checking Tomcat webapp loading..."
+NEEDS_RELOAD=0
+for MODULE_SPEC in "${MODULES[@]}"; do
+    IFS=':' read -r MOD_DIR CONTEXT <<< "$MODULE_SPEC"
+    HC=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 "http://localhost:8080/$CONTEXT/" 2>/dev/null || echo "000")
+    if [ "$HC" = "404" ] || [ "$HC" = "000" ]; then
+        NEEDS_RELOAD=1
+        break
+    fi
+done
+
+if [ "$NEEDS_RELOAD" -eq 1 ]; then
+    echo "  [*] Some webapps returning 404 — restarting Tomcat to force reload..."
+    if [ -x "$TOMCAT_HOME/bin/shutdown.sh" ]; then
+        "$TOMCAT_HOME/bin/shutdown.sh" >/dev/null 2>&1 || true
+        sleep 3
+        "$TOMCAT_HOME/bin/startup.sh" >/dev/null 2>&1
+    else
+        sudo systemctl restart tomcat 2>/dev/null || true
+    fi
+    echo "  [*] Waiting for Tomcat to load webapps (8s)..."
+    sleep 8
+else
+    echo "  [✓] All webapps loaded — no restart needed"
+fi
+
 # ── Verify HTTP endpoints ─────────────────────────────────────────────────────
 echo ""
 echo "  [*] Verifying HTTP endpoints..."
