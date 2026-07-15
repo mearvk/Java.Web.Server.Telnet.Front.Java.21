@@ -1,12 +1,12 @@
 #!/bin/bash
-# AE6E66™ — Deploy Local (Deploy to local Tomcat)
+# AE6E66â„¢ â€” Deploy Local (Deploy to local Tomcat)
 # Usage: bash modules/AE6E66/servlets/deploy-local.sh [tomcat_home]
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AE6E66_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$AE6E66_ROOT/servlets/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 
 # Source shared deploy library for validation
 _NWE="$(cd "$(dirname "$0")" && cd ../../.. 2>/dev/null && pwd)"
@@ -20,11 +20,11 @@ _NWE="$(cd "$(dirname "$0")" && cd ../../.. 2>/dev/null && pwd)"
 [ -f "$_NWE/scripts/deploy-functions.sh" ] && source "$_NWE/scripts/deploy-functions.sh"
 if type nwe_validate_tomcat &>/dev/null; then nwe_validate_tomcat "$TOMCAT_HOME" || exit 1; fi
 
-echo "═══════════════════════════════════════════════════════════════"
-echo " AE6E66™ — Deploy Local"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+echo " AE6E66â„¢ â€” Deploy Local"
 echo " Source:  $WEBAPP_SRC"
 echo " Target:  $DEPLOY_DIR"
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 
 if [ ! -d "$WEBAPP_SRC" ]; then
     echo "[!] Webapp source not found"; exit 1
@@ -43,9 +43,9 @@ if [ -d "$JAVA_SRC" ]; then
         SERVLET_API=$(find "$TOMCAT_HOME/lib" -name "jakarta.servlet-api*.jar" -o -name "servlet-api*.jar" 2>/dev/null | head -1)
     fi
     if [ -n "$SERVLET_API" ] && [ -f "$SERVLET_API" ]; then
-        find "$JAVA_SRC" -name "*.java" | xargs javac -d "$DEPLOY_DIR/WEB-INF/classes" -cp "$SERVLET_API" 2>&1 && echo "[*] Compiled servlet classes" || echo "[!] Compile failed — check Jakarta Servlet API in $TOMCAT_HOME/lib"
+        find "$JAVA_SRC" -name "*.java" | xargs javac -d "$DEPLOY_DIR/WEB-INF/classes" -cp "$SERVLET_API" 2>&1 && echo "[*] Compiled servlet classes" || echo "[!] Compile failed â€” check Jakarta Servlet API in $TOMCAT_HOME/lib"
     else
-        echo "[!] No servlet-api jar found in $TOMCAT_HOME/lib — filter class not compiled"
+        echo "[!] No servlet-api jar found in $TOMCAT_HOME/lib â€” filter class not compiled"
     fi
 fi
 
@@ -56,11 +56,11 @@ if [ -n "$JDBC_JAR" ]; then
     cp "$JDBC_JAR" "$DEPLOY_DIR/WEB-INF/lib/"
     echo "[*] MySQL connector: $(basename "$JDBC_JAR")"
 else
-    echo "[!] WARNING: mysql-connector-j not found — JDBC pages will fail"
+    echo "[!] WARNING: mysql-connector-j not found â€” JDBC pages will fail"
 fi
 
 chown -R tomcat:tomcat "$DEPLOY_DIR" 2>/dev/null || true
 
-echo "[✓] Deployed to: $DEPLOY_DIR"
+echo "[âœ“] Deployed to: $DEPLOY_DIR"
 echo "    URL: http://localhost:8080/$CONTEXT/"
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"

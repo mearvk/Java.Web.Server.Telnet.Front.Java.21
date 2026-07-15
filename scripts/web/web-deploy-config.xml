@@ -3,9 +3,12 @@
     NitroWebExpress™ — Web Module Deployment Configuration
     Controls which servlet webapps are installed, started, and scheduled.
     Edit this file to enable/disable modules before running deploy scripts.
+
+    NOTE: <tomcat-home> is kept in sync with configuration/nwe-config.xml
+    <web-servers><tomcat><install-dir> by post-clone.sh and deploy scripts.
 -->
 <web-deploy>
-    <tomcat-home>/home/mearvk/tomcat</tomcat-home>
+    <tomcat-home>/opt/apache-tomcat-11.0.2</tomcat-home>
     <mysql-host>127.0.0.1</mysql-host>
     <mysql-port>3306</mysql-port>
     <mysql-user>root</mysql-user>

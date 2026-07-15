@@ -17,7 +17,7 @@ cat > "$FUTURES_DIR/deploy-local.sh" << 'EOF'
 set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WEBAPP_SRC="$SCRIPT_DIR/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/futures"
 echo "[*] Deploying Futures™ to $DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
@@ -40,7 +40,7 @@ cat > "$GDGH_DIR/deploy-local.sh" << 'EOF'
 set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WEBAPP_SRC="$SCRIPT_DIR/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/gdgh"
 echo "[*] Deploying Green.Durham.Grass.and.Herb™ to $DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/lib"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Brarner.M.Alete™ — Quick Local Deploy (exploded, no WAR)
+# Brarner.M.Aleteâ„¢ â€” Quick Local Deploy (exploded, no WAR)
 # Copies webapp directly to Tomcat webapps for immediate serving.
 # Usage: sudo bash install/deploy-local.sh [tomcat_home]
 set -e
@@ -17,15 +17,15 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BMA_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$BMA_ROOT/servlets/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 CONTEXT="brarner.m.alete"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/$CONTEXT"
 
-echo "═══════════════════════════════════════════════════════════════"
-echo " Brarner.M.Alete™ — Quick Local Deploy"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+echo " Brarner.M.Aleteâ„¢ â€” Quick Local Deploy"
 echo " Source:  $WEBAPP_SRC"
 echo " Target:  $DEPLOY_DIR"
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 
 if [ ! -d "$WEBAPP_SRC" ]; then
     echo "[!] Webapp source not found: $WEBAPP_SRC"
@@ -38,7 +38,7 @@ if [ ! -d "$TOMCAT_HOME/webapps" ]; then
     exit 1
 fi
 
-# Deploy exploded webapp (rsync for speed — only copies changed files)
+# Deploy exploded webapp (rsync for speed â€” only copies changed files)
 echo "[*] Deploying exploded webapp..."
 mkdir -p "$DEPLOY_DIR/WEB-INF/classes" "$DEPLOY_DIR/WEB-INF/lib"
 TOTAL_FILES=$(find "$WEBAPP_SRC" -type f 2>/dev/null | wc -l)
@@ -47,8 +47,8 @@ echo "    Source: $TOTAL_FILES files ($SRC_SIZE)"
 if command -v rsync &>/dev/null; then
     echo "    Syncing to $DEPLOY_DIR ..."
     rsync -a --delete --progress --exclude='db.properties' "$WEBAPP_SRC/" "$DEPLOY_DIR/" 2>&1 | \
-        awk 'BEGIN{n=0} /to-chk/{n++; printf "\r    [rsync] %d files transferred...", n; fflush()} END{printf "\r    [rsync] %d files transferred ✓\n", n}'
-    echo "    [✓] rsync complete ($SRC_SIZE)"
+        awk 'BEGIN{n=0} /to-chk/{n++; printf "\r    [rsync] %d files transferred...", n; fflush()} END{printf "\r    [rsync] %d files transferred âœ“\n", n}'
+    echo "    [âœ“] rsync complete ($SRC_SIZE)"
 else
     rm -rf "$DEPLOY_DIR"
     mkdir -p "$DEPLOY_DIR/WEB-INF/classes" "$DEPLOY_DIR/WEB-INF/lib"
@@ -61,7 +61,7 @@ else
         sleep 1
     done
     wait "$CP_PID"
-    printf "\r    Copying: %d / %d files ✓\n" "$TOTAL_FILES" "$TOTAL_FILES"
+    printf "\r    Copying: %d / %d files âœ“\n" "$TOTAL_FILES" "$TOTAL_FILES"
 fi
 
 # Copy JARs from jars/ directory (preferred) or lib/
@@ -74,7 +74,7 @@ elif ls "$BMA_ROOT/lib/"*.jar &>/dev/null; then
     echo "[*] JARs copied from lib/ to WEB-INF/lib/"
 fi
 
-# Ensure db.properties exists — use .nwe-credentials or prompt if interactive
+# Ensure db.properties exists â€” use .nwe-credentials or prompt if interactive
 DB_PROPS="$DEPLOY_DIR/WEB-INF/db.properties"
 if [ ! -f "$DB_PROPS" ] || ! grep -q "db.password=." "$DB_PROPS" 2>/dev/null || grep -q "CHANGE_ME" "$DB_PROPS" 2>/dev/null; then
     # Try .nwe-credentials first (non-interactive safe)
@@ -83,7 +83,7 @@ if [ ! -f "$DB_PROPS" ] || ! grep -q "db.password=." "$DB_PROPS" 2>/dev/null || 
         source "$NWE_ROOT/.nwe-credentials"
         mkdir -p "$DEPLOY_DIR/WEB-INF"
         cat > "$DB_PROPS" <<EOF
-# BMA Database Configuration — auto-generated from .nwe-credentials
+# BMA Database Configuration â€” auto-generated from .nwe-credentials
 db.driver=com.mysql.cj.jdbc.Driver
 db.url=jdbc:mysql://${NWE_DB_HOST:-127.0.0.1}:${NWE_DB_PORT:-3306}/BrarnerScience
 db.user=${NWE_DB_USER:-root}
@@ -92,7 +92,7 @@ EOF
         chmod 600 "$DB_PROPS"
         echo "[*] db.properties generated from .nwe-credentials"
     elif [ -t 0 ]; then
-        # Interactive terminal — prompt for credentials
+        # Interactive terminal â€” prompt for credentials
         echo ""
         echo "[*] db.properties needs MySQL credentials for JSP pages."
         read -rp "    MySQL user [root]: " DB_USER
@@ -105,7 +105,7 @@ EOF
         DB_PORT="${DB_PORT:-3306}"
         mkdir -p "$DEPLOY_DIR/WEB-INF"
         cat > "$DB_PROPS" <<EOF
-# BMA Database Configuration — written by deploy-local.sh
+# BMA Database Configuration â€” written by deploy-local.sh
 db.driver=com.mysql.cj.jdbc.Driver
 db.url=jdbc:mysql://${DB_HOST}:${DB_PORT}/BrarnerScience
 db.user=${DB_USER}
@@ -114,7 +114,7 @@ EOF
         chmod 600 "$DB_PROPS"
         echo "[*] db.properties written"
     else
-        # Non-interactive and no credentials file — skip (don't hang)
+        # Non-interactive and no credentials file â€” skip (don't hang)
         echo "[!] db.properties missing and no .nwe-credentials found (non-interactive)"
         echo "    JSP database pages will fail. Create .nwe-credentials and redeploy."
     fi
@@ -149,7 +149,7 @@ if [ -d "$LEGAL_SAFE" ]; then
     chmod 444 "$DEPLOY_DIR/data/legal/"* 2>/dev/null || true
     echo "[*] Legal data deployed to $DEPLOY_DIR/data/legal/ (read-only)"
 else
-    echo "[!] Legal safe data not found — run: bash data/legal/download-legal-data.sh && bash data/legal/unzip-and-consume.sh"
+    echo "[!] Legal safe data not found â€” run: bash data/legal/download-legal-data.sh && bash data/legal/unzip-and-consume.sh"
 fi
 
 # Deploy smartphone edition
@@ -162,13 +162,13 @@ else
     echo "[!] Smartphone edition not found at $SMARTPHONE_SRC"
 fi
 
-# Create www and web symlinks in BMA project root → canonical deploy dir
+# Create www and web symlinks in BMA project root â†’ canonical deploy dir
 ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/www"
 ln -sfn "$DEPLOY_DIR" "$BMA_ROOT/web"
-echo "[*] Symlinks: www → $DEPLOY_DIR, web → $DEPLOY_DIR"
+echo "[*] Symlinks: www â†’ $DEPLOY_DIR, web â†’ $DEPLOY_DIR"
 
 echo ""
-echo "[✓] Deployed to: $DEPLOY_DIR"
+echo "[âœ“] Deployed to: $DEPLOY_DIR"
 echo ""
 JSP_LIST=$(find "$WEBAPP_SRC" -maxdepth 1 -name "*.jsp" -printf "%f " 2>/dev/null | sort)
 echo "    JSP:  ${JSP_LIST}"
@@ -176,7 +176,7 @@ echo "    DB:   WEB-INF/db.properties"
 echo "    URL:  http://localhost:8080/$CONTEXT/"
 echo ""
 
-# ─── Backend note (deploy does NOT start backends — use start-all.sh) ────────
+# â”€â”€â”€ Backend note (deploy does NOT start backends â€” use start-all.sh) â”€â”€â”€â”€â”€â”€â”€â”€
 NWE_ROOT="$(cd "$BMA_ROOT/../../../.." 2>/dev/null && pwd)"
 PID_FILE="$NWE_ROOT/data/nwe-main.pid"
 
@@ -185,9 +185,9 @@ if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
 else
     echo "[*] Backend not running. Start separately with:"
     echo "    bash scripts/start-all.sh"
-    echo "    — or —"
+    echo "    â€” or â€”"
     echo "    bash scripts/start-backend-modules.sh"
 fi
 
 echo ""
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"

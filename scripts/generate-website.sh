@@ -469,7 +469,7 @@ cat > "$INSTALL_DIR/deploy-local.sh" << 'DEPLOYEOF'
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MOD_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$MOD_ROOT/servlets/servlet/src/main/webapp"
-TOMCAT_HOME="${CATALINA_HOME:-/home/mearvk/tomcat}"
+TOMCAT_HOME="${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}"
 DEPLOYEOF
 
 cat >> "$INSTALL_DIR/deploy-local.sh" << DEPLOYEOF2

@@ -4,7 +4,7 @@
 set -e
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-TOMCAT_HOME="${CATALINA_HOME:-/home/mearvk/tomcat}"
+TOMCAT_HOME="${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}"
 WEBAPPS="$TOMCAT_HOME/webapps"
 
 deploy() {

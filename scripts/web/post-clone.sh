@@ -76,38 +76,61 @@ echo "[*] Configuring MySQL root for JDBC (caching_sha2_password)..."
 sudo mysql -e "ALTER USER '${NWE_DB_USER:-root}'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${NWE_DB_PASS}'; FLUSH PRIVILEGES;" 2>/dev/null || true
 echo "[OK] MySQL password configured for user=${NWE_DB_USER:-root}"
 
-# 4. Ensure Tomcat
-TOMCAT_HOME="/home/mearvk/tomcat"
+# 4. Ensure Tomcat — reads version/dir from nwe-config.xml <web-servers><tomcat>
+NWE_CONFIG="$PROJECT_ROOT/configuration/nwe-config.xml"
+TOMCAT_VERSION=$(sed -n '/<tomcat>/,/<\/tomcat>/p' "$NWE_CONFIG" | grep -oP '(?<=<version>)[^<]+' 2>/dev/null || echo "11.0.2")
+TOMCAT_HOME=$(sed -n '/<tomcat>/,/<\/tomcat>/p' "$NWE_CONFIG" | grep -oP '(?<=<install-dir>)[^<]+' 2>/dev/null || echo "/opt/apache-tomcat-11.0.2")
+TOMCAT_ARCHIVE_URL=$(sed -n '/<tomcat>/,/<\/tomcat>/p' "$NWE_CONFIG" | grep -oP '(?<=<archive-url>)[^<]+' 2>/dev/null || echo "https://archive.apache.org/dist/tomcat/tomcat-11/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz")
+TOMCAT_ARCHIVE="apache-tomcat-${TOMCAT_VERSION}.tar.gz"
+
+echo "[*] Tomcat config: version=$TOMCAT_VERSION dir=$TOMCAT_HOME"
+
 if [ ! -f "$TOMCAT_HOME/bin/catalina.sh" ]; then
-    echo "[*] Installing Tomcat 11..."
-    cd /tmp && curl -# -fL "https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz" -o apache-tomcat-11.0.2.tar.gz
+    echo "[*] Installing Tomcat ${TOMCAT_VERSION}..."
+    cd /tmp && curl -# -fL "$TOMCAT_ARCHIVE_URL" -o "$TOMCAT_ARCHIVE"
 
     # SECURITY: Verify download integrity before extracting.
     # Tomcat archives have been targeted by supply-chain attacks in the past.
-    # SHA-512 hash sourced from https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz.sha512
+    # SHA-512 hash sourced from Apache archive mirrors.
     echo "[*] Verifying Tomcat SHA-512 checksum..."
-    TOMCAT_SHA512_URL="https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz.sha512"
+    TOMCAT_SHA512_URL="${TOMCAT_ARCHIVE_URL}.sha512"
     EXPECTED_SHA512=$(curl -sfL "$TOMCAT_SHA512_URL" | awk '{print $1}')
-    ACTUAL_SHA512=$(sha512sum /tmp/apache-tomcat-11.0.2.tar.gz | awk '{print $1}')
+    ACTUAL_SHA512=$(sha512sum "/tmp/$TOMCAT_ARCHIVE" | awk '{print $1}')
     if [ -z "$EXPECTED_SHA512" ]; then
         echo "[WARN] Could not fetch SHA-512 from Apache — skipping verification (network issue?)"
     elif [ "$ACTUAL_SHA512" != "$EXPECTED_SHA512" ]; then
         echo "[ERROR] SHA-512 MISMATCH! Downloaded Tomcat archive may be corrupted or tampered with."
         echo "        Expected: $EXPECTED_SHA512"
         echo "        Actual:   $ACTUAL_SHA512"
-        echo "        Aborting Tomcat installation. Remove /tmp/apache-tomcat-11.0.2.tar.gz and retry."
-        rm -f /tmp/apache-tomcat-11.0.2.tar.gz
+        echo "        Aborting Tomcat installation. Remove /tmp/$TOMCAT_ARCHIVE and retry."
+        rm -f "/tmp/$TOMCAT_ARCHIVE"
         exit 1
     else
         echo "[OK] SHA-512 verified"
     fi
 
-    mkdir -p "$TOMCAT_HOME" && tar -xzf apache-tomcat-11.0.2.tar.gz -C "$TOMCAT_HOME" --strip-components=1
-    rm -f apache-tomcat-11.0.2.tar.gz
+    mkdir -p "$TOMCAT_HOME" && tar -xzf "$TOMCAT_ARCHIVE" -C "$TOMCAT_HOME" --strip-components=1
+    rm -f "$TOMCAT_ARCHIVE"
     id tomcat &>/dev/null || useradd -r -M -d "$TOMCAT_HOME" -s /bin/false tomcat
     chown -R tomcat:tomcat "$TOMCAT_HOME" && chmod +x "$TOMCAT_HOME"/bin/*.sh
 fi
-echo "[OK] Tomcat: $TOMCAT_HOME"
+echo "[OK] Tomcat ${TOMCAT_VERSION}: $TOMCAT_HOME"
+
+# 4.1 Stamp Installer Tech ID into nwe-config.xml
+INSTALLER_TECH_ID="${NWE_INSTALLER_TECH_ID:-$(hostname)-$(date +%Y%m%d-%H%M%S)}"
+echo "[*] Installer Tech ID: $INSTALLER_TECH_ID"
+# Update <tech-id> in the tomcat section
+sed -i "/<tomcat>/,/<\/tomcat>/ s|<tech-id>[^<]*</tech-id>|<tech-id>${INSTALLER_TECH_ID}</tech-id>|" "$NWE_CONFIG"
+# Update <tech-id> in the apache section
+sed -i "/<apache>/,/<\/apache>/ s|<tech-id>[^<]*</tech-id>|<tech-id>${INSTALLER_TECH_ID}</tech-id>|" "$NWE_CONFIG"
+echo "[OK] Tech ID stamped in nwe-config.xml"
+
+# 4.2 Sync tomcat-home into web-deploy-config.xml
+DEPLOY_CONFIG="$PROJECT_ROOT/scripts/web/web-deploy-config.xml"
+if [ -f "$DEPLOY_CONFIG" ]; then
+    sed -i "s|<tomcat-home>[^<]*</tomcat-home>|<tomcat-home>${TOMCAT_HOME}</tomcat-home>|" "$DEPLOY_CONFIG"
+    echo "[OK] web-deploy-config.xml synced with tomcat-home=$TOMCAT_HOME"
+fi
 
 # 5. Make all scripts executable
 find "$PROJECT_ROOT" -name "*.sh" -exec chmod +x {} \;

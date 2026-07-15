@@ -367,9 +367,51 @@
     </server>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         WEB SERVERS — Tomcat & Apache Installation Configuration
+         ═══════════════════════════════════════════════════════════════════
+         Authoritative directory/version settings for Tomcat and Apache.
+         All deploy, startup, and shutdown scripts read from here.
+
+         version:       The installed software version (e.g. 11.0.2)
+         install-dir:   Filesystem path where the software is installed.
+                        For Tomcat this is CATALINA_HOME.
+                        For Apache this is the document root.
+         tech-id:       Installer Tech ID — identifies who performed or
+                        authorized the installation. Written by post-clone.sh
+                        and verified by integrity checks.
+    ════════════════════════════════════════════════════════════════════ -->
+    <web-servers>
+        <tomcat>
+            <version>11.0.2</version>
+            <install-dir>/opt/apache-tomcat-11.0.2</install-dir>
+            <tech-id>${NWE_INSTALLER_TECH_ID:MEARVK-LLC-Default}</tech-id>
+            <archive-url>https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz</archive-url>
+            <service-name>tomcat</service-name>
+            <description>
+                Apache Tomcat 11.0.2 — Servlet/JSP container for all NWE web modules.
+                Default install: /opt/apache-tomcat-{version}
+                Override with CATALINA_HOME environment variable.
+            </description>
+        </tomcat>
+        <apache>
+            <version>2.4</version>
+            <install-dir>/var/www/html</install-dir>
+            <app-subdir>nwe</app-subdir>
+            <tech-id>${NWE_INSTALLER_TECH_ID:MEARVK-LLC-Default}</tech-id>
+            <service-name>apache2</service-name>
+            <public-url>http://localhost/nwe</public-url>
+            <description>
+                Apache HTTP Server 2.4 — Reverse proxy and static file host.
+                Document root: /var/www/html
+                NWE app subdirectory: /var/www/html/nwe
+            </description>
+        </apache>
+    </web-servers>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          BINARY HTTP SERVER
-         apache-root: Apache2 document root subdirectory for stored files.
-         apache-url:  Public base URL served by Apache2.
+         apache-root: Read from <web-servers><apache> above.
+         apache-url:  Read from <web-servers><apache><public-url> above.
     ════════════════════════════════════════════════════════════════════ -->
     <server id="BinaryHttp">
         <enabled>true</enabled>

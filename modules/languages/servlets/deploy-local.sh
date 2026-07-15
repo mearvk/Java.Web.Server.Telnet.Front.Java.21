@@ -1,17 +1,17 @@
 #!/bin/bash
-# Languages™ — Deploy + Setup
+# Languagesâ„¢ â€” Deploy + Setup
 set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LANG_ROOT="$(dirname "$SCRIPT_DIR")"
 WEBAPP_SRC="$LANG_ROOT/servlets/servlet/src/main/webapp"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/languages"
 NWE_ROOT="$(cd "$SCRIPT_DIR/../../.." 2>/dev/null && pwd)"
 [ -f "$NWE_ROOT/scripts/deploy-functions.sh" ] && source "$NWE_ROOT/scripts/deploy-functions.sh"
 if type nwe_validate_tomcat &>/dev/null; then nwe_validate_tomcat "$TOMCAT_HOME" || exit 1; fi
-echo "═══════════════════════════════════════════════════════════════"
-echo " Languages™ — Deploy (Violet — Polite Diplomacy)"
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+echo " Languagesâ„¢ â€” Deploy (Violet â€” Polite Diplomacy)"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/WEB-INF/lib"
 cp -r "$WEBAPP_SRC/"* "$DEPLOY_DIR/"
@@ -26,5 +26,5 @@ CREATE DATABASE IF NOT EXISTS nwe_languages CHARACTER SET utf8mb4 COLLATE utf8mb
 USE nwe_languages;
 CREATE TABLE IF NOT EXISTS translations (id INT AUTO_INCREMENT PRIMARY KEY, source_text TEXT, from_lang VARCHAR(10), to_lang VARCHAR(10), result TEXT, ip VARCHAR(45), translated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, INDEX idx_time(translated_at));
 SQL
-echo "[✓] Deployed: http://localhost:8080/languages/"
-echo "═══════════════════════════════════════════════════════════════"
+echo "[âœ“] Deployed: http://localhost:8080/languages/"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"

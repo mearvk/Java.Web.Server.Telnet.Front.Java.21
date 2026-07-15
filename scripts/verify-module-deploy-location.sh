@@ -17,7 +17,7 @@
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 WEBAPPS_DIR="$TOMCAT_HOME/webapps"
 
 PASS=0; FAIL=0; WARN=0

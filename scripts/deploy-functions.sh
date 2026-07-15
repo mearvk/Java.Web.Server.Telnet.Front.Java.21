@@ -4,6 +4,7 @@
 #   source "$NWE_ROOT/scripts/deploy-functions.sh"
 #
 # Functions:
+#   nwe_read_web_servers  — Read Tomcat/Apache settings from nwe-config.xml
 #   nwe_validate_tomcat   — Verify Tomcat installation exists
 #   nwe_deploy_webapp     — Copy webapp source to Tomcat webapps
 #   nwe_install_jdbc      — Find and copy MySQL JDBC connector to WEB-INF/lib
@@ -11,6 +12,45 @@
 #   nwe_validate_webapp   — Check web.xml, JSP files, and lib presence
 #   nwe_deploy_module     — All-in-one: validate → deploy → JDBC → compile → validate
 #   nwe_progress          — Display a progress bar for long operations
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# nwe_read_web_servers — Read web server config from nwe-config.xml
+# Sets: NWE_TOMCAT_VERSION, NWE_TOMCAT_HOME, NWE_TOMCAT_TECH_ID,
+#       NWE_APACHE_VERSION, NWE_APACHE_ROOT, NWE_APACHE_TECH_ID
+# Falls back to defaults if config not found.
+# ═══════════════════════════════════════════════════════════════════════════════
+nwe_read_web_servers() {
+    local NWE_ROOT="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+    local CONFIG="$NWE_ROOT/configuration/nwe-config.xml"
+
+    if [ -f "$CONFIG" ]; then
+        local TOMCAT_SECTION
+        TOMCAT_SECTION=$(sed -n '/<tomcat>/,/<\/tomcat>/p' "$CONFIG" 2>/dev/null)
+        local APACHE_SECTION
+        APACHE_SECTION=$(sed -n '/<apache>/,/<\/apache>/p' "$CONFIG" 2>/dev/null)
+
+        NWE_TOMCAT_VERSION=$(echo "$TOMCAT_SECTION" | grep -oP '(?<=<version>)[^<]+' 2>/dev/null)
+        NWE_TOMCAT_HOME=$(echo "$TOMCAT_SECTION" | grep -oP '(?<=<install-dir>)[^<]+' 2>/dev/null)
+        NWE_TOMCAT_TECH_ID=$(echo "$TOMCAT_SECTION" | grep -oP '(?<=<tech-id>)[^<]+' 2>/dev/null)
+
+        NWE_APACHE_VERSION=$(echo "$APACHE_SECTION" | grep -oP '(?<=<version>)[^<]+' 2>/dev/null)
+        NWE_APACHE_ROOT=$(echo "$APACHE_SECTION" | grep -oP '(?<=<install-dir>)[^<]+' 2>/dev/null)
+        NWE_APACHE_APP_DIR=$(echo "$APACHE_SECTION" | grep -oP '(?<=<app-subdir>)[^<]+' 2>/dev/null)
+        NWE_APACHE_TECH_ID=$(echo "$APACHE_SECTION" | grep -oP '(?<=<tech-id>)[^<]+' 2>/dev/null)
+    fi
+
+    # Defaults
+    NWE_TOMCAT_VERSION="${NWE_TOMCAT_VERSION:-11.0.2}"
+    NWE_TOMCAT_HOME="${NWE_TOMCAT_HOME:-/opt/apache-tomcat-11.0.2}"
+    NWE_TOMCAT_TECH_ID="${NWE_TOMCAT_TECH_ID:-MEARVK-LLC-Default}"
+    NWE_APACHE_VERSION="${NWE_APACHE_VERSION:-2.4}"
+    NWE_APACHE_ROOT="${NWE_APACHE_ROOT:-/var/www/html}"
+    NWE_APACHE_APP_DIR="${NWE_APACHE_APP_DIR:-nwe}"
+    NWE_APACHE_TECH_ID="${NWE_APACHE_TECH_ID:-MEARVK-LLC-Default}"
+
+    export NWE_TOMCAT_VERSION NWE_TOMCAT_HOME NWE_TOMCAT_TECH_ID
+    export NWE_APACHE_VERSION NWE_APACHE_ROOT NWE_APACHE_APP_DIR NWE_APACHE_TECH_ID
+}
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # nwe_progress — Display a progress bar during a copy/rsync operation
@@ -113,7 +153,7 @@ nwe_download_with_progress() {
 # Returns: 0 on success, 1 on failure
 # ═══════════════════════════════════════════════════════════════════════════════
 nwe_validate_tomcat() {
-    local TH="${1:-/home/mearvk/tomcat}"
+    local TH="${1:-/opt/apache-tomcat-11.0.2}"
     if [ ! -d "$TH/webapps" ]; then
         echo "[!] Tomcat not found at: $TH"
         echo "    Set CATALINA_HOME or pass path as argument."
@@ -194,7 +234,7 @@ EOF
 # ═══════════════════════════════════════════════════════════════════════════════
 nwe_install_jdbc() {
     local DEPLOY_DIR="$1" NWE_ROOT="$2"
-    local TOMCAT_HOME="${3:-/home/mearvk/tomcat}"
+    local TOMCAT_HOME="${3:-/opt/apache-tomcat-11.0.2}"
     local JDBC_JAR=""
 
     # Search order: project jars → Tomcat lib → system
@@ -220,7 +260,7 @@ nwe_install_jdbc() {
 # Args: $1 = Java source dir, $2 = deploy dir, $3 = Tomcat home
 # ═══════════════════════════════════════════════════════════════════════════════
 nwe_compile_servlets() {
-    local JAVA_SRC="$1" DEPLOY_DIR="$2" TOMCAT_HOME="${3:-/home/mearvk/tomcat}"
+    local JAVA_SRC="$1" DEPLOY_DIR="$2" TOMCAT_HOME="${3:-/opt/apache-tomcat-11.0.2}"
 
     if ! command -v javac &>/dev/null; then
         echo "[--] javac not found — servlet classes not compiled (JSP still works)"
@@ -317,7 +357,7 @@ nwe_deploy_module() {
     local CONTEXT="$2"
     local WEBAPP_SRC="$3"
     local JAVA_SRC="${4:-}"
-    local TOMCAT_HOME="${5:-/home/mearvk/tomcat}"
+    local TOMCAT_HOME="${5:-/opt/apache-tomcat-11.0.2}"
     local NWE_ROOT="${6:-}"
     local DEPLOY_DIR="$TOMCAT_HOME/webapps/$CONTEXT"
 

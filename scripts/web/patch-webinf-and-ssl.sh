@@ -66,7 +66,7 @@ echo ""
 echo "[2/2] SSL Certificate Verification..."
 
 # Check Tomcat SSL (port 8443 or configured HTTPS)
-TOMCAT_HOME="${CATALINA_HOME:-/home/mearvk/tomcat}"
+TOMCAT_HOME="${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}"
 TOMCAT_SSL_CONF="$TOMCAT_HOME/conf/server.xml"
 DOMAINS=("lauradei.us" "localhost")
 

@@ -83,11 +83,23 @@ for SCRIPT in $ENABLED; do
     fi
 done
 
-# Tomcat service setup
-TOMCAT_HOME=$(grep -oP '(?<=<tomcat-home>)[^<]+' "$CONFIG")
-if systemctl list-unit-files | grep -q tomcat; then
-    systemctl enable tomcat 2>/dev/null && echo "[*] Tomcat enabled on reboot"
+# Tomcat service setup — read from nwe-config.xml if available, fall back to web-deploy-config.xml
+NWE_CONFIG="$PROJECT_ROOT/configuration/nwe-config.xml"
+if [ -f "$NWE_CONFIG" ]; then
+    TOMCAT_HOME=$(sed -n '/<tomcat>/,/<\/tomcat>/p' "$NWE_CONFIG" | grep -oP '(?<=<install-dir>)[^<]+' 2>/dev/null)
+    TOMCAT_VERSION=$(sed -n '/<tomcat>/,/<\/tomcat>/p' "$NWE_CONFIG" | grep -oP '(?<=<version>)[^<]+' 2>/dev/null)
+    TOMCAT_SERVICE=$(sed -n '/<tomcat>/,/<\/tomcat>/p' "$NWE_CONFIG" | grep -oP '(?<=<service-name>)[^<]+' 2>/dev/null)
 fi
+TOMCAT_HOME="${TOMCAT_HOME:-$(grep -oP '(?<=<tomcat-home>)[^<]+' "$CONFIG")}"
+TOMCAT_VERSION="${TOMCAT_VERSION:-11.0.2}"
+TOMCAT_SERVICE="${TOMCAT_SERVICE:-tomcat}"
+echo "[*] Tomcat ${TOMCAT_VERSION}: $TOMCAT_HOME (service: $TOMCAT_SERVICE)"
+if systemctl list-unit-files | grep -q "$TOMCAT_SERVICE"; then
+    systemctl enable "$TOMCAT_SERVICE" 2>/dev/null && echo "[*] $TOMCAT_SERVICE enabled on reboot"
+fi
+
+# Sync tomcat-home back into web-deploy-config.xml
+sed -i "s|<tomcat-home>[^<]*</tomcat-home>|<tomcat-home>${TOMCAT_HOME}</tomcat-home>|" "$CONFIG"
 
 echo ""
 echo "═══════════════════════════════════════════════════════════════"

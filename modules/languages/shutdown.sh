@@ -1,15 +1,15 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════════════════════════
-# NitroWebExpress™ — languages Frontend Shutdown
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# NitroWebExpressâ„¢ â€” languages Frontend Shutdown
 # Undeploys the webapp from Tomcat.
 # Usage: bash shutdown.sh [tomcat_home] [--stop-tomcat]
-# ═══════════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MOD_ROOT="$SCRIPT_DIR"
 PROJECT_ROOT="$(cd "$MOD_ROOT/../.." && pwd)"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 CONTEXT="languages"
 DEPLOY_DIR="$TOMCAT_HOME/webapps/$CONTEXT"
 STOP_TOMCAT=false
@@ -19,18 +19,18 @@ for arg in "$@"; do
 done
 
 echo ""
-echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  languages Frontend — Shutdown                                               ║"
-echo "║  Context: /$CONTEXT                                                      ║"
-echo "║  Tomcat:  $TOMCAT_HOME                                                    ║"
-echo "╚═══════════════════════════════════════════════════════════════════════════╝"
+echo "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—"
+echo "â•‘  languages Frontend â€” Shutdown                                               â•‘"
+echo "â•‘  Context: /$CONTEXT                                                      â•‘"
+echo "â•‘  Tomcat:  $TOMCAT_HOME                                                    â•‘"
+echo "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 echo ""
 
-# ── 1. Remove webapp from Tomcat ─────────────────────────────────────────────
+# â”€â”€ 1. Remove webapp from Tomcat â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 if [ -d "$DEPLOY_DIR" ]; then
     echo "  [*] Removing deployment..."
     rm -rf "$DEPLOY_DIR"
-    echo "  [✓] Webapp undeployed"
+    echo "  [âœ“] Webapp undeployed"
 else
     echo "  [--] Webapp not deployed"
 fi
@@ -39,10 +39,10 @@ fi
 WAR_FILE="$TOMCAT_HOME/webapps/$CONTEXT.war"
 if [ -f "$WAR_FILE" ]; then
     rm -f "$WAR_FILE"
-    echo "  [✓] WAR removed"
+    echo "  [âœ“] WAR removed"
 fi
 
-# ── 2. Optionally stop Tomcat ────────────────────────────────────────────────
+# â”€â”€ 2. Optionally stop Tomcat â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 if [ "$STOP_TOMCAT" = true ]; then
     echo "  [*] Stopping Tomcat..."
     if [ -x "$TOMCAT_HOME/bin/shutdown.sh" ]; then
@@ -51,15 +51,15 @@ if [ "$STOP_TOMCAT" = true ]; then
         sudo systemctl stop tomcat 2>/dev/null || true
     fi
     sleep 2
-    echo "  [✓] Tomcat stopped"
+    echo "  [âœ“] Tomcat stopped"
 fi
 
 echo ""
-echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  languages Frontend Stopped                                                  ║"
-echo "║                                                                            ║"
-echo "║  Management:                                                               ║"
-echo "║  Restart module:   bash start.sh                                           ║"
-echo "║  Shutdown all:     bash ../../scripts/shutdown-all.sh                     ║"
-echo "╚═══════════════════════════════════════════════════════════════════════════╝"
+echo "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—"
+echo "â•‘  languages Frontend Stopped                                                  â•‘"
+echo "â•‘                                                                            â•‘"
+echo "â•‘  Management:                                                               â•‘"
+echo "â•‘  Restart module:   bash start.sh                                           â•‘"
+echo "â•‘  Shutdown all:     bash ../../scripts/shutdown-all.sh                     â•‘"
+echo "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 echo ""

@@ -11,7 +11,7 @@
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/home/mearvk/tomcat}}"
+TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 
 source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 STOP_TOMCAT="${2:-}"
