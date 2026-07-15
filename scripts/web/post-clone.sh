@@ -233,6 +233,59 @@ set -e  # Re-enable exit-on-error
 echo ""
 echo "[OK] Deployed: $DEPLOY_PASS | Failed: $DEPLOY_FAIL"
 
+# 6.5. Generate db.properties for all modules that need database connectivity
+echo ""
+echo "[*] Generating db.properties for all deployed modules..."
+source "$PROJECT_ROOT/scripts/deploy-functions.sh"
+
+declare -A MODULE_DBS=(
+    ["modules/AE6E66/servlets/servlet/src/main/webapp"]="nwe_ae6e66"
+    ["modules/fbi/servlets/servlet/src/main/webapp"]="nwe_california_fbi"
+    ["modules/cia/servlets/servlet/src/main/webapp"]="nwe_california_cia"
+    ["modules/nsa/servlets/servlet/src/main/webapp"]="nwe_california_nsa"
+    ["modules/duke/servlets/servlet/src/main/webapp"]="nwe_duke"
+    ["modules/library/servlets/servlet/src/main/webapp"]="nwe_library"
+    ["modules/gray/servlets/servlet/src/main/webapp"]="nwe_gray_registry"
+    ["modules/gray.a85/servlets/servlet/src/main/webapp"]="nwe_gray85_registry"
+    ["modules/red/Futures/servlets/servlet/src/main/webapp"]="nwe_futures"
+    ["modules/Green.Durham.Grass.and.Herb/servlets/servlet/src/main/webapp"]="nwe_gdgh"
+)
+
+DB_PROPS_OK=0
+DB_PROPS_FAIL=0
+for MODULE_PATH in "${!MODULE_DBS[@]}"; do
+    FULL_PATH="$PROJECT_ROOT/$MODULE_PATH"
+    DB_NAME="${MODULE_DBS[$MODULE_PATH]}"
+    if [ -d "$FULL_PATH" ]; then
+        nwe_ensure_db_properties "$FULL_PATH" "$DB_NAME" "$PROJECT_ROOT" && DB_PROPS_OK=$((DB_PROPS_OK + 1)) || DB_PROPS_FAIL=$((DB_PROPS_FAIL + 1))
+    fi
+done
+echo "[OK] db.properties: $DB_PROPS_OK generated"
+
+# Also copy db.properties into Tomcat webapps (deployed copies)
+echo "[*] Copying db.properties to Tomcat deployed webapps..."
+declare -A TOMCAT_DBS=(
+    ["ae6e66"]="nwe_ae6e66"
+    ["california-fbi"]="nwe_california_fbi"
+    ["california-cia"]="nwe_california_cia"
+    ["california-nsa"]="nwe_california_nsa"
+    ["california-duke"]="nwe_duke"
+    ["library"]="nwe_library"
+    ["gray-registry"]="nwe_gray_registry"
+    ["gray85-registry"]="nwe_gray85_registry"
+    ["futures"]="nwe_futures"
+    ["gdgh"]="nwe_gdgh"
+)
+
+for CONTEXT in "${!TOMCAT_DBS[@]}"; do
+    WEBAPP_DIR="$TOMCAT_HOME/webapps/$CONTEXT"
+    DB_NAME="${TOMCAT_DBS[$CONTEXT]}"
+    if [ -d "$WEBAPP_DIR" ]; then
+        nwe_ensure_db_properties "$WEBAPP_DIR" "$DB_NAME" "$PROJECT_ROOT"
+    fi
+done
+echo "[OK] Tomcat webapp db.properties updated"
+
 # 7. Start Tomcat
 systemctl start tomcat 2>/dev/null || "$TOMCAT_HOME/bin/startup.sh"
 echo "[OK] Tomcat started"
