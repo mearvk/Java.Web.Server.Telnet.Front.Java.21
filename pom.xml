@@ -33,7 +33,7 @@
         <dependency>
             <groupId>ai.djl</groupId>
             <artifactId>api</artifactId>
-            <version>0.31.0</version>
+            <version>0.31.1</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/jars/djl/api-0.31.0.jar</systemPath>
         </dependency>
