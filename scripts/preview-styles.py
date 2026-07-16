@@ -68,6 +68,16 @@ MODULES = {
         "theme": "Duke Blue",
         "port": 49213,
     },
+    "california-ncsu": {
+        "path": "modules/ncsu/servlets/servlet/src/main/webapp",
+        "theme": "Wolfpack Red",
+        "port": 49217,
+    },
+    "california-unc": {
+        "path": "modules/unc/servlets/servlet/src/main/webapp",
+        "theme": "Carolina Blue",
+        "port": 49218,
+    },
     "library": {
         "path": "modules/library/servlets/servlet/src/main/webapp",
         "theme": "Cardinal Red",
@@ -168,6 +178,8 @@ tr:hover { background: #1a1a1a; }
 .blue { background: #1e3a5f; color: #93c5fd; }
 .green { background: #14532d; color: #86efac; }
 .brown { background: #5c3d2e; color: #fcd29f; }
+.wolfpack-red { background: #CC0000; color: #fff; }
+.carolina-blue { background: #4B9CD3; color: #fff; }
 .light-blue { background: #1e40af; color: #bfdbfe; }
 .black { background: #000; color: #fff; border: 1px solid #333; }
 .gray { background: #4b5563; color: #e5e7eb; }
@@ -326,6 +338,8 @@ index_html += """</tbody></table>
 <tr><td>CaliforniaCIA</td><td><a href="http://localhost:8080/california-cia/">http://localhost:8080/california-cia/</a></td><td><span class="theme-badge blue">Dark Blue</span></td><td>49211</td></tr>
 <tr><td>CaliforniaNSA</td><td><a href="http://localhost:8080/california-nsa/">http://localhost:8080/california-nsa/</a></td><td><span class="theme-badge black">Black</span></td><td>49212</td></tr>
 <tr><td>DukeUniversity</td><td><a href="http://localhost:8080/california-duke/">http://localhost:8080/california-duke/</a></td><td><span class="theme-badge blue">Duke Blue</span></td><td>49213</td></tr>
+<tr><td>NC State University</td><td><a href="http://localhost:8080/california-ncsu/">http://localhost:8080/california-ncsu/</a></td><td><span class="theme-badge wolfpack-red">Wolfpack Red</span></td><td>49217</td></tr>
+<tr><td>UNC Chapel Hill</td><td><a href="http://localhost:8080/california-unc/">http://localhost:8080/california-unc/</a></td><td><span class="theme-badge carolina-blue">Carolina Blue</span></td><td>49218</td></tr>
 <tr><td>StanfordLibrary</td><td><a href="http://localhost:8080/library/">http://localhost:8080/library/</a></td><td><span class="theme-badge red">Cardinal Red</span></td><td>49214</td></tr>
 <tr><td>Vietnam</td><td><a href="http://localhost:8080/vietnam/">http://localhost:8080/vietnam/</a></td><td><span class="theme-badge brown">Light Brown</span></td><td>49215</td></tr>
 <tr><td>Emeter</td><td><a href="http://localhost:8080/emeter/">http://localhost:8080/emeter/</a></td><td><span class="theme-badge light-blue">Light Blue</span></td><td>49216</td></tr>
@@ -388,6 +402,10 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
             super().log_message(format, *args)
 
 
+import sys, io
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+
 print(f"""
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║  NitroWebExpress™ — Style Preview Server                                  ║
@@ -405,6 +423,8 @@ print(f"""
 ║    http://localhost:8080/california-cia/   (Dark Blue — port 49211)      ║
 ║    http://localhost:8080/california-nsa/   (Black — port 49212)          ║
 ║    http://localhost:8080/california-duke/  (Duke Blue — port 49213)      ║
+║    http://localhost:8080/california-ncsu/ (Wolfpack Red — port 49217)   ║
+║    http://localhost:8080/california-unc/  (Carolina Blue — port 49218)  ║
 ║    http://localhost:8080/library/          (Cardinal Red — port 49214)   ║
 ║    http://localhost:8080/vietnam/          (Light Brown — port 49215)    ║
 ║    http://localhost:8080/emeter/           (Light Blue — port 49216)     ║
