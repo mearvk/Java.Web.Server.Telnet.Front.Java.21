@@ -73,6 +73,7 @@ bash scripts/status.sh
 | AE6E66 | `modules/AE6E66` | — | `/ae6e66` | `source.AE6E66Main` | UK Parliament contact module, DKIM email |
 | Green.Durham.Grass.and.Herb | `modules/Green.Durham.Grass.and.Herb` | 20000 | `/gdgh` | `listeners.BaseListener` | Labor/ethical/moral concerns, NC labor laws |
 | Futures (DemocraticAI) | `modules/red/Futures` | 5000 | `/futures` | `ai.server.DemocraticAIServer` | Democratic AI futures, tax defense pipeline |
+| Defined | `modules/Defined` | 49220 | `/defined` | `modules.Defined.source.ai.server.DefinedAIServer` | Dark Gray moral surveillance, 29 categories, NTSB, 12 protocol handlers |
 | Black Belt | `modules/black-belt` | — | `/blackbelt` | (webapp only) | Black belt rank module |
 | Languages | `modules/languages` | — | `/languages` | (webapp only) | Language pack management |
 | Daemon | `modules/daemon` | 49188 | — | `ModuleLoaderDaemon` | Standalone module loader service |
@@ -206,6 +207,7 @@ Java.Web.Server.Telnet.Front.Java.21/
 │   ├── AE6E66/                UK Parliament contact
 │   ├── Green.Durham.Grass.and.Herb/   Labor/ethics (port 20000)
 │   ├── red/Futures/           Democratic AI (port 5000)
+│   ├── Defined/               Dark Gray moral surveillance (port 49220)
 │   ├── black-belt/            Black Belt (webapp only)
 │   ├── languages/             Language packs (webapp only)
 │   ├── daemon/                ModuleLoaderDaemon (port 49188)
@@ -233,7 +235,8 @@ Java.Web.Server.Telnet.Front.Java.21/
 | 9999 | Gray Port Registry |
 | 10085 | Gray85 Crème Registry |
 | 20000 | Strernary AI inference |
-| 49111–49214 | NWE core + signal + modules |
+| 49111–49216 | NWE core + signal + modules |
+| 49220–49221 | Defined (AI + Protocol Backend) |
 
 **Open all ports:** `sudo bash scripts/ufw-allow-all.sh`
 
