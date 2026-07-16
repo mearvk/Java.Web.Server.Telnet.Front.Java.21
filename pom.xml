@@ -131,6 +131,8 @@
                                 <source>${project.basedir}/modules/red/Futures/source</source>
                                 <source>${project.basedir}/modules/AE6E66/source</source>
                                 <source>${project.basedir}/modules/Green.Durham.Grass.and.Herb/source</source>
+                                <source>${project.basedir}/modules/vietnam/source</source>
+                                <source>${project.basedir}/modules/emeter/source</source>
                             </sources>
                         </configuration>
                     </execution>

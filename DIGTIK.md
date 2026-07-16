@@ -39,6 +39,8 @@ Each module in NitroWebExpress™ has a **servlet webapp edition** — a JSP-dri
 | Black Belt™ | `/blackbelt` | Black/White (#f5f5f5) | — | `nwe_blackbelt` |
 | Languages™ | `/languages` | Violet (#8b5cf6) | — | `nwe_languages` |
 | Strernary™ | `/strernary` | Cyan (#06b6d4) | 20000, 2000 | `nwe_strernary` |
+| Vietnam™ | `/vietnam` | Light Brown (#a0826d) | 49215 | `nwe_vietnam` |
+| Emeter™ | `/emeter` | Light Blue (#7dd3fc) | 49216 | `nwe_emeter` |
 
 ## Interfacing Websites with Running Servers
 

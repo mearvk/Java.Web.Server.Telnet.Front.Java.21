@@ -339,6 +339,36 @@
         </description>
     </server>
 
+    <server id="Vietnam">
+        <enabled>true</enabled>
+        <name>Vietnam™</name>
+        <thread>VIETNAM_SERVER</thread>
+        <host>localhost</host>
+        <port>49215</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            Ancient Vietnamese fighting styles and languages module.
+            STYLES, LANGUAGES, SEARCH, TRAIN commands. MySQL: nwe_vietnam.
+            AI-assisted via Strernary™ (port 20000).
+        </description>
+    </server>
+
+    <server id="Emeter">
+        <enabled>true</enabled>
+        <name>Emeter™</name>
+        <thread>EMETER_SERVER</thread>
+        <host>localhost</host>
+        <port>49216</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            E-Meter instruction, calibration, and readings module.
+            INSTRUCT, CALIBRATE, READINGS, SUBMIT commands. MySQL: nwe_emeter.
+            AI-assisted via Strernary™ (port 20000).
+        </description>
+    </server>
+
     <server id="Strernary">
         <enabled>true</enabled>
         <name>Strernary™</name>

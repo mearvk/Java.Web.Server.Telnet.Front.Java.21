@@ -66,6 +66,8 @@ bash scripts/status.sh
 | CaliforniaNSA | `modules/nsa` | 49212 | `/california-nsa` | `source.CaliforniaNSAServer` | NSA cybersecurity, CISA vulnerability disclosure |
 | DukeUniversity | `modules/duke` | 49213 | `/california-duke` | `source.DukeUniversityServer` | Duke University college interface, academic queries |
 | StanfordLibrary | `modules/library` | 49214 | `/library` | `source.StanfordLibraryServer` | Stanford Library catalog, resource requests |
+| Vietnam | `modules/vietnam` | 49215 | `/vietnam` | `source.VietnamServer` | Ancient Vietnamese fighting styles and languages |
+| Emeter | `modules/emeter` | 49216 | `/emeter` | `source.EmeterServer` | E-Meter instruction, calibration, readings |
 | GrayPortRegistry | `modules/gray` | 9999 | `/gray-registry` | `modules.gray.source.GrayPortRegistryServer` | Port registry (30M ports/block), Bitcoin/Dash payment, AI-gated |
 | Gray85Crème | `modules/gray.a85` | 10085 | `/gray85-registry` | `modules.gray.a85.source.Gray85PortRegistryServer` | Crème port registry (85% open, 15% locked at $1000 USD) |
 | AE6E66 | `modules/AE6E66` | — | `/ae6e66` | `source.AE6E66Main` | UK Parliament contact module, DKIM email |
@@ -197,6 +199,8 @@ Java.Web.Server.Telnet.Front.Java.21/
 │   ├── nsa/                   CaliforniaNSA (port 49212)
 │   ├── duke/                  DukeUniversity (port 49213)
 │   ├── library/               StanfordLibrary (port 49214)
+│   ├── vietnam/               Vietnam (port 49215)
+│   ├── emeter/                Emeter (port 49216)
 │   ├── gray/                  GrayPortRegistry (port 9999)
 │   ├── gray.a85/              Gray85Crème (port 10085)
 │   ├── AE6E66/                UK Parliament contact

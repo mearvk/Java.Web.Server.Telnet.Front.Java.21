@@ -22,19 +22,21 @@ echo ""
 echo "[1/8] Core sources (source/)..."
 find "$ROOT/source" -name "*.java" > /tmp/nwe-core.txt
 javac -d "$OUT" -cp "$CP" \
-  -sourcepath "$ROOT/source:$ROOT/modules/fbi/source:$ROOT/modules/cia/source:$ROOT/modules/nsa/source:$ROOT/modules/duke/source:$ROOT/modules/library/source:$ROOT/modules/gray/source:$ROOT/modules/gray.a85/source:$ROOT/modules/red/Futures/source" \
+  -sourcepath "$ROOT/source:$ROOT/modules/fbi/source:$ROOT/modules/cia/source:$ROOT/modules/nsa/source:$ROOT/modules/duke/source:$ROOT/modules/library/source:$ROOT/modules/gray/source:$ROOT/modules/gray.a85/source:$ROOT/modules/red/Futures/source:$ROOT/modules/vietnam/source:$ROOT/modules/emeter/source" \
   @/tmp/nwe-core.txt 2>&1 | grep -i error || echo "  OK"
 rm -f /tmp/nwe-core.txt
 
-# 2. FBI/CIA/NSA, Duke, Library
-echo "[2/8] FBI/CIA/NSA, Duke, Library..."
+# 2. FBI/CIA/NSA, Duke, Library, Vietnam, Emeter
+echo "[2/8] FBI/CIA/NSA, Duke, Library, Vietnam, Emeter..."
 javac -d "$OUT" -cp "$CP" \
-  -sourcepath "$ROOT/source:$ROOT/modules/fbi/source:$ROOT/modules/cia/source:$ROOT/modules/nsa/source:$ROOT/modules/duke/source:$ROOT/modules/library/source" \
+  -sourcepath "$ROOT/source:$ROOT/modules/fbi/source:$ROOT/modules/cia/source:$ROOT/modules/nsa/source:$ROOT/modules/duke/source:$ROOT/modules/library/source:$ROOT/modules/vietnam/source:$ROOT/modules/emeter/source" \
   "$ROOT/modules/fbi/source/CaliforniaFBIServer.java" \
   "$ROOT/modules/cia/source/CaliforniaCIAServer.java" \
   "$ROOT/modules/nsa/source/CaliforniaNSAServer.java" \
   "$ROOT/modules/duke/source/DukeUniversityServer.java" \
-  "$ROOT/modules/library/source/StanfordLibraryServer.java" 2>&1 | grep -i error || echo "  OK"
+  "$ROOT/modules/library/source/StanfordLibraryServer.java" \
+  "$ROOT/modules/vietnam/source/VietnamServer.java" \
+  "$ROOT/modules/emeter/source/EmeterServer.java" 2>&1 | grep -i error || echo "  OK"
 
 # 3. Gray registries
 echo "[3/8] Gray Port Registry + Gray85..."

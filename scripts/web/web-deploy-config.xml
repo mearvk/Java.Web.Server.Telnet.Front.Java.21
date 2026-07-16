@@ -180,5 +180,29 @@
             <reboot>true</reboot>
             <cron enabled="false"/>
         </module>
+
+        <module id="vietnam">
+            <enabled>true</enabled>
+            <context>vietnam</context>
+            <deploy-script>modules/vietnam/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/vietnam/servlets/setup-db.sh</setup-script>
+            <database>nwe_vietnam</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="emeter">
+            <enabled>true</enabled>
+            <context>emeter</context>
+            <deploy-script>modules/emeter/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/emeter/servlets/setup-db.sh</setup-script>
+            <database>nwe_emeter</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
     </modules>
 </web-deploy>

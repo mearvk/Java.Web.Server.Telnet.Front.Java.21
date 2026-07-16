@@ -235,6 +235,12 @@ public class Main
             if (NitroWebExpressConfig.isEnabled("StanfordLibrary"))
                 Thread.ofVirtual().name("STANFORD_LIBRARY_SERVER").start(new source.StanfordLibraryServer());
 
+            if (NitroWebExpressConfig.isEnabled("Vietnam"))
+                Thread.ofVirtual().name("VIETNAM_SERVER").start(new source.VietnamServer());
+
+            if (NitroWebExpressConfig.isEnabled("Emeter"))
+                Thread.ofVirtual().name("EMETER_SERVER").start(new source.EmeterServer());
+
             if (NitroWebExpressConfig.isEnabled("DemocraticProFrontNational"))
             {
                 try { Class.forName("red.Futures.source.ai.server.DemocraticAIServer")

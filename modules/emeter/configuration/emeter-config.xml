@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Emeter Module Configuration
+    ====================================
+    MEARVK LLC — NitroWebExpress™
+    Port: 49216
+    Database: nwe_emeter
+    Context: /emeter
+    Theme: Electric Blue (#00bfff)
+    Masquerade: enabled
+-->
+<emeter-config>
+    <server>
+        <port>49216</port>
+        <host>localhost</host>
+        <name>Emeter™</name>
+        <masquerade-aware>true</masquerade-aware>
+    </server>
+
+    <database>
+        <name>nwe_emeter</name>
+        <host>127.0.0.1</host>
+        <port>3306</port>
+        <url>jdbc:mysql://127.0.0.1:3306/nwe_emeter</url>
+    </database>
+
+    <webapp>
+        <context>/emeter</context>
+        <tomcat-home>/opt/apache-tomcat-11.0.2</tomcat-home>
+    </webapp>
+
+    <theme>
+        <accent>#00bfff</accent>
+        <background>#0a1a2a</background>
+        <name>Electric Blue</name>
+    </theme>
+
+    <ai-module>
+        <enabled>true</enabled>
+        <inference-port>20000</inference-port>
+        <model>pytorch</model>
+        <description>Routes queries through Strernary™ DJL/PyTorch inference on port 20000.</description>
+    </ai-module>
+
+    <content>
+        <instructions>
+            <topic id="introduction">Introduction</topic>
+            <topic id="theory">Theory of Operation</topic>
+            <topic id="calibration">Calibration Procedure</topic>
+            <topic id="reading">Reading Interpretation</topic>
+            <topic id="session">Session Protocols</topic>
+            <topic id="advanced">Advanced Techniques</topic>
+        </instructions>
+        <calibration>
+            <level id="set">Set</level>
+            <level id="sensitivity">Sensitivity</level>
+            <level id="range">Range</level>
+            <level id="tone-arm">Tone Arm</level>
+        </calibration>
+    </content>
+</emeter-config>
