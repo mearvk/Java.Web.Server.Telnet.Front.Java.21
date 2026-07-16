@@ -17,3 +17,44 @@ java.base/java.lang.VirtualThread.run(VirtualThread.java:460)</stack_trace>
     <security>false</security>
     <recorded_at>2026-07-14T22:42:31.150912091Z</recorded_at>
   </record>
+  <record TABLE="exceptions" ts="2026-07-15T16:30:49.477890771Z">
+    <exception_type>SocketException</exception_type>
+    <message>Socket closed</message>
+    <origin>java.base/sun.nio.ch.NioSocketImpl.ensureOpenAndConnected(NioSocketImpl.java:162)</origin>
+    <stack_trace>java.base/sun.nio.ch.NioSocketImpl.ensureOpenAndConnected(NioSocketImpl.java:162)
+java.base/sun.nio.ch.NioSocketImpl.beginWrite(NioSocketImpl.java:370)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:415)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun.nio.cs.StreamEncoder.implWrite(StreamEncoder.java:291)
+java.base/sun.nio.cs.StreamEncoder.implWrite(StreamEncoder.java:267)
+java.base/sun.nio.cs.StreamEncoder.write(StreamEncoder.java:122)
+java.base/java.io.OutputStreamWriter.write(OutputStreamWriter.java:206)
+java.base/java.io.BufferedWriter.flushBuffer(BufferedWriter.java:168)
+java.base/java.io.BufferedWriter.write(BufferedWriter.java:282)
+java.base/java.io.Writer.write(Writer.java:248)
+national.NationalFinanceIDFeeder.write(NationalFinanceIDFeeder.java:617)
+national.NationalFinanceIDFeeder.financePrompt(NationalFinanceIDFeeder.java:272)
+national.NationalFinanceIDFeeder.greet(NationalFinanceIDFeeder.java:148)
+connections.ConnectionPoller.handleSession(ConnectionPoller.java:77)
+connections.ConnectionPoller.lambda$run$0(ConnectionPoller.java:264)
+java.base/java.lang.Thread.run(Thread.java:1474)</stack_trace>
+    <security>false</security>
+    <recorded_at>2026-07-15T14:12:50.171732340Z</recorded_at>
+  </record>
+  <record TABLE="exceptions" ts="2026-07-15T16:30:49.479401587Z">
+    <exception_type>SocketException</exception_type>
+    <message>Socket closed</message>
+    <origin>java.base/sun.nio.ch.NioSocketImpl.ensureOpenAndConnected(NioSocketImpl.java:162)</origin>
+    <stack_trace>java.base/sun.nio.ch.NioSocketImpl.ensureOpenAndConnected(NioSocketImpl.java:162)
+java.base/sun.nio.ch.NioSocketImpl.beginWrite(NioSocketImpl.java:370)
+java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:415)
+java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:448)
+java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:821)
+java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1086)
+java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1076)
+java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+java.base/sun
