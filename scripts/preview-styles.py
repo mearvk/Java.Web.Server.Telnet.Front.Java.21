@@ -13,10 +13,13 @@ Usage:
     python3 scripts/preview-styles.py [port]
 
 Then open:
-    http://localhost:9090/vietnam/        — Vietnam module (light brown)
-    http://localhost:9090/emeter/         — Emeter module (light blue)
-    http://localhost:9090/california-fbi/ — FBI module (red)
-    http://localhost:9090/brarner.m.alete/— BMA module (blue)
+    http://localhost:9090/                       — Module index
+    http://localhost:9090/defined/               — Defined module (dark gray)
+    http://localhost:9090/vietnam/               — Vietnam module (light brown)
+    http://localhost:9090/emeter/                — Emeter module (light blue)
+    http://localhost:9090/california-fbi/        — FBI module (red)
+    http://localhost:9090/futures/               — Futures module (red)
+    http://localhost:9090/brarner.m.alete/       — BMA module (blue)
     ... etc.
 
 Press Ctrl+C to stop.
@@ -25,57 +28,328 @@ Press Ctrl+C to stop.
 import http.server
 import os
 import sys
-import shutil
+import json
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 9090
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Map context paths to webapp source directories
+# ═══════════════════════════════════════════════════════════════════════════════
+# MODULE REGISTRY — Map context paths to webapp source directories
+# ═══════════════════════════════════════════════════════════════════════════════
 MODULES = {
-    "vietnam": "modules/vietnam/servlets/servlet/src/main/webapp",
-    "emeter": "modules/emeter/servlets/servlet/src/main/webapp",
-    "california-fbi": "modules/fbi/servlets/servlet/src/main/webapp",
-    "california-cia": "modules/cia/servlets/servlet/src/main/webapp",
-    "california-nsa": "modules/nsa/servlets/servlet/src/main/webapp",
-    "california-duke": "modules/duke/servlets/servlet/src/main/webapp",
-    "library": "modules/library/servlets/servlet/src/main/webapp",
-    "gray-registry": "modules/gray/servlets/servlet/src/main/webapp",
-    "gray85-registry": "modules/gray.a85/servlets/servlet/src/main/webapp",
-    "futures": "modules/red/Futures/servlets/servlet/src/main/webapp",
-    "ae6e66": "modules/AE6E66/servlets/servlet/src/main/webapp",
-    "blackbelt": "modules/black-belt/servlets/servlet/src/main/webapp",
-    "languages": "modules/languages/servlets/servlet/src/main/webapp",
-    "brarner.m.alete": "modules/black/presidential/Brarner.M.Alete/servlets/servlet/src/main/webapp",
+    # ── Core Modules ──────────────────────────────────────────────────────────
+    "vietnam": {
+        "path": "modules/vietnam/servlets/servlet/src/main/webapp",
+        "theme": "Light Brown",
+        "port": 49215,
+    },
+    "emeter": {
+        "path": "modules/emeter/servlets/servlet/src/main/webapp",
+        "theme": "Light Blue",
+        "port": 49216,
+    },
+    "california-fbi": {
+        "path": "modules/fbi/servlets/servlet/src/main/webapp",
+        "theme": "Red",
+        "port": 49210,
+    },
+    "california-cia": {
+        "path": "modules/cia/servlets/servlet/src/main/webapp",
+        "theme": "Dark Blue",
+        "port": 49211,
+    },
+    "california-nsa": {
+        "path": "modules/nsa/servlets/servlet/src/main/webapp",
+        "theme": "Black",
+        "port": 49212,
+    },
+    "california-duke": {
+        "path": "modules/duke/servlets/servlet/src/main/webapp",
+        "theme": "Duke Blue",
+        "port": 49213,
+    },
+    "library": {
+        "path": "modules/library/servlets/servlet/src/main/webapp",
+        "theme": "Cardinal Red",
+        "port": 49214,
+    },
+    "gray-registry": {
+        "path": "modules/gray/servlets/servlet/src/main/webapp",
+        "theme": "Gray",
+        "port": 9999,
+    },
+    "gray85-registry": {
+        "path": "modules/gray.a85/servlets/servlet/src/main/webapp",
+        "theme": "Crème",
+        "port": 10085,
+    },
+    "futures": {
+        "path": "modules/red/Futures/servlets/servlet/src/main/webapp",
+        "theme": "Red",
+        "port": 5000,
+    },
+    "ae6e66": {
+        "path": "modules/AE6E66/servlets/servlet/src/main/webapp",
+        "theme": "UK Blue",
+        "port": None,
+    },
+    "blackbelt": {
+        "path": "modules/black-belt/servlets/servlet/src/main/webapp",
+        "theme": "Black",
+        "port": None,
+    },
+    "languages": {
+        "path": "modules/languages/servlets/servlet/src/main/webapp",
+        "theme": "White",
+        "port": None,
+    },
+    "brarner.m.alete": {
+        "path": "modules/black/presidential/Brarner.M.Alete/servlets/servlet/src/main/webapp",
+        "theme": "Presidential Blue",
+        "port": 49152,
+    },
+    "gdgh": {
+        "path": "modules/Green.Durham.Grass.and.Herb/servlets/servlet/src/main/webapp",
+        "theme": "Green",
+        "port": 20000,
+    },
+    # ── Defined™ — Dark Gray Module ──────────────────────────────────────────
+    "defined": {
+        "path": "modules/Defined/servlets/servlet/src/main/webapp",
+        "theme": "Dark Gray",
+        "port": 49220,
+        "description": "Definition to narrow cause: defined.",
+        "backend_port": 49221,
+        "protocols": [20, 21, 22, 25, 80, 443, 465, 587, 990, 993, 3306, 8080],
+        "ufw_managed": [22, 443, 465, 587, 990, 993],
+        "categories": [
+            "banking", "middle-schools", "strong-middle-schools",
+            "improbable-activity-youth", "firefights-20-plus-casualties",
+            "fire-department-errors-3-plus", "schools-burned-down",
+            "misuse-of-scientology", "known-misuse-public-officials",
+            "unkind-language-books-reading", "unkind-misuse-heads-of-state",
+            "absence-fbi-presence", "absence-border-protection",
+            "unequal-treatment-us-treasury", "unequal-footing-us-state-department",
+            "private-ownership-lsat", "torturers", "rapists",
+            "convicted-murderers", "gods-going-crazy", "anti-god-rhetoric",
+            "against-space-nasa", "anti-political-whisper",
+            "sovietism-vs-socialism", "failing-schools", "failing-final-tests",
+            "non-social-graces", "prayer-against-even-temper", "ntsb",
+        ],
+        "strernary_feedback": True,
+        "connection_hours": "Weekdays 06:00-23:00, Weekends 08:00-20:00 EST",
+        "installer_tech_id": "Max Rupplin",
+    },
 }
 
-# Build a temporary serve directory with symlinks/copies
+# ═══════════════════════════════════════════════════════════════════════════════
+# BUILD SERVE DIRECTORY
+# ═══════════════════════════════════════════════════════════════════════════════
 SERVE_DIR = os.path.join(PROJECT_ROOT, ".preview-serve")
 os.makedirs(SERVE_DIR, exist_ok=True)
 
-# Create an index page
+# Create the main index page
 index_html = """<!DOCTYPE html>
 <html><head><meta charset="UTF-8"><title>NWE Style Preview</title>
-<style>body{font-family:system-ui;background:#111;color:#eee;padding:2rem;}
-a{color:#60a5fa;text-decoration:none;display:block;padding:0.5rem 0;}
-a:hover{color:#93c5fd;}h1{color:#fff;}table{border-collapse:collapse;width:100%;}
-td,th{padding:0.5rem 1rem;text-align:left;border-bottom:1px solid #333;}
-th{color:#999;}</style></head><body>
-<h1>NitroWebExpress&trade; &mdash; Style Preview</h1>
-<p style="color:#999;">JSP server-side code won't execute (shows as raw text). CSS, layout, buttons, and JS dialogs work normally.</p>
-<table><thead><tr><th>Module</th><th>Theme</th><th>Port</th></tr></thead><tbody>
-"""
-for ctx, path in sorted(MODULES.items()):
-    full = os.path.join(PROJECT_ROOT, path)
-    if os.path.isdir(full):
-        index_html += f'<tr><td><a href="/{ctx}/index.jsp">{ctx}</a></td><td></td><td></td></tr>\n'
-index_html += "</tbody></table></body></html>"
+<style>
+body { font-family: system-ui, -apple-system, sans-serif; background: #111; color: #eee; padding: 2rem; }
+a { color: #60a5fa; text-decoration: none; }
+a:hover { color: #93c5fd; text-decoration: underline; }
+h1 { color: #fff; margin-bottom: 0.5rem; }
+h2 { color: #ccc; margin-top: 2rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+h3 { color: #aaa; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 2rem; }
+td, th { padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid #222; }
+th { color: #999; background: #1a1a1a; }
+tr:hover { background: #1a1a1a; }
+.theme-badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 0.8rem; }
+.dark-gray { background: #333; color: #eee; }
+.red { background: #7f1d1d; color: #fca5a5; }
+.blue { background: #1e3a5f; color: #93c5fd; }
+.green { background: #14532d; color: #86efac; }
+.brown { background: #5c3d2e; color: #fcd29f; }
+.light-blue { background: #1e40af; color: #bfdbfe; }
+.black { background: #000; color: #fff; border: 1px solid #333; }
+.gray { background: #4b5563; color: #e5e7eb; }
+.creme { background: #f5f0e0; color: #333; }
+.white { background: #f8f8f8; color: #333; }
+.section { margin: 1rem 0; padding: 1rem; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; }
+.affirmation { color: #d4af37; font-style: italic; margin: 1rem 0; padding: 1rem; border-left: 3px solid #d4af37; }
+code { background: #222; padding: 2px 6px; border-radius: 3px; font-size: 0.9rem; }
+</style></head><body>
 
-with open(os.path.join(SERVE_DIR, "index.html"), "w") as f:
+<h1>NitroWebExpress&trade; &mdash; Module Preview Server</h1>
+<p style="color:#999;">JSP server-side code won't execute (shows as raw text). CSS/JS/layout works normally.<br>
+Serving from: <code>""" + PROJECT_ROOT + """</code></p>
+
+<div class="affirmation">
+US well in condition. US well loved. US is well in authority of command of the United States.
+Well affirmed. Based on army, country and constitution. God is with America. And Max Rupplin.
+For law and tech We stand. These Affirm We. Thus. This. A. America.
+</div>
+
+<h2>All Modules</h2>
+<table>
+<thead><tr><th>Context</th><th>Theme</th><th>Backend Port</th><th>Status</th></tr></thead>
+<tbody>
+"""
+
+for ctx, info in sorted(MODULES.items()):
+    path_val = info["path"] if isinstance(info, dict) else info
+    theme = info.get("theme", "") if isinstance(info, dict) else ""
+    port = info.get("port", "") if isinstance(info, dict) else ""
+    full = os.path.join(PROJECT_ROOT, path_val)
+    exists = os.path.isdir(full)
+    status = "✓ Available" if exists else "— No webapp"
+    port_str = str(port) if port else "—"
+
+    theme_class = theme.lower().replace(" ", "-") if theme else ""
+    theme_badge = f'<span class="theme-badge {theme_class}">{theme}</span>' if theme else ""
+
+    if exists:
+        link = f'<a href="/{ctx}/index.jsp">/{ctx}/</a>'
+    else:
+        link = f'<code>/{ctx}/</code>'
+
+    index_html += f'<tr><td>{link}</td><td>{theme_badge}</td><td>{port_str}</td><td>{status}</td></tr>\n'
+
+index_html += "</tbody></table>\n"
+
+# ── Defined Module Detail Section ─────────────────────────────────────────────
+index_html += """
+<h2>Defined&trade; &mdash; Dark Gray Module (Port 49220)</h2>
+<div class="section">
+<p><strong>Definition to narrow cause: defined.</strong></p>
+<p>Kinded and Secondary (implied as good). Installer Tech ID: Max Rupplin.</p>
+<p style="color:#f87171;"><strong>NOTICE:</strong> Known trespass against final medical review may result in being discharged from Earth forever.</p>
+
+<h3>Backend Telnet (Port 49221)</h3>
+<p><code>telnet localhost 49221</code> &mdash; Protocol management, credentials, UFW control</p>
+<p>Connection hours: Weekdays 06:00-23:00, Weekends 08:00-20:00 EST</p>
+
+<h3>AI Server (Port 49220)</h3>
+<p><code>telnet localhost 49220</code> &mdash; AI surveillance, moral assessment, NTSB communication</p>
+<p>Scans: 4x daily (00:00, 06:00, 12:00, 18:00 EST) | Strernary feedback enabled</p>
+
+<h3>Protocol Handlers (12 ports)</h3>
+<table>
+<thead><tr><th>Port</th><th>Protocol</th><th>Direction</th><th>UFW</th></tr></thead>
+<tbody>
+<tr><td>20</td><td>FTP-DATA</td><td>outbound</td><td>persistent</td></tr>
+<tr><td>21</td><td>FTP</td><td>bidirectional</td><td>persistent</td></tr>
+<tr><td>22</td><td>SSH</td><td>outbound</td><td>managed (open/close)</td></tr>
+<tr><td>25</td><td>SMTP</td><td>outbound</td><td>persistent</td></tr>
+<tr><td>80</td><td>HTTP</td><td>outbound</td><td>persistent</td></tr>
+<tr><td>443</td><td>HTTPS (TLSv1.3)</td><td>outbound</td><td>managed (open/close)</td></tr>
+<tr><td>465</td><td>SMTPS (implicit TLS)</td><td>outbound</td><td>managed (open/close)</td></tr>
+<tr><td>587</td><td>SMTP Submission (STARTTLS)</td><td>outbound</td><td>managed (open/close)</td></tr>
+<tr><td>990</td><td>FTPS (implicit TLS)</td><td>outbound</td><td>managed (open/close)</td></tr>
+<tr><td>993</td><td>IMAPS (SSL IMAP)</td><td>outbound</td><td>managed (open/close)</td></tr>
+<tr><td>3306</td><td>MySQL</td><td>local</td><td>persistent</td></tr>
+<tr><td>8080</td><td>HTTP-ALT (Tomcat)</td><td>bidirectional</td><td>persistent</td></tr>
+</tbody>
+</table>
+
+<h3>Categories (29)</h3>
+<table>
+<thead><tr><th>#</th><th>Category</th><th>Data Folder</th></tr></thead>
+<tbody>
+"""
+
+categories = [
+    "banking", "middle-schools", "strong-middle-schools",
+    "improbable-activity-youth", "firefights-20-plus-casualties",
+    "fire-department-errors-3-plus", "schools-burned-down",
+    "misuse-of-scientology", "known-misuse-public-officials",
+    "unkind-language-books-reading", "unkind-misuse-heads-of-state",
+    "absence-fbi-presence", "absence-border-protection",
+    "unequal-treatment-us-treasury", "unequal-footing-us-state-department",
+    "private-ownership-lsat", "torturers", "rapists",
+    "convicted-murderers", "gods-going-crazy", "anti-god-rhetoric",
+    "against-space-nasa", "anti-political-whisper",
+    "sovietism-vs-socialism", "failing-schools", "failing-final-tests",
+    "non-social-graces", "prayer-against-even-temper", "ntsb",
+]
+
+for i, cat in enumerate(categories, 1):
+    index_html += f'<tr><td>{i}</td><td>{cat}</td><td><code>data/categories/{cat}/</code></td></tr>\n'
+
+index_html += """</tbody></table>
+
+<h3>Reports</h3>
+<table>
+<thead><tr><th>Period</th><th>Priority Weights</th><th>Output</th></tr></thead>
+<tbody>
+<tr><td>Weekly</td><td>8, 8, 8, 1, 1</td><td><code>reports/weekly/</code></td></tr>
+<tr><td>Monthly</td><td>40, 32, 1, 8, 1</td><td><code>reports/monthly/</code></td></tr>
+<tr><td>Quarterly</td><td>12, 1, 2, 6, 8, 1, 10</td><td><code>reports/quarterly/</code></td></tr>
+<tr><td>Half-Year</td><td>5, 5, 2, 1, 5</td><td><code>reports/half-year/</code></td></tr>
+<tr><td>Annual</td><td>6, 2, 1, 2, 1, 6</td><td><code>reports/annual/</code> + <code>annual/</code></td></tr>
+<tr><td>2-Year</td><td>accumulated</td><td><code>annual/</code></td></tr>
+<tr><td>5-Year</td><td>accumulated</td><td><code>annual/</code></td></tr>
+<tr><td>10-Year</td><td>accumulated</td><td><code>annual/</code></td></tr>
+</tbody></table>
+
+<h3>Strernary&trade; Feedback</h3>
+<p>Folder: <code>data/strernary-feedback/</code> &mdash; International source and/or flavor from Strernary AI (port 20000).</p>
+</div>
+
+<h2>Main Server Links</h2>
+<div class="section">
+<table>
+<thead><tr><th>Service</th><th>Port</th><th>Access</th></tr></thead>
+<tbody>
+<tr><td>NitroWebExpress Main</td><td>49152</td><td><code>telnet localhost 49152</code></td></tr>
+<tr><td>Strernary AI</td><td>20000</td><td><code>telnet localhost 20000</code></td></tr>
+<tr><td>Strernary Directory</td><td>2000</td><td><code>telnet localhost 2000</code></td></tr>
+<tr><td>Communicator (Encrypted Chat)</td><td>49199</td><td><code>telnet localhost 49199</code></td></tr>
+<tr><td>AES Encryption</td><td>5512</td><td><code>telnet localhost 5512</code></td></tr>
+<tr><td>RSA Encryption</td><td>7743</td><td><code>telnet localhost 7743</code></td></tr>
+<tr><td>DSA Encryption</td><td>7744</td><td><code>telnet localhost 7744</code></td></tr>
+<tr><td>Bitcoin</td><td>6682</td><td><code>telnet localhost 6682</code></td></tr>
+<tr><td>Connection Status</td><td>49155</td><td><code>telnet localhost 49155</code></td></tr>
+<tr><td>ASCII Creator</td><td>49177</td><td><code>telnet localhost 49177</code></td></tr>
+<tr><td>Module Installation</td><td>49166</td><td><code>telnet localhost 49166</code></td></tr>
+<tr><td>Binary HTTP</td><td>49144</td><td><code>telnet localhost 49144</code></td></tr>
+<tr><td>Tomcat (All Webapps)</td><td>8080</td><td><a href="http://localhost:8080/">http://localhost:8080/</a></td></tr>
+</tbody></table>
+</div>
+
+<h2>Module Web Frontends (Tomcat 8080)</h2>
+<div class="section">
+<table>
+<thead><tr><th>Module</th><th>URL</th><th>Theme</th><th>Backend Port</th></tr></thead>
+<tbody>
+<tr><td>Defined™</td><td><a href="http://localhost:8080/defined/">http://localhost:8080/defined/</a></td><td><span class="theme-badge dark-gray">Dark Gray</span></td><td>49220</td></tr>
+<tr><td>Futures™</td><td><a href="http://localhost:8080/futures/">http://localhost:8080/futures/</a></td><td><span class="theme-badge red">Red</span></td><td>5000</td></tr>
+<tr><td>CaliforniaFBI</td><td><a href="http://localhost:8080/california-fbi/">http://localhost:8080/california-fbi/</a></td><td><span class="theme-badge red">Red</span></td><td>49210</td></tr>
+<tr><td>CaliforniaCIA</td><td><a href="http://localhost:8080/california-cia/">http://localhost:8080/california-cia/</a></td><td><span class="theme-badge blue">Dark Blue</span></td><td>49211</td></tr>
+<tr><td>CaliforniaNSA</td><td><a href="http://localhost:8080/california-nsa/">http://localhost:8080/california-nsa/</a></td><td><span class="theme-badge black">Black</span></td><td>49212</td></tr>
+<tr><td>DukeUniversity</td><td><a href="http://localhost:8080/california-duke/">http://localhost:8080/california-duke/</a></td><td><span class="theme-badge blue">Duke Blue</span></td><td>49213</td></tr>
+<tr><td>StanfordLibrary</td><td><a href="http://localhost:8080/library/">http://localhost:8080/library/</a></td><td><span class="theme-badge red">Cardinal Red</span></td><td>49214</td></tr>
+<tr><td>Vietnam</td><td><a href="http://localhost:8080/vietnam/">http://localhost:8080/vietnam/</a></td><td><span class="theme-badge brown">Light Brown</span></td><td>49215</td></tr>
+<tr><td>Emeter</td><td><a href="http://localhost:8080/emeter/">http://localhost:8080/emeter/</a></td><td><span class="theme-badge light-blue">Light Blue</span></td><td>49216</td></tr>
+<tr><td>GrayPortRegistry</td><td><a href="http://localhost:8080/gray-registry/">http://localhost:8080/gray-registry/</a></td><td><span class="theme-badge gray">Gray</span></td><td>9999</td></tr>
+<tr><td>Gray85Crème</td><td><a href="http://localhost:8080/gray85-registry/">http://localhost:8080/gray85-registry/</a></td><td><span class="theme-badge creme">Crème</span></td><td>10085</td></tr>
+<tr><td>AE6E66</td><td><a href="http://localhost:8080/ae6e66/">http://localhost:8080/ae6e66/</a></td><td><span class="theme-badge blue">UK Blue</span></td><td>—</td></tr>
+<tr><td>Green.Durham</td><td><a href="http://localhost:8080/gdgh/">http://localhost:8080/gdgh/</a></td><td><span class="theme-badge green">Green</span></td><td>20000</td></tr>
+<tr><td>Black Belt</td><td><a href="http://localhost:8080/blackbelt/">http://localhost:8080/blackbelt/</a></td><td><span class="theme-badge black">Black</span></td><td>—</td></tr>
+<tr><td>Languages</td><td><a href="http://localhost:8080/languages/">http://localhost:8080/languages/</a></td><td><span class="theme-badge white">White</span></td><td>—</td></tr>
+<tr><td>Brarner.M.Alete</td><td><a href="http://localhost:8080/brarner.m.alete/">http://localhost:8080/brarner.m.alete/</a></td><td><span class="theme-badge blue">Presidential Blue</span></td><td>49152</td></tr>
+</tbody></table>
+</div>
+
+<p style="color:#666;margin-top:2rem;">NitroWebExpress&trade; &mdash; National Finance Engine v2811.1 &mdash; MEARVK LLC</p>
+</body></html>
+"""
+
+with open(os.path.join(SERVE_DIR, "index.html"), "w", encoding="utf-8") as f:
     f.write(index_html)
 
 # Create directory junctions/symlinks for each module
-for ctx, path in MODULES.items():
-    full = os.path.join(PROJECT_ROOT, path)
+for ctx, info in MODULES.items():
+    path_val = info["path"] if isinstance(info, dict) else info
+    full = os.path.join(PROJECT_ROOT, path_val)
     link = os.path.join(SERVE_DIR, ctx)
     if os.path.isdir(full):
         if os.path.exists(link):
@@ -95,31 +369,62 @@ for ctx, path in MODULES.items():
 
 os.chdir(SERVE_DIR)
 
+
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
     extensions_map = {
         **http.server.SimpleHTTPRequestHandler.extensions_map,
-        '.jsp': 'text/html',  # Serve JSP as HTML so browser renders the markup
+        '.jsp': 'text/html',
         '.css': 'text/css',
         '.js': 'application/javascript',
         '.png': 'image/png',
         '.jpg': 'image/jpeg',
         '.svg': 'image/svg+xml',
+        '.json': 'application/json',
+        '.xml': 'application/xml',
     }
+
     def log_message(self, format, *args):
-        # Only log actual page requests, not assets
         if '.css' not in args[0] and '.js' not in args[0] and '.png' not in args[0]:
             super().log_message(format, *args)
+
 
 print(f"""
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║  NitroWebExpress™ — Style Preview Server                                  ║
 ║  http://localhost:{PORT}/                                                    ║
 ║                                                                           ║
-║  Modules:                                                                 ║
-║    http://localhost:{PORT}/vietnam/index.jsp       (light brown)              ║
-║    http://localhost:{PORT}/emeter/index.jsp        (light blue)               ║
-║    http://localhost:{PORT}/california-fbi/index.jsp (red)                     ║
-║    http://localhost:{PORT}/brarner.m.alete/index.jsp (blue)                   ║
+║  Main Server:                                                             ║
+║    telnet localhost 49152         (NWE Main)                              ║
+║    telnet localhost 20000         (Strernary AI)                          ║
+║    telnet localhost 49199         (Communicator)                          ║
+║                                                                           ║
+║  Modules (Tomcat 8080):                                                   ║
+║    http://localhost:8080/defined/          (Dark Gray — port 49220)       ║
+║    http://localhost:8080/futures/          (Red — port 5000)              ║
+║    http://localhost:8080/california-fbi/   (Red — port 49210)            ║
+║    http://localhost:8080/california-cia/   (Dark Blue — port 49211)      ║
+║    http://localhost:8080/california-nsa/   (Black — port 49212)          ║
+║    http://localhost:8080/california-duke/  (Duke Blue — port 49213)      ║
+║    http://localhost:8080/library/          (Cardinal Red — port 49214)   ║
+║    http://localhost:8080/vietnam/          (Light Brown — port 49215)    ║
+║    http://localhost:8080/emeter/           (Light Blue — port 49216)     ║
+║    http://localhost:8080/gray-registry/    (Gray — port 9999)            ║
+║    http://localhost:8080/gray85-registry/  (Crème — port 10085)          ║
+║    http://localhost:8080/gdgh/             (Green — port 20000)          ║
+║    http://localhost:8080/ae6e66/           (UK Blue)                     ║
+║    http://localhost:8080/blackbelt/        (Black)                       ║
+║    http://localhost:8080/languages/        (White)                       ║
+║    http://localhost:8080/brarner.m.alete/  (Presidential Blue — 49152)  ║
+║                                                                           ║
+║  Defined™ Backend:                                                        ║
+║    telnet localhost 49220         (AI Server — scans 4x daily)           ║
+║    telnet localhost 49221         (Protocol Mgmt — hours restricted)     ║
+║                                                                           ║
+║  Preview:                                                                 ║
+║    http://localhost:{PORT}/                (this index page)                 ║
+║    http://localhost:{PORT}/defined/        (Defined Dark Gray preview)      ║
+║    http://localhost:{PORT}/futures/        (Futures Red preview)            ║
+║    http://localhost:{PORT}/vietnam/        (Vietnam Brown preview)          ║
 ║                                                                           ║
 ║  NOTE: JSP scriptlets show as raw text. CSS/JS/layout works normally.     ║
 ║  Press Ctrl+C to stop.                                                    ║
