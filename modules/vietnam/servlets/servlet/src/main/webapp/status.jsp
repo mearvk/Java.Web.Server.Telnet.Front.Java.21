@@ -19,7 +19,6 @@
         <li><a href="languages.jsp">Languages</a></li>
         <li><a href="status.jsp" class="active">Status</a></li>
     </ul>
-    <div class="nav-actions"><a href="styles.jsp" class="nav-cta">Explore Styles →</a></div>
 </div></nav>
 
 <section class="hero" style="padding:4rem 2rem;">

@@ -19,7 +19,6 @@
         <li><a href="languages.jsp" class="active">Languages</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
-    <div class="nav-actions"><a href="styles.jsp" class="nav-cta">Fighting Styles →</a></div>
 </div></nav>
 
 <section class="hero" style="padding:4rem 2rem;">

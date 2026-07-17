@@ -33,9 +33,6 @@
         <li><a href="protocols.jsp">Protocols</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
-    <div class="nav-actions">
-        <a href="categories.jsp" class="nav-cta">View Categories →</a>
-    </div>
 </div></nav>
 
 <section class="hero">

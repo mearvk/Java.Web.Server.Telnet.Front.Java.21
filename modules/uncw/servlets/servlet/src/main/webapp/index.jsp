@@ -24,6 +24,11 @@
     // Determine chancellor indicator squares (max 10 shown)
     int indicatorCount = Math.min(chancellorsOnline, 10);
 %>
+<%
+    String __user = (String) session.getAttribute("uncw_username");
+    Boolean __admin = (Boolean) session.getAttribute("uncw_admin");
+    if (__admin == null) __admin = false;
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,11 +52,16 @@
         <li><a href="status.jsp">Status</a></li>
     </ul>
     <div class="nav-actions">
-        <span style="font-size:0.7rem;color:var(--text-muted);margin-right:0.5rem;">Chancellors:</span>
-        <% for (int i = 0; i < 10; i++) { %>
-            <span class="chancellor-indicator <%= (i < indicatorCount) ? "active" : "inactive" %>"></span>
+        <% if (__admin) { %>
+            <span style="font-size:0.75rem;color:#f59e0b;margin-right:4px;">&#9733; Admin</span>
+            <a href="profile.jsp?action=logout" class="nav-cta" style="border-color:#dc2626;color:#dc2626;">Logout</a>
+        <% } else if (__user != null) { %>
+            <span style="font-size:0.8rem;color:var(--accent);margin-right:6px;"><%= __user %></span>
+            <a href="profile.jsp?action=logout" class="nav-cta" style="border-color:#dc2626;color:#dc2626;">Logout</a>
+        <% } else { %>
+            <a href="profile.jsp" class="nav-cta">Login</a>
+            <a href="profile.jsp" class="nav-cta" style="border-color:#f59e0b;color:#f59e0b;">Admin</a>
         <% } %>
-        <a href="profile.jsp" class="nav-cta" style="margin-left:0.75rem;">Login →</a>
     </div>
 </div></nav>
 

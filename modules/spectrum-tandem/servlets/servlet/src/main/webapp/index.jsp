@@ -34,9 +34,6 @@
         <li><a href="county.jsp">County Precedent</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
-    <div class="nav-actions">
-        <a href="wordbank.jsp" class="nav-cta">Word Bank →</a>
-    </div>
 </div></nav>
 
 <section class="hero">

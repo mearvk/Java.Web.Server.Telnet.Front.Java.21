@@ -20,9 +20,6 @@
         <li><a href="readings.jsp" class="active">Readings</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
-    <div class="nav-actions">
-        <a href="status.jsp" class="nav-cta">Status →</a>
-    </div>
 </div></nav>
 
 <section class="hero" style="padding:4rem 2rem;">

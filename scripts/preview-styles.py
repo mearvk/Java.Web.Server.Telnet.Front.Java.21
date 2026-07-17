@@ -190,6 +190,14 @@ MODULES = {
         "description": "Bitcoin™ wallet management, transactions, trading. bitcoind RPC. Multi-timezone. Strernary AI market analysis.",
         "installer_tech_id": "Max Rupplin",
     },
+    # ── CalendarD44™ — Fall Colors Module ──────────────────────────────────────
+    "calendar": {
+        "path": "modules/calendar/servlets/servlet/src/main/webapp",
+        "theme": "Fall Colors",
+        "port": 49200,
+        "description": "CalendarD44™ scheduling engine. Date routing, interaction logging, scheduled delivery, timezone support.",
+        "installer_tech_id": "Max Rupplin",
+    },
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -230,6 +238,7 @@ tr:hover { background: #1a1a1a; }
 .seacoast-teal { background: #0a1a1c; color: #00727A; border: 1px solid #1e4a4d; }
 .cyan { background: #042f2e; color: #06b6d4; border: 1px solid #0e4f4e; }
 .bitcoin-orange { background: #1a1610; color: #f7931a; border: 1px solid #3d3528; }
+.fall-colors { background: #1c1610; color: #ea580c; border: 1px solid #4a3828; }
 .section { margin: 1rem 0; padding: 1rem; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; }
 .affirmation { color: #d4af37; font-style: italic; margin: 1rem 0; padding: 1rem; border-left: 3px solid #d4af37; }
 code { background: #222; padding: 2px 6px; border-radius: 3px; font-size: 0.9rem; }

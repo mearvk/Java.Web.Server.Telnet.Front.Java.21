@@ -94,11 +94,15 @@
         <li><a href="status.jsp">Status</a></li>
     </ul>
     <div class="nav-actions">
-        <% if (sessionUser != null) { %>
-            <span style="font-size:0.8rem;color:var(--accent);margin-right:8px;">₿ <%= sessionUser %></span>
+        <% if (__admin) { %>
+            <span style="font-size:0.75rem;color:#f59e0b;margin-right:4px;">&#9733; Admin</span>
+            <a href="admin.jsp?action=logout" class="nav-cta" style="border-color:#dc2626;color:#dc2626;">Logout</a>
+        <% } else if (__user != null) { %>
+            <span style="font-size:0.8rem;color:var(--accent);margin-right:6px;"><%= __user %></span>
             <a href="account.jsp?action=logout" class="nav-cta" style="border-color:#dc2626;color:#dc2626;">Logout</a>
         <% } else { %>
-            <a href="account.jsp" class="nav-cta">Login →</a>
+            <a href="account.jsp" class="nav-cta">Login</a>
+            <a href="admin.jsp" class="nav-cta" style="border-color:#f59e0b;color:#f59e0b;">Admin</a>
         <% } %>
     </div>
 </div></nav>

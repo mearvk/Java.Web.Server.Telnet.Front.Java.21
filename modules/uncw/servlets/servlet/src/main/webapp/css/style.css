@@ -21,8 +21,8 @@ body { font-family:var(--font); background:var(--bg-dark); color:var(--text); li
 a { color:var(--gold); text-decoration:none; transition:color 0.2s; }
 a:hover { color:var(--gold-hover); }
 
-.nav { position:sticky; top:0; z-index:100; background:rgba(10,26,28,0.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 2rem; }
-.nav-inner { max-width:var(--max-width); margin:0 auto; display:flex; align-items:center; height:64px; justify-content:space-between; }
+.nav { position:relative; position:sticky; top:0; z-index:100; background:rgba(10,26,28,0.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 2rem; }
+.nav-inner { max-width:var(--max-width); margin:0 auto; display:flex; align-items:center; height:64px; justify-content:center; gap:2rem; flex-wrap:wrap; }
 .nav-brand { font-size:1.125rem; font-weight:700; color:var(--gold); letter-spacing:-0.02em; }
 .nav-links { list-style:none; display:flex; gap:1.5rem; }
 .nav-links a { font-size:0.875rem; color:var(--text-muted); }
@@ -82,3 +82,4 @@ code { background:var(--bg-card); padding:0.15rem 0.4rem; border-radius:4px; fon
 .audio-player audio { flex:1; height:32px; }
 .audio-player .audio-name { font-size:0.8rem; color:var(--gold); min-width:100px; }
 .audio-player .audio-badge { font-size:0.65rem; background:rgba(0,114,122,0.2); color:var(--accent-hover); padding:0.15rem 0.4rem; border-radius:3px; }
+.nav-actions { position:absolute; right:2rem; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:0.5rem; }

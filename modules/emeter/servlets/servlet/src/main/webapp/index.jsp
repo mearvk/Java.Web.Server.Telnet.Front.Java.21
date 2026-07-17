@@ -38,9 +38,6 @@
         <li><a href="readings.jsp">Readings</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
-    <div class="nav-actions">
-        <a href="instructions.jsp" class="nav-cta">Begin Instruction →</a>
-    </div>
 </div></nav>
 
 <section class="hero">

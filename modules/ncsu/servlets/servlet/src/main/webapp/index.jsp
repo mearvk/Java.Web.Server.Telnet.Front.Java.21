@@ -19,9 +19,6 @@
         <li><a href="departments.jsp">Departments</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
-    <div class="nav-actions">
-        <a href="colleges.jsp" class="nav-cta">View Colleges →</a>
-    </div>
 </div></nav>
 
 <section class="hero">

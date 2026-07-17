@@ -1,4 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String __user = (String) session.getAttribute("uncw_username");
+    Boolean __admin = (Boolean) session.getAttribute("uncw_admin");
+    if (__admin == null) __admin = false;
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +25,18 @@
         <li><a href="community.jsp">Community</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
+<div class="nav-actions">
+        <% if (__admin) { %>
+            <span style="font-size:0.75rem;color:#f59e0b;margin-right:4px;">&#9733; Admin</span>
+            <a href="profile.jsp?action=logout" class="nav-cta" style="border-color:#dc2626;color:#dc2626;">Logout</a>
+        <% } else if (__user != null) { %>
+            <span style="font-size:0.8rem;color:var(--accent);margin-right:6px;"><%= __user %></span>
+            <a href="profile.jsp?action=logout" class="nav-cta" style="border-color:#dc2626;color:#dc2626;">Logout</a>
+        <% } else { %>
+            <a href="profile.jsp" class="nav-cta">Login</a>
+            <a href="profile.jsp" class="nav-cta" style="border-color:#f59e0b;color:#f59e0b;">Admin</a>
+        <% } %>
+    </div>
 </div></nav>
 
 <section class="hero">
