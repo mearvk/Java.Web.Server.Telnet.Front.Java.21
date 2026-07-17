@@ -1,0 +1,24 @@
+{
+    "name": "NWE Chat™",
+    "short_name": "NWE Chat",
+    "description": "Encrypted communication with DH-2048 + RSA-2048. Federation, file transfer, voice notes. Ethics: We conceal God but do not work for Her.",
+    "start_url": "/chat/",
+    "display": "standalone",
+    "background_color": "#0a0e1a",
+    "theme_color": "#4a6cf7",
+    "icons": [
+        {
+            "src": "images/chat-icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ],
+    "categories": ["communication", "social"],
+    "lang": "en",
+    "dir": "ltr",
+    "scope": "/chat/",
+    "orientation": "any",
+    "ethics": "We conceal God but do not work for Her.",
+    "brand": "NWE Chat™ — MEARVK LLC",
+    "installer_tech_id": "Max Rupplin"
+}

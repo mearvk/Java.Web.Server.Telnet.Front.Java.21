@@ -86,6 +86,12 @@ NWE_PORTS=(
     49212   # California NSA
     49213   # Duke University
     49214   # Stanford Library
+    49215   # Vietnam
+    49216   # Emeter
+    49220   # Defined
+    49222   # SpectrumTandem
+    49230   # NWE Chat
+    49231   # UNCW
 )
 
 # Port → service name mapping for display
@@ -120,6 +126,12 @@ declare -A NWE_PORT_NAMES=(
     [49212]="California NSA"
     [49213]="Duke University"
     [49214]="Stanford Library"
+    [49215]="Vietnam"
+    [49216]="Emeter"
+    [49220]="Defined"
+    [49222]="SpectrumTandem"
+    [49230]="NWE Chat"
+    [49231]="UNCW"
 )
 
 # ═══════════════════════════════════════════════════════════════════════════════

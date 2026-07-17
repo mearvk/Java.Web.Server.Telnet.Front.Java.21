@@ -22,6 +22,9 @@ declare -A MODULES=(
     ["Green.Durham.Grass.and.Herb"]="gdgh"
     ["library"]="library"
     ["nsa"]="california-nsa"
+    ["spectrum-tandem"]="spectrum-tandem"
+    ["chat"]="chat"
+    ["uncw"]="uncw"
 )
 
 # Webapp-only modules (no backend)

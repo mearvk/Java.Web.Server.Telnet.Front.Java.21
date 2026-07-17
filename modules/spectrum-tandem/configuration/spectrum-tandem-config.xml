@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    SpectrumTandem Module Configuration
+    ====================================
+    MEARVK LLC — NitroWebExpress™
+    Port: 49222
+    Database: nwe_spectrum_tandem
+    Context: /spectrum-tandem
+    Masquerade: enabled
+    Installer Tech ID: Max Rupplin
+-->
+<spectrum-tandem-config>
+    <server>
+        <port>49222</port>
+        <host>localhost</host>
+        <name>SpectrumTandem™</name>
+        <masquerade-aware>true</masquerade-aware>
+    </server>
+
+    <database>
+        <name>nwe_spectrum_tandem</name>
+        <host>127.0.0.1</host>
+        <port>3306</port>
+    </database>
+
+    <webapp>
+        <context>/spectrum-tandem</context>
+        <tomcat-port>8080</tomcat-port>
+        <theme>white-red</theme>
+    </webapp>
+
+    <installer>
+        <tech-id>Max Rupplin</tech-id>
+        <installed>2026-07-16</installed>
+    </installer>
+
+    <ai-module>
+        <enabled>true</enabled>
+        <inference-port>20000</inference-port>
+        <model>distilbert</model>
+        <description>Routes spectrum and search queries through Strernary™ DJL inference on port 20000.</description>
+    </ai-module>
+
+    <data-tables>
+        <table name="word_bank">
+            <description>Core word bank — term, definition, specialness, radix, spelling variant, author, timestamps.</description>
+        </table>
+        <table name="dolyene_spectrum">
+            <description>Dolyene spectrum data — int discipline indices, spelling conditions, weights, radix conditions.</description>
+        </table>
+        <table name="county_precedent">
+            <description>County (full capitalized term of precedent) — pointers, indirections, revisions, caliber.</description>
+        </table>
+        <table name="revisions">
+            <description>Immutable revision log — old/new definitions, revisionist IDs, timestamps.</description>
+        </table>
+    </data-tables>
+
+    <protocol>
+        <commands>
+            <command name="DEFINE" args="term" description="Get full definition of a term from word bank"/>
+            <command name="LOOKUP" args="term" description="Search by spelling, radix, or variant"/>
+            <command name="RADIX" args="radix" description="Search by radix root"/>
+            <command name="SPECTRUM" args="term" description="Get dolyene spectrum (int discipline graph)"/>
+            <command name="COUNTY" args="county" description="Query county precedent (full caps)"/>
+            <command name="REVISE" args="term|definition|authorId" description="Revise a term definition"/>
+            <command name="ADD" args="term|definition|specialness|authorId" description="Add new term to word bank"/>
+            <command name="HISTORY" args="term" description="Get revision history for a term"/>
+            <command name="WORDBANK" args="" description="List all terms in word bank"/>
+            <command name="SEARCH" args="keyword" description="AI-assisted search via Strernary"/>
+            <command name="STATUS" args="" description="Module status"/>
+            <command name="HELP" args="" description="Show command list"/>
+            <command name="QUIT" args="" description="Close session"/>
+        </commands>
+    </protocol>
+</spectrum-tandem-config>

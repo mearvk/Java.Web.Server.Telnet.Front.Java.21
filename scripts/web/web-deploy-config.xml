@@ -204,5 +204,41 @@
             <reboot>true</reboot>
             <cron enabled="false"/>
         </module>
+
+        <module id="spectrum-tandem">
+            <enabled>true</enabled>
+            <context>spectrum-tandem</context>
+            <deploy-script>modules/spectrum-tandem/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/spectrum-tandem/servlets/setup-db.sh</setup-script>
+            <database>nwe_spectrum_tandem</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="chat">
+            <enabled>true</enabled>
+            <context>chat</context>
+            <deploy-script>modules/chat/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/chat/servlets/setup-db.sh</setup-script>
+            <database>nwe_chat</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
+
+        <module id="uncw">
+            <enabled>true</enabled>
+            <context>uncw</context>
+            <deploy-script>modules/uncw/servlets/deploy-local.sh</deploy-script>
+            <setup-script>modules/uncw/servlets/setup-db.sh</setup-script>
+            <database>nwe_uncw</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
     </modules>
 </web-deploy>

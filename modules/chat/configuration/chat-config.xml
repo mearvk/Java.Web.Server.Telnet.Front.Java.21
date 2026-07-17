@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    NWE Chat™ Module Configuration
+    ====================================
+    MEARVK LLC — NitroWebExpress™
+    Port: 49230
+    Database: nwe_chat
+    Context: /chat
+    Masquerade: enabled
+    Installer Tech ID: Max Rupplin
+    Ethics: We conceal God but do not work for Her.
+-->
+<chat-config>
+    <server>
+        <port>49230</port>
+        <host>localhost</host>
+        <name>NWE Chat™</name>
+        <masquerade-aware>true</masquerade-aware>
+    </server>
+
+    <database>
+        <name>nwe_chat</name>
+        <host>127.0.0.1</host>
+        <port>3306</port>
+    </database>
+
+    <webapp>
+        <context>/chat</context>
+        <tomcat-port>8080</tomcat-port>
+        <theme>deep-blue-purple</theme>
+    </webapp>
+
+    <installer>
+        <tech-id>Max Rupplin</tech-id>
+        <installed>2026-07-16</installed>
+    </installer>
+
+    <ethics>
+        <statement>We conceal God but do not work for Her.</statement>
+        <brand>NWE Chat™</brand>
+        <official-concern>true</official-concern>
+    </ethics>
+
+    <encryption>
+        <dh-enabled>true</dh-enabled>
+        <dh-bits>2048</dh-bits>
+        <dh-group>RFC 3526 Group 14</dh-group>
+        <rsa-enabled>true</rsa-enabled>
+        <rsa-bits>2048</rsa-bits>
+        <symmetric-cipher>AES-256-GCM</symmetric-cipher>
+        <user-to-user>true</user-to-user>
+        <server-to-user>true</server-to-user>
+    </encryption>
+
+    <session>
+        <timeout-hours>4</timeout-hours>
+        <max-idle-minutes>60</max-idle-minutes>
+    </session>
+
+    <federation>
+        <enabled>true</enabled>
+        <max-servers>5</max-servers>
+        <concealment-3-threshold>200</concealment-3-threshold>
+        <gold-cert-threshold>300</gold-cert-threshold>
+        <probe-timeout-ms>5000</probe-timeout-ms>
+        <designer>Max Rupplin</designer>
+    </federation>
+
+    <file-transfer>
+        <enabled>true</enabled>
+        <max-size-mb>25</max-size-mb>
+        <allowed-types>*</allowed-types>
+    </file-transfer>
+
+    <voice>
+        <enabled>true</enabled>
+        <max-duration-sec>120</max-duration-sec>
+        <format>opus</format>
+    </voice>
+
+    <admin>
+        <password-source>chat_settings.admin_password</password-source>
+        <log-retention-days>365</log-retention-days>
+    </admin>
+
+    <ai-module>
+        <enabled>true</enabled>
+        <inference-port>20000</inference-port>
+        <model>distilbert</model>
+        <description>Routes geo resolution and search queries through Strernary™ on port 20000.</description>
+    </ai-module>
+
+    <communicator-link>
+        <enabled>true</enabled>
+        <port>49199</port>
+        <description>Integration with existing NWE Communicator server for backward compatibility.</description>
+    </communicator-link>
+
+    <protocol>
+        <commands>
+            <command name="REGISTER" args="username|password|email" description="Create a new account"/>
+            <command name="LOGIN" args="username|password" description="Authenticate"/>
+            <command name="ADMIN" args="password" description="Enable admin mode"/>
+            <command name="MSG" args="targetUser|message" description="Direct message (encrypted)"/>
+            <command name="BROADCAST" args="message" description="Send to all users"/>
+            <command name="LIST" args="" description="List online users with geo"/>
+            <command name="HISTORY" args="" description="Last 30 messages"/>
+            <command name="ENCRYPT" args="DH|RSA" description="Initiate key exchange"/>
+            <command name="ENCRYPT_ACCEPT" args="peerPublicKey" description="Complete handshake"/>
+            <command name="ENCRYPT_OFF" args="" description="Disable encryption"/>
+            <command name="FILE" args="user|name|size|b64" description="Send file"/>
+            <command name="VOICE" args="user|durationMs|b64audio" description="Send voice note"/>
+            <command name="FEDERATE" args="host[:port]" description="Connect to remote Chat server"/>
+            <command name="FEDERATION_STATUS" args="" description="View federation stats"/>
+            <command name="CHANGE_USERNAME" args="newUsername" description="Change username"/>
+            <command name="DELETE_ACCOUNT" args="" description="Mark account for deletion"/>
+            <command name="STATUS" args="" description="Module status"/>
+            <command name="HELP" args="" description="Command list"/>
+            <command name="QUIT" args="" description="Disconnect"/>
+        </commands>
+        <admin-commands>
+            <command name="ADMIN_USERS" description="List all users with details"/>
+            <command name="ADMIN_BAN" args="username" description="Ban a user"/>
+            <command name="ADMIN_UNBAN" args="username" description="Unban a user"/>
+            <command name="ADMIN_LOGS" description="View event log"/>
+            <command name="ADMIN_GEO" args="username" description="View user geo/IP"/>
+            <command name="ADMIN_IPS" description="View all connected IPs"/>
+        </admin-commands>
+    </protocol>
+</chat-config>
