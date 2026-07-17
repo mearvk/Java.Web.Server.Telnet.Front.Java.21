@@ -91,7 +91,7 @@
         <p>University of North Carolina Wilmington — Computer Science Club & College Community. Universal, fun. SeaCoast colors. File sharing, messaging, audio playback, chancellor notes. Go Seahawks! 🌊</p>
     </div>
 </section>
-<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? \"#22c55e\" : \"#dc2626\" %>;"><%= authMsg %></div>
+<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? "#22c55e" : "#dc2626" %>;"><%= authMsg %></div>
 
 
 <!-- CD1 Connector Button -->

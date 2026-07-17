@@ -572,12 +572,16 @@ public class ChatServer implements Runnable {
         String peerHex = parts[1].trim();
 
         if (session.dhPrivate != null) {
-            BigInteger peerPub = new BigInteger(peerHex, 16);
-            BigInteger shared = peerPub.modPow(session.dhPrivate, DH_P);
-            session.sharedSecret = Arrays.copyOf(
-                MessageDigest.getInstance("SHA-256").digest(shared.toByteArray()), 32);
-            session.encrypted = true;
-            return "ENCRYPT|ACTIVE|AES-256-GCM via DH-2048";
+            try {
+                BigInteger peerPub = new BigInteger(peerHex, 16);
+                BigInteger shared = peerPub.modPow(session.dhPrivate, DH_P);
+                session.sharedSecret = Arrays.copyOf(
+                    MessageDigest.getInstance("SHA-256").digest(shared.toByteArray()), 32);
+                session.encrypted = true;
+                return "ENCRYPT|ACTIVE|AES-256-GCM via DH-2048";
+            } catch (Exception e) {
+                return "ERROR|Encryption handshake failed: " + e.getMessage();
+            }
         }
         return "ERROR|No DH session in progress.";
     }

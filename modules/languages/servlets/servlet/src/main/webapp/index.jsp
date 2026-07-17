@@ -27,7 +27,7 @@
 </div></nav>
 <section class="hero"><div class="hero-inner"><span class="hero-tag">Violet — Polite Diplomacy</span>
 <h1>Languages™</h1><p>Multi-language translation module with AI inference. Supports American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, and Turkish.</p></div></section>
-<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? \"#22c55e\" : \"#dc2626\" %>;"><%= authMsg %></div>
+<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? "#22c55e" : "#dc2626" %>;"><%= authMsg %></div>
 
 <!-- CD1 Connector Button + Floating Dialog (BMA Template) -->
 <div style="display:flex;justify-content:center;align-items:center;width:100%;padding:2rem 0;">

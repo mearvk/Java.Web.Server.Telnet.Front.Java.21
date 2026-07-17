@@ -80,7 +80,7 @@
         <p>Bitcoin wallet management, transaction indexing, and trading interface. Local bitcoind integration, multi-timezone support, and Strernary™ AI-assisted market analysis. Port 6682.</p>
     </div>
 </section>
-<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? \"#22c55e\" : \"#dc2626\" %>;"><%= authMsg %></div>
+<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? "#22c55e" : "#dc2626" %>;"><%= authMsg %></div>
 
 
 <!-- CD1 Connector Button -->

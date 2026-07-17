@@ -28,7 +28,7 @@
 
 <section class="hero"><div class="hero-inner"><span class="hero-tag">Cyan — Best-Guess Inference</span>
 <h1>Strernary™</h1><p>Port 20000 inference server. Accepts standard information and returns best-guess responses. DJL (Deep Java Library) with PyTorch, OS port relay, and keyword heuristics.</p></div></section>
-<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? \"#22c55e\" : \"#dc2626\" %>;"><%= authMsg %></div>
+<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? "#22c55e" : "#dc2626" %>;"><%= authMsg %></div>
 
 
 <!-- CD1 Connector Button + Floating Dialog -->

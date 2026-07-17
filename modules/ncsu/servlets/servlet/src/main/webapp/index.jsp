@@ -47,7 +47,7 @@
         <p>Think and Do. The Wolfpack. 12 colleges, 37,000+ students. AI-assisted academic queries via Strernary™. Raleigh, North Carolina.</p>
     </div>
 </section>
-<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? \"#22c55e\" : \"#dc2626\" %>;"><%= authMsg %></div>
+<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? "#22c55e" : "#dc2626" %>;"><%= authMsg %></div>
 
 
 <!-- CD1 Connector Button -->

@@ -27,7 +27,7 @@
 </div></nav>
 <section class="hero"><div class="hero-inner"><span class="hero-tag">Discipline · Mastery · Methodology</span>
 <h1>Black Belt</h1><p>Systems design methodology built on progressive mastery. Each belt represents a level of understanding, responsibility, and IQ requirement. Ask questions about the methodology below.</p></div></section>
-<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? \"#22c55e\" : \"#dc2626\" %>;"><%= authMsg %></div>
+<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? "#22c55e" : "#dc2626" %>;"><%= authMsg %></div>
 
 <!-- CD1 Connector Button + Floating Dialog (BMA Template) -->
 <div style="display:flex;justify-content:center;align-items:center;width:100%;padding:2rem 0;">
