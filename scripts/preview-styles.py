@@ -182,6 +182,14 @@ MODULES = {
         "description": "Strernary™ Deep Inference. DJL/PyTorch/DistilBERT. ASK, CLASSIFY, TRAIN, RELAY. Port 20000 + Directory 2000.",
         "installer_tech_id": "Max Rupplin",
     },
+    # ── Bitcoin™ — Warm Amber/Gold Module ─────────────────────────────────────
+    "bitcoin": {
+        "path": "modules/bitcoin/servlets/servlet/src/main/webapp",
+        "theme": "Bitcoin Orange",
+        "port": 6682,
+        "description": "Bitcoin™ wallet management, transactions, trading. bitcoind RPC. Multi-timezone. Strernary AI market analysis.",
+        "installer_tech_id": "Max Rupplin",
+    },
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -221,6 +229,7 @@ tr:hover { background: #1a1a1a; }
 .deep-blue { background: #0a0e1a; color: #6b8aff; border: 1px solid #1e2a4a; }
 .seacoast-teal { background: #0a1a1c; color: #00727A; border: 1px solid #1e4a4d; }
 .cyan { background: #042f2e; color: #06b6d4; border: 1px solid #0e4f4e; }
+.bitcoin-orange { background: #1a1610; color: #f7931a; border: 1px solid #3d3528; }
 .section { margin: 1rem 0; padding: 1rem; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; }
 .affirmation { color: #d4af37; font-style: italic; margin: 1rem 0; padding: 1rem; border-left: 3px solid #d4af37; }
 code { background: #222; padding: 2px 6px; border-radius: 3px; font-size: 0.9rem; }

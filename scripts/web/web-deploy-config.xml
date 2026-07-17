@@ -240,5 +240,16 @@
             <reboot>true</reboot>
             <cron enabled="false"/>
         </module>
+
+        <module id="bitcoin">
+            <enabled>true</enabled>
+            <context>bitcoin</context>
+            <deploy-script>modules/bitcoin/servlets/deploy-local.sh</deploy-script>
+            <database>none</database>
+            <install>true</install>
+            <start>true</start>
+            <reboot>true</reboot>
+            <cron enabled="false"/>
+        </module>
     </modules>
 </web-deploy>
