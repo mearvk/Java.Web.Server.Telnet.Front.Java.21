@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Settings — NWE Chat™</title>
+    <title>Settings — Communicator™</title>
     <link rel="stylesheet" href="css/style.css"/>
     <script src="js/scroll-preserve.js"></script>
     <script src="js/nwe-readme-viewer.js"></script>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-    <span class="nav-brand">NWE Chat™</span>
+    <span class="nav-brand">Communicator™</span>
     <ul class="nav-links">
         <li><a href="index.jsp">Chat</a></li>
         <li><a href="account.jsp">Account</a></li>
@@ -45,7 +45,7 @@
                 <tr><td>max_file_size_mb</td><td>25</td><td>Max Rupplin</td></tr>
                 <tr><td>max_voice_duration_sec</td><td>120</td><td>Max Rupplin</td></tr>
                 <tr><td>ethics_statement</td><td><em>We conceal God but do not work for Her.</em></td><td>Max Rupplin</td></tr>
-                <tr><td>brand</td><td>NWE Chat™</td><td>Max Rupplin</td></tr>
+                <tr><td>brand</td><td>Communicator™</td><td>Max Rupplin</td></tr>
             </tbody>
         </table>
         </div>
@@ -87,7 +87,7 @@
 </section>
 
 <footer class="footer">
-    <span>NWE Chat™ — Settings — MEARVK LLC — NitroWebExpress™ 2026</span>
+    <span>Communicator™ — Settings — MEARVK LLC — NitroWebExpress™ 2026</span>
 </footer>
 </body>
 </html>

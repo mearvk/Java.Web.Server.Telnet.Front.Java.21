@@ -219,6 +219,15 @@ public class ChatServer implements Runnable {
             if (upper.equals("ADMIN_LOGS")) return adminLogs();
             if (upper.startsWith("ADMIN_GEO|")) return adminGeo(input);
             if (upper.equals("ADMIN_IPS")) return adminIPs();
+            if (upper.equals("ADMIN_ROOMS")) return adminListRooms();
+            if (upper.startsWith("ADMIN_ROOM_USERS|")) return adminRoomUsers(input);
+            if (upper.startsWith("ADMIN_ROOM_LOG|")) return adminRoomLog(input);
+            if (upper.startsWith("ADMIN_KICK|")) return adminKickFromRoom(input);
+            if (upper.startsWith("ADMIN_MUTE|")) return adminMuteInRoom(input);
+            if (upper.startsWith("ADMIN_CLOSE_ROOM|")) return adminCloseRoom(input);
+            if (upper.startsWith("ADMIN_OPEN_ROOM|")) return adminOpenRoom(input);
+            if (upper.equals("ADMIN_MONITOR")) return adminMonitorAll(session);
+            if (upper.startsWith("ADMIN_MONITOR|")) return adminMonitorRoom(input, session);
         }
 
         return "ERROR|Unknown command. Type HELP.";
@@ -761,6 +770,164 @@ public class ChatServer implements Runnable {
         return sb.toString();
     }
 
+    // ── Admin Room Monitoring ──────────────────────────────────────────────────
+
+    // In-memory room state (loaded from chat-rooms.xml at startup in production)
+    static final Map<String, Set<String>> ROOM_MEMBERS = new ConcurrentHashMap<>();
+    static final Map<String, List<String>> ROOM_LOGS = new ConcurrentHashMap<>();
+    static final Set<String> CLOSED_ROOMS = ConcurrentHashMap.newKeySet();
+    static final Set<String> MUTED_USERS = ConcurrentHashMap.newKeySet(); // username@room
+    static final Map<String, Set<String>> ADMIN_MONITORING = new ConcurrentHashMap<>(); // admin -> rooms they monitor
+
+    private String adminListRooms() {
+        StringBuilder sb = new StringBuilder("ADMIN_ROOMS|");
+        // List all rooms with user counts
+        for (Map.Entry<String, Set<String>> entry : ROOM_MEMBERS.entrySet()) {
+            String room = entry.getKey();
+            int count = entry.getValue().size();
+            boolean closed = CLOSED_ROOMS.contains(room);
+            sb.append(room).append("[users=").append(count).append(",closed=").append(closed).append("]|");
+        }
+        if (ROOM_MEMBERS.isEmpty()) sb.append("NO_ACTIVE_ROOMS");
+        return sb.toString();
+    }
+
+    private String adminRoomUsers(String input) {
+        // ADMIN_ROOM_USERS|roomName
+        String[] parts = input.split("\\|", 2);
+        if (parts.length < 2) return "ERROR|Usage: ADMIN_ROOM_USERS|roomName";
+        String room = parts[1].trim();
+        Set<String> members = ROOM_MEMBERS.get(room);
+        if (members == null || members.isEmpty()) return "ADMIN_ROOM_USERS|" + room + "|EMPTY";
+        StringBuilder sb = new StringBuilder("ADMIN_ROOM_USERS|" + room + "|");
+        for (String user : members) {
+            ChatSession s = LIVE.get(user);
+            sb.append(user);
+            if (s != null) sb.append("[ip=").append(s.ip).append(",geo=").append(s.geoCity).append("]");
+            if (MUTED_USERS.contains(user + "@" + room)) sb.append("(MUTED)");
+            sb.append("|");
+        }
+        return sb.toString();
+    }
+
+    private String adminRoomLog(String input) {
+        // ADMIN_ROOM_LOG|roomName
+        String[] parts = input.split("\\|", 2);
+        if (parts.length < 2) return "ERROR|Usage: ADMIN_ROOM_LOG|roomName";
+        String room = parts[1].trim();
+        List<String> log = ROOM_LOGS.get(room);
+        if (log == null || log.isEmpty()) return "ADMIN_ROOM_LOG|" + room + "|EMPTY";
+        StringBuilder sb = new StringBuilder("ADMIN_ROOM_LOG|" + room + "|");
+        int start = Math.max(0, log.size() - 50); // last 50 messages
+        for (int i = start; i < log.size(); i++) {
+            sb.append(log.get(i)).append("|");
+        }
+        return sb.toString();
+    }
+
+    private String adminKickFromRoom(String input) {
+        // ADMIN_KICK|username|roomName
+        String[] parts = input.split("\\|", 3);
+        if (parts.length < 3) return "ERROR|Usage: ADMIN_KICK|username|roomName";
+        String user = parts[1].trim(), room = parts[2].trim();
+        Set<String> members = ROOM_MEMBERS.get(room);
+        if (members != null) members.remove(user);
+        ChatSession s = LIVE.get(user);
+        if (s != null) s.writeLine("SYSTEM|You have been kicked from room: " + room);
+        addRoomLog(room, "[ADMIN] Kicked " + user);
+        return "ADMIN|KICK|" + user + " removed from " + room;
+    }
+
+    private String adminMuteInRoom(String input) {
+        // ADMIN_MUTE|username|roomName
+        String[] parts = input.split("\\|", 3);
+        if (parts.length < 3) return "ERROR|Usage: ADMIN_MUTE|username|roomName";
+        String user = parts[1].trim(), room = parts[2].trim();
+        String key = user + "@" + room;
+        if (MUTED_USERS.contains(key)) {
+            MUTED_USERS.remove(key);
+            addRoomLog(room, "[ADMIN] Unmuted " + user);
+            return "ADMIN|UNMUTE|" + user + " unmuted in " + room;
+        } else {
+            MUTED_USERS.add(key);
+            ChatSession s = LIVE.get(user);
+            if (s != null) s.writeLine("SYSTEM|You have been muted in room: " + room);
+            addRoomLog(room, "[ADMIN] Muted " + user);
+            return "ADMIN|MUTE|" + user + " muted in " + room;
+        }
+    }
+
+    private String adminCloseRoom(String input) {
+        // ADMIN_CLOSE_ROOM|roomName
+        String[] parts = input.split("\\|", 2);
+        if (parts.length < 2) return "ERROR|Usage: ADMIN_CLOSE_ROOM|roomName";
+        String room = parts[1].trim();
+        CLOSED_ROOMS.add(room);
+        // Notify all members
+        Set<String> members = ROOM_MEMBERS.get(room);
+        if (members != null) {
+            for (String user : members) {
+                ChatSession s = LIVE.get(user);
+                if (s != null) s.writeLine("SYSTEM|Room '" + room + "' has been closed by admin.");
+            }
+        }
+        addRoomLog(room, "[ADMIN] Room closed");
+        return "ADMIN|CLOSE_ROOM|" + room + " closed. " + (members != null ? members.size() : 0) + " users notified.";
+    }
+
+    private String adminOpenRoom(String input) {
+        // ADMIN_OPEN_ROOM|roomName
+        String[] parts = input.split("\\|", 2);
+        if (parts.length < 2) return "ERROR|Usage: ADMIN_OPEN_ROOM|roomName";
+        String room = parts[1].trim();
+        CLOSED_ROOMS.remove(room);
+        addRoomLog(room, "[ADMIN] Room reopened");
+        return "ADMIN|OPEN_ROOM|" + room + " reopened.";
+    }
+
+    private String adminMonitorAll(ChatSession session) {
+        // Subscribe admin to receive all room messages in real-time
+        Set<String> monitored = ADMIN_MONITORING.computeIfAbsent(session.username, k -> ConcurrentHashMap.newKeySet());
+        monitored.add("*"); // wildcard = all rooms
+        return "ADMIN|MONITOR|Monitoring ALL rooms. You will receive all room messages in real-time.";
+    }
+
+    private String adminMonitorRoom(String input, ChatSession session) {
+        // ADMIN_MONITOR|roomName — toggle monitoring a specific room
+        String[] parts = input.split("\\|", 2);
+        if (parts.length < 2) return "ERROR|Usage: ADMIN_MONITOR|roomName (or ADMIN_MONITOR for all)";
+        String room = parts[1].trim();
+        Set<String> monitored = ADMIN_MONITORING.computeIfAbsent(session.username, k -> ConcurrentHashMap.newKeySet());
+        if (monitored.contains(room)) {
+            monitored.remove(room);
+            return "ADMIN|MONITOR|Stopped monitoring room: " + room;
+        } else {
+            monitored.add(room);
+            return "ADMIN|MONITOR|Now monitoring room: " + room + ". Messages will be forwarded to you.";
+        }
+    }
+
+    private void addRoomLog(String room, String entry) {
+        ROOM_LOGS.computeIfAbsent(room, k -> Collections.synchronizedList(new ArrayList<>()))
+            .add(java.time.Instant.now().toString() + " " + entry);
+    }
+
+    /**
+     * Notify monitoring admins when a message is sent in a room.
+     * Called internally whenever a room message occurs.
+     */
+    static void notifyMonitoringAdmins(String room, String sender, String message) {
+        for (Map.Entry<String, Set<String>> entry : ADMIN_MONITORING.entrySet()) {
+            Set<String> rooms = entry.getValue();
+            if (rooms.contains("*") || rooms.contains(room)) {
+                ChatSession adminSession = LIVE.get(entry.getKey());
+                if (adminSession != null && adminSession.isAdmin) {
+                    adminSession.writeLine("MONITOR|" + room + "|" + sender + "|" + message);
+                }
+            }
+        }
+    }
+
     // ── Help ───────────────────────────────────────────────────────────────────
 
     private String getHelp(ChatSession session) {
@@ -773,6 +940,7 @@ public class ChatServer implements Runnable {
         sb.append("CHANGE_USERNAME|new, DELETE_ACCOUNT, STATUS, QUIT");
         if (session.isAdmin) {
             sb.append(" | ADMIN: ADMIN_USERS, ADMIN_BAN|user, ADMIN_UNBAN|user, ADMIN_LOGS, ADMIN_GEO|user, ADMIN_IPS");
+            sb.append(" | ROOMS: ADMIN_ROOMS, ADMIN_ROOM_USERS|room, ADMIN_ROOM_LOG|room, ADMIN_KICK|user|room, ADMIN_MUTE|user|room, ADMIN_CLOSE_ROOM|room, ADMIN_OPEN_ROOM|room, ADMIN_MONITOR, ADMIN_MONITOR|room");
         }
         return sb.toString();
     }

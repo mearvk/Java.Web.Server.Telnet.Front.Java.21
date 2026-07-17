@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    NWE Chat™ — Chat Room Registry
+    ═══════════════════════════════════════════════════════════════
+    MEARVK LLC — NitroWebExpress™
+    Installer Tech ID: Max Rupplin
+    Date: July 16 2026
+
+    Defines the default chat room groupings and rooms available
+    on the NWE Chat™ server (port 49230). Rooms are organized
+    into categories. Users join rooms via the ROOM|<name> command.
+
+    Rooms are loaded at server startup and stored in memory.
+    Admins can add/remove rooms via ADMIN_ADD_ROOM and ADMIN_REMOVE_ROOM.
+-->
+<chat-rooms>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         Towns & Communities
+    ════════════════════════════════════════════════════════════════ -->
+    <category id="towns-and-communities" name="Towns &amp; Communities" icon="🏘️">
+        <room id="the-coffee-house" name="The_Coffee_House" capacity="50">
+            <description>Casual conversation over virtual coffee. All ages welcome.</description>
+        </room>
+        <room id="la-pub" name="La_Pub" capacity="40">
+            <description>Relaxed pub atmosphere. Chat about anything. 21+.</description>
+        </room>
+        <room id="the-meeting-place" name="The_Meeting_Place" capacity="60">
+            <description>General gathering spot. Meet new people, share ideas.</description>
+        </room>
+    </category>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         Teens & Dating
+    ════════════════════════════════════════════════════════════════ -->
+    <category id="teens-and-dating" name="Teens &amp; Dating" icon="💫">
+        <room id="teens" name="Teens" capacity="80">
+            <description>General teen chat. Ages 13-19. Keep it clean and respectful.</description>
+        </room>
+        <room id="sweet-16" name="Sweet_16" capacity="40">
+            <description>Sweet 16 celebrations and teen life. Ages 15-17.</description>
+        </room>
+        <room id="love-connection" name="Love_Connection" capacity="50">
+            <description>Making connections. Friendly dating chat. 18+.</description>
+        </room>
+    </category>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         Hobbies & Interests
+    ════════════════════════════════════════════════════════════════ -->
+    <category id="hobbies-and-interests" name="Hobbies &amp; Interests" icon="🎨">
+        <room id="writers" name="Writers" capacity="30">
+            <description>Creative writing, poetry, fiction, screenplays. Share your work.</description>
+        </room>
+        <room id="star-trek" name="Star_Trek" capacity="40">
+            <description>All things Star Trek. TOS, TNG, DS9, VOY, ENT, DSC, PIC, SNW. Live long and prosper.</description>
+        </room>
+        <room id="sports-trivia" name="Sports_Trivia" capacity="50">
+            <description>Sports trivia and debates. All sports welcome.</description>
+        </room>
+    </category>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         Romance & Relationships
+    ════════════════════════════════════════════════════════════════ -->
+    <category id="romance-and-relationships" name="Romance &amp; Relationships" icon="❤️">
+        <room id="romance" name="Romance" capacity="40">
+            <description>Discuss romance, love stories, and relationship advice. 18+.</description>
+        </room>
+        <room id="flirtation" name="Flirtation" capacity="50">
+            <description>Light flirting and fun conversation. Keep it tasteful. 18+.</description>
+        </room>
+    </category>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         AOL Live (Special Events)
+    ════════════════════════════════════════════════════════════════ -->
+    <category id="aol-live" name="AOL Live (Special Events)" icon="🌟">
+        <room id="center-stage" name="Center_Stage" capacity="200">
+            <description>Main event stage. Live Q&amp;A, presentations, guest speakers. Moderated.</description>
+        </room>
+        <room id="cyberplex" name="CyberPlex" capacity="100">
+            <description>Digital arts, VR, gaming events, tech showcases. The future is here.</description>
+        </room>
+    </category>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         Philosophical Discussion
+    ════════════════════════════════════════════════════════════════ -->
+    <category id="philosophical-discussion" name="Philosophical Discussion" icon="🏛️">
+        <room id="philosophy" name="Philosophy" capacity="40">
+            <description>General philosophy. Socrates to Sartre. All schools of thought.</description>
+        </room>
+        <room id="atheism" name="Atheism" capacity="30">
+            <description>Atheist perspectives, secular humanism, naturalism.</description>
+        </room>
+        <room id="religion" name="Religion" capacity="50">
+            <description>World religions, theology, comparative religion. Respectful dialogue.</description>
+        </room>
+        <room id="ethics" name="Ethics" capacity="35">
+            <description>Moral philosophy, applied ethics, trolley problems, real-world dilemmas.</description>
+        </room>
+        <room id="debate" name="Debate" capacity="60">
+            <description>Structured debate on any topic. Logos, pathos, ethos. Bring your arguments.</description>
+        </room>
+        <room id="deep-thoughts" name="Deep_Thoughts" capacity="30">
+            <description>Late-night musings, shower thoughts, big questions. Why are we here?</description>
+        </room>
+        <room id="existentialism" name="Existentialism" capacity="25">
+            <description>Kierkegaard, Nietzsche, Camus, Heidegger. Existence precedes essence.</description>
+        </room>
+        <room id="metaphysics" name="Metaphysics" capacity="25">
+            <description>Nature of reality, being, time, causation, free will, identity.</description>
+        </room>
+        <room id="logic" name="Logic" capacity="30">
+            <description>Formal logic, informal fallacies, propositional calculus, argumentation theory.</description>
+        </room>
+    </category>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         Metaphysical & New Age
+    ════════════════════════════════════════════════════════════════ -->
+    <category id="metaphysical-new-age" name="Metaphysical &amp; New Age" icon="🔮">
+        <room id="paranormal" name="Paranormal" capacity="40">
+            <description>Ghosts, hauntings, cryptids, unexplained phenomena. Share your experiences.</description>
+        </room>
+        <room id="psychic" name="Psychic" capacity="30">
+            <description>Psychic abilities, intuition, clairvoyance, mediumship.</description>
+        </room>
+        <room id="astrology" name="Astrology" capacity="45">
+            <description>Birth charts, transits, synastry, houses, planetary aspects. What's your sign?</description>
+        </room>
+        <room id="tarot" name="Tarot" capacity="30">
+            <description>Tarot readings, card meanings, spreads, oracle decks.</description>
+        </room>
+        <room id="wicca" name="Wicca" capacity="25">
+            <description>Wiccan practice, sabbats, esbats, the Goddess and God, nature spirituality.</description>
+        </room>
+        <room id="occult" name="Occult" capacity="25">
+            <description>Occult studies, hermeticism, alchemy, kabbalah, esoteric traditions.</description>
+        </room>
+        <room id="ufos" name="UFOs" capacity="40">
+            <description>UFO sightings, UAPs, extraterrestrial contact, government disclosure.</description>
+        </room>
+        <room id="reiki" name="Reiki" capacity="20">
+            <description>Reiki healing, energy work, chakras, attunements, holistic wellness.</description>
+        </room>
+        <room id="dream-interpretation" name="Dream_Interpretation" capacity="30">
+            <description>Dream analysis, lucid dreaming, symbolism, Jung, sleep science.</description>
+        </room>
+        <room id="magick" name="Magick" capacity="25">
+            <description>Ceremonial magick, chaos magick, sigils, ritual, Thelema, Golden Dawn.</description>
+        </room>
+    </category>
+
+</chat-rooms>

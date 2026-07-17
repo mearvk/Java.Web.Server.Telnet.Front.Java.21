@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Profile — NWE Chat™</title>
+    <title>Profile — Communicator™</title>
     <link rel="stylesheet" href="css/style.css"/>
     <script src="js/scroll-preserve.js"></script>
     <script src="js/nwe-readme-viewer.js"></script>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-    <span class="nav-brand">NWE Chat™</span>
+    <span class="nav-brand">Communicator™</span>
     <ul class="nav-links">
         <li><a href="index.jsp">Chat</a></li>
         <li><a href="account.jsp">Account</a></li>
@@ -25,7 +25,7 @@
 
 <section class="hero">
     <div class="hero-inner">
-        <span class="hero-tag">Your Profile — NWE Chat™</span>
+        <span class="hero-tag">Your Profile — Communicator™</span>
         <h1>Profile</h1>
         <p>Manage your profile picture, resume, and view other users' profiles.</p>
     </div>
@@ -94,7 +94,7 @@
 </section>
 
 <footer class="footer">
-    <span>NWE Chat™ — Profile — MEARVK LLC — NitroWebExpress™ 2026</span>
+    <span>Communicator™ — Profile — MEARVK LLC — NitroWebExpress™ 2026</span>
 </footer>
 
 <script>

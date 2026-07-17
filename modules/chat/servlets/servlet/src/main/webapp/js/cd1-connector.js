@@ -1,5 +1,5 @@
 /**
- * CD1 Connector — NWE Chat™ (Blue theme)
+ * CD1 Connector — Communicator™ (Blue theme)
  * MEARVK LLC — 2026
  */
 (function() {

@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Federation — NWE Chat™</title>
+    <title>Federation — Communicator™</title>
     <link rel="stylesheet" href="css/style.css"/>
     <script src="js/scroll-preserve.js"></script>
     <script src="js/nwe-readme-viewer.js"></script>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-    <span class="nav-brand">NWE Chat™</span>
+    <span class="nav-brand">Communicator™</span>
     <ul class="nav-links">
         <li><a href="index.jsp">Chat</a></li>
         <li><a href="account.jsp">Account</a></li>
@@ -26,7 +26,7 @@
     <div class="hero-inner">
         <span class="hero-tag">Multi-Server Federation</span>
         <h1>Federation</h1>
-        <p>Connect to up to 5 external NWE Chat™ servers (of Max Rupplin's design) by IP or domain name. Earn ranks through successful connections.</p>
+        <p>Connect to up to 5 external Communicator™ servers (of Max Rupplin's design) by IP or domain name. Earn ranks through successful connections.</p>
     </div>
 </section>
 
@@ -57,7 +57,7 @@
             </tbody>
         </table>
         </div>
-        <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);">Federated connections must be to verified NWE Chat™ servers of Max Rupplin's design. The server will probe the remote endpoint to verify compatibility before counting the connection.</p>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);">Federated connections must be to verified Communicator™ servers of Max Rupplin's design. The server will probe the remote endpoint to verify compatibility before counting the connection.</p>
     </div>
 </section>
 
@@ -79,7 +79,7 @@
 </section>
 
 <footer class="footer">
-    <span>NWE Chat™ — Federation — MEARVK LLC — NitroWebExpress™ 2026</span>
+    <span>Communicator™ — Federation — MEARVK LLC — NitroWebExpress™ 2026</span>
 </footer>
 </body>
 </html>

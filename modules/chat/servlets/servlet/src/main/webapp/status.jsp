@@ -19,14 +19,14 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Status — NWE Chat™</title>
+    <title>Status — Communicator™</title>
     <link rel="stylesheet" href="css/style.css"/>
     <script src="js/scroll-preserve.js"></script>
     <script src="js/nwe-readme-viewer.js"></script>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-    <span class="nav-brand">NWE Chat™</span>
+    <span class="nav-brand">Communicator™</span>
     <ul class="nav-links">
         <li><a href="index.jsp">Chat</a></li>
         <li><a href="account.jsp">Account</a></li>
@@ -105,7 +105,7 @@
 </section>
 
 <footer class="footer">
-    <span>NWE Chat™ — Status — MEARVK LLC — NitroWebExpress™ 2026</span>
+    <span>Communicator™ — Status — MEARVK LLC — NitroWebExpress™ 2026</span>
 </footer>
 </body>
 </html>

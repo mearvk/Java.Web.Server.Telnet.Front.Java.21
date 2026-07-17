@@ -19,17 +19,17 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>NWE Chat™ — Encrypted Communication — NitroWebExpress™</title>
+    <title>Communicator™ — Encrypted Communication — NitroWebExpress™</title>
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#0a0e1a"/>
-    <meta name="description" content="NWE Chat™ — Encrypted communication with DH-2048 + RSA-2048. Federation, file transfer, voice notes. Ethics: We conceal God but do not work for Her."/>
+    <meta name="description" content="Communicator™ — Encrypted communication with DH-2048 + RSA-2048. Federation, file transfer, voice notes. Ethics: We conceal God but do not work for Her."/>
     <script src="js/scroll-preserve.js"></script>
     <script src="js/nwe-readme-viewer.js"></script>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-    <span class="nav-brand">NWE Chat™</span>
+    <span class="nav-brand">Communicator™</span>
     <ul class="nav-links">
         <li><a href="index.jsp" class="active">Chat</a></li>
         <li><a href="account.jsp">Account</a></li>
@@ -49,7 +49,7 @@
             <div class="logo-icon">C</div>
         </div>
         <span class="hero-tag">Encrypted Communication — DH-2048 + RSA-2048</span>
-        <h1>NWE Chat™</h1>
+        <h1>Communicator™</h1>
         <p>Secure messaging with end-to-end encryption. Direct messages, broadcast, federation across servers, file transfer, and voice notes. Port 49230.</p>
         <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--purple-hover);font-style:italic;">Ethics: We conceal God but do not work for Her.</p>
     </div>
@@ -63,7 +63,7 @@
 </div>
 <div id="cd1-overlay" style="display:none;position:fixed;inset:0;z-index:299;background:transparent;"></div>
 <div id="cd1-dialog" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:300;background:#0f1428;border:1px solid #1e2a4a;border-radius:12px;padding:1.25rem;width:560px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
-    <div style="font-size:0.9rem;font-weight:600;color:#6b8aff;margin-bottom:0.75rem;">NWE Chat Connector &#8212; Direct Link</div>
+    <div style="font-size:0.9rem;font-weight:600;color:#6b8aff;margin-bottom:0.75rem;">Communicator Connector &#8212; Direct Link</div>
     <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;align-items:center;">
         <select id="cd1-action" style="background:#161d36;color:#e2e8f0;border:1px solid #1e2a4a;border-radius:8px;padding:0.45rem 2rem 0.45rem 0.75rem;font-size:0.8rem;cursor:pointer;appearance:none;">
             <option value="connect">Connect</option>
@@ -105,7 +105,7 @@
         <h2>Live Chat</h2>
         <div class="chat-container">
             <div class="chat-messages" id="chat-messages">
-                <div class="msg msg-system">[System] Connect to NWE Chat™ via port 49230 or use the CD1 button above.</div>
+                <div class="msg msg-system">[System] Connect to Communicator™ via port 49230 or use the CD1 button above.</div>
                 <div class="msg msg-system">[System] Type /login username password to authenticate.</div>
                 <div class="msg msg-system">[System] Encryption: DH-2048 + AES-256-GCM active by default.</div>
             </div>
@@ -132,7 +132,7 @@
             <tbody>
                 <tr><td>DH-2048 + AES-256-GCM</td><td>Diffie-Hellman key exchange with AES-256-GCM authenticated encryption</td></tr>
                 <tr><td>RSA-2048</td><td>RSA public-key encryption for server↔user and user↔user DMs</td></tr>
-                <tr><td>Federation</td><td>Connect to up to 5 external NWE Chat servers by IP/domain</td></tr>
+                <tr><td>Federation</td><td>Connect to up to 5 external Communicator servers by IP/domain</td></tr>
                 <tr><td>File Transfer</td><td>Send files up to 25MB with end-to-end encryption</td></tr>
                 <tr><td>Voice Notes</td><td>Record and send microphone audio (up to 120s)</td></tr>
                 <tr><td>Concealment 3</td><td>Rank awarded at 200+ successful federated connections</td></tr>
@@ -153,7 +153,7 @@
         <table>
             <thead><tr><th>Property</th><th>Value</th></tr></thead>
             <tbody>
-                <tr><td>Module</td><td>NWE Chat™</td></tr>
+                <tr><td>Module</td><td>Communicator™</td></tr>
                 <tr><td>Port</td><td>49230</td></tr>
                 <tr><td>Database</td><td>nwe_chat</td></tr>
                 <tr><td>Context Path</td><td>/chat</td></tr>
@@ -170,7 +170,7 @@
 </section>
 
 <footer class="footer">
-    <span>NWE Chat™ — Encrypted Communication — We conceal God but do not work for Her. — MEARVK LLC — NitroWebExpress™ 2026</span>
+    <span>Communicator™ — Encrypted Communication — We conceal God but do not work for Her. — MEARVK LLC — NitroWebExpress™ 2026</span>
 </footer>
 
 <script>

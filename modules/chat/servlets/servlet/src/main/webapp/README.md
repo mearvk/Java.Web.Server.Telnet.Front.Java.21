@@ -1,4 +1,4 @@
-# NWE Chat™ — Encrypted Communication Module
+# Communicator™ — Encrypted Communication Module
 
 **NitroWebExpress™ Module**
 Author: Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
@@ -19,7 +19,7 @@ Full-featured encrypted chat server with:
 - **Broadcast** — Send to all connected users
 - **File Transfer** — Send files up to 25MB with E2E encryption
 - **Voice Notes** — Microphone recording up to 120s
-- **Federation** — Connect to up to 5 external NWE Chat servers (Max Rupplin design)
+- **Federation** — Connect to up to 5 external Communicator servers (Max Rupplin design)
 - **Rank System** — Concealment 3 at 200+ federated connects, Gold Harvard Certificate at 300+
 - **Admin Panel** — User management, ban/unban, logs, IP/Geo tracking
 - **Chat Logging** — All messages stored with IPs and timestamps
@@ -41,7 +41,7 @@ DH parameters: RFC 3526 Group 14 (2048-bit MODP).
 
 ## Federation & Ranks
 
-Users can connect to up to 5 external NWE Chat™ servers (of Max Rupplin's design) by IP or domain.
+Users can connect to up to 5 external Communicator™ servers (of Max Rupplin's design) by IP or domain.
 
 | Connects | Rank | Reward |
 |----------|------|--------|
