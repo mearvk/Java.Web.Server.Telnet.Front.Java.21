@@ -29,7 +29,7 @@
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-    <span class="nav-brand">Communicator™</span>
+    <span class="nav-brand"><img src="images/MearvK.Ltd/communicator/trillian.jpeg" alt="Communicator" style="height:24px;width:auto;vertical-align:middle;margin-right:6px;background:transparent;border-radius:4px;"/>Communicator™</span>
     <ul class="nav-links">
         <li><a href="index.jsp" class="active">Chat</a></li>
         <li><a href="account.jsp">Account</a></li>
@@ -46,7 +46,7 @@
 <section class="hero">
     <div class="hero-inner">
         <div class="logo-container">
-            <div class="logo-icon">C</div>
+            <img src="images/MearvK.Ltd/communicator/trillian.jpeg" alt="Communicator" style="height:48px;width:auto;background:transparent;border-radius:8px;"/>
         </div>
         <span class="hero-tag">Encrypted Communication — DH-2048 + RSA-2048</span>
         <h1>Communicator™</h1>
@@ -73,8 +73,8 @@
             <option value="status">Status</option>
             <option value="hardreset">Hard Reset</option>
         </select>
-        <button onclick="cd1Send()" style="background:linear-gradient(135deg,#4a6cf7,#7c3aed);color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Send</button>
-        <button onclick="cd1Ok()" style="background:linear-gradient(135deg,#4a6cf7,#7c3aed);color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
+        <button onclick="cd1Send()" style="background:#4a6cf7;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Send</button>
+        <button onclick="cd1Ok()" style="background:#4a6cf7;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
         <label style="display:flex;align-items:center;gap:0.4rem;color:#94a3b8;font-size:0.75rem;cursor:pointer;">

@@ -26,7 +26,7 @@
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-    <span class="nav-brand">Communicator™</span>
+    <span class="nav-brand"><img src="images/MearvK.Ltd/communicator/trillian.jpeg" alt="Communicator" style="height:24px;width:auto;vertical-align:middle;margin-right:6px;background:transparent;border-radius:4px;"/>Communicator™</span>
     <ul class="nav-links">
         <li><a href="index.jsp">Chat</a></li>
         <li><a href="account.jsp">Account</a></li>
