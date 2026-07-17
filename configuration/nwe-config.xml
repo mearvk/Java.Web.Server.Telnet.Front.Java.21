@@ -915,4 +915,202 @@
         </schedule>
     </integrity>
 
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         PORT SCHEDULE & ACCESS CONTROL
+         ═══════════════════════════════════════════════════════════════════════════
+         Controls when ports are open (accepting connections) and when they close.
+         Default: open 24/7/365. Admin can restrict by:
+           - Days of the week (Mon-Sun)
+           - Hours of the day (00:00-23:59)
+           - Months of the year (Jan-Dec)
+           - City Mayor override (remote XML/JSON endpoint)
+
+         Ports automatically OPEN when NWE/modules start and CLOSE when they stop.
+         This schedule layer adds time-based restrictions ON TOP of runtime state.
+
+         A city Mayor can send XML or JSON to the mayor-endpoint to dynamically
+         control port hours and theme colors for their jurisdiction.
+    ═══════════════════════════════════════════════════════════════════════════ -->
+    <port-schedule>
+        <!-- Master switch: enable/disable schedule enforcement -->
+        <enabled>true</enabled>
+
+        <!-- Default policy: OPEN means ports are open unless schedule says otherwise -->
+        <default-policy>OPEN</default-policy>
+
+        <!-- Default schedule: 24/7 (all days, all hours, all months) -->
+        <default-hours>00:00-23:59</default-hours>
+        <default-days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</default-days>
+        <default-months>Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec</default-months>
+
+        <!-- Timezone for schedule evaluation -->
+        <timezone>America/New_York</timezone>
+
+        <!-- ── Per-Module Schedule Overrides ─────────────────────────────────── -->
+        <module-schedules>
+            <!-- Example: Defined™ restricted to business hours -->
+            <module id="Defined" port="49220">
+                <hours>06:00-23:00</hours>
+                <days>Mon,Tue,Wed,Thu,Fri</days>
+                <months>Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec</months>
+                <weekend-hours>08:00-20:00</weekend-hours>
+            </module>
+
+            <!-- All other modules: 24/7 default (no override needed) -->
+            <module id="SpectrumTandem" port="49222">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Communicator" port="49230">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="UNCW" port="49231">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Strernary" port="20000">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="CaliforniaFBI" port="49210">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="CaliforniaCIA" port="49211">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="CaliforniaNSA" port="49212">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="DukeUniversity" port="49213">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="StanfordLibrary" port="49214">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Vietnam" port="49215">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Emeter" port="49216">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Futures" port="5000">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="GrayPortRegistry" port="9999">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Gray85Creme" port="10085">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+        </module-schedules>
+
+        <!-- ── Auto Open/Close Behavior ──────────────────────────────────────── -->
+        <auto-manage>
+            <!-- When NWE starts: open ports in UFW/iptables for scheduled modules -->
+            <open-on-start>true</open-on-start>
+            <!-- When NWE stops: close all NWE ports in firewall -->
+            <close-on-stop>true</close-on-stop>
+            <!-- When a module goes offline mid-schedule: close its port -->
+            <close-on-module-stop>true</close-on-module-stop>
+            <!-- Firewall command (auto-detected: ufw, firewall-cmd, or iptables) -->
+            <firewall>auto</firewall>
+        </auto-manage>
+
+        <!-- ── City Mayor Remote Override ─────────────────────────────────────── 
+             A city Mayor's website can send XML or JSON to this endpoint to 
+             control port hours and theme colors for their jurisdiction.
+             
+             The server polls the mayor-endpoint every poll-interval-minutes.
+             If the mayor's server responds with valid XML/JSON, those settings
+             override the default schedule for the specified ports.
+             
+             Mayor can control:
+               - Which ports are open/closed
+               - Operating hours per port
+               - Theme colors for the web frontend
+               - Custom message/banner
+        ──────────────────────────────────────────────────────────────────────── -->
+        <mayor-override>
+            <enabled>false</enabled>
+            <poll-interval-minutes>60</poll-interval-minutes>
+            <timeout-ms>10000</timeout-ms>
+            <max-response-size-kb>64</max-response-size-kb>
+
+            <!-- Registered mayor endpoints (admin adds these) -->
+            <mayors>
+                <!-- Example: Durham NC Mayor -->
+                <mayor id="durham-nc">
+                    <city>Durham</city>
+                    <state>NC</state>
+                    <endpoint>https://durhamnc.gov/api/nwe-port-schedule</endpoint>
+                    <format>json</format>
+                    <auth-header>X-NWE-Mayor-Token</auth-header>
+                    <trusted>true</trusted>
+                    <description>City of Durham, NC — Mayor's office port schedule override</description>
+                </mayor>
+
+                <!-- Example: Wilmington NC Mayor (for UNCW module) -->
+                <mayor id="wilmington-nc">
+                    <city>Wilmington</city>
+                    <state>NC</state>
+                    <endpoint>https://wilmingtonnc.gov/api/nwe-port-schedule</endpoint>
+                    <format>xml</format>
+                    <auth-header>X-NWE-Mayor-Token</auth-header>
+                    <trusted>true</trusted>
+                    <description>City of Wilmington, NC — Mayor's office (UNCW jurisdiction)</description>
+                </mayor>
+            </mayors>
+
+            <!-- Expected response format (JSON) -->
+            <response-schema-json><![CDATA[
+{
+    "mayor_id": "durham-nc",
+    "city": "Durham",
+    "effective_date": "2026-07-16",
+    "expires": "2026-08-16",
+    "ports": {
+        "49222": { "hours": "06:00-22:00", "days": "Mon,Tue,Wed,Thu,Fri,Sat", "status": "open" },
+        "49230": { "hours": "00:00-23:59", "days": "Mon,Tue,Wed,Thu,Fri,Sat,Sun", "status": "open" },
+        "49231": { "hours": "08:00-20:00", "days": "Mon,Tue,Wed,Thu,Fri", "status": "open" }
+    },
+    "theme_override": {
+        "accent_color": "#1e40af",
+        "banner": "City of Durham — Open Service Hours"
+    }
+}
+            ]]></response-schema-json>
+
+            <!-- Expected response format (XML) -->
+            <response-schema-xml><![CDATA[
+<mayor-schedule mayor-id="wilmington-nc" city="Wilmington" effective="2026-07-16" expires="2026-08-16">
+    <port id="49231" hours="08:00-22:00" days="Mon,Tue,Wed,Thu,Fri,Sat" status="open"/>
+    <port id="49230" hours="00:00-23:59" days="Mon,Tue,Wed,Thu,Fri,Sat,Sun" status="open"/>
+    <theme accent-color="#00727A" banner="City of Wilmington — Seahawk Hours"/>
+</mayor-schedule>
+            ]]></response-schema-xml>
+        </mayor-override>
+
+        <!-- ── Admin Commands for Schedule Management ─────────────────────────── -->
+        <admin-commands>
+            <command>SCHEDULE_SET|port|hours|days|months</command>
+            <command>SCHEDULE_GET|port</command>
+            <command>SCHEDULE_RESET|port</command>
+            <command>SCHEDULE_MAYOR_ADD|id|city|state|endpoint|format</command>
+            <command>SCHEDULE_MAYOR_REMOVE|id</command>
+            <command>SCHEDULE_MAYOR_POLL</command>
+            <command>SCHEDULE_STATUS</command>
+        </admin-commands>
+    </port-schedule>
+
 </nwe-config>
