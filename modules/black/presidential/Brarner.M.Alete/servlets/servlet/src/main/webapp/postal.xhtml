@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/png" href="images/favicon.png"/>
+    <title>Postal — Brarner.M.Alete™</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/expandable.css"/>
+    <link rel="stylesheet" href="css/connector.css"/>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+    <a href="index.xhtml" class="nav-brand"><img src="images/mearvk.ltd.logo.left.png" alt="" style="height:40px;vertical-align:middle;margin-right:8px;background:transparent;"/>Brarner.M.Alete™<img src="images/mearvk.ltd.logo.right.png" alt="" style="height:40px;vertical-align:middle;margin-left:8px;background:transparent;"/></a>
+    <ul class="nav-links">
+        <li><a href="index.xhtml">Overview</a></li>
+        <li><a href="species.xhtml">Species</a></li>
+        <li><a href="postal.xhtml" class="active">Postal</a></li>
+        <li><a href="art.xhtml">Art</a></li>
+        <li><a href="science.xhtml">Science</a></li>
+        <li><a href="status.xhtml">Status</a></li>
+    </ul>
+    <div class="nav-actions">
+        <a href="register.xhtml" class="nav-cta">Register</a>
+        <a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a>
+        <a href="admin/login.xhtml" class="nav-cta">Admin →</a>
+    </div>
+</div></nav>
+
+<section class="hero" style="padding:4rem 2rem;">
+    <div class="hero-inner">
+        <span class="hero-tag">USPS Integration</span>
+        <h1>Postal Services</h1>
+        <p>US Postal code lookup, validation, and address standardization for all 50 states and territories.</p>
+    </div>
+</section>
+
+<!-- CD1 Connector Button + Floating Dialog -->
+<div style="display:flex;justify-content:center;align-items:center;width:100%;padding:2rem 0;">
+    <button id="cd1-btn" type="button" aria-pressed="false" style="all:unset;display:block;margin:0 auto;cursor:pointer;padding:0;border:none;background:transparent;transition:transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84),filter 0.3s ease;">
+        <img src="images/black.button.png" alt="Connector" style="display:block;width:80px;height:80px;border-radius:50%;background:transparent;"/>
+    </button>
+</div>
+<div id="cd1-overlay" style="display:none;position:fixed;inset:0;z-index:299;background:transparent;"></div>
+<div id="cd1-dialog" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:300;background:#111118;border:1px solid #27272a;border-radius:12px;padding:1.25rem;width:520px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+    <div style="font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.75rem;">BMA Connector &#8212; Postal Division</div>
+    <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+        <select id="cd1-action" style="background:#1a1a24;color:#fff;border:1px solid #27272a;border-radius:8px;padding:0.45rem 2rem 0.45rem 0.75rem;font-size:0.8rem;cursor:pointer;appearance:none;">
+            <option value="connect">Connect</option>
+            <option value="disconnect">Disconnect</option>
+            <option value="poll">Poll Area Data</option>
+            <option value="hardreset">Hard Reset Connection</option>
+        </select>
+        <button onclick="cd1Send()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Send</button>
+        <button onclick="cd1Ok()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;font-weight:600;cursor:pointer;">OK</button>
+    </div>
+    <textarea id="cd1-textarea" placeholder="Connection idle..." spellcheck="false" style="width:100%;min-height:140px;background:#ffffff;color:#111;border:1px solid #27272a;border-radius:8px;padding:0.75rem;font-family:monospace;font-size:0.8rem;resize:vertical;"></textarea>
+    <div style="margin-top:0.5rem;font-size:0.72rem;color:#71717a;">
+        <strong>Commands:</strong> LOOKUP|ZIP|&lt;code&gt; &#183; VALIDATE|&lt;address&gt; &#183; ROUTE|&lt;zip&gt; &#183; STATUS &#183; LIST|STATE|&lt;abbr&gt;
+    </div>
+</div>
+
+<section class="section">
+    <div class="section-inner">
+        <h3>Coverage by Region</h3>
+        <p>Active postal service coverage across all US states and territories with ZIP code validation and carrier route lookup.</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Region</th><th>ZIP Codes</th><th>Counties</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>North Carolina</td><td>940</td><td>100</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Full coverage of all 100 NC counties. Includes address standardization, ZIP+4 resolution, and carrier route lookup.</p>
+                        <table><thead><tr><th>City</th><th>ZIP Codes</th><th>Signal Server</th></tr></thead><tbody>
+                            <tr><td>Durham</td><td>27701–27713</td><td>Active</td></tr>
+                            <tr><td>Raleigh</td><td>27601–27699</td><td>Active</td></tr>
+                            <tr><td>Charlotte</td><td>28201–28299</td><td>Active</td></tr>
+                            <tr><td>Greensboro</td><td>27401–27499</td><td>Active</td></tr>
+                            <tr><td>Fayetteville</td><td>28301–28314</td><td>Active</td></tr>
+                        </tbody></table>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>California</td><td>2,657</td><td>58</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>All California ZIP codes indexed with address standardization. Includes Apple Valley, CA origin region.</p>
+                        <table><thead><tr><th>City</th><th>ZIP Codes</th><th>Signal Server</th></tr></thead><tbody>
+                            <tr><td>Los Angeles</td><td>90001–90899</td><td>Active</td></tr>
+                            <tr><td>San Francisco</td><td>94101–94188</td><td>Active</td></tr>
+                            <tr><td>Apple Valley</td><td>92307–92308</td><td>Active</td></tr>
+                        </tbody></table>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Texas</td><td>2,587</td><td>254</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Complete Texas coverage. 254 counties — largest county count of any US state.</p>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>New York</td><td>2,200</td><td>62</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Full New York state and NYC borough coverage with carrier route data.</p>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>All Other States (46)</td><td>33,300+</td><td>2,600+</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Remaining 46 states fully indexed. Address standardization and ZIP+4 available for all regions.</p>
+                    </td></tr>
+                    <tr class="a1-row" onclick="toggleA1Row(this)"><td>Territories</td><td>900+</td><td>—</td><td>●&#160; Active</td></tr>
+                    <tr class="a1-child"><td colspan="4">
+                        <p>Puerto Rico, Guam, US Virgin Islands, American Samoa, Northern Mariana Islands.</p>
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+
+<footer class="footer"><div class="footer-bottom" style="border:none;padding:0;">
+    <span>&#169; 2026 MEARVK LLC. All rights reserved.</span>
+</div></footer>
+
+<script>
+/* === session.js (inlined — external JS not served by this deployment) === */
+var BMA_SESSION_COOKIE = 'bma_session';
+var BMA_SESSION_HOURS = 24;
+function setCookie(name, value, hours) { var d = new Date(); d.setTime(d.getTime() + (hours * 60 * 60 * 1000)); document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax'; }
+function getCookie(name) { var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)')); return match ? decodeURIComponent(match[2]) : null; }
+function deleteCookie(name) { document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;'; }
+function getSession() { var raw = getCookie(BMA_SESSION_COOKIE); if (!raw) return null; try { return JSON.parse(raw); } catch(e) { return null; } }
+function setSession(type, ip, settings) { var session = { type: type, ip: ip, settings: settings || {}, created: Date.now() }; setCookie(BMA_SESSION_COOKIE, JSON.stringify(session), BMA_SESSION_HOURS); return session; }
+function enterGuest() { var session = setSession('guest', '', {}); updateNavForSession(session); alert('Logged in as Guest. Session expires in 24 hours.'); }
+function logout() { deleteCookie(BMA_SESSION_COOKIE); updateNavForSession(null); }
+function updateNavForSession(session) { var actions = document.querySelector('.nav-actions'); if (!actions) return; if (session) { var label = session.type === 'registered' ? 'Registered' : 'Guest'; actions.innerHTML = '<span class="nav-session-label">' + label + '</span><a href="javascript:void(0)" class="nav-cta" onclick="logout()">Logout</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } else { actions.innerHTML = '<a href="register.xhtml" class="nav-cta">Register</a><a href="javascript:void(0)" class="nav-cta" onclick="enterGuest()">Guest</a><a href="admin/login.xhtml" class="nav-cta">Admin \u2192</a>'; } }
+(function() { var session = getSession(); if (session) updateNavForSession(session); })();
+
+/* === expandable.js (inlined) === */
+function toggleA1Row(row) { var child = row.nextElementSibling; if (child && child.classList.contains('a1-child')) { child.classList.toggle('open'); } }
+function toggleBmaPanel(event, el) { if (el.classList.contains('open') && !event.target.closest('.expandable-header')) return; var wasOpen = el.classList.contains('open'); el.classList.toggle('open'); if (wasOpen) { var ta = el.querySelector('.bma-textarea'); if (ta) ta.value = ''; } }
+function bmaSend(btn) { var panel = btn.closest('.bma-panel'); var select = panel.querySelector('.bma-action-select'); var textarea = panel.querySelector('.bma-textarea'); var action = select.value; var ts = new Date().toLocaleTimeString(); var msg = ''; switch (action) { case 'connect': msg = '[' + ts + '] Connecting to BMA server port 49152...\n[' + ts + '] Connected. Ready for commands.\n'; break; case 'disconnect': msg = '[' + ts + '] Disconnecting from BMA server...\n[' + ts + '] Disconnected.\n'; break; case 'poll': msg = '[' + ts + '] Polling area data...\n[' + ts + '] Poll complete. Data refreshed.\n'; break; case 'hardreset': msg = '[' + ts + '] Requesting formal hard reset...\n[' + ts + '] Connection formally closed by server. Reset complete.\n'; break; } textarea.value += msg; textarea.scrollTop = textarea.scrollHeight; }
+function bmaOk(btn) { var panel = btn.closest('.bma-panel'); var textarea = panel.querySelector('.bma-textarea'); var ts = new Date().toLocaleTimeString(); textarea.value += '[' + ts + '] OK \u2014 Acknowledged.\n'; textarea.scrollTop = textarea.scrollHeight; }
+
+/* === connector.js (inlined) === */
+(function() {
+    var btn = document.getElementById('cd1-btn');
+    var dialog = document.getElementById('cd1-dialog');
+    var overlay = document.getElementById('cd1-overlay');
+    var textarea = document.getElementById('cd1-textarea');
+    if (!btn || !dialog || !overlay || !textarea) return;
+    var IDLE_CLOSE_MS = 20 * 60 * 1000;
+    var FULL_RESET_MS = 60 * 60 * 1000;
+    var idleTimer = null, resetTimer = null, savedContent = '';
+    function isOpen() { return dialog.style.display !== 'none'; }
+    function openDialog() { btn.setAttribute('aria-pressed', 'true'); btn.style.transform = 'scale(0.9)'; btn.style.filter = 'drop-shadow(0 0 8px rgba(59,130,246,0.6))'; setTimeout(function() { dialog.style.display = 'block'; overlay.style.display = 'block'; resetIdleTimer(); }, 300); }
+    function closeDialog() { dialog.style.display = 'none'; overlay.style.display = 'none'; btn.setAttribute('aria-pressed', 'false'); btn.style.transform = ''; btn.style.filter = ''; if (textarea.value && textarea.value !== 'Connection idle...') savedContent = textarea.value; textarea.value = ''; textarea.placeholder = 'Connection idle...'; clearTimeout(idleTimer); }
+    function fullReset() { savedContent = ''; textarea.value = ''; textarea.placeholder = 'Connection idle...'; closeDialog(); clearTimeout(resetTimer); resetTimer = null; }
+    function resetIdleTimer() { clearTimeout(idleTimer); clearTimeout(resetTimer); idleTimer = setTimeout(function() { savedContent = textarea.value || savedContent; textarea.value = ''; textarea.placeholder = 'Connection idle...'; closeDialog(); resetTimer = setTimeout(fullReset, FULL_RESET_MS - IDLE_CLOSE_MS); }, IDLE_CLOSE_MS); }
+    btn.addEventListener('click', function() { if (isOpen()) closeDialog(); else openDialog(); });
+    overlay.addEventListener('click', function() { closeDialog(); });
+    textarea.addEventListener('dblclick', function() { if (savedContent) textarea.value = savedContent; });
+    dialog.addEventListener('click', function() { resetIdleTimer(); });
+    dialog.addEventListener('keydown', function() { resetIdleTimer(); });
+    resetTimer = setTimeout(fullReset, FULL_RESET_MS);
+})();
+function cd1Send() { var select = document.getElementById('cd1-action'); var textarea = document.getElementById('cd1-textarea'); if (!select || !textarea) return; var action = select.value; var ts = new Date().toLocaleTimeString(); var msg = ''; switch (action) { case 'connect': msg = '[' + ts + '] Connecting to BMA server port 49152...\n[' + ts + '] Connected.\n'; break; case 'disconnect': msg = '[' + ts + '] Disconnecting...\n[' + ts + '] Disconnected.\n'; break; case 'poll': msg = '[' + ts + '] Polling area data...\n[' + ts + '] Poll complete.\n'; break; case 'hardreset': msg = '[' + ts + '] Hard reset...\n[' + ts + '] Reset complete.\n'; break; } textarea.value += msg; textarea.scrollTop = textarea.scrollHeight; }
+function cd1Ok() { var textarea = document.getElementById('cd1-textarea'); if (!textarea) return; var ts = new Date().toLocaleTimeString(); textarea.value += '[' + ts + '] OK \u2014 Acknowledged.\n'; textarea.scrollTop = textarea.scrollHeight; }
+</script>
+</body>
+</html>

@@ -1,4 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    boolean authorized = false;
+    String authMsg = "Checking...";
+    try {
+        java.net.HttpURLConnection conn = (java.net.HttpURLConnection) java.net.URI.create(
+            "https://raw.githubusercontent.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/main/psychiatry/secrets/public.key"
+        ).toURL().openConnection();
+        conn.setRequestMethod("HEAD");
+        conn.setConnectTimeout(5000);
+        conn.setReadTimeout(5000);
+        int code = conn.getResponseCode();
+        conn.disconnect();
+        if (code == 200) { authorized = true; authMsg = "Authorized \u2014 public.key present"; }
+        else { authMsg = "NOT AUTHORIZED \u2014 public.key missing (HTTP " + code + ")"; }
+    } catch (Exception e) {
+        authMsg = "Authorization check failed: " + e.getMessage();
+    }
+%>
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Strernary™ — Best-Guess Inference Server</title><link rel="stylesheet" href="css/style.css"/><script src="js/scroll-preserve.js"></script>
@@ -9,6 +27,8 @@
 
 <section class="hero"><div class="hero-inner"><span class="hero-tag">Cyan — Best-Guess Inference</span>
 <h1>Strernary™</h1><p>Port 20000 inference server. Accepts standard information and returns best-guess responses. DJL (Deep Java Library) with PyTorch, OS port relay, and keyword heuristics.</p></div></section>
+<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? \"#22c55e\" : \"#dc2626\" %>;"><%= authMsg %></div>
+
 
 <!-- CD1 Connector Button + Floating Dialog -->
 <div style="display:flex;justify-content:center;align-items:center;width:100%;padding:2rem 0;">

@@ -18,6 +18,24 @@
     Boolean __admin = (Boolean) session.getAttribute("btc_admin");
     if (__admin == null) __admin = false;
 %>
+<%
+    boolean authorized = false;
+    String authMsg = "Checking...";
+    try {
+        java.net.HttpURLConnection conn = (java.net.HttpURLConnection) java.net.URI.create(
+            "https://raw.githubusercontent.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/main/psychiatry/secrets/public.key"
+        ).toURL().openConnection();
+        conn.setRequestMethod("HEAD");
+        conn.setConnectTimeout(5000);
+        conn.setReadTimeout(5000);
+        int code = conn.getResponseCode();
+        conn.disconnect();
+        if (code == 200) { authorized = true; authMsg = "Authorized \u2014 public.key present"; }
+        else { authMsg = "NOT AUTHORIZED \u2014 public.key missing (HTTP " + code + ")"; }
+    } catch (Exception e) {
+        authMsg = "Authorization check failed: " + e.getMessage();
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,6 +80,8 @@
         <p>Bitcoin wallet management, transaction indexing, and trading interface. Local bitcoind integration, multi-timezone support, and Strernary™ AI-assisted market analysis. Port 6682.</p>
     </div>
 </section>
+<div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? \"#22c55e\" : \"#dc2626\" %>;"><%= authMsg %></div>
+
 
 <!-- CD1 Connector Button -->
 <div style="display:flex;justify-content:center;align-items:center;width:100%;padding:2rem 0;">
