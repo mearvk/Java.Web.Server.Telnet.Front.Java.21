@@ -104,8 +104,8 @@
 <script src="js/cd1-connector.js"></script>
 
 <section class="section">
-    <div class="section-inner">
-        <h2>Intelligence Search</h2>
+    <div class="section-inner" style="max-width:700px;margin:0 auto;">
+        <h2 style="color:#a3e635;">Intelligence Search</h2>
         <form method="GET" action="search.jsp" style="margin-bottom:2rem;">
             <div style="display:flex;gap:0.75rem;align-items:flex-end;flex-wrap:wrap;">
                 <div class="form-group" style="margin:0;flex:2;min-width:250px;">
@@ -149,8 +149,8 @@
 </section>
 
 <section class="section">
-    <div class="section-inner">
-        <h2>Search Categories</h2>
+    <div class="section-inner" style="max-width:700px;margin:0 auto;">
+        <h2 style="color:#a3e635;">Search Categories</h2>
         <p style="color:var(--text-secondary);margin-bottom:1rem;">All entries in the CIA intelligence database are stored with an item type. The following categories are searchable:</p>
         <div class="table-wrap">
         <table>
@@ -175,8 +175,8 @@
 </section>
 
 <section class="section">
-    <div class="section-inner">
-        <h2>Protocol</h2>
+    <div class="section-inner" style="max-width:700px;margin:0 auto;">
+        <h2 style="color:#a3e635;">Protocol</h2>
         <div class="table-wrap">
         <table>
             <thead><tr><th>Command</th><th>Description</th></tr></thead>

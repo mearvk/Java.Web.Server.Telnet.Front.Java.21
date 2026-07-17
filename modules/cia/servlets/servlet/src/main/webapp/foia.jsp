@@ -54,9 +54,9 @@
 <script>window.CD1_MODULE_PORT="49211";</script>
 <script src="js/cd1-connector.js"></script>
 
-<section class="section"><div class="section-inner">
-    <h2>Submit FOIA Request</h2>
-    <form method="POST" action="foia.jsp" style="max-width:600px;">
+<section class="section"><div class="section-inner" style="max-width:700px;margin:0 auto;">
+    <h2 style="color:#a3e635;">Submit FOIA Request</h2>
+    <form method="POST" action="foia.jsp">
         <div class="form-group"><label>Subject / Topic</label><input type="text" name="subject" required placeholder="e.g. Operation name, document title, event, person"/></div>
         <div class="form-group"><label>Date Range (optional)</label>
             <div style="display:flex;gap:0.75rem;">
@@ -72,7 +72,7 @@
 </div></section>
 
 <section class="section"><div class="section-inner">
-    <h2>FOIA Resources</h2>
+    <h2 style="color:#a3e635;">FOIA Resources</h2>
     <div class="table-wrap"><table>
         <thead><tr><th>Resource</th><th>Description</th></tr></thead>
         <tbody>

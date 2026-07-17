@@ -88,12 +88,12 @@
 </script>
 
 <section class="section">
-    <div class="section-inner">
+    <div class="section-inner" style="max-width:700px;margin:0 auto;">
         <div style="margin-bottom:2rem;padding:1rem;border:1px solid <%= authorized ? "#22c55e" : "#ef4444" %>;border-radius:8px;background:rgba(0,0,0,0.2);">
             <span style="font-size:0.85rem;color:<%= authorized ? "#22c55e" : "#ef4444" %>;font-weight:600;">&#9679; <%= authStatus %></span>
             <span style="font-size:0.75rem;color:#71717a;margin-left:1rem;"><%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z").format(new java.util.Date()) %></span>
         </div>
-        <h2>Module Components</h2>
+        <h2 style="color:#a3e635;">Module Components</h2>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>Component</th><th>Description</th><th>Link</th></tr></thead>
@@ -109,8 +109,8 @@
 </section>
 
 <section class="section">
-    <div class="section-inner">
-        <h2>Infrastructure</h2>
+    <div class="section-inner" style="max-width:700px;margin:0 auto;">
+        <h2 style="color:#a3e635;">Infrastructure</h2>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>Property</th><th>Value</th></tr></thead>
