@@ -184,6 +184,12 @@ public class ChatServer implements Runnable {
         // ── Require login for everything below ──
         if (session.username == null) return "ERROR|Not logged in. Use LOGIN|username|password or REGISTER|username|password|email";
 
+        // ── Profile Picture & Resume ──
+        if (upper.startsWith("SET_PROFILE_PIC|")) return setProfilePic(input, session);
+        if (upper.startsWith("UPLOAD_RESUME|")) return uploadResume(input, session);
+        if (upper.equals("MY_PROFILE")) return getMyProfile(session);
+        if (upper.startsWith("VIEW_PROFILE|")) return viewUserProfile(input, session);
+
         // ── Chat Commands ──
         if (upper.startsWith("MSG|")) return sendMessage(input, session);
         if (upper.startsWith("BROADCAST|")) return broadcast(input, session);
@@ -365,6 +371,81 @@ public class ChatServer implements Runnable {
         } catch (Exception e) {
             return "ERROR|" + e.getMessage();
         }
+    }
+
+    // ── Profile Picture & Resume ───────────────────────────────────────────────
+
+    private String setProfilePic(String input, ChatSession session) {
+        // SET_PROFILE_PIC|filename|base64Data
+        String[] parts = input.split("\\|", 3);
+        if (parts.length < 3) return "ERROR|Usage: SET_PROFILE_PIC|filename.jpg|base64Data";
+        String filename = parts[1].trim();
+        String ext = filename.contains(".") ? filename.substring(filename.lastIndexOf('.') + 1).toLowerCase() : "";
+        if (!java.util.Set.of("jpg", "jpeg", "png", "gif", "webp", "bmp").contains(ext))
+            return "ERROR|Profile picture must be jpg, jpeg, png, gif, webp, or bmp.";
+        try {
+            java.nio.file.Path picDir = java.nio.file.Paths.get("modules/chat/user-files/" + session.username + "/profile");
+            java.nio.file.Files.createDirectories(picDir);
+            java.nio.file.Path picPath = picDir.resolve("avatar." + ext);
+            java.nio.file.Files.write(picPath, java.util.Base64.getDecoder().decode(parts[2].trim()));
+            try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
+                PreparedStatement ps = c.prepareStatement("UPDATE users SET profile_picture = ? WHERE id = ?");
+                ps.setString(1, picPath.toString()); ps.setInt(2, session.userId); ps.executeUpdate();
+            }
+            return "PROFILE_PIC|OK|Profile picture set: " + filename;
+        } catch (Exception e) { return "ERROR|" + e.getMessage(); }
+    }
+
+    private String uploadResume(String input, ChatSession session) {
+        // UPLOAD_RESUME|filename|base64Data
+        String[] parts = input.split("\\|", 3);
+        if (parts.length < 3) return "ERROR|Usage: UPLOAD_RESUME|resume.pdf|base64Data";
+        String filename = parts[1].trim();
+        String ext = filename.contains(".") ? filename.substring(filename.lastIndexOf('.') + 1).toLowerCase() : "";
+        if (!java.util.Set.of("pdf", "doc", "docx", "txt", "rtf", "odt").contains(ext))
+            return "ERROR|Resume must be pdf, doc, docx, txt, rtf, or odt.";
+        try {
+            java.nio.file.Path resumeDir = java.nio.file.Paths.get("modules/chat/user-files/" + session.username + "/resume");
+            java.nio.file.Files.createDirectories(resumeDir);
+            java.nio.file.Path resumePath = resumeDir.resolve(filename);
+            java.nio.file.Files.write(resumePath, java.util.Base64.getDecoder().decode(parts[2].trim()));
+            try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
+                PreparedStatement ps = c.prepareStatement("UPDATE users SET resume_path = ? WHERE id = ?");
+                ps.setString(1, resumePath.toString()); ps.setInt(2, session.userId); ps.executeUpdate();
+            }
+            return "RESUME|OK|Resume uploaded: " + filename;
+        } catch (Exception e) { return "ERROR|" + e.getMessage(); }
+    }
+
+    private String getMyProfile(ChatSession session) {
+        try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
+            PreparedStatement ps = c.prepareStatement("SELECT username, email, profile_picture, resume_path, geo_city, geo_country, federated_connects, created_at FROM users WHERE id = ?");
+            ps.setInt(1, session.userId); ResultSet rs = ps.executeQuery();
+            if (!rs.next()) return "ERROR|Profile not found.";
+            return "PROFILE|username=" + rs.getString("username") +
+                "|email=" + rs.getString("email") +
+                "|profilePic=" + (rs.getString("profile_picture") != null ? "SET" : "NOT_SET") +
+                "|resume=" + (rs.getString("resume_path") != null ? "SET" : "NOT_SET") +
+                "|geo=" + rs.getString("geo_city") + "/" + rs.getString("geo_country") +
+                "|federatedConnects=" + rs.getInt("federated_connects") +
+                "|joined=" + rs.getTimestamp("created_at");
+        } catch (Exception e) { return "ERROR|" + e.getMessage(); }
+    }
+
+    private String viewUserProfile(String input, ChatSession session) {
+        String[] parts = input.split("\\|", 2);
+        if (parts.length < 2) return "ERROR|Usage: VIEW_PROFILE|username";
+        try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
+            PreparedStatement ps = c.prepareStatement("SELECT username, profile_picture, resume_path, geo_city, geo_country, federated_connects, created_at FROM users WHERE username = ? AND is_deleted = FALSE");
+            ps.setString(1, parts[1].trim()); ResultSet rs = ps.executeQuery();
+            if (!rs.next()) return "ERROR|User not found.";
+            return "PROFILE|username=" + rs.getString("username") +
+                "|profilePic=" + (rs.getString("profile_picture") != null ? "SET" : "NOT_SET") +
+                "|resume=" + (rs.getString("resume_path") != null ? "AVAILABLE" : "NONE") +
+                "|geo=" + rs.getString("geo_city") + "/" + rs.getString("geo_country") +
+                "|federatedConnects=" + rs.getInt("federated_connects") +
+                "|joined=" + rs.getTimestamp("created_at");
+        } catch (Exception e) { return "ERROR|" + e.getMessage(); }
     }
 
     // ── Chat Operations ────────────────────────────────────────────────────────
@@ -799,6 +880,8 @@ public class ChatServer implements Runnable {
                 "password_hash VARCHAR(128) NOT NULL, " +
                 "salt VARCHAR(64) NOT NULL, " +
                 "email VARCHAR(256), " +
+                "profile_picture VARCHAR(512), " +
+                "resume_path VARCHAR(512), " +
                 "ip_address VARCHAR(45), " +
                 "last_ip VARCHAR(45), " +
                 "geo_city VARCHAR(128) DEFAULT 'Unknown', " +

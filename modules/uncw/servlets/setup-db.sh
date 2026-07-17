@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     national_id VARCHAR(64), national_id_confirmed BOOLEAN DEFAULT FALSE,
     is_chancellor BOOLEAN DEFAULT FALSE, is_admin BOOLEAN DEFAULT FALSE, is_banned BOOLEAN DEFAULT FALSE,
     file_storage_pref ENUM('DATABASE','FOLDER') DEFAULT 'DATABASE',
+    profile_picture VARCHAR(512), resume_path VARCHAR(512),
     ip_address VARCHAR(45), last_ip VARCHAR(45), chancellor_last_online TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, last_login TIMESTAMP NULL,
     INDEX idx_username (username), INDEX idx_student_id (student_id), INDEX idx_chancellor (is_chancellor)

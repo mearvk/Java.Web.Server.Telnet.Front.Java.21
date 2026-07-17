@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(128) NOT NULL,
     salt VARCHAR(64) NOT NULL,
     email VARCHAR(256),
+    profile_picture VARCHAR(512),
+    resume_path VARCHAR(512),
     ip_address VARCHAR(45),
     last_ip VARCHAR(45),
     geo_city VARCHAR(128) DEFAULT 'Unknown',

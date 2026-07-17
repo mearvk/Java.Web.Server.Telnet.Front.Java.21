@@ -165,6 +165,12 @@ public class UNCWServer implements Runnable {
         if (upper.startsWith("SET_NATIONAL_ID|")) return setNationalId(input, session);
         if (upper.equals("CHECK_NATIONAL_ID")) return checkNationalId(session);
 
+        // Profile Picture & Resume
+        if (upper.startsWith("SET_PROFILE_PIC|")) return setProfilePic(input, session);
+        if (upper.startsWith("UPLOAD_RESUME|")) return uploadResume(input, session);
+        if (upper.equals("GET_PROFILE_PIC")) return getProfilePic(session);
+        if (upper.equals("GET_RESUME")) return getResume(session);
+
         // Chancellor Notes (chancellor only)
         if (session.isChancellor && upper.startsWith("CHANCELLOR_NOTE|")) return addChancellorNote(input, session);
         if (upper.equals("CHANCELLOR_NOTES")) return getChancellorNotes();
@@ -287,6 +293,8 @@ public class UNCWServer implements Runnable {
                 "|nationalId=" + (rs.getString("national_id") != null ? rs.getString("national_id") : "NOT_SET") +
                 "|nidConfirmed=" + rs.getBoolean("national_id_confirmed") +
                 "|chancellor=" + rs.getBoolean("is_chancellor") +
+                "|profilePic=" + (rs.getString("profile_picture") != null ? "SET" : "NOT_SET") +
+                "|resume=" + (rs.getString("resume_path") != null ? "SET" : "NOT_SET") +
                 "|joined=" + rs.getTimestamp("created_at") +
                 "|fileStorage=" + rs.getString("file_storage_pref");
         } catch (Exception e) { return "ERROR|" + e.getMessage(); }
@@ -296,7 +304,7 @@ public class UNCWServer implements Runnable {
         String[] parts = input.split("\\|", 2);
         if (parts.length < 2) return "ERROR|Usage: VIEW_PROFILE|username";
         try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
-            PreparedStatement ps = c.prepareStatement("SELECT username, student_id, college, is_chancellor, national_id_confirmed, created_at, chancellor_last_online FROM users WHERE username = ? AND is_banned = FALSE");
+            PreparedStatement ps = c.prepareStatement("SELECT username, student_id, college, is_chancellor, national_id_confirmed, profile_picture, resume_path, created_at, chancellor_last_online FROM users WHERE username = ? AND is_banned = FALSE");
             ps.setString(1, parts[1].trim()); ResultSet rs = ps.executeQuery();
             if (!rs.next()) return "ERROR|User not found.";
             return "PROFILE|username=" + rs.getString("username") +
@@ -304,6 +312,8 @@ public class UNCWServer implements Runnable {
                 "|college=" + rs.getString("college") +
                 "|chancellor=" + rs.getBoolean("is_chancellor") +
                 "|nationalIdVerified=" + rs.getBoolean("national_id_confirmed") +
+                "|profilePic=" + (rs.getString("profile_picture") != null ? "SET" : "NOT_SET") +
+                "|resume=" + (rs.getString("resume_path") != null ? "AVAILABLE" : "NONE") +
                 "|joined=" + rs.getTimestamp("created_at") +
                 (rs.getBoolean("is_chancellor") ? "|lastOnline=" + rs.getTimestamp("chancellor_last_online") : "");
         } catch (Exception e) { return "ERROR|" + e.getMessage(); }
@@ -525,6 +535,86 @@ public class UNCWServer implements Runnable {
         } catch (Exception e) { return "ERROR|" + e.getMessage(); }
     }
 
+    // ── Profile Picture & Resume ─────────────────────────────────────────────────
+
+    private String setProfilePic(String input, UNCWSession session) {
+        // SET_PROFILE_PIC|filename|base64Data
+        String[] parts = input.split("\\|", 3);
+        if (parts.length < 3) return "ERROR|Usage: SET_PROFILE_PIC|filename.jpg|base64Data";
+        String filename = parts[1].trim();
+        String ext = filename.contains(".") ? filename.substring(filename.lastIndexOf('.') + 1).toLowerCase() : "";
+        if (!Set.of("jpg", "jpeg", "png", "gif", "webp", "bmp").contains(ext))
+            return "ERROR|Profile picture must be jpg, jpeg, png, gif, webp, or bmp.";
+
+        try {
+            Path picDir = Paths.get("modules/uncw/user-files/" + session.username + "/profile");
+            Files.createDirectories(picDir);
+            Path picPath = picDir.resolve("avatar." + ext);
+            Files.write(picPath, Base64.getDecoder().decode(parts[2].trim()));
+
+            try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
+                PreparedStatement ps = c.prepareStatement("UPDATE users SET profile_picture = ? WHERE id = ?");
+                ps.setString(1, picPath.toString()); ps.setInt(2, session.userId); ps.executeUpdate();
+            }
+            return "PROFILE_PIC|OK|Profile picture set: " + filename;
+        } catch (Exception e) { return "ERROR|" + e.getMessage(); }
+    }
+
+    private String getProfilePic(UNCWSession session) {
+        try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
+            PreparedStatement ps = c.prepareStatement("SELECT profile_picture FROM users WHERE id = ?");
+            ps.setInt(1, session.userId); ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getString("profile_picture") != null) {
+                Path picPath = Paths.get(rs.getString("profile_picture"));
+                if (Files.exists(picPath)) {
+                    byte[] data = Files.readAllBytes(picPath);
+                    return "PROFILE_PIC|DATA|" + picPath.getFileName() + "|" + Base64.getEncoder().encodeToString(data);
+                }
+                return "PROFILE_PIC|NOT_FOUND|File missing on disk.";
+            }
+            return "PROFILE_PIC|NOT_SET|Use SET_PROFILE_PIC|filename|base64Data to upload.";
+        } catch (Exception e) { return "ERROR|" + e.getMessage(); }
+    }
+
+    private String uploadResume(String input, UNCWSession session) {
+        // UPLOAD_RESUME|filename|base64Data
+        String[] parts = input.split("\\|", 3);
+        if (parts.length < 3) return "ERROR|Usage: UPLOAD_RESUME|resume.pdf|base64Data";
+        String filename = parts[1].trim();
+        String ext = filename.contains(".") ? filename.substring(filename.lastIndexOf('.') + 1).toLowerCase() : "";
+        if (!Set.of("pdf", "doc", "docx", "txt", "rtf", "odt").contains(ext))
+            return "ERROR|Resume must be pdf, doc, docx, txt, rtf, or odt.";
+
+        try {
+            Path resumeDir = Paths.get("modules/uncw/user-files/" + session.username + "/resume");
+            Files.createDirectories(resumeDir);
+            Path resumePath = resumeDir.resolve(filename);
+            Files.write(resumePath, Base64.getDecoder().decode(parts[2].trim()));
+
+            try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
+                PreparedStatement ps = c.prepareStatement("UPDATE users SET resume_path = ? WHERE id = ?");
+                ps.setString(1, resumePath.toString()); ps.setInt(2, session.userId); ps.executeUpdate();
+            }
+            return "RESUME|OK|Resume uploaded: " + filename;
+        } catch (Exception e) { return "ERROR|" + e.getMessage(); }
+    }
+
+    private String getResume(UNCWSession session) {
+        try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
+            PreparedStatement ps = c.prepareStatement("SELECT resume_path FROM users WHERE id = ?");
+            ps.setInt(1, session.userId); ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getString("resume_path") != null) {
+                Path rPath = Paths.get(rs.getString("resume_path"));
+                if (Files.exists(rPath)) {
+                    byte[] data = Files.readAllBytes(rPath);
+                    return "RESUME|DATA|" + rPath.getFileName() + "|" + Base64.getEncoder().encodeToString(data);
+                }
+                return "RESUME|NOT_FOUND|File missing on disk.";
+            }
+            return "RESUME|NOT_SET|Use UPLOAD_RESUME|filename|base64Data to upload.";
+        } catch (Exception e) { return "ERROR|" + e.getMessage(); }
+    }
+
     // ── National ID ────────────────────────────────────────────────────────────
 
     private String setNationalId(String input, UNCWSession session) {
@@ -671,6 +761,7 @@ public class UNCWServer implements Runnable {
                 "national_id VARCHAR(64), national_id_confirmed BOOLEAN DEFAULT FALSE, " +
                 "is_chancellor BOOLEAN DEFAULT FALSE, is_admin BOOLEAN DEFAULT FALSE, is_banned BOOLEAN DEFAULT FALSE, " +
                 "file_storage_pref ENUM('DATABASE','FOLDER') DEFAULT 'DATABASE', " +
+                "profile_picture VARCHAR(512), resume_path VARCHAR(512), " +
                 "ip_address VARCHAR(45), last_ip VARCHAR(45), " +
                 "chancellor_last_online TIMESTAMP NULL, " +
                 "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, last_login TIMESTAMP NULL, " +
