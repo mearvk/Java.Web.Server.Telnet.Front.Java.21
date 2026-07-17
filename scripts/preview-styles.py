@@ -150,6 +150,30 @@ MODULES = {
         "connection_hours": "Weekdays 06:00-23:00, Weekends 08:00-20:00 EST",
         "installer_tech_id": "Max Rupplin",
     },
+    # ── SpectrumTandem™ — White/Red Module ────────────────────────────────────
+    "spectrum-tandem": {
+        "path": "modules/spectrum-tandem/servlets/servlet/src/main/webapp",
+        "theme": "White Red",
+        "port": 49222,
+        "description": "Dolyene spectrum of int discipline. Word bank, county precedent, revisions.",
+        "installer_tech_id": "Max Rupplin",
+    },
+    # ── NWE Chat™ — Deep Blue/Purple Module ───────────────────────────────────
+    "chat": {
+        "path": "modules/chat/servlets/servlet/src/main/webapp",
+        "theme": "Deep Blue Purple",
+        "port": 49230,
+        "description": "Encrypted chat. DH-2048 + RSA-2048 + AES-256-GCM. Federation, file transfer, voice, admin.",
+        "installer_tech_id": "Max Rupplin",
+    },
+    # ── UNCW™ — SeaCoast Teal/Gold Module ─────────────────────────────────────
+    "uncw": {
+        "path": "modules/uncw/servlets/servlet/src/main/webapp",
+        "theme": "SeaCoast Teal",
+        "port": 49231,
+        "description": "UNCW Wilmington. CS Club, colleges, chancellors, file sharing, audio, messaging.",
+        "installer_tech_id": "Max Rupplin",
+    },
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -185,6 +209,9 @@ tr:hover { background: #1a1a1a; }
 .gray { background: #4b5563; color: #e5e7eb; }
 .creme { background: #f5f0e0; color: #333; }
 .white { background: #f8f8f8; color: #333; }
+.white-red { background: #fff; color: #cc0000; border: 1px solid #cc0000; }
+.deep-blue-purple { background: #0a0e1a; color: #6b8aff; border: 1px solid #1e2a4a; }
+.seacoast-teal { background: #0a1a1c; color: #00727A; border: 1px solid #1e4a4d; }
 .section { margin: 1rem 0; padding: 1rem; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; }
 .affirmation { color: #d4af37; font-style: italic; margin: 1rem 0; padding: 1rem; border-left: 3px solid #d4af37; }
 code { background: #222; padding: 2px 6px; border-radius: 3px; font-size: 0.9rem; }
@@ -350,6 +377,9 @@ index_html += """</tbody></table>
 <tr><td>Black Belt</td><td><a href="http://localhost:8080/blackbelt/">http://localhost:8080/blackbelt/</a></td><td><span class="theme-badge black">Black</span></td><td>—</td></tr>
 <tr><td>Languages</td><td><a href="http://localhost:8080/languages/">http://localhost:8080/languages/</a></td><td><span class="theme-badge white">White</span></td><td>—</td></tr>
 <tr><td>Brarner.M.Alete</td><td><a href="http://localhost:8080/brarner.m.alete/">http://localhost:8080/brarner.m.alete/</a></td><td><span class="theme-badge blue">Presidential Blue</span></td><td>49152</td></tr>
+<tr><td>SpectrumTandem™</td><td><a href="http://localhost:8080/spectrum-tandem/">http://localhost:8080/spectrum-tandem/</a></td><td><span class="theme-badge white-red">White Red</span></td><td>49222</td></tr>
+<tr><td>NWE Chat™</td><td><a href="http://localhost:8080/chat/">http://localhost:8080/chat/</a></td><td><span class="theme-badge deep-blue-purple">Deep Blue Purple</span></td><td>49230</td></tr>
+<tr><td>UNCW™</td><td><a href="http://localhost:8080/uncw/">http://localhost:8080/uncw/</a></td><td><span class="theme-badge seacoast-teal">SeaCoast Teal</span></td><td>49231</td></tr>
 </tbody></table>
 </div>
 
@@ -428,6 +458,9 @@ print(f"""
 ║    http://localhost:8080/library/          (Cardinal Red — port 49214)   ║
 ║    http://localhost:8080/vietnam/          (Light Brown — port 49215)    ║
 ║    http://localhost:8080/emeter/           (Light Blue — port 49216)     ║
+║    http://localhost:8080/spectrum-tandem/  (White Red — port 49222)      ║
+║    http://localhost:8080/chat/             (Deep Blue Purple — 49230)    ║
+║    http://localhost:8080/uncw/             (SeaCoast Teal — port 49231)  ║
 ║    http://localhost:8080/gray-registry/    (Gray — port 9999)            ║
 ║    http://localhost:8080/gray85-registry/  (Crème — port 10085)          ║
 ║    http://localhost:8080/gdgh/             (Green — port 20000)          ║
@@ -445,6 +478,9 @@ print(f"""
 ║    http://localhost:{PORT}/defined/        (Defined Dark Gray preview)      ║
 ║    http://localhost:{PORT}/futures/        (Futures Red preview)            ║
 ║    http://localhost:{PORT}/vietnam/        (Vietnam Brown preview)          ║
+║    http://localhost:{PORT}/spectrum-tandem/ (SpectrumTandem White/Red)      ║
+║    http://localhost:{PORT}/chat/           (Chat Deep Blue/Purple)          ║
+║    http://localhost:{PORT}/uncw/           (UNCW SeaCoast Teal/Gold)        ║
 ║                                                                           ║
 ║  NOTE: JSP scriptlets show as raw text. CSS/JS/layout works normally.     ║
 ║  Press Ctrl+C to stop.                                                    ║

@@ -130,7 +130,8 @@ public class SpectrumTandemServer implements Runnable {
         // AI-assisted search via Strernary
         if (upper.startsWith("SEARCH|")) {
             String kw = input.substring(7).trim();
-            String ai = StrernaryConnector.ask("SPECTRUM_TANDEM SEARCH keyword=" + kw);
+            String ai = StrernaryConnector.askHardened("SPECTRUM_TANDEM", "127.0.0.1", "system",
+                "SPECTRUM_TANDEM", kw, "SEARCH", "keyword=" + kw);
             return "SEARCH|" + (ai != null ? ai : "No results") + "|keyword=" + kw;
         }
 
@@ -195,7 +196,8 @@ public class SpectrumTandemServer implements Runnable {
             }
             if (sb.length() <= 9) {
                 // Fallback to AI inference
-                String ai = StrernaryConnector.ask("SPECTRUM_TANDEM DOLYENE term=" + term);
+                String ai = StrernaryConnector.askHardened("SPECTRUM_TANDEM", "127.0.0.1", "system",
+                    "SPECTRUM_TANDEM", term, "SPECTRUM", "dolyene term=" + term);
                 return "SPECTRUM|AI|" + (ai != null ? ai : "No spectrum data for: " + term);
             }
             return sb.toString();

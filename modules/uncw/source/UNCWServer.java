@@ -630,9 +630,11 @@ public class UNCWServer implements Runnable {
     }
 
     private String checkNationalId(UNCWSession session) {
-        // Attempt server-side verification via Strernary
+        // Attempt server-side verification via Strernary (hardened)
         if (session.nationalId.isEmpty()) return "NATIONAL_ID|NOT_SET|Use SET_NATIONAL_ID|<id> first.";
-        String result = StrernaryConnector.ask("VERIFY NATIONAL_ID id=" + session.nationalId + " user=" + session.username);
+        String result = StrernaryConnector.askHardened("UNCW", session.ip, 9.5,
+            session.username, "UNCW", "UNCW|READY|port=49231",
+            "national-id", "VERIFY", "id=" + session.nationalId + " user=" + session.username);
         if (result != null && result.contains("CONFIRMED")) {
             try (Connection c = DriverManager.getConnection(DB_URL, DB_USER, getPassword())) {
                 PreparedStatement ps = c.prepareStatement("UPDATE users SET national_id_confirmed = TRUE WHERE id = ?");

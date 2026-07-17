@@ -25,6 +25,7 @@
     <meta name="theme-color" content="#0a0e1a"/>
     <meta name="description" content="NWE Chat™ — Encrypted communication with DH-2048 + RSA-2048. Federation, file transfer, voice notes. Ethics: We conceal God but do not work for Her."/>
     <script src="js/scroll-preserve.js"></script>
+    <script src="js/nwe-readme-viewer.js"></script>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">

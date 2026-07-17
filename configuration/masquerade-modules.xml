@@ -184,4 +184,62 @@
         <description>Stanford Library interface. AI-enhanced catalog search via Strernary™ port 20000. SearchWorks catalog, digital collections, resource requests.</description>
     </module>
 
+    <!-- modules/spectrum-tandem — SpectrumTandem™ Dolyene Spectrum -->
+
+    <module id="SpectrumTandem">
+        <name>SpectrumTandem™</name>
+        <port>49222</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <strernary-hardened>true</strernary-hardened>
+        <class>source.SpectrumTandemServer</class>
+        <trust-level>9.5</trust-level>
+        <source>modules/spectrum-tandem</source>
+        <block>NC Socialist-College</block>
+        <protocol>SPECTRUM_TANDEM</protocol>
+        <handshake>SPECTRUM_TANDEM|READY|port=49222|installer=Max Rupplin</handshake>
+        <items>dolyene,spectrum,radix,tandem,int-discipline,pointer,indirection,county,caliber,specialness</items>
+        <verbs>DEFINE,LOOKUP,RADIX,SPECTRUM,COUNTY,REVISE,ADD,HISTORY,WORDBANK,SEARCH</verbs>
+        <description>Dolyene spectrum of int discipline. Word bank, county precedent (full capitalized term), revisions, pointers/indirections. AI-enhanced via Strernary™ port 20000. Installer ID Tech™: Max Rupplin.</description>
+    </module>
+
+    <!-- modules/chat — NWE Chat™ Encrypted Communication -->
+
+    <module id="NWEChat">
+        <name>NWE Chat™</name>
+        <port>49230</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <strernary-hardened>true</strernary-hardened>
+        <class>source.ChatServer</class>
+        <trust-level>9.5</trust-level>
+        <source>modules/chat</source>
+        <block>NC Socialist-College</block>
+        <protocol>NWE_CHAT</protocol>
+        <handshake>NWE_CHAT|READY|port=49230|encryption=DH-2048+RSA-2048+AES-256-GCM</handshake>
+        <items>user,message,file,voice,federation,rank,admin,settings</items>
+        <verbs>REGISTER,LOGIN,MSG,BROADCAST,ENCRYPT,FILE,VOICE,FEDERATE,ADMIN</verbs>
+        <encryption>DH-2048,RSA-2048,AES-256-GCM</encryption>
+        <description>Encrypted chat. DH-2048/RSA-2048/AES-256-GCM. Federation (5 servers), file transfer (25MB), voice notes. Concealment 3 rank at 200+ connects. Gold Harvard Certificate at 300+. Ethics: We conceal God but do not work for Her. Installer ID Tech™: Max Rupplin.</description>
+    </module>
+
+    <!-- modules/uncw — UNCW™ Wilmington at the Coast -->
+
+    <module id="UNCW">
+        <name>UNCW™</name>
+        <port>49231</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <strernary-hardened>true</strernary-hardened>
+        <class>source.UNCWServer</class>
+        <trust-level>9.5</trust-level>
+        <source>modules/uncw</source>
+        <block>NC Socialist-College</block>
+        <protocol>UNCW</protocol>
+        <handshake>UNCW|READY|port=49231|colleges=CS,MarineBiology,Education,Business,ArtsSciences,Health,Engineering</handshake>
+        <items>user,student,chancellor,message,file,audio,national-id,profile,resume,note</items>
+        <verbs>REGISTER,LOGIN,CHANCELLOR_LOGIN,MSG,UPLOAD,DOWNLOAD,SEND_FILE,SET_NATIONAL_ID,PROFILE,VIEW_PROFILE,CHANCELLOR_NOTE</verbs>
+        <description>UNCW Wilmington at the Coast of NC. CS Club, colleges, chancellors (current+past, max 2000), file sharing (80MB), audio playback, messaging (10 free/month), National ID verification, profiles/resumes. Installer ID Tech™: Max Rupplin.</description>
+    </module>
+
 </masquerade-modules>

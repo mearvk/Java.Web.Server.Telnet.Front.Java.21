@@ -61,6 +61,9 @@
                 <module>DukeUniversityServer</module>
                 <module>StanfordLibraryServer</module>
                 <module>StrernaryDirectoryServer</module>
+                <module>SpectrumTandemServer</module>
+                <module>ChatServer</module>
+                <module>UNCWServer</module>
             </used-by>
         </message>
 
@@ -77,6 +80,10 @@
             <example>ASK|NSA SEARCH category=vulnerability context=cyber_incidents</example>
             <example>ASK|DUKE SEARCH subject=mathematics context=courses</example>
             <example>ASK|LIBRARY SEARCH title=algorithms context=catalog</example>
+            <example>ASK|SPECTRUM_TANDEM SEARCH term=dolyene context=word_bank</example>
+            <example>ASK|SPECTRUM_TANDEM DOLYENE term=radix</example>
+            <example>ASK|CHAT GEO RESOLVE ip=192.168.1.1</example>
+            <example>ASK|UNCW VERIFY NATIONAL_ID id=12345 user=testuser</example>
             <response>
                 <format>{inference_result} (may include confidence score)</format>
             </response>
@@ -86,6 +93,9 @@
                 <module>CaliforniaNSAServer (SEARCH command)</module>
                 <module>DukeUniversityServer (QUERY command)</module>
                 <module>StanfordLibraryServer (SEARCH command)</module>
+                <module>SpectrumTandemServer (SPECTRUM, SEARCH commands)</module>
+                <module>ChatServer (GEO RESOLVE command)</module>
+                <module>UNCWServer (VERIFY NATIONAL_ID command)</module>
             </used-by>
         </message>
 
@@ -178,6 +188,25 @@
         <module id="StanfordLibrary" port="49214" query-prefix="LIBRARY" db="nwe_library"/>
         <module id="Futures"         port="5000"  query-prefix="FUTURES" db="nwe_futures"/>
         <module id="CalendarD44"     port="49200" query-prefix="CAL"     db="nwe_calendar_d44"/>
+        <module id="SpectrumTandem"  port="49222" query-prefix="SPECTRUM_TANDEM" db="nwe_spectrum_tandem"
+                trust-level="9.5" hardened="true" protocol="SPECTRUM_TANDEM"
+                handshake="SPECTRUM_TANDEM|READY|port=49222|installer=Max Rupplin"
+                verbs="DEFINE,LOOKUP,RADIX,SPECTRUM,COUNTY,REVISE,ADD,HISTORY,WORDBANK,SEARCH"
+                items="dolyene,spectrum,radix,tandem,int-discipline,pointer,indirection,county,caliber,specialness"
+                username-field="author_id" ip-source="session.ip"/>
+        <module id="NWEChat"         port="49230" query-prefix="CHAT" db="nwe_chat"
+                trust-level="9.5" hardened="true" protocol="NWE_CHAT"
+                handshake="NWE_CHAT|READY|port=49230|encryption=DH-2048+RSA-2048+AES-256-GCM"
+                verbs="REGISTER,LOGIN,MSG,BROADCAST,ENCRYPT,FILE,VOICE,FEDERATE,ADMIN"
+                items="user,message,file,voice,federation,rank,admin,settings"
+                username-field="username" ip-source="session.ip"
+                encryption="DH-2048,RSA-2048,AES-256-GCM"/>
+        <module id="UNCW"            port="49231" query-prefix="UNCW" db="nwe_uncw"
+                trust-level="9.5" hardened="true" protocol="UNCW"
+                handshake="UNCW|READY|port=49231|colleges=CS,MarineBiology,Education,Business,ArtsSciences,Health,Engineering"
+                verbs="REGISTER,LOGIN,CHANCELLOR_LOGIN,MSG,UPLOAD,DOWNLOAD,SEND_FILE,SET_NATIONAL_ID,PROFILE,VIEW_PROFILE,CHANCELLOR_NOTE"
+                items="user,student,chancellor,message,file,audio,national-id,profile,resume,note"
+                username-field="username" ip-source="session.ip"/>
     </registered-modules>
 
     <!-- ═══════════════════════════════════════════════════════════════

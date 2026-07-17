@@ -822,9 +822,11 @@ public class ChatServer implements Runnable {
     }
 
     private void resolveGeo(ChatSession session) {
-        // Simple geo resolution via StrernaryConnector
+        // Simple geo resolution via StrernaryConnector (hardened)
         try {
-            String geo = StrernaryConnector.ask("GEO RESOLVE ip=" + session.ip);
+            String geo = StrernaryConnector.askHardened("NWE_CHAT", session.ip, 9.5,
+                "system", "NWE_CHAT", "NWE_CHAT|READY|port=49230|encryption=DH-2048+RSA-2048+AES-256-GCM",
+                "geo", "RESOLVE", "ip=" + session.ip);
             if (geo != null && geo.contains(",")) {
                 String[] parts = geo.split(",", 2);
                 session.geoCity = parts[0].trim();

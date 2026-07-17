@@ -60,6 +60,24 @@
             <require-national-id>false</require-national-id>
             <description>Communicator™ chat server</description>
         </port-49199>
+
+        <port-49222>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>SpectrumTandem™ dolyene spectrum of int discipline server</description>
+        </port-49222>
+
+        <port-49230>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>NWE Chat™ encrypted communication server (DH-2048/RSA-2048/AES-256-GCM)</description>
+        </port-49230>
+
+        <port-49231>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>UNCW™ Wilmington CS club, colleges, chancellors, file sharing</description>
+        </port-49231>
     </services>
 
     <!-- Rank 4 JWSTNJ21 server registration via public.key -->
