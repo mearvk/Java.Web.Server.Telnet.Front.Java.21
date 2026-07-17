@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Strernary™ — Best-Guess Inference Server</title><link rel="stylesheet" href="css/style.css"/><script src="js/scroll-preserve.js"></script>
 </head><body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">Strernary™</span>

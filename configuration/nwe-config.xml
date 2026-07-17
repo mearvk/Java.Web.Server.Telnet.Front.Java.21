@@ -916,6 +916,169 @@
     </integrity>
 
     <!-- ═══════════════════════════════════════════════════════════════════════════
+         FONT CONFIGURATION
+         ═══════════════════════════════════════════════════════════════════════════
+         Remote font loading for all NWE web frontends.
+
+         HIERARCHY:
+           1. Global default (applies to all modules unless overridden)
+           2. Per-module override (if <override-global>true</override-global>)
+           3. Fallback (system fonts if remote fonts unavailable)
+
+         Modules include fonts via <link> in their JSP <head> sections.
+         CSS var(--font) and var(--font-mono) reference these families.
+    ═══════════════════════════════════════════════════════════════════════════ -->
+    <fonts>
+        <enabled>true</enabled>
+        <provider>Google Fonts</provider>
+
+        <!-- ── GLOBAL DEFAULT (all modules) ──────────────────────────────────── -->
+        <global>
+            <primary>
+                <family>IBM Plex Sans</family>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap</url>
+                <css>font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;</css>
+            </primary>
+            <monospace>
+                <family>IBM Plex Mono</family>
+                <weights>400,500,600</weights>
+                <url>https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap</url>
+                <css>font-family: 'IBM Plex Mono', 'JetBrains Mono', 'Fira Code', monospace;</css>
+            </monospace>
+        </global>
+
+        <!-- ── FONT LIBRARY (available for per-module override) ──────────────── -->
+        <library>
+            <font id="ibm-plex-sans">
+                <family>IBM Plex Sans</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap</url>
+                <description>Clean, technical, professional. IBM design language.</description>
+            </font>
+            <font id="inter">
+                <family>Inter</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700,800</weights>
+                <url>https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap</url>
+                <description>Modern, highly legible, variable font. Popular for UI/dashboards.</description>
+            </font>
+            <font id="roboto">
+                <family>Roboto</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&amp;display=swap</url>
+                <description>Google's signature font. Neutral, friendly, widely used.</description>
+            </font>
+            <font id="merriweather">
+                <family>Merriweather</family>
+                <category>serif</category>
+                <weights>300,400,700,900</weights>
+                <url>https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&amp;display=swap</url>
+                <description>Elegant serif. Excellent readability on screens. Academic/literary.</description>
+            </font>
+            <font id="open-sans">
+                <family>Open Sans</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;display=swap</url>
+                <description>Friendly, neutral humanist sans-serif. Extremely popular.</description>
+            </font>
+            <font id="lato">
+                <family>Lato</family>
+                <category>sans-serif</category>
+                <weights>300,400,700,900</weights>
+                <url>https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&amp;display=swap</url>
+                <description>Warm, stable, serious but friendly. Good for body text.</description>
+            </font>
+            <font id="source-sans-3">
+                <family>Source Sans 3</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;display=swap</url>
+                <description>Adobe's open-source sans-serif. Technical documentation friendly.</description>
+            </font>
+            <font id="nunito">
+                <family>Nunito</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700,800</weights>
+                <url>https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&amp;display=swap</url>
+                <description>Rounded, friendly, modern. Fun and approachable.</description>
+            </font>
+            <font id="playfair-display">
+                <family>Playfair Display</family>
+                <category>serif</category>
+                <weights>400,500,600,700,800</weights>
+                <url>https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&amp;display=swap</url>
+                <description>High-contrast serif. Headlines, editorial, luxury feel.</description>
+            </font>
+            <font id="jetbrains-mono">
+                <family>JetBrains Mono</family>
+                <category>monospace</category>
+                <weights>400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap</url>
+                <description>Developer-focused monospace. Ligatures, clear at small sizes.</description>
+            </font>
+            <font id="fira-code">
+                <family>Fira Code</family>
+                <category>monospace</category>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&amp;display=swap</url>
+                <description>Monospace with programming ligatures. Popular in editors.</description>
+            </font>
+            <font id="ibm-plex-mono">
+                <family>IBM Plex Mono</family>
+                <category>monospace</category>
+                <weights>400,500,600</weights>
+                <url>https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap</url>
+                <description>IBM Plex family monospace. Clean, technical.</description>
+            </font>
+        </library>
+
+        <!-- ── PER-MODULE FONT OVERRIDES ─────────────────────────────────────── 
+             Set override-global to true to use a module-specific font instead
+             of the global default. Reference fonts by id from the library above.
+        ──────────────────────────────────────────────────────────────────────── -->
+        <module-overrides>
+            <!-- Example: UNCW uses Nunito (friendly, fun, rounded) -->
+            <module id="UNCW" context="/uncw">
+                <override-global>true</override-global>
+                <primary-font>nunito</primary-font>
+                <monospace-font>ibm-plex-mono</monospace-font>
+            </module>
+
+            <!-- Example: Communicator uses Inter (modern UI) -->
+            <module id="Communicator" context="/chat">
+                <override-global>false</override-global>
+                <primary-font>inter</primary-font>
+                <monospace-font>jetbrains-mono</monospace-font>
+            </module>
+
+            <!-- Example: Defined uses Source Sans 3 (technical docs) -->
+            <module id="Defined" context="/defined">
+                <override-global>false</override-global>
+                <primary-font>source-sans-3</primary-font>
+                <monospace-font>fira-code</monospace-font>
+            </module>
+
+            <!-- All other modules: use global default (IBM Plex Sans) -->
+        </module-overrides>
+
+        <!-- ── FALLBACK (if Google Fonts unavailable) ────────────────────────── -->
+        <fallback>
+            <primary>-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif</primary>
+            <monospace>'JetBrains Mono', 'Fira Code', 'Courier New', monospace</monospace>
+        </fallback>
+
+        <!-- ── PRECONNECT TAGS (always include in <head>) ────────────────────── -->
+        <preconnect><![CDATA[<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>]]></preconnect>
+
+        <!-- Auto-inject font link tags during deploy -->
+        <auto-inject>true</auto-inject>
+    </fonts>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
          PORT SCHEDULE & ACCESS CONTROL
          ═══════════════════════════════════════════════════════════════════════════
          Controls when ports are open (accepting connections) and when they close.
