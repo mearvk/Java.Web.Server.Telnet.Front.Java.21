@@ -72,6 +72,14 @@ public class SpectrumTandemServer implements Runnable {
 
     private String processCommand(String input) {
         if (input.isEmpty()) return "ERROR|Empty command. Type HELP for usage.";
+
+        // Heuristic scan all inputs
+        antivirus.InputHeuristicScanner.ScanResult inputScan =
+            antivirus.InputHeuristicScanner.scanInput("SPECTRUM_TANDEM", "system", "127.0.0.1", input, 0);
+        if (inputScan == antivirus.InputHeuristicScanner.ScanResult.BLOCKED) {
+            return "ERROR|Input rejected by security scan.";
+        }
+
         String upper = input.toUpperCase();
 
         if (upper.equals("QUIT")) return "BYE|SpectrumTandem session closed.";

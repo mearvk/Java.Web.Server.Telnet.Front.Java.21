@@ -215,3 +215,25 @@ PROJECT: NitroWebExpress™ — Web Services Infrastructure
 REFERENCE: BMA (Brarner.M.Alete™) Prototype + DIGTIK.md Standards
 For detailed usage, troubleshooting, and advanced configuration:
   → See: MODULES_STARTUP_STANDARDIZATION.md
+
+═════════════════════════════════════════════════════════════════════════════
+UPDATE: July 16, 2026 — New Modules Added
+═════════════════════════════════════════════════════════════════════════════
+
+   ✓ SpectrumTandem               (6 scripts: start-backend, shutdown-backend, start-frontend, shutdown-frontend, start, shutdown)
+     Port: 49222 | DB: nwe_spectrum_tandem | Context: /spectrum-tandem
+     Backend: source.SpectrumTandemServer
+     Theme: White/Red | Dolyene spectrum of int discipline
+
+   ✓ Communicator (Chat)          (4 scripts: start-backend, shutdown-backend, start-frontend, shutdown-frontend)
+     Port: 49230 | DB: nwe_chat | Context: /chat
+     Backend: source.ChatServer
+     Theme: Deep Blue | DH-2048/RSA-2048/AES-256-GCM encrypted chat
+
+   ✓ UNCW                         (4 scripts: start-backend, shutdown-backend, start-frontend, shutdown-frontend)
+     Port: 49231 | DB: nwe_uncw | Context: /uncw
+     Backend: source.UNCWServer
+     Theme: SeaCoast Teal/Gold | Wilmington CS club, colleges, chancellors
+
+TOTAL MODULES WITH SCRIPTS: 14 backend + 2 webapp-only = 16 modules
+TOTAL PORTS: 22 (was 19, +3 new)

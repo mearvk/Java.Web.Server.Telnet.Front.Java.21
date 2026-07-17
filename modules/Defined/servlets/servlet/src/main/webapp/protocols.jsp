@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Protocols — Defined™</title><link rel="stylesheet" href="css/style.css"/></head>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Protocols — Defined™</title><link rel="stylesheet" href="css/style.css"/>    <script src="js/nwe-readme-viewer.js"></script>
+</head>
 <body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">Defined™</span><ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="categories.jsp">Categories</a></li><li><a href="protocols.jsp" class="active">Protocols</a></li><li><a href="status.jsp">Status</a></li></ul></div></nav>
 <section class="hero"><div class="hero-inner"><span class="hero-tag">12 Port Handlers</span><h1>Protocol Awareness</h1><p>UFW-managed ports open before use and close after execution of search, data query, or retrieval.</p></div></section>

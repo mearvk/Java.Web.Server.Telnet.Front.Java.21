@@ -158,12 +158,12 @@ MODULES = {
         "description": "Dolyene spectrum of int discipline. Word bank, county precedent, revisions.",
         "installer_tech_id": "Max Rupplin",
     },
-    # ── NWE Chat™ — Deep Blue/Purple Module ───────────────────────────────────
+    # ── Communicator™ — Deep Blue Module ───────────────────────────────────
     "chat": {
         "path": "modules/chat/servlets/servlet/src/main/webapp",
-        "theme": "Deep Blue Purple",
+        "theme": "Deep Blue",
         "port": 49230,
-        "description": "Encrypted chat. DH-2048 + RSA-2048 + AES-256-GCM. Federation, file transfer, voice, admin.",
+        "description": "Communicator™ — Encrypted chat. DH-2048 + RSA-2048 + AES-256-GCM. Federation, file transfer, voice, admin. No gradients.",
         "installer_tech_id": "Max Rupplin",
     },
     # ── UNCW™ — SeaCoast Teal/Gold Module ─────────────────────────────────────
@@ -210,7 +210,7 @@ tr:hover { background: #1a1a1a; }
 .creme { background: #f5f0e0; color: #333; }
 .white { background: #f8f8f8; color: #333; }
 .white-red { background: #fff; color: #cc0000; border: 1px solid #cc0000; }
-.deep-blue-purple { background: #0a0e1a; color: #6b8aff; border: 1px solid #1e2a4a; }
+.deep-blue { background: #0a0e1a; color: #6b8aff; border: 1px solid #1e2a4a; }
 .seacoast-teal { background: #0a1a1c; color: #00727A; border: 1px solid #1e4a4d; }
 .section { margin: 1rem 0; padding: 1rem; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; }
 .affirmation { color: #d4af37; font-style: italic; margin: 1rem 0; padding: 1rem; border-left: 3px solid #d4af37; }
@@ -378,7 +378,7 @@ index_html += """</tbody></table>
 <tr><td>Languages</td><td><a href="http://localhost:8080/languages/">http://localhost:8080/languages/</a></td><td><span class="theme-badge white">White</span></td><td>—</td></tr>
 <tr><td>Brarner.M.Alete</td><td><a href="http://localhost:8080/brarner.m.alete/">http://localhost:8080/brarner.m.alete/</a></td><td><span class="theme-badge blue">Presidential Blue</span></td><td>49152</td></tr>
 <tr><td>SpectrumTandem™</td><td><a href="http://localhost:8080/spectrum-tandem/">http://localhost:8080/spectrum-tandem/</a></td><td><span class="theme-badge white-red">White Red</span></td><td>49222</td></tr>
-<tr><td>NWE Chat™</td><td><a href="http://localhost:8080/chat/">http://localhost:8080/chat/</a></td><td><span class="theme-badge deep-blue-purple">Deep Blue Purple</span></td><td>49230</td></tr>
+<tr><td>Communicator™</td><td><a href="http://localhost:8080/chat/">http://localhost:8080/chat/</a></td><td><span class="theme-badge deep-blue">Deep Blue</span></td><td>49230</td></tr>
 <tr><td>UNCW™</td><td><a href="http://localhost:8080/uncw/">http://localhost:8080/uncw/</a></td><td><span class="theme-badge seacoast-teal">SeaCoast Teal</span></td><td>49231</td></tr>
 </tbody></table>
 </div>
@@ -411,8 +411,33 @@ for ctx, info in MODULES.items():
             # Windows without developer mode: use junction
             os.system(f'mklink /J "{link}" "{full}" >nul 2>&1')
 
+# Ensure shared images directory exists in each module symlink for icon preview
+# The nwe-readme-viewer.js references images/MearvK.Ltd/communicator/download.jpeg
+shared_img_dir = os.path.join(PROJECT_ROOT, "scripts", "web", "images", "MearvK.Ltd", "communicator")
+os.makedirs(shared_img_dir, exist_ok=True)
+
+# Copy the original download.jpeg to the preview scripts dir if not present
+import shutil
+orig_jpeg = os.path.join(PROJECT_ROOT, "images", "MearvK.Ltd", "communicator", "download.jpeg")
+preview_jpeg = os.path.join(shared_img_dir, "download.jpeg")
+if os.path.exists(orig_jpeg) and not os.path.exists(preview_jpeg):
+    shutil.copy2(orig_jpeg, preview_jpeg)
+    print(f"  [*] Copied original download.jpeg ({os.path.getsize(orig_jpeg)} bytes)")
+
+# Ensure all module webapp dirs have the original image
+for ctx, info in MODULES.items():
+    path_val = info["path"] if isinstance(info, dict) else info
+    full = os.path.join(PROJECT_ROOT, path_val)
+    img_target = os.path.join(full, "images", "MearvK.Ltd", "communicator", "download.jpeg")
+    if os.path.isdir(full) and not os.path.exists(img_target):
+        os.makedirs(os.path.dirname(img_target), exist_ok=True)
+        if os.path.exists(orig_jpeg):
+            shutil.copy2(orig_jpeg, img_target)
+
 os.chdir(SERVE_DIR)
 
+
+import re as _re
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
     extensions_map = {
@@ -422,13 +447,46 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         '.js': 'application/javascript',
         '.png': 'image/png',
         '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
         '.svg': 'image/svg+xml',
         '.json': 'application/json',
         '.xml': 'application/xml',
     }
 
+    def do_GET(self):
+        # For JSP files, strip scriptlet blocks before serving
+        path = self.path.split('?')[0]
+        
+        # If path ends with /, try to serve index.jsp
+        if path.endswith('/'):
+            translated = self.translate_path(path)
+            index_jsp = os.path.join(translated, 'index.jsp')
+            if os.path.isfile(index_jsp):
+                self.path = path + 'index.jsp'
+                path = self.path
+        
+        if path.endswith('.jsp'):
+            translated = self.translate_path(path)
+            try:
+                with open(translated, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                # Remove all JSP scriptlets: <%...%>, <%@...%>, <%=...%>, <%!...%>
+                content = _re.sub(r'<%[@!=]?[\s\S]*?%>', '', content)
+                encoded = content.encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.send_header('Content-Length', str(len(encoded)))
+                self.end_headers()
+                self.wfile.write(encoded)
+            except FileNotFoundError:
+                self.send_error(404)
+            except Exception as e:
+                self.send_error(500, str(e))
+        else:
+            super().do_GET()
+
     def log_message(self, format, *args):
-        if '.css' not in args[0] and '.js' not in args[0] and '.png' not in args[0]:
+        if '.css' not in args[0] and '.js' not in args[0] and '.png' not in args[0] and '.jpg' not in args[0]:
             super().log_message(format, *args)
 
 
@@ -459,7 +517,7 @@ print(f"""
 ║    http://localhost:8080/vietnam/          (Light Brown — port 49215)    ║
 ║    http://localhost:8080/emeter/           (Light Blue — port 49216)     ║
 ║    http://localhost:8080/spectrum-tandem/  (White Red — port 49222)      ║
-║    http://localhost:8080/chat/             (Deep Blue Purple — 49230)    ║
+║    http://localhost:8080/chat/             (Deep Blue — 49230)    ║
 ║    http://localhost:8080/uncw/             (SeaCoast Teal — port 49231)  ║
 ║    http://localhost:8080/gray-registry/    (Gray — port 9999)            ║
 ║    http://localhost:8080/gray85-registry/  (Crème — port 10085)          ║
@@ -479,7 +537,7 @@ print(f"""
 ║    http://localhost:{PORT}/futures/        (Futures Red preview)            ║
 ║    http://localhost:{PORT}/vietnam/        (Vietnam Brown preview)          ║
 ║    http://localhost:{PORT}/spectrum-tandem/ (SpectrumTandem White/Red)      ║
-║    http://localhost:{PORT}/chat/           (Chat Deep Blue/Purple)          ║
+║    http://localhost:{PORT}/chat/           (Communicator™ Deep Blue)          ║
 ║    http://localhost:{PORT}/uncw/           (UNCW SeaCoast Teal/Gold)        ║
 ║                                                                           ║
 ║  NOTE: JSP scriptlets show as raw text. CSS/JS/layout works normally.     ║

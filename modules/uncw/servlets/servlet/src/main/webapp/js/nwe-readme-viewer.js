@@ -12,19 +12,41 @@
 (function() {
     'use strict';
 
-    // ── README Button (upper right, steel/gray, clean icon) ────────────────────
+    // ── README Button (upper right, with download image + "README.md" text) ──
+    var btnContainer = document.createElement('div');
+    btnContainer.id = 'nwe-readme-container';
+    btnContainer.style.cssText = 'position:fixed;top:12px;right:12px;z-index:9999;display:flex;align-items:center;gap:8px;';
+
     var btn = document.createElement('button');
     btn.id = 'nwe-readme-btn';
     btn.title = 'Read about this module (README.md)';
-    btn.setAttribute('aria-label', 'Open README');
-    btn.innerHTML = '&#x1F4D6;'; // 📖 book icon
-    btn.style.cssText = 'position:fixed;top:12px;right:12px;z-index:9999;width:36px;height:36px;border-radius:6px;' +
-        'background:linear-gradient(135deg,#6b7280,#4b5563);border:1px solid #374151;color:#e5e7eb;font-size:16px;' +
+    btn.setAttribute('aria-label', 'Open README.md');
+    btn.innerHTML = '<img src="images/MearvK.Ltd/communicator/download.jpeg" alt="↓" onerror="this.style.display=\'none\';this.nextSibling.textContent=\'⬇ README.md\'" style="height:28px;width:28px;object-fit:cover;border-radius:3px;vertical-align:middle;background:transparent;margin-right:5px;"/><span style="font-size:11px;font-weight:600;letter-spacing:0.02em;">README.md</span>';
+    btn.style.cssText = 'min-width:110px;height:34px;border-radius:6px;' +
+        'background:linear-gradient(135deg,#6b7280,#4b5563);border:1px solid #374151;color:#e5e7eb;' +
         'cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3);' +
-        'transition:transform 0.15s,box-shadow 0.15s;font-family:system-ui;line-height:1;padding:0;';
-    btn.onmouseenter = function() { btn.style.transform = 'scale(1.08)'; btn.style.boxShadow = '0 3px 10px rgba(0,0,0,0.4)'; };
+        'transition:transform 0.15s,box-shadow 0.15s;font-family:system-ui;line-height:1;padding:0 10px;';
+    btn.onmouseenter = function() { btn.style.transform = 'scale(1.05)'; btn.style.boxShadow = '0 3px 10px rgba(0,0,0,0.4)'; };
     btn.onmouseleave = function() { btn.style.transform = ''; btn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)'; };
-    document.body.appendChild(btn);
+
+    // ── GitHub Button (links to GitHub discussions) ─────────────────────────────
+    var ghBtn = document.createElement('a');
+    ghBtn.id = 'nwe-github-btn';
+    ghBtn.href = 'https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions';
+    ghBtn.target = '_blank';
+    ghBtn.title = 'GitHub Discussions — a great dinner conversation';
+    ghBtn.setAttribute('aria-label', 'GitHub Discussions');
+    ghBtn.innerHTML = '<svg height="20" width="20" viewBox="0 0 16 16" fill="#9ca3af" style="vertical-align:middle;margin-right:5px;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span style="font-size:11px;font-weight:600;">GitHub</span>';
+    ghBtn.style.cssText = 'min-width:110px;height:34px;border-radius:6px;text-decoration:none;' +
+        'background:linear-gradient(135deg,#24292e,#1b1f23);border:1px solid #374151;color:#e5e7eb;' +
+        'display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3);' +
+        'transition:transform 0.15s,box-shadow 0.15s;font-family:system-ui;line-height:1;padding:0 10px;';
+    ghBtn.onmouseenter = function() { ghBtn.style.transform = 'scale(1.05)'; ghBtn.style.boxShadow = '0 3px 10px rgba(0,0,0,0.4)'; };
+    ghBtn.onmouseleave = function() { ghBtn.style.transform = ''; ghBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)'; };
+    btnContainer.appendChild(ghBtn);
+    btnContainer.appendChild(btn);
+
+    document.body.appendChild(btnContainer);
 
     // ── Overlay + Display Window ───────────────────────────────────────────────
     var overlay = document.createElement('div');

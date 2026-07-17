@@ -168,6 +168,16 @@ public class ChatServer implements Runnable {
 
     private String processCommand(String input, ChatSession session) {
         if (input.isEmpty()) return "ERROR|Empty command. Type HELP.";
+
+        // Heuristic scan all inputs; time the processing for gravity detection
+        long startTime = System.currentTimeMillis();
+        antivirus.InputHeuristicScanner.ScanResult inputScan =
+            antivirus.InputHeuristicScanner.scanInput("NWE_CHAT", 
+                session.username != null ? session.username : "anonymous", session.ip, input, 0);
+        if (inputScan == antivirus.InputHeuristicScanner.ScanResult.BLOCKED) {
+            return "ERROR|Input rejected by security scan.";
+        }
+
         String upper = input.toUpperCase();
 
         if (upper.equals("QUIT")) return "BYE|Chat session closed.";
@@ -582,13 +592,21 @@ public class ChatServer implements Runnable {
         String filename = parts[2].trim();
         String size = parts[3].trim();
 
+        // Heuristic + AV scan on file data
+        byte[] fileBytes = java.util.Base64.getDecoder().decode(parts[4].trim());
+        antivirus.InputHeuristicScanner.ScanResult scanResult =
+            antivirus.InputHeuristicScanner.scanFile("NWE_CHAT", session.username, session.ip, filename, fileBytes);
+        if (scanResult == antivirus.InputHeuristicScanner.ScanResult.BLOCKED) {
+            return "ERROR|File rejected by security scan: " + filename;
+        }
+
         ChatSession targetSession = LIVE.get(target);
         if (targetSession == null) return "ERROR|User '" + target + "' not online.";
 
         // Store file reference
         storeMessage(session.userId, targetSession.userId, "[FILE:" + filename + ":" + size + "B]", "FILE", session.ip);
         targetSession.writeLine("FILE|" + session.username + "|" + filename + "|" + size + "|" + parts[4]);
-        return "FILE|SENT|to=" + target + "|file=" + filename;
+        return "FILE|SENT|to=" + target + "|file=" + filename + (scanResult == antivirus.InputHeuristicScanner.ScanResult.SUSPICIOUS ? "|WARN:suspicious_content" : "");
     }
 
     // ── Voice/Microphone ───────────────────────────────────────────────────────

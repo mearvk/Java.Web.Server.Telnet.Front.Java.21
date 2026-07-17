@@ -41,6 +41,9 @@ Each module in NitroWebExpress™ has a **servlet webapp edition** — a JSP-dri
 | Strernary™ | `/strernary` | Cyan (#06b6d4) | 20000, 2000 | `nwe_strernary` |
 | Vietnam™ | `/vietnam` | Light Brown (#a0826d) | 49215 | `nwe_vietnam` |
 | Emeter™ | `/emeter` | Light Blue (#7dd3fc) | 49216 | `nwe_emeter` |
+| SpectrumTandem™ | `/spectrum-tandem` | White/Red (#cc0000) | 49222 | `nwe_spectrum_tandem` |
+| Communicator™ | `/chat` | Deep Blue (#4a6cf7) | 49230 | `nwe_chat` |
+| UNCW™ | `/uncw` | SeaCoast Teal (#00727A) | 49231 | `nwe_uncw` |
 
 ## Interfacing Websites with Running Servers
 
@@ -79,6 +82,13 @@ Each JSP page can open a TCP socket to the module's running server and relay com
 | `futures/pipeline.jsp` | `STATUS` | 5000 |
 | `gray-registry/leases.jsp` | `LIST` | 9999 |
 | `gray85-registry/creme.jsp` | `CREME\|block_id` | 10085 |
+| `spectrum-tandem/spectrum.jsp` | `SPECTRUM\|term` | 49222 |
+| `spectrum-tandem/wordbank.jsp` | `WORDBANK` | 49222 |
+| `spectrum-tandem/county.jsp` | `COUNTY\|name` | 49222 |
+| `chat/index.jsp` | `STATUS`, `MSG\|user\|text` | 49230 |
+| `chat/status.jsp` | `STATUS` | 49230 |
+| `uncw/index.jsp` | `CHANCELLOR_STATUS` | 49231 |
+| `uncw/profile.jsp` | `PROFILE`, `VIEW_PROFILE\|user` | 49231 |
 
 ## Standard Webapp Structure
 
@@ -247,6 +257,11 @@ sudo bash modules/gray/servlets/deploy-local.sh
 sudo bash modules/gray.a85/servlets/deploy-local.sh
 sudo bash modules/languages/servlets/deploy-local.sh
 sudo bash source/strernary/servlets/deploy-local.sh
+
+# New modules (July 2026)
+sudo bash modules/spectrum-tandem/servlets/deploy-local.sh
+sudo bash modules/chat/servlets/deploy-local.sh
+sudo bash modules/uncw/servlets/deploy-local.sh
 ```
 
 ## Author
@@ -415,13 +430,14 @@ All module-to-Strernary communication follows `configuration/strernary-protocol.
 | Message | Format | Used By |
 |---------|--------|---------|
 | ASK | `ASK\|{query}` | All strernary-capable modules |
-| ASK (context) | `ASK\|{MODULE} SEARCH field=val context=table` | FBI, CIA, NSA, Duke, Stanford |
+| ASK (context) | `ASK\|{MODULE} SEARCH field=val context=table` | FBI, CIA, NSA, Duke, Stanford, SpectrumTandem, Communicator, UNCW |
+| ASK (hardened) | `ASK\|{MODULE} source={mod} ip={ip} trust={n} username={u} protocol={p} item={i} verb={v} int={n} query={q}` | SpectrumTandem, Communicator, UNCW (hardened mode) |
 | CLASSIFY | `CLASSIFY\|{module}\|{text}` | FBI, CIA, NSA (auto-categorize) |
 | TRAIN | `TRAIN\|{module}\|{category}\|{example}` | Knowledge base growth |
 | RELAY | `RELAY\|{text}` | Cross-module routing |
 | STATUS | `STATUS` | Health checks |
 
-Java client: `commons.StrernaryConnector.ask()`, `.classify()`, `.train()`, `.relay()`
+Java client: `commons.StrernaryConnector.ask()`, `.askHardened()`, `.classify()`, `.train()`, `.relay()`
 
 ### Lesson 20: CD1 Connector Format
 
@@ -517,3 +533,47 @@ curl -s -o /dev/null -w "%{http_code}" https://lauradei.us/brarner.m.alete/
 ```
 
 **Result:** 19/19 ports up, 12/12 JSP pages → 200, MySQL on block storage, logs on block storage.
+
+### Lesson 25: New Modules (July 16 2026)
+
+Three new modules added in a single session:
+
+| Module | Port | Context | Theme | Database | Key Features |
+|--------|------|---------|-------|----------|-------------|
+| SpectrumTandem™ | 49222 | `/spectrum-tandem` | White/Red | `nwe_spectrum_tandem` | Dolyene (spectrum of int discipline), word bank, county precedent, revisions, pointers/indirections |
+| Communicator™ | 49230 | `/chat` | Deep Blue | `nwe_chat` | DH-2048/RSA-2048/AES-256-GCM encrypted chat, federation (5 servers), file transfer, voice notes, admin, chat rooms (31 rooms, 7 categories), Concealment 3 rank, Gold Harvard Certificate |
+| UNCW™ | 49231 | `/uncw` | SeaCoast Teal/Gold | `nwe_uncw` | UNCW Wilmington CS club, colleges, chancellors (current+past, max 2000), messaging (10 free/month), file sharing (80MB), audio playback, National ID verification, profiles/resumes |
+
+**Shared infrastructure added:**
+- `nwe-readme-viewer.js` — README.md button (upper right, all 21 modules) with markdown interpreter, IQ/Democratic speculation, red pixel flicker on white backgrounds
+- GitHub button — links to discussions, silver-gray octocat icon
+- `StrernaryConnector.askHardened()` — trust-aware Strernary calls with full metadata (source, IP, trust, username, protocol, handshake, item, verb, gifted int)
+- `masquerade-modules.xml` — all three modules registered with `<strernary-hardened>true</strernary-hardened>`
+- `strernary-protocol.xml` — registered with query-prefixes, verbs, items, trust levels
+- `port-2000-directory-config.xml` — ports 49222, 49230, 49231 discoverable
+- `chat-rooms.xml` — 31 rooms across 7 categories (Towns, Teens, Hobbies, Romance, AOL Live, Philosophy, Metaphysical)
+- Profile pictures + resume uploads for Chat and UNCW modules
+- Admin room monitoring (ADMIN_MONITOR, kick, mute, close/open rooms)
+
+**Communicator™ notes:**
+- Renamed from "NWE Chat" to "Communicator" on all pages
+- Uses `trillian.jpeg` logo (images/MearvK.Ltd/communicator/)
+- All gradients removed — flat Deep Blue theme
+- Ethics: "We conceal God but do not work for Her."
+
+**Startup additions:**
+- `scripts/start-backends.sh` — MODULES array updated (+3)
+- `scripts/compile-all-modules.sh` — sourcepaths and javac targets updated
+- `scripts/nwe-ports.sh` — ports 49222, 49230, 49231 added
+- `scripts/web/web-deploy-config.xml` — all three modules registered for auto-deploy
+- `scripts/preview-styles.py` — modules added, JSP scriptlet stripping, index.jsp auto-resolve
+
+**Deploy new modules:**
+```bash
+bash modules/spectrum-tandem/servlets/setup-db.sh
+bash modules/spectrum-tandem/servlets/deploy-local.sh
+bash modules/chat/servlets/setup-db.sh
+bash modules/chat/servlets/deploy-local.sh
+bash modules/uncw/servlets/setup-db.sh
+bash modules/uncw/servlets/deploy-local.sh
+```

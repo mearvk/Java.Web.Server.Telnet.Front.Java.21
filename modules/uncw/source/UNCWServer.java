@@ -129,6 +129,15 @@ public class UNCWServer implements Runnable {
 
     private String processCommand(String input, UNCWSession session) {
         if (input.isEmpty()) return "ERROR|Empty command. Type HELP.";
+
+        // Heuristic scan all inputs
+        antivirus.InputHeuristicScanner.ScanResult inputScan =
+            antivirus.InputHeuristicScanner.scanInput("UNCW",
+                session.username != null ? session.username : "anonymous", session.ip, input, 0);
+        if (inputScan == antivirus.InputHeuristicScanner.ScanResult.BLOCKED) {
+            return "ERROR|Input rejected by security scan.";
+        }
+
         String upper = input.toUpperCase();
 
         if (upper.equals("QUIT")) return "BYE|UNCW session closed. Go Seahawks!";
@@ -420,6 +429,14 @@ public class UNCWServer implements Runnable {
         long size = Long.parseLong(parts[2].trim());
 
         if (size > MAX_FILE_SIZE_MB * 1024L * 1024L) return "ERROR|File too large. Max " + MAX_FILE_SIZE_MB + "MB.";
+
+        // Heuristic + AV scan
+        byte[] fileBytes = Base64.getDecoder().decode(parts[3].trim());
+        antivirus.InputHeuristicScanner.ScanResult scanResult =
+            antivirus.InputHeuristicScanner.scanFile("UNCW", session.username, session.ip, filename, fileBytes);
+        if (scanResult == antivirus.InputHeuristicScanner.ScanResult.BLOCKED) {
+            return "ERROR|File rejected by security scan: " + filename;
+        }
 
         String ext = filename.contains(".") ? filename.substring(filename.lastIndexOf('.') + 1).toLowerCase() : "";
         boolean isAudio = AUDIO_TYPES.contains(ext);
