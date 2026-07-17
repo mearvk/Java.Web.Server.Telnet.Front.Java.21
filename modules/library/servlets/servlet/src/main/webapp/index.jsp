@@ -20,7 +20,6 @@
         <li><a href="request.jsp">Request</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
-    <div class="nav-actions"><a href="search.jsp" class="nav-cta">Search Catalog →</a></div>
 </div></nav>
 
 <section class="hero">

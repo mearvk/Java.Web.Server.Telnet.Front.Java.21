@@ -43,6 +43,23 @@
         'transition:transform 0.15s,box-shadow 0.15s;font-family:system-ui;line-height:1;padding:0 10px;';
     ghBtn.onmouseenter = function() { ghBtn.style.transform = 'scale(1.05)'; ghBtn.style.boxShadow = '0 3px 10px rgba(0,0,0,0.4)'; };
     ghBtn.onmouseleave = function() { ghBtn.style.transform = ''; ghBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)'; };
+
+    // ── RSS Feed Button ────────────────────────────────────────────────────────
+    var rssBtn = document.createElement('a');
+    rssBtn.id = 'nwe-rss-btn';
+    rssBtn.href = 'https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/commits/main.atom';
+    rssBtn.target = '_blank';
+    rssBtn.title = 'RSS Feed — NitroWebExpress™ Updates';
+    rssBtn.setAttribute('aria-label', 'RSS Feed');
+    rssBtn.innerHTML = '<svg height="20" width="20" viewBox="0 0 24 24" fill="#f97316" style="vertical-align:middle;margin-right:5px;"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg><span style="font-size:11px;font-weight:600;">RSS</span>';
+    rssBtn.style.cssText = 'min-width:80px;height:34px;border-radius:6px;text-decoration:none;' +
+        'background:linear-gradient(135deg,#431407,#7c2d12);border:1px solid #9a3412;color:#fed7aa;' +
+        'display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3);' +
+        'transition:transform 0.15s,box-shadow 0.15s;font-family:system-ui;line-height:1;padding:0 10px;';
+    rssBtn.onmouseenter = function() { rssBtn.style.transform = 'scale(1.05)'; rssBtn.style.boxShadow = '0 3px 10px rgba(0,0,0,0.4)'; };
+    rssBtn.onmouseleave = function() { rssBtn.style.transform = ''; rssBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)'; };
+
+    btnContainer.appendChild(rssBtn);
     btnContainer.appendChild(ghBtn);
     btnContainer.appendChild(btn);
 

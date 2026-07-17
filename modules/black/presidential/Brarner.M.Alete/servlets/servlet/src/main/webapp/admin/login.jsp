@@ -37,6 +37,7 @@
         .form-group input:focus { border-color:var(--accent); }
     </style>
 <script src="../js/scroll-preserve.js"></script>
+    <script src="js/nwe-readme-viewer.js"></script>
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
