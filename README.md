@@ -66,7 +66,7 @@ bash scripts/status.sh
 | CaliforniaNSA | `modules/nsa` | 49212 | `/california-nsa` | `source.CaliforniaNSAServer` | NSA cybersecurity, CISA vulnerability disclosure |
 | DukeUniversity | `modules/duke` | 49213 | `/california-duke` | `source.DukeUniversityServer` | Duke University college interface, academic queries |
 | StanfordLibrary | `modules/library` | 49214 | `/library` | `source.StanfordLibraryServer` | Stanford Library catalog, resource requests |
-| Vietnam | `modules/vietnam` | 49215 | `/vietnam` | `source.VietnamServer` | Ancient Vietnamese fighting styles and languages |
+| Vietnam | `modules/vietnam` | 49215 | `/vietnam` | `source.VietnamServer` | Saving American Names and graces. |
 | Emeter | `modules/emeter` | 49216 | `/emeter` | `source.EmeterServer` | E-Meter instruction, calibration, readings |
 | SpectrumTandem | `modules/spectrum-tandem` | 49222 | `/spectrum-tandem` | `source.SpectrumTandemServer` | Dolyene spectrum of int discipline, word bank, county precedent |
 | Chat | `modules/chat` | 49230 | `/chat` | `source.ChatServer` | Encrypted chat, DH-2048/RSA-2048, federation, file/voice, admin |
