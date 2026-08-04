@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    NitroWebExpress™ — Government Web Forms Configuration
+    Brarner.M.Alete™ — SSA & USPS Integration
+
+    USPS Web Tools: XML over HTTPS GET. Requires registered USERID.
+    SSA: Browser-based only (Login.gov/ID.me). No public REST API.
+         Handled via headless browser or form-forward template.
+
+    Scope: Township → City → County → State → National communication.
+    Installer Tech ID: Max Rupplin
+-->
+<gov-forms-config version="1" module="Brarner.M.Alete">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- USPS Web Tools API (Address Information)                               -->
+    <!-- Method: HTTPS GET with XML payload in query string                     -->
+    <!-- Registration: https://www.usps.com/business/web-tools-apis/            -->
+    <!-- Rate limit: 5 addresses per request, reasonable use policy             -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <usps>
+        <endpoint>https://secure.shippingapis.com/ShippingAPI.dll</endpoint>
+        <method>GET</method>
+        <content-type>application/x-www-form-urlencoded</content-type>
+        <userid-env>USPS_USERID</userid-env>
+
+        <!-- Address Validation (Verify) -->
+        <api name="Verify" param="API=Verify">
+            <description>Validates and standardizes a USPS domestic address</description>
+            <request-xml><![CDATA[
+<AddressValidateRequest USERID="${USERID}">
+    <Revision>1</Revision>
+    <Address ID="0">
+        <FirmName>${firm_name}</FirmName>
+        <Address1>${address1}</Address1>
+        <Address2>${address2}</Address2>
+        <City>${city}</City>
+        <State>${state}</State>
+        <Urbanization/>
+        <Zip5>${zip5}</Zip5>
+        <Zip4>${zip4}</Zip4>
+    </Address>
+</AddressValidateRequest>
+            ]]></request-xml>
+            <response-fields>
+                <field name="Address2" required="true">Standardized street address</field>
+                <field name="City" required="true">Verified city name</field>
+                <field name="State" required="true">Two-letter state code</field>
+                <field name="Zip5" required="true">5-digit ZIP</field>
+                <field name="Zip4" required="false">ZIP+4 extension</field>
+                <field name="DPVConfirmation" required="false">Y=confirmed, D=primary only, S=secondary invalid, N=failed</field>
+                <field name="CarrierRoute" required="false">USPS carrier route code</field>
+                <field name="Footnotes" required="false">Address correction footnotes (A-Z)</field>
+                <field name="Business" required="false">Y=business, N=residential</field>
+                <field name="Vacant" required="false">Y=vacant, N=occupied</field>
+            </response-fields>
+        </api>
+
+        <!-- ZIP Code Lookup -->
+        <api name="ZipCodeLookup" param="API=ZipCodeLookup">
+            <description>Returns ZIP+4 for a given address</description>
+            <request-xml><![CDATA[
+<ZipCodeLookupRequest USERID="${USERID}">
+    <Address ID="0">
+        <Address1>${address1}</Address1>
+        <Address2>${address2}</Address2>
+        <City>${city}</City>
+        <State>${state}</State>
+        <Zip5/>
+        <Zip4/>
+    </Address>
+</ZipCodeLookupRequest>
+            ]]></request-xml>
+        </api>
+
+        <!-- City/State Lookup (from ZIP) -->
+        <api name="CityStateLookup" param="API=CityStateLookup">
+            <description>Returns city and state for a given ZIP code</description>
+            <request-xml><![CDATA[
+<CityStateLookupRequest USERID="${USERID}">
+    <ZipCode ID="0">
+        <Zip5>${zip5}</Zip5>
+    </ZipCode>
+</CityStateLookupRequest>
+            ]]></request-xml>
+            <response-fields>
+                <field name="Zip5">ZIP code queried</field>
+                <field name="City">City for this ZIP</field>
+                <field name="State">State for this ZIP</field>
+            </response-fields>
+        </api>
+    </usps>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- SSA (Social Security Administration)                                   -->
+    <!-- No public REST API. Browser-based forms only (Login.gov / ID.me).      -->
+    <!-- We template the form data elements for reference and form-forward.     -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <ssa>
+        <portal>https://www.ssa.gov/myaccount/</portal>
+        <auth-method>Login.gov / ID.me (browser-only, no API key)</auth-method>
+        <note>SSA does not provide a public REST API for individual services. The eCBSV (Consent Based SSN Verification) requires institutional agreement. For BMA, we template form fields for reference and local record-keeping only.</note>
+
+        <!-- Form: Upload Documents (eSignature) -->
+        <form name="UploadDocuments" url="https://secure.ssa.gov/acu/ICL/upload">
+            <description>Upload forms and evidence electronically (launched July 2023)</description>
+            <auth>Login.gov credential required</auth>
+            <fields>
+                <field name="document_type" type="select">Form type (HA-4631, HA-4632, HA-4633, etc.)</field>
+                <field name="file" type="file">PDF/image document upload</field>
+                <field name="signature" type="esignature">Electronic signature when required</field>
+            </fields>
+        </form>
+
+        <!-- Form: eCBSV (Institutional only) -->
+        <form name="eCBSV" url="https://www.ssa.gov/dataexchange/eCBSV/">
+            <description>Electronic Consent Based Social Security Number Verification</description>
+            <auth>Institutional agreement + OIDC (OpenID Connect)</auth>
+            <method>REST (POST, JSON)</method>
+            <fields>
+                <field name="ssn" type="string">Social Security Number</field>
+                <field name="first_name" type="string">First name</field>
+                <field name="last_name" type="string">Last name</field>
+                <field name="date_of_birth" type="date">YYYY-MM-DD</field>
+                <field name="consent_token" type="string">Consent form token</field>
+            </fields>
+            <note>Requires signed agreement with SSA. Not available for general use.</note>
+        </form>
+
+        <!-- Form: Electronic Wage Reporting (EWRWS) -->
+        <form name="EWRWS" url="https://www.ssa.gov/employer/EWRWS.htm">
+            <description>Electronic Wage Reporting Web Service — EFW2 format</description>
+            <auth>SSA Employer Account</auth>
+            <method>SOAP/XML</method>
+            <fields>
+                <field name="submitter_ein" type="string">Employer EIN</field>
+                <field name="tax_year" type="integer">Reporting tax year</field>
+                <field name="w2_records" type="EFW2">W-2 records in EFW2 format</field>
+            </fields>
+        </form>
+    </ssa>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- COMMUNICATION SCOPE — Township → City → County → State → National     -->
+    <!-- Maps the BMA postal infrastructure to gov service tiers               -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <communication-scope>
+        <tier level="township" example="Morrisville, NC">
+            <usps-use>Verify address within township ZIP codes</usps-use>
+            <ssa-use>Local office lookup (field office directory)</ssa-use>
+            <bma-port>postal.jsp (BrarnerPostal.postal_offices)</bma-port>
+        </tier>
+        <tier level="city" example="Durham, NC">
+            <usps-use>CityStateLookup to resolve all ZIPs for city</usps-use>
+            <ssa-use>City field office services, benefit inquiries</ssa-use>
+            <bma-port>CD1 connector → port 9006 (Durham Main PO)</bma-port>
+        </tier>
+        <tier level="county" example="Durham County, NC">
+            <usps-use>Batch verify all addresses in county ZIP range</usps-use>
+            <ssa-use>County-level disability determination services</ssa-use>
+            <bma-port>county precedent (SpectrumTandem port 49222)</bma-port>
+        </tier>
+        <tier level="state" example="North Carolina">
+            <usps-use>State code validation, all ZIP ranges for state</usps-use>
+            <ssa-use>State SSA office directory, benefits coordination</ssa-use>
+            <bma-port>CaliforniaNSA (port 49212), state-level surveillance</bma-port>
+        </tier>
+        <tier level="national" example="United States">
+            <usps-use>Full Address Validation API (all states)</usps-use>
+            <ssa-use>eCBSV (institutional), EWRWS (employer), Upload Documents</ssa-use>
+            <bma-port>NWE Main (port 49152), national scope</bma-port>
+        </tier>
+    </communication-scope>
+
+</gov-forms-config>

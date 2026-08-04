@@ -5,7 +5,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Status — Defined™</title><link rel="stylesheet" href="css/style.css"/>    <script src="js/nwe-readme-viewer.js"></script>
 </head>
 <body>
-<nav class="nav"><div class="nav-inner"><span class="nav-brand">Defined™</span><ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="categories.jsp">Categories</a></li><li><a href="protocols.jsp">Protocols</a></li><li><a href="status.jsp" class="active">Status</a></li></ul></div></nav>
+<nav class="nav"><div class="nav-inner"><span class="nav-brand">Defined™</span><ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="categories.jsp">Categories</a></li><li><a href="protocols.jsp">Protocols</a></li><li><a href="status.jsp" class="active">Status</a></li></ul><div class="nav-actions"><%@ include file="auth-buttons.jsp" %></div></div></nav>
 
 <section class="hero"><div class="hero-inner"><span class="hero-tag">System Health</span><h1>Status</h1><p>Backend, AI server, MySQL, UFW, and connection hours status.</p></div></section>
 

@@ -38,7 +38,7 @@
         <li><a href="departments.jsp">Departments</a></li>
         <li><a href="status.jsp">Status</a></li>
     </ul>
-</div></nav>
+<div class="nav-actions"><%@ include file="auth-buttons.jsp" %></div></div></nav>
 
 <section class="hero">
     <div class="hero-inner">
@@ -47,6 +47,15 @@
         <p>Think and Do. The Wolfpack. 12 colleges, 37,000+ students. AI-assisted academic queries via Strernary™. Raleigh, North Carolina.</p>
     </div>
 </section>
+
+<div style="display:flex;justify-content:center;gap:1.5rem;padding:1rem 0;flex-wrap:wrap;">
+    <a href="index.jsp" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;background:#220000;border:1px solid #4d1a1a;color:#bb9999;font-size:0.85rem;text-decoration:none;font-weight:500;">
+        <span style="color:#22c55e;">&#9679;</span> Local Page (This Server)
+    </a>
+    <a href="https://www.ncsu.edu" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;background:#CC0000;border:1px solid #ff3333;color:#fff;font-size:0.85rem;text-decoration:none;font-weight:600;">
+        &#127891; Visit ncsu.edu &#8594;
+    </a>
+</div>
 <div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? "#22c55e" : "#dc2626" %>;"><%= authMsg %></div>
 
 
@@ -186,6 +195,29 @@
     </div>
 </section>
 
+<!-- download-roadmap-section -->
+<section class="section" style="border-top:1px solid #27272a;">
+    <div class="section-inner">
+        <h2>Download &amp; Roadmap</h2>
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+            <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/modules/ncsu" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:8px;background:#238636;border:1px solid #2ea043;color:#fff;font-size:0.9rem;text-decoration:none;font-weight:600;transition:background 0.2s;">
+                &#11015; Download Now (GitHub)
+            </a>
+            <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:8px;background:#1a1a2e;border:1px solid #27272a;color:#a1a1aa;font-size:0.9rem;text-decoration:none;font-weight:500;">
+                &#128230; Full NWE Distribution
+            </a>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Phase</th><th>Milestone</th><th>Status</th></tr></thead><tbody>
+            <tr><td>1</td><td>Core backend &amp; servlet interface</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>2</td><td>Database schema &amp; MySQL integration</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>3</td><td>JSP front-end &amp; CD1 connector</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>4</td><td>Ubuntu kernel build integration</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>5</td><td>Security hardening &amp; auth</td><td style="color:#eab308;">&#9679; In Progress</td></tr>
+            <tr><td>6</td><td>Production deployment &amp; monitoring</td><td style="color:#71717a;">&#9675; Planned</td></tr>
+        </tbody></table></div>
+        <p style="font-size:0.75rem;color:#71717a;margin-top:1rem;">Source: <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/modules/ncsu" target="_blank" style="color:#60a5fa;">https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/modules/ncsu</a></p>
+    </div>
+</section>
 <footer class="footer"><div><span>&#169; 2026 MEARVK LLC. NC State University™ — Wolfpack Red. Go Pack!</span></div></footer>
 </body>
 </html>

@@ -21,6 +21,9 @@ set "CP=%OUT%;%MYSQL_JAR%;%LANTERNA_JAR%"
 REM Add DJL JARs
 for /r "%ROOT%\jars\djl" %%J in (*.jar) do set "CP=!CP!;%%J"
 
+REM Add Jpcap JARs (network packet capture)
+for /r "%ROOT%\jars\jpcap" %%J in (*.jar) do set "CP=!CP!;%%J"
+
 echo ═══════════════════════════════════════════════════════════════
 echo  NWE — Compile All Modules (Windows)
 echo ═══════════════════════════════════════════════════════════════

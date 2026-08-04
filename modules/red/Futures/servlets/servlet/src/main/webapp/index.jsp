@@ -38,6 +38,7 @@
     <a href="training.jsp">Training</a>
     <a href="safety.jsp">Safety</a>
     <a href="status.jsp">Status</a>
+<div class="nav-actions" style="margin-left:auto;display:flex;gap:0.5rem;align-items:center;"><%@ include file="auth-buttons.jsp" %></div>
 </nav>
 
 <div class="hero">

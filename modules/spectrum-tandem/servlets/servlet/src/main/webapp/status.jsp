@@ -34,7 +34,7 @@
         <li><a href="county.jsp">County Precedent</a></li>
         <li><a href="status.jsp" class="active">Status</a></li>
     </ul>
-</div></nav>
+<div class="nav-actions"><%@ include file="auth-buttons.jsp" %></div></div></nav>
 
 <section class="hero">
     <div class="hero-inner">

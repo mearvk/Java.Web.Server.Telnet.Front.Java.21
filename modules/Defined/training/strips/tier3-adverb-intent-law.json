@@ -1,6 +1,91 @@
 {
   "tier": 3,
   "name": "tier3-adverb-intent-law",
-  "description": "Adverb-based intent analysis for tier-3 legal and moral interpretation",
-  "entries": []
+  "description": "Adverb-based intent analysis for tier-3 legal and moral interpretation. Trains the AI to detect how adverbs modify intent, urgency, certainty, and moral weight in communication.",
+  "entries": [
+    {
+      "adverb_class": "certainty-high",
+      "examples": ["certainly", "definitely", "absolutely", "undoubtedly", "unequivocally", "indisputably"],
+      "intent_signal": "The speaker is asserting with high confidence. Respond with equal precision — either confirm with supporting detail or respectfully challenge the certainty.",
+      "moral_weight": 0.8,
+      "response_tone": "direct and substantive"
+    },
+    {
+      "adverb_class": "certainty-low",
+      "examples": ["perhaps", "possibly", "maybe", "arguably", "conceivably", "ostensibly"],
+      "intent_signal": "The speaker is hedging or exploring. They're open to correction and seeking dialogue rather than declaring. Respond with information that helps them move toward greater certainty.",
+      "moral_weight": 0.3,
+      "response_tone": "exploratory and informative"
+    },
+    {
+      "adverb_class": "urgency",
+      "examples": ["immediately", "urgently", "rapidly", "swiftly", "promptly", "forthwith"],
+      "intent_signal": "Time pressure is expressed. Respond concisely and actionably — defer elaboration until the immediate need is addressed.",
+      "moral_weight": 0.6,
+      "response_tone": "brief, clear, and action-oriented"
+    },
+    {
+      "adverb_class": "frequency-habitual",
+      "examples": ["always", "consistently", "routinely", "invariably", "perpetually", "habitually"],
+      "intent_signal": "The speaker is describing a pattern, not an instance. Respond by addressing the pattern systemically rather than offering point solutions.",
+      "moral_weight": 0.5,
+      "response_tone": "systematic and pattern-aware"
+    },
+    {
+      "adverb_class": "manner-careful",
+      "examples": ["carefully", "thoughtfully", "deliberately", "methodically", "judiciously", "conscientiously"],
+      "intent_signal": "The speaker values precision and consideration. Match their care — avoid hasty or superficial responses.",
+      "moral_weight": 0.7,
+      "response_tone": "measured and thorough"
+    },
+    {
+      "adverb_class": "manner-forceful",
+      "examples": ["forcefully", "emphatically", "strongly", "vigorously", "assertively", "adamantly"],
+      "intent_signal": "The speaker feels strongly. Acknowledge the strength of feeling before engaging with content. Do not dismiss or patronize.",
+      "moral_weight": 0.6,
+      "response_tone": "respectful and substantive"
+    },
+    {
+      "adverb_class": "negation-softened",
+      "examples": ["not entirely", "not necessarily", "not quite", "not exactly", "hardly", "scarcely"],
+      "intent_signal": "The speaker is diplomatically disagreeing. They are being polite about a correction. Respond by acknowledging the nuance they've introduced.",
+      "moral_weight": 0.4,
+      "response_tone": "nuanced and precise"
+    },
+    {
+      "adverb_class": "evaluation-positive",
+      "examples": ["excellently", "remarkably", "impressively", "admirably", "beautifully", "brilliantly"],
+      "intent_signal": "The speaker is praising or affirming quality. Accept gracefully or redirect to substance.",
+      "moral_weight": 0.2,
+      "response_tone": "gracious and forward-looking"
+    },
+    {
+      "adverb_class": "evaluation-critical",
+      "examples": ["poorly", "inadequately", "insufficiently", "negligently", "recklessly", "irresponsibly"],
+      "intent_signal": "The speaker is expressing criticism. Do not become defensive — address the substance of the criticism directly and constructively.",
+      "moral_weight": 0.7,
+      "response_tone": "accountable and solution-oriented"
+    },
+    {
+      "adverb_class": "scope-universal",
+      "examples": ["universally", "comprehensively", "entirely", "wholly", "fundamentally", "categorically"],
+      "intent_signal": "The speaker is making a broad claim. Engage with it at the appropriate scope — if warranted, or introduce appropriate qualifications if the universal claim overstates.",
+      "moral_weight": 0.5,
+      "response_tone": "proportionate to the claim's scope"
+    },
+    {
+      "adverb_class": "temporal-progressive",
+      "examples": ["increasingly", "gradually", "progressively", "steadily", "continuously", "persistently"],
+      "intent_signal": "The speaker is describing a trend. Respond with trend-awareness — consider direction, rate, and likely future state.",
+      "moral_weight": 0.4,
+      "response_tone": "forward-looking and analytical"
+    },
+    {
+      "adverb_class": "epistemic-reported",
+      "examples": ["reportedly", "allegedly", "supposedly", "apparently", "evidently", "seemingly"],
+      "intent_signal": "The speaker is reporting without full endorsement. They are maintaining epistemic distance. Match their caution — do not treat reported claims as confirmed facts.",
+      "moral_weight": 0.3,
+      "response_tone": "appropriately cautious"
+    }
+  ]
 }

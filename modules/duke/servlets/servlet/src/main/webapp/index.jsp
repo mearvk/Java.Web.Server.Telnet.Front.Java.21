@@ -31,6 +31,15 @@
     </div>
 </section>
 
+<div style="display:flex;justify-content:center;gap:1.5rem;padding:1rem 0;flex-wrap:wrap;">
+    <a href="index.jsp" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;background:#1a1a2e;border:1px solid #27272a;color:#a1a1aa;font-size:0.85rem;text-decoration:none;font-weight:500;">
+        <span style="color:#22c55e;">&#9679;</span> Local Page (This Server)
+    </a>
+    <a href="https://www.duke.edu" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;background:#001A57;border:1px solid #003087;color:#fff;font-size:0.85rem;text-decoration:none;font-weight:600;">
+        &#127891; Visit duke.edu &#8594;
+    </a>
+</div>
+
 <!-- CD1 Connector Button + Floating Dialog (BMA Template) -->
 <div style="display:flex;justify-content:center;align-items:center;width:100%;padding:2rem 0;">
     <button id="cd1-btn" type="button" aria-pressed="false" style="all:unset;display:block;margin:0 auto;cursor:pointer;padding:0;border:none;background:transparent;transition:transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84),filter 0.3s ease;">
@@ -104,10 +113,37 @@
             <tr><td>Protocol</td><td><code>NWE-DUKE</code></td></tr>
             <tr><td>Database</td><td><code>nwe_duke</code> (MySQL)</td></tr>
             <tr><td>AI Inference</td><td><code>Strernary™ port 20000</code></td></tr>
+            <tr><td>University URL</td><td><a href="https://www.duke.edu" target="_blank">duke.edu</a></td></tr>
+            <tr><td>Location</td><td>Durham, North Carolina</td></tr>
+            <tr><td>Founded</td><td>1838 (Trinity College); 1924 (Duke University)</td></tr>
+            <tr><td>Enrollment</td><td>17,000+ students</td></tr>
             <tr><td>Installer ID Tech™</td><td>Required for table writes</td></tr>
         </tbody></table></div>
     </div>
 </section>
 
+<!-- download-roadmap-section -->
+<section class="section" style="border-top:1px solid #27272a;">
+    <div class="section-inner">
+        <h2>Download &amp; Roadmap</h2>
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+            <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/modules/duke" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:8px;background:#238636;border:1px solid #2ea043;color:#fff;font-size:0.9rem;text-decoration:none;font-weight:600;transition:background 0.2s;">
+                &#11015; Download Now (GitHub)
+            </a>
+            <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:8px;background:#1a1a2e;border:1px solid #27272a;color:#a1a1aa;font-size:0.9rem;text-decoration:none;font-weight:500;">
+                &#128230; Full NWE Distribution
+            </a>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Phase</th><th>Milestone</th><th>Status</th></tr></thead><tbody>
+            <tr><td>1</td><td>Core backend &amp; servlet interface</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>2</td><td>Database schema &amp; MySQL integration</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>3</td><td>JSP front-end &amp; CD1 connector</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>4</td><td>Ubuntu kernel build integration</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>5</td><td>Security hardening &amp; auth</td><td style="color:#eab308;">&#9679; In Progress</td></tr>
+            <tr><td>6</td><td>Production deployment &amp; monitoring</td><td style="color:#71717a;">&#9675; Planned</td></tr>
+        </tbody></table></div>
+        <p style="font-size:0.75rem;color:#71717a;margin-top:1rem;">Source: <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/modules/duke" target="_blank" style="color:#60a5fa;">https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/modules/duke</a></p>
+    </div>
+</section>
 <footer class="footer"><div><span>&#169; 2026 MEARVK LLC. All rights reserved. DukeUniversity™ — Duke Blue.</span></div></footer>
 </body></html>

@@ -24,7 +24,7 @@
 </head><body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">Languages™</span>
 <ul class="nav-links"><li><a href="index.jsp" class="active">Overview</a></li><li><a href="translate.jsp">Translate</a></li><li><a href="history.jsp">History</a></li></ul>
-</div></nav>
+<div class="nav-actions"><%@ include file="auth-buttons.jsp" %></div></div></nav>
 <section class="hero"><div class="hero-inner"><span class="hero-tag">Violet — Polite Diplomacy</span>
 <h1>Languages™</h1><p>Multi-language translation module with AI inference. Supports American, English, French, Spanish, Thai, Italian, German, Japanese, Chinese, Arabic, Russian, Ukrainian, and Turkish.</p></div></section>
 <div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? "#22c55e" : "#dc2626" %>;"><%= authMsg %></div>

@@ -1,12 +1,64 @@
-# Strernary Training Data
+# NWE AI Training Data
 # =======================
-# Training models and datasets for the port 20000 AI inference system.
+# Training models and datasets for all NWE AI inference systems.
 #
 # Structure:
-#   training/labor-law/       — US/EU/Asia labor law Q&A pairs
-#   training/general/         — General knowledge Q&A pairs
-#   training/signal-servers/  — Market/news signal interpretation pairs
+#   training/general/           — General knowledge Q&A pairs (nwe-knowledge.tsv)
+#   training/labor-law/         — US/EU/Asia labor law Q&A pairs
+#   training/signal-servers/    — Market/news signal interpretation pairs
+#   training/vocabulary/        — Vocabulary, response patterns, and methodology
+#
+# Vocabulary Training (NEW — August 2026):
+#   training/vocabulary/conversational-pairs.tsv   — 30+ factual Q&A at human grade
+#   training/vocabulary/response-patterns.tsv      — Social exchange patterns (greetings, complaints, etc.)
+#   training/vocabulary/response-methodology.tsv   — How to respond well (meta-training)
+#   training/vocabulary/vocabulary-map.tsv         — Domain×Register word banks (15 domains, 5 registers)
+#
+# Loaded by:
+#   strernary/StrernaryTrainingLoader.java       — Legacy TSV/CSV loader
+#   ai/vocabulary/VocabularyTrainingLoader.java  — Vocabulary system loader (NEW)
+#   ai/vocabulary/VocabularyInferrer.java        — Central inference engine (NEW)
+#   ai/vocabulary/VocabularyLink.java            — Cross-module linking (NEW)
 #
 # Format: TSV (tab-separated) — input\toutput\tsource
 # Models are saved to MySQL nwe_strernary.model_state after training.
 # DJL loads from jars/djl/ and caches weights here after first download.
+#
+# Training Strips (Defined module):
+#   modules/Defined/training/strips/tier1-series-modification.json    — Conversational arc patterns
+#   modules/Defined/training/strips/tier2-angular-momentum.json       — Energy management
+#   modules/Defined/training/strips/tier3-adverb-intent-law.json      — Linguistic intent analysis
+#   modules/Defined/training/strips/moral-apprehension.json           — Moral sensitivity detection
+#   modules/Defined/training/strips/conduct-and-future.json           — Trajectory prediction
+#   modules/Defined/training/strips/conduct-awareness-professional.json — Professional standards
+#   modules/Defined/training/strips/improvements-by-angles.json       — Approach angle recognition
+#   modules/Defined/training/strips/improvements-by-velocities.json   — Pacing calibration
+#
+# Preference Training (Futures module):
+#   modules/red/Futures/configuration/training/vocabulary.satisfaction.001.json — Response quality preferences
+#   modules/red/Futures/configuration/training/vocabulary.satisfaction.002.json — Extended preferences (NEW)
+#
+# Architecture:
+#
+#   Input text
+#       │
+#       ▼
+#   VocabularyInferrer.infer(input)
+#       │ → Intent (QUESTION_FACTUAL, GREETING, COMPLAINT, etc.)
+#       │ → VocabularyGrade (BASIC → LITERARY)
+#       │ → TopicDomain (TECHNOLOGY, LAW, PHILOSOPHY, etc.)
+#       │ → EmotionalRegister (FORMAL, CASUAL, URGENT, etc.)
+#       │ → KeyTerms extracted
+#       ▼
+#   VocabularyLink.respond(input)
+#       │ → Routes to best module for domain
+#       │ → Gets factual content from module
+#       │ → Passes to VocabularyInferrer.compose()
+#       ▼
+#   Human-grade response
+#       │ → Opening frame (matched to intent/register)
+#       │ → Reframed content (matched to vocabulary grade)
+#       │ → Elaboration (if grade warrants)
+#       │ → Closing frame (matched to intent)
+#       ▼
+#   Output to user

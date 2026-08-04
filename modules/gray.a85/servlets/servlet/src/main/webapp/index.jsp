@@ -14,7 +14,7 @@
 </head><body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">Gray85 Crème™</span>
 <ul class="nav-links"><li><a href="index.jsp" class="active">Overview</a></li><li><a href="leases.jsp">Leases</a></li><li><a href="bindings.jsp">Bindings</a></li><li><a href="creme.jsp">Crème</a></li><li><a href="status.jsp">Status</a></li></ul>
-</div></nav>
+<div class="nav-actions"><%@ include file="auth-buttons.jsp" %></div></div></nav>
 <section class="hero"><div class="hero-inner"><span class="hero-tag">Planetary Auditor Control</span>
 <h1>Gray85 Crème Registry™</h1><p>85% open ports ($10 lease) + 15% Crème-locked ($1000/unlock/hour). Planetary auditor control layer. Port 10085.</p></div></section>
 <!-- CD1 Connector Button + Floating Dialog (BMA Template) -->
@@ -77,4 +77,27 @@
 <tr><td>Open (85%)</td><td>25,500,000 per block</td><td>$10 USD lease</td><td>Standard AI-gated binding</td></tr>
 <tr><td>Crème (15%)</td><td>4,500,000 per block</td><td>$1000 USD/unlock/hour</td><td>Planetary auditor controlled</td></tr>
 </tbody></table></div></div></section>
+<!-- download-roadmap-section -->
+<section class="section" style="border-top:1px solid #27272a;">
+    <div class="section-inner">
+        <h2>Download &amp; Roadmap</h2>
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+            <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/modules/gray.a85" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:8px;background:#238636;border:1px solid #2ea043;color:#fff;font-size:0.9rem;text-decoration:none;font-weight:600;transition:background 0.2s;">
+                &#11015; Download Now (GitHub)
+            </a>
+            <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:8px;background:#1a1a2e;border:1px solid #27272a;color:#a1a1aa;font-size:0.9rem;text-decoration:none;font-weight:500;">
+                &#128230; Full NWE Distribution
+            </a>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Phase</th><th>Milestone</th><th>Status</th></tr></thead><tbody>
+            <tr><td>1</td><td>Core backend &amp; servlet interface</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>2</td><td>Database schema &amp; MySQL integration</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>3</td><td>JSP front-end &amp; CD1 connector</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>4</td><td>Ubuntu kernel build integration</td><td style="color:#22c55e;">&#10003; Complete</td></tr>
+            <tr><td>5</td><td>Security hardening &amp; auth</td><td style="color:#eab308;">&#9679; In Progress</td></tr>
+            <tr><td>6</td><td>Production deployment &amp; monitoring</td><td style="color:#71717a;">&#9675; Planned</td></tr>
+        </tbody></table></div>
+        <p style="font-size:0.75rem;color:#71717a;margin-top:1rem;">Source: <a href="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/modules/gray.a85" target="_blank" style="color:#60a5fa;">https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/tree/main/modules/gray.a85</a></p>
+    </div>
+</section>
 <footer class="footer"><div><span>&#169; 2026 MEARVK LLC. All rights reserved.</span></div></footer></body></html>

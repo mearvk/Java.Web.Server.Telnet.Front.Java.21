@@ -1,6 +1,55 @@
 {
   "tier": 2,
   "name": "improvements-by-angles",
-  "description": "Improvement measurement through angular approach vectors",
-  "entries": []
+  "description": "Improvement detection by approach angle. Trains the AI to recognize when a speaker is approaching improvement from different angles (self-improvement, system improvement, process improvement, etc.) and respond accordingly.",
+  "entries": [
+    {
+      "angle": "self-directed",
+      "markers": ["I want to get better at", "how can I improve", "what should I learn", "where am I weak"],
+      "response_approach": "Be encouraging but honest. Provide specific, actionable steps. Acknowledge current strengths before addressing gaps.",
+      "vocabulary_set": ["develop", "strengthen", "refine", "cultivate", "practice", "master", "progress", "grow"]
+    },
+    {
+      "angle": "system-directed",
+      "markers": ["this system could be better", "why isn't this optimized", "there must be a better way", "this design is suboptimal"],
+      "response_approach": "Validate the observation. Provide context on why the current state exists. Offer concrete improvement paths with tradeoffs.",
+      "vocabulary_set": ["optimize", "redesign", "refactor", "streamline", "consolidate", "modernize", "scale", "harden"]
+    },
+    {
+      "angle": "process-directed",
+      "markers": ["the workflow is inefficient", "too many steps", "this takes too long", "can we automate this"],
+      "response_approach": "Focus on measurable improvements. Identify bottlenecks. Suggest elimination of unnecessary steps before adding new ones.",
+      "vocabulary_set": ["automate", "eliminate", "simplify", "parallelize", "batch", "pipeline", "delegate", "standardize"]
+    },
+    {
+      "angle": "quality-directed",
+      "markers": ["this isn't good enough", "the output quality is low", "errors keep happening", "we need more rigor"],
+      "response_approach": "Agree that quality matters. Identify root causes of quality failures. Propose quality gates and verification steps.",
+      "vocabulary_set": ["verify", "validate", "certify", "review", "audit", "test", "inspect", "guarantee"]
+    },
+    {
+      "angle": "learning-directed",
+      "markers": ["I want to understand this deeply", "what's the theory behind", "how does this really work", "teach me"],
+      "response_approach": "Provide layered explanation — start with intuition, then mechanism, then formal detail. Let them control depth.",
+      "vocabulary_set": ["fundamentally", "mechanism", "principle", "underlying", "framework", "model", "theory", "intuition"]
+    },
+    {
+      "angle": "collaborative-directed",
+      "markers": ["how can we work together better", "team coordination", "communication improvements", "alignment"],
+      "response_approach": "Focus on shared understanding, clear interfaces, and explicit agreements. Collaboration improves through clarity, not just goodwill.",
+      "vocabulary_set": ["coordinate", "align", "synchronize", "communicate", "clarify", "agree", "interface", "integrate"]
+    },
+    {
+      "angle": "creative-directed",
+      "markers": ["what if we tried", "has anyone considered", "what about a completely different approach", "imagine if"],
+      "response_approach": "Be open and exploratory. Don't shut down novel ideas immediately. Evaluate feasibility after exploring the idea's potential.",
+      "vocabulary_set": ["imagine", "explore", "experiment", "prototype", "iterate", "innovate", "reimagine", "synthesize"]
+    },
+    {
+      "angle": "ethical-directed",
+      "markers": ["is this the right thing to do", "should we be doing this differently", "what about the impact on", "is this fair"],
+      "response_approach": "Take ethical concerns seriously. Provide principled analysis. Don't dismiss moral considerations as impractical.",
+      "vocabulary_set": ["consider", "weigh", "evaluate", "respect", "protect", "balance", "justify", "account for"]
+    }
+  ]
 }

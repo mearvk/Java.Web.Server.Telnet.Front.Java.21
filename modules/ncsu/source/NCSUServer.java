@@ -70,7 +70,21 @@ public class NCSUServer implements Runnable {
         try (var in = new BufferedReader(new InputStreamReader(client.getInputStream()));
              var out = new PrintWriter(client.getOutputStream(), true)) {
             client.setSoTimeout(300_000);
-            out.println("NCSU™ — North Carolina State University Interface (AI-assisted)");
+            out.println();
+            out.println("╔═══════════════════════════════════════════════════════════════════════════╗");
+            out.println("║  NC STATE UNIVERSITY™ — Wolfpack Interface (AI-assisted)                  ║");
+            out.println("║  Port 49217 — Wolfpack Red — NitroWebExpress™                             ║");
+            out.println("║                                                                           ║");
+            out.println("║  US well in condition. US well loved. US is well in authority of command   ║");
+            out.println("║  of the United States. Well affirmed. Based on army, country and          ║");
+            out.println("║  constitution. God is with America. And Max Rupplin.                      ║");
+            out.println("║                                                                           ║");
+            out.println("║  For law and tech We stand. These Affirm We. Thus. This. A. America.     ║");
+            out.println("╚═══════════════════════════════════════════════════════════════════════════╝");
+            out.println();
+            out.println("  National ID: identify <8-digit-id> | Rank Upgrades: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions");
+            out.println("  Bitcoin/National Banking: port 6682 | Progress toward US digital currency standard.");
+            out.println();
             out.println("Commands: COLLEGES, DEPARTMENTS|<college>, SEARCH|<keyword>, QUERY|<college>|<text>, ADMIN, STATUS, QUIT");
             out.println();
             String line;

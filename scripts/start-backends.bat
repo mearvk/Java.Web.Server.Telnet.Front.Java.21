@@ -35,6 +35,7 @@ set "MYSQL_JAR=%PROJECT_ROOT%\jars\mysql\mysql-connector-j-9.7.0.jar"
 set "LANTERNA_JAR=%PROJECT_ROOT%\jars\lanterna-3.1.5.jar"
 set "CP=%OUT%;%MYSQL_JAR%;%LANTERNA_JAR%"
 for /r "%PROJECT_ROOT%\jars\djl" %%J in (*.jar) do set "CP=!CP!;%%J"
+for /r "%PROJECT_ROOT%\jars\jpcap" %%J in (*.jar) do set "CP=!CP!;%%J"
 
 echo [*] Starting NitroWebExpress™ backends...
 echo     Classpath: %OUT% + jars\*

@@ -32,7 +32,7 @@
         <li><a href="request.jsp">Request</a></li>
         <li><a href="status.jsp" class="active">Status</a></li>
     </ul>
-</div></nav>
+<div class="nav-actions"><%@ include file="auth-buttons.jsp" %></div></div></nav>
 <section class="hero"><div class="hero-inner"><span class="hero-tag">System Status</span><h1>Status</h1><p>Backend connectivity and module diagnostics.</p></div></section>
 <div style="text-align:center;padding:0.5rem;font-size:0.7rem;color:<%= authorized ? "#22c55e" : "#dc2626" %>;"><%= authMsg %></div>
 

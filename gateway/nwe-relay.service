@@ -1,0 +1,18 @@
+[Unit]
+Description=NWE Relay — Central Console for Home Deployments
+Documentation=https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21
+After=network-online.target nginx.service sshd.service
+Wants=network-online.target
+Requires=nginx.service sshd.service
+
+[Service]
+Type=forking
+ExecStartPre=/usr/local/bin/nwe-relay setup
+ExecStart=/usr/local/bin/nwe-relay start
+ExecStop=/usr/local/bin/nwe-relay stop
+PIDFile=/var/lib/nwe/relay/relay.pid
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -20,7 +20,7 @@
         <li><a href="languages.jsp">Languages</a></li>
         <li><a href="status.jsp" class="active">Status</a></li>
     </ul>
-</div></nav>
+<div class="nav-actions"><%@ include file="auth-buttons.jsp" %></div></div></nav>
 
 <section class="hero" style="padding:4rem 2rem;">
     <div class="hero-inner">

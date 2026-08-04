@@ -11,7 +11,8 @@ OUT="$ROOT/out"
 mkdir -p "$OUT"
 
 DJL_CP=$(find "$ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
-CP="$OUT:$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:${DJL_CP}$ROOT/jars/lanterna-3.1.5.jar"
+JPCAP_CP=$(find "$ROOT/jars/jpcap" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$OUT:$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:${DJL_CP}${JPCAP_CP}$ROOT/jars/lanterna-3.1.5.jar"
 
 echo "═══════════════════════════════════════════════════════════════"
 echo " NWE — Compile All Modules"

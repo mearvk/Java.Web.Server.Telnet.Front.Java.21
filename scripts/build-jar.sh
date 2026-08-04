@@ -18,7 +18,8 @@ echo "ROOT: $ROOT"
 echo "[1/3] Compiling sources..."
 mkdir -p "$OUT"
 DJL_CP=$(find "$DJL_DIR" -name "*.jar" 2>/dev/null | tr '\n' ':')
-CP="$OUT:$MYSQL_JAR:${DJL_CP}$LANTERNA_JAR"
+JPCAP_CP=$(find "$ROOT/jars/jpcap" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$OUT:$MYSQL_JAR:${DJL_CP}${JPCAP_CP}$LANTERNA_JAR"
 
 find "$SRC" -name "*.java" > /tmp/nwe-sources.txt
 javac --release 21 -cp "$CP" -sourcepath "$SRC" -d "$OUT" @/tmp/nwe-sources.txt 2>&1
@@ -40,6 +41,11 @@ done
 
 # DJL jars (excluding the huge native blob — that stays external)
 for dep in $(find "$DJL_DIR" -name "*.jar" ! -name "*native*" 2>/dev/null); do
+    unzip -qo "$dep" -d "$STAGING" -x 'META-INF/MANIFEST.MF' 'META-INF/*.SF' 'META-INF/*.RSA' 'META-INF/*.DSA'
+done
+
+# Jpcap (network packet capture library)
+for dep in $(find "$ROOT/jars/jpcap" -name "*.jar" 2>/dev/null); do
     unzip -qo "$dep" -d "$STAGING" -x 'META-INF/MANIFEST.MF' 'META-INF/*.SF' 'META-INF/*.RSA' 'META-INF/*.DSA'
 done
 

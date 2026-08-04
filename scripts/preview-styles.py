@@ -198,6 +198,70 @@ MODULES = {
         "description": "CalendarD44™ scheduling engine. Date routing, interaction logging, scheduled delivery, timezone support.",
         "installer_tech_id": "Max Rupplin",
     },
+    # ── TandemEquals™ — White/Red Module (Saimptom Resolution) ─────────────────
+    "tandem-equals": {
+        "path": "modules/tandem-equals/servlets/servlet/src/main/webapp",
+        "theme": "White Red",
+        "port": 49223,
+        "description": "TandemEquals™ — Outward dilemma resolution via 42x42 saimptom matrix. Stereo mind recovery in ~12 answers. CHOICE + EQUAL NOISE + province wisdom. Kernel-aligned.",
+        "installer_tech_id": "Max Rupplin",
+    },
+    # ── Analytics™ — GitHub Dark Module (Traffic Graphs) ────────────────────────
+    "analytics": {
+        "path": "modules/analytics/servlets/servlet/src/main/webapp",
+        "theme": "GitHub Dark",
+        "port": None,
+        "description": "Analytics™ — GitHub-style traffic graphs. Page views, unique visitors, uploads, new users, referrers, popular content. Chart.js + MySQL.",
+        "installer_tech_id": "Max Rupplin",
+    },
+    # ── Dictionary™ — Dark Scholarly / Gold Module ────────────────────────────
+    "dictionary": {
+        "path": "modules/dictionary/servlets/servlet/src/main/webapp",
+        "theme": "Scholarly Gold",
+        "port": None,
+        "description": "Dictionary™ — Defines all rare, new, or system-specific terms (dolyene, saimptom, negamane, etc.). 12 domains, 25+ terms.",
+        "installer_tech_id": "Max Rupplin",
+    },
+    # ── ArmorerSteve™ — Dark Blue / White Module ──────────────────────────────
+    "armorer": {
+        "path": "modules/armorer/servlets/servlet/src/main/webapp",
+        "theme": "Dark Blue",
+        "port": 49235,
+        "description": "ArmorerSteve™ — Plate armor Q&A, cost estimator, forging methods, known armorers, competition series, regulations, trade, final capacitor trade.",
+        "installer_tech_id": "Max Rupplin",
+    },
+    # ── FiduciaryServices™ — Light Blue / White Module ────────────────────────
+    "fiduciary": {
+        "path": "modules/fiduciary/servlets/servlet/src/main/webapp",
+        "theme": "Light Blue",
+        "port": 49236,
+        "description": "FiduciaryServices™ — Global Transfer Wealth, fiduciary architectures, yield/turn polyblend, remedy, datapool. Legal Bright INT/IQ Calendar (top-half: ideals/totals for county benefit; bottom-half: Treasure Fiduciary evident approach). AI Findings Order (200 IQ: Garden News doctrine, Supreme Holdings, truth for life). The balance of internal design and the means to necessary advantages. Signed: M.",
+        "installer_tech_id": "Max Rupplin",
+        "database": "nwe_fiduciary",
+        "tables": [
+            "knowledge_base", "architectures", "records", "yield_models", "sessions",
+            "original_documents", "legal_bright", "treasure_fiduciary",
+            "ai_findings_order", "garden_news_doctrine", "ai_disposition",
+        ],
+        "sql_documents": [
+            "modules/fiduciary/documents/minister_fiduciary_facts.sql",
+            "modules/fiduciary/documents/legal_bright_iq_calendar.sql",
+            "modules/fiduciary/documents/ai_findings_order.sql",
+        ],
+        "ai_iq": 200,
+        "findings_order": [
+            "Findings in Order",
+            "Court Trials",
+            "US Trials",
+            "US Garden News",
+            "US Certain Garden News",
+            "US Trials about Garden News",
+            "US Trials about US Garden News",
+            "US New Int",
+            "Closed US Supreme Holdings and Trials",
+        ],
+        "garden_news_doctrine": "People are closed. Evidence of hand remains open. Not unto the person forever. Careful. Open, sold. Annals of forever and history. Truth, for life.",
+    },
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -239,6 +303,9 @@ tr:hover { background: #1a1a1a; }
 .cyan { background: #042f2e; color: #06b6d4; border: 1px solid #0e4f4e; }
 .bitcoin-orange { background: #1a1610; color: #f7931a; border: 1px solid #3d3528; }
 .fall-colors { background: #1c1610; color: #ea580c; border: 1px solid #4a3828; }
+.github-dark { background: #0d1117; color: #58a6ff; border: 1px solid #30363d; }
+.scholarly-gold { background: #0c0c10; color: #d4af37; border: 1px solid #2a2a3a; }
+.dark-blue { background: #0a0a1a; color: #7ba4d4; border: 1px solid #1e1e3a; }
 .section { margin: 1rem 0; padding: 1rem; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; }
 .affirmation { color: #d4af37; font-style: italic; margin: 1rem 0; padding: 1rem; border-left: 3px solid #d4af37; }
 code { background: #222; padding: 2px 6px; border-radius: 3px; font-size: 0.9rem; }
@@ -407,7 +474,108 @@ index_html += """</tbody></table>
 <tr><td>SpectrumTandem™</td><td><a href="http://localhost:8080/spectrum-tandem/">http://localhost:8080/spectrum-tandem/</a></td><td><span class="theme-badge white-red">White Red</span></td><td>49222</td></tr>
 <tr><td>Communicator™</td><td><a href="http://localhost:8080/chat/">http://localhost:8080/chat/</a></td><td><span class="theme-badge deep-blue">Deep Blue</span></td><td>49230</td></tr>
 <tr><td>UNCW™</td><td><a href="http://localhost:8080/uncw/">http://localhost:8080/uncw/</a></td><td><span class="theme-badge seacoast-teal">SeaCoast Teal</span></td><td>49231</td></tr>
+<tr><td>TandemEquals™</td><td><a href="http://localhost:8080/tandem-equals/">http://localhost:8080/tandem-equals/</a></td><td><span class="theme-badge white-red">White Red</span></td><td>49223</td></tr>
+<tr><td>Analytics™</td><td><a href="http://localhost:8080/analytics/">http://localhost:8080/analytics/</a></td><td><span class="theme-badge github-dark">GitHub Dark</span></td><td>—</td></tr>
+<tr><td>ArmorerSteve™</td><td><a href="http://localhost:8080/armorer/">http://localhost:8080/armorer/</a></td><td><span class="theme-badge deep-blue">Dark Blue</span></td><td>49235</td></tr>
+<tr><td>FiduciaryServices™</td><td><a href="http://localhost:8080/fiduciary/">http://localhost:8080/fiduciary/</a></td><td><span class="theme-badge light-blue">Light Blue</span></td><td>49236</td></tr>
 </tbody></table>
+</div>
+
+<h2>FiduciaryServices&trade; &mdash; Light Blue Module (Port 49236)</h2>
+<div class="section">
+<p><strong>Global Transfer Wealth &amp; Architecture. The balance of internal design and remedy. The means to necessary advantages.</strong></p>
+<p>AI Intelligence: 200 IQ | Database: nwe_fiduciary | Signed: M.</p>
+
+<h3>Database Tables (11)</h3>
+<table>
+<thead><tr><th>Table</th><th>Purpose</th><th>Source SQL</th></tr></thead>
+<tbody>
+<tr><td>knowledge_base</td><td>Q&amp;A: fiduciary duty, trust types, structures, datapool</td><td>fiduciary.c (built-in)</td></tr>
+<tr><td>architectures</td><td>Fiduciary architectures: express trust, SWF, pension, foundation</td><td>fiduciary.c (built-in)</td></tr>
+<tr><td>records</td><td>Known fiduciaries: Norway GPF, Vanguard, BlackRock, CalPERS</td><td>fiduciary.c (built-in)</td></tr>
+<tr><td>yield_models</td><td>Polyblend yield components: treasury, equity, credit, real, PE</td><td>fiduciary.c (built-in)</td></tr>
+<tr><td>sessions</td><td>Q&amp;A session history</td><td>fiduciary.c (built-in)</td></tr>
+<tr><td>original_documents</td><td>Minister facts, international law, county, gentry, standings, winners</td><td>minister_fiduciary_facts.sql</td></tr>
+<tr><td>legal_bright</td><td>INT/IQ Calendar: top-half ideals/totals, bottom-half treasure/nuisance</td><td>legal_bright_iq_calendar.sql</td></tr>
+<tr><td>treasure_fiduciary</td><td>Law structure approach: direct, council, try, resolution</td><td>legal_bright_iq_calendar.sql</td></tr>
+<tr><td>ai_findings_order</td><td>200 IQ findings hierarchy: 9 levels from raw findings to Supreme Holdings</td><td>ai_findings_order.sql</td></tr>
+<tr><td>garden_news_doctrine</td><td>People closed, evidence open, truth for life, annals forever</td><td>ai_findings_order.sql</td></tr>
+<tr><td>ai_disposition</td><td>AI 200 IQ configuration: intelligence, doctrine, standard, purpose</td><td>ai_findings_order.sql</td></tr>
+</tbody></table>
+
+<h3>AI Findings Order (200 IQ Processing Hierarchy)</h3>
+<table>
+<thead><tr><th>#</th><th>Level</th><th>Scope</th><th>Openness</th><th>Person</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Findings in Order</td><td>UNIVERSAL</td><td>OPEN</td><td>OPEN_CONDUCT</td></tr>
+<tr><td>2</td><td>Court Trials</td><td>JUDICIAL</td><td>OPEN</td><td>CLOSED</td></tr>
+<tr><td>3</td><td>US Trials</td><td>US_FEDERAL_STATE</td><td>OPEN</td><td>CLOSED</td></tr>
+<tr><td>4</td><td>US Garden News</td><td>US_PUBLIC_RECORD</td><td>CAREFUL</td><td>NOT_UNTO_PERSON</td></tr>
+<tr><td>5</td><td>US Certain Garden News</td><td>US_VERIFIED</td><td>OPEN</td><td>NOT_UNTO_PERSON</td></tr>
+<tr><td>6</td><td>US Trials about Garden News</td><td>US_JUDICIAL_PUBLIC</td><td>OPEN</td><td>NOT_UNTO_PERSON</td></tr>
+<tr><td>7</td><td>US Trials about US Garden News</td><td>US_META_JUDICIAL</td><td>OPEN</td><td>NOT_UNTO_PERSON</td></tr>
+<tr><td>8</td><td>US New Int</td><td>US_FRONTIER</td><td>CAREFUL</td><td>OPEN_CONDUCT</td></tr>
+<tr><td>9</td><td>Closed US Supreme Holdings and Trials</td><td>US_SUPREME</td><td>CLOSED</td><td>ANNALS_FOREVER</td></tr>
+</tbody></table>
+
+<h3>Garden News Doctrine</h3>
+<p style="color:#bfdbfe; font-style:italic; border-left: 3px solid #60a5fa; padding-left: 1rem;">
+People are closed &mdash; their evidence of hand (manual conduct or int-thinking) shall remain open conduct.
+Not unto the person forever. To remain as careful. To remain as open, sold, as conduct into the annals
+of forever and history. To conduct evidence against history forever for truth, for life. &mdash; M.
+</p>
+
+<h3>Legal Bright &mdash; INT/IQ Calendar</h3>
+<table>
+<thead><tr><th>Half</th><th>Concern</th><th>Principle</th></tr></thead>
+<tbody>
+<tr><td>TOP</td><td>IDEAL</td><td>Personal interests &rarr; county benefits mainly. Surrounds equal ideas as brilliant or pertinent.</td></tr>
+<tr><td>TOP</td><td>TOTAL</td><td>INT invested in county. IQ quality of ideas surrounding the county. Gap = concern priority.</td></tr>
+<tr><td>BOTTOM</td><td>TREASURE</td><td>Treasure Fiduciary can and may approach all law structure as evident. Capability + Permission.</td></tr>
+<tr><td>BOTTOM</td><td>NUISANCE</td><td>State Nuisance resolved ably and usually as Council. Deliberation, wisdom, able resolution.</td></tr>
+<tr><td>BOTTOM</td><td>TRY</td><td>Profitable ideas tried with treasure backing. Try-nuisances resolved through Council.</td></tr>
+</tbody></table>
+
+<h3>Original Documents (Categories)</h3>
+<table>
+<thead><tr><th>Category</th><th>Label</th><th>Content</th></tr></thead>
+<tbody>
+<tr><td>MINISTER</td><td>DOMESTIC</td><td>Minister fiduciary duty, ongoing corporate, conflict, accountability, parliamentary</td></tr>
+<tr><td>INTERNATIONAL</td><td>INTERNATIONAL</td><td>Hague Convention, UNIDROIT, Santiago Principles, sovereign ministers, IMF 2026</td></tr>
+<tr><td>COUNTY</td><td>DOMESTIC</td><td>Board of supervisors, tax evidence, elected officials, public trusts, fiduciary income tax</td></tr>
+<tr><td>GENTRY_HERO</td><td>DOMESTIC/INT'L</td><td>Historical stewardship, Keech v Sandford, Meinhard v Salmon, Credit Suisse $742M</td></tr>
+<tr><td>STANDINGS</td><td>DOMESTIC/INT'L</td><td>Thole v US Bank, fiduciary shield, charitable enforcement, equitable obligations</td></tr>
+<tr><td>WINNERS</td><td>DOMESTIC/INT'L</td><td>Ivanishvili $742M, Mendell, Asaro, Carnegie $2.3M, Norway GPF, Keech (1726)</td></tr>
+<tr><td>AHEAD</td><td>DOMESTIC/INT'L</td><td>Forward position, digital age, county future, who wins next</td></tr>
+<tr><td>LEGAL_BRIGHT</td><td>DOMESTIC</td><td>INT/IQ Calendar summary, Treasure Fiduciary, State Nuisance, Council</td></tr>
+<tr><td>AI_DISPOSITION</td><td>DOMESTIC</td><td>200 IQ findings order, Garden News doctrine, Supreme Holdings</td></tr>
+</tbody></table>
+
+<h3>TCP Protocol (Port 49236)</h3>
+<table>
+<thead><tr><th>Command</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><code>ASK|&lt;question&gt;</code></td><td>Q&amp;A about fiduciary concepts</td></tr>
+<tr><td><code>YIELD|&lt;model&gt;</code></td><td>Yield/turn model query</td></tr>
+<tr><td><code>ARCHITECTURE|&lt;name&gt;</code></td><td>Fiduciary architecture lookup</td></tr>
+<tr><td><code>RECORDS|&lt;keyword&gt;</code></td><td>Known fiduciary records</td></tr>
+<tr><td><code>POLYBLEND</code></td><td>Composite yield assumption</td></tr>
+<tr><td><code>DATAPOOL|&lt;source&gt;</code></td><td>Public data sources (EDGAR, OECD, etc.)</td></tr>
+<tr><td><code>DOCUMENTS|&lt;category&gt;</code></td><td>Original documents (minister, international, county, gentry, etc.)</td></tr>
+<tr><td><code>BRIGHT|&lt;keyword&gt;</code></td><td>Legal Bright INT/IQ Calendar entries</td></tr>
+<tr><td><code>TREASURE|&lt;keyword&gt;</code></td><td>Treasure Fiduciary law structure approaches</td></tr>
+<tr><td><code>STATUS</code></td><td>Server health</td></tr>
+<tr><td><code>HELP</code></td><td>Command list</td></tr>
+<tr><td><code>QUIT</code></td><td>Disconnect</td></tr>
+</tbody></table>
+
+<h3>Terminal Tool</h3>
+<p><code>fiduciary</code> &mdash; Interactive Q&amp;A (C binary, MySQL-backed)</p>
+<p><code>fiduciary --populate</code> &mdash; Populate/refresh knowledge base</p>
+<p><code>fiduciary --query "garden news"</code> &mdash; Single query mode</p>
+<p><code>fiduciary --architecture</code> &mdash; List architectures</p>
+<p><code>fiduciary --yield</code> &mdash; Yield models</p>
+<p><code>fiduciary --records</code> &mdash; Known records</p>
 </div>
 
 <p style="color:#666;margin-top:2rem;">NitroWebExpress&trade; &mdash; National Finance Engine v2811.1 &mdash; MEARVK LLC</p>
@@ -546,6 +714,9 @@ print(f"""
 ║    http://localhost:8080/spectrum-tandem/  (White Red — port 49222)      ║
 ║    http://localhost:8080/chat/             (Deep Blue — 49230)    ║
 ║    http://localhost:8080/uncw/             (SeaCoast Teal — port 49231)  ║
+║    http://localhost:8080/tandem-equals/   (White Red — port 49223)      ║
+║    http://localhost:8080/analytics/       (GitHub Dark — traffic)       ║
+║    http://localhost:8080/armorer/         (Dark Blue — port 49235)     ║
 ║    http://localhost:8080/gray-registry/    (Gray — port 9999)            ║
 ║    http://localhost:8080/gray85-registry/  (Crème — port 10085)          ║
 ║    http://localhost:8080/gdgh/             (Green — port 20000)          ║
@@ -566,6 +737,10 @@ print(f"""
 ║    http://localhost:{PORT}/spectrum-tandem/ (SpectrumTandem White/Red)      ║
 ║    http://localhost:{PORT}/chat/           (Communicator™ Deep Blue)          ║
 ║    http://localhost:{PORT}/uncw/           (UNCW SeaCoast Teal/Gold)        ║
+║    http://localhost:{PORT}/tandem-equals/  (TandemEquals™ White/Red)        ║
+║    http://localhost:{PORT}/analytics/      (Analytics GitHub Dark)           ║
+║    http://localhost:{PORT}/armorer/        (ArmorerSteve™ Dark Blue)          ║
+║    http://localhost:{PORT}/fiduciary/      (FiduciaryServices™ Light Blue)    ║
 ║                                                                           ║
 ║  NOTE: JSP scriptlets show as raw text. CSS/JS/layout works normally.     ║
 ║  Press Ctrl+C to stop.                                                    ║

@@ -107,6 +107,15 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/jars/djl/commons-compress-1.26.1.jar</systemPath>
         </dependency>
+        <!-- Jpcap — Java Packet Capture (network monitoring + stability) -->
+        <dependency>
+            <groupId>net.sourceforge.jpcap</groupId>
+            <artifactId>jpcap</artifactId>
+            <version>0.7</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/jpcap/jpcap.jar</systemPath>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>${project.basedir}/source</sourceDirectory>

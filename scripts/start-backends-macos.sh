@@ -33,7 +33,8 @@ fi
 MYSQL_JAR="$PROJECT_ROOT/jars/mysql/mysql-connector-j-9.7.0.jar"
 LANTERNA_JAR="$PROJECT_ROOT/jars/lanterna-3.1.5.jar"
 DJL_CP=$(find "$PROJECT_ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
-CP="$OUT:$MYSQL_JAR:${DJL_CP}$LANTERNA_JAR"
+JPCAP_CP=$(find "$PROJECT_ROOT/jars/jpcap" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$OUT:$MYSQL_JAR:${DJL_CP}${JPCAP_CP}$LANTERNA_JAR"
 
 echo "[*] Starting NitroWebExpress™ backends..."
 echo "    JAVA_HOME: $JAVA_HOME"

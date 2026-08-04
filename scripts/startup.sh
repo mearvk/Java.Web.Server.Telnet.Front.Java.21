@@ -6,7 +6,8 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 # Build classpath (include DJL jars if present)
 DJL_CP=$(find "$ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
-CP="$ROOT/out:$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:${DJL_CP}$ROOT/jars/lanterna-3.1.5.jar"
+JPCAP_CP=$(find "$ROOT/jars/jpcap" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$ROOT/out:$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:${DJL_CP}${JPCAP_CP}$ROOT/jars/lanterna-3.1.5.jar"
 
 # Run as root if apache-root is under /var/www (requires root to create/write).
 # If already root, just exec directly.

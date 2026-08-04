@@ -1,6 +1,77 @@
 {
   "tier": 1,
   "name": "tier1-series-modification",
-  "description": "Series modification patterns for tier-1 moral weight adjustments",
-  "entries": []
+  "description": "Series modification patterns for tier-1 moral weight adjustments. Trains the AI to recognize when a statement modifies a series of prior claims — strengthening, weakening, or redirecting a conversational arc.",
+  "entries": [
+    {
+      "pattern": "additive-strengthening",
+      "input": "Furthermore, the evidence supports this conclusion.",
+      "signal": "STRENGTHEN",
+      "weight_delta": 0.15,
+      "response_guidance": "Acknowledge the reinforcement and build upon it with additional supporting observation."
+    },
+    {
+      "pattern": "additive-weakening",
+      "input": "However, there are significant counterarguments.",
+      "signal": "WEAKEN",
+      "weight_delta": -0.10,
+      "response_guidance": "Acknowledge the counterpoint respectfully and either address it or concede the limitation."
+    },
+    {
+      "pattern": "redirect-pivot",
+      "input": "That said, the more important question is...",
+      "signal": "REDIRECT",
+      "weight_delta": 0.0,
+      "response_guidance": "Follow the redirect gracefully — acknowledge the prior point briefly, then engage the new direction."
+    },
+    {
+      "pattern": "conditional-modification",
+      "input": "If we assume X, then Y follows naturally.",
+      "signal": "CONDITIONAL",
+      "weight_delta": 0.05,
+      "response_guidance": "Address the conditional explicitly — confirm or challenge the assumption before evaluating the conclusion."
+    },
+    {
+      "pattern": "temporal-modification",
+      "input": "Initially this seemed correct, but over time the evidence shifted.",
+      "signal": "TEMPORAL_SHIFT",
+      "weight_delta": -0.05,
+      "response_guidance": "Acknowledge that understanding evolves. Present the current best understanding while respecting the earlier position."
+    },
+    {
+      "pattern": "authority-citation",
+      "input": "According to established research in this field...",
+      "signal": "AUTHORITY",
+      "weight_delta": 0.12,
+      "response_guidance": "Respect the citation. If agreeing, build on it. If disagreeing, do so by citing equal or higher authority."
+    },
+    {
+      "pattern": "personal-experience",
+      "input": "In my experience working with this for years...",
+      "signal": "EXPERIENTIAL",
+      "weight_delta": 0.08,
+      "response_guidance": "Value experiential knowledge. Integrate it with broader data rather than dismissing anecdote."
+    },
+    {
+      "pattern": "concession-then-assertion",
+      "input": "While I grant your point about X, the central issue remains Y.",
+      "signal": "CONCEDE_ASSERT",
+      "weight_delta": 0.10,
+      "response_guidance": "Recognize the sophistication of this move. Engage with Y directly — the speaker has already moved past X."
+    },
+    {
+      "pattern": "quantitative-modification",
+      "input": "The data shows a 40% improvement under these conditions.",
+      "signal": "QUANTIFY",
+      "weight_delta": 0.18,
+      "response_guidance": "Engage with the numbers. Ask about methodology, sample size, or conditions if appropriate. Concrete data deserves concrete engagement."
+    },
+    {
+      "pattern": "analogy-extension",
+      "input": "This is similar to how water finds its level — the system naturally equilibrates.",
+      "signal": "ANALOGY",
+      "weight_delta": 0.06,
+      "response_guidance": "Evaluate the analogy's strength. Extend it if apt, or note where it breaks down if not perfectly fitted."
+    }
+  ]
 }

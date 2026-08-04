@@ -28,12 +28,14 @@
     <property name="djl.dir" value="${jars.dir}/djl"/>
     <property name="mysql.jar" value="${jars.dir}/mysql/mysql-connector-j-9.7.0.jar"/>
     <property name="lanterna.jar" value="${jars.dir}/lanterna-3.1.5.jar"/>
+    <property name="jpcap.dir" value="${jars.dir}/jpcap"/>
     <property name="java.release" value="25"/>
     <property name="repo.url" value="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21"/>
 
     <!-- Classpath -->
     <path id="compile.classpath">
         <fileset dir="${djl.dir}" includes="*.jar" erroronmissingdir="false"/>
+        <fileset dir="${jpcap.dir}" includes="*.jar" erroronmissingdir="false"/>
         <pathelement location="${mysql.jar}"/>
         <pathelement location="${lanterna.jar}"/>
         <pathelement location="${out.dir}"/>
@@ -70,6 +72,7 @@
             <zipgroupfileset dir="${jars.dir}/mysql" includes="mysql-connector-j-9.7.0.jar"/>
             <zipgroupfileset file="${lanterna.jar}"/>
             <zipgroupfileset dir="${djl.dir}" includes="*.jar" excludes="*native*"/>
+            <zipgroupfileset dir="${jpcap.dir}" includes="*.jar" erroronmissingdir="false"/>
         </jar>
         <echo message="Built ${jar.file} (${jar.file})"/>
     </target>

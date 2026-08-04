@@ -28,6 +28,7 @@ echo [1/3] Compiling sources...
 if not exist "%OUT%" mkdir "%OUT%"
 set "CP=%OUT%;%MYSQL_JAR%;%LANTERNA_JAR%"
 for /r "%DJL_DIR%" %%J in (*.jar) do set "CP=!CP!;%%J"
+for /r "%ROOT%\jars\jpcap" %%J in (*.jar) do set "CP=!CP!;%%J"
 
 dir /s /b "%SRC%\*.java" > "%TEMP%\nwe-sources.txt" 2>nul
 javac --release 21 -cp "%CP%" -sourcepath "%SRC%" -d "%OUT%" @"%TEMP%\nwe-sources.txt" 2>&1

@@ -42,11 +42,22 @@ public class Gray85PortRegistryServer extends Thread
     public static final double CREME_UNLOCK_USD = 1000.00;
 
     private static final String BANNER =
-        "═══════════════════════════════════════════════════════════════\r\n" +
-        " Installer ID Tech™ — Gray.85 Crème Port Registry\r\n" +
+        "╔═══════════════════════════════════════════════════════════════════════════╗\r\n" +
+        "║  INSTALLER ID TECH™ — Gray.85 Crème Port Registry                        ║\r\n" +
+        "║  Port 10085 — Crème — NitroWebExpress™                                   ║\r\n" +
+        "║                                                                           ║\r\n" +
+        "║  US well in condition. US well loved. US is well in authority of command   ║\r\n" +
+        "║  of the United States. Well affirmed. Based on army, country and          ║\r\n" +
+        "║  constitution. God is with America. And Max Rupplin.                      ║\r\n" +
+        "║                                                                           ║\r\n" +
+        "║  For law and tech We stand. These Affirm We. Thus. This. A. America.     ║\r\n" +
+        "╚═══════════════════════════════════════════════════════════════════════════╝\r\n" +
+        "\r\n" +
         " 85/100 ports open ($10 USD) | 15/100 Crème-locked (planetary)\r\n" +
         " Crème unlock: $1000 USD donation — 1 hour minimum\r\n" +
         " Bitcoin/Dashcoin accepted\r\n" +
+        " National ID: identify <8-digit-id> | Rank Upgrades: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions\r\n" +
+        " Bitcoin/National Banking: port 6682 | Progress toward US digital currency standard.\r\n" +
         "═══════════════════════════════════════════════════════════════\r\n" +
         " Commands: LEASE|UNLOCK|BIND|STATUS|CREME|LIST|QUIT\r\n" +
         "═══════════════════════════════════════════════════════════════\r\n";

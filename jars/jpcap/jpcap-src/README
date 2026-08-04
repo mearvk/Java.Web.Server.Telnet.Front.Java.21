@@ -1,0 +1,110 @@
+JPCAP
+=======================
+
+
+Build and run
+-------------
+
+The repo ships a Maven wrapper that downloads Maven 3.9.9 on first use.
+
+    ./mvnw package           # compile + test + jar; produces target/jpcap-*.jar
+    ./mvnw test              # tests only (47 unit tests)
+
+Requirements: JDK 21 or later on PATH, plus libpcap (Linux/macOS) or
+Npcap (Windows) at runtime for live capture.
+
+
+GUI capture tool (live)
+-----------------------
+
+    CP="target/classes:$(./mvnw -q dependency:build-classpath -Dmdep.outputFile=/dev/stdout 2>/dev/null | tail -1)"
+    sudo java -cp "$CP" net.sourceforge.jpcap.client.CaptureTool
+
+A Swing window opens (network graph) and the terminal shows a
+`CaptureTool>` prompt. Useful commands:
+
+    device en0          # pick a NIC (autodetect runs first)
+    filter tcp port 443 # optional BPF filter
+    capture 100         # capture 100 packets
+    capture -1          # capture forever (Ctrl-C to stop)
+    status              # show device, filter, snaplen, ...
+    help                # full list
+    exit                # quit
+
+
+Headless one-shot
+-----------------
+    
+    sudo java -cp "$CP" net.sourceforge.jpcap.tutorial.sniff.Sniff en0 10
+    sudo java -cp "$CP" net.sourceforge.jpcap.tutorial.sniff.Sniff en0 50 "tcp port 443"
+
+
+No-root option (Linux)
+----------------------
+
+    sudo setcap cap_net_raw,cap_net_admin=eip "$(readlink -f $(which java))"
+
+Run as the original user afterwards. Re-run setcap if you replace
+the JRE binary.
+
+
+No-root option (macOS)
+----------------------
+
+    sudo dseditgroup -o edit -a $USER -t user access_bpf
+    # log out / back in for the group change to take effect
+
+
+Simulator mode (no root, no libpcap)
+------------------------------------
+
+Launch CaptureTool with `-Dnet.sourceforge.jpcap.simulator=true` (or
+drop a `tool.properties` containing that key into the cwd) and it
+will synthesise traffic instead of opening a real device. Handy for
+demoing the GUI without privileges.
+
+
+Configuration overrides
+-----------------------
+
+Every Settings value is baked in as a code-level default; the
+project ships no `.properties` files. To override colours, canvas
+size, simulator probabilities etc., drop a `tool.properties` /
+`simulator.properties` into one of:
+
+  -Dnet.sourceforge.jpcap.properties.path=/some/dir
+  ~/properties/
+
+or on the classpath. See the JavaDoc on
+`net.sourceforge.jpcap.client.Settings` and
+`net.sourceforge.jpcap.simulator.Settings` for the keys.
+
+
+Using as a library
+------------------
+
+    import net.sourceforge.jpcap.capture.PacketCapture;
+    import net.sourceforge.jpcap.net.Packet;
+
+    PacketCapture pcap = new PacketCapture();
+    String dev = pcap.findDevice();
+    pcap.open(dev, true);
+    pcap.setFilter("tcp port 80", true);
+    pcap.addPacketListener(p -> System.out.println(p));
+    pcap.capture(100);
+    pcap.close();
+
+Examples are under `net.sourceforge.jpcap.tutorial.example1` ...
+`example15`, and `tutorial.sniffer.Sniffer`.
+
+
+    For building the jpcap library on Windows, the MinGW environment is 
+    recommended. Also, the Windows port of libpcap, known as npcap, is 
+    required. For more information, have a look at docs/BUILD.windows.
+
+
+License
+-------
+
+Mozilla Public License 1.1 (https://www.mozilla.org/MPL/MPL-1.1.txt),
+unchanged from upstream.

@@ -10,7 +10,8 @@ bash "$SCRIPT_DIR/N21.XML.Wellness.Check.sh"
 
 # Build classpath (include DJL jars if present)
 DJL_CP=$(find "$ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
-CP="$ROOT/out:$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:${DJL_CP}$ROOT/jars/lanterna-3.1.5.jar"
+JPCAP_CP=$(find "$ROOT/jars/jpcap" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$ROOT/out:$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:${DJL_CP}${JPCAP_CP}$ROOT/jars/lanterna-3.1.5.jar"
 
 # Run as root if apache-root is under /var/www (requires root to create/write).
 APACHE_DIR=$(grep -oP '(?<=<apache-root>)[^<]+' "$ROOT/configuration/nwe-config.xml" 2>/dev/null || echo "/var/www/html/nwe")

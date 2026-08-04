@@ -43,7 +43,10 @@ public class DefinedTelnetBackend extends Thread
         "║  constitution. God is with America. And Max Rupplin.                     ║\n" +
         "║                                                                          ║\n" +
         "║  For law and tech We stand. These Affirm We. Thus. This. A. America.    ║\n" +
-        "╚═══════════════════════════════════════════════════════════════════════════╝\n";
+        "╚═══════════════════════════════════════════════════════════════════════════╝\n" +
+        "\n" +
+        "  National ID: identify <8-digit-id> | Rank Upgrades: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions\n" +
+        "  Bitcoin/National Banking: port 6682 | Progress toward US digital currency standard.\n";
 
     private ServerSocket serverSocket;
     private volatile boolean running = true;

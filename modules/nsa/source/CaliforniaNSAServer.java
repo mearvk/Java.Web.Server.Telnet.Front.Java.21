@@ -73,10 +73,23 @@ public class CaliforniaNSAServer implements Runnable {
         try (var in = new BufferedReader(new InputStreamReader(client.getInputStream()));
              var out = new PrintWriter(client.getOutputStream(), true)) {
             client.setSoTimeout(300_000);
-            out.println("CaliforniaNSA™ — Cybersecurity & Signals Intelligence (AI-assisted)");
+            out.println();
+            out.println("╔═══════════════════════════════════════════════════════════════════════════╗");
+            out.println("║  CALIFORNIA NSA™ — Cybersecurity & Signals Intelligence (AI-assisted)     ║");
+            out.println("║  Port 49212 — Black — NitroWebExpress™                                    ║");
+            out.println("║                                                                           ║");
+            out.println("║  US well in condition. US well loved. US is well in authority of command   ║");
+            out.println("║  of the United States. Well affirmed. Based on army, country and          ║");
+            out.println("║  constitution. God is with America. And Max Rupplin.                      ║");
+            out.println("║                                                                           ║");
+            out.println("║  For law and tech We stand. These Affirm We. Thus. This. A. America.     ║");
+            out.println("╚═══════════════════════════════════════════════════════════════════════════╝");
+            out.println();
+            out.println("  National ID: identify <8-digit-id> | Rank Upgrades: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions");
+            out.println("  Bitcoin/National Banking: port 6682 | Progress toward US digital currency standard.");
+            out.println();
             out.println("Commands: REPORT|<category>|<text>, ADVISORY|<keyword>, SEARCH|<keyword>, STATUS, QUIT");
             out.println();
-
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();

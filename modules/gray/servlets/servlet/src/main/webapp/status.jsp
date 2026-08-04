@@ -6,7 +6,7 @@
     <script src="js/nwe-readme-viewer.js"></script>
 </head><body>
 <nav class="nav"><div class="nav-inner"><span class="nav-brand">GrayPortRegistry™</span>
-<ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="leases.jsp">Leases</a></li><li><a href="bindings.jsp">Bindings</a></li><li><a href="status.jsp" class="active">Status</a></li></ul></div></nav>
+<ul class="nav-links"><li><a href="index.jsp">Overview</a></li><li><a href="leases.jsp">Leases</a></li><li><a href="bindings.jsp">Bindings</a></li><li><a href="status.jsp" class="active">Status</a></li></ul><div class="nav-actions"><%@ include file="auth-buttons.jsp" %></div></div></nav>
 <section class="hero" style="padding:4rem 2rem;"><div class="hero-inner"><h1>Status</h1></div></section>
 <section class="section"><div class="section-inner">
 <% Properties dbProps = new Properties(); boolean propsLoaded = false; Connection conn = null;

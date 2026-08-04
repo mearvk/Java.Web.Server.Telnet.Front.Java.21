@@ -1,0 +1,24 @@
+[Unit]
+Description=NWE Gateway — NAT Traversal for NitroWebExpress
+Documentation=https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21
+After=network-online.target nwe.service
+Wants=network-online.target
+Requires=nwe.service
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/nwe-gateway start
+ExecStop=/usr/local/bin/nwe-gateway stop
+PIDFile=/var/lib/nwe/gateway/gateway.pid
+Restart=on-failure
+RestartSec=30
+
+# Give network time to settle after boot
+ExecStartPre=/bin/sleep 10
+
+# Security
+NoNewPrivileges=true
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target

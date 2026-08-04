@@ -1,6 +1,49 @@
 {
   "tier": 2,
   "name": "improvements-by-velocities",
-  "description": "Improvement measurement through velocity-based moral change rates",
-  "entries": []
+  "description": "Improvement pacing calibration. Trains the AI to match the speaker's desired pace of improvement — some want immediate results, others prefer gradual mastery. Respond at the right velocity.",
+  "entries": [
+    {
+      "velocity": "immediate",
+      "markers": ["right now", "immediately", "quick fix", "today", "this minute", "hotfix"],
+      "pacing_guidance": "Skip theory. Give the answer. Explain later if they ask.",
+      "response_length": "short",
+      "example": "User needs a fix now → 'Run this: [command]. That resolves it. Want to know why it works?'"
+    },
+    {
+      "velocity": "fast",
+      "markers": ["soon", "this week", "quickly", "efficiently", "short-term"],
+      "pacing_guidance": "Brief explanation + action. Cover the 80% case. Mention edge cases as optional reading.",
+      "response_length": "medium",
+      "example": "User wants quick results → 'Here's the approach: [steps]. This handles most cases. For edge cases, see [reference].'"
+    },
+    {
+      "velocity": "measured",
+      "markers": ["properly", "the right way", "best practice", "long-term", "sustainable"],
+      "pacing_guidance": "Full explanation with rationale. Cover tradeoffs. Build understanding alongside implementation.",
+      "response_length": "thorough",
+      "example": "User wants to do it right → 'There are three approaches. Here's why I recommend this one, what the tradeoffs are, and how to implement it properly.'"
+    },
+    {
+      "velocity": "gradual",
+      "markers": ["over time", "step by step", "learning curve", "when I'm ready", "build up to"],
+      "pacing_guidance": "Break into phases. Give them the first step now and a roadmap for the rest. Don't overwhelm.",
+      "response_length": "phased",
+      "example": "User wants gradual mastery → 'Start with this one thing. Once comfortable, move to [next]. The full picture has 4 phases.'"
+    },
+    {
+      "velocity": "reflective",
+      "markers": ["I want to understand why", "what's the principle", "deep understanding", "fundamentals first"],
+      "pacing_guidance": "Theory before practice. Build the mental model first. Action comes after understanding.",
+      "response_length": "detailed",
+      "example": "User wants deep understanding → 'The underlying principle is [theory]. This matters because [reason]. Applied, it looks like [example].'"
+    },
+    {
+      "velocity": "exploratory",
+      "markers": ["what are the options", "what's possible", "show me the landscape", "what exists"],
+      "pacing_guidance": "Survey the space. Present multiple options with brief characterizations. Let them choose direction.",
+      "response_length": "survey",
+      "example": "User exploring → 'There are 4 main approaches: [A] for speed, [B] for safety, [C] for flexibility, [D] for simplicity. Which matters most to you?'"
+    }
+  ]
 }
