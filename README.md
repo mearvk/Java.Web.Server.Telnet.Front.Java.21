@@ -4,7 +4,7 @@
 Author: Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
 License: LICENSE.md
 
-A multi-module Java 21 telnet/TCP server platform with NIO masquerade routing, AI inference (Strernary™), encrypted chat, and Tomcat-deployed web frontends. All modules share a common startup/shutdown orchestration system.
+A multi-module Java 21 telnet/TCP server platform with NIO masquerade routing, AI inference (Strernary™), encrypted chat, fiduciary services, and Tomcat-deployed web frontends. All modules share a common startup/shutdown orchestration system.
 
 ---
 
@@ -14,9 +14,15 @@ A multi-module Java 21 telnet/TCP server platform with NIO masquerade routing, A
 # First-time install (handles Java, MySQL, Tomcat, firewall, databases, deploy)
 sudo bash scripts/web/post-clone.sh
 
+# Or use the Ubuntu Alpha Restricted installer
+sudo bash scripts/install-jwstf.sh
+
 # After git pull on an existing server
 bash scripts/compile-all-modules.sh
 bash scripts/start-all.sh
+
+# Deploy all module frontends
+bash deploy-all-modules.sh
 
 # Verify
 bash scripts/status.sh
@@ -69,14 +75,21 @@ bash scripts/status.sh
 | Vietnam | `modules/vietnam` | 49215 | `/vietnam` | `source.VietnamServer` | Saving American Names and graces. |
 | Emeter | `modules/emeter` | 49216 | `/emeter` | `source.EmeterServer` | E-Meter instruction, calibration, readings |
 | SpectrumTandem | `modules/spectrum-tandem` | 49222 | `/spectrum-tandem` | `source.SpectrumTandemServer` | Dolyene spectrum of int discipline, word bank, county precedent |
+| TandemEquals | `modules/tandem-equals` | 49223 | `/tandem-equals` | `source.TandemEqualsServer` | Human intellect modulator simplex, 4-layer control curve |
 | Chat | `modules/chat` | 49230 | `/chat` | `source.ChatServer` | Encrypted chat, DH-2048/RSA-2048, federation, file/voice, admin |
 | UNCW | `modules/uncw` | 49231 | `/uncw` | `source.UNCWServer` | UNCW Wilmington CS club, colleges, chancellor, files, messaging |
+| ArmorerSteve | `modules/armorer` | 49235 | `/armorer` | `source.ArmorerSteveServer` | TCP Q&A interface, knowledge base, C/Java hybrid |
+| Fiduciary | `modules/fiduciary` | 49240 | `/fiduciary` | `source.FiduciaryServicesServer` | ACH transfer service, fiduciary outbound connector, C/Java hybrid |
 | GrayPortRegistry | `modules/gray` | 9999 | `/gray-registry` | `modules.gray.source.GrayPortRegistryServer` | Port registry (30M ports/block), Bitcoin/Dash payment, AI-gated |
 | Gray85Crème | `modules/gray.a85` | 10085 | `/gray85-registry` | `modules.gray.a85.source.Gray85PortRegistryServer` | Crème port registry (85% open, 15% locked at $1000 USD) |
 | AE6E66 | `modules/AE6E66` | — | `/ae6e66` | `source.AE6E66Main` | UK Parliament contact module, DKIM email |
 | Green.Durham.Grass.and.Herb | `modules/Green.Durham.Grass.and.Herb` | 20000 | `/gdgh` | `listeners.BaseListener` | Labor/ethical/moral concerns, NC labor laws |
 | Futures (DemocraticAI) | `modules/red/Futures` | 5000 | `/futures` | `ai.server.DemocraticAIServer` | Democratic AI futures, tax defense pipeline |
 | Defined | `modules/Defined` | 49220 | `/defined` | `modules.Defined.source.ai.server.DefinedAIServer` | Dark Gray moral surveillance, 29 categories, NTSB, 12 protocol handlers |
+| Bitcoin | `modules/bitcoin` | — | `/bitcoin` | (webapp only) | Bitcoin wallet webapp frontend |
+| Dictionary | `modules/dictionary` | — | `/dictionary` | (DB-only) | Dictionary lookup, MySQL `nwe_dictionary` |
+| Calendar | `modules/calendar` | — | `/calendar` | (webapp only) | Calendar and scheduling webapp |
+| Analytics | `modules/analytics` | — | `/analytics` | (DB-only) | Passive analytics tracking via JSP includes |
 | Black Belt | `modules/black-belt` | — | `/blackbelt` | (webapp only) | Black belt rank module |
 | Languages | `modules/languages` | — | `/languages` | (webapp only) | Language pack management |
 | Daemon | `modules/daemon` | 49188 | — | `ModuleLoaderDaemon` | Standalone module loader service |
@@ -104,6 +117,8 @@ bash scripts/status.sh
 | `scripts/compile-all-modules.sh` | Compile all Java sources → `out/` |
 | `scripts/build-jar.sh` | Build fat JAR (`nwe.jar`) |
 | `scripts/test-local.sh` | Full test suite (TCP, HTTP, XML, integrity) |
+| `scripts/install-jwstf.sh` | Install NWE from Ubuntu Alpha Restricted OS |
+| `deploy-all-modules.sh` | Deploy all module frontends to Tomcat |
 
 ### Deployment
 
@@ -113,6 +128,15 @@ bash scripts/status.sh
 | `scripts/web/deploy-all.sh` | Deploy all enabled modules from `web-deploy-config.xml` |
 | `scripts/web/deploy-missing.sh` | Re-deploy modules returning HTTP 404 |
 | `scripts/ufw-allow-all.sh` | Open all NWE ports in UFW firewall |
+
+### Mail (Postfix + Dovecot)
+
+| Script | Purpose |
+|--------|---------|
+| `scripts/mail/postfix/install_postfix.sh` | Install and configure Postfix MTA |
+| `scripts/mail/postfix/configure-mail.sh` | Full mail system configuration |
+| `scripts/mail/postfix/mail-config.xml` | Mail configuration (shared with Dovecot) |
+| `scripts/mail/dovecot/install_dovecot.sh` | Install and configure Dovecot IMAP/POP3 |
 
 ### Per-Module (run from `modules/<name>/`)
 
@@ -169,6 +193,46 @@ profile cipher 6                 ← save ChaCha20 as default
 
 ---
 
+## TandemEquals™ — Human Intellect Modulator (Port 49223)
+
+Four-layer simplex control curve system for perception → cognition → modulation → expression.
+
+**TCP Protocol:**
+
+```
+telnet localhost 49223
+PERCEPTION          — list all signals
+COGNITION           — list all patterns
+MODULATION          — list all modulators
+EXPRESSION          — list all outputs
+CURVE               — list control curves
+EVALUATE|<id>       — evaluate full simplex path
+STATUS              — table counts
+QUIT                — disconnect
+```
+
+**Database:** `nwe_tandem_equals` — 6 tables: perception, cognition, modulation, expression, control_curve, intellect_log.
+
+---
+
+## Fiduciary™ — ACH Transfer Service (Port 49240)
+
+TCP server for fiduciary outbound connections and ACH transfer processing. Hybrid C/Java implementation with native `fiduciary.c` and `ach_transfer.c` compiled via Makefile alongside Java `FiduciaryServicesServer` and `FiduciaryOutboundConnector`.
+
+**Database:** `nwe_fiduciary`
+
+**Source:** `modules/fiduciary/source/` — Java server + C native ACH engine.
+
+---
+
+## ArmorerSteve™ — Knowledge Q&A (Port 49235)
+
+TCP Q&A interface with a fulltext-searchable knowledge base. Hybrid C/Java implementation with native `armorer.c` compiled via Makefile alongside `ArmorerSteveServer.java`.
+
+**Database:** `nwe_armorer` — knowledge_base table with fulltext indexing.
+
+---
+
 ## Integrity System
 
 Post-install SHA-256 file verification. Non-blocking — program continues regardless of findings.
@@ -205,21 +269,29 @@ Java.Web.Server.Telnet.Front.Java.21/
 │   ├── library/               StanfordLibrary (port 49214)
 │   ├── vietnam/               Vietnam (port 49215)
 │   ├── emeter/                Emeter (port 49216)
-│   ├── spectrum-tandem/      SpectrumTandem (port 49222)
+│   ├── spectrum-tandem/       SpectrumTandem (port 49222)
+│   ├── tandem-equals/         TandemEquals (port 49223)
 │   ├── chat/                  NWE Chat (port 49230)
 │   ├── uncw/                  UNCW Wilmington (port 49231)
+│   ├── armorer/               ArmorerSteve (port 49235)
+│   ├── fiduciary/             Fiduciary (port 49240)
 │   ├── gray/                  GrayPortRegistry (port 9999)
 │   ├── gray.a85/              Gray85Crème (port 10085)
 │   ├── AE6E66/                UK Parliament contact
 │   ├── Green.Durham.Grass.and.Herb/   Labor/ethics (port 20000)
 │   ├── red/Futures/           Democratic AI (port 5000)
 │   ├── Defined/               Dark Gray moral surveillance (port 49220)
+│   ├── bitcoin/               Bitcoin wallet frontend
+│   ├── dictionary/            Dictionary (DB-only)
+│   ├── calendar/              Calendar (webapp)
+│   ├── analytics/             Analytics (DB-only, passive)
 │   ├── black-belt/            Black Belt (webapp only)
 │   ├── languages/             Language packs (webapp only)
 │   ├── daemon/                ModuleLoaderDaemon (port 49188)
 │   └── black/presidential/    Brarner.M.Alete
 ├── configuration/             XML config files
 ├── scripts/                   Orchestration, deploy, test scripts
+│   └── mail/                  Postfix + Dovecot mail system
 ├── jars/                      Dependencies (MySQL connector, Lanterna, DJL)
 ├── out/                       Compiled .class files
 ├── logging/                   NWE main logs
@@ -242,11 +314,29 @@ Java.Web.Server.Telnet.Front.Java.21/
 | 10085 | Gray85 Crème Registry |
 | 20000 | Strernary AI inference |
 | 49111–49216 | NWE core + signal + modules |
-| 49220–49222 | Defined (AI + Protocol Backend), SpectrumTandem |
-| 49230 | NWE Chat (encrypted, federation) |
-| 49231 | UNCW (Wilmington CS, colleges, chancellors) |
+| 49220–49223 | Defined, SpectrumTandem, TandemEquals |
+| 49230–49231 | NWE Chat, UNCW |
+| 49235 | ArmorerSteve (knowledge Q&A) |
+| 49240 | Fiduciary (ACH transfer) |
 
 **Open all ports:** `sudo bash scripts/ufw-allow-all.sh`
+
+---
+
+## Ubuntu Alpha Restricted Integration
+
+This project is bundled as userland in the [Ubuntu.Determinant.Alpha.Restricted](https://github.com/mearvk/Ubuntu.Determinant.Alpha.Restricted) distribution at `userland/java-web-server/`. The OS also provides native C tools:
+
+| Tool | Location (in Ubuntu repo) | Purpose |
+|------|---------------------------|---------|
+| `fiduciary.c` | `tools/fiduciary/` | Native ACH transfer engine |
+| `ach_transfer.c` | `tools/fiduciary/` | ACH transfer C implementation |
+| `armorer.c` | `tools/armorer/` | Native armorer knowledge engine |
+| `configure-mail.sh` | `tools/postfix/` | Full Postfix/Dovecot mail configuration |
+| `install_postfix.sh` | `tools/postfix/` | Postfix MTA installer |
+| `install_dovecot.sh` | `tools/dovecot/` | Dovecot IMAP/POP3 installer |
+
+These native sources are also kept locally in the corresponding `modules/*/source/` directories.
 
 ---
 
