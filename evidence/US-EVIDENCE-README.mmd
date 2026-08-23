@@ -1,0 +1,20 @@
+---
+title: "US Evidence Chain — 1, 2, 3, 4"
+format: mermaid
+prefix: US-EVIDENCE-
+suffix: .mmd
+---
+flowchart LR
+    E1["1 Origin"] --> E2["2 Custody"] --> E3["3 Production"] --> E4["4 Release"]
+    E1 --> F["FACT / Economy"]
+    E3 --> M["Morals / Program Governance"]
+    E4 --> P["Programs / Release"]
+
+    classDef stage fill:#f8fff8,stroke:#3b7a57,color:#16351f;
+    class E1,E2,E3,E4,F,M,P stage;
+
+    S["File convention: US-EVIDENCE-<stage>.mmd"]
+    E4 --- S
+
+    R["Evidence principle: provenance first; custody transitions are recorded; production is attributable; release is separately verified."]
+    E4 --- R
