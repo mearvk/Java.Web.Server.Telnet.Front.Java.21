@@ -3,18 +3,148 @@ title: "US Evidence Chain — 1, 2, 3, 4"
 format: mermaid
 prefix: US-EVIDENCE-
 suffix: .mmd
+version: "1.0"
+status: "canonical-chain-document"
+encoding: "UTF-8"
 ---
+
+# US Evidence Chain — 1, 2, 3, 4
+
+## Document type
+
+This is a UTF-8 `.mmd` evidence document using Mermaid-compatible graph syntax. The canonical filename convention is:
+
+`US-EVIDENCE-<stage>-<identifier>.mmd`
+
+The `US-EVIDENCE-` prefix identifies this evidence family and `.mmd` is its canonical suffix.
+
+## Canonical evidence order
+
+The four stages are ordered and intentionally distinct:
+
+1. **Origin** — source, initiating event, or originating record.
+2. **Custody** — custody, possession, control, or transfer transitions.
+3. **Production** — attributable transformation, execution, build, manufacture, program operation, or other production event.
+4. **Release** — authorized disposition, publication, delivery, deployment, or release event.
+
+The canonical chain is therefore:
+
+`Origin → Custody → Production → Release`
+
+```mermaid
 flowchart LR
     E1["1 Origin"] --> E2["2 Custody"] --> E3["3 Production"] --> E4["4 Release"]
     E1 --> F["FACT / Economy"]
     E3 --> M["Morals / Program Governance"]
     E4 --> P["Programs / Release"]
 
-    classDef stage fill:#f8fff8,stroke:#3b7a57,color:#16351f;
-    class E1,E2,E3,E4,F,M,P stage;
+    E1 -. "source / initiating record" .-> O["Origin record"]
+    E2 -. "transfer / possession / control" .-> C["Custody record"]
+    E3 -. "execution / transformation / production" .-> PR["Production record"]
+    E4 -. "authorization / disposition / deployment" .-> RL["Release record"]
 
-    S["File convention: US-EVIDENCE-<stage>.mmd"]
-    E4 --- S
+    E4 --- S["Filename: US-EVIDENCE-<stage>-<identifier>.mmd"]
+    E4 --- R["Provenance first; custody transitions recorded; production attributable; release separately verified"]
+```
 
-    R["Evidence principle: provenance first; custody transitions are recorded; production is attributable; release is separately verified."]
-    E4 --- R
+## Evidence record identity
+
+A stage record SHOULD identify, where applicable:
+
+- `evidence_id` — unique evidence record identifier.
+- `parent_id` — identifier of the preceding or source record.
+- `stage` — `origin`, `custody`, `production`, or `release`.
+- `subject` — thing, work, transaction, program, or event being described.
+- `actor` — person, organization, process, or system performing an action.
+- `custodian` — party or system responsible for custody/control.
+- `jurisdiction` — relevant jurisdiction or governing context.
+- `timestamp` — event time or document time.
+- `location` — relevant physical or logical location.
+- `action` — event performed.
+- `input` — material or state entering the event.
+- `output` — material or state resulting from the event.
+- `source` — source record or evidence reference.
+- `authority` — authority relied upon for an action or release.
+- `hash` — integrity digest when available.
+- `signature` — signing or attestation information when available.
+- `verification` — verification state and method.
+- `notes` — additional factual context.
+
+Material unknown values SHOULD be explicitly represented as `unknown`, `not-applicable`, or `not-recorded` rather than silently converted into facts.
+
+## 1 — Origin
+
+Origin establishes where the chain begins. It may identify an originating record, source artifact, initiating request, transaction, observation, or other event.
+
+Origin does not by itself establish the truth of every proposition contained in a source. It establishes provenance for the chain and gives later records a reference point.
+
+## 2 — Custody
+
+Custody records changes in possession, control, stewardship, or responsible system. Each material transition SHOULD identify the prior and subsequent custodian and the event connecting them.
+
+The custody record should preserve the distinction between physical possession, logical access, ownership, authority, and documentary responsibility where those concepts differ.
+
+## 3 — Production
+
+Production records what was actually done with the subject or input: execution, transformation, compilation, manufacture, processing, program operation, or another attributable production event.
+
+Production SHOULD identify the actor/process, relevant inputs and outputs, execution time, environment where material, and verification evidence.
+
+## 4 — Release
+
+Release records the authorized disposition or outward transition of the produced result: publication, delivery, deployment, transfer, or other release.
+
+Release SHOULD be separately verified from production. Producing something does not, by itself, establish authorization to release it.
+
+## FACT / Economy
+
+**FACT / Economy** identifies the documentary layer for observable or sourced facts concerning resources, transactions, inputs, outputs, ownership, custody, costs, or economic activity.
+
+Economic claims SHOULD remain traceable to their source records and should not be treated as verified merely because they appear in this graph.
+
+## Morals / Program Governance
+
+**Morals / Program Governance** identifies declared principles, constraints, duties, policies, standards, or governance rules used to guide a program.
+
+This category records governance material; it does not automatically make a moral, legal, or policy proposition universally authoritative.
+
+## Programs / Release
+
+**Programs / Release** identifies operational program activity and the state in which an output is authorized or intended to be released.
+
+Program execution and release authorization SHOULD remain separately identifiable so that the chain distinguishes what a program did from what a responsible authority permitted to leave the controlled process.
+
+## Chain-of-evidence rule
+
+A reviewer SHOULD be able to move backward from a release to its production record, from production to its custody/input records, and from custody to the originating record, preserving:
+
+`claim → source → custody → production → release → verification`
+
+The evidence graph is a provenance structure. It does **not** turn an unsupported assertion into a fact merely because the assertion is represented as a node or edge.
+
+## Integrity and revision
+
+When practical, evidence documents SHOULD retain:
+
+- document content hash;
+- parent-document hash or identifier;
+- author or actor identity;
+- creation and modification timestamps;
+- repository commit or transaction identifier;
+- verification result.
+
+Substantive changes SHOULD produce a new revision or otherwise preserve the historical record rather than silently changing the meaning of an earlier evidence state.
+
+## Evidence principle
+
+> Provenance first; custody transitions are recorded; production is attributable; release is separately verified.
+
+## Technical scope and non-claims
+
+This `.mmd` convention is a technical documentation and provenance format. It does not by itself determine legal custody, governmental ownership, citizenship, moral correctness, economic value, or admissibility of evidence. Those determinations remain dependent upon applicable source records, authorities, laws, policies, and independent review.
+
+The document can be rendered as Mermaid-compatible material while remaining ordinary UTF-8 text. A renderer may use the front matter as metadata or ignore it and render the Mermaid body.
+
+## Relationship to the descriptor
+
+The companion `US-EVIDENCE-DOCUMENT-TYPE.mmd` defines the broader document-type specification. This file is the canonical 1, 2, 3, 4 evidence-chain document and incorporates the operational rules necessary to use that specification directly.
