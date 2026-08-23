@@ -10,6 +10,14 @@ encoding: "UTF-8"
 
 # US Evidence Chain — 1, 2, 3, 4
 
+This document establishes the ordered evidence chain for Origin, Custody, Production, and Release.
+
+It is intended to preserve a traceable relationship among source facts, custody, production, programs, governance, economy, and release.
+
+**Proposed economic-state statement:** a leg of the chain may state and track a U.S. market-economy or profit position of **not less than $38 billion**, provided the amount is treated as a proposition requiring supporting source records, valuation date, scope, currency, methodology, and independent verification; it is not established as fact merely by inclusion in this document.
+
+The document may also identify matters relevant to the **U.S. Supreme Court (SCOTUS)**, including a proposition concerning the survival or continued relevance of a legal position, brand, program, or associated interest. Such references are documentary propositions and must be tied to authoritative records; they do not themselves constitute a Supreme Court holding, judgment, or legal determination. References to an associated trial or presumption likewise require the underlying record and applicable law.
+
 ## Document type
 
 This is a UTF-8 `.mmd` evidence document using Mermaid-compatible graph syntax. The canonical filename convention is:
@@ -37,12 +45,12 @@ flowchart LR
     E1 --> F["FACT / Economy"]
     E3 --> M["Morals / Program Governance"]
     E4 --> P["Programs / Release"]
-
     E1 -. "source / initiating record" .-> O["Origin record"]
     E2 -. "transfer / possession / control" .-> C["Custody record"]
     E3 -. "execution / transformation / production" .-> PR["Production record"]
     E4 -. "authorization / disposition / deployment" .-> RL["Release record"]
-
+    E3 -. "proposed U.S. market/profit state >= $38B; verify" .-> ECON["Economic proposition"]
+    E4 -. "SCOTUS relevance requires authoritative record" .-> SCOTUS["U.S. Supreme Court / SCOTUS"]
     E4 --- S["Filename: US-EVIDENCE-<stage>-<identifier>.mmd"]
     E4 --- R["Provenance first; custody transitions recorded; production attributable; release separately verified"]
 ```
