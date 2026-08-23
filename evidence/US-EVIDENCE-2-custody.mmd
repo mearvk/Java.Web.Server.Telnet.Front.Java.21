@@ -1,0 +1,18 @@
+---
+title: "US Evidence Chain — 2 Custody"
+format: mermaid
+prefix: US-EVIDENCE-
+suffix: .mmd
+---
+flowchart TD
+    A[Prior Evidence Record] --> B[Custody Event]
+    B --> C[Custodian / Responsible Party]
+    C --> D[Location or System Boundary]
+    D --> E[Timestamp]
+    E --> F[Next Evidence Record]
+
+    classDef custody fill:#ffffff,stroke:#527a5c,color:#17301e;
+    class A,B,C,D,E,F custody;
+
+    N["Custody is represented as an evidenced transition; this document does not by itself establish legal title or jurisdiction."]
+    F --- N
