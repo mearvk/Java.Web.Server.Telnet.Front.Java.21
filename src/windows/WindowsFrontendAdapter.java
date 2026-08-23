@@ -16,8 +16,20 @@ public final class WindowsFrontendAdapter {
         this.execution = Objects.requireNonNull(execution, "execution");
     }
 
-    public CompletionStage<WindowsExecution.Result> accept(WindowsCall call) {
+    public CompletionStage<WindowsExecution.WindowsExecutionResult> accept(WindowsCall call) {
         Objects.requireNonNull(call, "call");
-        return CompletableFuture.supplyAsync(() -> execution.execute(call));
+        if (!execution.program().equals(call.program())
+                || !execution.directive().equals(call.directive())
+                || !execution.citizen().equals(call.citizen())) {
+            return CompletableFuture.failedStage(
+                    new SecurityException("Windows call does not match the configured execution context"));
+        }
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return execution.execute();
+            } catch (Exception e) {
+                throw new RuntimeException("Windows execution failed", e);
+            }
+        });
     }
 }
