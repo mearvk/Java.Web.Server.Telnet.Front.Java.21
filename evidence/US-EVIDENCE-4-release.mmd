@@ -1,0 +1,24 @@
+---
+title: "US Evidence Chain — 4 Release"
+format: mermaid
+prefix: US-EVIDENCE-
+suffix: .mmd
+---
+flowchart TD
+    A[Production Evidence] --> B[Evidence Review]
+    B --> C[Fact / Economy Record]
+    C --> D[Program Release Decision]
+    D --> E[Released Artifact]
+    E --> F[Downstream Custody]
+
+    subgraph ORDER[Order of US Custody / Supply Chain]
+      O1[1 Origin] --> O2[2 Custody] --> O3[3 Production] --> O4[4 Release]
+    end
+
+    A --> O1
+    B --> O2
+    D --> O3
+    E --> O4
+
+    N["Each transition should identify evidence, timestamp, responsible party, and provenance. Claims remain claims until independently verified."]
+    F --- N
