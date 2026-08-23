@@ -1,0 +1,23 @@
+---
+title: "US Evidence Chain — 1 Origin"
+format: mermaid
+prefix: US-EVIDENCE-
+suffix: .mmd
+---
+flowchart LR
+    A[Origin / Source] --> B[Program Identity]
+    B --> C[Declared US Context]
+    C --> D[Evidence Record]
+
+    classDef evidence fill:#f8fff8,stroke:#3b7a57,color:#16351f;
+    class A,B,C,D evidence;
+
+    note1["Rule: record what is known, who stated it, when, and the source."]
+    D --- note1
+
+    subgraph FACTS[FACT / Economy]
+      F1[Source fact]
+      F2[Program or production fact]
+      F3[Custody claim]
+    end
+    D --> FACTS
