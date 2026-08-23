@@ -1,0 +1,127 @@
+---
+title: "US Evidence Chain — .mmd Document Type Descriptor"
+format: mermaid
+prefix: US-EVIDENCE-
+suffix: .mmd
+version: "1.0"
+status: "descriptor"
+encoding: "UTF-8"
+---
+
+# US Evidence Chain — `.mmd` Document Type
+
+## 1. Purpose
+
+The `.mmd` document type is a UTF-8, text-based evidence descriptor intended to represent a production, custody, program, and release chain in a form that is both human-readable and renderable as Mermaid-compatible material.
+
+It is a documentation and provenance convention. The file itself does not establish the truth of a claim; evidence, source records, signatures, timestamps, hashes, and independent verification establish that.
+
+## 2. Required identity
+
+Every `.mmd` evidence document SHOULD identify:
+
+- `title` — human-readable document title.
+- `format` — normally `mermaid`.
+- `prefix` — naming prefix for the evidence family.
+- `suffix` — `.mmd`.
+- `version` — descriptor/schema version.
+- `status` — lifecycle status of the document.
+
+Recommended filename form:
+
+`US-EVIDENCE-<stage>-<identifier>.mmd`
+
+## 3. Evidence stages
+
+The canonical chain has four ordered stages:
+
+1. **Origin** — identifies the source, initiating event, or originating record.
+2. **Custody** — records custody, transfer, possession, or control transitions.
+3. **Production** — records the transformation, execution, build, manufacture, program operation, or other attributable production event.
+4. **Release** — records the authorized disposition, publication, delivery, deployment, or final release event.
+
+The order is significant: `Origin → Custody → Production → Release`.
+
+## 4. Evidence record fields
+
+A stage record SHOULD provide, where applicable:
+
+- `evidence_id`
+- `parent_id`
+- `stage`
+- `subject`
+- `actor`
+- `custodian`
+- `jurisdiction`
+- `timestamp`
+- `location`
+- `action`
+- `input`
+- `output`
+- `source`
+- `authority`
+- `hash`
+- `signature`
+- `verification`
+- `notes`
+
+Unknown or unavailable values SHOULD be explicitly marked as `unknown`, `not-applicable`, or `not-recorded`, rather than silently omitted when the field is material to the chain.
+
+## 5. US custody / economy / fact model
+
+The descriptor may distinguish three semantic layers:
+
+- **FACT / Economy** — observable or sourced facts concerning resources, transactions, inputs, outputs, ownership, custody, or economic activity.
+- **Morals / Program Governance** — declared principles, constraints, duties, policies, or governance rules used to guide a program.
+- **Programs / Release** — executable or operational program activity and its authorized release state.
+
+These labels describe documentary categories; they do not themselves confer governmental authority or legal status.
+
+## 6. Chain-of-evidence rule
+
+A valid chain SHOULD permit a reviewer to move from a later event backward through its parent references to the originating record, while preserving the distinction between:
+
+`claim → source → custody → production → release → verification`.
+
+A document MUST NOT imply that an unsupported assertion becomes a fact merely because it appears in an evidence graph.
+
+## 7. Mermaid representation
+
+The body MAY use Mermaid syntax. A minimal canonical representation is:
+
+```mermaid
+flowchart LR
+    E1["1 Origin"] --> E2["2 Custody"] --> E3["3 Production"] --> E4["4 Release"]
+    E1 --> F["FACT / Economy"]
+    E3 --> M["Morals / Program Governance"]
+    E4 --> P["Programs / Release"]
+```
+
+## 8. Prefix and suffix convention
+
+`US-EVIDENCE-` is the canonical prefix for this repository's US evidence-chain documents.
+
+`.mmd` is the canonical suffix.
+
+The prefix identifies the evidence family; the stage and identifier distinguish individual records.
+
+## 9. Integrity and revision
+
+When practical, production systems SHOULD retain:
+
+- content hash of the document;
+- parent-document hash or identifier;
+- author/actor identity;
+- creation and modification timestamps;
+- commit or transaction identifier;
+- verification result.
+
+Changing substantive evidence SHOULD produce a new revision rather than silently overwriting the historical meaning of an earlier record.
+
+## 10. Non-claims
+
+This descriptor is a technical document format specification. It does not by itself determine legal custody, governmental ownership, citizenship, moral correctness, economic value, or admissibility of evidence. Those questions remain subject to the applicable source records, authorities, laws, policies, and independent review.
+
+## 11. Compatibility
+
+The format is designed to remain usable as ordinary UTF-8 text, Markdown-like front matter, and Mermaid source. A renderer may ignore the front matter and render the Mermaid body; an evidence processor may parse the front matter and structured conventions before rendering.
