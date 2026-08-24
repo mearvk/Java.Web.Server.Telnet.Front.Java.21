@@ -1,55 +1,41 @@
-#!/bin/bash
-# California FBI™ — Module Install Script
-# Ensures UFW firewall is installed/enabled and module ports are open.
-# Usage: sudo bash install/install.sh
-set -e
+#!/usr/bin/env bash
+# California FBI module installer — follows the NWE Unified Installation Contract.
+set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-MOD_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-NWE_ROOT="$(cd "$MOD_ROOT/../.." 2>/dev/null && pwd)"
-[ -f "$NWE_ROOT/scripts/nwe-ports.sh" ] && source "$NWE_ROOT/scripts/nwe-ports.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+NWE_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+CONTRACT="$NWE_ROOT/scripts/install-contract.sh"
+[[ -f "$CONTRACT" ]] || { echo "[FAIL] Missing installation contract: $CONTRACT" >&2; exit 1; }
+# shellcheck source=/dev/null
+source "$CONTRACT"
+MOD_ROOT="$(nwe_module_root "$SCRIPT_DIR")"
+nwe_verify_module "$MOD_ROOT"
+nwe_install_contract_banner
 
-echo "═══════════════════════════════════════════════════════════════"
-echo " California FBI™ — Module Install"
-echo "═══════════════════════════════════════════════════════════════"
-echo ""
+nwe_step "Validating FBI module"
+nwe_require_command bash
+nwe_verify_path "$MOD_ROOT"
 
-# 1. Database setup
-echo "[1/2] Database setup..."
-if [ -f "$MOD_ROOT/servlets/setup-db.sh" ]; then
-    bash "$MOD_ROOT/servlets/setup-db.sh" && echo "  [✓] Database nwe_california_fbi ready" || echo "  [!] Database setup had issues"
+nwe_step "Database setup"
+if [[ -x "$MOD_ROOT/servlets/setup-db.sh" || -f "$MOD_ROOT/servlets/setup-db.sh" ]]; then
+    bash "$MOD_ROOT/servlets/setup-db.sh"
 else
-    echo "  [--] No setup-db.sh found (database may already exist)"
+    nwe_warn "No setup-db.sh found; database setup skipped."
 fi
 
-# 2. Firewall (UFW install + enable + open ports)
-echo ""
-echo "[2/2] Configuring firewall..."
-if type nwe_ensure_ufw &>/dev/null; then
+nwe_step "Firewall policy"
+if [[ "${NWE_CONFIGURE_FIREWALL:-0}" == "1" ]]; then
+    nwe_source_optional "$NWE_ROOT/scripts/nwe-ports.sh" || nwe_fail "Missing NWE port manager"
     nwe_ensure_ufw
-    sudo ufw allow 8080/tcp >/dev/null 2>&1 && echo "  [✓] Port 8080 (Tomcat) opened" || true
-    sudo ufw allow 49210/tcp >/dev/null 2>&1 && echo "  [✓] Port 49210 (backend) opened" || true
-else
-    echo "  [--] NWE port library not available — installing UFW manually..."
-    if command -v apt-get &>/dev/null; then
-        sudo apt-get install -y -qq ufw >/dev/null 2>&1
-    elif command -v dnf &>/dev/null; then
-        sudo dnf install -y -q ufw >/dev/null 2>&1
-    fi
-    if command -v ufw &>/dev/null; then
-        sudo ufw allow 22/tcp >/dev/null 2>&1
-        sudo ufw allow 8080/tcp >/dev/null 2>&1
-        sudo ufw allow 49210/tcp >/dev/null 2>&1
-        sudo ufw --force enable >/dev/null 2>&1
-        echo "  [✓] UFW installed and ports opened"
+    if [[ -n "${NWE_TRUSTED_IP:-}" ]]; then
+        nwe_run_privileged ufw allow from "$NWE_TRUSTED_IP" to any port 49210 proto tcp
     else
-        echo "  [!] Could not install UFW — open ports manually"
+        nwe_run_privileged ufw allow 49210/tcp
     fi
+else
+    echo "  Firewall unchanged. Set NWE_CONFIGURE_FIREWALL=1 to manage it."
 fi
 
-echo ""
-echo "═══════════════════════════════════════════════════════════════"
-echo " California FBI™ install complete."
-echo " Backend port: 49210"
-echo " Frontend:     http://localhost:8080/california-fbi/"
-echo "═══════════════════════════════════════════════════════════════"
+nwe_step "Verifying FBI module installation"
+nwe_verify_path "$MOD_ROOT"
+echo "[OK] California FBI module installation complete. Backend port: 49210"
