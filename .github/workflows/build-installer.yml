@@ -1,0 +1,36 @@
+name: Build US House Installer
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'installer/**'
+      - '.github/workflows/build-installer.yml'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            script: powershell -ExecutionPolicy Bypass -File installer/build-native.ps1
+          - os: macos-latest
+            script: sh installer/build-native.sh
+          - os: ubuntu-latest
+            script: sh installer/build-native.sh
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Build native installer
+        run: ${{ matrix.script }}
+      - name: Upload installer artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: us-house-installer-${{ matrix.os }}
+          path: installer/dist/*
+          if-no-files-found: error
