@@ -1,0 +1,114 @@
+---
+title: "US House — Hierarchical Software System Specification"
+format: hsss
+version: "1.0"
+encoding: "UTF-8"
+status: "founding"
+companion: "docs/US-HOUSE-1-2-3-4.mmd"
+---
+
+# US House — .hsss Founding Specification
+
+## Founding paragraph
+
+The US House software concept is founded as a practical, ordered software house: a place where programs, documents, installations, updates, deletions, conveniences, and evidence are organized into a durable sequence. Its purpose is to make software work traceable from what is proposed, through what is held and produced, to what is released, while preserving ordinary user convenience and clear boundaries between program statements, economic ideas, moral ideas, and authoritative law. The system is intended to serve people and their computing environments rather than to claim governmental authority.
+
+## 1 — Origin
+
+The origin document states the idea, purpose, actor, scope, requested capability, and initial source records.
+
+Required concepts:
+- purpose
+- originating request
+- responsible program or actor
+- source material
+- intended system boundary
+- initial evidence identifier
+
+## 2 — Custody
+
+The custody document records where the software, source, configuration, package, artifact, or evidence resides and who or what controls the next operation.
+
+Required concepts:
+- owner/custodian
+- repository or filesystem location
+- version/revision
+- transfer history
+- integrity hash where available
+- authorization boundary
+
+## 3 — Production
+
+The production document records actual work: source changes, builds, tests, package installation, configuration, execution, updates, repairs, and deletion operations.
+
+Required concepts:
+- command or operation
+- inputs
+- outputs
+- environment
+- actor/process
+- timestamp
+- result
+- logs/evidence
+
+## 4 — Release
+
+The release document records what was made available, deployed, installed for use, or otherwise delivered after production and verification.
+
+Required concepts:
+- release artifact
+- destination
+- version
+- verification result
+- release authority
+- rollback/recovery path
+
+## Document order
+
+The canonical order is:
+
+`1 Origin → 2 Custody → 3 Production → 4 Release`
+
+No later stage should silently replace an earlier stage. Each stage points backward to its parent evidence and forward to its resulting state.
+
+## Improvements
+
+The first implementation should improve progressively in these areas:
+
+1. **Traceability** — stable IDs, parent IDs, hashes, timestamps, and repository commits.
+2. **Safety** — dry-run support, explicit package IDs, confirmation for destructive operations, least privilege, and rollback guidance.
+3. **Portability** — Windows PowerShell/CMD and Ubuntu/Linux shell implementations with equivalent concepts.
+4. **Convenience** — menus, status commands, catalog listing, install/update/remove shortcuts, and repair operations.
+5. **Software provenance** — distinguish source, package, build, installation, and release records.
+6. **Evidence quality** — distinguish assertions from verified facts and preserve source references.
+7. **Interoperability** — use UTF-8 text, Mermaid `.mmd` diagrams, and this `.hsss` hierarchical specification.
+8. **Testing** — validate scripts before production use and record failures without destroying evidence.
+
+## Software-house functions
+
+The US House layer may provide controlled functions for:
+
+- software installation
+- software deletion/uninstallation
+- software updates
+- repairs
+- status inspection
+- package/catalog discovery
+- deployment convenience
+- source/build/release tracking
+- evidence generation
+
+Microsoft and Apple software may be represented as vendor catalog entries. The implementation must use the platform's legitimate package-management mechanisms and must not imply endorsement or governmental sponsorship merely from inclusion in a catalog.
+
+## Normative vocabulary
+
+- **MUST** — required for conformance.
+- **SHOULD** — expected unless a documented reason exists not to implement it.
+- **MAY** — optional.
+- **FACT** — supported by an identified source or verification record.
+- **PROPOSITION** — an idea, proposal, design statement, or intended state that remains subject to verification.
+- **AUTHORITY** — a source or actor legitimately empowered in the relevant context.
+
+## Boundary rule
+
+The US House document system is a software and provenance framework. It does not itself establish citizenship, government authority, Supreme Court holdings, financial valuation, ownership, or moral/legal adjudication. Those claims require their own authoritative sources and evidence.
