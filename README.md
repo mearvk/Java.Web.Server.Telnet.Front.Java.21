@@ -6,6 +6,12 @@ License: LICENSE.md
 
 A multi-module Java 21 telnet/TCP server platform with NIO masquerade routing, AI inference (Strernary™), encrypted chat, fiduciary services, and Tomcat-deployed web frontends. All modules share a common startup/shutdown orchestration system.
 
+## Bitcoin Conjegeum
+
+bc1qs6v4q9zsw70t0umk3m0quhvf9dr6cdeskl28dh
+
+US Democratic and US Policy.
+
 ---
 
 ## Quick Start
