@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>206</office-code>
+    <office-name>HAZLETON PA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>88 S LAUREL ST</address-3>
+    <city>HAZLETON</city>
+    <state>PA</state>
+    <zip-code>18201</zip-code>
+    <phone>(866) 388-9878</phone>
+    <fax>(833) 950-3179</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9664</socket-port>
+    <local-input-path>source-code/ssa/pa/hazleton/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/pa/hazleton</output-dir>
+</signal-processing-config>

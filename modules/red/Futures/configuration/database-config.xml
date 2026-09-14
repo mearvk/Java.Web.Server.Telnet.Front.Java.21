@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    MySQL Database Configuration
+    Installer ID: MEARVK LLC — Max Rupplin
+    D500 Democratic President
+-->
+<database-config>
+
+    <mysql>
+        <host>localhost</host>
+        <port>3306</port>
+        <database>democratic_d500</database>
+        <username>mearvk_admin</username>
+        <password-env>DEMOCRATIC_DB_PASSWORD</password-env>
+        <installer-id>MEARVK LLC - Max Rupplin</installer-id>
+        <connection-pool-size>20</connection-pool-size>
+        <auto-reconnect>true</auto-reconnect>
+        <use-ssl>true</use-ssl>
+    </mysql>
+
+    <tables>
+        <table name="registrations"/>
+        <table name="deregistrations"/>
+        <table name="questions"/>
+        <table name="answers"/>
+        <table name="speculation_requests"/>
+        <table name="speculation_results"/>
+        <table name="tax_closures"/>
+        <table name="defense_cases"/>
+        <table name="model_weights"/>
+        <table name="training_sessions"/>
+    </tables>
+
+</database-config>

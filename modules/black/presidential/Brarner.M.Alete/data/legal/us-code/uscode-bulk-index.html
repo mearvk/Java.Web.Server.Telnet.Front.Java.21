@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html xml:lang="en" lang="en">
+
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+		<title>Govinfo Bulkdata Service Error</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Lato:700|Roboto:400,700" rel="stylesheet" />
+		<link rel="stylesheet" href="/app/main.min.css"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="/app/dynamic/stylesheets/css/search.css"/>
+		<link rel="stylesheet" href="/themes/contrib/bootstrap_fdsys/css/style.css"/>
+		<link rel="stylesheet" href="/themes/contrib/bootstrap_fdsys/font-awesome/css/font-awesome.min.css"/>
+
+		<style>
+			html
+			{
+					box-sizing: border-box;
+					overflow: -moz-scrollbars-vertical;
+					overflow-y: scroll;
+			}
+			*,
+			*:before,
+			*:after
+			{
+					box-sizing: inherit;
+			}
+
+			body {
+				margin:0;
+				/* background: #fafafa; */
+			}
+		</style>
+		<style>
+			.navigation-list,
+			ul#breadcrumbs {
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+				overflow: hidden;
+			}
+
+			.navigation-list>li,
+			ul#breadcrumbs>li {
+				display: block;
+				float: left;
+				padding: 5px 5px 5px 8px;
+				font-size: 90%;
+				color: white;
+				-webkit-transition: all 0.25s ease;
+				-moz-transition: all 0.25s ease;
+				transition: all 0.25s ease;
+			}
+
+			.navigation-list>li:hover,
+			ul#breadcrumbs>li:hover {
+				cursor: pointer;
+			}
+
+			@media (max-width: 480px) {
+				.navigation-list>li,
+				ul#breadcrumbs>li {
+					float: none;
+					margin-bottom: 10px;
+				}
+			}
+
+			.arrow-back {
+				position: relative !important;
+				display: inline-block !important;
+				background: #bebdbf;
+				margin-left: 18px;
+				padding: 5px 6px !important;
+				color: #252525;
+				text-transform: uppercase;
+				-webkit-transition: background 0.25s ease;
+				-moz-transition: background 0.25s ease;
+				transition: background 0.25s ease;
+			}
+
+			.arrow-back:after {
+				right: 100%;
+				top: 50%;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+				border-color: rgba(136, 183, 213, 0);
+				border-right-color: #bebdbf;
+				border-width: 18px;
+				margin-top: -18px;
+			}
+
+			.arrow-back:hover {
+				background: #717073 !important;
+				color: white;
+			}
+
+			.arrow-back:hover:after {
+				right: 100%;
+				top: 50%;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+				border-color: rgba(136, 183, 213, 0);
+				border-right-color: #717073;
+				border-width: 18px;
+				margin-top: -18px;
+			}
+			/*breadcrumbs*/
+
+			ul#breadcrumbs {
+				z-index: 10;
+			}
+
+			ul#breadcrumbs li {
+				position: relative;
+				padding: 0;
+			}
+
+			ul#breadcrumbs li:hover {
+				background: #4a6c81;
+				color: white;
+			}
+
+			ul#breadcrumbs li .text-area {
+				display: inline-block;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-webkit-transition: width 0.25s ease;
+				-moz-transition: width 0.25s ease;
+				transition: width 0.25s ease;
+			}
+
+			ul#breadcrumbs li:hover .text-area {
+				width: 150px;
+			}
+
+			#breadcrumbs li {
+				color: white;
+				width: 95%;
+				position: relative;
+				margin-right: 12px;
+				border-left: 12px solid white;
+				border-right: 0px solid transparent;
+				border-top: 12px solid #5d87a1;
+				border-bottom: 12px solid #5d87a1;
+				-webkit-transition: width 0.25s ease;
+				-moz-transition: width 0.25s ease;
+				transition: width 0.25s ease;
+				font-size: 83% !important;
+			}
+
+			#breadcrumbs li.active {
+				background: #f26531;
+				margin-right: 18px;
+				border-left: 12px solid white;
+				border-right: 0px solid transparent;
+				border-top: 12px solid #f26531;
+				border-bottom: 12px solid #f26531;
+			}
+
+			#breadcrumbs li.active.active:after {
+				left: 100%;
+				top: 50%;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+				border-color: rgba(136, 183, 213, 0);
+				border-left-color: #f26531;
+				border-width: 12px;
+				margin-top: -12px;
+				-webkit-transition: all 0.25s ease;
+				-moz-transition: all 0.25s ease;
+				transition: all 0.25s ease;
+			}
+
+			#breadcrumbs li.active.active:hover:after {
+				border-left-color: #e2470e;
+			}
+
+			#breadcrumbs li.active:hover {
+				background: #e2470e;
+				border-top-color: #e2470e;
+				border-bottom-color: #e2470e;
+			}
+
+			#breadcrumbs li:hover {
+				background: #4a6c81;
+				border-top-color: #4a6c81;
+				border-bottom-color: #4a6c81;
+			}
+
+			#breadcrumbs li:hover:after {
+				border-left-color: #4a6c81;
+			}
+
+			#breadcrumbs li:after {
+				left: 100%;
+				top: 50%;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+				border-color: rgba(136, 183, 213, 0);
+				border-left-color: #5d87a1;
+				border-width: 12px;
+				margin-top: -12px;
+				-webkit-transition: all 0.25s ease;
+				-moz-transition: all 0.25s ease;
+				transition: all 0.25s ease;
+			}
+
+			#breadcrumbs li .text-area {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				left: 5px;
+			}
+
+			@media (min-width: 768px) {
+				#breadcrumbs li {
+					width: 100px;
+				}
+			}
+			/** FOR THE DESKTOP **/
+
+			@media (max-width: 480px) {
+				#breadcrumbToggler {
+					display: inline-block !important;
+					width: 80%;
+				}
+			}
+			/*GPO GRAY */
+
+			@media (min-width: 768px) {
+				#breadcrumbs li {
+					width: 200px;
+				}
+			}
+		</style>
+	</head>
+
+		<body>
+		<!-- Govinfo header -->
+		<div role="main" id="homeId">
+		<section id="homeheaderId" data-role="header">
+			<div id="searchheaderId">
+			    <nav class="navbar navbar-fdsys navbar-fixed-top" role="navigation">
+			        <div class="container">
+			            <div class="navbar-header">
+			              <div class="mainMenu-toggle__container">
+			                <a class="mainMenu-toggle visible-xs" type="button" href="#mainMenu">
+			                  <span class="menuBar-1"></span>
+			                  <span class="menuBar-2"></span>
+			                  <span class="menuBar-3"></span>
+			                </a>
+			                <div id="mainMenu-toggle__text" class="visible-xs">Menu</div>
+			              </div>
+			              <a href="/" class="navbar-brand" id="headerLogoId1">
+			                <img alt="Logo: govinfo" class="img-responsive" src="/media/GovInfo_logo_gray.png" border="0">
+			              </a>
+			              <a id="search-toggler" type="button" href="#searchHolder" data-toggle="collapse" class="navbar-right visible-xs" aria-controls="searchHolder">
+			                <i class="fa fa-search"></i> Search
+			              </a>
+			            </div>
+						<div id="mainMenu" class="navbar-nav__outer">
+			                <ul class="nav navbar-nav" role="navigation">
+			                    <li class="dropdown">
+			                      <a id="browseMenu" aria-owns="browseSubMenu" aria-controls="browseSubMenu" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle govinfo-header-tab" href="#">Browse</a>
+			                      <ul id="browseSubMenu" class="dropdown-menu" aria-expanded="false" aria-hidden="true">
+			                          <li><a href="/browse-a-z">A to Z</a></li>
+			                          <li><a class='spa-href' href="/app/browse/category">Category</a></li>
+			                          <li><a class='spa-href' href="/app/browse/date">Date</a></li>
+			                          <li> <a href="/browse/committee">Committee</a></li>
+			                          <li><a class='spa-href' href="/app/browse/author">Author</a></li>
+			                      </ul>
+			                    </li>
+			                    <li class="dropdown">
+			                        <a id="aboutMenu" aria-owns="aboutSubMenu" aria-controls="aboutSubMenu" aria-haspopup="true" data-toggle="dropdown" class="dropdown-toggle govinfo-header-tab" href="#">About</a>
+			                        <ul id="aboutSubMenu" class="dropdown-menu" aria-haspopup="true">
+			                            <li><a href="/about">About</a></li>
+			                            <!-- <li><a href="/about/metrics">Metrics</a></li> -->
+			                            <li><a href="/about/policies">Policies</a></li>
+			                            <li><a href="/about/authentication">Authentication</a></li>
+			                            <li><a href="/about/digital-preservation">Digital Preservation</a></li>
+			                            <li><a href="/about/history">History</a></li>
+			                            <li><a href="/about/agency-submission">Agency Submission</a></li>
+			                            <li><a href="/about/us-gov-info">U.S. Government Information</a></li>
+			                            <li><a href="/about#fdsys-transition">FDsys Retirement</a></li>
+			                        </ul>
+			                    </li>
+			                    <li class="dropdown">
+			                        <a id="devMenu" aria-owns="devSubMenu" aria-controls="devSubMenu" aria-haspopup="true" data-toggle="dropdown" class="dropdown-toggle govinfo-header-tab" href="#">Developers</a>
+			                        <ul id="devSubMenu" class="dropdown-menu">
+			                            <li><a href="/developers">Developer Hub</a></li>
+			                            <li><a class="api_url--header" href="https://api.govinfo.gov/docs">API</a></li>
+			                            <li><a href="/bulkdata">Bulk Data Repository</a></li>
+			                            <li><a href="/link-docs">Link Service</a></li>
+			                            <li><a href="/feeds">Feeds</a></li>
+			                             <li><a href="/sitemaps">Sitemaps</a></li>
+			                            <li><a href="/developers/system-design">System Design</a></li>
+
+			                        </ul>
+			                    </li>
+			                    <li class="dropdown">
+			                        <a id="featuresMenu" aria-owns="featuresMenu" aria-controls="featuresMenu"  aria-haspopup="true" data-toggle="dropdown" class="dropdown-toggle govinfo-header-tab" href="#">Features</a>
+			                        <ul id="featuresSubMenu" class="dropdown-menu">
+			                            <li><a href="/features">All Features</a></li>
+			                            <li><a href="/features/featured-content">Featured Content</a></li>
+			                            <li><a href="/features/news">News</a></li>
+			                           <!-- <li><a href="/news">News</a></li>-->
+			                            <li><a href="/features/release-notes">Release Notes</a></li>
+			                            <li><a href="/features/finding-publications">Finding Publications</a></li>
+			                        </ul>
+			                    </li>
+			                    <li class="dropdown">
+			                        <a id="helpMenu" aria-owns="helpSubMenu" aria-controls="helpSubMenu" aria-haspopup="true" data-toggle="dropdown" class="dropdown-toggle govinfo-header-tab" href="#">Help</a>
+			                        <ul id="helpSubMenu" class="dropdown-menu">
+			                            <li><a href="/help">Help</a></li>
+			                            <li><a href="/help/finding-info">Finding Information</a></li>
+			                            <li><a href="/help/whats-available">What's Available</a></li>
+			                            <li><a href="/help/tutorials-handouts">Tutorials and Handouts</a></li>
+			                            <li><a href="/help/other-resources">Other Resources</a></li>
+			                        </ul>
+			                    </li>
+			                    <li class="dropdown">
+			                        <a id="feedbackMenu" aria-owns="feedbackSubMenu" aria-controls="feedbackSubMenu" aria-haspopup="true" data-toggle="dropdown" class="dropdown-toggle govinfo-header-tab" href="#">Feedback</a>
+			                        <ul id="feedbackSubMenu" class="dropdown-menu" aria-expanded="false" aria-hidden="true">
+			                          <li><a href="https://www.surveymonkey.com/r/govinfo-feedback-survey" target="_blank">Submit Feedback</a></li>
+			                           <li><a href="/contact">Contact Us</a></li>
+			                        </ul>
+			                    </li>
+			                </ul>
+			                <!--/nav navbar-nav-->
+			                <ul class="nav navbar-nav navbar-right hidden-xs" >
+			                    <li>
+			                        <a id="togglesearch-btn" href="#searchHolder" class="btn btn-orange collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="searchHolder">
+			                          <span class="fa fa-search"></span>
+			                          <span class="sr-only">Toggle the Search Widget</span>
+			                          <span class='hidden-xs hidden-sm'>Search</span>
+			                          <i class="fa fa-caret-up" aria-hidden="true"></i>
+			                          <i class="fa fa-caret-down" aria-hidden="true"></i>
+			                        </a>
+			                    </li>
+			                </ul>
+			            </div>
+			            <!-- /.nav-collapse -->
+			        </div>
+			        <!--/container-->
+				</nav>
+				 <!--SEARCH WIDGE -->
+			</div>
+				<div id="searchWidgetContainer" class="container-fluid">
+					<div id="searchHolder" class="row collapse">
+						<div id="close-search" class="hidden-xs">
+						  <a class="btn btn-lg" data-toggle="collapse" href="#searchHolder" aria-expanded="false" aria-controls="searchHolder">
+							<i class="fa fa-times"></i>
+							<span class="sr-only">Close The Search Widget</span>
+						  </a>
+						</div>
+						<div class="col-xs-12 main-search-box" id="searchwidget">
+							<script src="/app/infrastructure.js"></script>
+							<script id="sembedderscriptID" src="/app/searchembedder.bundle.6.31.0.js"></script>
+						</div>
+					</div>
+				</div>
+		</section>
+		</div>
+		<div class="contentarea fw-tab-content" data-id="search" data-role="content" data-cid="view1" style="display: none;">
+		</div>
+		<div class="contentarea fw-tab-content" data-id="browse" data-role="content" data-cid="view1" style="display: none;">
+			<div id="title-banner">
+				<div class="container" id="collectionbrowsecontentId">
+					<div class="row">
+						<div class="col-xs-12 col-sm-9">
+							<h1 id="tabTitle">Browse by Category</h1>
+						</div>
+						<div id="HeaderShareMenu" class="col-xs-12 col-sm-3 text-right">
+
+
+
+
+							<div id="drupalShare" class="vertical-center displayAddThis" addthis:title="Bulk Data Repository" addthis:url="/bulkdata">
+								<a class="white"><i class=" fa fa-share-alt"> </i> Share</a>
+							</div>
+						</div>
+						<div class="col-xs-12 hidden-xs">
+							<div class="region-browse-nav">
+								<ul class="nav nav-tabs">
+									<li><a href="/browse-a-z">A to Z</a></li>
+									<li id="category" class="fw-tab-toggle fw-tab-default active" data-viewconstructor="NewBrowseCategoryView" data-cid="view6"><a>Category</a></li>
+									<li id="date" class="fw-tab-toggle" data-viewconstructor="NewBrowseDateView" data-cid="view6">
+										<a>Date</a></li>
+									<li><a href="/browse/committee">Committee</a></li>
+									<li id="author" class="fw-tab-toggle" data-viewconstructor="NewBrowseAuthorView" data-cid="view6"><a>Author</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/search tabs-->
+			<div style="overflow-x:hidden;">
+				<div class="row">
+					<div class="container">
+						<div role="tabpanel" class="tab-pane active" id="simple">
+							<div id="browsecategorycontentId" class="fw-tab-content tab-panel browsecontentarea" data-id="category" role="content" data-cid="view6" style="display: block;"><div id="main" class="container">
+								<div class="row">
+									<div class="col-xs-12">
+
+										<p>
+											<i>Select a category below to view document collections
+												by type.</i>
+										</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										<div class="row hidden-xs">
+											<div id="categories-list" class="col-xs-12 col-sm-4">
+												<ul class="browse-category">
+													<li><a data-url="bills-statutes" id="bills-statutes-btn" data-parent="rowToggles" data-toggle="collapse" data-href="#bills-statutes" aria-expanded="false" aria-controls="bills-statutes">
+														<div class="browse-card">Bills and Statutes</div>
+													</a></li>
+													<li><a data-url="budget-presidential" data-toggle="collapse" data-parent="rowToggles" data-href="#budget-pres-materials" aria-expanded="false" aria-controls="row1Items">
+														<div class="browse-card">Budget and Presidential Materials</div>
+													</a></li>
+													<li><a data-url="committee-materials" data-toggle="collapse" data-parent="rowToggles" data-href="#c-c-materials" aria-expanded="false" aria-controls="row1Items">
+														<div class="browse-card">Congressional Committee Materials</div>
+													</a></li>
+													<li><a data-url="congressional-rules" data-toggle="collapse" data-parent="rowToggles" data-href="#cong-rules-proced" aria-expanded="false" aria-controls="row1Items">
+														<div class="browse-card">Congressional Rules and Procedures</div>
+													</a></li>
+													<li><a data-url="directories-of-orgs" data-toggle="collapse" data-href="#dir-org-offic" aria-expanded="false" aria-controls="dir-org-offic">
+														<div class="browse-card">Directories of Organizations and
+															Officials</div>
+													</a></li>
+													<li><a data-url="exec-agency-pubs" data-toggle="collapse" data-href="#exec-agency-pubs" aria-expanded="false" aria-controls="exec-agency-pubs">
+														<div class="browse-card">Executive Agency Publications</div>
+													</a></li>
+													<li><a data-url="judicial-pubs" data-toggle="collapse" data-href="#jud-pub" aria-expanded="false" aria-controls="jud-pub">
+														<div class="browse-card">Judicial Publications</div>
+													</a></li>
+													<li><a data-url="legislative-pubs" data-toggle="collapse" data-href="#leg-agency-pub" aria-expanded="false" aria-controls="leg-agency-pub">
+														<div class="browse-card">Legislative Agency Publications</div>
+													</a></li>
+													<li><a data-url="proceedings-general" data-toggle="collapse" data-href="#proced-cong-gen-cong-pub" aria-expanded="false" aria-controls="proced-cong-gen-cong-pub">
+														<div class="browse-card">Proceedings of Congress and General
+															Congressional Publications</div>
+													</a></li>
+													<li><a data-url="regulatory-info" data-toggle="collapse" data-href="#reg-info" aria-expanded="false" aria-controls="reg-info">
+														<div class="browse-card">Regulatory Information</div>
+													</a></li>
+												</ul>
+											</div>
+											<div id="subcategories-list" class="col-xs-12 col-sm-7 col-sm-offset-1">
+												<div id="rowToggles">
+													<!--sub categories-->
+													<div class="row sub-categories collapse in" id="bills-statutes" style="">
+
+														<div class="col-xs-12">
+															<h3>Bills and Statutes</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="BILLS" data-category="bills_and_statutes" class="spa-href" href="/app/collection/bills">Congressional
+																	Bills</a></li>
+																<li><a data-collectioncode="PLAW" data-category="bills_and_statutes" class="spa-href" href="/app/collection/plaw">Public
+																	and Private Laws</a></li>
+																<li><a data-collectioncode="STATUTE" data-category="bills_and_statutes" class="spa-href" href="/app/collection/statute">Statutes
+																	At Large</a></li>
+																<li><a data-collectioncode="USCODE" data-category="bills_and_statutes" class="spa-href" href="/app/collection/uscode">U.S. Code</a></li>
+															</ul>
+														</div>
+													</div>
+													<div class="row collapse sub-categories" id="budget-pres-materials">
+
+														<div class="col-xs-12">
+															<h3>Budget and Presidential Materials</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="BUDGET" data-category="budget_and_presidential_materials" class="spa-href" href="/app/collection/budget">Budget
+																	of the U.S. Government</a></li>
+																<li><a data-collectioncode="CPD" data-category="budget_and_presidential_materials" class="spa-href" href="/app/collection/cpd">Compilation
+																	of Presidential Documents</a></li>
+																<li><a data-collectioncode="ERP" data-category="budget_and_presidential_materials" class="spa-href" href="/app/collection/erp">Economic
+																	Report of the President</a></li>
+																<li><a data-collectioncode="PPP" data-category="budget_and_presidential_materials" class="spa-href" href="/app/collection/ppp">Public
+																	Papers of the President</a></li>
+															</ul></div>
+													</div>
+													<div class="row collapse sub-categories" id="c-c-materials">
+
+														<div class="col-xs-12">
+															<h3>Congressional Committee Materials</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/appropriations-and-budget-estimates">Appropriations,
+																	Budget Estimates, etc</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/green-book">Background Material and Data on the
+																	Programs within the Jurisdiction of the Committee on Ways and
+																	Means (Green Book)</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/challenger-space-shuttle-accident">Challenger
+																	Space Shuttle Accident Selected Congressional Hearings and
+																	Reports</a></li>
+																<li><a data-collectioncode="CPRT" data-category="congressional_committee_materials" class="spa-href" href="/app/collection/cprt">Congressional
+																	Committee Prints</a></li>
+																<li><a data-collectioncode="CDOC" data-category="congressional_rules_and_procedures" class="spa-href" href="/app/collection/cdoc">Congressional
+																	Documents</a></li>
+																<li><a data-collectioncode="CHRG" data-category="congressional_committee_materials" class="spa-href" href="/app/collection/chrg">Congressional
+																	Hearings</a></li>
+																<li><a data-collectioncode="CRPT" data-category="congressional_committee_materials" class="spa-href" href="/app/collection/crpt">Congressional
+																	Reports</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/constitution-annotated">Constitution of the
+																	United States of America: Analysis and Interpretation</a></li>
+																<li><a data-collectioncode="ECONI" data-category="congressional_committee_materials" class="spa-href" href="/app/collection/econi">Economic
+																	Indicators</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/featured-commission-publications">Featured
+																	Commission Publications</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/featured-house-publications">Featured House
+																	Publications</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/featured-joint-publications">Featured Joint
+																	Publications</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/featured-senate-publications">Featured Senate
+																	Publications</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/independent-counsel-investigations">Independent
+																	Counsel Investigations</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/legislative-calendars">Legislative Calendars</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/supreme-court-nomination-hearings">Supreme
+																	Court Nomination Hearings</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/plum-book">United States Government Policy and
+																	Supporting Positions (Plum Book)</a></li>
+															</ul>
+														</div>
+													</div>
+													<div class="row collapse sub-categories" id="cong-rules-proced">
+														<div class="col-xs-12">
+															<h3>Congressional Rules and Procedures</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="CDOC" data-category="congressional_rules_and_procedures" class="spa-href" href="/app/collection/cdoc">Congressional
+																	Documents</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_rules_and_procedures" href="/collection/house-practice">House Practice</a></li>
+																<li><a data-collectioncode="HMAN" data-category="congressional_rules_and_procedures" class="spa-href" href="/app/collection/hman">House
+																	Rules and Manual</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_rules_and_procedures" href="/collection/precedents-of-the-house">Precedents of the U.S.
+																	House of Representatives</a></li>
+																<li><a data-collectioncode="other" data-category="congressional_rules_and_procedures" href="/collection/riddicks-senate-procedure">Riddick's Senate
+																	Procedure</a></li>
+																<li><a data-collectioncode="SMAN" data-category="congressional_rules_and_procedures" class="spa-href" href="/app/collection/sman">Senate
+																	Manual</a></li>
+															</ul>
+														</div>
+													</div>
+													<div class="row collapse sub-categories" id="dir-org-offic">
+
+														<div class="col-sm-12">
+															<h3>Directories of Organizations and Officials</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="CDIR" data-category="directories_of_organizations_and_officials" class="spa-href" href="/app/collection/cdir">Congressional
+																	Directory</a></li>
+																<li><a data-collectioncode="other" data-category="directories_of_organizations_and_officials" href="/collection/congressional-pictorial-directory">Congressional
+																	Pictorial Directory</a></li>
+																<li><a data-collectioncode="GOVMAN" data-category="directories_of_organizations_and_officials" class="spa-href" href="/app/collection/govman">United
+																	States Government Manual</a></li>
+															</ul>
+														</div>
+													</div>
+													<div class="row collapse sub-categories" id="exec-agency-pubs">
+
+														<div class="col-xs-12">
+															<h3>Executive Agency Publications</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="CZIC" data-category="executive_agency_publications" class="spa-href" href="/app/collection/czic">Coastal
+																	Zone Information Center</a></li>
+																<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/interior-inspector-general-reports">Department
+																	of Interior Inspector General Reports</a></li>
+																<li><a data-collectioncode="ERIC" data-category="executive_agency_publications" class="spa-href" href="/app/collection/eric">Education
+																	Reports from ERIC</a></li>
+																<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/featured-board-publications">Featured Board
+																	Publications</a></li>
+																<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/featured-commission-publications">Featured
+																	Commission Publications</a></li>
+																<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/featured-executive-branch-publications">Featured
+																	Executive Branch Publications</a></li>
+																<li><a data-collectioncode="GOVPUB" data-category="executive_agency_publications" href="/collection/nist">NIST Publications</a></li>
+																<li><a data-category="executive_agency_publications" href="/collection/panama-canal">Panama Canal Related Publications</a></li>
+																<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/jfk-assassination-records-collection">President
+																	John F. Kennedy Assassination Records Collection</a></li>
+																<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/watergate-special-prosecution-force-records">Records
+																	of the Watergate Special Prosecution Force, 1971 -1977</a></li>
+																<li><a data-collectioncode="GOVPUB" data-category="executive_agency_publications" href="/collection/treasury-department">Treasury Department Publications</a></li>
+															</ul>
+														</div>
+													</div>
+													<div class="row collapse sub-categories" id="jud-pub">
+
+														<div class="col-xs-12">
+															<h3>Judicial Publications</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="other" data-category="judicial_publications" href="/collection/featured-judicial-publications">Featured
+																	Judicial Publications</a></li>
+																<li><a data-collectioncode="USCOURTS" data-category="judicial_publications" class="spa-href" href="/app/collection/uscourts">United
+																	States Courts Opinions</a></li>
+																<li><a data-collectioncode="other" data-category="judicial_publications" href="/collection/independent-counsel-investigations">Independent
+																	Counsel Investigations</a></li>
+															</ul>
+														</div>
+													</div>
+													<div class="row collapse sub-categories" id="leg-agency-pub">
+
+														<div class="col-xs-12">
+															<h3>Legislative Agency Publications</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="other" data-category="legislative_agency_publications" href="/collection/featured-commission-publications">Featured
+																	Commission Publications</a></li>
+																<li><a data-collectioncode="other" data-category="legislative_agency_publications" href="/collection/featured-legislative-branch-publications">Featured
+																	Legislative Branch Publications</a></li>
+																<li><a data-category="legislative_agency_publications" href="/collection/FDLP">Federal Depository Library Program Publications</a></li>
+																<li><a data-collectioncode="GAOREPORTS" data-category="legislative_agency_publications" class="spa-href" href="/app/collection/gaoreports">GAO
+																	Reports and Comptroller General Decisions</a></li>
+																<li><a data-collectioncode="other" data-category="legislative_agency_publications" href="/collection/gpo">U.S. Government Publishing Office Publications</a></li>
+															</ul>
+														</div>
+													</div>
+													<!--sub categories-->
+													<div class="row collapse sub-categories" id="proced-cong-gen-cong-pub">
+
+														<div class="col-xs-12">
+															<h3>Proceedings of Congress and General Congressional
+																Publications</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="CCAL" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/ccal">Congressional
+																	Calendars</a></li>
+																<li><a data-collectioncode="CREC" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/crec">Congressional
+																	Record</a></li>
+																<li><a data-collectioncode="CRECB" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/crecb">Congressional
+																	Record (Bound Edition)</a></li>
+																<li><a data-collectioncode="CRI" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/cri">Congressional
+																	Record Index</a></li>
+																<li><a data-collectioncode="other" data-category="proceedings_of_congress_and_general_congressional_publications" href="/collection/featured-house-publications">Featured House
+																	Publications</a></li>
+																<li><a data-collectioncode="other" data-category="proceedings_of_congress_and_general_congressional_publications" href="/collection/featured-senate-publications">Featured Senate
+																	Publications</a></li>
+																<li><a data-collectioncode="HOB" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/hob">History
+																	of Bills</a></li>
+																<li><a data-collectioncode="HJOURNAL" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/hjournal">Journal of the House of Representatives</a></li>
+																<li><a data-collectioncode="other" data-category="proceedings_of_congress_and_general_congressional_publications" href="/collection/precedents-of-the-house">Precedents of the U.S.
+																	House of Representatives</a></li>
+															</ul>
+														</div>
+													</div>
+													<div class="row collapse sub-categories" id="reg-info">
+
+														<div class="col-xs-12">
+															<h3>Regulatory Information</h3>
+															<div class="underline-border">
+																<span></span>
+															</div>
+															<ul>
+																<li><a data-collectioncode="CFRPARTS" data-category="regulatory_information" class="spa-href" href="/app/cfrparts/month">CFR Parts Affected from the Federal Register</a></li>
+																<li><a data-collectioncode="CFR" data-category="regulatory_information" class="spa-href" href="/app/collection/cfr">Code
+																	of Federal Regulations</a></li>
+																<li><a data-collectioncode="FR" data-category="regulatory_information" class="spa-href" href="/app/collection/fr">Federal
+																	Register</a></li>
+																<li><a data-collectioncode="LSA" data-category="regulatory_information" class="spa-href" href="/app/collection/lsa">List
+																	of CFR Sections Affected</a></li>
+																<li><a data-collectioncode="PAI" data-category="regulatory_information" class="spa-href" href="/app/collection/pai">Privacy
+																	Act Issuances</a></li>
+																<li><a data-collectioncode="UA" data-category="regulatory_information" href="/collection/unified-agenda">Unified Agenda</a></li>
+															</ul></div>
+													</div>
+												</div>
+												<!--/row3toggles-->
+											</div>
+										</div>
+										<!--/row-->
+
+
+										<!--mobile-->
+
+										<div class="row visible-xs">
+
+											<div id="m-categories-list" class="col-xs-12 col-sm-4">
+												<ul>
+													<li class="has-sublevel">
+														<a id="bills-statutes-btn" data-parent="rowToggles" data-url="bills-statutes" data-toggle="collapse" data-href="#m-bills-statutes" aria-expanded="false" aria-controls="bills-statutes" class="collapsed has-arrow ">
+															Bills and Statutes
+														</a>
+														<div class="row collapse sub-categories sublevel-container" id="m-bills-statutes">
+															<div class="col-xs-12">
+																<ul>
+																	<li><a data-collectioncode="BILLS" data-category="bills_and_statutes" class="spa-href" href="/app/collection/bills">Congressional
+																		Bills</a></li>
+																	<li><a data-collectioncode="PLAW" data-category="bills_and_statutes" class="spa-href" href="/app/collection/plaw">Public
+																		and Private Laws</a></li>
+																	<li><a data-collectioncode="STATUTE" data-category="bills_and_statutes" class="spa-href" href="/app/collection/statute">Statutes
+																		At Large</a></li>
+																	<li><a data-collectioncode="USCODE" data-category="bills_and_statutes" class="spa-href" href="/app/collection/uscode">U.S. Code</a></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="has-sublevel">
+														<a data-toggle="collapse" data-parent="rowToggles" data-url="budget-presidential" data-href="#m-budget-pres-materials" aria-expanded="false" aria-controls="row1Items" class="collapsed has-arrow ">
+															Budget and Presidential Materials
+														</a>
+														<div class="row collapse sub-categories" id="m-budget-pres-materials">
+															<div class="col-xs-12">
+																<ul>
+																	<li><a data-collectioncode="BUDGET" data-category="budget_and_presidential_materials" class="spa-href" href="/app/collection/budget">Budget
+																		of the U.S. Government</a></li>
+																	<li><a data-collectioncode="CPD" data-category="budget_and_presidential_materials" class="spa-href" href="/app/collection/cpd">Compilation
+																		of Presidential Documents</a></li>
+																	<li><a data-collectioncode="ERP" data-category="budget_and_presidential_materials" class="spa-href" href="/app/collection/erp">Economic
+																		Report of the President</a></li>
+																	<li><a data-collectioncode="PPP" data-category="budget_and_presidential_materials" class="spa-href" href="/app/collection/ppp">Public
+																		Papers of the President</a></li>
+																</ul></div>
+														</div></li>
+													<li class="has-sublevel"><a data-toggle="collapse" data-parent="rowToggles" data-href="#m-c-c-materials" aria-expanded="false" data-url="committee-materials" aria-controls="row1Items" class="collapsed has-arrow">
+														Congressional Committee Materials
+													</a>
+														<div class="row collapse sub-categories" id="m-c-c-materials">
+															<div class="col-xs-12">
+																<ul>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/appropriations-and-budget-estimates">Appropriations,
+																		Budget Estimates, etc</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/green-book">Background Material and Data on
+																		the Programs within the Jurisdiction of the Committee on Ways
+																		and Means (Green Book)</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/challenger-space-shuttle-accident">Challenger
+																		Space Shuttle Accident Selected Congressional Hearings and
+																		Reports</a></li>
+																	<li><a data-collectioncode="CPRT" data-category="congressional_committee_materials" class="spa-href" href="/app/collection/cprt">Congressional
+																		Committee Prints</a></li>
+																	<li><a data-collectioncode="CDOC" data-category="congressional_rules_and_procedures" class="spa-href" href="/app/collection/cdoc">Congressional
+																		Documents</a></li>
+																	<li><a data-collectioncode="CHRG" data-category="congressional_committee_materials" class="spa-href" href="/app/collection/chrg">Congressional
+																		Hearings</a></li>
+																	<li><a data-collectioncode="CRPT" data-category="congressional_committee_materials" class="spa-href" href="/app/collection/crpt">Congressional
+																		Reports</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/constitution-annotated">Constitution of the
+																		United States of America: Analysis and Interpretation</a></li>
+																	<li><a data-collectioncode="ECONI" data-category="congressional_committee_materials" class="spa-href" href="/app/collection/econi">Economic
+																		Indicators</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/featured-commission-publications">Featured
+																		Commission Publications</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/featured-house-publications">Featured House
+																		Publications</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/featured-joint-publications">Featured Joint
+																		Publications</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/featured-senate-publications">Featured Senate
+																		Publications</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/independent-counsel-investigations">Independent
+																		Counsel Investigations</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/legislative-calendars">Legislative Calendars</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/supreme-court-nomination-hearings">Supreme
+																		Court Nomination Hearings</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_committee_materials" href="/collection/plum-book">United States Government Policy and
+																		Supporting Positions (Plum Book)</a></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="has-sublevel"><a data-toggle="collapse" data-parent="rowToggles" data-href="#m-cong-rules-proced" aria-expanded="false" data-url="congressional-rules" aria-controls="row1Items" class="collapsed has-arrow">
+														Congressional Rules and Procedures
+													</a>
+														<div class="row collapse sub-categories" id="m-cong-rules-proced">
+															<div class="col-xs-12">
+																<ul>
+																	<li><a data-collectioncode="CDOC" data-category="congressional_rules_and_procedures" class="spa-href" href="/app/collection/cdoc">Congressional
+																		Documents</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_rules_and_procedures" href="/collection/house-practice">House Practice</a></li>
+																	<li><a data-collectioncode="HMAN" data-category="congressional_rules_and_procedures" class="spa-href" href="/app/collection/hman">House
+																		Rules and Manual</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_rules_and_procedures" href="/collection/precedents-of-the-house">Precedents of the
+																		U.S. House of Representatives</a></li>
+																	<li><a data-collectioncode="other" data-category="congressional_rules_and_procedures" href="/collection/riddicks-senate-procedure">Riddick's Senate
+																		Procedure</a></li>
+																	<li><a data-collectioncode="SMAN" data-category="congressional_rules_and_procedures" class="spa-href" href="/app/collection/sman">Senate
+																		Manual</a></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="has-sublevel"><a data-toggle="collapse" data-url="directories-of-orgs" data-href="#m-dir-org-offic" aria-expanded="false" aria-controls="dir-org-offic" class="collapsed has-arrow">
+														Directories of Organizations and Officials
+													</a>
+														<div class="row collapse sub-categories" id="m-dir-org-offic">
+															<div class="col-sm-12">
+																<ul>
+																	<li><a data-collectioncode="CDIR" data-category="directories_of_organizations_and_officials" class="spa-href" href="/app/collection/cdir">Congressional
+																		Directory</a></li>
+																	<li><a data-collectioncode="other" data-category="directories_of_organizations_and_officials" href="/collection/congressional-pictorial-directory">Congressional
+																		Pictorial Directory</a></li>
+																	<li><a data-collectioncode="GOVMAN" data-category="directories_of_organizations_and_officials" class="spa-href" href="/app/collection/govman">United
+																		States Government Manual</a></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="has-sublevel"><a data-toggle="collapse" data-href="#m-exec-agency-pubs" data-url="exec-agency-pubs" aria-expanded="false" aria-controls="exec-agency-pubs" class="collapsed has-arrow">
+														Executive Agency Publications
+													</a>
+														<div class="row collapse sub-categories" id="m-exec-agency-pubs">
+															<div class="col-xs-12">
+																<ul>
+																	<li><a data-collectioncode="CZIC" data-category="executive_agency_publications" class="spa-href" href="/app/collection/czic">Coastal
+																		Zone Information Center</a></li>
+																	<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/interior-inspector-general-reports">Department
+																		of Interior Inspector General Reports</a></li>
+																	<li><a data-collectioncode="ERIC" data-category="executive_agency_publications" class="spa-href" href="/app/collection/eric">Education
+																		Reports from ERIC</a></li>
+																	<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/featured-board-publications">Featured Board
+																		Publications</a></li>
+																	<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/featured-commission-publications">Featured
+																		Commission Publications</a></li>
+																	<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/featured-executive-branch-publications">Featured
+																		Executive Branch Publications</a></li>
+																	<li><a data-collectioncode="GOVPUB" data-category="executive_agency_publications" href="/collection/nist">NIST Publications</a></li>
+																	<li><a data-category="executive_agency_publications" href="/collection/panama-canal">Panama Canal Related Publications</a></li>
+																	<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/jfk-assassination-records-collection">President
+																		John F. Kennedy Assassination Records Collection</a></li>
+																	<li><a data-collectioncode="other" data-category="executive_agency_publications" href="/collection/watergate-special-prosecution-force-records">Records
+																		of the Watergate Special Prosecution Force, 1971 -1977</a></li>
+																	<li><a data-collectioncode="GOVPUB" data-category="executive_agency_publications" href="/collection/treasury-department">Treasury
+																		Department Publications</a></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="has-sublevel"><a data-toggle="collapse" data-href="#m-jud-pub" data-url="judicial-pubs" aria-expanded="false" aria-controls="jud-pub" class="collapsed has-arrow">
+														Judicial Publications
+													</a>
+														<div class="row collapse sub-categories" id="m-jud-pub">
+															<div class="col-xs-12">
+																<ul>
+																	<li><a data-collectioncode="other" data-category="judicial_publications" href="/collection/featured-judicial-publications">Featured
+																		Judicial Publications</a></li>
+																	<li><a data-collectioncode="USCOURTS" data-category="judicial_publications" class="spa-href" href="/app/collection/uscourts">United
+																		States Courts Opinions</a></li>
+																	<li><a data-collectioncode="other" data-category="judicial_publications" href="/collection/independent-counsel-investigations">Independent
+																		Counsel Investigations</a></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="has-sublevel"><a data-toggle="collapse" data-href="#m-leg-agency-pub" data-url="legislative-pubs" aria-expanded="false" aria-controls="leg-agency-pub" class="collapsed has-arrow">
+														Legislative Agency Publications
+													</a>
+														<div class="row collapse sub-categories" id="m-leg-agency-pub">
+															<div class="col-xs-12">
+																<ul>
+																	<li><a data-collectioncode="other" data-category="legislative_agency_publications" href="/collection/featured-commission-publications">Featured
+																		Commission Publications</a></li>
+																	<li><a data-collectioncode="other" data-category="legislative_agency_publications" href="/collection/featured-legislative-branch-publications">Featured Legislative Branch Publications</a></li>
+																	<li><a data-category="legislative_agency_publications" href="/collection/FDLP">Federal Depository Library Program Publications</a></li>
+																	<li><a data-collectioncode="GAOREPORTS" data-category="legislative_agency_publications" class="spa-href" href="/app/collection/gaoreports">GAO
+																		Reports and Comptroller General Decisions</a></li>
+																	<li><a data-collectioncode="other" data-category="legislative_agency_publications" href="/collection/gpo">U.S. Government Publishing Office Publications</a></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="has-sublevel"><a data-toggle="collapse" data-href="#m-proced-cong-gen-cong-pub" data-url="proceedings-general" aria-expanded="false" aria-controls="proced-cong-gen-cong-pub" class="collapsed has-arrow">
+														Proceedings of Congress and General Congressional Publications
+													</a>
+														<div class="row collapse sub-categories" id="m-proced-cong-gen-cong-pub">
+															<div class="col-xs-12">
+																<ul>
+																	<li><a data-collectioncode="CCAL" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/ccal">Congressional
+																		Calendars</a></li>
+																	<li><a data-collectioncode="CREC" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/crec">Congressional
+																		Record</a></li>
+																	<li><a data-collectioncode="CRECB" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/crecb">Congressional
+																		Record (Bound Edition)</a></li>
+																	<li><a data-collectioncode="CRI" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/cri">Congressional
+																		Record Index</a></li>
+																	<li><a data-collectioncode="other" data-category="proceedings_of_congress_and_general_congressional_publications" href="/collection/featured-house-publications">Featured House
+																		Publications</a></li>
+																	<li><a data-collectioncode="other" data-category="proceedings_of_congress_and_general_congressional_publications" href="/collection/featured-senate-publications">Featured Senate
+																		Publications</a></li>
+																	<li><a data-collectioncode="HOB" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/hob">History
+																		of Bills</a></li>
+																	<li><a data-collectioncode="HJOURNAL" data-category="proceedings_of_congress_and_general_congressional_publications" class="spa-href" href="/app/collection/hjournal">Journal of the House of Representatives</a></li>
+																	<li><a data-collectioncode="other" data-category="proceedings_of_congress_and_general_congressional_publications" href="/collection/precedents-of-the-house">Precedents of the
+																		U.S. House of Representatives</a></li>
+																</ul>
+															</div>
+														</div></li>
+													<li class="has-sublevel"><a data-toggle="collapse" data-href="#m-reg-info" data-url="regulatory-info" aria-expanded="false" aria-controls="reg-info" class="collapsed has-arrow">
+														Regulatory Information
+													</a>
+														<div class="row collapse sub-categories" id="m-reg-info">
+															<div class="col-xs-12">
+																<ul>
+																	<li><a data-collectioncode="CFRPARTS" data-category="regulatory_information" class="spa-href" href="/app/cfrparts/month">CFR Parts Affected from the Federal Register</a></li>
+																	<li><a data-collectioncode="CFR" data-category="regulatory_information" class="spa-href" href="/app/collection/cfr">Code
+																		of Federal Regulations</a></li>
+																	<li><a data-collectioncode="FR" data-category="regulatory_information" class="spa-href" href="/app/collection/fr">Federal
+																		Register</a></li>
+																	<li><a data-collectioncode="LSA" data-category="regulatory_information" class="spa-href" href="/app/collection/lsa">List
+																		of CFR Sections Affected</a></li>
+																	<li><a data-collectioncode="PAI" data-category="regulatory_information" class="spa-href" href="/app/collection/pai">Privacy
+																		Act Issuances</a></li>
+																	<li><a data-collectioncode="UA" data-category="regulatory_information" href="/collection/unified-agenda">Unified Agenda</a></li>
+																</ul></div>
+														</div></li>
+												</ul>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+								<!--/container-->
+							</div>
+						</div>
+						<div role="alert" id="formErrors" class="text-center"></div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="container">
+						<div role="tabpanel" class="tab-pane">
+							<div id="browsedatecontentId" class="fw-tab-content tab-panel browsecontentarea" data-id="date" role="content" data-cid="view6" style="display: none;">Date
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="container">
+						<div role="tabpanel" class="tab-pane">
+							<div id="browseAuthorContentId" class="fw-tab-content tab-panel browsecontentarea" data-id="author" role="content" data-cid="view6" style="display: none;">Author
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/tab-content-->
+		</div>
+		<!-- Our content -->
+			<div class="contentarea fw-tab-content" data-id="details" data-role="content" data-cid="view1" style="display: block;">
+
+				<div class="row">
+					<div class="col-xs-10 col-xs-offset-1">
+						<div class="alert alert-info" style="background-color: white;">
+							<h2>Error occurred. The content you requested cannot be found.</h2>
+							<p>Please report this error to <a class="underlined-link" href="https://www.gpo.gov/error-pages/askgpo" target="_blank">askGPO.</a></p>
+							<p>Provide the following information to help us resolve this problem: the URL of the page or the content you were trying to access, the steps you followed to produce the error, specific search or browse terms, and/or a screenshot of the page where the error occurred.</p>
+							<p>Thank you for your patience.</p>
+							<p></p>
+							<p><a class="underlined-link" href="/">Homepage</a></p>
+							<p><a id="searchtipsId" href="/help/searching" class="underlined-link">Search Tips</a></p>
+						</div>
+				</div>
+			</div>
+
+			<!-- Govinfo Footer -->
+			<div tabindex="0" id="homefooterId" data-role="footer">
+			<footer>
+			  <a href="#maincontent" class="skip-main">Skip back to top</a>
+			   <div class="container">
+			      <div class="row hidden-xs">
+			         <div class="col-xs-12 col-sm-2">
+			            <div class="underline-title">
+			               <h4>Browse</h4>
+			            </div>
+			            <div class="underline-border"><span></span></div>
+			            <ul class="nav nav-stacked" role="menu">
+			               <li role="menuitem"><a href="/browse-a-z">A to Z</a></li>
+			               <li role="menuitem"><a href="/app/browse/category">Category</a></li>
+			               <li role="menuitem"><a href="/app/browse/date">Date</a></li>
+			               <li role="menuitem"><a href="/browse/committee">Committee</a></li>
+			               <li role="menuitem"><a href="/app/browse/author">Author</a></li>
+			            </ul>
+			         </div>
+			         <div class="col-xs-12 col-sm-2">
+			            <div class="underline-title">
+			               <h4>About</h4>
+			            </div>
+			            <div class="underline-border">
+			               <span></span>
+			            </div>
+			            <ul class="nav nav-stacked" role="menu">
+			              <li role="menuitem"><a href="/about">About</a></li>
+
+			              <!-- <li role="menuitem"><a href="/about/metrics">Metrics</a></li> -->
+			              <li role="menuitem"><a href="/about/policies">Policies</a></li>
+			              <li role="menuitem"><a href="/about/authentication">Authentication</a></li>
+			              <li role="menuitem"><a href="/about/digital-preservation">Digital Preservation</a></li>
+			              <li role="menuitem"><a href="/about/history">History</a></li>
+			              <li role="menuitem"><a href="/about/agency-submission">Agency Submission</a></li>
+			              <li role="menuitem"><a href="/about/us-gov-info">U.S. Government Information</a></li>
+			              <li role="menuitem"><a href="/about#fdsys-transition">FDsys Retirement</a></li>
+			           </ul>
+			         </div>
+			         <div class="col-xs-12 col-sm-2">
+			            <div class="underline-title">
+			               <h4>Developers</h4>
+			            </div>
+			            <div class="underline-border">
+			               <span></span>
+			            </div>
+			            <ul class="nav nav-stacked" role="menu">
+			               <li role="menuitem"><a href="/developers">Developer Hub</a></li>
+			               <li role="menuitem"><a class="api_url--footer" href="https://api.govinfo.gov/docs">API</a></li>
+			               <li role="menuitem"><a href="/bulkdata">Bulk Data Repository</a></li>
+			               <li role="menuitem"><a href="/link-docs">Link Service</a></li>
+			               <li role="menuitem"><a href="/feeds">Feeds</a></li>
+			         <li role="menuitem"><a href="/sitemaps">Sitemaps</a></li>
+			         <li role="menuitem"><a href="/developers/system-design">System Design</a></li>
+			            </ul>
+			         </div>
+			         <div class="col-xs-12 col-sm-2">
+			            <div class="underline-title">
+			               <h4>Features</h4>
+			            </div>
+			            <div class="underline-border">
+			               <span></span>
+			            </div>
+			            <ul class="nav nav-stacked" role="menu">
+			               <li role="menuitem"><a href="/features">All Features</a></li>
+			               <li role="menuitem"><a href="/features/featured-content">Featured Content</a></li>
+			               <li role="menuitem"><a href="/features/news">News</a></li>
+			              <!-- <li><a href="/news">News</a></li>-->
+			               <li role="menuitem"><a href="/features/release-notes">Release Notes</a></li>
+			               <li role="menuitem"><a href="/features/finding-publications">Finding Publications</a></li>
+			            </ul>
+			         </div>
+			         <div class="col-xs-12 col-sm-2">
+			            <div class="underline-title">
+			               <h4>Help</h4>
+			            </div>
+			            <div class="underline-border">
+			               <span></span>
+			            </div>
+			            <ul class="nav nav-stacked" role="menu">
+			               <li role="menuitem"><a href="/help">Help</a></li>
+			               <li role="menuitem"><a href="/help/finding-info">Finding Information</a></li>
+			               <li role="menuitem"><a href="/help/whats-available">What's Available</a></li>
+			               <li role="menuitem"><a href="/help/tutorials-handouts">Tutorials and Handouts</a></li>
+			               <li role="menuitem"><a href="/help/other-resources">Other Resources</a></li>
+			            </ul>
+			         </div>
+			         <div class="col-xs-12 col-sm-2">
+			            <div class="underline-title">
+			               <h4>Feedback</h4>
+			            </div>
+			            <div class="underline-border">
+			               <span></span>
+			            </div>
+			            <ul class="nav nav-stacked" role="menu">
+			              <li role="menuitem"><a href="https://www.surveymonkey.com/r/govinfo-feedback-survey" target="_blank">Submit Feedback</a></li>
+			               <li role="menuitem"><a href="/contact">Contact Us</a></li>
+			            </ul>
+			         </div>
+			      </div>
+			      <!--/row-->
+			      <div class="row hidden-xs">
+			         <div class="col-xs-offset-2 col-xs-4  col-sm-4  text-center">
+			            <a href="http://www.gpo.gov" target="_blank"> <img id="gpo-logo" alt="Government Publishing Office Logo" src="/sites/default/files/gpo-logov1.jpg"></a>
+			            <p class="small">U.S. Government Publishing Office</p>
+			         </div>
+			    <div class="col-xs-6 col-sm-4 ">
+			        <a href="http://www.iso16363.org/iso-certification/certified-clients" target="_blank"><img id="ptab-logo" alt="PTAB" src="/media/USGPO-Certification-Mark-Web-Square-Grey-Background.png"></a>
+
+			    </div>
+			      </div>
+			    <div class="row visible-xs">
+			         <div class="col-xs-12  col-sm-4 col-sm-offset-4  text-center">
+			            <a href="http://www.gpo.gov" target="_blank"> <img id="gpo-logo" alt="Government Publishing Office Logo" src="/sites/default/files/gpo-logov1.jpg"></a>
+			            <p class="small">U.S. Government Publishing Office</p>
+			         </div>
+			    <div class="col-xs-6 col-xs-offset-2 col-sm-4 ">
+			        <a href="http://www.iso16363.org/iso-certification/certified-clients" target="_blank"><img id="ptab-logo" alt="PTAB" src="/media/USGPO-Certification-Mark-Web-Square-Grey-Background.png"></a>
+
+			    </div>
+			      </div>
+			   </div>
+			   <!--/container-fluid-->
+			</footer>
+			    <div id="scrollToTop" class="gototop" style="display: none;">
+			          <a title="Back to Top" role="button" href="#" class="gotop" aria-label="Back to Top"> <span class="sr-only">Back to Top</span><span class="fa fa-chevron-up"></span>
+			          </a>
+			    </div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			document.getElementById("devMenu").classList.add("selected");
+
+			if (navigator.userAgent.match(/android/i)) {
+			  var menuCSS = [
+				document.querySelector('.menuBar-1'),
+				document.querySelector('.menuBar-2'),
+				document.querySelector('.menuBar-3')
+			  ];
+			  var applyClass = menuCSS.map(function (x) {
+				return x.classList.add('device-android');
+			  });
+			};
+			// toggle animation for mobile menu
+			var mainMobileNav = {
+			  navBtn: document.querySelector('.mainMenu-toggle__container'),
+			  navContainer: document.querySelector('.navbar-nav'),
+			  searchHolder: document.getElementById('search-toggler'),
+			  searchText: document.getElementById('mainMenu-toggle__text'),
+			  runToggle: function(e) {
+				e.preventDefault();
+				this.navBtn.classList.toggle('expanded');
+				this.navContainer.classList.toggle('expanded');
+				this.searchHolder.classList.toggle('sr-only');
+				this.searchText.innerHTML = this.searchText.innerHTML === "Menu" ? "Close" : "Menu";
+			  }
+			};
+			mainMobileNav.navBtn.addEventListener('click', function(e) {
+			  mainMobileNav.runToggle(e);
+			});
+
+			var headerFooterArray = function(x) {
+			  switch (window.location.origin) {
+				case 'https://www.int.govinfo.gov':
+				  document.querySelector(x).setAttribute('href', 'https://api.int.govinfo.gov/docs');
+				  break;
+
+				case 'https://curation.int.govinfo.gov':
+				  document.querySelector(x).setAttribute('href', 'https://api.int.govinfo.gov/docs');
+				  break;
+
+				case 'https://www.qa.govinfo.gov':
+				  document.querySelector(x).setAttribute('href', 'https://api.qa.govinfo.gov/docs');
+				  break;
+
+				case 'https://curation.qa.govinfo.gov':
+				  document.querySelector(x).setAttribute('href', 'https://api.qa.govinfo.gov/docs');
+				  break;
+
+				case 'https://www.stage.govinfo.gov':
+				  document.querySelector(x).setAttribute('href', 'https://api.stage.govinfo.gov/docs');
+				  break;
+
+				case 'https://curation.stage.govinfo.gov':
+				  document.querySelector(x).setAttribute('href', 'https://api.stage.govinfo.gov/docs');
+				  break;
+
+				default:
+				  break;
+				}
+			  };
+			headerFooterArray(".api_url--header");
+			headerFooterArray(".api_url--footer");
+
+			function search_toggle(){
+				this.classList.toggle('collapsed');
+			}
+			document.querySelector('#togglesearch-btn').addEventListener('click', search_toggle );
+			</script>
+    </body>
+</html>
+
+

@@ -1,6 +1,15 @@
+/**
+ * File-level Javadoc.
+ *
+ * @author Max Rupplin
+ * @date June 03 2026 EST
+ */
+
 package messaging;
 
 import commons.CommonRails;
+import commons.socket.SocketUtils;
+import exceptions.ExceptionHandler;
 import encryption.module.aes.two.EncryptionModule;
 
 import java.io.BufferedWriter;
@@ -15,39 +24,39 @@ public class MessageOutputHandler implements Runnable
 {
     protected String hash = "0xDA717018470E213F";
 
-    protected Socket socket;
+    protected Socket SOCKET;
 
-    protected StringBuffer buffer;
+    protected StringBuffer BUFFER;
 
-    protected String message;
+    protected String MESSAGE;
 
 
-    public MessageOutputHandler(Socket socket, StringBuffer buffer)
+    public MessageOutputHandler(final Socket SOCKET, final StringBuffer BUFFER)
     {
-        this.socket = socket;
+        this.SOCKET = SOCKET;
 
-        this.buffer = buffer;
+        this.BUFFER = BUFFER;
 
-        this.message = buffer.toString();
+        this.MESSAGE = BUFFER == null ? "" : BUFFER.toString();
     }
 
-    public MessageOutputHandler(Socket socket, String message)
+    public MessageOutputHandler(final Socket SOCKET, final String MESSAGE)
     {
-        this.socket = socket;
+        this.SOCKET = SOCKET;
 
-        this.message = message;
+        this.MESSAGE = MESSAGE;
     }
 
     @Override
     public void run()
     {
-        if(socket!=null && CommonRails.SocketUtils.isSocketConnected(socket))
+        if(SOCKET!=null && SocketUtils.isConnected(SOCKET))
         {
             try
             {
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(SOCKET.getOutputStream()));
 
-                writer.write(buffer.toString());
+                writer.write(BUFFER == null ? "" : BUFFER.toString());
 
                 writer.write(new EncryptionModule(new Random(), "", "").cipher_text);
 
@@ -55,19 +64,22 @@ public class MessageOutputHandler implements Runnable
             }
             catch (Exception e)
             {
-                if(CommonRails.SocketUtils.isSocketClosed(socket))
+                ExceptionHandler.dispatch(e);
+                if(SocketUtils.isConnected(SOCKET))
                 {
                     try
                     {
-                        socket.close();
+                        SOCKET.close();
                     }
                     catch (Exception xe)
                     {
-                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress MessageOutputHandler >> closes on try-exception to close ["+socket.toString()+"]");
+                        ExceptionHandler.dispatch(xe);
+
+                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress MessageOutputHandler >> closes on try-exception to close ["+SOCKET.toString()+"]");
                     }
                     finally
                     {
-                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress MessageOutputHandler >> safe closes ["+socket.toString()+"]");
+                        CommonRails.printSystemComponent(this, this.hashCode(),"WebExpress MessageOutputHandler >> safe closes ["+SOCKET.toString()+"]");
                     }
                 }
             }

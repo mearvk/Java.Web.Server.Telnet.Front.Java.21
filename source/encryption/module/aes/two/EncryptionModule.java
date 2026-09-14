@@ -1,7 +1,42 @@
+/**
+ * EncryptionModule — AES 2.0 DSS5.0 encryption module with mixed-radix
+ * transformations across 21 configurable rounds.
+ *
+ * ╔══════════════════════════════════════════════════════════════════════════╗
+ * ║  SECURITY WARNING — DEPRECATED                                         ║
+ * ║                                                                        ║
+ * ║  This module does NOT provide cryptographic security. It performs       ║
+ * ║  deterministic, reversible radix conversions and bitwise OR with        ║
+ * ║  hardcoded constants — this is obfuscation, not encryption.            ║
+ * ║                                                                        ║
+ * ║  Known weaknesses:                                                     ║
+ * ║    1. Uses java.util.Random (predictable PRNG, not SecureRandom)       ║
+ * ║    2. Hardcoded constants (0xDA717018470E213F, 0x88034321)             ║
+ * ║    3. Only 3 of 21 passes are implemented (passes 4-21 are no-ops)    ║
+ * ║    4. No key-dependent diffusion or confusion properties               ║
+ * ║    5. Transformations are trivially reversible                          ║
+ * ║                                                                        ║
+ * ║  DO NOT USE for protecting sensitive data. Use standard JCA ciphers:   ║
+ * ║    - AES-256-GCM (javax.crypto.Cipher "AES/GCM/NoPadding")           ║
+ * ║    - ChaCha20-Poly1305                                                 ║
+ * ║                                                                        ║
+ * ║  This module is retained for backward compatibility only.              ║
+ * ╚══════════════════════════════════════════════════════════════════════════╝
+ *
+ * @author Max Rupplin
+ * @javaowner Max Rupplin
+ * @date June 03 2026 EST
+ * @deprecated Use standard JCA ciphers (AES-256-GCM) instead. This module
+ *             provides no cryptographic security.
+ */
+
 package encryption.module.aes.two;
 
+import exceptions.ExceptionHandler;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.StringReader;
+import java.nio.file.Files;
 import java.util.Random;
 
 public class EncryptionModule
@@ -10,29 +45,221 @@ public class EncryptionModule
 
     public int ROUNDS = 32;
 
-    public String plain_text = "";
+    public String PLAIN_TEXT = "";
 
     public String initial_pad = "";
 
     public String cipher_text = "";
 
-    public EncryptionModule(Random random, String title, String plain_text)
+    /**
+     * Constructs the encryption module with plaintext input.
+     *
+     * @param RANDOM random seed source
+     * @param TITLE module title
+     * @param PLAIN_TEXT plaintext to encrypt
+     * @javaowner Max Rupplin
+     */
+    public EncryptionModule(final Random RANDOM,  final String TITLE, final String PLAIN_TEXT)
     {
-        this.plain_text = plain_text;
+        this.PLAIN_TEXT = PLAIN_TEXT;
     }
 
+    /**
+     * Constructs the encryption module with file input.
+     *
+     * @param RANDOM random seed source
+     * @param TITLE module title
+     * @param file file containing plaintext
+     * @javaowner Max Rupplin
+     */
+    public EncryptionModule(final Random RANDOM, final String TITLE, final File file)
+    {
+        try
+        {
+            this.PLAIN_TEXT = Files.readString(file.toPath());
+        }
+        catch (Exception e)
+        {
+            ExceptionHandler.dispatch(e);
+            e.printStackTrace(System.err);
+        }
+    }
+
+    /**
+     * Pass one — Initial padding with base-12 radix conversion.
+     *
+     * @javaowner Max Rupplin
+     */
     public void one()
     {
         int sub = 0x88034321;
 
-        this.initial_pad = Integer.toString(sub | Integer.parseInt(Integer.toOctalString(Integer.parseInt(plain_text))));
+        this.initial_pad = Integer.toString(sub | Integer.parseInt(Radix12.toBase12(Integer.parseInt(PLAIN_TEXT)), 12));
     }
 
     /**
+     * Radix12 — Base-12 (duodecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
+    public static class Radix12
+    {
+        private static final String DIGITS = "0123456789AB";
+
+        public static String toBase12(int value)
+        {
+            if (value == 0) return "0";
+            boolean negative = value < 0;
+            long v = Math.abs((long) value);
+            StringBuilder sb = new StringBuilder();
+            while (v > 0)
+            {
+                sb.append(DIGITS.charAt((int)(v % 12)));
+                v /= 12;
+            }
+            if (negative) sb.append('-');
+            return sb.reverse().toString();
+        }
+    }
+
+    /**
+     * Radix18 — Base-18 (octodecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
+    public static class Radix18
+    {
+        private static final String DIGITS = "0123456789ABCDEFGH";
+
+        public static String toBase18(int value)
+        {
+            if (value == 0) return "0";
+            boolean negative = value < 0;
+            long v = Math.abs((long) value);
+            StringBuilder sb = new StringBuilder();
+            while (v > 0)
+            {
+                sb.append(DIGITS.charAt((int)(v % 18)));
+                v /= 18;
+            }
+            if (negative) sb.append('-');
+            return sb.reverse().toString();
+        }
+    }
+
+    /**
+     * Radix13 — Base-13 (tridecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
+    public static class Radix13
+    {
+        private static final String DIGITS = "0123456789ABC";
+
+        public static String toBase13(int value)
+        {
+            if (value == 0) return "0";
+            boolean negative = value < 0;
+            long v = Math.abs((long) value);
+            StringBuilder sb = new StringBuilder();
+            while (v > 0)
+            {
+                sb.append(DIGITS.charAt((int)(v % 13)));
+                v /= 13;
+            }
+            if (negative) sb.append('-');
+            return sb.reverse().toString();
+        }
+    }
+
+    /**
+     * Radix6 — Base-6 (senary) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
+    public static class Radix6
+    {
+        public static String toBase6(int value)
+        {
+            return Integer.toString(value, 6);
+        }
+    }
+
+    /**
+     * Radix11 — Base-11 (undecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
+    public static class Radix11
+    {
+        public static String toBase11(int value)
+        {
+            return Integer.toString(value, 11);
+        }
+    }
+
+    /**
+     * Intermix01 — First cipher intermix loop (positions 1, 2, 6, 7).
+     *
+     * @javaowner Max Rupplin
+     */
+    public static class Intermix01
+    {
+        public static String apply(String pre, String r07, String r02, String r06, String r01, StringBuilder builder)
+        {
+            String altered_plain_text = "";
+            for (int i = 1; i < 16; i++)
+            {
+                if (i == 7) { altered_plain_text = pre + r07; }
+                else if (i == 2) { altered_plain_text = pre + r02; }
+                else if (i == 6) { altered_plain_text = pre + r06; }
+                else if (i == 1) { altered_plain_text = pre + r01; }
+                else { builder.append(pre); }
+            }
+            return altered_plain_text;
+        }
+    }
+
+    /**
+     * Radix17 — Base-17 (heptadecimal) conversion utility.
+     *
+     * @javaowner Max Rupplin
+     */
+    public static class Radix17
+    {
+        public static String toBase17(int value)
+        {
+            return Integer.toString(value, 17);
+        }
+    }
+
+    /**
+     * Intermix02 — Second cipher intermix loop (positions 2, 3, 17).
+     *
+     * @javaowner Max Rupplin
+     */
+    public static class Intermix02
+    {
+        public static String apply(String pre, String r17, String r02, String r03, StringBuilder builder)
+        {
+            String altered_plain_text = "";
+            for (int i = 1; i < 19; i++)
+            {
+                if (i == 17) { altered_plain_text = pre + r17; }
+                else if (i == 2) { altered_plain_text = pre + r02; }
+                else if (i == 3) { altered_plain_text = pre + r03; }
+                else { builder.append(pre); }
+            }
+            return altered_plain_text;
+        }
+    }
+
+    /**
+     * Pass two — Initial padding field of 12 symmetry rows.
+     * Permutations at base-18, base-13, base-6.
+     *
      * @author Max Rupplin
-     *
-     *
-     * Initial Padding field of 12 symmetry rows
+     * @javaowner Max Rupplin
      */
     public void two()
     {
@@ -65,34 +292,40 @@ public class EncryptionModule
                 //0x166F2
                 if (i == 2)
                 {
-                    line = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x166F2);
+                    line = Integer.toString(Integer.parseInt(Radix18.toBase18(Integer.parseInt(line)), 18) | 0x166F2);
                 }
 
                 //0c0134431
                 if (i == 7)
                 {
-                    //rewrite radix 12.3
-                    line = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x0134431);
+                    //rewrite radix 13
+                    line = Integer.toString(Integer.parseInt(Radix13.toBase13(Integer.parseInt(line)), 13) | 0x0134431);
                 }
 
                 //0c4534321
                 if(i == 6)
                 {
-                    //rewrite radix 12.3
-                    line = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x45344321);
+                    //rewrite radix 6
+                    line = Integer.toString(Integer.parseInt(Radix6.toBase6(Integer.parseInt(line)), 6) | 0x45344321);
                 }
             }
             catch(Exception e)
             {
+                ExceptionHandler.dispatch(e);
                 e.printStackTrace(System.err);
             }
         }
     }
 
+    /**
+     * Pass three — Lightning rounds with base-11, base-12, base-17 intermix.
+     *
+     * @javaowner Max Rupplin
+     */
     //Lightning Rounds
     public void three()
     {
-        BufferedReader reader001 = new BufferedReader(new StringReader(this.plain_text));
+        BufferedReader reader001 = new BufferedReader(new StringReader(this.PLAIN_TEXT));
 
         for(int i=1; i<3; i++)
         {
@@ -104,11 +337,12 @@ public class EncryptionModule
             }
             catch (Exception e)
             {
+                ExceptionHandler.dispatch(e);
                 e.printStackTrace(System.err);
             }
         }
 
-        BufferedReader reader002 = new BufferedReader(new StringReader(this.plain_text));
+        BufferedReader reader002 = new BufferedReader(new StringReader(this.PLAIN_TEXT));
 
         String result_1_07 = "";
         String result_1_02 = "";
@@ -123,31 +357,32 @@ public class EncryptionModule
 
                 if(i == 7)
                 {
-                    result_1_07 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x7716);
+                    result_1_07 = Integer.toString(Integer.parseInt(Radix11.toBase11(Integer.parseInt(line)), 11) | 0x7716);
                 }
 
                 if(i == 2)
                 {
-                    result_1_02 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x77223);
+                    result_1_02 = Integer.toString(Integer.parseInt(Radix11.toBase11(Integer.parseInt(line)), 11) | 0x77223);
                 }
 
                 if(i == 6)
                 {
-                    result_1_06 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x7766);
+                    result_1_06 = Integer.toString(Integer.parseInt(Radix11.toBase11(Integer.parseInt(line)), 11) | 0x7766);
                 }
 
                 if(i == 1)
                 {
-                    result_1_01 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x771c);
+                    result_1_01 = Integer.toString(Integer.parseInt(Radix12.toBase12(Integer.parseInt(line)), 12) | 0x771c);
                 }
             }
             catch (Exception e)
             {
+                ExceptionHandler.dispatch(e);
                 e.printStackTrace(System.err);
             }
         }
 
-        BufferedReader reader = new BufferedReader(new StringReader(this.plain_text));
+        BufferedReader reader = new BufferedReader(new StringReader(this.PLAIN_TEXT));
 
         String altered_plain_text = "";
 
@@ -157,36 +392,7 @@ public class EncryptionModule
 
         //
 
-        for(int i=1; i<16; i++)
-        {
-            if(i == 7)
-            {
-                altered_plain_text = pre + result_1_07;
-            }
-            else if(i == 2)
-            {
-                altered_plain_text = pre + result_1_02;
-            }
-            else if(i == 6)
-            {
-                altered_plain_text = pre + result_1_06;
-            }
-            else if(i == 1)
-            {
-                altered_plain_text = pre + result_1_01;
-            }
-            else
-            {
-                try
-                {
-                    builder.append(pre);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace(System.err);
-                }
-            }
-        }
+        Intermix01.apply(pre, result_1_07, result_1_02, result_1_06, result_1_01, builder);
 
         String result_2_17 = "";
         String result_2_02 = "";
@@ -200,57 +406,117 @@ public class EncryptionModule
 
                 if(i == 17)
                 {
-                    result_2_17 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x771321a);
+                    result_2_17 = Integer.toString(Integer.parseInt(Radix17.toBase17(Integer.parseInt(line)), 17) | 0x771321a);
                 }
 
                 if(i == 2)
                 {
-                    result_2_02 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x7722321);
+                    result_2_02 = Integer.toString(Integer.parseInt(Radix11.toBase11(Integer.parseInt(line)), 11) | 0x7722321);
                 }
 
                 if(i == 3)
                 {
-                    result_2_03 = Integer.toString(Integer.parseInt(Integer.toOctalString(Integer.parseInt(line))) | 0x77321a);
+                    result_2_03 = Integer.toString(Integer.parseInt(Radix17.toBase17(Integer.parseInt(line)), 17) | 0x77321a);
                 }
             }
             catch (Exception e)
             {
+                ExceptionHandler.dispatch(e);
                 e.printStackTrace(System.err);
             }
         }
 
-        for(int i=1; i<19; i++)
-        {
-            if(i == 17)
-            {
-                altered_plain_text = pre + result_2_17;
-            }
-            else if(i == 2)
-            {
-                altered_plain_text = pre + result_2_02;
-            }
-            else if(i == 3)
-            {
-                altered_plain_text = pre + result_2_03;
-            }
-            else
-            {
-                try
-                {
-                    builder.append(pre);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace(System.err);
-                }
-            }
-        }
+        Intermix02.apply(pre, result_2_17, result_2_02, result_2_03, builder);
     }
 
+    /** Pass four. @javaowner Max Rupplin */
     public void four()
     {
         //final mage
+    }
 
+    /** Pass five. @javaowner Max Rupplin */
+    public void five()
+    {
+    }
 
+    /** Pass six. @javaowner Max Rupplin */
+    public void six()
+    {
+    }
+
+    /** Pass seven. @javaowner Max Rupplin */
+    public void seven()
+    {
+    }
+
+    /** Pass eight. @javaowner Max Rupplin */
+    public void eight()
+    {
+    }
+
+    /** Pass nine. @javaowner Max Rupplin */
+    public void nine()
+    {
+    }
+
+    /** Pass ten. @javaowner Max Rupplin */
+    public void ten()
+    {
+    }
+
+    /** Pass eleven. @javaowner Max Rupplin */
+    public void eleven()
+    {
+    }
+
+    /** Pass twelve. @javaowner Max Rupplin */
+    public void twelve()
+    {
+    }
+
+    /** Pass thirteen. @javaowner Max Rupplin */
+    public void thirteen()
+    {
+    }
+
+    /** Pass fourteen. @javaowner Max Rupplin */
+    public void fourteen()
+    {
+    }
+
+    /** Pass fifteen. @javaowner Max Rupplin */
+    public void fifteen()
+    {
+    }
+
+    /** Pass sixteen. @javaowner Max Rupplin */
+    public void sixteen()
+    {
+    }
+
+    /** Pass seventeen. @javaowner Max Rupplin */
+    public void seventeen()
+    {
+    }
+
+    /** Pass eighteen. @javaowner Max Rupplin */
+    public void eighteen()
+    {
+    }
+
+    /** Pass nineteen. @javaowner Max Rupplin */
+    public void nineteen()
+    {
+    }
+
+    /** Pass twenty. @javaowner Max Rupplin */
+    public void twenty()
+    {
+    }
+
+    /** Pass twentyone. @javaowner Max Rupplin */
+    public void twentyone()
+    {
     }
 }

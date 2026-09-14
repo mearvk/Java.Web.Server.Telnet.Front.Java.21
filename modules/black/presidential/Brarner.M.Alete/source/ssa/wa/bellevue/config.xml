@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>190</office-code>
+    <office-name>BELLEVUE WA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE A100</address-2>
+    <address-3>636 120TH AVE NE</address-3>
+    <city>BELLEVUE</city>
+    <state>WA</state>
+    <zip-code>98005</zip-code>
+    <phone>(866) 574-2323</phone>
+    <fax>(833) 912-2340</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9649</socket-port>
+    <local-input-path>source-code/ssa/wa/bellevue/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/wa/bellevue</output-dir>
+</signal-processing-config>

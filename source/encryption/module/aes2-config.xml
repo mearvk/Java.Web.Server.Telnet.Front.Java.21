@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    AES2 Encryption Module Configuration
+    =====================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Controls the 21 cipher passes, radix selection, loop counts,
+    signal flags, sub-pads, presidential notes, and tech clearance.
+
+    Set <enabled>true</enabled> to run the configurable version.
+    When false, the original hardcoded EncryptionModule runs as-is.
+-->
+<aes2-config>
+
+    <!-- Master toggle: use this config or run original hardcoded module -->
+    <enabled>true</enabled>
+
+    <!-- Tech clearance required to execute this module -->
+    <tech-clearance>
+        <level>TOP SECRET</level>
+        <compartment>AES2-NWE</compartment>
+        <required>true</required>
+    </tech-clearance>
+
+    <!-- Note by US President -->
+    <presidential-note>
+        <author></author>
+        <date></date>
+        <text></text>
+    </presidential-note>
+
+    <!-- Signal flags to known servers upon completion of passes -->
+    <signal-flags>
+        <flag id="1" server="localhost" port="49152" on-pass="21" message="AES2_COMPLETE" />
+        <flag id="2" server="localhost" port="7743" on-pass="1" message="AES2_INIT" />
+    </signal-flags>
+
+    <!-- Sub-pads applied between rounds -->
+    <subpads>
+        <pad id="1" value="0x550x55" apply-before="3" />
+        <pad id="2" value="0x77c7" apply-before="5" />
+    </subpads>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         21 PASSES — Each pass has: radix, loops, enabled flag
+    ════════════════════════════════════════════════════════════════════ -->
+    <passes>
+        <pass id="1" method="one">
+            <enabled>true</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+            <mask>0x88034321</mask>
+        </pass>
+
+        <pass id="2" method="two">
+            <enabled>true</enabled>
+            <permutations>11</permutations>
+            <subpass index="2" radix="18" mask="0x166F2" />
+            <subpass index="7" radix="13" mask="0x0134431" />
+            <subpass index="6" radix="6" mask="0x45344321" />
+        </pass>
+
+        <pass id="3" method="three">
+            <enabled>true</enabled>
+            <loops>16</loops>
+            <subpass index="7" radix="11" mask="0x7716" />
+            <subpass index="2" radix="11" mask="0x77223" />
+            <subpass index="6" radix="11" mask="0x7766" />
+            <subpass index="1" radix="12" mask="0x771c" />
+            <subpass index="17" radix="17" mask="0x771321a" />
+            <subpass index="3" radix="17" mask="0x77321a" />
+        </pass>
+
+        <pass id="4" method="four">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="5" method="five">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="6" method="six">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="7" method="seven">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="8" method="eight">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="9" method="nine">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="10" method="ten">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="11" method="eleven">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="12" method="twelve">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="13" method="thirteen">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="14" method="fourteen">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="15" method="fifteen">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="16" method="sixteen">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="17" method="seventeen">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="18" method="eighteen">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="19" method="nineteen">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="20" method="twenty">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+
+        <pass id="21" method="twentyone">
+            <enabled>false</enabled>
+            <radix>12</radix>
+            <loops>1</loops>
+        </pass>
+    </passes>
+
+</aes2-config>

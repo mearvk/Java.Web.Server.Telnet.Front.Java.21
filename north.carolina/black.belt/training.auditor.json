@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Black Belt Ethical Auditor Input",
+  "type": "object",
+  "required": [
+    "style",
+    "belt_level",
+    "jurisdiction",
+    "conduct_observations",
+    "ethical_responses"
+  ],
+  "properties": {
+    "style": {
+      "type": "string",
+      "description": "Martial art or combatives system (e.g., 'Taekwondo WT', 'IBJJF BJJ', 'MCMAP')."
+    },
+    "belt_level": {
+      "type": "string",
+      "description": "Rank or level (e.g., '1st Dan Black Belt', 'Black Belt 1st Degree')."
+    },
+    "jurisdiction": {
+      "type": "string",
+      "enum": ["United States"],
+      "description": "Legal context; currently scoped to the United States."
+    },
+    "legitimacy_hint": {
+      "type": "string",
+      "enum": [
+        "recognized_national_or_international",
+        "school_or_federation_specific",
+        "military_combatives_non_civilian"
+      ],
+      "description": "Optional hint; model still performs its own assessment."
+    },
+    "conduct_observations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Observed behaviors, incidents, or notes about conduct."
+    },
+    "ethical_responses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Practitioner’s answers to ethical / right‑to‑choose questions."
+    },
+    "legal_context": {
+      "type": "string",
+      "description": "Optional description of self‑defense, use‑of‑force, or local policy context."
+    },
+    "auditor_notes": {
+      "type": "string",
+      "description": "Optional free‑text notes from human auditor."
+    }
+  }
+}

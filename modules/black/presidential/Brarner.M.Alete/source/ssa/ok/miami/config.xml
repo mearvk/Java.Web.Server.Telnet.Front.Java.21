@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>791</office-code>
+    <office-name>MIAMI OK</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>2108 DENVER HARNAR DR</address-3>
+    <city>MIAMI</city>
+    <state>OK</state>
+    <zip-code>74354</zip-code>
+    <phone>(888) 878-0013</phone>
+    <fax>(833) 950-3335</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10185</socket-port>
+    <local-input-path>source-code/ssa/ok/miami/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ok/miami</output-dir>
+</signal-processing-config>

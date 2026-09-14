@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact name="Brarner.M.Alete">
+    <output-path>$PROJECT_DIR$/out/artifacts/Brarner_M_Alete</output-path>
+    <root id="root">
+      <element id="archive" name="Brarner.M.Alete.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="project" />
+        <element id="module-output" name="logging" />
+        <element id="module-output" name="primary-source" />
+        <element id="module-output" name="ear" />
+        <element id="module-output" name="ejbs" />
+        <element id="module-output" name="servlet" />
+      </element>
+    </root>
+  </artifact>
+</component>

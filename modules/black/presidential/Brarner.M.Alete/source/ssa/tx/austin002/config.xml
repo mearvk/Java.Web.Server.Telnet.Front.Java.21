@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>813</office-code>
+    <office-name>AUSTIN TX</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1029 CAMINO LA COSTA</address-3>
+    <city>AUSTIN</city>
+    <state>TX</state>
+    <zip-code>78752</zip-code>
+    <phone>(866) 627-6991</phone>
+    <fax>(833) 515-0511</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10204</socket-port>
+    <local-input-path>source-code/ssa/tx/austin002/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/tx/austin002</output-dir>
+</signal-processing-config>

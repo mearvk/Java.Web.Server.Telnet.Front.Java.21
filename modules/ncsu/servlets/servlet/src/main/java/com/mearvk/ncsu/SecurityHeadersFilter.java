@@ -1,0 +1,14 @@
+package com.mearvk.ncsu;
+import jakarta.servlet.*; import jakarta.servlet.http.HttpServletResponse; import java.io.IOException;
+
+/**
+ * SecurityHeadersFilter — Adds standard security headers to all responses.
+ */
+public class SecurityHeadersFilter implements Filter {
+    @Override public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
+        HttpServletResponse r = (HttpServletResponse) resp;
+        r.setHeader("X-Content-Type-Options","nosniff"); r.setHeader("X-Frame-Options","DENY");
+        r.setHeader("X-XSS-Protection","1; mode=block"); r.setHeader("Referrer-Policy","strict-origin-when-cross-origin");
+        chain.doFilter(req,resp);
+    }
+}

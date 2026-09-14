@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>979</office-code>
+    <office-name>CHICO CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>STE 150</address-2>
+    <address-3>1370 E. LASSEN AVE</address-3>
+    <city>CHICO</city>
+    <state>CA</state>
+    <zip-code>95973</zip-code>
+    <phone>(866) 964-7585</phone>
+    <fax>(833) 950-2452</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10360</socket-port>
+    <local-input-path>source-code/ssa/ca/chico/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/chico</output-dir>
+</signal-processing-config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>C96</office-code>
+    <office-name>COVINGTON GA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>9180 COVINGTON BY PASS RD</address-3>
+    <city>COVINGTON</city>
+    <state>GA</state>
+    <zip-code>30014</zip-code>
+    <phone>(877) 873-9106</phone>
+    <fax>(833) 597-0072</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9397</socket-port>
+    <local-input-path>source-code/ssa/ga/covington/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ga/covington</output-dir>
+</signal-processing-config>

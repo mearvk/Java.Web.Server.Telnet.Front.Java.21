@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>542</office-code>
+    <office-name>WAUSAU WI</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>352 GRAND AVE</address-3>
+    <city>WAUSAU</city>
+    <state>WI</state>
+    <zip-code>54403</zip-code>
+    <phone>(855) 269-9186</phone>
+    <fax>(833) 950-3749</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9971</socket-port>
+    <local-input-path>source-code/ssa/wi/wausau/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/wi/wausau</output-dir>
+</signal-processing-config>

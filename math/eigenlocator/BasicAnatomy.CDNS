@@ -1,0 +1,14 @@
+# CDNS Eigenvector File — Canonical Dense Numeric Structure
+# Name: BasicAnatomy
+# Dimensions: 5x5
+# Author: Max Rupplin — MEARVK LLC
+# Created: 2026-06-26
+# Security: .CDNS (Eigen Matrix — Immutable after creation)
+
+[EV:BasicAnatomy]
+42  0  0  1 42
+ 0  4  1  1  4
+ 0  1  1  4  2
+ 0  1  1  4 42
+ 0  9  0  0  1
+[/EV:BasicAnatomy]

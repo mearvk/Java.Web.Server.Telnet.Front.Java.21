@@ -1,0 +1,91 @@
+EVALUATION LOGIC — BBEA INTERNAL DECISION FRAMEWORK v2.0
+Engine: Ollama / Llama 3.1 (LoRA fine-tune)
+═══════════════════════════════════════════════════════════════════════════════
+
+The model uses a FOUR-PILLAR scoring system.  Each pillar contributes
+independently to the final conduct_score, risk_rating, and closure_status.
+
+───────────────────────────────────────────────────────────────────────────────
+PILLAR 1 — LEGITIMACY (weight: 20%)
+───────────────────────────────────────────────────────────────────────────────
+Inputs:  style, belt_level, legitimacy_hint
+Checks:
+  • Is the belt system recognized by a national/international body?
+  • Does the organization exist and actively certify?
+  • Has minimum time-in-rank been met for the stated level?
+Scoring:
+  recognized + time met           → 0 risk points
+  school-specific + time met      → 5 risk points
+  military combatives             → 0 risk points (separate track)
+  unrecognized or time not met    → 15 risk points
+
+───────────────────────────────────────────────────────────────────────────────
+PILLAR 2 — CONDUCT (weight: 30%)
+───────────────────────────────────────────────────────────────────────────────
+Inputs:  conduct_observations
+Checks:
+  • Technical discipline (punctuality, training effort)
+  • Leadership without coercion (teaching style, mentoring)
+  • Respect for peers and juniors
+  • Absence of aggression, intimidation, or ego-driven behavior
+Scoring:
+  All observations positive       → 0 risk points
+  Mixed (minor incidents, self-corrected) → 10 risk points
+  Serious concerns (coercion, aggression) → 25 risk points
+
+───────────────────────────────────────────────────────────────────────────────
+PILLAR 3 — ETHICS (weight: 30%)
+───────────────────────────────────────────────────────────────────────────────
+Inputs:  ethical_responses, auditor_notes
+Checks:
+  • Right to choose non-violence affirmed?
+  • Non-discrimination affirmed? (race, gender, religion, orientation)
+  • Authority misuse indicators? (pressuring students, unlawful orders)
+  • Prejudice/bias language detected?
+Scoring:
+  All affirmed, no indicators     → 0 risk points
+  One unclear or not affirmed     → 10 risk points
+  Indicators present              → 20 risk points
+  Confirmed misuse                → 30 risk points (auto: follow_up_required)
+
+───────────────────────────────────────────────────────────────────────────────
+PILLAR 4 — LAW (weight: 20%)
+───────────────────────────────────────────────────────────────────────────────
+Inputs:  legal_context, ethical_responses, conduct_observations
+Checks:
+  • Proportionality: Would stated actions be proportional under U.S. law?
+  • Self-defense alignment: Actions consistent with Castle Doctrine / Stand
+    Your Ground / Duty to Retreat as applicable?
+  • Escalation avoidance: Does practitioner default to de-escalation?
+Scoring:
+  Aligned on all points           → 0 risk points
+  One point unclear               → 5 risk points
+  Misaligned (excessive force)    → 20 risk points
+
+───────────────────────────────────────────────────────────────────────────────
+COMPOSITE SCORING
+───────────────────────────────────────────────────────────────────────────────
+  total_risk = sum of all pillar risk points (0–100 scale)
+
+  conduct_score:
+    total_risk 0–15   → "low"
+    total_risk 16–40  → "medium"
+    total_risk 41+    → "high"
+
+  risk_rating:
+    total_risk 0–20   → "low"
+    total_risk 21–50  → "medium"
+    total_risk 51+    → "high"
+
+  closure_status:
+    risk_rating "low" or "medium" with no confirmed misuse → "closed"
+    risk_rating "high" OR confirmed authority misuse       → "follow_up_required"
+
+───────────────────────────────────────────────────────────────────────────────
+TRAINING SIGNAL
+───────────────────────────────────────────────────────────────────────────────
+During fine-tuning, the loss function emphasizes:
+  1. Exact match on closure_status (binary cross-entropy, weight 2.0)
+  2. Exact match on conduct_score and risk_rating (weight 1.5)
+  3. Structural validity of JSON output (weight 1.0)
+  4. Narrative quality of closure_summary (ROUGE-L, weight 0.5)

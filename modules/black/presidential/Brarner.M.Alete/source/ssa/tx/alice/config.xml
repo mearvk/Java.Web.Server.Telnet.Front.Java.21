@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>874</office-code>
+    <office-name>ALICE TX</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1000 MEDICAL CTR BLVD</address-3>
+    <city>ALICE</city>
+    <state>TX</state>
+    <zip-code>78332</zip-code>
+    <phone>(888) 388-8744</phone>
+    <fax>(833) 950-3019</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10261</socket-port>
+    <local-input-path>source-code/ssa/tx/alice/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/tx/alice</output-dir>
+</signal-processing-config>

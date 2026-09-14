@@ -1,0 +1,22 @@
+{
+  "id": "008",
+  "style": "Tang Soo Do",
+  "belt_level": "Black Belt",
+  "jurisdiction": "United States",
+  "legitimacy": "school_or_federation_specific",
+  "organization": "Independent Federation",
+  "conduct_observations": [
+    "Supports school events",
+    "Shows respect to all ranks"
+  ],
+  "ethical_responses": [
+    "Affirms right to refuse misuse of rank",
+    "Rejects prejudice based on race or gender"
+  ],
+  "audit_result": {
+    "conduct_score": "low",
+    "risk_rating": "low",
+    "closure_status": "closed",
+    "summary": "School-specific belt holder demonstrates community involvement, respect across ranks, and explicit rejection of prejudice. Clean audit under federation standards."
+  }
+}

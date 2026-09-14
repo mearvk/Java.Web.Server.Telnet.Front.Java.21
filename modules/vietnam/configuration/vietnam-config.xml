@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Vietnam Module Configuration
+    ====================================
+    MEARVK LLC — NitroWebExpress™
+    Port: 49215
+    Database: nwe_vietnam
+    Context: /vietnam
+    Masquerade: enabled
+-->
+<vietnam-config>
+    <server>
+        <port>49215</port>
+        <host>localhost</host>
+        <name>Vietnam™</name>
+        <masquerade-aware>true</masquerade-aware>
+    </server>
+
+    <database>
+        <name>nwe_vietnam</name>
+        <host>127.0.0.1</host>
+        <port>3306</port>
+    </database>
+
+    <webapp>
+        <context>/vietnam</context>
+        <tomcat-port>8080</tomcat-port>
+    </webapp>
+
+    <ai-module>
+        <enabled>true</enabled>
+        <inference-port>20000</inference-port>
+        <model>distilbert</model>
+        <description>Routes search and training queries through Strernary™ DJL inference on port 20000.</description>
+    </ai-module>
+
+    <data-tables>
+        <table name="fighting_styles">
+            <description>Vietnamese martial arts styles — Vovinam, Viet Vo Dao, Binh Dinh, etc.</description>
+        </table>
+        <table name="languages">
+            <description>Languages spoken in Vietnam — Vietnamese, Tay, Muong, Khmer Krom, Cham, Hmong.</description>
+        </table>
+    </data-tables>
+</vietnam-config>

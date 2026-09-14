@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>586</office-code>
+    <office-name>GREENVILLE SC</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>319 PELHAM RD</address-3>
+    <city>GREENVILLE</city>
+    <state>SC</state>
+    <zip-code>29615</zip-code>
+    <phone>(877) 274-5423</phone>
+    <fax>(833) 950-2231</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10010</socket-port>
+    <local-input-path>source-code/ssa/sc/greenville/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/sc/greenville</output-dir>
+</signal-processing-config>

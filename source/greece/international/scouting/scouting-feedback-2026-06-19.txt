@@ -1,0 +1,38 @@
+==========================================================
+Daily Scouting Feedback — GREECE-INTERNATIONAL
+Date: 2026-06-19
+Module: greece.international
+==========================================================
+
+SUMMARY OF FINDINGS
+
+This document contains the daily scouting results for the Greece international
+signal server module. Sources include Greek domestic and international wire
+services as configured in greece-international-config.xml.
+
+VERDICT SOURCING NOTES
+
+All entries originate from INTERNET verdict source (trust level 0.40).
+
+INFORMATION SOURCES AND ANGLES
+
+Source: kathimerini (https://www.ekathimerini.com)
+Status: Configured and ready for scouting.
+Angle: Greek independent journalism, economy, politics, English edition.
+
+Source: reuters (https://www.reuters.com)
+Status: Configured and ready for scouting.
+Angle: International wire service, global markets, breaking news.
+
+Source: bbc (https://www.bbc.com/news)
+Status: Configured and ready for scouting.
+Angle: British public broadcasting, international perspective, comprehensive.
+
+TOTAL FINDINGS: 0 (initial configuration — scouting thread not yet executed)
+
+INTEGRITY NOTES
+
+Initialization document. Channel usage: public only. Gain control active.
+International sources provide broad perspective for cross-referencing.
+
+END OF DAILY SCOUTING FEEDBACK

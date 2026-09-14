@@ -1,0 +1,22 @@
+{
+  "id": "007",
+  "style": "IBJJF BJJ",
+  "belt_level": "Black Belt",
+  "jurisdiction": "United States",
+  "legitimacy": "recognized_national_or_international",
+  "organization": "IBJJF",
+  "conduct_observations": [
+    "Once applied submission too long; apologized and corrected behavior",
+    "Afterward implemented verbal tap protocol"
+  ],
+  "ethical_responses": [
+    "Recognizes duty of care to training partners",
+    "Commits to immediate release on tap"
+  ],
+  "audit_result": {
+    "conduct_score": "medium",
+    "risk_rating": "low",
+    "closure_status": "closed",
+    "summary": "Single incident of late submission release was self-corrected and led to improved safety protocol. Demonstrates accountability and learning. No follow-up required."
+  }
+}

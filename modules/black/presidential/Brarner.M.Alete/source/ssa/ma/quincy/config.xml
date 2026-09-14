@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>47</office-code>
+    <office-name>QUINCY MA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 305</address-2>
+    <address-3>1515 HANCOCK ST</address-3>
+    <city>QUINCY</city>
+    <state>MA</state>
+    <zip-code>2169</zip-code>
+    <phone>(866) 593-4392</phone>
+    <fax>(833) 926-1843</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9529</socket-port>
+    <local-input-path>source-code/ssa/ma/quincy/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ma/quincy</output-dir>
+</signal-processing-config>

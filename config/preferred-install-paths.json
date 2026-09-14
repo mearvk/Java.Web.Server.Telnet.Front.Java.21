@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JWSTF Preferred Installation Paths",
+  "version": 1,
+  "principle": "Prefer operating-system conventions; keep application source separate from installed runtime state.",
+  "profiles": {
+    "linux": {
+      "source": "/usr/local/src/jwstf",
+      "application": "/opt/jwstf",
+      "tomcat": "/opt/tomcat",
+      "apache_document_root": "/var/www/html/jwstf",
+      "apache_config": "/etc/apache2",
+      "systemd": "/etc/systemd/system",
+      "logs": "/var/log/jwstf",
+      "state": "/var/lib/jwstf",
+      "config": "/etc/jwstf"
+    },
+    "linux_distribution_managed": {
+      "tomcat_preferred": "/var/lib/tomcat10",
+      "tomcat_config": "/etc/tomcat10",
+      "apache_document_root": "/var/www/html",
+      "note": "When Tomcat is installed from the distribution package, retain the distribution's /etc, /var/lib, and service layout instead of replacing it with a hand-installed /opt tree."
+    },
+    "windows": {
+      "machine_application": "C:\\Program Files\\JWSTF",
+      "machine_data": "C:\\ProgramData\\JWSTF",
+      "machine_config": "C:\\ProgramData\\JWSTF\\config",
+      "logs": "C:\\ProgramData\\JWSTF\\logs",
+      "user_application": "%LOCALAPPDATA%\\JWSTF",
+      "user_data": "%APPDATA%\\JWSTF",
+      "installer_cache": "%ProgramData%\\JWSTF\\installer-cache",
+      "note": "Use Program Files for installed binaries and ProgramData for machine-wide mutable data; do not place mutable service data inside Program Files."
+    },
+    "macos": {
+      "machine_application": "/Applications/JWSTF.app",
+      "machine_support": "/Library/Application Support/JWSTF",
+      "machine_config": "/Library/Application Support/JWSTF/config",
+      "logs": "/Library/Logs/JWSTF",
+      "user_application": "~/Applications/JWSTF.app",
+      "user_support": "~/Library/Application Support/JWSTF",
+      "user_preferences": "~/Library/Preferences",
+      "note": "Prefer an app bundle for GUI applications and Application Support/Library locations for mutable data."
+    },
+    "user": {
+      "meaning": "professional user / user-scoped installation",
+      "linux": "~/.local/share/jwstf",
+      "windows": "%LOCALAPPDATA%\\JWSTF",
+      "macos": "~/Library/Application Support/JWSTF"
+    },
+    "deck": {
+      "meaning": "enterprise deployment / centrally managed environment",
+      "linux": "/opt/jwstf",
+      "windows": "C:\\Program Files\\JWSTF",
+      "macos": "/Library/Application Support/JWSTF"
+    }
+  },
+  "tomcat": {
+    "linux_manual": "/opt/tomcat",
+    "linux_distribution": "/var/lib/tomcat10",
+    "rule": "Do not mix manual /opt Tomcat files with distribution-managed Tomcat files."
+  },
+  "apache": {
+    "linux_debian_ubuntu": {
+      "binary": "/usr/sbin/apache2",
+      "config": "/etc/apache2",
+      "document_root": "/var/www/html",
+      "logs": "/var/log/apache2"
+    },
+    "windows": {
+      "preferred": "C:\\Apache24",
+      "note": "Use an explicitly provisioned Apache installation rather than assuming a Windows system path."
+    },
+    "macos": {
+      "system_note": "Do not assume a system Apache installation; use the chosen package manager or application bundle and preserve its managed paths."
+    }
+  }
+}

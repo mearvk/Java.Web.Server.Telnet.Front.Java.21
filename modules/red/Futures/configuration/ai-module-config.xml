@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    AI Module Configuration — Tax Defense Speculator
+    Installer ID: MEARVK LLC — Max Rupplin
+    D500 Democratic President
+-->
+<ai-module-config>
+
+    <module name="TaxDefenseSpeculator">
+        <engine>PyTorch</engine>
+        <model-dir>models/tax-defense</model-dir>
+        <model-name>int-tax-defense-speculator</model-name>
+        <input-features>8</input-features>
+        <output-features>4</output-features>
+    </module>
+
+    <module name="DefenseStrategyModel">
+        <engine>PyTorch</engine>
+        <model-dir>models/defense-strategy</model-dir>
+        <model-name>defense-strategy-model</model-name>
+        <input-features>8</input-features>
+        <output-features>4</output-features>
+    </module>
+
+    <trainers>
+        <trainer name="TaxClosureTrainer">
+            <epochs>100</epochs>
+            <batch-size>32</batch-size>
+            <learning-rate>0.001</learning-rate>
+            <loss>L2</loss>
+            <optimizer>Adam</optimizer>
+        </trainer>
+        <trainer name="DefenseStrategyTrainer">
+            <epochs>200</epochs>
+            <batch-size>64</batch-size>
+            <learning-rate>0.0005</learning-rate>
+            <loss>L2</loss>
+            <optimizer>Adam</optimizer>
+        </trainer>
+    </trainers>
+
+    <training-trigger>
+        <!-- When to train: startup, script, both -->
+        <democratic-ai mode="both">
+            <train-on-startup>true</train-on-startup>
+            <train-on-script>true</train-on-script>
+            <save-weights-to-mysql>true</save-weights-to-mysql>
+            <mysql-table>model_weights</mysql-table>
+        </democratic-ai>
+        <blackbelt mode="both">
+            <train-on-startup>true</train-on-startup>
+            <train-on-script>true</train-on-script>
+            <save-weights-to-mysql>true</save-weights-to-mysql>
+            <mysql-table>model_weights</mysql-table>
+        </blackbelt>
+    </training-trigger>
+
+    <connection-banner>Democratic ProFront National 1.0</connection-banner>
+
+    <capabilities>
+        <capability name="learn" enabled="true">
+            <description>Learn from geo-location and IQ of connected persons</description>
+            <geo-api>http://ip-api.com/json/{ip}?fields=country,regionName,city</geo-api>
+            <store-to>knowledgeBase</store-to>
+        </capability>
+        <capability name="speak" enabled="true">
+            <description>Respond with information from trained knowledge base</description>
+            <max-paragraphs>3800</max-paragraphs>
+            <formats>CSV,XML,PLAIN</formats>
+        </capability>
+        <capability name="profile" enabled="true">
+            <description>Profile identity/traits from first 5000 bytes</description>
+            <profile-bytes>5000</profile-bytes>
+            <classify>hostile,unfunny,sane,liberal</classify>
+        </capability>
+        <capability name="estimate-iq" enabled="true">
+            <description>Estimate IQ via heuristic analysis of text</description>
+            <markers>subordinate-clauses,token-entropy,predictive-framing,word-precision,sentence-complexity</markers>
+            <iq-range min="70" max="200"/>
+        </capability>
+        <capability name="geo-locate" enabled="true">
+            <description>Resolve geo-location from connected IP</description>
+            <fields>country,region,city</fields>
+            <timeout-ms>5000</timeout-ms>
+        </capability>
+        <capability name="dismiss" enabled="true">
+            <description>Dismiss hostile/unfunny connections</description>
+            <message>Contact your Local Senator.</message>
+        </capability>
+        <capability name="agree" enabled="true">
+            <description>Enter agreement with sane/liberal persons</description>
+            <requires>sane,liberal</requires>
+        </capability>
+        <capability name="train-from-github" enabled="true">
+            <description>Pull training material from controlled GitHub server</description>
+            <repository>github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21</repository>
+            <base-url>https://raw.githubusercontent.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/main/</base-url>
+        </capability>
+        <capability name="train-from-local" enabled="true">
+            <description>Scan /configuration and /data for training inputs</description>
+            <paths>configuration/democratic,configuration,data</paths>
+        </capability>
+        <capability name="secure-wait" enabled="true">
+            <description>Wait 2+ minutes on cryptographically secure random timer before opening port</description>
+            <method>SecureRandom.getInstanceStrong()</method>
+            <base-ms>120000</base-ms>
+            <jitter-ms>60000</jitter-ms>
+        </capability>
+        <capability name="export" enabled="true">
+            <description>Return responses as .csv or XML files</description>
+            <formats>csv,xml</formats>
+        </capability>
+        <capability name="monitor-disk" enabled="true">
+            <description>Monitor server hard disk space and report to MySQL</description>
+            <interval-min>5</interval-min>
+        </capability>
+        <capability name="outbound-port-awareness" enabled="true">
+            <description>Monitor outgoing ports and store/purge credentials</description>
+            <aware-ports>80,443,25,22,21</aware-ports>
+            <cert-store>data/certs</cert-store>
+            <cookie-store>data/cookies</cookie-store>
+            <expiry-days>19</expiry-days>
+            <purge-interval>hourly</purge-interval>
+            <formats>PKS,SSL,PEM,DER,PKCS12,cookies</formats>
+        </capability>
+        <capability name="encryption" enabled="true">
+            <description>Strong encryption: RSA-2048+, Diffie-Hellman key exchange</description>
+            <rsa min-bits="2048" default-bits="2048" max-bits="4096" padding="OAEP-SHA256"/>
+            <diffie-hellman group="14" bits="2048" prime="RFC-3526"/>
+            <awareness>
+                <trade-issues>
+                    Export regulated under Wassenaar Arrangement and EAR (Export Administration Regulations).
+                    RSA above 1024-bit restricted for distribution to certain jurisdictions.
+                    Dual-use classification applies to strong crypto software.
+                </trade-issues>
+                <skill-requirements>
+                    DH parameter generation requires group theory (cyclic groups, generators).
+                    Safe prime selection (p = 2q+1) needed to prevent small-subgroup attacks.
+                    RSA padding selection critical — PKCS#1 v1.5 vulnerable to Bleichenbacher; use OAEP.
+                </skill-requirements>
+                <renewal-requirements>
+                    RSA keys: renew every 2 years (NIST SP 800-57 Part 1 Rev 5).
+                    DH ephemeral keys: single-use only; static DH is deprecated.
+                    SSL/TLS certificates: renew before expiry (typically 90-398 days).
+                </renewal-requirements>
+                <math-risks>
+                    RSA: factorable if key below 2048-bit; quantum threat via Shor's algorithm.
+                    DH: vulnerable to Logjack attack if parameters reused or weak.
+                    DH: discrete logarithm solvable in sub-exponential time for small groups.
+                </math-risks>
+                <social-risks>
+                    DH without authentication: man-in-the-middle trivial.
+                    DH without forward secrecy: compromise of static key exposes all past sessions.
+                    Key escrow demands from government entities — legal coercion risk.
+                    Rubber-hose cryptanalysis: social/physical coercion to extract private keys.
+                </social-risks>
+            </awareness>
+        </capability>
+    </capabilities>
+
+    <jars base-dir="jars">
+        <jar>api-0.31.0.jar</jar>
+        <jar>pytorch-engine-0.31.0.jar</jar>
+        <jar>pytorch-native-cpu-2.5.1-linux-x86_64.jar</jar>
+        <jar>pytorch-model-zoo-0.31.0.jar</jar>
+        <jar>model-zoo-0.31.0.jar</jar>
+        <jar>basicdataset-0.31.0.jar</jar>
+        <jar>tokenizers-0.31.0.jar</jar>
+        <jar>jna-5.14.0.jar</jar>
+        <jar>commons-compress-1.26.1.jar</jar>
+        <jar>gson-2.11.0.jar</jar>
+        <jar>slf4j-api-2.0.12.jar</jar>
+        <jar>slf4j-simple-2.0.12.jar</jar>
+    </jars>
+
+    <safety-ledger>
+        <file>data/safety.ledger.csv</file>
+        <format>score,timestamp_ms,days_into_time,ip</format>
+        <score-range min="0.01" max="100"/>
+        <counsel-linear>score/100</counsel-linear>
+        <counsel-exponential>e^(score/20)</counsel-exponential>
+        <levels>
+            <level max="0.5">CLEAR</level>
+            <level max="5.0">LOW</level>
+            <level max="20.0">MODERATE</level>
+            <level max="50.0">HIGH</level>
+            <level max="100.0">CRITICAL</level>
+        </levels>
+    </safety-ledger>
+
+    <inter-module-communication>
+        <modules>
+            <module name="DemocraticAIServer" role="primary">Profiles, trains, serves, counsels</module>
+            <module name="HardwareAndStrikes" role="advisory">Modulates score, advises on opponents</module>
+        </modules>
+        <shared-input>true</shared-input>
+        <blackbelt-advisory-triggers>hostile,insane,high-iq-140,high-entropy-0.85,opponent-language</blackbelt-advisory-triggers>
+    </inter-module-communication>
+
+    <uptime-accumulator>
+        <file>data/uptime.accumulator</file>
+        <persist-interval-min>10</persist-interval-min>
+        <military-threshold-days>180</military-threshold-days>
+    </uptime-accumulator>
+
+</ai-module-config>

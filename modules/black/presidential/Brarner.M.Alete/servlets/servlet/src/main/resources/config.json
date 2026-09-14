@@ -1,0 +1,20 @@
+{
+  "database": {
+    "url": "jdbc:mysql://localhost:3306/BrarnerDB",
+    "driver": "com.mysql.cj.jdbc.Driver",
+    "user": "root",
+    "password": ""
+  },
+  "server": {
+    "http-port": 80,
+    "https-port": 443
+  },
+  "modules": {
+    "universities": { "portStart": 8000, "portEnd": 8052 },
+    "postal": { "portStart": 9000, "portEnd": 9054 },
+    "counties": { "portStart": 9100, "portEnd": 9199 },
+    "countries": { "portStart": 11000, "portEnd": 11194 },
+    "ssa": { "portStart": 9200, "portEnd": 10381 },
+    "chemistry": { "portStart": 20001, "portEnd": 20005 }
+  }
+}

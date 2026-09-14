@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>901</office-code>
+    <office-name>OGDEN UT</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>STE 2403</address-2>
+    <address-3>324 25TH STREET</address-3>
+    <city>OGDEN</city>
+    <state>UT</state>
+    <zip-code>84401</zip-code>
+    <phone>(877) 378-9081</phone>
+    <fax>(833) 912-2336</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10285</socket-port>
+    <local-input-path>source-code/ssa/ut/ogden/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ut/ogden</output-dir>
+</signal-processing-config>

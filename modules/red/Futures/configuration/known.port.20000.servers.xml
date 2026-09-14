@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Known Port 20000 Servers (Strernary™)
+    Source: github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/configuration/known.port.20000.servers.xml
+    Installed: MEARVK LLC - Max Rupplin
+-->
+<known-servers port="20000">
+    <server>
+        <name>Green Durham Primary</name>
+        <repository>github.com/mearvk/Green.Durham.Grass.and.Herb</repository>
+        <ip-primary>45.32.31.139</ip-primary>
+        <ip-secondary>64.176.167.52</ip-secondary>
+        <port>20000</port>
+        <protocol>TCP</protocol>
+        <active>true</active>
+    </server>
+</known-servers>

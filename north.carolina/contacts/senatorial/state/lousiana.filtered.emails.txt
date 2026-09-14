@@ -1,0 +1,39 @@
+Name, Email
+Mark Abraham,abrahamm@legis.la.gov
+Robert Allain,sen21@legis.la.gov
+Regina Barrow,barrowr@legis.la.gov
+Sidney Barthelemy II,sen03@legis.la.gov
+Adam Bass,sen36@legis.la.gov
+Gerald Boudreaux,boudreauxg@legis.la.gov
+Gary Carter,carterg@legis.la.gov
+Stewart Cathey Jr.,sen33@legis.la.gov
+Heather Cloud,sen28@legis.la.gov
+Patrick Connick,connickp@legis.la.gov
+Royce Duplessis,SEN05@legis.la.gov
+Rick Edmonds,sen06@legis.la.gov
+Michael Fesi,sen20@legis.la.gov
+Franklin Foil,foilf@legis.la.gov
+Jimmy Harris,harrisj@legis.la.gov
+Cameron Henry,henryc@legis.la.gov
+Bob Hensgens,sen26@legis.la.gov
+Valarie Hodges,sen13@legis.la.gov
+Katrina Jackson-Andrews,jacksonk@legis.la.gov
+Sam Jenkins,sen39@legis.la.gov
+Caleb Kleinpeter,sen17@legis.la.gov
+Eddie Lambert,lamberte@legis.la.gov
+Jay Luneau,luneauj@legis.la.gov
+Patrick McMath,sen11@legis.la.gov
+Blake Miguez,sen22@legis.la.gov
+Beth Mizell,mizellb@legis.la.gov
+Barrow Peacock,peacockb@legis.la.gov
+Glen Womack,sen32@legis.la.gov
+Jeremy Stine,sen27@legis.la.gov
+Cameron Skinner,sen31@legis.la.gov
+Rick Ward,wardr@legis.la.gov
+Bodi White,whiteb@legis.la.gov
+Gary Smith Jr.,smithg@legis.la.gov
+Joseph Bouie Jr.,bouiej@legis.la.gov
+Cleo Fields,fieldsc@legis.la.gov
+Sharon Hewitt,hewitts@legis.la.gov
+Fred Mills,millsf@legis.la.gov
+Mike Reese,reesem@legis.la.gov

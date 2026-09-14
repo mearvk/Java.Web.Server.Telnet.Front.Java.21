@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>95</office-code>
+    <office-name>CAMBRIDGE MD</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>STE 9</address-2>
+    <address-3>309 SUNBURST HWY</address-3>
+    <city>CAMBRIDGE</city>
+    <state>MD</state>
+    <zip-code>21613</zip-code>
+    <phone>(888) 347-9277</phone>
+    <fax>(833) 371-0604</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9566</socket-port>
+    <local-input-path>source-code/ssa/md/cambridge/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/md/cambridge</output-dir>
+</signal-processing-config>

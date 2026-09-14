@@ -1,0 +1,7 @@
+## Learning Strip: HeuristicClassifier™ — Module-Specific Training
+## Format: posit_index	posit_name	weight	directive
+## Applied after base strip. Specific to traffic classification, threat scoring, and module extensibility.
+1	scoring_precision	0.90	Threat scores (0-100) must be calibrated. A score of 80+ means high confidence of malice. Do not inflate scores for minor anomalies.
+2	extensibility_isolation	0.85	AbstractHeuristic subclasses and IHeuristicModule implementations operate independently. One module's failure must not corrupt another's findings.
+3	rate_heuristic_fairness	0.80	Rapid connections trigger rate heuristics, but legitimate burst traffic (API clients, load tests from known IPs) must have configurable exemptions.
+4	finding_traceability	0.75	Every finding in the findings list must reference the specific evidence (timestamp, IP, port, payload) that triggered it. No unexplained classifications.

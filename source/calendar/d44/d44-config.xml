@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    CalendarD44 Configuration
+    ==========================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    News sources, acceptable media types, and plugin configuration
+    for the US Calendar D44 module.
+-->
+<d44-config>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         NEWSWORTHY SOURCES
+    ════════════════════════════════════════════════════════════════════ -->
+    <news-sources>
+        <source id="reuters" url="https://www.reuters.com" category="world" />
+        <source id="ap" url="https://apnews.com" category="world" />
+        <source id="bbc" url="https://www.bbc.com/news" category="world" />
+        <source id="cnn" url="https://www.cnn.com" category="us" />
+        <source id="npr" url="https://www.npr.org/sections/news" category="us" />
+        <source id="wsj" url="https://www.wsj.com" category="finance" />
+        <source id="nytimes" url="https://www.nytimes.com" category="us" />
+        <source id="guardian" url="https://www.theguardian.com/us" category="world" />
+        <source id="aljazeera" url="https://www.aljazeera.com" category="international" />
+        <source id="dw" url="https://www.dw.com/en" category="international" />
+    </news-sources>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ACCEPTABLE MEDIA TYPES
+    ════════════════════════════════════════════════════════════════════ -->
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>gif</format>
+            <format>webp</format>
+            <format>svg</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>ogg</format>
+            <format>flac</format>
+            <format>aac</format>
+            <max-size-mb>100</max-size-mb>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+
+        <documents>
+            <format>pdf</format>
+            <format>docx</format>
+            <format>txt</format>
+            <format>csv</format>
+            <format>xml</format>
+            <format>json</format>
+            <max-size-mb>50</max-size-mb>
+        </documents>
+
+        <video>
+            <format>mp4</format>
+            <format>webm</format>
+            <max-size-mb>500</max-size-mb>
+        </video>
+    </acceptable-media>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PLUGINS
+    ════════════════════════════════════════════════════════════════════ -->
+    <plugins>
+        <plugin id="AudioSampler" enabled="true">
+            <class>calendar.d44.AudioSampler</class>
+            <sample-rate>44100</sample-rate>
+            <sample-size-bits>16</sample-size-bits>
+            <channels>2</channels>
+            <buffer-size>4096</buffer-size>
+            <results-file>source/calendar/d44/analyze.results.xml</results-file>
+        </plugin>
+    </plugins>
+
+</d44-config>

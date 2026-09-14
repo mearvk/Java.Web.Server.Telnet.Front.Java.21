@@ -1,0 +1,257 @@
+question_number,question,status,response_status,has_content
+22,"What is fast and frugal heuristics in democratic decision making",PASS,UNTAGGED,true
+24,"What is multi-perspective synthesis in democratic answers",FAIL,NO_AGREEMENT,false
+23,"How does party identification serve as a cognitive shortcut for voters",FAIL,NO_AGREEMENT,false
+25,"What is motivated reasoning in politics",PASS,OK,true
+1,"What is the capital gains tax rate for non-resident aliens",PASS,OK,true
+24,"What is multi-perspective synthesis in democratic answers",PASS,UNTAGGED,true
+26,"How do democratic heuristics balance efficiency with depth",PASS,UNTAGGED,true
+2,"What is the dividend withholding tax rate for foreign investors",PASS,OK,true
+25,"What is motivated reasoning in politics",PASS,OK,true
+27,"Why should democratic questions be open-ended",PASS,UNTAGGED,true
+3,"What is Section 864b about",PASS,OK,true
+26,"How do democratic heuristics balance efficiency with depth",PASS,UNTAGGED,true
+28,"What is transparency of purpose in democratic questioning",PASS,UNTAGGED,true
+4,"How many days can a non-resident be present before capital gains tax",PASS,OK,true
+27,"Why should democratic questions be open-ended",PASS,UNTAGGED,true
+29,"What is value-oriented framing in policy questions",PASS,UNTAGGED,true
+5,"What is FDAP income",PASS,OK,true
+28,"What is transparency of purpose in democratic questioning",PASS,UNTAGGED,true
+30,"What is pre-questioning and scoping in policy analysis",PASS,UNTAGGED,true
+6,"What form do foreign investors file with their US broker",PASS,OK,true
+29,"What is value-oriented framing in policy questions",PASS,UNTAGGED,true
+31,"How does evidence alignment work in democratic answering",PASS,OK,true
+7,"What is the US estate tax exemption for non-resident aliens",PASS,OK,true
+30,"What is pre-questioning and scoping in policy analysis",PASS,UNTAGGED,true
+32,"What does consent of the governed mean in a democratic society",PASS,OK,true
+8,"What is Section 1256 and how does it split gains",PASS,OK,true
+31,"How does evidence alignment work in democratic answering",PASS,OK,true
+33,"What is due process in democratic systems",PASS,UNTAGGED,true
+9,"What is the Mark-to-Market election under Section 475",PASS,OK,true
+32,"What does consent of the governed mean in a democratic society",PASS,OK,true
+34,"What is accountability in democratic governance",PASS,UNTAGGED,true
+10,"What is the maximum net capital loss deduction per year",PASS,OK,true
+33,"What is due process in democratic systems",PASS,UNTAGGED,true
+35,"What is peaceful transfer of power in democracy",PASS,OK,true
+11,"What is the maximum federal tax rate for short-term gains",PASS,OK,true
+34,"What is accountability in democratic governance",PASS,UNTAGGED,true
+36,"What is the rule of law",PASS,UNTAGGED,true
+12,"What does Trader Tax Status allow you to deduct",PASS,OK,true
+35,"What is peaceful transfer of power in democracy",PASS,OK,true
+37,"What are checks and balances in democratic government",PASS,UNTAGGED,true
+13,"What is a disregarded entity LLC for foreign traders",PASS,OK,true
+36,"What is the rule of law",PASS,UNTAGGED,true
+38,"What is majority rule in a democratic vote",PASS,UNTAGGED,true
+14,"What form must a foreign-owned LLC file annually",PASS,OK,true
+37,"What are checks and balances in democratic government",PASS,UNTAGGED,true
+39,"What is equal representation in government",PASS,OK,true
+15,"What is Section 899 about",PASS,OK,true
+38,"What is majority rule in a democratic vote",PASS,UNTAGGED,true
+40,"What is civic trust",PASS,UNTAGGED,true
+16,"What is the wash sale rule and how to avoid it",PASS,OK,true
+39,"What is equal representation in government",PASS,OK,true
+41,"How do you assess cognitive capability from initial text bytes",PASS,UNTAGGED,true
+17,"What is effectively connected income in US tax law",PASS,OK,true
+40,"What is civic trust",PASS,UNTAGGED,true
+42,"What is tree-depth of arguments in communication",PASS,UNTAGGED,true
+18,"What tax treaty benefit reduces dividend withholding",PASS,OK,true
+41,"How do you assess cognitive capability from initial text bytes",PASS,UNTAGGED,true
+43,"What is token entropy in communication analysis",PASS,UNTAGGED,true
+19,"What are safe harbor rules for commodity trading",PASS,UNTAGGED,true
+42,"What is tree-depth of arguments in communication",PASS,UNTAGGED,true
+44,"What are subordinate clauses as complexity markers",PASS,UNTAGGED,true
+20,"What is the One Big Beautiful Bill Act",PASS,OK,true
+43,"What is token entropy in communication analysis",PASS,UNTAGGED,true
+45,"What is predictive framing in communication",PASS,UNTAGGED,true
+21,"What are best practices for democratic questioning",PASS,UNTAGGED,true
+44,"What are subordinate clauses as complexity markers",PASS,UNTAGGED,true
+46,"What is precision versus puffery in text analysis",PASS,UNTAGGED,true
+22,"What is fast and frugal heuristics in democratic decision making",PASS,UNTAGGED,true
+45,"What is predictive framing in communication",PASS,UNTAGGED,true
+47,"How does high text entropy indicate intelligence",PASS,OK,true
+23,"How does party identification serve as a cognitive shortcut for voters",PASS,OK,true
+46,"What is precision versus puffery in text analysis",PASS,UNTAGGED,true
+48,"What is theory of mind in communication strategy",PASS,UNTAGGED,true
+24,"What is multi-perspective synthesis in democratic answers",PASS,UNTAGGED,true
+47,"How does high text entropy indicate intelligence",PASS,OK,true
+49,"What is asymmetry of information in communication",PASS,UNTAGGED,true
+25,"What is motivated reasoning in politics",PASS,OK,true
+48,"What is theory of mind in communication strategy",PASS,UNTAGGED,true
+50,"How do proactive versus reactive strategies differ",FAIL,NO_DATA,false
+26,"How do democratic heuristics balance efficiency with depth",PASS,UNTAGGED,true
+49,"What is asymmetry of information in communication",PASS,UNTAGGED,true
+51,"What is emotional dissonance as a profiling signal",FAIL,NO_DATA,false
+27,"Why should democratic questions be open-ended",PASS,UNTAGGED,true
+50,"How do proactive versus reactive strategies differ",FAIL,NO_DATA,false
+52,"How many bytes are needed for cognitive profiling",PASS,UNTAGGED,true
+28,"What is transparency of purpose in democratic questioning",PASS,UNTAGGED,true
+51,"What is emotional dissonance as a profiling signal",FAIL,NO_DATA,false
+53,"What are conditional contingencies in strategy",FAIL,NO_DATA,false
+29,"What is value-oriented framing in policy questions",PASS,UNTAGGED,true
+52,"How many bytes are needed for cognitive profiling",PASS,UNTAGGED,true
+54,"How does low semantic entropy indicate lower capacity",PASS,OK,true
+30,"What is pre-questioning and scoping in policy analysis",PASS,UNTAGGED,true
+53,"What are conditional contingencies in strategy",FAIL,NO_DATA,false
+55,"How do you detect bluffers from their vocabulary",PASS,OK,true
+31,"How does evidence alignment work in democratic answering",PASS,OK,true
+54,"How does low semantic entropy indicate lower capacity",PASS,OK,true
+56,"What does information-to-entropy ratio tell you about text",PASS,OK,true
+32,"What does consent of the governed mean in a democratic society",PASS,OK,true
+55,"How do you detect bluffers from their vocabulary",PASS,OK,true
+57,"How does 5000 bytes translate to word count",PASS,UNTAGGED,true
+33,"What is due process in democratic systems",PASS,UNTAGGED,true
+56,"What does information-to-entropy ratio tell you about text",PASS,OK,true
+58,"What is selective omission as a signal in communication",FAIL,NO_DATA,false
+34,"What is accountability in democratic governance",PASS,UNTAGGED,true
+57,"How does 5000 bytes translate to word count",PASS,UNTAGGED,true
+59,"How do high-IQ communicators use ambiguity strategically",FAIL,NO_DATA,false
+35,"What is peaceful transfer of power in democracy",PASS,OK,true
+58,"What is selective omission as a signal in communication",FAIL,NO_DATA,false
+60,"What is a strategy based on profiling of communicators",FAIL,NO_DATA,false
+36,"What is the rule of law",PASS,UNTAGGED,true
+59,"How do high-IQ communicators use ambiguity strategically",FAIL,NO_DATA,false
+61,"Does US federal law grant privileges based on high IQ",PASS,OK,true
+37,"What are checks and balances in democratic government",PASS,UNTAGGED,true
+60,"What is a strategy based on profiling of communicators",FAIL,NO_DATA,false
+62,"What is the legal standing of a 200 IQ citizen under US law",PASS,OK,true
+38,"What is majority rule in a democratic vote",PASS,UNTAGGED,true
+61,"Does US federal law grant privileges based on high IQ",PASS,OK,true
+63,"Can a high IQ bypass standard regulatory procedures in the US",PASS,OK,true
+39,"What is equal representation in government",PASS,OK,true
+62,"What is the legal standing of a 200 IQ citizen under US law",PASS,OK,true
+64,"What is the EB-1A extraordinary ability green card",PASS,OK,true
+40,"What is civic trust",PASS,UNTAGGED,true
+63,"Can a high IQ bypass standard regulatory procedures in the US",PASS,OK,true
+65,"What is the EB-2 National Interest Waiver",PASS,UNTAGGED,true
+41,"How do you assess cognitive capability from initial text bytes",PASS,UNTAGGED,true
+64,"What is the EB-1A extraordinary ability green card",PASS,OK,true
+66,"What is the O-1A visa for extraordinary ability",PASS,OK,true
+42,"What is tree-depth of arguments in communication",PASS,UNTAGGED,true
+65,"What is the EB-2 National Interest Waiver",PASS,UNTAGGED,true
+67,"Can a citizen legally advocate for socialism in the US",PASS,OK,true
+43,"What is token entropy in communication analysis",PASS,UNTAGGED,true
+66,"What is the O-1A visa for extraordinary ability",PASS,OK,true
+68,"What is the Smith Act regarding violent overthrow advocacy",PASS,OK,true
+44,"What are subordinate clauses as complexity markers",PASS,UNTAGGED,true
+67,"Can a citizen legally advocate for socialism in the US",PASS,OK,true
+69,"Are worker cooperatives legal under US federal law",PASS,OK,true
+45,"What is predictive framing in communication",PASS,UNTAGGED,true
+68,"What is the Smith Act regarding violent overthrow advocacy",PASS,OK,true
+70,"What does Section 102 b 7 exculpation protect",PASS,OK,true
+46,"What is precision versus puffery in text analysis",PASS,UNTAGGED,true
+69,"Are worker cooperatives legal under US federal law",PASS,OK,true
+71,"What is the Takings Clause of the Fifth Amendment",PASS,OK,true
+47,"How does high text entropy indicate intelligence",PASS,OK,true
+70,"What does Section 102 b 7 exculpation protect",PASS,OK,true
+72,"What is USCIS evaluation criteria for extraordinary ability",PASS,UNTAGGED,true
+48,"What is theory of mind in communication strategy",PASS,UNTAGGED,true
+71,"What is the Takings Clause of the Fifth Amendment",PASS,OK,true
+73,"Can IQ alone be used as evidence in federal immigration proceedings",PASS,OK,true
+49,"What is asymmetry of information in communication",PASS,UNTAGGED,true
+72,"What is USCIS evaluation criteria for extraordinary ability",PASS,UNTAGGED,true
+74,"What are the 10 criteria for EB-1A immigration",PASS,OK,true
+50,"How do proactive versus reactive strategies differ",FAIL,NO_DATA,false
+73,"Can IQ alone be used as evidence in federal immigration proceedings",PASS,OK,true
+75,"What legal options exist for international PhD students in the US",PASS,OK,true
+51,"What is emotional dissonance as a profiling signal",FAIL,NO_DATA,false
+74,"What are the 10 criteria for EB-1A immigration",PASS,OK,true
+76,"What is fiduciary duty under US law",PASS,UNTAGGED,true
+52,"How many bytes are needed for cognitive profiling",PASS,UNTAGGED,true
+75,"What legal options exist for international PhD students in the US",PASS,OK,true
+77,"What are the core fiduciary duties summarized by OLD CAR",PASS,OK,true
+53,"What are conditional contingencies in strategy",FAIL,NO_DATA,false
+76,"What is fiduciary duty under US law",PASS,UNTAGGED,true
+78,"What is the duty of loyalty for a fiduciary",PASS,OK,true
+54,"How does low semantic entropy indicate lower capacity",PASS,OK,true
+77,"What are the core fiduciary duties summarized by OLD CAR",PASS,OK,true
+79,"What is the duty of care for a fiduciary",PASS,OK,true
+55,"How do you detect bluffers from their vocabulary",PASS,OK,true
+78,"What is the duty of loyalty for a fiduciary",PASS,OK,true
+80,"What is the Business Judgment Rule in corporate law",PASS,OK,true
+56,"What does information-to-entropy ratio tell you about text",PASS,OK,true
+79,"What is the duty of care for a fiduciary",PASS,OK,true
+81,"What did Meinhard v Salmon establish about fiduciary duty",PASS,UNTAGGED,true
+57,"How does 5000 bytes translate to word count",PASS,UNTAGGED,true
+80,"What is the Business Judgment Rule in corporate law",PASS,OK,true
+82,"What is the no-further-inquiry rule in trust law",PASS,UNTAGGED,true
+58,"What is selective omission as a signal in communication",FAIL,NO_DATA,false
+81,"What did Meinhard v Salmon establish about fiduciary duty",PASS,UNTAGGED,true
+83,"What is the Corporate Opportunity Doctrine",PASS,OK,true
+59,"How do high-IQ communicators use ambiguity strategically",FAIL,NO_DATA,false
+82,"What is the no-further-inquiry rule in trust law",PASS,UNTAGGED,true
+84,"What is ERISA and what does it regulate",PASS,UNTAGGED,true
+60,"What is a strategy based on profiling of communicators",FAIL,NO_DATA,false
+83,"What is the Corporate Opportunity Doctrine",PASS,OK,true
+85,"What are the elements needed to prove breach of fiduciary duty",PASS,OK,true
+61,"Does US federal law grant privileges based on high IQ",PASS,OK,true
+84,"What is ERISA and what does it regulate",PASS,UNTAGGED,true
+86,"What is Caremark duty of oversight",PASS,OK,true
+62,"What is the legal standing of a 200 IQ citizen under US law",PASS,OK,true
+85,"What are the elements needed to prove breach of fiduciary duty",PASS,OK,true
+87,"What is the contractarian view of fiduciary obligations",PASS,OK,true
+63,"Can a high IQ bypass standard regulatory procedures in the US",PASS,OK,true
+86,"What is Caremark duty of oversight",PASS,OK,true
+88,"How does Delaware corporate law differ on duty waivability",PASS,OK,true
+64,"What is the EB-1A extraordinary ability green card",PASS,OK,true
+87,"What is the contractarian view of fiduciary obligations",PASS,OK,true
+89,"What is the principal-agent problem in fiduciary law",PASS,OK,true
+65,"What is the EB-2 National Interest Waiver",PASS,UNTAGGED,true
+88,"How does Delaware corporate law differ on duty waivability",PASS,OK,true
+90,"What is the duty of disclosure for fiduciaries",PASS,OK,true
+66,"What is the O-1A visa for extraordinary ability",PASS,OK,true
+89,"What is the principal-agent problem in fiduciary law",PASS,OK,true
+91,"What port does NitroWebExpress run on",PASS,OK,true
+67,"Can a citizen legally advocate for socialism in the US",PASS,OK,true
+90,"What is the duty of disclosure for fiduciaries",PASS,OK,true
+92,"What is the connection banner for this democratic server",PASS,UNTAGGED,true
+68,"What is the Smith Act regarding violent overthrow advocacy",PASS,OK,true
+91,"What port does NitroWebExpress run on",PASS,OK,true
+93,"How many maximum connections does this server allow",PASS,OK,true
+69,"Are worker cooperatives legal under US federal law",PASS,OK,true
+92,"What is the connection banner for this democratic server",PASS,UNTAGGED,true
+94,"What encryption standards does this server support",PASS,OK,true
+70,"What does Section 102 b 7 exculpation protect",PASS,OK,true
+93,"How many maximum connections does this server allow",PASS,OK,true
+95,"What is the Diffie-Hellman key exchange group used",PASS,UNTAGGED,true
+71,"What is the Takings Clause of the Fifth Amendment",PASS,OK,true
+94,"What encryption standards does this server support",PASS,OK,true
+96,"How long are certificates stored before auto-deletion",PASS,UNTAGGED,true
+72,"What is USCIS evaluation criteria for extraordinary ability",PASS,UNTAGGED,true
+95,"What is the Diffie-Hellman key exchange group used",PASS,UNTAGGED,true
+97,"What outbound ports are monitored by this server",PASS,UNTAGGED,true
+73,"Can IQ alone be used as evidence in federal immigration proceedings",PASS,OK,true
+96,"How long are certificates stored before auto-deletion",PASS,UNTAGGED,true
+98,"What is the safety score range in the ledger",PASS,UNTAGGED,true
+74,"What are the 10 criteria for EB-1A immigration",PASS,OK,true
+97,"What outbound ports are monitored by this server",PASS,UNTAGGED,true
+99,"What is the military module activation threshold in days",PASS,UNTAGGED,true
+75,"What legal options exist for international PhD students in the US",PASS,OK,true
+98,"What is the safety score range in the ledger",PASS,UNTAGGED,true
+100,"What is the modulateScore function used for",PASS,UNTAGGED,true
+76,"What is fiduciary duty under US law",PASS,UNTAGGED,true
+99,"What is the military module activation threshold in days",PASS,UNTAGGED,true
+77,"What are the core fiduciary duties summarized by OLD CAR",PASS,OK,true
+100,"What is the modulateScore function used for",PASS,UNTAGGED,true
+78,"What is the duty of loyalty for a fiduciary",PASS,OK,true
+79,"What is the duty of care for a fiduciary",PASS,OK,true
+80,"What is the Business Judgment Rule in corporate law",PASS,OK,true
+81,"What did Meinhard v Salmon establish about fiduciary duty",PASS,UNTAGGED,true
+82,"What is the no-further-inquiry rule in trust law",PASS,UNTAGGED,true
+83,"What is the Corporate Opportunity Doctrine",PASS,OK,true
+84,"What is ERISA and what does it regulate",PASS,UNTAGGED,true
+85,"What are the elements needed to prove breach of fiduciary duty",PASS,OK,true
+86,"What is Caremark duty of oversight",PASS,OK,true
+87,"What is the contractarian view of fiduciary obligations",PASS,OK,true
+88,"How does Delaware corporate law differ on duty waivability",PASS,OK,true
+89,"What is the principal-agent problem in fiduciary law",PASS,OK,true
+90,"What is the duty of disclosure for fiduciaries",PASS,OK,true
+91,"What port does NitroWebExpress run on",PASS,OK,true
+92,"What is the connection banner for this democratic server",PASS,UNTAGGED,true
+93,"How many maximum connections does this server allow",PASS,OK,true
+94,"What encryption standards does this server support",PASS,OK,true
+95,"What is the Diffie-Hellman key exchange group used",PASS,UNTAGGED,true
+96,"How long are certificates stored before auto-deletion",PASS,UNTAGGED,true
+97,"What outbound ports are monitored by this server",PASS,UNTAGGED,true
+98,"What is the safety score range in the ledger",PASS,UNTAGGED,true
+99,"What is the military module activation threshold in days",PASS,UNTAGGED,true
+100,"What is the modulateScore function used for",PASS,UNTAGGED,true

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>699</office-code>
+    <office-name>BURLINGTON IA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>3920 DIVISION ST</address-3>
+    <city>BURLINGTON</city>
+    <state>IA</state>
+    <zip-code>52601</zip-code>
+    <phone>(866) 338-4183</phone>
+    <fax>(833) 515-0437</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10113</socket-port>
+    <local-input-path>source-code/ssa/ia/burlington/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ia/burlington</output-dir>
+</signal-processing-config>

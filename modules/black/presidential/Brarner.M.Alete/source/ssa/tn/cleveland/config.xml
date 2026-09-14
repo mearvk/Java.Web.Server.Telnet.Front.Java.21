@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>581</office-code>
+    <office-name>CLEVELAND TN</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>529 INMAN ST W</address-3>
+    <city>CLEVELAND</city>
+    <state>TN</state>
+    <zip-code>37311</zip-code>
+    <phone>(855) 207-4867</phone>
+    <fax>(833) 912-2284</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10005</socket-port>
+    <local-input-path>source-code/ssa/tn/cleveland/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/tn/cleveland</output-dir>
+</signal-processing-config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>340</office-code>
+    <office-name>ROANOKE RAPIDS NC</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>833 GREGORY DRIVE</address-3>
+    <city>ROANOKE RAPIDS</city>
+    <state>NC</state>
+    <zip-code>27870</zip-code>
+    <phone>(866) 269-2010</phone>
+    <fax>(833) 950-3137</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9787</socket-port>
+    <local-input-path>source-code/ssa/nc/roanokerapids/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/nc/roanokerapids</output-dir>
+</signal-processing-config>

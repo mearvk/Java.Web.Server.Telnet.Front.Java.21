@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Protocol Handlers (from github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21)
+    Installed: MEARVK LLC - Max Rupplin
+-->
+<protocol-handlers>
+    <handler name="HTTP" port="80">
+        <probe>HEAD / HTTP/1.0\r\nHost: {host}\r\nConnection: close\r\n\r\n</probe>
+        <expect>HTTP/</expect>
+    </handler>
+    <handler name="HTTPS" port="443">
+        <probe>HEAD / HTTP/1.0\r\nHost: {host}\r\nConnection: close\r\n\r\n</probe>
+        <expect>HTTP/</expect>
+    </handler>
+    <handler name="SMTP" port="25">
+        <expect>220</expect>
+    </handler>
+    <handler name="SSH" port="22">
+        <expect>SSH-</expect>
+    </handler>
+    <handler name="POP3" port="110">
+        <expect>+OK</expect>
+    </handler>
+    <handler name="IMAP" port="143">
+        <expect>* OK</expect>
+    </handler>
+    <handler name="Redis" port="6379">
+        <probe>PING\r\n</probe>
+        <expect>+PONG</expect>
+    </handler>
+    <handler name="HTTP-ALT" port="8080">
+        <probe>HEAD / HTTP/1.0\r\nHost: {host}\r\nConnection: close\r\n\r\n</probe>
+        <expect>HTTP/</expect>
+    </handler>
+    <handler name="BINARY-PASSTHROUGH">
+        <description>Unsets active HTTP method, returns to raw binary passthrough</description>
+    </handler>
+</protocol-handlers>

@@ -1,0 +1,12 @@
+{
+  "text": "Although revenue increased, profitability may decline if operating costs continue to rise faster than sales growth.",
+  "labels": {
+    "conditional_reasoning": 0.91,
+    "hierarchical_structure": 0.78,
+    "information_density": 0.84,
+    "strategic_reasoning": 0.72,
+    "precision": 0.80,
+    "emotional_content": 0.12,
+    "overall_complexity": 0.83
+  }
+}

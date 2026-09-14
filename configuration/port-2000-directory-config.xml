@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Port 2000 Directory Server Configuration
+    =========================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Controls what information port 2000 reveals to connecting clients,
+    whether NationalID is required, and whether Rank 4 JWSTNJ21 server
+    registration (with public.key verification) is enabled.
+-->
+<directory-config>
+
+    <!-- Which services are queryable from port 2000 — full module access -->
+    <services>
+        <port-20000>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>Strernary™ inference server addresses</description>
+        </port-20000>
+
+        <port-49152>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>NationalFinanceID registration server addresses</description>
+        </port-49152>
+
+        <port-5000>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>Futures™ Democratic AI server</description>
+        </port-5000>
+
+        <port-9999>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>GrayPortRegistry™ standard registry</description>
+        </port-9999>
+
+        <port-10085>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>Gray85 Crème™ registry</description>
+        </port-10085>
+
+        <port-5512>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>AesCompliant™ encryption server</description>
+        </port-5512>
+
+        <port-6682>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>BitcoinCompliant™ trading server</description>
+        </port-6682>
+
+        <port-49199>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>Communicator™ chat server</description>
+        </port-49199>
+
+        <port-49222>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>SpectrumTandem™ dolyene spectrum of int discipline server</description>
+        </port-49222>
+
+        <port-49230>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>NWE Chat™ encrypted communication server (DH-2048/RSA-2048/AES-256-GCM)</description>
+        </port-49230>
+
+        <port-49231>
+            <enabled>true</enabled>
+            <require-national-id>false</require-national-id>
+            <description>UNCW™ Wilmington CS club, colleges, chancellors, file sharing</description>
+        </port-49231>
+    </services>
+
+    <!-- Rank 4 JWSTNJ21 server registration via public.key -->
+    <rank4-registration>
+        <enabled>true</enabled>
+        <require-public-key>true</require-public-key>
+        <public-key-github-url>https://raw.githubusercontent.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/main/psychiatry/secrets/public.key</public-key-github-url>
+        <description>
+            A connecting Rank 4 Java.Telnet.Finance.Server must POST the
+            public.key contents for byte-for-byte verification before it
+            can register itself with this running server instance.
+        </description>
+    </rank4-registration>
+
+    <!-- NIO masquerade XML forwarding on port 2000 -->
+    <port-2000-forwarding>
+        <enabled>true</enabled>
+        <description>
+            Accept XML packets: &lt;nwe-route&gt;&lt;port&gt;N&lt;/port&gt;&lt;payload&gt;...&lt;/payload&gt;&lt;/nwe-route&gt;
+            Forward payload to resolved local IP based on nio-masquerade-config.xml.
+        </description>
+    </port-2000-forwarding>
+
+</directory-config>

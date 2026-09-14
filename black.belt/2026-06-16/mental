@@ -1,0 +1,60 @@
+{"style":"Taekwondo WT","belt_level":"1st Dan Black Belt","document_type":"Conduct Form","requirements":["Demonstrate leadership","Assist junior belts","Exhibit discipline","Maintain respectful behavior","Attend minimum 80% classes"],"testing_cycle":"1 year minimum","organization":"World Taekwondo","region":"United States"}
+{"style":"Taekwondo WT","belt_level":"2nd Dan Black Belt","document_type":"Conduct Form","requirements":["Lead warmups","Mentor color belts","Exemplify humility","Support school events"],"testing_cycle":"2 years minimum","organization":"Kukkiwon","region":"United States"}
+{"style":"Taekwondo WT","belt_level":"3rd Dan Black Belt","document_type":"Conduct Form","requirements":["Teach full classes","Demonstrate advanced poomsae","Model emotional control","Participate in community outreach"],"testing_cycle":"3 years minimum","organization":"Kukkiwon","region":"United States"}
+
+{"style":"Shotokan Karate","belt_level":"1st Dan","document_type":"Conduct Form","requirements":["Demonstrate kihon precision","Assist youth classes","Show courtesy and etiquette","Maintain dojo cleanliness"],"testing_cycle":"1–2 years","organization":"JKA","region":"United States"}
+{"style":"Shotokan Karate","belt_level":"2nd Dan","document_type":"Conduct Form","requirements":["Lead kata groups","Demonstrate advanced bunkai","Exhibit self‑discipline","Support dojo seminars"],"testing_cycle":"2–3 years","organization":"JKA","region":"United States"}
+{"style":"Shotokan Karate","belt_level":"3rd Dan","document_type":"Conduct Form","requirements":["Teach full curriculum","Mentor assistant instructors","Demonstrate mastery of timing and distance"],"testing_cycle":"3–4 years","organization":"JKA","region":"United States"}
+
+{"style":"Brazilian Jiu-Jitsu","belt_level":"Black Belt","document_type":"Conduct Form","requirements":["Demonstrate technical mastery","Show calm under pressure","Mentor blue/purple belts","Promote safe rolling"],"testing_cycle":"Minimum 10 years training","organization":"IBJJF","region":"United States"}
+{"style":"Brazilian Jiu-Jitsu","belt_level":"2nd Degree Black Belt","document_type":"Conduct Form","requirements":["Teach advanced submissions","Demonstrate leadership","Support competition team","Maintain ethical behavior"],"testing_cycle":"3 years per stripe","organization":"IBJJF","region":"United States"}
+
+{"style":"Judo","belt_level":"Shodan","document_type":"Conduct Form","requirements":["Demonstrate nage-waza proficiency","Assist beginners","Show dojo etiquette","Promote safety"],"testing_cycle":"1–2 years","organization":"USA Judo","region":"United States"}
+{"style":"Judo","belt_level":"Nidan","document_type":"Conduct Form","requirements":["Teach randori principles","Demonstrate advanced ne-waza","Exhibit leadership"],"testing_cycle":"2–3 years","organization":"USJF","region":"United States"}
+
+{"style":"Tang Soo Do","belt_level":"Black Belt","document_type":"Conduct Form","requirements":["Demonstrate hyung mastery","Show respect","Assist lower belts","Participate in school events"],"testing_cycle":"1–2 years","organization":"Independent Federation","region":"United States"}
+{"style":"Tang Soo Do","belt_level":"2nd Dan","document_type":"Conduct Form","requirements":["Teach classes","Demonstrate advanced kicking","Model humility"],"testing_cycle":"2–3 years","organization":"Independent Federation","region":"United States"}
+
+{"style":"Hapkido","belt_level":"Black Belt","document_type":"Conduct Form","requirements":["Demonstrate joint locks","Show control in throws","Assist beginners","Maintain discipline"],"testing_cycle":"1–2 years","organization":"Korean Hapkido Federation","region":"United States"}
+
+{"style":"MCMAP","belt_level":"Black Belt 1st Degree","document_type":"Conduct Form","requirements":["Exhibit warrior ethos","Demonstrate lethal and non‑lethal techniques","Model ethical leadership","Mentor junior Marines"],"testing_cycle":"Operationally determined","organization":"USMC","region":"United States"}
+{"style":"MCMAP","belt_level":"Black Belt 2nd Degree","document_type":"Conduct Form","requirements":["Teach combatives","Demonstrate advanced weapon retention","Exemplify moral courage"],"testing_cycle":"Operationally determined","organization":"USMC","region":"United States"}
+
+{"style":"Taekwondo WT","belt_level":"1st Dan","document_type":"Skill Evaluation","requirements":["Poomsae: Koryo","Sparring: Controlled contact","Self-defense: 10 techniques"],"testing_cycle":"1 year","organization":"Kukkiwon","region":"United States"}
+{"style":"Taekwondo WT","belt_level":"2nd Dan","document_type":"Skill Evaluation","requirements":["Poomsae: Keumgang","Breaking: 2 boards","Leadership: Assist class"],"testing_cycle":"2 years","organization":"Kukkiwon","region":"United States"}
+
+{"style":"Shotokan Karate","belt_level":"1st Dan","document_type":"Skill Evaluation","requirements":["Kata: Bassai Dai","Kumite: Controlled","Kihon: 20 techniques"],"testing_cycle":"1–2 years","organization":"JKA","region":"United States"}
+
+{"style":"Brazilian Jiu-Jitsu","belt_level":"Black Belt","document_type":"Skill Evaluation","requirements":["Guard passing mastery","Submission chains","Positional control"],"testing_cycle":"10+ years","organization":"IBJJF","region":"United States"}
+
+{"style":"Judo","belt_level":"Shodan","document_type":"Skill Evaluation","requirements":["Throws: 15","Pins: 5","Chokes: 3","Armlocks: 2"],"testing_cycle":"1–2 years","organization":"USA Judo","region":"United States"}
+
+{"style":"Tang Soo Do","belt_level":"Black Belt","document_type":"Skill Evaluation","requirements":["Hyung: Bassai","Sparring: 3 rounds","Breaking: 1 board"],"testing_cycle":"1–2 years","organization":"Independent","region":"United States"}
+
+{"style":"Hapkido","belt_level":"Black Belt","document_type":"Skill Evaluation","requirements":["Joint locks: 20","Throws: 10","Kicks: 15"],"testing_cycle":"1–2 years","organization":"KHF","region":"United States"}
+
+{"style":"MCMAP","belt_level":"Black Belt 1st Degree","document_type":"Skill Evaluation","requirements":["Striking: Advanced","Grappling: Control","Weapons: Retention"],"testing_cycle":"Operational","organization":"USMC","region":"United States"}
+
+{"style":"Taekwondo WT","belt_level":"1st Dan","document_type":"Ethics Statement","requirements":["Respect instructors","Avoid misuse of skills","Maintain integrity"],"testing_cycle":"Annual review","organization":"WT","region":"United States"}
+
+{"style":"Shotokan Karate","belt_level":"1st Dan","document_type":"Ethics Statement","requirements":["Follow dojo kun","Show humility","Avoid aggression"],"testing_cycle":"Annual review","organization":"JKA","region":"United States"}
+
+{"style":"Brazilian Jiu-Jitsu","belt_level":"Black Belt","document_type":"Ethics Statement","requirements":["Promote safety","Avoid ego-driven training","Respect all ranks"],"testing_cycle":"Annual review","organization":"IBJJF","region":"United States"}
+
+{"style":"Judo","belt_level":"Shodan","document_type":"Ethics Statement","requirements":["Follow judo moral code","Show respect","Promote harmony"],"testing_cycle":"Annual review","organization":"USA Judo","region":"United States"}
+
+{"style":"Tang Soo Do","belt_level":"Black Belt","document_type":"Ethics Statement","requirements":["Show courtesy","Maintain discipline","Support school"],"testing_cycle":"Annual review","organization":"Independent","region":"United States"}
+
+{"style":"Hapkido","belt_level":"Black Belt","document_type":"Ethics Statement","requirements":["Show control","Avoid unnecessary force","Respect peers"],"testing_cycle":"Annual review","organization":"KHF","region":"United States"}
+
+{"style":"MCMAP","belt_level":"Black Belt 1st Degree","document_type":"Ethics Statement","requirements":["Exhibit ethical warrior ethos","Avoid unnecessary violence","Lead by example"],"testing_cycle":"Operational","organization":"USMC","region":"United States"}
+
+{"style":"Taekwondo WT","belt_level":"1st Dan","document_type":"Leadership Evaluation","requirements":["Assist class","Lead warmups","Demonstrate maturity"],"testing_cycle":"Annual","organization":"WT","region":"United States"}
+
+{"style":"Shotokan Karate","belt_level":"2nd Dan","document_type":"Leadership Evaluation","requirements":["Teach kata","Mentor juniors","Support dojo"],"testing_cycle":"Annual","organization":"JKA","region":"United States"}
+
+{"style":"Brazilian Jiu-Jitsu","belt_level":"Black Belt","document_type":"Leadership Evaluation","requirements":["Teach advanced classes","Mentor competitors","Promote safety"],"testing_cycle":"Annual","organization":"IBJJF","region":"United States"}
+
+{"style":"Judo","belt_level":"Nidan","document_type":"Leadership Evaluation","requirements":["Teach throws","Lead warmups","Promote discipline"],"testing_cycle":"Annual","organization":"USJF","region":"United States"}
+
+{"style":"Tang Soo Do","belt_level":"2nd Dan","document_type":"Leadership Evaluation","requirements

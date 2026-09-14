@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>709</office-code>
+    <office-name>NEW PORT RICHEY FL</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 102</address-2>
+    <address-3>7601 LITTLE ROAD</address-3>
+    <city>NEW PORT RICHEY</city>
+    <state>FL</state>
+    <zip-code>34654</zip-code>
+    <phone>(866) 593-5679</phone>
+    <fax>(833) 913-2073</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10122</socket-port>
+    <local-input-path>source-code/ssa/fl/newportrichey/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/fl/newportrichey</output-dir>
+</signal-processing-config>

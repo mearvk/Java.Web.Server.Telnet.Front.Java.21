@@ -1,6 +1,7 @@
 package telnet;
 
 import commons.CommonRails;
+import exceptions.ExceptionHandler;
 
 public class TelnetInputBuilder extends Thread
 {
@@ -8,11 +9,11 @@ public class TelnetInputBuilder extends Thread
 
     protected TelnetMessageQueue telnet_message_queue;
 
-    protected StringBuffer buffer = new StringBuffer();
+    protected StringBuffer BUFFER = new StringBuffer();
 
-    public TelnetInputBuilder(TelnetCommunicationProxy telnet_proxy_communicator)
+    public TelnetInputBuilder(final TelnetCommunicationProxy TELNET_PROXY_COMMUNICATOR)
     {
-        this.telnet_communication_proxy = telnet_proxy_communicator;
+        this.telnet_communication_proxy = TELNET_PROXY_COMMUNICATOR;
 
         this.telnet_message_queue = new TelnetMessageQueue(5000);
     }
@@ -38,34 +39,37 @@ public class TelnetInputBuilder extends Thread
                     {
                         try
                         {
-                            final String message = queue.messages.get(0).message_buffer.toString();
+                            final String message = queue.MESSAGES.get(0).MESSAGE_BUFFER.toString();
 
                             final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
 
-                            proxy.writer.write(message);
+                            if (proxy.process != null && proxy.process.isAlive() && proxy.writer != null)
+                            {
+                                proxy.writer.write(message);
+                                proxy.writer.flush();
 
-                            CommonRails.printSystemComponent(this, this.hashCode(), "[Object ID: "+this.hashCode()+"] TelnetOutputBuilder Output >> sending message ["+message+"]");
+                                CommonRails.printSystemComponent(this, this.hashCode(), "TelnetInputBuilder >> sending message ["+message+"]");
+                            }
 
-                            proxy.writer.flush();
-
-                            queue.messages.remove(0);
+                            queue.MESSAGES.remove(0);
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace(System.err);
+                            ExceptionHandler.dispatch(e);
                         }
                     }
                 }
             }
             catch (Exception e)
             {
+                ExceptionHandler.dispatch(e);
                 e.printStackTrace(System.err);
             }
         }
     }
 
-    public void setBuffer(StringBuffer buffer)
+    public void setBuffer(final StringBuffer BUFFER)
     {
-        this.buffer = buffer;
+        this.BUFFER = BUFFER;
     }
 }

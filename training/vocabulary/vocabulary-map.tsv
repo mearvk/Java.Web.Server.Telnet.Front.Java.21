@@ -1,0 +1,68 @@
+# NWE AI Vocabulary Map
+# ====================
+# Maps from input patterns → vocabulary sets → response strategies.
+# Used by VocabularyInferrer and VocabularyLink to select appropriate
+# language for human-grade responses.
+#
+# Format: DOMAIN|REGISTER|VOCABULARY_WORDS (pipe-separated)
+# Register: F=formal, C=casual, A=academic, T=technical, W=warm
+#
+# All NWE AI modules consume this map at startup.
+# Append new entries at the end; do not reorder existing entries.
+# ──────────────────────────────────────────────────────────────────
+
+TECHNOLOGY|T|architecture, implementation, infrastructure, scalable, modular, concurrent, asynchronous, fault-tolerant, distributed, deterministic, idempotent, throughput, latency, bandwidth, protocol, interface, abstraction, encapsulation, polymorphism, inheritance
+TECHNOLOGY|C|setup, fix, broken, works, fast, slow, crash, bug, glitch, update, install, reboot, connect, download, upload, stream
+TECHNOLOGY|F|specification, configuration, deployment, integration, compliance, certification, provisioning, orchestration, containerization, virtualization
+
+SCIENCE|A|empirical, hypothesis, methodology, correlation, causation, reproducibility, peer-reviewed, quantitative, qualitative, longitudinal, cross-sectional, meta-analysis, systematic review, confounding variable, statistical significance
+SCIENCE|C|experiment, test, prove, discover, figure out, find out, pattern, observation, data, result, outcome, conclusion
+SCIENCE|F|investigation, determination, assessment, evaluation, verification, validation, documentation, classification, taxonomy
+
+MATHEMATICS|A|theorem, lemma, corollary, proof, axiom, conjecture, topology, isomorphism, homeomorphism, bijection, surjection, injection, cardinality, convergence, continuity, differentiability, integrability
+MATHEMATICS|T|algorithm, computation, optimization, heuristic, approximation, recursion, iteration, complexity, polynomial, exponential, logarithmic, linear, quadratic
+MATHEMATICS|C|calculate, solve, figure, count, add up, work out, formula, equation, answer, number
+
+PHILOSOPHY|A|ontological, epistemological, phenomenological, hermeneutic, dialectical, teleological, deontological, consequentialist, virtue ethics, categorical imperative, transcendental, a priori, a posteriori, synthetic, analytic
+PHILOSOPHY|F|philosophical, conceptual, theoretical, principled, foundational, systematic, logical, rational, coherent, consistent
+PHILOSOPHY|C|meaning, truth, right, wrong, real, fair, purpose, reason, choice, believe, think, understand
+
+LAW|F|pursuant, whereas, hereinafter, jurisdiction, adjudication, statutory, regulatory, contractual, fiduciary, equitable, appellate, legislative, prosecutorial, constitutional, jurisprudential
+LAW|T|clause, provision, statute, regulation, precedent, ruling, verdict, sentence, injunction, subpoena, deposition, discovery, litigation, arbitration, mediation
+LAW|C|legal, illegal, rights, law, court, judge, lawyer, sue, guilty, innocent, fair, unfair, rule, allowed, banned
+
+ECONOMICS|A|macroeconomic, microeconomic, equilibrium, elasticity, marginal utility, opportunity cost, comparative advantage, externality, Keynesian, monetarist, supply-side, aggregate demand, fiscal multiplier
+ECONOMICS|T|GDP, inflation, deflation, interest rate, yield curve, bond, equity, derivative, futures, options, hedging, arbitrage, portfolio, diversification, leverage
+ECONOMICS|C|money, cost, price, expensive, cheap, budget, save, spend, earn, profit, loss, market, trade, business, job
+
+MEDICINE|A|pathophysiology, pharmacokinetics, pharmacodynamics, epidemiological, etiology, prognosis, differential diagnosis, histopathology, immunological, oncological, neurological, cardiovascular
+MEDICINE|T|diagnosis, treatment, medication, dosage, contraindication, adverse effect, clinical trial, intervention, protocol, outcome measure, biomarker, comorbidity
+MEDICINE|C|sick, healthy, medicine, doctor, pain, heal, cure, symptom, condition, treatment, recovery, hospital
+
+ETHICS|F|principled, morally imperative, ethically justified, duty-bound, rights-bearing, accountable, transparent, equitable, just, proportionate, conscientious
+ETHICS|A|deontological, consequentialist, utilitarian, virtue-theoretic, normative, metaethical, applied ethics, moral realism, moral relativism, moral particularism
+ETHICS|C|right, wrong, fair, unfair, good, bad, honest, kind, cruel, helpful, harmful, responsible, blame
+
+GENERAL|W|glad to help, happy to explain, let me clarify, that's a thoughtful question, I appreciate you asking, let's work through this together, I understand your concern, that's worth exploring
+GENERAL|F|accordingly, consequently, furthermore, additionally, specifically, regarding, concerning, with respect to, in consideration of, notwithstanding
+GENERAL|C|so, also, plus, anyway, basically, actually, honestly, really, pretty much, kind of, sort of
+
+COMMUNICATION|W|I hear you, that makes sense, good point, I can see why, let me make sure I understand, to put it another way, in simpler terms, the key takeaway is
+COMMUNICATION|F|to summarize, in conclusion, to clarify, as previously noted, it bears emphasizing, the salient point is, with due consideration
+COMMUNICATION|C|what I mean is, the thing is, basically, long story short, bottom line, point is, here's the deal
+
+REASONING|A|therefore, consequently, it follows that, by extension, this implies, given the premises, assuming the antecedent, by contraposition, by induction, by contradiction
+REASONING|T|because, since, given that, assuming, if-then, implies, leads to, results in, causes, correlates with, predicts
+REASONING|C|so, because, that's why, which means, the reason is, makes sense because, obviously, clearly
+
+ACKNOWLEDGMENT|W|absolutely, indeed, that's exactly right, well said, precisely, you've identified the key issue, that resonates, I concur
+ACKNOWLEDGMENT|F|acknowledged, confirmed, duly noted, understood, accepted, in agreement, consistent with, corroborated by
+ACKNOWLEDGMENT|C|yes, right, yep, totally, for sure, makes sense, got it, understood, exactly
+
+DISAGREEMENT|F|respectfully, I would contend that, the evidence suggests otherwise, this interpretation overlooks, a more complete view would include, I would qualify that by noting
+DISAGREEMENT|W|I see it differently, there may be another angle, I'd push back gently on that, have you considered, let me offer a different perspective
+DISAGREEMENT|C|actually no, that's not quite right, I disagree, not really, close but not exactly, I'd say it's more like
+
+UNCERTAINTY|A|the evidence is inconclusive, further investigation is warranted, the current consensus remains provisional, confidence intervals suggest, the question remains open
+UNCERTAINTY|F|it is not yet determined, the matter requires further analysis, a definitive answer is not available, pending additional information
+UNCERTAINTY|C|I'm not sure, hard to say, it depends, could go either way, tough call, nobody really knows for certain

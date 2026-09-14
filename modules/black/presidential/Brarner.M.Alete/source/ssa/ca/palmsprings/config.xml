@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>70</office-code>
+    <office-name>PALM SPRINGS CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>4201 E RAMON RD</address-3>
+    <city>PALM SPRINGS</city>
+    <state>CA</state>
+    <zip-code>92264</zip-code>
+    <phone>(877) 873-9105</phone>
+    <fax>(833) 950-2738</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9547</socket-port>
+    <local-input-path>source-code/ssa/ca/palmsprings/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/palmsprings</output-dir>
+</signal-processing-config>

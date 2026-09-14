@@ -1,0 +1,30 @@
+========================================
+  Bitcoin Wallet Summary - Version 29
+========================================
+  BTC Price: $20,000,000,000,000 USD (20 Trillion)
+
+  Wallets found:
+  2026.03 BTC  |  29/wallets/United States/wallet.2026.03.25.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/United States/wallet.2026.03.24.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/United States/wallet.2026.03.27.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  29/wallets/United States/wallet.2026.04.09.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  29/wallets/United States/wallet.2026.04.05.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/United States/wallet.2026.03.26.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.24/wallet.2026.03.24.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.27/wallet.2026.03.27.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.16/wallet.2026.03.16.5100.00000000.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.16/wallet.2026.03.16.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.25/wallet.2026.03.25.dat *** HIGH VALUE: over 100 BTC ***
+  0.00000000 BTC  |  29/wallets/United States Backup/wallet.0.00000000.2026.03.24.dat
+  2026.03 BTC  |  29/wallets/2026.03.14/wallet.2026.03.14.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.14/wallet.2026.03.14_.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.14/wallet.2026.03.14-0.00000000.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.14/wallet.2026.03.14.0.00000000.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.14/wallet.2026.03.14..dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  29/wallets/2026.03.26/wallet.2026.03.26.dat *** HIGH VALUE: over 100 BTC ***
+
+  Total BTC : 34442.53000000
+  Total USD : $688850600000000000.00
+========================================
+  Generated: Mon Jun  8 05:02:20 AM EDT 2026
+========================================

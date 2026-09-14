@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>D34</office-code>
+    <office-name>REDWOOD CITY CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1718 BROADWAY ST</address-3>
+    <city>REDWOOD CITY</city>
+    <state>CA</state>
+    <zip-code>94063</zip-code>
+    <phone>(888) 860-5582</phone>
+    <fax>(833) 571-0638</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9421</socket-port>
+    <local-input-path>source-code/ssa/ca/redwoodcity/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/redwoodcity</output-dir>
+</signal-processing-config>

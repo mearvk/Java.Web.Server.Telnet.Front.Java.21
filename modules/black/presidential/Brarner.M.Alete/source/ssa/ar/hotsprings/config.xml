@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>760</office-code>
+    <office-name>HOT SPRINGS AR</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>112 CORPORATE TERRACE</address-3>
+    <city>HOT SPRINGS</city>
+    <state>AR</state>
+    <zip-code>71913</zip-code>
+    <phone>(855) 531-1685</phone>
+    <fax>(833) 950-2706</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10158</socket-port>
+    <local-input-path>source-code/ssa/ar/hotsprings/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ar/hotsprings</output-dir>
+</signal-processing-config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>823</office-code>
+    <office-name>WICHITA FALLS TX</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>4314 WENDOVER ST</address-3>
+    <city>WICHITA FALLS</city>
+    <state>TX</state>
+    <zip-code>76309</zip-code>
+    <phone>(866) 815-9605</phone>
+    <fax>(833) 902-2574</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10214</socket-port>
+    <local-input-path>source-code/ssa/tx/wichitafalls/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/tx/wichitafalls</output-dir>
+</signal-processing-config>

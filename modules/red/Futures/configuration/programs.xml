@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Programs Registry (from github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21)
+    Training source for AI module — full NWE program inventory
+    Installed: MEARVK LLC - Max Rupplin
+-->
+<programs>
+    <program name="Main" type="Application" description="Entry point and lifecycle orchestrator."/>
+    <program name="CommonRails" type="Service" description="Core routing and lifecycle coordination layer for NitroWebExpress™ modules."/>
+    <program name="InternationalCommonRails" type="Service" description="International routing extension of CommonRails."/>
+    <program name="ModuleLoaderDaemon" type="Daemon" description="Dynamic module loading at runtime."/>
+    <program name="AntivirusScanner" type="Module" description="Antivirus scanning for uploaded content and module integrity."/>
+    <program name="AIProctorModule" type="Module" description="AI proctoring and monitoring module."/>
+    <program name="HeuristicClassifier" type="Module" description="Heuristic classification engine."/>
+    <program name="BitcoinWalletIndexer" type="Module" description="Indexes wallet data into MySQL tables."/>
+    <program name="N21Store" type="Service" description="N21 primary data store."/>
+    <program name="N21DataSource" type="Service" description="N21 database data source provider."/>
+    <program name="NationalFinanceID" type="Module" description="National finance ID management."/>
+    <program name="NationalDriver" type="Service" description="National edition driver service."/>
+    <program name="NationalCrypto" type="Module" description="National-level cryptographic operations."/>
+    <program name="NationalAwareHardService" type="Server" description="Weight-balanced hardened service. 5040 max, 1 per-IP, 58-min timeout."/>
+    <program name="StrernaryServer" type="Server" description="Best-guess inference on port 20000 via DJL/PyTorch."/>
+    <program name="StrernaryDirectoryServer" type="Server" description="Port 2000 directory, menu, XML forwarding."/>
+    <program name="NioMasqueradeEngine" type="Module" description="NIO front layer binding 127.0.0.1-17."/>
+    <program name="CalendarD44Server" type="Server" description="US Calendar D44 with AES2+ConvergentFields calculus."/>
+    <program name="JapanSignalServer" type="Server" description="Japan news/market/seismic signal server."/>
+    <program name="RussiaSignalServer" type="Server" description="Russia news/market/energy signal server."/>
+    <program name="MexicoSignalServer" type="Server" description="Mexico news/market/energy signal server."/>
+    <program name="GreeceInternationalSignalServer" type="Server" description="Greece/international news/market/shipping signal server."/>
+    <program name="Communicator" type="Service" description="Persistent 1-hour telnet chat, broadcast, scheduled delivery."/>
+    <program name="BinaryHttpServer" type="Server" description="Binary data to HTTP link server."/>
+    <program name="TransferSummaryMailer" type="Service" description="Email transfer summaries to contacts."/>
+    <program name="ExceptionHandler" type="Service" description="Core exception handling."/>
+    <program name="PortAdministrator" type="Module" description="Port administration and management."/>
+    <program name="ReceiverMain" type="Server" description="Receiver-only mode on 443/TLS, no password required."/>
+</programs>

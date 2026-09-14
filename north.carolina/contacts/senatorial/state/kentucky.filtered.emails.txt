@@ -1,0 +1,42 @@
+Name, Email
+Julie Raque Adams,Julie.Adams@lrc.ky.gov
+Cassie Chambers Armstrong,Cassie.Armstrong@lrc.ky.gov
+Karen Berg,Karen.Berg@lrc.ky.gov
+Gary Boswell,Gary.Boswell@lrc.ky.gov
+Jared Carpenter,Jared.Carpenter@lrc.ky.gov
+Danny Carroll,Danny.Carroll@lrc.ky.gov
+Gary Clemons,Gary.Clemons@lrc.ky.gov
+Matthew Deneen,Matthew.Deneen@lrc.ky.gov
+Donald Douglas,Donald.Douglas@lrc.ky.gov
+Greg Elkins,Greg.Elkins@lrc.ky.gov
+Shelley Funke Frommeyer,Shelley.Frommeyer@lrc.ky.gov
+Rick Girdler,Rick.Girdler@lrc.ky.gov
+David P. Givens,David.Givens@lrc.ky.gov
+Keturah Herron,Keturah.Herron@lrc.ky.gov
+Jimmy Higdon,Jimmy.Higdon@lrc.ky.gov
+Jason Howell,Jason.Howell@lrc.ky.gov
+Scott Madon,Scott.Madon@lrc.ky.gov
+Amanda Mays Bledsoe,Amanda.Bledsoe@lrc.ky.gov
+Christian McDaniel,Chris.McDaniel@lrc.ky.gov
+Stephen Meredith,Stephen.Meredith@lrc.ky.gov
+Robby Mills,Robby.Mills@lrc.ky.gov
+Gerald Neal,Gerald.Neal@lrc.ky.gov
+Michael Nemes,Mike.Nemes@lrc.ky.gov
+Matt Nunn,Matt.Nunn@lrc.ky.gov
+Steve Rawlings,Steve.Rawlings@lrc.ky.gov
+Aaron Reed,Aaron.Reed@lrc.ky.gov
+Craig Richardson,Craig.Richardson@lrc.ky.gov
+Brandon Smith,Brandon.Smith@lrc.ky.gov
+Robert Stivers,Robert.Stivers@lrc.ky.gov
+Brandon Storm,Brandon.Storm@lrc.ky.gov
+Reginald Thomas,Reginald.Thomas@lrc.ky.gov
+Lindsey Tichenor,Lindsey.Tichenor@lrc.ky.gov
+Johnnie Turner,Johnnie.Turner@lrc.ky.gov
+Robin Webb,Robin.Webb@lrc.ky.gov
+Stephen West,Steve.West@lrc.ky.gov
+Whitney Westerfield,Whitney.Westerfield@lrc.ky.gov
+Phillip Wheeler,Phillip.Wheeler@lrc.ky.gov
+Mike Wilson,Mike.Wilson@lrc.ky.gov
+Max Wise,Max.Wise@lrc.ky.gov
+David Yates,David.Yates@lrc.ky.gov
+

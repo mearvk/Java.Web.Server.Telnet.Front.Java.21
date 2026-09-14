@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>90</office-code>
+    <office-name>DANBURY CT</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>131 WEST ST</address-3>
+    <city>DANBURY</city>
+    <state>CT</state>
+    <zip-code>6810</zip-code>
+    <phone>(866) 275-7821</phone>
+    <fax>(833) 950-2664</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9562</socket-port>
+    <local-input-path>source-code/ssa/ct/danbury/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ct/danbury</output-dir>
+</signal-processing-config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>255</office-code>
+    <office-name>LAKE CITY FL</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1348 SW BASCOM NORRIS</address-3>
+    <city>LAKE CITY</city>
+    <state>FL</state>
+    <zip-code>32025</zip-code>
+    <phone>(877) 600-2859</phone>
+    <fax>(833) 905-2054</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9709</socket-port>
+    <local-input-path>source-code/ssa/fl/lakecity/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/fl/lakecity</output-dir>
+</signal-processing-config>

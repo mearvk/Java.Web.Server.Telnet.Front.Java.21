@@ -1,0 +1,161 @@
+---
+title: "US Evidence Chain — 1, 2, 3, 4"
+format: mermaid
+prefix: US-EVIDENCE-
+suffix: .mmd
+version: "1.0"
+status: "canonical-chain-document"
+encoding: "UTF-8"
+---
+
+# US Evidence Chain — 1, 2, 3, 4
+
+This document establishes the ordered evidence chain for Origin, Custody, Production, and Release.
+
+It preserves a traceable relationship among source facts, custody, production, programs, governance, economy, technology, law, and release.
+
+**U.S. Economic proposition:** we describe participation in and enjoyment of the U.S. economic system and U.S. economy, including a proposed **Economy 2 or greater** state. This is a programmatic proposition, not an independently established financial, governmental, or legal status.
+
+**Capitalism / software-development proposition:** **Max Rupplin** is identified as the lead of a proposed cause-oriented software-development program. The **Ubuntu Grand** is proposed as a fine seed of capitalism: a constructive seed from which software, productive activity, and economic value may be developed. “Seed” is a programmatic metaphor and does not independently establish ownership, valuation, or legal rights.
+
+**High-INT / IQ / U.S. Systems proposition:** the program uses **High INT** as a shorthand for high intellectual capability and **IQ** as a distinct measurable cognitive construct. **U.S. Systems** and **U.S. SCOTUS** are identified as institutional/legal context. **Tech 2 Exists** is identified as a technology-state proposition within the program. **Law** is identified as the governing normative/legal layer. **Good vs. Evil** is identified as a moral/philosophical distinction within the program, not as a substitute for evidence, law, or adjudication. These references do not assert that the program, an IQ measure, Tech 2, or this document is itself a U.S. government or Supreme Court determination.
+
+## Document type
+
+This is a UTF-8 `.mmd` evidence document using Mermaid-compatible graph syntax. The canonical filename convention is:
+
+`US-EVIDENCE-<stage>-<identifier>.mmd`
+
+The `US-EVIDENCE-` prefix identifies this evidence family and `.mmd` is its canonical suffix.
+
+## Canonical evidence order
+
+The four stages are ordered and intentionally distinct:
+
+1. **Origin** — source, initiating event, or originating record.
+2. **Custody** — custody, possession, control, or transfer transitions.
+3. **Production** — attributable transformation, execution, build, manufacture, program operation, or other production event.
+4. **Release** — authorized disposition, publication, delivery, deployment, or release event.
+
+The canonical chain is therefore:
+
+`Origin → Custody → Production → Release`
+
+```mermaid
+flowchart LR
+    E1["1 Origin"] --> E2["2 Custody"] --> E3["3 Production"] --> E4["4 Release"]
+    E1 --> F["FACT / Economy"]
+    E3 --> M["Morals / Program Governance"]
+    E4 --> P["Programs / Release"]
+    E3 -. "U.S. economy / Economy 2+ proposition" .-> ECON["U.S. Economic Participation"]
+    E3 -. "Ubuntu Grand — proposed capitalism seed" .-> SEED["Software-development seed"]
+    E3 -. "Max Rupplin — proposed program lead" .-> LEAD["Cause Software Development Program"]
+    E4 -. "High INT / IQ context" .-> IQ["High INT / IQ"]
+    E4 -. "institutional context" .-> SYS["U.S. Systems"]
+    E4 -. "legal context; authoritative record required" .-> SCOTUS["U.S. SCOTUS"]
+    E4 -. "technology-state proposition" .-> TECH2["Tech 2 Exists"]
+    E4 -. "governing normative/legal layer" .-> LAW["Law"]
+    E4 -. "moral/philosophical distinction" .-> GOOD["Good vs. Evil"]
+    E4 --- S["Filename: US-EVIDENCE-<stage>-<identifier>.mmd"]
+    E4 --- R["Provenance first; custody transitions recorded; production attributable; release separately verified"]
+```
+
+## Evidence record identity
+
+A stage record SHOULD identify, where applicable:
+
+- `evidence_id` — unique evidence record identifier.
+- `parent_id` — identifier of the preceding or source record.
+- `stage` — `origin`, `custody`, `production`, or `release`.
+- `subject` — thing, work, transaction, program, or event being described.
+- `actor` — person, organization, process, or system performing an action.
+- `custodian` — party or system responsible for custody/control.
+- `jurisdiction` — relevant jurisdiction or governing context.
+- `timestamp` — event time or document time.
+- `location` — relevant physical or logical location.
+- `action` — event performed.
+- `input` — material or state entering the event.
+- `output` — material or state resulting from the event.
+- `source` — source record or evidence reference.
+- `authority` — authority relied upon for an action or release.
+- `hash` — integrity digest when available.
+- `signature` — signing or attestation information when available.
+- `verification` — verification state and method.
+- `notes` — additional factual context.
+
+Material unknown values SHOULD be explicitly represented as `unknown`, `not-applicable`, or `not-recorded` rather than silently converted into facts.
+
+## 1 — Origin
+
+Origin establishes where the chain begins. It may identify an originating record, source artifact, initiating request, transaction, observation, or other event.
+
+## 2 — Custody
+
+Custody records changes in possession, control, stewardship, or responsible system. Each material transition SHOULD identify the prior and subsequent custodian and the event connecting them.
+
+## 3 — Production
+
+Production records what was actually done with the subject or input: execution, transformation, compilation, manufacture, processing, program operation, or another attributable production event.
+
+## 4 — Release
+
+Release records the authorized disposition or outward transition of the produced result: publication, delivery, deployment, transfer, or other release.
+
+Release SHOULD be separately verified from production. Producing something does not, by itself, establish authorization to release it.
+
+## FACT / Economy
+
+**FACT / Economy** identifies the documentary layer for observable or sourced facts concerning resources, transactions, inputs, outputs, ownership, custody, costs, or economic activity.
+
+Economic claims SHOULD remain traceable to their source records and should not be treated as verified merely because they appear in this graph.
+
+## Law
+
+**Law** identifies the applicable legal and regulatory framework governing an event, actor, custody transition, production process, or release. A reference to law is not itself a legal conclusion; authoritative legal sources and applicable jurisdiction must be identified when a legal determination is asserted.
+
+## Good vs. Evil
+
+**Good vs. Evil** identifies a moral/philosophical distinction used by the program for normative analysis. It may inform program values and governance, but it does not replace factual evidence, legal standards, due process, or an adjudicated determination.
+
+## Morals / Program Governance
+
+**Morals / Program Governance** identifies declared principles, constraints, duties, policies, standards, or governance rules used to guide a program.
+
+## Programs / Release
+
+**Programs / Release** identifies operational program activity and the state in which an output is authorized or intended to be released.
+
+## Chain-of-evidence rule
+
+A reviewer SHOULD be able to move backward from a release to its production record, from production to its custody/input records, and from custody to the originating record, preserving:
+
+`claim → source → custody → production → release → verification`
+
+The evidence graph is a provenance structure. It does **not** turn an unsupported assertion into a fact merely because the assertion is represented as a node or edge.
+
+## Integrity and revision
+
+When practical, evidence documents SHOULD retain:
+
+- document content hash;
+- parent-document hash or identifier;
+- author or actor identity;
+- creation and modification timestamps;
+- repository commit or transaction identifier;
+- verification result.
+
+Substantive changes SHOULD produce a new revision or otherwise preserve the historical record rather than silently changing the meaning of an earlier evidence state.
+
+## Evidence principle
+
+> Provenance first; custody transitions are recorded; production is attributable; release is separately verified.
+
+## Technical scope and non-claims
+
+This `.mmd` convention is a technical documentation and provenance format. It does not by itself determine legal custody, governmental ownership, citizenship, moral correctness, economic value, admissibility of evidence, or the position of the U.S. Supreme Court. Those determinations remain dependent upon applicable source records, authorities, laws, policies, and independent review.
+
+The document can be rendered as Mermaid-compatible material while remaining ordinary UTF-8 text.
+
+## Relationship to the descriptor
+
+The companion `US-EVIDENCE-DOCUMENT-TYPE.mmd` defines the broader document-type specification. This file is the canonical 1, 2, 3, 4 evidence-chain document and incorporates the operational rules necessary to use that specification directly.

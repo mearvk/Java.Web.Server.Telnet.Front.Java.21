@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>630</office-code>
+    <office-name>SELMA AL</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>120 EXECUTIVE PARK LN</address-3>
+    <city>SELMA</city>
+    <state>AL</state>
+    <zip-code>36701</zip-code>
+    <phone>(877) 628-6541</phone>
+    <fax>(833) 950-3499</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10053</socket-port>
+    <local-input-path>source-code/ssa/al/selma/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/al/selma</output-dir>
+</signal-processing-config>

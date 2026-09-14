@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    ChinaSignalServer Configuration
+    ================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Chinese news sources, signals, and media configuration.
+-->
+<china-config>
+
+    <sources>
+        <source id="xinhua" url="http://www.xinhuanet.com/english/" category="news" lang="zh" />
+        <source id="chinadaily" url="https://www.chinadaily.com.cn" category="news" lang="en" />
+        <source id="cgtn" url="https://www.cgtn.com" category="news" lang="en" />
+        <source id="scmp" url="https://www.scmp.com" category="news" lang="en" />
+        <source id="caixin" url="https://www.caixinglobal.com" category="finance" lang="en" />
+        <source id="peopledaily" url="http://en.people.cn" category="news" lang="en" />
+        <source id="sse" url="https://english.sse.com.cn" category="finance" lang="en" />
+        <source id="cma" url="http://www.cma.gov.cn/en2014/" category="weather" lang="en" />
+    </sources>
+
+    <signals>
+        <signal id="sse_composite" url="https://english.sse.com.cn/indices/" type="market" />
+        <signal id="cnyusd" url="http://www.pbc.gov.cn/en/" type="currency" />
+        <signal id="szse_component" url="http://www.szse.cn/English/" type="market" />
+        <signal id="hsi" url="https://www.hsi.com.hk" type="market" />
+    </signals>
+
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>webp</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>aac</format>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+        <documents>
+            <format>pdf</format>
+            <format>xml</format>
+            <format>json</format>
+            <format>csv</format>
+        </documents>
+    </acceptable-media>
+
+    <database>
+        <name>nwe_china</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <username>nwe</username>
+        <password>nwe_china_pass</password>
+    </database>
+
+</china-config>

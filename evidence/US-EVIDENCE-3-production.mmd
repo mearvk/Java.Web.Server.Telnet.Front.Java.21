@@ -1,0 +1,25 @@
+---
+title: "US Evidence Chain — 3 Production"
+format: mermaid
+prefix: US-EVIDENCE-
+suffix: .mmd
+---
+flowchart LR
+    A[Custody Record] --> B[Production Input]
+    B --> C[Execution / Transformation]
+    C --> D[Program Output]
+    D --> E[Verification]
+    E --> F[Production Evidence]
+
+    subgraph MORALS[Morals / Program Governance]
+      M1[Declared purpose]
+      M2[Human authorization]
+      M3[Safety and policy constraints]
+      M4[Auditability]
+    end
+
+    C --> MORALS
+    F --> M4
+
+    N["Moral status is a declared governance property, not a substitute for factual evidence."]
+    M4 --- N

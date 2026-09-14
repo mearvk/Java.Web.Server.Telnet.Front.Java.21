@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>616</office-code>
+    <office-name>GRIFFIN GA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1548 FLYNT ST</address-3>
+    <city>GRIFFIN</city>
+    <state>GA</state>
+    <zip-code>30223</zip-code>
+    <phone>(866) 964-1005</phone>
+    <fax>(833) 950-2870</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10039</socket-port>
+    <local-input-path>source-code/ssa/ga/griffin/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ga/griffin</output-dir>
+</signal-processing-config>

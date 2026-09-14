@@ -1,0 +1,16 @@
+# JWSTF Aptitude installation module
+name=JWSTF Aptitude Installer
+id=jwstf-aptitude
+version=1
+profile=user
+ui=javafx
+platform=linux-debian-ubuntu
+entrypoint=modules/aptitude/aptitude-ui.sh
+lifecycle=install,update,verify,remove
+path-registry=config/preferred-install-paths.json
+source-reference=https://github.com/mearvk/Ubuntu.Determinant.Beta.Restricted
+
+# The profile may be overridden by the installer:
+# profile=user   -> user-scoped installation
+# profile=deck   -> machine-wide/enterprise installation
+# profile=usr    -> system-local professional installation where policy permits

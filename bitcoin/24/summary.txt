@@ -1,0 +1,38 @@
+========================================
+  Bitcoin Wallet Summary - Version 24
+========================================
+  BTC Price: $20,000,000,000,000 USD (20 Trillion)
+
+  Wallets found:
+  10462.49997347 BTC  |  24/wallets/2026.04.12/wallet.10462.49997347.2026.04.12.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  24/wallets/2026.03.31/wallet.2026.03.31.dat *** HIGH VALUE: over 100 BTC ***
+  50.00000000 BTC  |  24/wallets/2026.03.31/wallet.50.00000000.2026.03.31.dat
+  50.00000000 BTC  |  24/wallets/wallet.50.00000000.dat
+  0.00000000 BTC  |  24/wallets/wallet.0.00000000.dat
+  2026.04 BTC  |  24/wallets/2026.04.03/wallet.2026.04.03.0.00038146.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  24/wallets/2026.04.03/wallet.2026.04.03.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  24/wallets/2026.04.02/wallet.2026.04.02.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  24/wallets/2026.04.02/wallet.2026.04.02.0.00000000.dat *** HIGH VALUE: over 100 BTC ***
+  912.20703010 BTC  |  24/wallets/2026.04.02/wallet.912.20703010.2026.04.02.dat *** HIGH VALUE: over 100 BTC ***
+  599.99998350 BTC  |  24/wallets/2026.03.28/wallet.599.99998350.2026.03.28.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  24/wallets/2026.03.14/wallet.2026.03.14.0.00000000.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  24/wallets/2026.03.14/wallet.2026.03.14..dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  24/wallets/2026.03.17/wallet.2026.03.17.0.00000000.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  24/wallets/2026.03.17/wallet.2026.03.17..dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  24/wallets/2026.03.17/wallet.2026.03.17.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  24/wallets/2026.04.01/wallet.2026.04.01.0.78125000.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  24/wallets/2026.04.01/wallet.2026.04.01.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  24/wallets/2026.03.29/wallet.2026.03.29.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  24/wallets/2026.04.04/wallet.2026.04.04.0.00000000.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  24/wallets/2026.04.04/wallet.2026.04.04.dat *** HIGH VALUE: over 100 BTC ***
+  5957.14905077 BTC  |  24/wallets/2026.03.30/wallet.5957.14905077.2026.03.30.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  24/wallets/2026.03.30/wallet.2026.03.30.14949.99998350.dat *** HIGH VALUE: over 100 BTC ***
+  2026.03 BTC  |  24/wallets/2026.03.30/wallet.2026.03.30.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  24/wallets/2026.04.05/wallet.2026.04.05.0.00000000.dat *** HIGH VALUE: over 100 BTC ***
+  2026.04 BTC  |  24/wallets/2026.04.05/wallet.2026.04.05.dat *** HIGH VALUE: over 100 BTC ***
+
+  Total BTC : 56526.52603784
+  Total USD : $1130530520756800000.00
+========================================
+  Generated: Mon Jun  8 05:02:19 AM EDT 2026
+========================================

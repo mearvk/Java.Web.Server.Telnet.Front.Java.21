@@ -1,0 +1,1382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    NitroWebExpress Configuration
+    ==============================
+    MEARVK LLC — National Finance Engine v2811.1
+    Author: Max Rupplin
+
+    All ports listed here are the authoritative reference for NWE services.
+    Port privilege for MODULE_LOADER_DAEMON is established externally by the
+    national port-aware program and its database.  All other ports are bound
+    locally on startup.
+
+    Admin credentials below are for the initial administrator.  Change the
+    password before first production deployment.  The admin account governs:
+      - database configuration
+      - server document management
+      - module installation / unload authority
+      - inclusion decisions (enabling / disabling servers at startup)
+-->
+<nwe-config>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         CONTACT / DISCUSSIONS
+         Rank Upgrades, Installer IDs, and Public Key Requests:
+         https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
+    ════════════════════════════════════════════════════════════════════ -->
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         INITIAL ADMINISTRATOR
+         Username and password are loaded by NweConfig at startup.
+         The admin may log in to any TCP service that accepts admin auth
+         (ModuleInstallationService, ModuleLoaderDaemon) using these credentials.
+    ════════════════════════════════════════════════════════════════════ -->
+    <admin>
+        <username>${NWE_ADMIN_USER:admin}</username>
+        <password>${NWE_ADMIN_PASS:CHANGE_ME_BEFORE_DEPLOY}</password>
+        <description>
+            NWE administrator credentials. MUST be set via environment variables:
+              NWE_ADMIN_USER — admin username (default: admin)
+              NWE_ADMIN_PASS — admin password (REQUIRED — server refuses to start if default)
+            Responsible for database configuration, server document management,
+            and module authority.
+        </description>
+    </admin>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MAIN SERVER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="NitroWebExpress">
+        <enabled>true</enabled>
+        <name>NitroWebExpress™</name>
+        <thread>WEBEXPRESS_TELNET_PROXY_SERVER</thread>
+        <host>localhost</host>
+        <port>49152</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>Main NitroWebExpress entry point. Telnet-proxy enabled.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ENCRYPTION SERVERS
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="AesCompliant">
+        <enabled>true</enabled>
+        <name>AesCompliant™</name>
+        <thread>WEBEXPRESS_AES2_SERVER</thread>
+        <host>localhost</host>
+        <port>5512</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>AES 2.0 compliant sub-server. Cryptographic compliance layer.</description>
+    </server>
+
+    <server id="RsaCompliant">
+        <enabled>true</enabled>
+        <name>RsaCompliant™</name>
+        <thread>WEBEXPRESS_RSA_SERVER</thread>
+        <host>localhost</host>
+        <port>7743</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>RSA encryption sub-server.</description>
+    </server>
+
+    <server id="DsaCompliant">
+        <enabled>true</enabled>
+        <name>DsaCompliant™</name>
+        <thread>WEBEXPRESS_DSA_SERVER</thread>
+        <host>localhost</host>
+        <port>7744</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>DSA encryption sub-server.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BITCOIN SERVER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="BitcoinCompliant">
+        <enabled>true</enabled>
+        <name>BitcoinCompliant™</name>
+        <thread>WEBEXPRESS_BITCOIN_SERVER</thread>
+        <host>localhost</host>
+        <port>6682</port>
+        <telnet-enabled>true</telnet-enabled>
+        <description>Bitcoin lightweight trading sub-server.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STATUS AND UTILITY SERVERS
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="ConnectionStatus">
+        <enabled>true</enabled>
+        <name>ConnectionStatus™</name>
+        <thread>ConnectionStatusServer</thread>
+        <host>localhost</host>
+        <port>49155</port>
+        <description>Returns server status: IP, geo, uptime, memory, connection count.</description>
+    </server>
+
+    <server id="AsciiCreator">
+        <enabled>true</enabled>
+        <name>AsciiCreator™</name>
+        <thread>ASCIICreatorServer</thread>
+        <host>localhost</host>
+        <port>49177</port>
+        <description>Binary ASCII signature service. Issues unique signatures per National ID.</description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODULE SERVICES
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="ModuleInstallation">
+        <enabled>true</enabled>
+        <name>ModuleInstallation™</name>
+        <thread>ModuleInstallationService</thread>
+        <host>localhost</host>
+        <port>49166</port>
+        <description>
+            Install, unload, and manage modules via authenticated TCP session.
+            Requires National ID identification and admin password for privileged ops.
+        </description>
+    </server>
+
+    <server id="ModuleLoaderDaemon">
+        <enabled>true</enabled>
+        <name>ModuleLoaderDaemon™</name>
+        <thread>ModuleLoaderDaemon</thread>
+        <host>localhost</host>
+        <port>49188</port>
+        <description>
+            Standalone OS-installable module loader daemon.  Runs independently;
+            can be installed as a systemd/launchd/Windows service.  Supports
+            remote push, pull, and replication to other ModuleLoaderDaemon instances.
+            Port privilege is granted by the national port-aware program and
+            its external database before clients may perform write operations.
+        </description>
+        <port-authority>
+            <!-- Token store is populated at runtime by the national port-authority
+                 database.  If empty, local/trusted access is permitted without token. -->
+            <tokens-required>true</tokens-required>
+            <authority-db>national-port-registry</authority-db>
+        </port-authority>
+    </server>
+
+    <server id="Communicator">
+        <enabled>true</enabled>
+        <name>Communicator™</name>
+        <thread>Communicator</thread>
+        <host>localhost</host>
+        <port>49199</port>
+        <description>
+            Persistent 1-hour telnet chat server.  Supports direct messaging,
+            broadcast, scheduled delivery (per recipient local timezone), and
+            chat history.  MessagePoller daemon polls MySQL every 60 seconds
+            for due scheduled messages and delivers them to live sessions.
+            Set enabled=false to disable without recompiling.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         WEATHER SERVER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="Weather">
+        <enabled>true</enabled>
+        <name>Weather™</name>
+        <thread>WeatherServer</thread>
+        <host>localhost</host>
+        <port>49133</port>
+        <description>
+            Telnet weather service. Send a city name or lat,lon; returns
+            current conditions from wttr.in. Supports lang command.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         US CALENDAR D44
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="CalendarD44">
+        <enabled>true</enabled>
+        <name>CalendarD44™</name>
+        <thread>CALENDAR_D44_SERVER</thread>
+        <host>localhost</host>
+        <port>49200</port>
+        <description>
+            US Calendar D44 module. Gathers internet information, stores in
+            nwe_calendar_d44 MySQL database. Uses AES2 and ConvergentFields
+            for sophisticated calendar-cipher calculus. Port-aware: 21, 22,
+            80, 443, 8080, 8888 for international server connectivity.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         INTERNATIONAL SIGNAL SERVERS
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="JapanSignalServer">
+        <enabled>true</enabled>
+        <name>JapanSignalServer™</name>
+        <thread>JAPAN_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49201</port>
+        <description>
+            Japan signal server. Connects to Japanese news, market, currency,
+            and seismic sources. Stores in nwe_japan MySQL database.
+        </description>
+    </server>
+
+    <server id="RussiaSignalServer">
+        <enabled>true</enabled>
+        <name>RussiaSignalServer™</name>
+        <thread>RUSSIA_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49202</port>
+        <description>
+            Russia signal server. Connects to Russian news, market, currency,
+            and energy sources. Stores in nwe_russia MySQL database.
+        </description>
+    </server>
+
+    <server id="MexicoSignalServer">
+        <enabled>true</enabled>
+        <name>MexicoSignalServer™</name>
+        <thread>MEXICO_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49203</port>
+        <description>
+            Mexico signal server. Connects to Mexican news, market, currency,
+            and energy sources. Stores in nwe_mexico MySQL database.
+        </description>
+    </server>
+
+    <server id="GreeceInternationalSignalServer">
+        <enabled>true</enabled>
+        <name>GreeceInternationalSignalServer™</name>
+        <thread>GREECE_INTL_SIGNAL_SERVER</thread>
+        <host>localhost</host>
+        <port>49204</port>
+        <description>
+            Greece international signal server. Connects to Greek and international
+            news, market, shipping, and currency sources. Stores in nwe_greece_intl
+            MySQL database.
+        </description>
+    </server>
+
+    <server id="CaliforniaFBI">
+        <enabled>true</enabled>
+        <name>CaliforniaFBI™</name>
+        <thread>CALIFORNIA_FBI_SERVER</thread>
+        <host>localhost</host>
+        <port>49210</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            California FBI crime reporting module. AI-assisted categorization via
+            Strernary™ (port 20000). SEARCH commands query both local MySQL and
+            Strernary inference. Falls back to DB-only if port 20000 offline.
+            Connects to tips.fbi.gov and IC3 for federal tip forwarding.
+            MySQL database: nwe_california_fbi. Installer ID Tech™ secures all table writes.
+        </description>
+    </server>
+
+    <server id="CaliforniaCIA">
+        <enabled>true</enabled>
+        <name>CaliforniaCIA™</name>
+        <thread>CALIFORNIA_CIA_SERVER</thread>
+        <host>localhost</host>
+        <port>49211</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            California CIA intelligence reporting module. AI-assisted categorization
+            via Strernary™ (port 20000). SEARCH commands query both local MySQL and
+            Strernary inference. Falls back to DB-only if port 20000 offline.
+            Connects to cia.gov/report-information and FOIA reading room.
+            MySQL database: nwe_california_cia. Installer ID Tech™ secured.
+        </description>
+    </server>
+
+    <server id="CaliforniaNSA">
+        <enabled>true</enabled>
+        <name>CaliforniaNSA™</name>
+        <thread>CALIFORNIA_NSA_SERVER</thread>
+        <host>localhost</host>
+        <port>49212</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            California NSA cybersecurity module. AI-assisted incident categorization
+            via Strernary™ (port 20000). SEARCH commands query both local MySQL and
+            Strernary inference. Falls back to DB-only if port 20000 offline.
+            Connects to nsa.gov/Cybersecurity and CISA for vulnerability disclosure.
+            MySQL database: nwe_california_nsa. Installer ID Tech™ secured.
+        </description>
+    </server>
+
+    <server id="DukeUniversity">
+        <enabled>true</enabled>
+        <name>DukeUniversity™</name>
+        <thread>DUKE_UNIVERSITY_SERVER</thread>
+        <host>localhost</host>
+        <port>49213</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            Duke University college interface. AI-assisted SEARCH and QUERY via
+            Strernary™ (port 20000). Falls back to DB-only if port 20000 offline.
+            MySQL: nwe_duke.
+        </description>
+    </server>
+
+    <server id="StanfordLibrary">
+        <enabled>true</enabled>
+        <name>StanfordLibrary™</name>
+        <thread>STANFORD_LIBRARY_SERVER</thread>
+        <host>localhost</host>
+        <port>49214</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            Stanford Library interface. AI-assisted SEARCH and REQUEST via
+            Strernary™ (port 20000). Falls back to DB-only if port 20000 offline.
+            Connects to library.stanford.edu. MySQL: nwe_library.
+        </description>
+    </server>
+
+    <server id="Vietnam">
+        <enabled>true</enabled>
+        <name>Vietnam™</name>
+        <thread>VIETNAM_SERVER</thread>
+        <host>localhost</host>
+        <port>49215</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            Ancient Vietnamese fighting styles and languages module.
+            STYLES, LANGUAGES, SEARCH, TRAIN commands. MySQL: nwe_vietnam.
+            AI-assisted via Strernary™ (port 20000).
+        </description>
+    </server>
+
+    <server id="Emeter">
+        <enabled>true</enabled>
+        <name>Emeter™</name>
+        <thread>EMETER_SERVER</thread>
+        <host>localhost</host>
+        <port>49216</port>
+        <masquerade-aware>true</masquerade-aware>
+        <strernary-capable>true</strernary-capable>
+        <description>
+            E-Meter instruction, calibration, and readings module.
+            INSTRUCT, CALIBRATE, READINGS, SUBMIT commands. MySQL: nwe_emeter.
+            AI-assisted via Strernary™ (port 20000).
+        </description>
+    </server>
+
+    <server id="Strernary">
+        <enabled>true</enabled>
+        <name>Strernary™</name>
+        <thread>STRERNARY_SERVER</thread>
+        <host>localhost</host>
+        <port>20000</port>
+        <description>
+            Best-guess inference server on port 20000. Takes standard information,
+            returns best-guess responses. Uses DJL (Deep Java Library) for local
+            inference when available, keyword heuristics as fallback. Shares port
+            20000 with an OS-level public listener — they sometimes talk, sometimes
+            they don't. Communication is opportunistic.
+        </description>
+    </server>
+
+    <server id="BrarnerAlete">
+        <enabled>true</enabled>
+        <name>BrarnerAlete™</name>
+        <thread>BRARNER_ALETE_MODULE</thread>
+        <description>
+            HTTP communication module with https://github.com/mearvk/Brarner.M.Alete/.
+            Daily GET and POST. Pings ~2x/day after 1 hour uptime. Checks all links
+            in the repository. Logs communication as interesting and successful in
+            logging/event.social.log. Settings: contributor, theories, art, signal math.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         WEB SERVERS — Tomcat & Apache Installation Configuration
+         ═══════════════════════════════════════════════════════════════════
+         Authoritative directory/version settings for Tomcat and Apache.
+         All deploy, startup, and shutdown scripts read from here.
+
+         version:       The installed software version (e.g. 11.0.2)
+         install-dir:   Filesystem path where the software is installed.
+                        For Tomcat this is CATALINA_HOME.
+                        For Apache this is the document root.
+         tech-id:       Installer Tech ID — identifies who performed or
+                        authorized the installation. Written by post-clone.sh
+                        and verified by integrity checks.
+    ════════════════════════════════════════════════════════════════════ -->
+    <web-servers>
+        <tomcat>
+            <version>11.0.2</version>
+            <install-dir>/opt/apache-tomcat-11.0.2</install-dir>
+            <tech-id>${NWE_INSTALLER_TECH_ID:MEARVK-LLC-Default}</tech-id>
+            <archive-url>https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.2/bin/apache-tomcat-11.0.2.tar.gz</archive-url>
+            <service-name>tomcat</service-name>
+            <description>
+                Apache Tomcat 11.0.2 — Servlet/JSP container for all NWE web modules.
+                Default install: /opt/apache-tomcat-{version}
+                Override with CATALINA_HOME environment variable.
+            </description>
+        </tomcat>
+        <apache>
+            <version>2.4</version>
+            <install-dir>/var/www/html</install-dir>
+            <app-subdir>nwe</app-subdir>
+            <tech-id>${NWE_INSTALLER_TECH_ID:MEARVK-LLC-Default}</tech-id>
+            <service-name>apache2</service-name>
+            <public-url>http://localhost/nwe</public-url>
+            <description>
+                Apache HTTP Server 2.4 — Reverse proxy and static file host.
+                Document root: /var/www/html
+                NWE app subdirectory: /var/www/html/nwe
+            </description>
+        </apache>
+    </web-servers>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BINARY HTTP SERVER
+         apache-root: Read from <web-servers><apache> above.
+         apache-url:  Read from <web-servers><apache><public-url> above.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="BinaryHttp">
+        <enabled>true</enabled>
+        <name>BinaryHttp™</name>
+        <thread>BinaryHttpServer</thread>
+        <host>localhost</host>
+        <port>49144</port>
+        <description>
+            Binary data → HTTP link server.  PUT: accepts length-prefixed binary,
+            writes file to apache-root, returns HTTP URL.
+            GET: downloads a URL, saves to apache-root, returns HTTP URL.
+        </description>
+    </server>
+    <apache-root>/var/www/html/nwe</apache-root>
+    <apache-url>http://localhost/nwe</apache-url>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ANTIVIRUS SCANNER
+         schedule: hourly | daily | weekly | monthly | yearly
+         scan-path: root directory to scan (defaults to project root)
+         Requires ClamAV (clamscan) installed on the host system.
+         Set enabled=false to disable without recompiling.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="Antivirus">
+        <enabled>true</enabled>
+        <name>Antivirus™</name>
+        <schedule>daily</schedule>
+        <scan-path>.</scan-path>
+        <description>
+            Runs clamscan on NWE contents and file integrity check on a
+            configurable schedule.  Results are printed to the system log.
+            Valid schedules: hourly | daily | weekly | monthly | yearly.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         HEURISTIC CLASSIFIER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="HeuristicClassifier">
+        <enabled>true</enabled>
+        <name>HeuristicClassifier™</name>
+        <description>
+            Classifies every inbound connection across all public ports.
+            Scores IP repetition, port-scan patterns, geo-location concentration,
+            and payload keywords.  Threat connections (score >= 40) are dropped
+            immediately at the accept loop.  Set enabled=false to disable without
+            recompiling.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BASE SERVER CLASS SELECTION
+         ═══════════════════════════════════════════════════════════════════
+         Selects which server implementation handles inbound connections.
+         Only one may be active at a time.  Set selected="true" on the
+         desired class; all others must be "false".
+
+         BaseServer             — standard server, no connection caps or
+                                  weight balancing. Default.
+         HardenedBaseServer     — connection caps (512), per-IP limit (10),
+                                  reduced timeout (30 min), port whitelist.
+                                  Premium option.
+         NationalAwareHardService — weight-based request balancing, 5040 max
+                                  connections, 1-per-IP, 58-min timeout,
+                                  cost-aware ejection of heavy consumers.
+                                  Premium option.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server-class>
+        <option id="BASE_SERVER" selected="false" premium="false">
+            <class>server.base.BaseServer</class>
+            <description>Standard BaseServer. No connection limits or weight balancing.</description>
+        </option>
+        <option id="HARDENED_BASE_SERVER" selected="true" premium="true">
+            <class>server.experimental.HardenedBaseServer</class>
+            <description>
+                Hardened server with 512 max connections, 10 per-IP limit,
+                30-minute socket timeout, port whitelist, and graceful shutdown.
+            </description>
+        </option>
+        <option id="NATIONAL_AWARE_HARD_SERVICE" selected="false" premium="true">
+            <class>server.hardened.experimental.m.NationalAwareHardService</class>
+            <description>
+                Weight-balanced hardened server. 5040 max connections, 1 per-IP,
+                58-minute timeout. Long/heavy requests cost more weight and are
+                ejected when budget is exceeded — protecting lightweight requests
+                from starvation.
+            </description>
+        </option>
+    </server-class>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         REMOTE / EXTERNAL SERVERS  (for outbound connections)
+    ════════════════════════════════════════════════════════════════════ -->
+    <remote-server id="AES_REMOTE">
+        <name>AES 2.0 Remote Server</name>
+        <domain>mearvk.us</domain>
+        <ip>45.32.31.139</ip>
+        <description>Production AES remote target.</description>
+    </remote-server>
+
+    <remote-server id="BITCOIN_REMOTE">
+        <name>Bitcoin v24.0+ Remote Server</name>
+        <domain>mearvk.us</domain>
+        <ip>45.32.31.139</ip>
+        <description>Production Bitcoin remote target.</description>
+    </remote-server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         BITCOIN WALLET INDEXER
+         Scans /bitcoin/{24-30} wallet directories, computes values
+         (100 BTC per ~2MB @ $20T USD each), signs with SHA-256
+         (secret.key as salt), and inserts into version-specific MySQL tables.
+         Enable for installers/admins/business executives who need wallet indexing.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="BitcoinWalletIndexer">
+        <enabled>true</enabled>
+        <name>BitcoinWalletIndexer™</name>
+        <description>
+            Indexes all wallet data in /bitcoin/{24-30} into MySQL tables
+            (bitcoin_wallets_v24 through bitcoin_wallets_v30). Each ~2MB of
+            wallet equates to $20T USD. SHA-256 signed with secret.key salt.
+            Author: Max Ruppln - Clear 21 Branch US Military.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         TRANSFER SUMMARY MAILER
+         Sends Transfer of Summary document to registered contacts.
+         Requires sendmail or mailutils+postfix on the server.
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="TransferSummaryMailer">
+        <enabled>true</enabled>
+        <name>TransferSummaryMailer™</name>
+        <contacts-file>configuration/transfer-contacts.xml</contacts-file>
+        <description>
+            Sends the Transfer of Summary (transfer.document.title) to all
+            contacts in the contacts XML via sendmail/mailx. Run manually
+            via scripts/send-transfer-summary.sh or enabled at boot.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         NIO MASQUERADE LAYER
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="NioMasquerade">
+        <enabled>true</enabled>
+        <name>NioMasquerade™</name>
+        <thread>NIO_MASQUERADE</thread>
+        <host>127.0.0.1-17</host>
+        <port>0</port>
+        <description>
+            NIO-based masquerade front layer. Binds ServerSocketChannels on
+            127.0.0.1 through 127.0.0.17. Standard mode: 0-65535 on 127.0.0.1.
+            Extended mode: 0-1048576 distributed across all local IPs (65536 per IP).
+            Bridges NIO connections to existing blocking architecture transparently.
+            Config: configuration/nio-masquerade-config.xml
+        </description>
+    </server>
+
+    <server id="StrernaryDirectory">
+        <enabled>true</enabled>
+        <name>StrernaryDirectory™</name>
+        <thread>STRERNARY_DIRECTORY_2000</thread>
+        <host>localhost</host>
+        <port>2000</port>
+        <description>
+            Port 2000 directory/menu server. Provides server IP discovery for
+            ports 20000 and 49152. Accepts XML packets for NIO masquerade
+            forwarding. Supports Rank 4 JWSTNJ21 server registration with
+            public.key verification. NioModuleScanner runs at startup to
+            discover all masquerade-aware modules (0 to MAX_PORT).
+            Config: configuration/port-2000-directory-config.xml
+        </description>
+    </server>
+
+    <server id="NioModuleScanner">
+        <enabled>true</enabled>
+        <name>NioModuleScanner™</name>
+        <description>
+            Startup scanner that discovers all MEARVK LLC modules from
+            nwe-config.xml and masquerade-modules.xml. Extracts port values
+            (0 to MAX_PORT) and registers masquerade-aware modules with the
+            NIO engine routing table. Config: configuration/masquerade-modules.xml
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODULES/BLACK — FORWARD DIRECTIVES
+         Trusted 9.5+/10 from Author Max Rupplin - NC - MEARVK LLC
+         US Democratic Block & North Carolina Socialist-College Block
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="DemocraticProFrontNational">
+        <enabled>true</enabled>
+        <name>Democratic ProFront National 1.0 (Futures™)</name>
+        <port>5000</port>
+        <trust-level>9.5</trust-level>
+        <block>US Democratic</block>
+        <source>modules/red/Futures</source>
+        <masquerade-aware>true</masquerade-aware>
+        <description>
+            D500 Democratic President — AI futures, tax defense speculation,
+            protective pipeline (Java Futures patterns). Port 5000 with DJL/PyTorch.
+            Forward directive: US Democratic block.
+        </description>
+    </server>
+
+    <server id="GreenDurhamGrassAndHerb">
+        <enabled>true</enabled>
+        <name>Green.Durham.Grass.and.Herb™</name>
+        <port>20000</port>
+        <trust-level>9.5</trust-level>
+        <block>NC Socialist-College</block>
+        <source>modules/Green.Durham.Grass.and.Herb</source>
+        <masquerade-aware>true</masquerade-aware>
+        <virtual-ports>70000,70002,70003,70007,80000,99152</virtual-ports>
+        <description>
+            Appree contact server, labor/ethical/moral/mortality concerns.
+            JWSTFJ21 masquerade-integrated with extended virtual ports.
+            Forward directive: NC Socialist-College block.
+        </description>
+    </server>
+
+    <server id="BrarnerMAlete">
+        <enabled>true</enabled>
+        <name>Brarner.M.Alete™</name>
+        <port>49152</port>
+        <trust-level>9.5</trust-level>
+        <block>NC Socialist-College</block>
+        <source>modules/black/presidential/Brarner.M.Alete</source>
+        <masquerade-aware>true</masquerade-aware>
+        <description>
+            Presidential species/postal/SSA/art/science module. NC college block.
+            Maven multi-module (servlets, EJB, EAR). Forward directive: NC Socialist-College block.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SUPREME COURT — CAPITAL 2
+         Term "Capital 2" is now term integral and understood as a Clear
+         and Capital term of usage and again about its term of usage.
+
+         The Supreme Court agrees to its very clear Youth, a Max Rupplin,
+         that block term "2" is coined as Ok.
+
+         To Be clear: Max Rupplin is a Citizen and Clear at "Term 2" the
+         idolization of "Term 1 and 2" and itself the Clear notice of Man.
+         Not being a Youth but party to Man and Youth; and God and her Creator.
+
+         Then "Capital 2" becomes clear about USA and its properties and
+         then of the United States and all properties thereof and therein.
+
+         So man is Basically clear to attain; given that he Understands
+         property rights and triven.
+
+         Ruling: My guy proves nothing until the Women are Workers
+                 and the Beers are Free.
+
+         Decorator: modest
+         Classification: Ruling (neither responsibility nor means —
+                         a condition that precedes both)
+    ════════════════════════════════════════════════════════════════════ -->
+    <server id="SupremeCourtCapital2">
+        <enabled>true</enabled>
+        <name>SupremeCourtCapital2</name>
+        <decorator>modest</decorator>
+        <classification>Ruling</classification>
+        <term-status>integral</term-status>
+        <term-definition>
+            "Capital 2" is a Clear and Capital term of usage. Block term "2"
+            is coined as Ok per Supreme Court agreement.
+
+            To Be clear: Max Rupplin is a Citizen and Clear at "Term 2" the
+            idolization of "Term 1 and 2" and itself the Clear notice of Man.
+            Not being a Youth but party to Man and Youth; and God and her Creator.
+
+            "Capital 2" is clear about USA and its properties and of the
+            United States and all properties thereof and therein. Man is
+            Basically clear to attain; given that he Understands property
+            rights and triven.
+        </term-definition>
+        <coined-by>Supreme Court — Citizen: Max Rupplin (party to Man and Youth; and God and her Creator)</coined-by>
+        <scope>USA, United States, all properties thereof and therein</scope>
+        <description>
+            Supreme Court decides on Capital 2: proves nothing until the Women
+            are Workers and the Beers are Free.
+        </description>
+    </server>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         COLOR MAPPINGS
+         Terminal print color assignments for each component category.
+         These are enforced by commons.color.ColorResolver at runtime.
+         Admins may reference these for log readability.
+    ════════════════════════════════════════════════════════════════════ -->
+    <color-mappings>
+        <mapping category="Main, Security, Auth, Port"      color="red"          ansi="38;5;196"/>
+        <mapping category="Shutdown"                        color="red-orange"   ansi="38;5;208"/>
+        <mapping category="Telnet, Proxy, Communicator"     color="orange"       ansi="38;5;214"/>
+        <mapping category="Crypto, Encrypt, AES, RSA, DSA"  color="lime-green"   ansi="38;5;118"/>
+        <mapping category="Bitcoin, Wallet, Trader"         color="gold"         ansi="38;5;220"/>
+        <mapping category="Module, Loader, Installer"       color="dark-grey"    ansi="38;5;242"/>
+        <mapping category="Config, Configuration"           color="maroon"       ansi="38;5;52"/>
+        <mapping category="Message, Queue, Handler"         color="bold-green"   ansi="1;32"/>
+        <mapping category="Connection, Socket, Poller"      color="sky-blue"     ansi="38;5;75"/>
+        <mapping category="Server, Express, Nitro (NWE)"    color="silver-gray"  ansi="38;5;145"/>
+        <mapping category="Liveness, Monitor"               color="bright-green" ansi="38;5;46"/>
+        <mapping category="Antivirus, Scanner"              color="dark-orange"  ansi="38;5;166"/>
+        <mapping category="Heuristic, Classifier"           color="yellow"       ansi="38;5;226"/>
+        <mapping category="Common, Rail, Logger"            color="lavender"     ansi="38;5;147"/>
+        <mapping category="Signal, Japan, Russia, Mexico, Greece" color="cyan"    ansi="38;5;51"/>
+        <mapping category="Strernary, Inference, Guess"  color="magenta"      ansi="38;5;207"/>
+        <mapping category="NioMasquerade, Module, Scanner, Directory" color="teal" ansi="38;5;30"/>
+        <mapping category="Default"                         color="silver"       ansi="38;5;250"/>
+    </color-mappings>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         OBJECT HASHCODE OVERRIDES
+         Admins may set fixed Object IDs for well-known classes.
+         These appear in the [Object ID: XXXXXXXXXX] field of system output.
+         Format: <entry class="SimpleClassName">integer_value</entry>
+    ════════════════════════════════════════════════════════════════════ -->
+    <hashcodes>
+        <entry class="Main">0925308434</entry>
+        <entry class="NitroWebExpress">0195600860</entry>
+        <entry class="MessageQueueSorter">1343441044</entry>
+        <entry class="MessageQueue">0762660330</entry>
+        <entry class="HeuristicClassifier">0481230099</entry>
+        <entry class="ConnectionPoller">0553219871</entry>
+        <entry class="Communicator">0617340022</entry>
+        <entry class="BinaryHttpServer">0889912345</entry>
+        <entry class="WeatherServer">0721100456</entry>
+        <entry class="JapanSignalServer">0831200101</entry>
+        <entry class="RussiaSignalServer">0831200202</entry>
+        <entry class="MexicoSignalServer">0831200303</entry>
+        <entry class="GreeceInternationalSignalServer">0831200404</entry>
+        <entry class="StrernaryServer">0831200500</entry>
+        <entry class="BrarnerAleteModule">0831200600</entry>
+        <entry class="NioMasqueradeEngine">0831200700</entry>
+        <entry class="StrernaryDirectoryServer">0831200800</entry>
+        <entry class="NioModuleScanner">0831200900</entry>
+    </hashcodes>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         LOGGING CONFIGURATION
+         ═══════════════════════════════════════════════════════════════════
+         Controls log file sizes, rotation, and storage location.
+         When block-storage is enabled, logs are written to /mnt/blockstorage/nwe/logs/
+         to prevent the main drive from filling up.
+
+         Size presets:
+           1 = large  (2 GB max per file, 5 rotations = 10 GB max)
+           2 = medium (512 MB max per file, 4 rotations = 2 GB max)
+           3 = small  (64 MB max per file, 3 rotations = 192 MB max)
+
+         Rotation: when a log file reaches max-size, it is renamed with a
+         numeric suffix (.1, .2, .3) and a fresh file is created. Oldest
+         rotations beyond max-rotations are deleted automatically.
+    ════════════════════════════════════════════════════════════════════ -->
+    <logging>
+        <enabled>true</enabled>
+
+        <!-- Size preset: 1=large, 2=medium, 3=small -->
+        <size-preset>2</size-preset>
+
+        <!-- Block storage: write logs here when mounted (keeps main drive free) -->
+        <block-storage-enabled>true</block-storage-enabled>
+        <block-storage-path>/mnt/blockstorage/nwe/logs</block-storage-path>
+
+        <!-- Fallback: local log directory (used when block storage not mounted) -->
+        <local-path>logging</local-path>
+
+        <!-- Main server log -->
+        <log id="nwe-main">
+            <file>nwe-main.log</file>
+            <description>Main NWE runtime output (all modules)</description>
+            <size-overrides>
+                <large  max-size-mb="2048" max-rotations="5"/>
+                <medium max-size-mb="512"  max-rotations="4"/>
+                <small  max-size-mb="64"   max-rotations="3"/>
+            </size-overrides>
+        </log>
+
+        <!-- Exception log -->
+        <log id="exceptions">
+            <file>exception.log</file>
+            <description>Fatal and unhandled exceptions</description>
+            <size-overrides>
+                <large  max-size-mb="512" max-rotations="5"/>
+                <medium max-size-mb="128" max-rotations="4"/>
+                <small  max-size-mb="32"  max-rotations="3"/>
+            </size-overrides>
+        </log>
+
+        <!-- Social/communication log -->
+        <log id="social">
+            <file>event.social.log</file>
+            <description>BrarnerAlete module communication events</description>
+            <size-overrides>
+                <large  max-size-mb="256" max-rotations="3"/>
+                <medium max-size-mb="64"  max-rotations="3"/>
+                <small  max-size-mb="16"  max-rotations="2"/>
+            </size-overrides>
+        </log>
+
+        <!-- Security log -->
+        <log id="security">
+            <file>security.log</file>
+            <description>HeuristicClassifier threat events</description>
+            <size-overrides>
+                <large  max-size-mb="512" max-rotations="5"/>
+                <medium max-size-mb="128" max-rotations="4"/>
+                <small  max-size-mb="32"  max-rotations="3"/>
+            </size-overrides>
+        </log>
+
+        <!-- ClamAV antivirus scan results -->
+        <log id="clamav">
+            <file>clamav.log</file>
+            <description>Antivirus scan output</description>
+            <size-overrides>
+                <large  max-size-mb="128" max-rotations="3"/>
+                <medium max-size-mb="32"  max-rotations="3"/>
+                <small  max-size-mb="8"   max-rotations="2"/>
+            </size-overrides>
+        </log>
+    </logging>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         NOBLE REGISTRY — CRON PATTERN
+         A Noble Mear — reliable services before Noble Ministries.
+         Enabled by default. Resets every 2 days (2x 24 hours).
+    ════════════════════════════════════════════════════════════════════ -->
+    <noble-registry>
+        <enabled>true</enabled>
+        <reset-interval-hours>48</reset-interval-hours>
+        <cron-dir>cron</cron-dir>
+        <log-dir>/var/log/nwe</log-dir>
+        <shutdown-concern>
+            <enabled>true</enabled>
+            <save-state-on-shutdown>true</save-state-on-shutdown>
+            <state-file>cron/.noble-state</state-file>
+            <save-brothers>true</save-brothers>
+        </shutdown-concern>
+        <jobs>
+            <job name="AE6E66-Crawl" schedule="0 3 1 * *" script="cron/install-cron.sh" enabled="true"/>
+            <job name="GitHubPullNewer" schedule="0 4 * * *" script="scripts/github/pull-newer-only.sh" enabled="true"/>
+            <job name="SignalHealth" schedule="*/15 * * * *" script="cron/signal-health.sh" enabled="true"/>
+            <job name="PostfixFlush" schedule="*/30 * * * *" script="/usr/sbin/postqueue -f" enabled="true"/>
+            <job name="MySQLBackup" schedule="0 2 * * *" script="cron/mysql-backup.sh" enabled="true"/>
+            <job name="StrernaryLiveness" schedule="*/5 * * * *" script="cron/strernary-liveness.sh" enabled="true"/>
+            <job name="GrayLeaseCheck" schedule="0 * * * *" script="cron/gray-lease-check.sh" enabled="true"/>
+            <job name="CryptoVerify" schedule="0 */48 * * *" script="cron/crypto-verify.sh" enabled="true"/>
+            <job name="IntegrityCheck" schedule="0 6 */2 * *" script="cron/integrity-check.sh" enabled="true"/>
+        </jobs>
+    </noble-registry>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         CRYPTO BINARIES — Bitcoin, Dashcoin, Starcoin, Litecoin
+         Downloads CLI binaries to scripts/bash/bitcoin/{coin}/
+         BTC-aware ports: 6682 (BitcoinCompliant), 9999/10085 (GrayPortRegistry)
+         Configurable per-coin. SHA-256 verified on download.
+    ════════════════════════════════════════════════════════════════════ -->
+    <crypto-binaries>
+        <enabled>true</enabled>
+        <install-dir>scripts/bash/bitcoin</install-dir>
+        <installer-script>scripts/bash/bitcoin/install-crypto-binaries.sh</installer-script>
+        <coins>
+            <coin name="Bitcoin" enabled="true">
+                <versions>24,25,26,27,28,29,30,31</versions>
+                <base-url>https://bitcoincore.org/bin/bitcoin-core-</base-url>
+                <binary-names>bitcoind,bitcoin-cli</binary-names>
+                <aware-ports>6682,9999,10085</aware-ports>
+            </coin>
+            <coin name="Dashcoin" enabled="true">
+                <version>21.1.1</version>
+                <url>https://github.com/dashpay/dash/releases/download/v{version}/dashcore-{version}-x86_64-linux-gnu.tar.gz</url>
+                <binary-names>dashd,dash-cli</binary-names>
+                <aware-ports>9999,10085</aware-ports>
+            </coin>
+            <coin name="Starcoin" enabled="true">
+                <version>1.13.7</version>
+                <url>https://github.com/starcoinorg/starcoin/releases/download/v{version}/starcoin-ubuntu-v{version}.zip</url>
+                <binary-names>starcoin</binary-names>
+                <aware-ports>9999,10085</aware-ports>
+            </coin>
+            <coin name="Litecoin" enabled="true">
+                <version>0.21.3</version>
+                <url>https://download.litecoin.org/litecoin-{version}/linux/litecoin-{version}-x86_64-linux-gnu.tar.gz</url>
+                <binary-names>litecoind,litecoin-cli</binary-names>
+                <aware-ports>9999,10085</aware-ports>
+            </coin>
+        </coins>
+    </crypto-binaries>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         INTEGRITY — Post-Install SHA-256 File Verification
+         Gifted Install Tech ID (not Max Rupplin MEARVK LLC Installer Tech ID)
+         Validates against trusted git commits. Non-blocking — concerns logged.
+         Program continues running regardless of findings.
+    ════════════════════════════════════════════════════════════════════ -->
+    <integrity>
+        <enabled>true</enabled>
+        <tech-id>Gifted Install Tech ID</tech-id>
+        <digest-algorithms>SHA-256,MD5</digest-algorithms>
+        <digest-db>integrity/digest.db</digest-db>
+        <self-integrity-db>integrity/self.sha256</self-integrity-db>
+        <concerns-dir>integrity/concerns</concerns-dir>
+        <history-dir>integrity/history</history-dir>
+        <database>nwe_integrity</database>
+        <schema>integrity/integrity-schema.sql</schema>
+        <blocking>false</blocking>
+        <restore-on-fail>true</restore-on-fail>
+        <preserve-originals>true</preserve-originals>
+        <honor-oath-table>honor_oath</honor-oath-table>
+        <read-only-tables>file_digests,integrity_concerns,file_digests_history</read-only-tables>
+        <trusted-servers>
+            <server name="mearvk" url="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21" branch="main"/>
+            <server name="ElisabethHarkins5509" url="https://github.com/ElisabethHarkins5509" branch="main"/>
+        </trusted-servers>
+        <schedule>
+            <cron>0 6 */2 * *</cron>
+            <description>Every 2 days at 06:00 — noble 2rways</description>
+        </schedule>
+    </integrity>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         FONT CONFIGURATION
+         ═══════════════════════════════════════════════════════════════════════════
+         Remote font loading for all NWE web frontends.
+
+         HIERARCHY:
+           1. Global default (applies to all modules unless overridden)
+           2. Per-module override (if <override-global>true</override-global>)
+           3. Fallback (system fonts if remote fonts unavailable)
+
+         Modules include fonts via <link> in their JSP <head> sections.
+         CSS var(--font) and var(--font-mono) reference these families.
+    ═══════════════════════════════════════════════════════════════════════════ -->
+    <fonts>
+        <enabled>true</enabled>
+        <provider>Google Fonts</provider>
+
+        <!-- ── GLOBAL DEFAULT (all modules) ──────────────────────────────────── -->
+        <global>
+            <primary>
+                <family>IBM Plex Sans</family>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap</url>
+                <css>font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;</css>
+            </primary>
+            <monospace>
+                <family>IBM Plex Mono</family>
+                <weights>400,500,600</weights>
+                <url>https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap</url>
+                <css>font-family: 'IBM Plex Mono', 'JetBrains Mono', 'Fira Code', monospace;</css>
+            </monospace>
+        </global>
+
+        <!-- ── FONT LIBRARY (available for per-module override) ──────────────── -->
+        <library>
+            <font id="ibm-plex-sans">
+                <family>IBM Plex Sans</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&amp;display=swap</url>
+                <description>Clean, technical, professional. IBM design language.</description>
+            </font>
+            <font id="inter">
+                <family>Inter</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700,800</weights>
+                <url>https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap</url>
+                <description>Modern, highly legible, variable font. Popular for UI/dashboards.</description>
+            </font>
+            <font id="roboto">
+                <family>Roboto</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&amp;display=swap</url>
+                <description>Google's signature font. Neutral, friendly, widely used.</description>
+            </font>
+            <font id="merriweather">
+                <family>Merriweather</family>
+                <category>serif</category>
+                <weights>300,400,700,900</weights>
+                <url>https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&amp;display=swap</url>
+                <description>Elegant serif. Excellent readability on screens. Academic/literary.</description>
+            </font>
+            <font id="open-sans">
+                <family>Open Sans</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;display=swap</url>
+                <description>Friendly, neutral humanist sans-serif. Extremely popular.</description>
+            </font>
+            <font id="lato">
+                <family>Lato</family>
+                <category>sans-serif</category>
+                <weights>300,400,700,900</weights>
+                <url>https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&amp;display=swap</url>
+                <description>Warm, stable, serious but friendly. Good for body text.</description>
+            </font>
+            <font id="source-sans-3">
+                <family>Source Sans 3</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;display=swap</url>
+                <description>Adobe's open-source sans-serif. Technical documentation friendly.</description>
+            </font>
+            <font id="nunito">
+                <family>Nunito</family>
+                <category>sans-serif</category>
+                <weights>300,400,500,600,700,800</weights>
+                <url>https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&amp;display=swap</url>
+                <description>Rounded, friendly, modern. Fun and approachable.</description>
+            </font>
+            <font id="playfair-display">
+                <family>Playfair Display</family>
+                <category>serif</category>
+                <weights>400,500,600,700,800</weights>
+                <url>https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&amp;display=swap</url>
+                <description>High-contrast serif. Headlines, editorial, luxury feel.</description>
+            </font>
+            <font id="jetbrains-mono">
+                <family>JetBrains Mono</family>
+                <category>monospace</category>
+                <weights>400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap</url>
+                <description>Developer-focused monospace. Ligatures, clear at small sizes.</description>
+            </font>
+            <font id="fira-code">
+                <family>Fira Code</family>
+                <category>monospace</category>
+                <weights>300,400,500,600,700</weights>
+                <url>https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&amp;display=swap</url>
+                <description>Monospace with programming ligatures. Popular in editors.</description>
+            </font>
+            <font id="ibm-plex-mono">
+                <family>IBM Plex Mono</family>
+                <category>monospace</category>
+                <weights>400,500,600</weights>
+                <url>https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap</url>
+                <description>IBM Plex family monospace. Clean, technical.</description>
+            </font>
+        </library>
+
+        <!-- ── PER-MODULE FONT OVERRIDES ─────────────────────────────────────── 
+             Set override-global to true to use a module-specific font instead
+             of the global default. Reference fonts by id from the library above.
+        ──────────────────────────────────────────────────────────────────────── -->
+        <module-overrides>
+            <!-- Example: UNCW uses Nunito (friendly, fun, rounded) -->
+            <module id="UNCW" context="/uncw">
+                <override-global>true</override-global>
+                <primary-font>nunito</primary-font>
+                <monospace-font>ibm-plex-mono</monospace-font>
+            </module>
+
+            <!-- Example: Communicator uses Inter (modern UI) -->
+            <module id="Communicator" context="/chat">
+                <override-global>false</override-global>
+                <primary-font>inter</primary-font>
+                <monospace-font>jetbrains-mono</monospace-font>
+            </module>
+
+            <!-- Example: Defined uses Source Sans 3 (technical docs) -->
+            <module id="Defined" context="/defined">
+                <override-global>false</override-global>
+                <primary-font>source-sans-3</primary-font>
+                <monospace-font>fira-code</monospace-font>
+            </module>
+
+            <!-- All other modules: use global default (IBM Plex Sans) -->
+        </module-overrides>
+
+        <!-- ── FALLBACK (if Google Fonts unavailable) ────────────────────────── -->
+        <fallback>
+            <primary>-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif</primary>
+            <monospace>'JetBrains Mono', 'Fira Code', 'Courier New', monospace</monospace>
+        </fallback>
+
+        <!-- ── PRECONNECT TAGS (always include in <head>) ────────────────────── -->
+        <preconnect><![CDATA[<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>]]></preconnect>
+
+        <!-- Auto-inject font link tags during deploy -->
+        <auto-inject>true</auto-inject>
+    </fonts>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         PORT SCHEDULE & ACCESS CONTROL
+         ═══════════════════════════════════════════════════════════════════════════
+         Controls when ports are open (accepting connections) and when they close.
+         Default: open 24/7/365. Admin can restrict by:
+           - Days of the week (Mon-Sun)
+           - Hours of the day (00:00-23:59)
+           - Months of the year (Jan-Dec)
+           - City Mayor override (remote XML/JSON endpoint)
+
+         Ports automatically OPEN when NWE/modules start and CLOSE when they stop.
+         This schedule layer adds time-based restrictions ON TOP of runtime state.
+
+         A city Mayor can send XML or JSON to the mayor-endpoint to dynamically
+         control port hours and theme colors for their jurisdiction.
+    ═══════════════════════════════════════════════════════════════════════════ -->
+    <port-schedule>
+        <!-- Master switch: enable/disable schedule enforcement -->
+        <enabled>true</enabled>
+
+        <!-- Default policy: OPEN means ports are open unless schedule says otherwise -->
+        <default-policy>OPEN</default-policy>
+
+        <!-- Default schedule: 24/7 (all days, all hours, all months) -->
+        <default-hours>00:00-23:59</default-hours>
+        <default-days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</default-days>
+        <default-months>Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec</default-months>
+
+        <!-- Timezone for schedule evaluation -->
+        <timezone>America/New_York</timezone>
+
+        <!-- ── Per-Module Schedule Overrides ─────────────────────────────────── -->
+        <module-schedules>
+            <!-- Example: Defined™ restricted to business hours -->
+            <module id="Defined" port="49220">
+                <hours>06:00-23:00</hours>
+                <days>Mon,Tue,Wed,Thu,Fri</days>
+                <months>Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec</months>
+                <weekend-hours>08:00-20:00</weekend-hours>
+            </module>
+
+            <!-- All other modules: 24/7 default (no override needed) -->
+            <module id="SpectrumTandem" port="49222">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Communicator" port="49230">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="UNCW" port="49231">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Strernary" port="20000">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="CaliforniaFBI" port="49210">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="CaliforniaCIA" port="49211">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="CaliforniaNSA" port="49212">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="DukeUniversity" port="49213">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="StanfordLibrary" port="49214">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Vietnam" port="49215">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Emeter" port="49216">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Futures" port="5000">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="GrayPortRegistry" port="9999">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+            <module id="Gray85Creme" port="10085">
+                <hours>00:00-23:59</hours>
+                <days>Mon,Tue,Wed,Thu,Fri,Sat,Sun</days>
+            </module>
+        </module-schedules>
+
+        <!-- ── Auto Open/Close Behavior ──────────────────────────────────────── -->
+        <auto-manage>
+            <!-- When NWE starts: open ports in UFW/iptables for scheduled modules -->
+            <open-on-start>true</open-on-start>
+            <!-- When NWE stops: close all NWE ports in firewall -->
+            <close-on-stop>true</close-on-stop>
+            <!-- When a module goes offline mid-schedule: close its port -->
+            <close-on-module-stop>true</close-on-module-stop>
+            <!-- Firewall command (auto-detected: ufw, firewall-cmd, or iptables) -->
+            <firewall>auto</firewall>
+        </auto-manage>
+
+        <!-- ── City Mayor Remote Override ─────────────────────────────────────── 
+             A city Mayor's website can send XML or JSON to this endpoint to 
+             control port hours and theme colors for their jurisdiction.
+             
+             The server polls the mayor-endpoint every poll-interval-minutes.
+             If the mayor's server responds with valid XML/JSON, those settings
+             override the default schedule for the specified ports.
+             
+             Mayor can control:
+               - Which ports are open/closed
+               - Operating hours per port
+               - Theme colors for the web frontend
+               - Custom message/banner
+        ──────────────────────────────────────────────────────────────────────── -->
+        <mayor-override>
+            <enabled>false</enabled>
+            <poll-interval-minutes>60</poll-interval-minutes>
+            <timeout-ms>10000</timeout-ms>
+            <max-response-size-kb>64</max-response-size-kb>
+
+            <!-- Registered mayor endpoints (admin adds these) -->
+            <mayors>
+                <!-- Example: Durham NC Mayor -->
+                <mayor id="durham-nc">
+                    <city>Durham</city>
+                    <state>NC</state>
+                    <endpoint>https://durhamnc.gov/api/nwe-port-schedule</endpoint>
+                    <format>json</format>
+                    <auth-header>X-NWE-Mayor-Token</auth-header>
+                    <trusted>true</trusted>
+                    <description>City of Durham, NC — Mayor's office port schedule override</description>
+                </mayor>
+
+                <!-- Example: Wilmington NC Mayor (for UNCW module) -->
+                <mayor id="wilmington-nc">
+                    <city>Wilmington</city>
+                    <state>NC</state>
+                    <endpoint>https://wilmingtonnc.gov/api/nwe-port-schedule</endpoint>
+                    <format>xml</format>
+                    <auth-header>X-NWE-Mayor-Token</auth-header>
+                    <trusted>true</trusted>
+                    <description>City of Wilmington, NC — Mayor's office (UNCW jurisdiction)</description>
+                </mayor>
+            </mayors>
+
+            <!-- Expected response format (JSON) -->
+            <response-schema-json><![CDATA[
+{
+    "mayor_id": "durham-nc",
+    "city": "Durham",
+    "effective_date": "2026-07-16",
+    "expires": "2026-08-16",
+    "ports": {
+        "49222": { "hours": "06:00-22:00", "days": "Mon,Tue,Wed,Thu,Fri,Sat", "status": "open" },
+        "49230": { "hours": "00:00-23:59", "days": "Mon,Tue,Wed,Thu,Fri,Sat,Sun", "status": "open" },
+        "49231": { "hours": "08:00-20:00", "days": "Mon,Tue,Wed,Thu,Fri", "status": "open" }
+    },
+    "theme_override": {
+        "accent_color": "#1e40af",
+        "banner": "City of Durham — Open Service Hours"
+    }
+}
+            ]]></response-schema-json>
+
+            <!-- Expected response format (XML) -->
+            <response-schema-xml><![CDATA[
+<mayor-schedule mayor-id="wilmington-nc" city="Wilmington" effective="2026-07-16" expires="2026-08-16">
+    <port id="49231" hours="08:00-22:00" days="Mon,Tue,Wed,Thu,Fri,Sat" status="open"/>
+    <port id="49230" hours="00:00-23:59" days="Mon,Tue,Wed,Thu,Fri,Sat,Sun" status="open"/>
+    <theme accent-color="#00727A" banner="City of Wilmington — Seahawk Hours"/>
+</mayor-schedule>
+            ]]></response-schema-xml>
+        </mayor-override>
+
+        <!-- ── Admin Commands for Schedule Management ─────────────────────────── -->
+        <admin-commands>
+            <command>SCHEDULE_SET|port|hours|days|months</command>
+            <command>SCHEDULE_GET|port</command>
+            <command>SCHEDULE_RESET|port</command>
+            <command>SCHEDULE_MAYOR_ADD|id|city|state|endpoint|format</command>
+            <command>SCHEDULE_MAYOR_REMOVE|id</command>
+            <command>SCHEDULE_MAYOR_POLL</command>
+            <command>SCHEDULE_STATUS</command>
+        </admin-commands>
+    </port-schedule>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         Network Intelligence — Jpcap + JNDI
+         Dave's network observation, partner discovery, and stability service.
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <network-intelligence>
+        <enabled>true</enabled>
+        <jpcap-jar>jars/jpcap/jpcap.jar</jpcap-jar>
+        <jpcap-native>libpcap</jpcap-native>
+        <default-interface>eth0</default-interface>
+        <assessment-interval-seconds>60</assessment-interval-seconds>
+        <discovery-interval-seconds>300</discovery-interval-seconds>
+
+        <!-- JNDI service discovery patterns -->
+        <service-patterns>
+            <pattern>_nwe._tcp</pattern>
+            <pattern>_epmp._tcp</pattern>
+            <pattern>_dave._tcp</pattern>
+            <pattern>_ethics._tcp</pattern>
+        </service-patterns>
+
+        <!-- DNS resolvers for stability assessment -->
+        <resolvers>
+            <resolver>dns://8.8.8.8</resolver>
+            <resolver>dns://8.8.4.4</resolver>
+            <resolver>dns://1.1.1.1</resolver>
+            <resolver>dns://1.0.0.1</resolver>
+            <resolver>dns://9.9.9.9</resolver>
+            <resolver>dns://208.67.222.222</resolver>
+        </resolvers>
+
+        <!-- Monitored domains -->
+        <monitored-domains>
+            <domain>mearvk.us</domain>
+            <domain>github.com</domain>
+        </monitored-domains>
+
+        <!-- Trust thresholds -->
+        <trust>
+            <dns-stability-threshold>70</dns-stability-threshold>
+            <packet-stability-threshold>80</packet-stability-threshold>
+            <confidence-threshold>0.85</confidence-threshold>
+        </trust>
+
+        <!-- MySQL storage -->
+        <database>
+            <schema>tools/ai/dave_network_schema.sql</schema>
+            <user>dave_ai</user>
+            <db>dave_kb</db>
+        </database>
+    </network-intelligence>
+
+</nwe-config>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<training-config module="ai" version="1.0">
+
+    <!--
+        TRAINING OBJECTIVES
+        ===================
+        The trained model MUST be capable of:
+        1. Interactive chat — real-time conversational Q&A with users
+        2. Question & Answer — factual recall and inference from training data
+        3. Classification — categorizing political signals by class
+
+        Chat and Q&A are primary use cases. The model should respond to natural
+        language questions about its trained classes (e.g. "Who are the Democrat
+        presidents?", "What policies define a US President?", "Compare moderate
+        vs progressive Democrats.") with coherent, contextual answers.
+
+        Training data includes structured features to support both classification
+        and generative/retrieval Q&A over the political domain.
+    -->
+
+    <capabilities>
+        <capability name="chat" required="true">Interactive conversational dialogue</capability>
+        <capability name="qa" required="true">Question and answer over trained knowledge</capability>
+        <capability name="classification" required="true">Signal class categorization</capability>
+    </capabilities>
+
+    <class name="us-democrat" label="US Democrat" active="true">
+        <description>Training class for US Democrat political signal classification, chat, and Q&amp;A</description>
+        <data-source>source-code/ai/training/data/us-democrat.csv</data-source>
+        <qa-source>source-code/ai/training/data/us-democrat-qa.csv</qa-source>
+        <model-output>output/ai/models/us-democrat.pt</model-output>
+        <epochs>100</epochs>
+        <batch-size>32</batch-size>
+        <learning-rate>0.001</learning-rate>
+    </class>
+    <class name="us-president" label="US President" active="true">
+        <description>Training class for US President political signal classification, chat, and Q&amp;A</description>
+        <data-source>source-code/ai/training/data/us-president.csv</data-source>
+        <qa-source>source-code/ai/training/data/us-president-qa.csv</qa-source>
+        <model-output>output/ai/models/us-president.pt</model-output>
+        <epochs>100</epochs>
+        <batch-size>32</batch-size>
+        <learning-rate>0.001</learning-rate>
+    </class>
+</training-config>

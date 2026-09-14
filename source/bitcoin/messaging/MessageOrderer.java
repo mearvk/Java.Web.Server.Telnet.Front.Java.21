@@ -14,18 +14,18 @@ public class MessageOrderer extends Thread
 
     public ArrayList<BitcoinMessage> bitcoin_messages = new ArrayList<BitcoinMessage>(5000);
 
-    public TraderModule bitcoin;
+    public TraderModule BITCOIN;
 
-    public BitcoinBase base;
+    public BitcoinBase BASE;
 
-    public MessageOrderer(TraderModule bitcoin)
+    public MessageOrderer(final TraderModule BITCOIN)
     {
-        this.bitcoin = bitcoin;
+        this.BITCOIN = BITCOIN;
     }
 
-    public MessageOrderer(BitcoinBase base)
+    public MessageOrderer(final BitcoinBase BASE)
     {
-        this.base = base;
+        this.BASE = BASE;
     }
 
     @Override
@@ -51,19 +51,19 @@ public class MessageOrderer extends Thread
         }
     }
 
-    public synchronized void add(BitcoinMessage bitcoin_message)
+    public synchronized void add(final BitcoinMessage BITCOIN_MESSAGE)
     {
-        this.bitcoin_messages.add(bitcoin_message);
+        this.bitcoin_messages.add(BITCOIN_MESSAGE);
         this.notifyAll();
     }
 
-    public synchronized void remove(BitcoinMessage bitcoin_message)
+    public synchronized void remove(final BitcoinMessage BITCOIN_MESSAGE)
     {
-        this.bitcoin_messages.remove(bitcoin_message);
+        this.bitcoin_messages.remove(BITCOIN_MESSAGE);
         this.notifyAll();
     }
 
-    public synchronized void clear(BitcoinMessage bitcoin_message)
+    public synchronized void clear(final BitcoinMessage BITCOIN_MESSAGE)
     {
         this.bitcoin_messages.clear();
         this.notifyAll();

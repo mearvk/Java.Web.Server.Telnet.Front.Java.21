@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>716</office-code>
+    <office-name>ABERDEEN SD</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>ROOM 111 FEDERAL BLDG</address-2>
+    <address-3>115 4TH AVE SE</address-3>
+    <city>ABERDEEN</city>
+    <state>SD</state>
+    <zip-code>57401</zip-code>
+    <phone>(855) 278-4196</phone>
+    <fax>(833) 950-3549</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10125</socket-port>
+    <local-input-path>source-code/ssa/sd/aberdeen/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/sd/aberdeen</output-dir>
+</signal-processing-config>

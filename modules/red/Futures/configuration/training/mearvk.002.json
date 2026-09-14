@@ -1,0 +1,21 @@
+{
+  "instruction": "Analyze the tax considerations described in the passage.",
+  "input": "A foreign trader invests in U.S. equities and receives dividends.",
+  "output": {
+    "summary": "The passage distinguishes between non-resident aliens and U.S. persons.",
+    "key_factors": [
+      "Tax residency classification",
+      "Capital gains treatment",
+      "Dividend withholding",
+      "Estate tax exposure",
+      "Business versus investor status"
+    ],
+    "reasoning": [
+      "Determine tax residency.",
+      "Determine income type.",
+      "Determine whether treaty benefits apply.",
+      "Evaluate applicable reporting and election requirements."
+    ],
+    "caution": "Tax outcomes depend on current law and individual facts."
+  }
+}

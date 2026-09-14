@@ -1,0 +1,36 @@
+Name, Email
+Jim Guthrie,JGuthrie@senate.idaho.gov
+Treg Bernt,TBernt@senate.idaho.gov
+Ben Adams,BAdams@senate.idaho.gov
+Ben Toews,BToews@senate.idaho.gov
+Mark Harris,MHarris@senate.idaho.gov
+Brandon Shippy,BShippy@senate.idaho.gov
+Lori Den Hartog,LDenHartog@senate.idaho.gov
+Kelly Anthon,KAnthon@senate.idaho.gov
+James Ruchti,JRuchti@senate.idaho.gov
+Van Burtenshaw,VBurtenshaw@senate.idaho.gov
+Kevin Cook,KCook@senate.idaho.gov
+Dave Lent,DLent@senate.idaho.gov
+Julie VanOrden,JVanOrden@senate.idaho.gov
+Todd Lakey,TLakey@senate.idaho.gov
+Doug Ricks,DRicks@senate.idaho.gov
+Geoff Schroeder,GSchroeder@senate.idaho.gov
+Linda Wright Hartgen,LHartgen@senate.idaho.gov
+Scott Herndon,SHerndon@senate.idaho.gov
+Chuck Winder,CWinder@senate.idaho.gov
+C. Scott Grow,SGrow@senate.idaho.gov
+Jim Rice,JRice@senate.idaho.gov
+Chris Trakel,CTrakel@senate.idaho.gov
+Rick Just,RJust@senate.idaho.gov
+Melissa Wintrow,MWintrow@senate.idaho.gov
+Ali Rabe,ARabe@senate.idaho.gov
+Janice McGeachin,JMcGeachin@senate.idaho.gov
+Abby Lee,ALee@senate.idaho.gov
+Julie Yamamoto,JYamamoto@senate.idaho.gov
+Shawn Keough,SKeough@senate.idaho.gov
+Dan Johnson,DJohnson@senate.idaho.gov
+Jeff Agenbroad,JAgenbroad@senate.idaho.gov
+Jim Patrick,JPatrick@senate.idaho.gov
+Lee Heider,LHeider@senate.idaho.gov
+Patti Anne Lodge,PLodge@senate.idaho.gov
+Kelly Anthon,KAnthon@senate.idaho.gov

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>446</office-code>
+    <office-name>HAZARD KY</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>122 REYNOLDS LANE</address-3>
+    <city>HAZARD</city>
+    <state>KY</state>
+    <zip-code>41701</zip-code>
+    <phone>(877) 405-0491</phone>
+    <fax>(833) 950-3483</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9883</socket-port>
+    <local-input-path>source-code/ssa/ky/hazard/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ky/hazard</output-dir>
+</signal-processing-config>

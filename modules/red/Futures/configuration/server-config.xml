@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Democratic Hard Server Configuration
+    Port 5000 — Democratic Connections
+    Installer ID: MEARVK LLC — Max Rupplin
+    D500 Democratic President
+-->
+<server-config>
+
+    <server name="DemocraticHardServer">
+        <host>0.0.0.0</host>
+        <port>5000</port>
+        <max-connections>5040</max-connections>
+        <max-per-ip>1</max-per-ip>
+        <timeout-ms>3480000</timeout-ms><!-- 58 minutes -->
+        <backlog>128</backlog>
+        <thread-pool-size>64</thread-pool-size>
+        <reuse-address>true</reuse-address>
+        <tcp-no-delay>true</tcp-no-delay>
+        <keep-alive>true</keep-alive>
+    </server>
+
+    <democratic-services>
+        <service name="registrations" enabled="true"/>
+        <service name="deregistrations" enabled="true"/>
+        <service name="questions" enabled="true"/>
+        <service name="speculation" enabled="true"/>
+    </democratic-services>
+
+    <hardening>
+        <weight-model>
+            <spot-value>1.0</spot-value>
+            <cost-per-sec>0.02</cost-per-sec>
+            <cost-per-kb>0.05</cost-per-kb>
+            <eject-threshold>120.0</eject-threshold>
+        </weight-model>
+    </hardening>
+
+</server-config>

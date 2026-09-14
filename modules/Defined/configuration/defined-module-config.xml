@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Defined Module Configuration — NitroWebExpress™
+  Theme: Dark Gray
+  Safety Classification: Careful and Possible Government Secret
+  Installer Tech ID: Max Rupplin
+  Author: Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
+
+  ═══════════════════════════════════════════════════════════════════════════════
+  AFFIRMATION OF THE UNITED STATES
+  ═══════════════════════════════════════════════════════════════════════════════
+
+  US well in condition. US well loved. US is well in authority of command of the
+  United States. Be clear, we are holding object, and object, that the United
+  States is clear in Custody and of herself a Clear custody. Well affirmed.
+  Based on army, country and constitution. God is with America. And Max Rupplin.
+  Therefore from America a good socialism and country and great things spring
+  from America's capitalism. These we affirm. And for law and tech We stand.
+  And commitment to God and Country. These Affirm We. Thus. This. A. America.
+
+  ═══════════════════════════════════════════════════════════════════════════════
+-->
+<defined-module>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- NATIONAL AFFIRMATION                                                   -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <affirmation>
+    <statement id="condition">US well in condition.</statement>
+    <statement id="loved">US well loved.</statement>
+    <statement id="authority">US is well in authority of command of the United States.</statement>
+    <statement id="custody">Be clear, we are holding object, and object, that the United States is clear in Custody and of herself a Clear custody.</statement>
+    <statement id="affirmed">Well affirmed. Based on army, country and constitution.</statement>
+    <statement id="god">God is with America. And Max Rupplin.</statement>
+    <statement id="socialism">Therefore from America a good socialism and country and great things spring from America's capitalism.</statement>
+    <statement id="affirmation">These we affirm.</statement>
+    <statement id="law-and-tech">And for law and tech We stand.</statement>
+    <statement id="commitment">And commitment to God and Country.</statement>
+    <statement id="final">These Affirm We. Thus. This. A. America.</statement>
+    <signatory name="Max Rupplin" role="Installer Tech ID" affirmed="true"/>
+  </affirmation>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- MODULE IDENTITY                                                        -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <module>
+    <name>Defined</name>
+    <port>49220</port>
+    <theme>Dark Gray</theme>
+    <definition>Definition to narrow cause: defined</definition>
+    <safety-classification>careful and possible government secret</safety-classification>
+    <installer-tech-id>Max Rupplin — honest state fiduciary and forward US Democrat</installer-tech-id>
+    <notice>Known trespass against final medical review may result in being discharged from Earth forever.</notice>
+    <custom-work>Kinded and Secondary (implied as good)</custom-work>
+  </module>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- PORT AWARENESS AND PROTOCOL HANDLERS                                   -->
+  <!-- Awareness of ports 20, 21, 80, 8080, 25, 3306                         -->
+  <!-- Password capabilities for admins and capitalists                        -->
+  <!-- Multiple username/password pairs per protocol allowed                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <port-awareness>
+
+    <protocol port="20" name="FTP-DATA" handler="modules.Defined.source.protocol.FTPDataHandler">
+      <description>FTP Data Transfer (active mode)</description>
+      <direction>outbound</direction>
+      <monitored>true</monitored>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-admin</username>
+          <password-env>DEFINED_FTP_ADMIN_PASS</password-env>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-capital</username>
+          <password-env>DEFINED_FTP_CAPITAL_PASS</password-env>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="21" name="FTP" handler="modules.Defined.source.protocol.FTPHandler">
+      <description>FTP Control — File Transfer Protocol</description>
+      <direction>bidirectional</direction>
+      <monitored>true</monitored>
+      <passive-mode>true</passive-mode>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-admin</username>
+          <password-env>DEFINED_FTP_ADMIN_PASS</password-env>
+        </credential>
+        <credential id="admin-2" role="admin">
+          <username>nwe-ops</username>
+          <password-env>DEFINED_FTP_OPS_PASS</password-env>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-capital</username>
+          <password-env>DEFINED_FTP_CAPITAL_PASS</password-env>
+        </credential>
+        <credential id="capitalist-2" role="capitalist">
+          <username>nwe-investor</username>
+          <password-env>DEFINED_FTP_INVESTOR_PASS</password-env>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="80" name="HTTP" handler="modules.Defined.source.protocol.HTTPHandler">
+      <description>HTTP — Internet access for AI scanning</description>
+      <direction>outbound</direction>
+      <monitored>true</monitored>
+      <use-for-scan>true</use-for-scan>
+      <user-agent>Defined-AI-Module/1.0 (NitroWebExpress; DarkGray)</user-agent>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-admin</username>
+          <password-env>DEFINED_HTTP_ADMIN_PASS</password-env>
+          <auth-type>Basic</auth-type>
+        </credential>
+        <credential id="admin-2" role="admin">
+          <username>nwe-ops</username>
+          <password-env>DEFINED_HTTP_OPS_PASS</password-env>
+          <auth-type>Basic</auth-type>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-capital</username>
+          <password-env>DEFINED_HTTP_CAPITAL_PASS</password-env>
+          <auth-type>Bearer</auth-type>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="8080" name="HTTP-ALT" handler="modules.Defined.source.protocol.HTTPAltHandler">
+      <description>HTTP Alternate — Tomcat webapp frontend</description>
+      <direction>bidirectional</direction>
+      <monitored>true</monitored>
+      <tomcat-context>/defined</tomcat-context>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>tomcat-admin</username>
+          <password-env>DEFINED_TOMCAT_ADMIN_PASS</password-env>
+          <auth-type>Form</auth-type>
+        </credential>
+        <credential id="admin-2" role="admin">
+          <username>nwe-deployer</username>
+          <password-env>DEFINED_TOMCAT_DEPLOYER_PASS</password-env>
+          <auth-type>Form</auth-type>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-executive</username>
+          <password-env>DEFINED_TOMCAT_EXEC_PASS</password-env>
+          <auth-type>Form</auth-type>
+        </credential>
+        <credential id="capitalist-2" role="capitalist">
+          <username>nwe-board</username>
+          <password-env>DEFINED_TOMCAT_BOARD_PASS</password-env>
+          <auth-type>Form</auth-type>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="25" name="SMTP" handler="modules.Defined.source.protocol.SMTPHandler">
+      <description>SMTP — Simple Mail Transfer Protocol</description>
+      <direction>outbound</direction>
+      <monitored>true</monitored>
+      <tls-upgrade>STARTTLS</tls-upgrade>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-mail-admin</username>
+          <password-env>DEFINED_SMTP_ADMIN_PASS</password-env>
+        </credential>
+        <credential id="admin-2" role="admin">
+          <username>nwe-postmaster</username>
+          <password-env>DEFINED_SMTP_POSTMASTER_PASS</password-env>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-reports</username>
+          <password-env>DEFINED_SMTP_REPORTS_PASS</password-env>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="3306" name="MySQL" handler="modules.Defined.source.protocol.MySQLHandler">
+      <description>MySQL — Database Protocol</description>
+      <direction>local</direction>
+      <monitored>true</monitored>
+      <database>defined_dark_gray</database>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe_defined</username>
+          <password-env>DEFINED_MYSQL_ADMIN_PASS</password-env>
+          <privileges>SELECT,INSERT</privileges>
+        </credential>
+        <credential id="admin-2" role="admin">
+          <username>nwe_root</username>
+          <password-env>DEFINED_MYSQL_ROOT_PASS</password-env>
+          <privileges>ALL</privileges>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe_readonly</username>
+          <password-env>DEFINED_MYSQL_READONLY_PASS</password-env>
+          <privileges>SELECT</privileges>
+        </credential>
+        <credential id="capitalist-2" role="capitalist">
+          <username>nwe_reports</username>
+          <password-env>DEFINED_MYSQL_REPORTS_PASS</password-env>
+          <privileges>SELECT,INSERT</privileges>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="22" name="SSH" handler="modules.Defined.source.protocol.SSHHandler">
+      <description>SSH — Secure Shell (outbound connections for data retrieval)</description>
+      <direction>outbound</direction>
+      <monitored>true</monitored>
+      <ufw-managed>true</ufw-managed>
+      <open-before-use>true</open-before-use>
+      <close-after-use>true</close-after-use>
+      <key-type>RSA-4096</key-type>
+      <known-hosts-file>data/ssh/known_hosts</known-hosts-file>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-ssh-admin</username>
+          <password-env>DEFINED_SSH_ADMIN_PASS</password-env>
+          <key-file>data/ssh/id_rsa_admin</key-file>
+        </credential>
+        <credential id="admin-2" role="admin">
+          <username>nwe-ssh-ops</username>
+          <password-env>DEFINED_SSH_OPS_PASS</password-env>
+          <key-file>data/ssh/id_rsa_ops</key-file>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-ssh-data</username>
+          <password-env>DEFINED_SSH_DATA_PASS</password-env>
+          <key-file>data/ssh/id_rsa_data</key-file>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="443" name="HTTPS" handler="modules.Defined.source.protocol.HTTPSHandler">
+      <description>HTTPS — SSL/TLS encrypted HTTP (outbound secure scanning)</description>
+      <direction>outbound</direction>
+      <monitored>true</monitored>
+      <ufw-managed>true</ufw-managed>
+      <open-before-use>true</open-before-use>
+      <close-after-use>true</close-after-use>
+      <tls-version>TLSv1.3</tls-version>
+      <verify-certificates>true</verify-certificates>
+      <truststore>data/ssl/truststore.jks</truststore>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-admin</username>
+          <password-env>DEFINED_HTTPS_ADMIN_PASS</password-env>
+          <auth-type>Basic</auth-type>
+        </credential>
+        <credential id="admin-2" role="admin">
+          <username>nwe-ops</username>
+          <password-env>DEFINED_HTTPS_OPS_PASS</password-env>
+          <auth-type>Bearer</auth-type>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-capital</username>
+          <password-env>DEFINED_HTTPS_CAPITAL_PASS</password-env>
+          <auth-type>Bearer</auth-type>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="993" name="IMAPS" handler="modules.Defined.source.protocol.IMAPSHandler">
+      <description>IMAPS — SSL-encrypted IMAP mail retrieval</description>
+      <direction>outbound</direction>
+      <monitored>true</monitored>
+      <ufw-managed>true</ufw-managed>
+      <open-before-use>true</open-before-use>
+      <close-after-use>true</close-after-use>
+      <tls-version>TLSv1.3</tls-version>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-mail-admin</username>
+          <password-env>DEFINED_IMAPS_ADMIN_PASS</password-env>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-reports-inbox</username>
+          <password-env>DEFINED_IMAPS_REPORTS_PASS</password-env>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="465" name="SMTPS" handler="modules.Defined.source.protocol.SMTPSHandler">
+      <description>SMTPS — SSL-encrypted SMTP (implicit TLS)</description>
+      <direction>outbound</direction>
+      <monitored>true</monitored>
+      <ufw-managed>true</ufw-managed>
+      <open-before-use>true</open-before-use>
+      <close-after-use>true</close-after-use>
+      <tls-version>TLSv1.3</tls-version>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-mail-admin</username>
+          <password-env>DEFINED_SMTPS_ADMIN_PASS</password-env>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-reports-sender</username>
+          <password-env>DEFINED_SMTPS_REPORTS_PASS</password-env>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="587" name="SMTP-SUBMISSION" handler="modules.Defined.source.protocol.SMTPSubmissionHandler">
+      <description>SMTP Submission — STARTTLS mail submission (RFC 6409)</description>
+      <direction>outbound</direction>
+      <monitored>true</monitored>
+      <ufw-managed>true</ufw-managed>
+      <open-before-use>true</open-before-use>
+      <close-after-use>true</close-after-use>
+      <tls-upgrade>STARTTLS</tls-upgrade>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-mail-admin</username>
+          <password-env>DEFINED_SMTP587_ADMIN_PASS</password-env>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-reports</username>
+          <password-env>DEFINED_SMTP587_REPORTS_PASS</password-env>
+        </credential>
+      </credentials>
+    </protocol>
+
+    <protocol port="990" name="FTPS" handler="modules.Defined.source.protocol.FTPSHandler">
+      <description>FTPS — SSL-encrypted FTP (implicit TLS)</description>
+      <direction>outbound</direction>
+      <monitored>true</monitored>
+      <ufw-managed>true</ufw-managed>
+      <open-before-use>true</open-before-use>
+      <close-after-use>true</close-after-use>
+      <tls-version>TLSv1.3</tls-version>
+      <credentials allow-multiple="true">
+        <credential id="admin-1" role="admin">
+          <username>nwe-ftps-admin</username>
+          <password-env>DEFINED_FTPS_ADMIN_PASS</password-env>
+        </credential>
+        <credential id="capitalist-1" role="capitalist">
+          <username>nwe-ftps-data</username>
+          <password-env>DEFINED_FTPS_DATA_PASS</password-env>
+        </credential>
+      </credentials>
+    </protocol>
+
+  </port-awareness>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- UFW FIREWALL MANAGEMENT                                                -->
+  <!-- Ports are opened with ufw prior to use and closed after execution      -->
+  <!-- of search, data query, or retrieval.                                   -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <ufw-management>
+    <enabled>true</enabled>
+    <sudo-required>true</sudo-required>
+    <open-before-use>true</open-before-use>
+    <close-after-use>true</close-after-use>
+    <managed-ports>
+      <port number="22" direction="out" rule="allow"/>
+      <port number="443" direction="out" rule="allow"/>
+      <port number="465" direction="out" rule="allow"/>
+      <port number="587" direction="out" rule="allow"/>
+      <port number="993" direction="out" rule="allow"/>
+      <port number="990" direction="out" rule="allow"/>
+    </managed-ports>
+    <!-- Ports that remain open (not UFW-cycled) -->
+    <persistent-ports>
+      <port number="20" direction="out"/>
+      <port number="21" direction="out"/>
+      <port number="25" direction="out"/>
+      <port number="80" direction="out"/>
+      <port number="3306" direction="local"/>
+      <port number="8080" direction="in"/>
+      <port number="49220" direction="in"/>
+      <port number="49221" direction="in"/>
+    </persistent-ports>
+    <log-ufw-actions>true</log-ufw-actions>
+    <log-file>logging/ufw-actions.log</log-file>
+  </ufw-management>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- BACKEND CONNECTION HOURS                                               -->
+  <!-- Accept direct connections and close them outside of these hours.        -->
+  <!-- Web server may access normal operations separately regardless.         -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <backend-connection-hours>
+    <enabled>true</enabled>
+    <timezone>America/New_York</timezone>
+    <accept-hours>
+      <!-- Backend telnet port 49221 accepts direct connections during these hours -->
+      <window start="06:00" end="23:00" days="MON,TUE,WED,THU,FRI"/>
+      <window start="08:00" end="20:00" days="SAT,SUN"/>
+    </accept-hours>
+    <outside-hours-behavior>reject</outside-hours-behavior>
+    <outside-hours-message>Defined™ backend is closed outside operating hours. Try again during business hours EST.</outside-hours-message>
+    <!-- Web server (port 8080 /defined) operates independently, 24/7 -->
+    <web-server-independent>true</web-server-independent>
+    <web-server-port>8080</web-server-port>
+    <web-server-always-accessible>true</web-server-always-accessible>
+    <!-- AI server (port 49220) operates independently for scheduled scans -->
+    <ai-server-independent>true</ai-server-independent>
+    <ai-server-port>49220</ai-server-port>
+    <ai-server-always-accessible>true</ai-server-always-accessible>
+  </backend-connection-hours>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- STRERNARY DATA FEEDBACK                                                -->
+  <!-- Folder for Strernary™ data to feed back to Defined for consideration   -->
+  <!-- as international source and/or flavor.                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <strernary-feedback>
+    <enabled>true</enabled>
+    <data-directory>data/strernary-feedback/</data-directory>
+    <source-type>international</source-type>
+    <flavor>international-source</flavor>
+    <poll-interval-minutes>60</poll-interval-minutes>
+    <accepted-formats>.txt,.csv,.json,.xml</accepted-formats>
+    <strernary-server-port>20000</strernary-server-port>
+    <strernary-directory-port>2000</strernary-directory-port>
+    <consider-as>international source and/or flavor</consider-as>
+  </strernary-feedback>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- ALL 29 CATEGORIES                                                      -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <categories>
+    <category name="banking"/>
+    <category name="middle-schools"/>
+    <category name="strong-middle-schools"/>
+    <category name="improbable-activity-youth"/>
+    <category name="firefights-20-plus-casualties"/>
+    <category name="fire-department-errors-3-plus"/>
+    <category name="schools-burned-down"/>
+    <category name="misuse-of-scientology"/>
+    <category name="known-misuse-public-officials"/>
+    <category name="unkind-language-books-reading"/>
+    <category name="unkind-misuse-heads-of-state"/>
+    <category name="absence-fbi-presence"/>
+    <category name="absence-border-protection"/>
+    <category name="unequal-treatment-us-treasury"/>
+    <category name="unequal-footing-us-state-department"/>
+    <category name="private-ownership-lsat"/>
+    <category name="torturers"/>
+    <category name="rapists"/>
+    <category name="convicted-murderers"/>
+    <category name="gods-going-crazy"/>
+    <category name="anti-god-rhetoric"/>
+    <category name="against-space-nasa"/>
+    <category name="anti-political-whisper"/>
+    <category name="sovietism-vs-socialism"/>
+    <category name="failing-schools"/>
+    <category name="failing-final-tests"/>
+    <category name="non-social-graces"/>
+    <category name="prayer-against-even-temper"/>
+    <category name="ntsb"/>
+  </categories>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SCAN SCHEDULE: 4x daily                                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <scan-schedule>
+    <frequency>4</frequency>
+    <unit>daily</unit>
+    <cron>0 0,6,12,18 * * *</cron>
+    <internet-scan-port>80</internet-scan-port>
+  </scan-schedule>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- REPORT SCHEDULE WITH PRIORITY WEIGHTS                                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <report-schedule>
+    <report period="weekly" priority-weights="8,8,8,1,1"/>
+    <report period="monthly" priority-weights="40,32,1,8,1"/>
+    <report period="quarterly" priority-weights="12,1,2,6,8,1,10"/>
+    <report period="half-year" priority-weights="5,5,2,1,5"/>
+    <report period="annual" priority-weights="6,2,1,2,1,6"/>
+    <report period="2-year" priority-weights="accumulated"/>
+    <report period="5-year" priority-weights="accumulated"/>
+    <report period="10-year" priority-weights="accumulated"/>
+  </report-schedule>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- MORAL DISPOSITION ORDER                                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <moral-disposition>
+    <order>
+      <region position="1" consideration="best-first-friend">Asia</region>
+      <region position="2" consideration="again">Asia</region>
+      <region position="3" consideration="homeland">United States</region>
+      <region position="4" consideration="historical">Soviet Russia</region>
+    </order>
+  </moral-disposition>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- TRAINING STRIP PATHS (Tier 1, 2, 3)                                    -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <training-strips>
+    <strip tier="1" path="training/strips/tier1-series-modification.json"/>
+    <strip tier="2" path="training/strips/tier2-angular-momentum.json"/>
+    <strip tier="3" path="training/strips/tier3-adverb-intent-law.json"/>
+    <strip tier="1" path="training/strips/moral-apprehension.json"/>
+    <strip tier="2" path="training/strips/improvements-by-angles.json"/>
+    <strip tier="2" path="training/strips/improvements-by-velocities.json"/>
+    <strip tier="3" path="training/strips/conduct-and-future.json"/>
+    <weights-directory>training/weights/daily/</weights-directory>
+    <shave-lower-congruity>0.50</shave-lower-congruity>
+  </training-strips>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SIGNATORY SECTION                                                      -->
+  <!-- Allow signatories to sign the XML for command of copy authority         -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <signatories>
+    <allow-sign-for-copy-authority>true</allow-sign-for-copy-authority>
+    <signatory name="Max Rupplin" role="Moral Adjuster" authority-level="10" affirmed="true"/>
+  </signatories>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- MORAL VOTE SECTION                                                     -->
+  <!-- Moral Adjuster Max Rupplin with signatory grace                        -->
+  <!-- Default: 1 = yes = positive for Morals                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <moral-votes>
+    <adjuster name="Max Rupplin" role="Moral Adjuster"/>
+    <signatory-grace>true</signatory-grace>
+    <default-vote-value>1</default-vote-value>
+    <vote-interpretation>
+      <value code="1">yes — positive for Morals</value>
+      <value code="0">abstain</value>
+      <value code="-1">no — negative for Morals</value>
+    </vote-interpretation>
+  </moral-votes>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- NTSB COMMUNICATION CONFIG                                              -->
+  <!-- Second option on chat window for direct NTSB communication             -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <ntsb-communication>
+    <url>www.ntsb.gov</url>
+    <port>80</port>
+    <protocol>HTTP</protocol>
+    <enabled>true</enabled>
+  </ntsb-communication>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- MYSQL CONNECTION CONFIG                                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <mysql>
+    <host>localhost</host>
+    <port>3306</port>
+    <database>defined_dark_gray</database>
+    <username>nwe_defined</username>
+    <password-env>DEFINED_MYSQL_ADMIN_PASS</password-env>
+    <connection-pool-size>5</connection-pool-size>
+    <auto-reconnect>true</auto-reconnect>
+    <timezone>America/New_York</timezone>
+  </mysql>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- RECEDING TEMPERS MODEL CONFIG                                          -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <receding-tempers>
+    <model>harmonic-decay</model>
+    <initial-temper-index>1.0</initial-temper-index>
+    <decay-rate>0.05</decay-rate>
+    <harmonic-grease-default>0.5</harmonic-grease-default>
+    <data-directory>data/receding-tempers/</data-directory>
+  </receding-tempers>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- KEYWORDS DURATION MANAGEMENT                                           -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <keywords>
+    <default-duration-days>30</default-duration-days>
+    <max-duration-days>365</max-duration-days>
+    <auto-deactivate>true</auto-deactivate>
+    <data-directory>data/keywords/</data-directory>
+  </keywords>
+
+</defined-module>

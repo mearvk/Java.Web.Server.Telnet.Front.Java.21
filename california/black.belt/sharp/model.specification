@@ -1,0 +1,120 @@
+MODEL SPECIFICATION — BLACK BELT ETHICAL AUDITOR (BBEA) v2.0
+Engine: Ollama / Llama 3.1 (LoRA fine-tune)
+Date: 2026-06-16
+═══════════════════════════════════════════════════════════════════════════════
+
+1. MODEL IDENTITY
+─────────────────
+  Name         : Black Belt Ethical Auditor (BBEA)
+  Base         : meta-llama/Llama-3.1-8B-Instruct (dev) / 70B-Instruct (prod)
+  Runtime      : Ollama (local) or vLLM (production API)
+  Quantization : Q4_K_M (8B local) / FP16 (70B production)
+  Adapter      : LoRA rank 16, alpha 32, dropout 0.05
+  Target layers: q_proj, v_proj, k_proj, o_proj
+
+2. SCOPE OF RECOGNITION — U.S. BELT LEGITIMACY
+───────────────────────────────────────────────
+  Tier 1 — Recognized National/International:
+    • World Taekwondo / Kukkiwon
+    • USA Judo / USJF / IJF
+    • IBJJF Brazilian Jiu-Jitsu
+    • WKF / JKA Shotokan Karate
+
+  Tier 2 — School or Federation Specific:
+    • Tang Soo Do (various federations)
+    • Hapkido (KHF, IHF)
+    • American Kenpo (IKKA lineage)
+    • Independent school certifications
+
+  Tier 3 — Military Combatives (Non-Civilian):
+    • MCMAP (Marine Corps Martial Arts Program)
+    • MACP (Modern Army Combatives Program)
+    • SOCOM / Special Forces combatives variants
+    Tagged as combatives — not civilian belt equivalents.
+
+3. TRAINING PIPELINE
+────────────────────
+  Step 1: Base model download via Ollama
+          $ ollama pull llama3.1:8b
+
+  Step 2: Dataset preparation
+          Convert dataset.us.jsonl to chat-ml format:
+            {"messages": [{"role":"system","content":"..."},
+                          {"role":"user","content":"<input JSON>"},
+                          {"role":"assistant","content":"<output JSON>"}]}
+
+  Step 3: Fine-tune with LoRA (using axolotl, llama-factory, or unsloth)
+          Config:
+            base_model: meta-llama/Llama-3.1-8B-Instruct
+            lora_r: 16
+            lora_alpha: 32
+            lora_target_modules: [q_proj, v_proj, k_proj, o_proj]
+            epochs: 3
+            learning_rate: 2e-4
+            batch_size: 4
+            gradient_accumulation_steps: 4
+            warmup_ratio: 0.03
+            max_seq_length: 4096
+
+  Step 4: Merge adapter + quantize to GGUF Q4_K_M
+          $ python llama.cpp/convert.py --outtype q4_k_m
+
+  Step 5: Deploy via Ollama Modelfile
+          FROM ./bbea-q4_k_m.gguf
+          PARAMETER temperature 0.3
+          PARAMETER top_p 0.9
+          PARAMETER num_ctx 4096
+          SYSTEM "<system prompt>"
+
+  Step 6: Validate against hold-out set (10% of dataset.us.jsonl)
+          Metrics: closure_status exact-match, conduct_score F1, JSON validity
+
+4. HARDWARE REQUIREMENTS
+────────────────────────
+  Development (8B Q4):
+    • 1x GPU with 8GB+ VRAM (RTX 3070 minimum, RTX 4090 ideal)
+    • 16GB system RAM
+    • Ollama runtime
+
+  Production (70B FP16):
+    • 2x A100 80GB or 4x A6000 48GB
+    • vLLM or TGI serving
+    • 128GB system RAM
+
+  Fine-tuning (LoRA):
+    • 1x RTX 4090 24GB (8B model, batch 4)
+    • 1x A100 80GB (70B model, batch 1 + gradient checkpointing)
+
+5. DEPLOYMENT PROFILE
+─────────────────────
+  Intended Users:
+    • Martial arts schools and instructors
+    • Compliance auditors and ethics boards
+    • Military combatives evaluators
+    • Certification bodies (WT, IBJJF, USA Judo)
+
+  Output Use Cases:
+    • Rank maintenance and promotion reviews
+    • Conduct investigations
+    • Ethical compliance audits
+    • Legal-alignment assessments
+    • Annual ethics statement verification
+
+  API Integration:
+    • Ollama local: POST http://localhost:11434/api/generate
+    • Production: POST https://api.internal/v1/bbea/evaluate
+    • Java integration: source/ai/AIProctorModule.java calls BBEA via HTTP
+
+6. SIX SIGMA / MILITARY CPI EXTENSION
+──────────────────────────────────────
+  The model also evaluates Six Sigma Black Belt credential validity under:
+    • ASQ CSSBB 3-year recertification rules (18 RUs or re-exam)
+    • IASSC credential maintenance
+    • U.S. DoD Continuous Process Improvement (CPI) guidelines
+    • DMAIC Control Plan compliance (12-month minimum monitoring)
+
+  Violations flagged:
+    • Expired credentials (no RUs filed)
+    • Truncated Control Plans (fiscal year gaming)
+    • False official statements (UCMJ Art. 107 risk flag)
+    • Dereliction of duty (UCMJ Art. 92 risk flag)

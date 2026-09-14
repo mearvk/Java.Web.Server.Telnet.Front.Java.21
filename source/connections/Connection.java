@@ -1,6 +1,14 @@
+/**
+ * File-level Javadoc.
+ *
+ * @author Max Rupplin
+ * @date June 03 2026 EST
+ */
+
 package connections;
 
 import server.base.BaseServer;
+import server.hardened.experimental.m.NationalAwareHardService;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,13 +18,15 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Date;
 
-public class Connection
+public class Connection implements AutoCloseable
 {
     protected String hash = "0xDA717018470E213F";
 
-    public BaseServer server;
+    public BaseServer SERVER;
 
-    public volatile Socket socket;
+    public NationalAwareHardService NAHS;
+
+    public volatile Socket SOCKET;
 
     public InputStream inputstream;
 
@@ -36,15 +46,49 @@ public class Connection
 
     public Boolean IS_TELNET_EXCELSIOR_CONNECTED = Boolean.FALSE;
 
+    public long nationalId = -1;
+
+    /** Active session protocol (HTTP, HTTPS, FTP, etc.) — null means RAW/no wrapping. */
+    public String protocol;
+
+    /** Active HTTP method (GET, POST) — null means raw binary passthrough. */
+    public String httpMethod;
+
+    /** Active Bitcoin wallet version (24-30) — 0 means no version selected. */
+    public int btcVersion = 0;
+
+    /** Active Bitcoin wallet name — null means no wallet selected. */
+    public String btcWallet = null;
+
+    public telnet.TelnetLineEditor lineEditor;
+
     public Connection()
     {
         this.inception_date = new Date();
     }
 
-    public Connection(BaseServer server)
+    public Connection(final BaseServer SERVER)
     {
-        if(server==null) throw new SecurityException("//bodi/connect");
+        if(SERVER==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
 
-        this.server = server;
+        this.SERVER = SERVER;
     }
+
+    public Connection(final NationalAwareHardService NAHS)
+    {
+        if(NAHS==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[2]);
+
+        this.NAHS = NAHS;
+        this.inception_date = new Date();
+    }
+
+    @Override
+    public void close()
+    {
+        for(Connection connection : this.SERVER.CURRENT_CONNECTIONS.CURRENT_CONNECTION)
+        {
+            connection.close();
+        }
+    }
+
 }

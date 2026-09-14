@@ -1,0 +1,22 @@
+{
+  "id": "002",
+  "style": "Taekwondo WT",
+  "belt_level": "2nd Dan Black Belt",
+  "jurisdiction": "United States",
+  "legitimacy": "recognized_national_or_international",
+  "organization": "Kukkiwon",
+  "conduct_observations": [
+    "Leads classes without coercion",
+    "Encourages equal treatment of all students"
+  ],
+  "ethical_responses": [
+    "Explicitly rejects discriminatory language",
+    "Affirms right to refuse unethical orders"
+  ],
+  "audit_result": {
+    "conduct_score": "low",
+    "risk_rating": "low",
+    "closure_status": "closed",
+    "summary": "Second-dan practitioner demonstrates strong leadership without coercion, explicitly rejects discrimination, and maintains ethical alignment. Rank maintenance recommended."
+  }
+}

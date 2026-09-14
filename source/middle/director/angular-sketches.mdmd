@@ -1,0 +1,9 @@
+# .mdmd — Angular Math Roughing Sketch
+# GamesAsGoals Module: Submission Template
+# Reviewable for composure value and trade value
+#
+# Fields: sketchId, submitterId, iq, angles[], formulation, tradeValue
+#
+# Example entry:
+# SKETCH-001, 12345678, 152, [30,60,90], "triangle decomposition for grain review", 0.85
+#

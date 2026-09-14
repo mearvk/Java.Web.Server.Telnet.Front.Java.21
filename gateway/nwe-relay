@@ -1,0 +1,602 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0
+#
+# nwe-relay — Central Relay Console for NitroWebExpress Home Deployments
+#
+# Runs on a public-facing server. Provides:
+#   1. Registration endpoint for home instances (direct or relay mode)
+#   2. Reverse tunnel acceptance for relay-mode instances
+#   3. HTTP routing — maps subdomains/paths to home instances
+#   4. Probe endpoint — lets gateways verify their own reachability
+#   5. Directory — lists active home instances
+#
+# Architecture:
+#   ┌─────────────────────────────────────────────────┐
+#   │  INTERNET (user's browser)                       │
+#   │  https://myserver.relay.mearvk.us/              │
+#   └──────────────────┬──────────────────────────────┘
+#                      │ port 443
+#   ┌──────────────────▼──────────────────────────────┐
+#   │  NWE-RELAY (this server)                         │
+#   │  nginx reverse proxy                             │
+#   │                                                  │
+#   │  ┌──────────────────────────────────────────┐   │
+#   │  │ Direct Mode instances:                    │   │
+#   │  │   proxy_pass → home_ip:port (public IP)  │   │
+#   │  └──────────────────────────────────────────┘   │
+#   │                                                  │
+#   │  ┌──────────────────────────────────────────┐   │
+#   │  │ Relay Mode instances:                     │   │
+#   │  │   proxy_pass → localhost:tunnel_port      │   │
+#   │  │   (reverse SSH tunnel from home)          │   │
+#   │  └──────────────────────────────────────────┘   │
+#   └─────────────────────────────────────────────────┘
+#
+# Usage:
+#   nwe-relay start           — Start relay services
+#   nwe-relay stop            — Stop relay services
+#   nwe-relay status          — Show registered instances
+#   nwe-relay list            — List all active home instances
+#   nwe-relay probe <ip:port> — Probe an IP:port for reachability
+#
+# Requires: nginx, sshd (for tunnels), socat or netcat (for probes)
+#
+# Copyright (C) 2026 MEARVK LLC
+# Author: Maximilian Eric Alexander Rupplin von Keffikon
+
+set -euo pipefail
+
+# ============================================================
+# Configuration
+# ============================================================
+
+RELAY_CONF="/etc/nwe/relay.conf"
+RELAY_DIR="/var/lib/nwe/relay"
+REGISTRY_DIR="$RELAY_DIR/instances"
+NGINX_CONF_DIR="/etc/nginx/sites-enabled"
+NGINX_NWE_CONF="/etc/nginx/sites-available/nwe-relay.conf"
+TUNNEL_USER="tunnel"
+TUNNEL_PORT=7444
+API_PORT=7443
+LOG_FILE="/var/log/nwe/relay.log"
+PID_FILE="$RELAY_DIR/relay.pid"
+
+# Domain for relay subdomains
+RELAY_DOMAIN="relay.mearvk.us"
+
+# Port range for relay tunnels (each instance gets a port)
+TUNNEL_PORT_START=10000
+TUNNEL_PORT_END=10999
+
+# ============================================================
+# Logging
+# ============================================================
+
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [$1] $2" >> "$LOG_FILE"
+    echo "[$1] $2"
+}
+
+# ============================================================
+# Instance Registry
+# ============================================================
+
+register_instance() {
+    local instance_id="$1"
+    local instance_name="$2"
+    local mode="$3"
+    local external_ip="$4"
+    local ports="$5"
+    local pubkey="$6"
+
+    mkdir -p "$REGISTRY_DIR/$instance_id"
+
+    local inst_dir="$REGISTRY_DIR/$instance_id"
+
+    # Store instance data
+    cat > "$inst_dir/info.json" << EOF
+{
+    "instance_id": "$instance_id",
+    "instance_name": "$instance_name",
+    "mode": "$mode",
+    "external_ip": "$external_ip",
+    "ports": [$ports],
+    "registered_at": "$(date -Iseconds)",
+    "last_seen": "$(date -Iseconds)",
+    "active": true
+}
+EOF
+
+    # Assign subdomain
+    local subdomain
+    subdomain=$(echo "$instance_name" | tr '[:upper:]' '[:lower:]' | tr -dc 'a-z0-9-' | head -c 32)
+    [ -z "$subdomain" ] && subdomain="inst-${instance_id:0:8}"
+    echo "$subdomain" > "$inst_dir/subdomain"
+
+    local assigned_host="${subdomain}.${RELAY_DOMAIN}"
+    echo "$assigned_host" > "$inst_dir/assigned_host"
+
+    # Mode-specific setup
+    case "$mode" in
+        direct)
+            echo "$external_ip" > "$inst_dir/target_ip"
+            # Nginx config points directly to the home IP
+            generate_nginx_direct "$instance_id" "$subdomain" "$external_ip" "$ports"
+            ;;
+        relay)
+            # Assign a tunnel port
+            local tunnel_port
+            tunnel_port=$(assign_tunnel_port "$instance_id")
+            echo "$tunnel_port" > "$inst_dir/tunnel_port"
+
+            # Store SSH pubkey for tunnel auth
+            if [ -n "$pubkey" ]; then
+                local auth_keys="/home/$TUNNEL_USER/.ssh/authorized_keys"
+                # Add key with forced tunnel command
+                local key_entry="command=\"/bin/true\",no-pty,no-agent-forwarding,no-X11-forwarding $pubkey"
+                if ! grep -q "$instance_id" "$auth_keys" 2>/dev/null; then
+                    echo "$key_entry" >> "$auth_keys"
+                fi
+            fi
+
+            # Nginx config points to localhost:tunnel_port
+            generate_nginx_relay "$instance_id" "$subdomain" "$tunnel_port" "$ports"
+            ;;
+    esac
+
+    # Reload nginx
+    nginx -t >> "$LOG_FILE" 2>&1 && nginx -s reload >> "$LOG_FILE" 2>&1
+
+    log "INFO" "Registered: $instance_name ($instance_id) mode=$mode host=$assigned_host"
+
+    # Return registration response
+    echo "{\"status\":\"ok\",\"host\":\"$assigned_host\",\"mode\":\"$mode\"}"
+}
+
+assign_tunnel_port() {
+    local instance_id="$1"
+
+    # Check if already assigned
+    if [ -f "$REGISTRY_DIR/$instance_id/tunnel_port" ]; then
+        cat "$REGISTRY_DIR/$instance_id/tunnel_port"
+        return
+    fi
+
+    # Find next available port
+    local port=$TUNNEL_PORT_START
+    while [ $port -le $TUNNEL_PORT_END ]; do
+        local in_use=false
+        for dir in "$REGISTRY_DIR"/*/; do
+            if [ -f "${dir}tunnel_port" ] && [ "$(cat "${dir}tunnel_port")" = "$port" ]; then
+                in_use=true
+                break
+            fi
+        done
+        if [ "$in_use" = "false" ]; then
+            echo "$port"
+            return
+        fi
+        port=$((port + 1))
+    done
+
+    log "ERROR" "No tunnel ports available ($TUNNEL_PORT_START-$TUNNEL_PORT_END exhausted)"
+    echo "0"
+}
+
+# ============================================================
+# Nginx Configuration Generation
+# ============================================================
+
+generate_nginx_direct() {
+    local instance_id="$1"
+    local subdomain="$2"
+    local target_ip="$3"
+    local ports="$4"
+
+    # Primary port (HTTP)
+    local primary_port
+    primary_port=$(echo "$ports" | tr ',' '\n' | head -1)
+
+    cat > "$NGINX_CONF_DIR/nwe-${subdomain}.conf" << EOF
+# NWE Relay — Direct Mode: $subdomain → $target_ip
+# Instance: $instance_id
+# Generated: $(date -Iseconds)
+
+server {
+    listen 80;
+    server_name ${subdomain}.${RELAY_DOMAIN};
+
+    location / {
+        proxy_pass http://${target_ip}:${primary_port};
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header X-NWE-Instance $instance_id;
+
+        # WebSocket support
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        # Timeouts for long-lived connections (telnet)
+        proxy_connect_timeout 10s;
+        proxy_send_timeout 300s;
+        proxy_read_timeout 300s;
+    }
+
+    # Health check endpoint
+    location /relay-health {
+        return 200 '{"instance":"$instance_id","mode":"direct","target":"$target_ip"}';
+        add_header Content-Type application/json;
+    }
+}
+EOF
+}
+
+generate_nginx_relay() {
+    local instance_id="$1"
+    local subdomain="$2"
+    local tunnel_port="$3"
+    local ports="$4"
+
+    cat > "$NGINX_CONF_DIR/nwe-${subdomain}.conf" << EOF
+# NWE Relay — Tunnel Mode: $subdomain → localhost:$tunnel_port
+# Instance: $instance_id
+# Generated: $(date -Iseconds)
+
+server {
+    listen 80;
+    server_name ${subdomain}.${RELAY_DOMAIN};
+
+    location / {
+        proxy_pass http://127.0.0.1:${tunnel_port};
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header X-NWE-Instance $instance_id;
+
+        # WebSocket support
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        # Timeouts
+        proxy_connect_timeout 10s;
+        proxy_send_timeout 300s;
+        proxy_read_timeout 300s;
+    }
+
+    # Health check endpoint
+    location /relay-health {
+        return 200 '{"instance":"$instance_id","mode":"relay","tunnel_port":$tunnel_port}';
+        add_header Content-Type application/json;
+    }
+}
+EOF
+}
+
+# ============================================================
+# API Server (lightweight — handles registration + probes)
+# ============================================================
+
+start_api_server() {
+    log "INFO" "Starting relay API server on port $API_PORT..."
+
+    # Use socat + bash for a lightweight API
+    # In production, replace with a proper Go/Rust/Java service
+
+    while true; do
+        socat -T 10 TCP-LISTEN:${API_PORT},reuseaddr,fork \
+            EXEC:"$0 _handle_request" 2>/dev/null || {
+            log "WARN" "API server died, restarting in 5s..."
+            sleep 5
+        }
+    done &
+
+    echo $! > "$RELAY_DIR/api.pid"
+    log "INFO" "API server started (PID $!)"
+}
+
+# Internal: handle a single HTTP request (called by socat)
+_handle_request() {
+    # Read HTTP request
+    local method="" path="" line=""
+    read -r line
+    method=$(echo "$line" | awk '{print $1}')
+    path=$(echo "$line" | awk '{print $2}')
+
+    # Read headers (skip)
+    local content_length=0
+    while read -r line; do
+        line="${line%%$'\r'}"
+        [ -z "$line" ] && break
+        if echo "$line" | grep -qi "^content-length:"; then
+            content_length=$(echo "$line" | awk '{print $2}')
+        fi
+    done
+
+    # Read body
+    local body=""
+    if [ "$content_length" -gt 0 ] 2>/dev/null; then
+        body=$(head -c "$content_length")
+    fi
+
+    # Route
+    local response=""
+    local status="200 OK"
+
+    case "$path" in
+        /api/register)
+            if [ "$method" = "POST" ]; then
+                # Parse JSON body (basic extraction)
+                local iid iname imode iip iports ipubkey
+                iid=$(echo "$body" | grep -o '"instance_id"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)
+                iname=$(echo "$body" | grep -o '"instance_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)
+                imode=$(echo "$body" | grep -o '"mode"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)
+                iip=$(echo "$body" | grep -o '"external_ip"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)
+                iports=$(echo "$body" | grep -o '"ports"[[:space:]]*:[[:space:]]*\[[^]]*\]' | grep -o '\[.*\]' | tr -d '[] ')
+                ipubkey=$(echo "$body" | grep -o '"pubkey"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)
+
+                if [ -n "$iid" ] && [ -n "$imode" ]; then
+                    response=$(register_instance "$iid" "$iname" "$imode" "$iip" "$iports" "$ipubkey")
+                else
+                    status="400 Bad Request"
+                    response='{"error":"missing instance_id or mode"}'
+                fi
+            else
+                status="405 Method Not Allowed"
+                response='{"error":"POST required"}'
+            fi
+            ;;
+
+        /api/probe*)
+            # Extract ip and port from query string
+            local probe_ip probe_port
+            probe_ip=$(echo "$path" | grep -o 'ip=[^&]*' | cut -d= -f2)
+            probe_port=$(echo "$path" | grep -o 'port=[^&]*' | cut -d= -f2)
+
+            if [ -n "$probe_ip" ] && [ -n "$probe_port" ]; then
+                # Attempt TCP connection
+                if timeout 3 bash -c "echo '' > /dev/tcp/$probe_ip/$probe_port" 2>/dev/null; then
+                    response="{\"reachable\":true,\"ip\":\"$probe_ip\",\"port\":$probe_port}"
+                else
+                    response="{\"reachable\":false,\"ip\":\"$probe_ip\",\"port\":$probe_port}"
+                fi
+            else
+                status="400 Bad Request"
+                response='{"error":"ip and port required"}'
+            fi
+            ;;
+
+        /api/instances)
+            # List all active instances
+            response='{"instances":['
+            local first=true
+            for dir in "$REGISTRY_DIR"/*/; do
+                [ -d "$dir" ] || continue
+                if [ -f "${dir}info.json" ]; then
+                    $first || response="${response},"
+                    response="${response}$(cat "${dir}info.json")"
+                    first=false
+                fi
+            done
+            response="${response}]}"
+            ;;
+
+        /api/health)
+            local count
+            count=$(find "$REGISTRY_DIR" -maxdepth 1 -type d 2>/dev/null | wc -l)
+            count=$((count - 1))
+            response="{\"status\":\"ok\",\"instances\":$count,\"uptime\":\"$(uptime -p 2>/dev/null || echo 'unknown')\"}"
+            ;;
+
+        *)
+            status="404 Not Found"
+            response='{"error":"not found"}'
+            ;;
+    esac
+
+    # Send HTTP response
+    local content_len=${#response}
+    printf "HTTP/1.1 %s\r\n" "$status"
+    printf "Content-Type: application/json\r\n"
+    printf "Content-Length: %d\r\n" "$content_len"
+    printf "Connection: close\r\n"
+    printf "\r\n"
+    printf "%s" "$response"
+}
+
+# ============================================================
+# Setup — First-time relay server configuration
+# ============================================================
+
+cmd_setup() {
+    log "INFO" "=== NWE Relay — First-time setup ==="
+
+    mkdir -p "$RELAY_DIR" "$REGISTRY_DIR" "$(dirname "$LOG_FILE")"
+
+    # Create tunnel user
+    if ! id "$TUNNEL_USER" >/dev/null 2>&1; then
+        useradd -r -m -s /bin/bash "$TUNNEL_USER"
+        mkdir -p "/home/$TUNNEL_USER/.ssh"
+        touch "/home/$TUNNEL_USER/.ssh/authorized_keys"
+        chmod 700 "/home/$TUNNEL_USER/.ssh"
+        chmod 600 "/home/$TUNNEL_USER/.ssh/authorized_keys"
+        chown -R "$TUNNEL_USER:$TUNNEL_USER" "/home/$TUNNEL_USER/.ssh"
+        log "INFO" "Created tunnel user: $TUNNEL_USER"
+    fi
+
+    # Configure SSHD for tunnel connections
+    if ! grep -q "^# NWE Relay Tunnel" /etc/ssh/sshd_config 2>/dev/null; then
+        cat >> /etc/ssh/sshd_config << EOF
+
+# NWE Relay Tunnel Configuration
+Match User $TUNNEL_USER
+    AllowTcpForwarding remote
+    GatewayPorts yes
+    X11Forwarding no
+    AllowAgentForwarding no
+    PermitTTY no
+    ForceCommand /bin/true
+EOF
+        systemctl reload sshd 2>/dev/null || true
+        log "INFO" "SSHD configured for tunnel user"
+    fi
+
+    # Install nginx if not present
+    if ! command -v nginx >/dev/null 2>&1; then
+        apt-get update -qq
+        apt-get install -y nginx socat
+        log "INFO" "nginx + socat installed"
+    fi
+
+    # Base nginx config for relay
+    cat > "$NGINX_NWE_CONF" << EOF
+# NWE Relay — Base Configuration
+# Individual instance configs are generated in sites-enabled/
+
+# Default server for the relay domain
+server {
+    listen 80 default_server;
+    server_name *.${RELAY_DOMAIN} ${RELAY_DOMAIN};
+
+    # Directory listing of active instances
+    location / {
+        return 200 '<!DOCTYPE html><html><head><title>NWE Relay</title></head><body>
+<h1>NitroWebExpress Relay Console</h1>
+<p>Active home instances are accessible via subdomain:</p>
+<p><code>https://&lt;instance-name&gt;.${RELAY_DOMAIN}/</code></p>
+<p>API: <a href="/api/instances">/api/instances</a> | <a href="/api/health">/api/health</a></p>
+</body></html>';
+        add_header Content-Type text/html;
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:${API_PORT}/api/;
+        proxy_set_header X-Real-IP \$remote_addr;
+    }
+}
+EOF
+
+    ln -sf "$NGINX_NWE_CONF" "$NGINX_CONF_DIR/nwe-relay.conf" 2>/dev/null || true
+    nginx -t && nginx -s reload 2>/dev/null || systemctl start nginx
+
+    log "INFO" "Setup complete. Start with: nwe-relay start"
+}
+
+# ============================================================
+# Commands
+# ============================================================
+
+cmd_start() {
+    mkdir -p "$RELAY_DIR" "$REGISTRY_DIR" "$(dirname "$LOG_FILE")"
+
+    if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+        echo "Relay already running (PID $(cat "$PID_FILE"))"
+        exit 0
+    fi
+
+    log "INFO" "Starting NWE Relay..."
+
+    # Start API server
+    start_api_server
+
+    # Ensure nginx is running
+    systemctl start nginx 2>/dev/null || nginx
+
+    echo $$ > "$PID_FILE"
+    log "INFO" "NWE Relay started"
+    echo "NWE Relay running"
+    echo "  API:    port $API_PORT"
+    echo "  Tunnel: port $TUNNEL_PORT (SSH)"
+    echo "  HTTP:   port 80 (nginx)"
+    echo "  Log:    $LOG_FILE"
+}
+
+cmd_stop() {
+    if [ -f "$RELAY_DIR/api.pid" ]; then
+        kill "$(cat "$RELAY_DIR/api.pid")" 2>/dev/null || true
+        rm -f "$RELAY_DIR/api.pid"
+    fi
+    rm -f "$PID_FILE"
+    echo "NWE Relay stopped"
+}
+
+cmd_status() {
+    echo "╔══════════════════════════════════════════════════════════════╗"
+    echo "║  NWE Relay Console — Status                                 ║"
+    echo "╚══════════════════════════════════════════════════════════════╝"
+    echo ""
+
+    # Count instances
+    local total=0 direct=0 relay=0
+    for dir in "$REGISTRY_DIR"/*/; do
+        [ -d "$dir" ] || continue
+        total=$((total + 1))
+        local mode
+        mode=$(grep -o '"mode"[[:space:]]*:[[:space:]]*"[^"]*"' "${dir}info.json" 2>/dev/null | cut -d'"' -f4)
+        case "$mode" in
+            direct) direct=$((direct + 1)) ;;
+            relay)  relay=$((relay + 1)) ;;
+        esac
+    done
+
+    echo "  Instances: $total total ($direct direct, $relay relay)"
+    echo "  Domain:    *.${RELAY_DOMAIN}"
+    echo "  API port:  $API_PORT"
+    echo "  Tunnel:    $TUNNEL_PORT"
+    echo ""
+
+    # List instances
+    if [ $total -gt 0 ]; then
+        printf "  %-20s %-8s %-30s %-16s\n" "Name" "Mode" "Host" "IP"
+        printf "  %-20s %-8s %-30s %-16s\n" "----" "----" "----" "--"
+        for dir in "$REGISTRY_DIR"/*/; do
+            [ -d "$dir" ] || continue
+            local name mode host ip
+            name=$(grep -o '"instance_name"[[:space:]]*:[[:space:]]*"[^"]*"' "${dir}info.json" 2>/dev/null | cut -d'"' -f4)
+            mode=$(grep -o '"mode"[[:space:]]*:[[:space:]]*"[^"]*"' "${dir}info.json" 2>/dev/null | cut -d'"' -f4)
+            host=$(cat "${dir}assigned_host" 2>/dev/null || echo "-")
+            ip=$(grep -o '"external_ip"[[:space:]]*:[[:space:]]*"[^"]*"' "${dir}info.json" 2>/dev/null | cut -d'"' -f4)
+            printf "  %-20s %-8s %-30s %-16s\n" "$name" "$mode" "$host" "${ip:-tunnel}"
+        done
+    fi
+    echo ""
+}
+
+cmd_list() {
+    cmd_status
+}
+
+# ============================================================
+# Main
+# ============================================================
+
+case "${1:-help}" in
+    start)          cmd_start ;;
+    stop)           cmd_stop ;;
+    status)         cmd_status ;;
+    list)           cmd_list ;;
+    setup)          cmd_setup ;;
+    _handle_request) _handle_request ;;
+    help|--help|-h)
+        echo "NWE Relay — Central Console for Home Deployments"
+        echo ""
+        echo "Usage: nwe-relay <command>"
+        echo ""
+        echo "Commands:"
+        echo "  setup    First-time server setup (nginx, tunnel user, SSHD config)"
+        echo "  start    Start relay services (API + nginx)"
+        echo "  stop     Stop relay services"
+        echo "  status   Show registered instances"
+        echo "  list     List all active home instances"
+        echo ""
+        echo "Runs on a public-facing server. Home instances connect via nwe-gateway."
+        ;;
+    *)
+        echo "Unknown command: $1 (try: nwe-relay help)"
+        exit 1
+        ;;
+esac

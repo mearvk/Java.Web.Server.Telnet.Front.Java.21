@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JapanSignalServer Configuration
+    ================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Japanese news sources, signals, and media configuration.
+-->
+<japan-config>
+
+    <sources>
+        <source id="nhk" url="https://www3.nhk.or.jp/nhkworld/" category="news" lang="ja" />
+        <source id="mainichi" url="https://mainichi.jp/english/" category="news" lang="ja" />
+        <source id="asahi" url="https://www.asahi.com/ajw/" category="news" lang="ja" />
+        <source id="japantimes" url="https://www.japantimes.co.jp" category="news" lang="en" />
+        <source id="nikkei" url="https://asia.nikkei.com" category="finance" lang="en" />
+        <source id="kyodo" url="https://english.kyodonews.net" category="news" lang="en" />
+        <source id="tokyostock" url="https://www.jpx.co.jp/english/" category="finance" lang="en" />
+        <source id="jma" url="https://www.jma.go.jp/jma/indexe.html" category="weather" lang="en" />
+    </sources>
+
+    <signals>
+        <signal id="nikkei225" url="https://asia.nikkei.com/Markets" type="market" />
+        <signal id="jpyusd" url="https://www.boj.or.jp/en/" type="currency" />
+        <signal id="earthquake" url="https://www.jma.go.jp/bosai/map.html" type="seismic" />
+    </signals>
+
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>webp</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>aac</format>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+        <documents>
+            <format>pdf</format>
+            <format>xml</format>
+            <format>json</format>
+            <format>csv</format>
+        </documents>
+    </acceptable-media>
+
+    <database>
+        <name>nwe_japan</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <username>nwe</username>
+        <password>nwe_receiver_pass</password>
+    </database>
+
+    <!-- AI Integrative — Ready and Perfect -->
+    <ai-integrative>
+        <enabled>true</enabled>
+        <ready>true</ready>
+        <perfect>true</perfect>
+        <shared-engine>international.radio.AIIntegrativeEngine</shared-engine>
+        <country-id>japan</country-id>
+        <feedback-loop>true</feedback-loop>
+        <scouting>true</scouting>
+        <training>true</training>
+        <scoring>true</scoring>
+        <verdict-housing-trust>0.95</verdict-housing-trust>
+        <verdict-local-trust>0.80</verdict-local-trust>
+        <verdict-internet-trust>0.40</verdict-internet-trust>
+        <gain-control>true</gain-control>
+        <scouting-output>source/international/radio/japan/scouting/</scouting-output>
+        <review-output>source/international/radio/japan/reviews/</review-output>
+        <max-scouting-mb>200</max-scouting-mb>
+    </ai-integrative>
+
+</japan-config>

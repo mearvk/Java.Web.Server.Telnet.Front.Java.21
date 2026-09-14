@@ -1,18 +1,19 @@
 package telnet;
 
 import commons.CommonRails;
-import server.nitro.WebExpress;
-//import sim.stochastic;
+import commons.formatting.LineFormatter;
+import commons.printing.StartsCanonical;
+import exceptions.ExceptionHandler;
+import server.webexpress.WebExpress;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Date;
 
 public class TelnetCommunicationProxy
 {
-    protected WebExpress web_express;
+    protected WebExpress WEB_EXPRESS;
 
     protected ProcessBuilder process_builder = new ProcessBuilder();
 
@@ -24,44 +25,58 @@ public class TelnetCommunicationProxy
 
     public BufferedReader reader;
 
-    public TelnetProxyCommunicator telnet_proxy_communicator;
+    public TelnetProxyCommunicator TELNET_COMMUNICATION_PROXY;
 
-    public TelnetOutputBuilder output_builder;
+    public TelnetOutputBuilder OUTPUT_BUILDER;
 
-    public TelnetInputBuilder input_builder;
+    public TelnetInputBuilder INPUT_BUILDER;
 
-    public TelnetCommunicationProxy(WebExpress web_express)
+    public TelnetProxyLivenessMonitor liveness_monitor;
+
+    @StartsCanonical
+    public TelnetCommunicationProxy(final WebExpress WEB_EXPRESS)
     {
-        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Communicator starts .");
+        CommonRails.printSystemComponent(this, this.hashCode(),". WebExpress Telnet Communicator " + LineFormatter.starts() + " .");
 
-        this.web_express = web_express;
+        this.WEB_EXPRESS = WEB_EXPRESS;
 
-        this.process_builder = this.web_express.TELNET_INSTALLER.process_builder;
+        this.process_builder = this.WEB_EXPRESS.TELNET_INSTALLER.process_builder;
 
-        this.process = this.web_express.TELNET_INSTALLER.process;
+        this.process = this.WEB_EXPRESS.TELNET_INSTALLER.process;
 
-        this.writer = this.web_express.TELNET_INSTALLER.writer;
+        this.writer = this.WEB_EXPRESS.TELNET_INSTALLER.writer;
 
-        this.reader = this.web_express.TELNET_INSTALLER.reader;
+        this.reader = this.WEB_EXPRESS.TELNET_INSTALLER.reader;
 
-        this.telnet_proxy_communicator = new TelnetProxyCommunicator(this);
+        this.TELNET_COMMUNICATION_PROXY = new TelnetProxyCommunicator(this);
 
-        this.output_builder = new TelnetOutputBuilder(this);
+        this.OUTPUT_BUILDER = new TelnetOutputBuilder(this);
 
-        this.input_builder = new TelnetInputBuilder(this);
+        this.INPUT_BUILDER = new TelnetInputBuilder(this);
 
-        this.output_builder.start();
+        this.OUTPUT_BUILDER.start();
 
-        this.input_builder.start();
+        this.INPUT_BUILDER.start();
+
+        this.liveness_monitor = new TelnetProxyLivenessMonitor(this);
+
+        this.liveness_monitor.start();
+    }
+
+    /** Returns true when the backing process is alive and the writer pipe is open. */
+    public boolean isProxyAlive()
+    {
+        if (this.process == null || !this.process.isAlive()) return false;
+        return this.writer != null;
     }
 
     public static class TelnetProxyCommunicator extends Thread
     {
-        protected TelnetCommunicationProxy telnet_communication_proxy;
+        protected TelnetCommunicationProxy TELNET_COMMUNICATION_PROXY;
 
-        public TelnetProxyCommunicator(TelnetCommunicationProxy telnet_communication_proxy)
+        public TelnetProxyCommunicator(final TelnetCommunicationProxy TELNET_COMMUNICATION_PROXY)
         {
-            this.telnet_communication_proxy = telnet_communication_proxy;
+            this.TELNET_COMMUNICATION_PROXY = TELNET_COMMUNICATION_PROXY;
         }
 
         @Override
@@ -69,62 +84,55 @@ public class TelnetCommunicationProxy
         {
             for(;;)
             {
-                StringBuffer buffer;
-
                 try
                 {
-                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
+                    final TelnetCommunicationProxy proxy = this.TELNET_COMMUNICATION_PROXY;
 
-                    final TelnetCommunicationProxy proxy = this.telnet_communication_proxy;
-
+                    // ── Inbound: read one full response from the remote process ──
+                    // readLine() blocks until a line arrives or the stream closes.
                     String line = proxy.reader.readLine();
 
-                    if(line!=null)
+                    if (line == null)
                     {
-                        message.message_buffer.append(line);
-
-                        while ( (line=proxy.reader.readLine()) !=null)
-                        {
-                            message.message_buffer.append(line);
-                        }
-
-                        proxy.input_builder.telnet_message_queue.add(message);
+                        // Stream closed — back off and let the liveness monitor reconnect
+                        CommonRails.printSystemComponent(this, this.hashCode(),
+                            ". TelnetProxyCommunicator >> remote stream closed, waiting for reconnect .");
+                        Thread.sleep(2000);
+                        continue;
                     }
+
+                    TelnetMessageQueue.Message inbound = new TelnetMessageQueue.Message();
+                    inbound.MESSAGE_BUFFER.append(line);
+
+                    // Drain any additional lines available without blocking indefinitely
+                    proxy.reader.mark(1);
+                    while (proxy.reader.ready() && (line = proxy.reader.readLine()) != null)
+                    {
+                        inbound.MESSAGE_BUFFER.append('\n').append(line);
+                        proxy.reader.mark(1);
+                    }
+
+                    proxy.INPUT_BUILDER.telnet_message_queue.add(inbound);
+
+                    // ── Outbound: re-enqueue a status ping so OUTPUT_BUILDER stays active ──
+                    TelnetMessageQueue.Message outbound = new TelnetMessageQueue.Message();
+                    outbound.PORT             = Integer.valueOf(WebExpress.REMOTE_PORT);
+                    outbound.protocol         = WebExpress.PROTOCOL;
+                    outbound.SOCKET           = null;
+                    outbound.MESSAGE_BUFFER   = new StringBuffer(); // empty — OUTPUT_BUILDER skips empties
+                    outbound.TIMESTAMP        = new java.util.Date();
+                    outbound.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
+
+                    this.TELNET_COMMUNICATION_PROXY.OUTPUT_BUILDER.TELNET_MESSAGE_QUEUE.add(outbound);
+                }
+                catch (InterruptedException ie)
+                {
+                    Thread.currentThread().interrupt();
+                    return;
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace(System.err);
-                }
-                finally
-                {
-                    buffer = null;
-                }
-
-                try
-                {
-                    TelnetMessageQueue.Message message = new TelnetMessageQueue.Message();
-
-                    message.port = Integer.valueOf(WebExpress.REMOTE_PORT);
-
-                    message.protocol = WebExpress.PROTOCOL;
-
-                    message.socket = null;
-
-                    message.message_buffer = buffer;
-
-                    message.time_stamp = new Date();
-
-                    message.internet_address = InetAddress.getByName(WebExpress.REMOTE_SITE);
-
-                    this.telnet_communication_proxy.output_builder.telnet_message_queue.add(message);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace(System.err);
-                }
-                finally
-                {
-                    CommonRails.SocketUtils.isSocketConnected(null);
+                    ExceptionHandler.dispatch(e);
                 }
             }
         }

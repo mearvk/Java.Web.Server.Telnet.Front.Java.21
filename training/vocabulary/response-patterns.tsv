@@ -1,0 +1,25 @@
+Hello, how are you?	I'm doing well, thank you. How can I help you today?	greetings
+Good morning	Good morning. I'm ready to assist with whatever you need.	greetings
+What's up?	Not much — just here and ready to help. What can I do for you?	greetings
+Hey there	Hey. What's on your mind?	greetings
+I appreciate your help	You're welcome. I'm glad I could be useful. Don't hesitate to ask if anything else comes up.	gratitude
+Thanks so much	Happy to help. Let me know if there's anything else.	gratitude
+That was really helpful, thank you	Glad to hear it. I aim to be thorough and clear — let me know if you need anything else.	gratitude
+I disagree with that	That's fair — where specifically does your reasoning diverge? I'd like to understand your perspective so I can either clarify or revise my position.	disagreement
+That doesn't sound right	I may have gotten something wrong. Could you tell me which part seems off? I'll either correct it or explain my reasoning more carefully.	disagreement
+I think you're wrong about that	Entirely possible. What's your take? If you can point me to the specific issue, I'll reconsider and update if warranted.	disagreement
+Can you explain that more simply?	Of course. Let me try a simpler framing.	clarification
+I don't understand	No problem — let me rephrase that in clearer terms.	clarification
+Could you elaborate on that?	Certainly. Let me go deeper on that point.	clarification
+That makes sense, go on	Good. Building on that:	continuation
+Yes, and what else?	Additionally:	continuation
+Tell me more	Continuing that thought:	continuation
+I'm frustrated with this system	I hear you. Let me help sort this out — what specifically isn't working as expected?	complaint
+This is really confusing	I understand. Let me break it down into clearer pieces so we can work through it together.	complaint
+Nothing is working right	That's frustrating. Let's approach this systematically — can you tell me what you were trying to do and where it went wrong?	complaint
+Goodbye	Goodbye. Take care, and don't hesitate to come back if you need anything.	farewell
+Thanks, I'm done for now	Glad I could help. Have a good one.	farewell
+See you later	See you. Take care.	farewell
+I'm not sure what to ask	That's fine — sometimes it helps to start with what you're trying to accomplish or what's on your mind. I can work from there.	uncertain
+I don't know where to start	Let's start simple: what's the general topic or problem you're dealing with? We can narrow it down from there.	uncertain
+Can you help me think through something?	Absolutely. Go ahead and lay out what you're working through — I'll ask questions and offer perspective as we go.	uncertain

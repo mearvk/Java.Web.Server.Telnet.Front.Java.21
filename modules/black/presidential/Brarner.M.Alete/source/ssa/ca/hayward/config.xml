@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>66</office-code>
+    <office-name>HAYWARD CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 500</address-2>
+    <address-3>24301 SOUTHLAND DR</address-3>
+    <city>HAYWARD</city>
+    <state>CA</state>
+    <zip-code>94545</zip-code>
+    <phone>(866) 964-5054</phone>
+    <fax>(833) 950-2734</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9545</socket-port>
+    <local-input-path>source-code/ssa/ca/hayward/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/hayward</output-dir>
+</signal-processing-config>

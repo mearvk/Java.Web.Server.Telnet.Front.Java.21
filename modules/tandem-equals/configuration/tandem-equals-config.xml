@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tandem-equals-config version="1">
+    <module>
+        <name>TandemEquals</name>
+        <port>49223</port>
+        <database>nwe_tandem_equals</database>
+        <context-path>/tandem-equals</context-path>
+        <theme>White/Red</theme>
+        <installer>Max Rupplin</installer>
+    </module>
+
+    <layers>
+        <layer id="1" name="Perception" color="#e74c3c">
+            <description>Intake signals, raw sensory data, environmental awareness</description>
+            <signal-types>sensory, data, emotional, environmental, temporal</signal-types>
+        </layer>
+        <layer id="2" name="Cognition" color="#3498db">
+            <description>Pattern recognition, logic gates, inference, memory</description>
+            <gate-types>AND, OR, XOR, NOT, NAND, PASS, THRESHOLD</gate-types>
+        </layer>
+        <layer id="3" name="Modulation" color="#f39c12">
+            <description>Gain control, bias, filtering, envelope shaping</description>
+            <modulator-types>gain, attenuation, bias, filter, envelope, limiter</modulator-types>
+            <curve-types>linear, exponential, logarithmic, sigmoid, step</curve-types>
+        </layer>
+        <layer id="4" name="Expression" color="#27ae60">
+            <description>Output actuation, decision making, control curve terminal</description>
+            <expression-types>speech, action, decision, inhibition, creation, signal</expression-types>
+            <directions>forward, reverse, lateral, hold, release</directions>
+        </layer>
+    </layers>
+
+    <control-curve>
+        <description>Complete simplex path from perception to expression</description>
+        <metrics>
+            <metric name="simplex_value">Integrated signal strength across all layers</metric>
+            <metric name="stability">Consistency over repeated evaluations (0.0–1.0)</metric>
+            <metric name="latency_ms">Time from perception intake to expression output</metric>
+            <metric name="curve_integral">Area under the control curve</metric>
+        </metrics>
+    </control-curve>
+
+    <strernary-integration>
+        <strernary-hardened>true</strernary-hardened>
+        <strernary-port>20000</strernary-port>
+        <query-prefix>TANDEM_EQUALS</query-prefix>
+    </strernary-integration>
+</tandem-equals-config>

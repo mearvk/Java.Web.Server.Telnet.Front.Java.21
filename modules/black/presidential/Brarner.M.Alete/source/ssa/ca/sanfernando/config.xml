@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>27</office-code>
+    <office-name>SAN FERNANDO CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>456 S F MISSION BLVD</address-3>
+    <city>SAN FERNANDO</city>
+    <state>CA</state>
+    <zip-code>91340</zip-code>
+    <phone>(888) 383-1599</phone>
+    <fax>(833) 950-2428</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9511</socket-port>
+    <local-input-path>source-code/ssa/ca/sanfernando/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/sanfernando</output-dir>
+</signal-processing-config>

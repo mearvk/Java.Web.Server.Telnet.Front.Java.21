@@ -1,0 +1,645 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0
+#
+# nwe-gateway — NAT Traversal Gateway for NitroWebExpress Home Deployments
+#
+# Enables home JWSTF instances to accept inbound traffic from the public
+# internet despite being behind consumer NAT/firewalls.
+#
+# Strategy (hybrid):
+#   1. Try UPnP/NAT-PMP to open ports on the home router (direct mode)
+#   2. If that fails, open a reverse tunnel to the relay server (relay mode)
+#   3. Register with the central console either way
+#   4. Health-check and re-establish periodically
+#
+# Usage:
+#   nwe-gateway start          — Start gateway daemon
+#   nwe-gateway stop           — Stop gateway daemon
+#   nwe-gateway status         — Show current mode and connectivity
+#   nwe-gateway register       — Force re-registration with relay
+#   nwe-gateway test           — Test inbound reachability
+#
+# Configuration: /etc/nwe/gateway.conf
+#
+# Copyright (C) 2026 MEARVK LLC
+# Author: Maximilian Eric Alexander Rupplin von Keffikon
+
+set -euo pipefail
+
+# ============================================================
+# Configuration
+# ============================================================
+
+CONF_FILE="/etc/nwe/gateway.conf"
+STATE_DIR="/var/lib/nwe/gateway"
+PID_FILE="$STATE_DIR/gateway.pid"
+LOG_FILE="/var/log/nwe/gateway.log"
+TUNNEL_PID_FILE="$STATE_DIR/tunnel.pid"
+
+# Defaults (overridden by gateway.conf)
+RELAY_HOST="relay.mearvk.us"
+RELAY_PORT=7443
+RELAY_REGISTER_URL="https://${RELAY_HOST}:${RELAY_PORT}/api/register"
+RELAY_TUNNEL_PORT=7444
+
+# Ports we want exposed to the internet
+EXPOSE_PORTS=(80 443 8080 23)
+
+# UPnP lease duration (seconds) — renew before expiry
+UPNP_LEASE=3600
+
+# Health check interval (seconds)
+HEALTH_INTERVAL=120
+
+# Instance identity
+INSTANCE_ID=""
+INSTANCE_SECRET=""
+INSTANCE_NAME=""
+
+# Mode tracking
+MODE=""  # "direct" or "relay"
+
+# ============================================================
+# Load Configuration
+# ============================================================
+
+load_config() {
+    mkdir -p "$STATE_DIR" "$(dirname "$LOG_FILE")"
+
+    if [ -f "$CONF_FILE" ]; then
+        # shellcheck source=/dev/null
+        source "$CONF_FILE"
+    fi
+
+    # Generate instance ID if not set
+    if [ -z "$INSTANCE_ID" ]; then
+        INSTANCE_ID=$(cat /etc/machine-id 2>/dev/null || hostname | md5sum | cut -d' ' -f1)
+    fi
+
+    # Generate instance secret if not stored
+    if [ -f "$STATE_DIR/instance.secret" ]; then
+        INSTANCE_SECRET=$(cat "$STATE_DIR/instance.secret")
+    else
+        INSTANCE_SECRET=$(openssl rand -hex 32 2>/dev/null || head -c 64 /dev/urandom | md5sum | cut -d' ' -f1)
+        echo "$INSTANCE_SECRET" > "$STATE_DIR/instance.secret"
+        chmod 600 "$STATE_DIR/instance.secret"
+    fi
+
+    # Instance name (hostname or configured)
+    if [ -z "$INSTANCE_NAME" ]; then
+        INSTANCE_NAME=$(hostname -s 2>/dev/null || echo "nwe-home")
+    fi
+}
+
+# ============================================================
+# Logging
+# ============================================================
+
+log() {
+    local level="$1"; shift
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [$level] $*" >> "$LOG_FILE"
+    [ "$level" = "ERROR" ] && echo "[$level] $*" >&2
+    [ "${VERBOSE:-0}" = "1" ] && echo "[$level] $*"
+}
+
+# ============================================================
+# External IP Detection
+# ============================================================
+
+get_external_ip() {
+    # Try multiple services for reliability
+    local ip=""
+    ip=$(curl -s --max-time 5 https://api.ipify.org 2>/dev/null) ||
+    ip=$(curl -s --max-time 5 https://ifconfig.me 2>/dev/null) ||
+    ip=$(curl -s --max-time 5 https://icanhazip.com 2>/dev/null) ||
+    ip=$(dig +short myip.opendns.com @resolver1.opendns.com 2>/dev/null)
+
+    echo "$ip"
+}
+
+get_local_ip() {
+    # Get LAN IP (for UPnP internal address)
+    ip route get 1.1.1.1 2>/dev/null | awk '{print $7; exit}' ||
+    hostname -I 2>/dev/null | awk '{print $1}'
+}
+
+# ============================================================
+# UPnP / NAT-PMP — Direct Mode
+# ============================================================
+
+# Check if UPnP tools are available
+check_upnp_tools() {
+    if command -v upnpc >/dev/null 2>&1; then
+        return 0
+    elif command -v natpmpc >/dev/null 2>&1; then
+        return 0
+    fi
+    return 1
+}
+
+# Install UPnP tools if missing
+install_upnp_tools() {
+    if ! check_upnp_tools; then
+        log "INFO" "Installing UPnP/NAT-PMP tools..."
+        if command -v apt-get >/dev/null 2>&1; then
+            sudo apt-get install -y miniupnpc 2>/dev/null || true
+        elif command -v yum >/dev/null 2>&1; then
+            sudo yum install -y miniupnpc 2>/dev/null || true
+        fi
+    fi
+}
+
+# Attempt to open a port via UPnP
+upnp_open_port() {
+    local ext_port="$1"
+    local int_port="${2:-$ext_port}"
+    local protocol="${3:-TCP}"
+    local local_ip
+    local_ip=$(get_local_ip)
+
+    if [ -z "$local_ip" ]; then
+        log "ERROR" "Cannot determine local IP for UPnP mapping"
+        return 1
+    fi
+
+    if command -v upnpc >/dev/null 2>&1; then
+        # miniupnpc
+        upnpc -e "NWE-${INSTANCE_NAME}" \
+              -a "$local_ip" "$int_port" "$ext_port" "$protocol" "$UPNP_LEASE" \
+              >> "$LOG_FILE" 2>&1
+        return $?
+    elif command -v natpmpc >/dev/null 2>&1; then
+        # NAT-PMP (Apple routers, some others)
+        natpmpc -a "$int_port" "$ext_port" "$protocol" "$UPNP_LEASE" \
+              >> "$LOG_FILE" 2>&1
+        return $?
+    fi
+    return 1
+}
+
+# Remove a UPnP port mapping
+upnp_close_port() {
+    local ext_port="$1"
+    local protocol="${2:-TCP}"
+
+    if command -v upnpc >/dev/null 2>&1; then
+        upnpc -d "$ext_port" "$protocol" >> "$LOG_FILE" 2>&1 || true
+    elif command -v natpmpc >/dev/null 2>&1; then
+        natpmpc -a 0 0 "$protocol" 0 >> "$LOG_FILE" 2>&1 || true
+    fi
+}
+
+# Try to establish direct mode via UPnP
+try_direct_mode() {
+    log "INFO" "Attempting UPnP/NAT-PMP port mapping (direct mode)..."
+
+    install_upnp_tools
+
+    if ! check_upnp_tools; then
+        log "WARN" "UPnP tools not available — cannot try direct mode"
+        return 1
+    fi
+
+    local success=0
+    local failed=0
+
+    for port in "${EXPOSE_PORTS[@]}"; do
+        if upnp_open_port "$port" "$port" "TCP"; then
+            log "INFO" "  UPnP mapped port $port → $(get_local_ip):$port"
+            success=$((success + 1))
+        else
+            log "WARN" "  UPnP failed for port $port"
+            failed=$((failed + 1))
+        fi
+    done
+
+    if [ $success -eq 0 ]; then
+        log "WARN" "UPnP: no ports mapped successfully"
+        return 1
+    fi
+
+    # Verify reachability from outside
+    local ext_ip
+    ext_ip=$(get_external_ip)
+    if [ -z "$ext_ip" ]; then
+        log "WARN" "Cannot determine external IP"
+        return 1
+    fi
+
+    log "INFO" "UPnP: $success/$((success + failed)) ports mapped. External IP: $ext_ip"
+
+    # Quick reachability test (ask relay to probe us)
+    if verify_reachability "$ext_ip" "${EXPOSE_PORTS[0]}"; then
+        log "INFO" "Direct mode CONFIRMED — reachable at $ext_ip"
+        MODE="direct"
+        echo "$ext_ip" > "$STATE_DIR/external_ip"
+        echo "direct" > "$STATE_DIR/mode"
+        return 0
+    else
+        log "WARN" "UPnP ports mapped but not reachable (double NAT or CGNAT?)"
+        # Clean up the mappings
+        for port in "${EXPOSE_PORTS[@]}"; do
+            upnp_close_port "$port"
+        done
+        return 1
+    fi
+}
+
+# ============================================================
+# Reverse Tunnel — Relay Mode
+# ============================================================
+
+start_reverse_tunnel() {
+    log "INFO" "Starting reverse tunnel to $RELAY_HOST:$RELAY_TUNNEL_PORT..."
+
+    # Kill existing tunnel if any
+    stop_reverse_tunnel
+
+    # Build SSH tunnel command for each port
+    # Each local port gets a remote port on the relay
+    local ssh_args="-N -o ServerAliveInterval=30 -o ServerAliveCountMax=3"
+    ssh_args="$ssh_args -o StrictHostKeyChecking=accept-new"
+    ssh_args="$ssh_args -o ExitOnForwardFailure=yes"
+
+    local remote_args=""
+    for port in "${EXPOSE_PORTS[@]}"; do
+        # Remote port = instance-specific offset + local port
+        # The relay assigns ports during registration
+        remote_args="$remote_args -R 0.0.0.0:0:127.0.0.1:$port"
+    done
+
+    # Use the nwe-relay SSH endpoint with instance credentials
+    ssh $ssh_args $remote_args \
+        -i "$STATE_DIR/tunnel_key" \
+        -p "$RELAY_TUNNEL_PORT" \
+        "tunnel@${RELAY_HOST}" \
+        >> "$LOG_FILE" 2>&1 &
+
+    local tunnel_pid=$!
+    echo "$tunnel_pid" > "$TUNNEL_PID_FILE"
+
+    # Wait briefly and check if it's still alive
+    sleep 3
+    if kill -0 "$tunnel_pid" 2>/dev/null; then
+        log "INFO" "Reverse tunnel established (PID $tunnel_pid)"
+        MODE="relay"
+        echo "relay" > "$STATE_DIR/mode"
+        return 0
+    else
+        log "ERROR" "Reverse tunnel failed to establish"
+        rm -f "$TUNNEL_PID_FILE"
+        return 1
+    fi
+}
+
+stop_reverse_tunnel() {
+    if [ -f "$TUNNEL_PID_FILE" ]; then
+        local pid
+        pid=$(cat "$TUNNEL_PID_FILE")
+        if kill -0 "$pid" 2>/dev/null; then
+            kill "$pid" 2>/dev/null || true
+            wait "$pid" 2>/dev/null || true
+            log "INFO" "Reverse tunnel stopped (PID $pid)"
+        fi
+        rm -f "$TUNNEL_PID_FILE"
+    fi
+}
+
+# Generate tunnel SSH key if needed
+ensure_tunnel_key() {
+    if [ ! -f "$STATE_DIR/tunnel_key" ]; then
+        log "INFO" "Generating tunnel SSH key..."
+        ssh-keygen -t ed25519 -f "$STATE_DIR/tunnel_key" -N "" -C "nwe-gateway-${INSTANCE_ID}" \
+            >> "$LOG_FILE" 2>&1
+        chmod 600 "$STATE_DIR/tunnel_key"
+    fi
+}
+
+# ============================================================
+# Registration with Central Relay
+# ============================================================
+
+register_with_relay() {
+    local mode="${1:-$MODE}"
+    local ext_ip="${2:-$(get_external_ip)}"
+    local pubkey=""
+
+    if [ -f "$STATE_DIR/tunnel_key.pub" ]; then
+        pubkey=$(cat "$STATE_DIR/tunnel_key.pub")
+    fi
+
+    log "INFO" "Registering with relay ($RELAY_HOST) — mode=$mode"
+
+    local response
+    response=$(curl -s --max-time 10 \
+        -X POST "$RELAY_REGISTER_URL" \
+        -H "Content-Type: application/json" \
+        -d "{
+            \"instance_id\": \"$INSTANCE_ID\",
+            \"instance_name\": \"$INSTANCE_NAME\",
+            \"instance_secret\": \"$INSTANCE_SECRET\",
+            \"mode\": \"$mode\",
+            \"external_ip\": \"$ext_ip\",
+            \"ports\": [$(IFS=,; echo "${EXPOSE_PORTS[*]}")],
+            \"pubkey\": \"$pubkey\",
+            \"version\": \"1.0.0\"
+        }" 2>/dev/null) || {
+        log "WARN" "Registration failed (relay unreachable)"
+        return 1
+    }
+
+    # Parse response for assigned subdomain/ports
+    local assigned_host
+    assigned_host=$(echo "$response" | grep -o '"host":"[^"]*"' | cut -d'"' -f4)
+    if [ -n "$assigned_host" ]; then
+        echo "$assigned_host" > "$STATE_DIR/assigned_host"
+        log "INFO" "Registered successfully. Reachable at: $assigned_host"
+    fi
+
+    echo "$response" > "$STATE_DIR/last_registration.json"
+    return 0
+}
+
+# ============================================================
+# Reachability Verification
+# ============================================================
+
+verify_reachability() {
+    local ip="$1"
+    local port="$2"
+
+    # Ask the relay server to probe our port
+    local result
+    result=$(curl -s --max-time 10 \
+        "https://${RELAY_HOST}:${RELAY_PORT}/api/probe?ip=${ip}&port=${port}" \
+        2>/dev/null) || return 1
+
+    echo "$result" | grep -q '"reachable":true'
+    return $?
+}
+
+# ============================================================
+# Health Check Loop
+# ============================================================
+
+health_check() {
+    local mode
+    mode=$(cat "$STATE_DIR/mode" 2>/dev/null || echo "unknown")
+
+    case "$mode" in
+        direct)
+            # Verify UPnP mappings are still active
+            local ext_ip
+            ext_ip=$(cat "$STATE_DIR/external_ip" 2>/dev/null || get_external_ip)
+            if ! verify_reachability "$ext_ip" "${EXPOSE_PORTS[0]}" 2>/dev/null; then
+                log "WARN" "Direct mode health check FAILED — re-establishing..."
+                # Try to refresh UPnP mappings
+                if ! try_direct_mode; then
+                    # Fall back to relay
+                    log "INFO" "Falling back to relay mode"
+                    ensure_tunnel_key
+                    start_reverse_tunnel
+                    register_with_relay "relay"
+                fi
+            else
+                # Refresh UPnP lease (prevent expiry)
+                for port in "${EXPOSE_PORTS[@]}"; do
+                    upnp_open_port "$port" "$port" "TCP" 2>/dev/null || true
+                done
+            fi
+            ;;
+        relay)
+            # Verify tunnel is alive
+            if [ -f "$TUNNEL_PID_FILE" ]; then
+                local pid
+                pid=$(cat "$TUNNEL_PID_FILE")
+                if ! kill -0 "$pid" 2>/dev/null; then
+                    log "WARN" "Tunnel died — restarting..."
+                    start_reverse_tunnel
+                    register_with_relay "relay"
+                fi
+            else
+                log "WARN" "No tunnel PID — restarting..."
+                start_reverse_tunnel
+                register_with_relay "relay"
+            fi
+            ;;
+        *)
+            # Not initialized — run full setup
+            establish_connectivity
+            ;;
+    esac
+}
+
+# ============================================================
+# Main Connectivity Establishment
+# ============================================================
+
+establish_connectivity() {
+    log "INFO" "=== NWE Gateway — Establishing connectivity ==="
+    log "INFO" "Instance: $INSTANCE_NAME ($INSTANCE_ID)"
+    log "INFO" "Expose ports: ${EXPOSE_PORTS[*]}"
+
+    # Phase 1: Try direct mode (UPnP/NAT-PMP)
+    if try_direct_mode; then
+        log "INFO" "MODE: DIRECT (UPnP) — fastest path"
+        register_with_relay "direct" "$(cat "$STATE_DIR/external_ip")"
+        return 0
+    fi
+
+    # Phase 2: Fall back to reverse tunnel
+    log "INFO" "Direct mode unavailable — using relay tunnel"
+    ensure_tunnel_key
+    if start_reverse_tunnel; then
+        log "INFO" "MODE: RELAY (tunnel) — NAT traversed"
+        register_with_relay "relay"
+        return 0
+    fi
+
+    # Phase 3: Both failed
+    log "ERROR" "Cannot establish connectivity (no UPnP, no relay)"
+    log "ERROR" "  - Check internet connection"
+    log "ERROR" "  - Verify relay host: $RELAY_HOST"
+    echo "none" > "$STATE_DIR/mode"
+    return 1
+}
+
+# ============================================================
+# Daemon Mode
+# ============================================================
+
+daemon_loop() {
+    log "INFO" "NWE Gateway daemon starting (PID $$)"
+    echo $$ > "$PID_FILE"
+
+    # Initial setup
+    establish_connectivity
+
+    # Health check loop
+    while true; do
+        sleep "$HEALTH_INTERVAL"
+        health_check
+    done
+}
+
+# ============================================================
+# Commands
+# ============================================================
+
+cmd_start() {
+    load_config
+
+    if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+        echo "Gateway already running (PID $(cat "$PID_FILE"))"
+        exit 0
+    fi
+
+    echo "Starting NWE Gateway..."
+    daemon_loop &
+    disown
+    echo "Gateway started (PID $!)"
+    echo "  Log: $LOG_FILE"
+    echo "  Mode will be shown in: $STATE_DIR/mode"
+}
+
+cmd_stop() {
+    load_config
+
+    if [ -f "$PID_FILE" ]; then
+        local pid
+        pid=$(cat "$PID_FILE")
+        if kill -0 "$pid" 2>/dev/null; then
+            kill "$pid"
+            echo "Gateway stopped (PID $pid)"
+        else
+            echo "Gateway was not running (stale PID file)"
+        fi
+        rm -f "$PID_FILE"
+    else
+        echo "Gateway is not running"
+    fi
+
+    # Also stop tunnel
+    stop_reverse_tunnel
+
+    # Remove UPnP mappings
+    if check_upnp_tools; then
+        for port in "${EXPOSE_PORTS[@]}"; do
+            upnp_close_port "$port" 2>/dev/null
+        done
+    fi
+}
+
+cmd_status() {
+    load_config
+
+    echo "╔══════════════════════════════════════════════════╗"
+    echo "║  NWE Gateway — Status                           ║"
+    echo "╚══════════════════════════════════════════════════╝"
+    echo ""
+
+    # Daemon status
+    if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+        echo "  Daemon:     RUNNING (PID $(cat "$PID_FILE"))"
+    else
+        echo "  Daemon:     STOPPED"
+    fi
+
+    # Mode
+    local mode
+    mode=$(cat "$STATE_DIR/mode" 2>/dev/null || echo "not established")
+    echo "  Mode:       $mode"
+
+    # Connectivity details
+    case "$mode" in
+        direct)
+            local ext_ip
+            ext_ip=$(cat "$STATE_DIR/external_ip" 2>/dev/null || echo "unknown")
+            echo "  External IP: $ext_ip"
+            echo "  Ports:       ${EXPOSE_PORTS[*]} (UPnP mapped)"
+            ;;
+        relay)
+            local host
+            host=$(cat "$STATE_DIR/assigned_host" 2>/dev/null || echo "pending")
+            echo "  Relay host:  $RELAY_HOST"
+            echo "  Public URL:  $host"
+            if [ -f "$TUNNEL_PID_FILE" ]; then
+                local tpid
+                tpid=$(cat "$TUNNEL_PID_FILE")
+                if kill -0 "$tpid" 2>/dev/null; then
+                    echo "  Tunnel:      ACTIVE (PID $tpid)"
+                else
+                    echo "  Tunnel:      DEAD (needs restart)"
+                fi
+            fi
+            ;;
+    esac
+
+    echo ""
+    echo "  Instance:   $INSTANCE_NAME"
+    echo "  Instance ID: $INSTANCE_ID"
+    echo "  Relay:      $RELAY_HOST:$RELAY_PORT"
+    echo "  Config:     $CONF_FILE"
+    echo "  Log:        $LOG_FILE"
+    echo ""
+}
+
+cmd_test() {
+    load_config
+
+    echo "Testing inbound reachability..."
+    local ext_ip
+    ext_ip=$(get_external_ip)
+    echo "  External IP: $ext_ip"
+
+    for port in "${EXPOSE_PORTS[@]}"; do
+        if verify_reachability "$ext_ip" "$port" 2>/dev/null; then
+            echo "  Port $port: ✓ REACHABLE"
+        else
+            echo "  Port $port: ✗ NOT REACHABLE"
+        fi
+    done
+}
+
+cmd_register() {
+    load_config
+    echo "Forcing re-registration..."
+    local mode
+    mode=$(cat "$STATE_DIR/mode" 2>/dev/null || echo "relay")
+    register_with_relay "$mode"
+}
+
+# ============================================================
+# Main
+# ============================================================
+
+case "${1:-help}" in
+    start)    cmd_start ;;
+    stop)     cmd_stop ;;
+    status)   cmd_status ;;
+    test)     cmd_test ;;
+    register) cmd_register ;;
+    help|--help|-h)
+        echo "NWE Gateway — NAT Traversal for Home Deployments"
+        echo ""
+        echo "Usage: nwe-gateway <command>"
+        echo ""
+        echo "Commands:"
+        echo "  start      Start the gateway daemon"
+        echo "  stop       Stop the gateway daemon"
+        echo "  status     Show current connectivity mode"
+        echo "  test       Test inbound port reachability"
+        echo "  register   Force re-registration with relay"
+        echo ""
+        echo "The gateway automatically:"
+        echo "  1. Tries UPnP/NAT-PMP to open ports directly (fast, direct)"
+        echo "  2. Falls back to reverse tunnel through relay (works anywhere)"
+        echo "  3. Health-checks and re-establishes every ${HEALTH_INTERVAL}s"
+        echo ""
+        echo "Config: $CONF_FILE"
+        ;;
+    *)
+        echo "Unknown command: $1 (try: nwe-gateway help)"
+        exit 1
+        ;;
+esac

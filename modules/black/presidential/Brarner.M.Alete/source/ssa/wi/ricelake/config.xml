@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>910</office-code>
+    <office-name>RICE LAKE WI</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1703 W KNAPP STREET</address-3>
+    <city>RICE LAKE</city>
+    <state>WI</state>
+    <zip-code>54868</zip-code>
+    <phone>(888) 823-3923</phone>
+    <fax>(833) 950-2190</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10293</socket-port>
+    <local-input-path>source-code/ssa/wi/ricelake/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/wi/ricelake</output-dir>
+</signal-processing-config>

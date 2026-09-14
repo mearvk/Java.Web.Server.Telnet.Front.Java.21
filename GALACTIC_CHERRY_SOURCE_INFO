@@ -1,0 +1,19 @@
+Source: https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21
+Included: 2026-08-02
+Method: shallow clone (depth 1), .git removed, large binary data excluded
+Author: Maximilian Eric Alexander Rupplin von Keffikon (mearvk)
+License: See original repository
+
+Excluded directories (large binary/data, not needed for build):
+  - bitcoin/          (1.9 GB - blockchain data)
+  - images/           (409 MB - image assets)
+  - north.carolina/   (351 MB - geographic data)
+  - california/       (80 MB - geographic data)
+  - contacts/         (68 MB - contact data)
+  - staff/            (65 MB - staff data)
+  - sketches/         (61 MB - sketch assets)
+  - jars/openjfx-*    (62 MB - JavaFX SDK zip)
+  - jars/djl/         (60 MB - Deep Java Library native)
+  - data/durham.nc.addresses.csv (56 MB - address dataset)
+
+These can be retrieved from the original repository if needed.

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>A34</office-code>
+    <office-name>MT LEBANON PA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 120</address-2>
+    <address-3>650 WASHINGTON ROAD</address-3>
+    <city>PITTSBURGH</city>
+    <state>PA</state>
+    <zip-code>15228</zip-code>
+    <phone>(888) 717-1525</phone>
+    <fax>(833) 950-2576</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9222</socket-port>
+    <local-input-path>source-code/ssa/pa/mt-lebanon/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/pa/mt-lebanon</output-dir>
+</signal-processing-config>

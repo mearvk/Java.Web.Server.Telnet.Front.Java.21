@@ -1,0 +1,5 @@
+# Frame 00 — Entry frame (orderly path, same w.r.t. All spirits)
+index=0
+hop=1
+transform=passthrough
+link=next

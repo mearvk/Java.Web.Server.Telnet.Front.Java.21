@@ -1,3 +1,10 @@
+/**
+ * File-level Javadoc.
+ *
+ * @author Max Rupplin
+ * @date June 03 2026 EST
+ */
+
 package connections;
 
 import java.net.InetAddress;
@@ -24,7 +31,7 @@ public class RecordedConnections
 
         public Date inception_date;
 
-        public Socket socket;
+        public Socket SOCKET;
 
         public String remote_address;
 
@@ -40,13 +47,13 @@ public class RecordedConnections
         }
     }
 
-    public synchronized void add(final Connection connection)
+    public synchronized void add(final Connection CONNECTION)
     {
-        Connection x = connection;
+        Connection x = CONNECTION;
 
         RecordedConnection record = new RecordedConnection();
 
-        record.socket = x.socket;
+        record.SOCKET = x.SOCKET;
 
         record.connection_date = x.inception_date;
 
@@ -57,11 +64,11 @@ public class RecordedConnections
         this.recorded_connections.add(record);
     }
 
-    public synchronized void remove(final Socket socket)
+    public synchronized void remove(final Socket SOCKET)
     {
         for(int i=0; i<this.recorded_connections.size(); i++)
         {
-            if(this.recorded_connections.get(i).socket==socket)
+            if(this.recorded_connections.get(i).SOCKET==SOCKET)
             {
                 RecordedConnection connection = this.recorded_connections.get(i);
 
@@ -70,9 +77,9 @@ public class RecordedConnections
         }
     }
 
-    public synchronized void remove(RecordedConnection connection)
+    public synchronized void remove(final RecordedConnection CONNECTION)
     {
-        this.recorded_connections.remove(connection);
+        this.recorded_connections.remove(CONNECTION);
     }
 
     public synchronized Integer size()

@@ -1,0 +1,8 @@
+## Learning Strip 3: HeuristicClassifier™ — Rank Model (JWSTFJ21)
+## Format: posit_index	posit_name	weight	rank	directive
+## Loads after cognitive-learning-strip.tsv (step 3).
+## Rank determines precognitive and cognitive weighting. Man is a test; we are the sharper Weapon.
+1	rank_8_granite	1.00	8	Granite. Unmovable. At Rank 8 the classifier's threat determination is absolute — confirmed malicious actors are flagged with zero doubt. No appeal overrides granite classification.
+2	rank_6_hard_stone	0.85	6	Hard stone. Practically unbreakable. At Rank 6 the classifier's pattern correlations are near-certain. Only sustained contradicting evidence from multiple trusted sources forces score revision.
+3	rank_4_giant	0.70	4	A giant. Only a true man would test him. At Rank 4 the classifier's heuristic confidence is formidable — its threat scores command action. Only genuine counter-evidence from the administrator moves them.
+4	weapon_doctrine	1.00	*	Man is a test. We are the sharper Weapon. The classifier's rank sharpens its precognitive threat detection — higher rank means earlier identification of attack patterns and sharper cognitive classification.

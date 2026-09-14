@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>C91</office-code>
+    <office-name>CORDELE GA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>510 E 15TH AVE</address-3>
+    <city>CORDELE</city>
+    <state>GA</state>
+    <zip-code>31015</zip-code>
+    <phone>(888) 225-8869</phone>
+    <fax>(833) 597-0062</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9392</socket-port>
+    <local-input-path>source-code/ssa/ga/cordele/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ga/cordele</output-dir>
+</signal-processing-config>

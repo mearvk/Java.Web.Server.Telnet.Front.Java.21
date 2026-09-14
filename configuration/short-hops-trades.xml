@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Short Hops Module — Trade Definitions
+    ======================================
+    Trades that lead to quick observable results.
+    Each trade type is a loadable sub-module within ShortHopsModule.
+-->
+<short-hops>
+    <trade name="Contract" type="document"
+           description="Legally binding contract documents for immediate execution"/>
+    <trade name="Legal" type="document"
+           description="Legal filings, affidavits, and court-ready documents"/>
+    <trade name="Monies" type="financial"
+           description="Direct monetary transfers and payment settlements"/>
+    <trade name="Resumes" type="document"
+           description="Employment resumes and professional credentials"/>
+    <trade name="Willingness" type="intent"
+           description="Declarations of intent or readiness to transact"/>
+    <trade name="Trades" type="financial"
+           description="Active trade executions with immediate observable outcome"/>
+    <trade name="Quits" type="termination"
+           description="Termination of active positions, contracts, or engagements"/>
+</short-hops>

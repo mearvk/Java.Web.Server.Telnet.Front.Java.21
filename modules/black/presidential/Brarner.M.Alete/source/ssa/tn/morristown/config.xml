@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>576</office-code>
+    <office-name>MORRISTOWN TN</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>3112 MILLERS POINT DR</address-3>
+    <city>MORRISTOWN</city>
+    <state>TN</state>
+    <zip-code>37813</zip-code>
+    <phone>(866) 875-6156</phone>
+    <fax>(833) 905-2058</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10000</socket-port>
+    <local-input-path>source-code/ssa/tn/morristown/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/tn/morristown</output-dir>
+</signal-processing-config>

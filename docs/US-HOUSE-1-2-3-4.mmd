@@ -1,0 +1,68 @@
+---
+title: "US House — 1, 2, 3, 4 Document Order"
+format: mermaid
+version: "1.0"
+companion: "docs/US-HOUSE-1-2-3-4.hsss"
+---
+
+# US House — 1, 2, 3, 4
+
+## Founding paragraph
+
+The US House is a software-house organization for turning an idea into a traceable, usable result: **1 Origin, 2 Custody, 3 Production, 4 Release**. The order is the central improvement: every program action should have a beginning, a controlled state, an actual production record, and a separately identifiable release state. Convenience is added without losing provenance, and software operations such as installation, deletion, update, repair, and deployment remain attributable and reviewable.
+
+```mermaid
+flowchart LR
+    O["1 — Origin\nIdea / Request / Source"] --> C["2 — Custody\nHold / Control / Version"]
+    C --> P["3 — Production\nBuild / Execute / Install / Update / Remove"]
+    P --> R["4 — Release\nDeploy / Deliver / Verify"]
+    R --> N["Next revision / next Origin"]
+
+    P --> W["Windows\nPowerShell / CMD"]
+    P --> U["Ubuntu / Linux\nShell"]
+    P --> MS["Microsoft software\npackage lifecycle"]
+    P --> AP["Apple software\npackage lifecycle"]
+
+    O -.-> E["Evidence"]
+    C -.-> E
+    P -.-> E
+    R -.-> E
+```
+
+## The four documents
+
+| Order | Document | Meaning | Typical evidence |
+|---|---|---|---|
+| 1 | Origin | Why and from where | request, source, proposal |
+| 2 | Custody | Where and under whose control | repository, package, version, hash |
+| 3 | Production | What actually happened | command, build, install, update, remove, test |
+| 4 | Release | What became available | artifact, deployment, verification |
+
+## Improvement rule
+
+The system improves by adding precision without breaking the order. A convenience command is still a production event; an installation is still production; a deletion is still production; an update creates a new state; and a release is not assumed merely because production succeeded.
+
+## Evidence rule
+
+Every important operation SHOULD be representable as:
+
+`origin → custody → production → release → verification`
+
+Unknown information remains explicitly unknown. A proposition remains a proposition until supported by an appropriate source or verification record.
+
+## Software-house scope
+
+The US House software layer can organize:
+
+- Windows installation, update, removal, repair, and status operations.
+- Ubuntu/Linux equivalents.
+- Microsoft and Apple software catalog entries.
+- Convenience menus and command wrappers.
+- Source/build/deployment tracking.
+- Evidence and integrity records.
+
+Vendor inclusion is a technical catalog decision and does not imply endorsement, ownership, or governmental affiliation.
+
+## Relationship to .hsss
+
+The companion `.hsss` document is the hierarchical specification. This `.mmd` document is the visual/order document. The `.hsss` explains the system; the `.mmd` makes its four-stage structure directly renderable.

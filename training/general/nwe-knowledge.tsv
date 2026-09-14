@@ -1,0 +1,7 @@
+What is NitroWebExpress?	NitroWebExpress is a Java 21 modular web server with telnet proxy, encryption, bitcoin trading, international signal servers, AI inference, and national finance capabilities.	nwe
+What is a NationalID?	A NationalID in NWE is an 8-digit + 16-digit key pair that identifies a person. It links to NationalFinanceID profiles containing IQ, education, trust scores, and authorization levels.	nwe
+What is AES 2.0?	AES 2.0 is NWE's enhanced encryption module with 21 configurable passes, radix manipulation, convergent fields, and DSS 5.0 signal integration. Runs on port 5512.	nwe
+What is Bitcoin Compliant?	BitcoinCompliant is NWE's lightweight trading server on port 6682 compatible with Bitcoin v24.0+. Handles wallet indexing, session management, and trade execution.	nwe
+What is the weather command?	The Weather server on port 49133 accepts a city name or lat,lon coordinates and returns current conditions from wttr.in. Supports language selection via lang command.	nwe
+What port is the communicator?	The Communicator runs on port 49199. It's a persistent 1-hour telnet chat server supporting direct messaging, broadcast, scheduled delivery, and chat history.	nwe
+What is Strernary?	Strernary is a best-guess inference server on port 20000 using DJL/PyTorch for sentiment analysis, Wikipedia/DuckDuckGo for factual queries, and MySQL for knowledge persistence.	nwe

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>701</office-code>
+    <office-name>CARROLL IA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>818 BELLA VISTA DR</address-3>
+    <city>CARROLL</city>
+    <state>IA</state>
+    <zip-code>51401</zip-code>
+    <phone>(866) 572-8381</phone>
+    <fax>(833) 515-0441</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10115</socket-port>
+    <local-input-path>source-code/ssa/ia/carroll/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ia/carroll</output-dir>
+</signal-processing-config>

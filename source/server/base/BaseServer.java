@@ -1,7 +1,10 @@
 package server.base;
 
 import commons.CommonRails;
+import configuration.NitroWebExpressConfig;
 import connections.*;
+import exceptions.ExceptionHandler;
+import heuristics.college.HeuristicClassifier;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,9 +15,11 @@ import java.net.ServerSocket;
 
 public abstract class BaseServer extends Thread
 {
-    public Integer hash = 0x008808FF;
+    public Integer HASH = 0x008808FF;
 
-    public BaseServer INHERITOR;
+    public BaseServer SUPERCLASS;
+
+    public BaseServer SELF;
     public static final Integer BASE_CONNECTION_TIMEOUT = 43200 * 2 * 2 * 1000;
 
     public String HOST = "localhost";
@@ -27,33 +32,42 @@ public abstract class BaseServer extends Thread
 
     public Boolean RUNNING = true;
 
-    public CurrentConnections current_connections = new CurrentConnections();
 
-    private final RecordedConnections recorded_connections = new RecordedConnections();
+    public CurrentConnections CURRENT_CONNECTIONS = new CurrentConnections();
 
-    private final InternationalConnections international_connections = new InternationalConnections();
+    private final RecordedConnections RECORDED_CONNECTIONS = new RecordedConnections();
+
+    private final InternationalConnections INTERNATIONAL_CONNECTIONS = new InternationalConnections();
+
+    /** Shared classifier — one instance per server so rate/geo state is pooled per port. */
+    private final HeuristicClassifier HEURISTIC = new HeuristicClassifier();
 
     public BaseServer()
     {
-        System.out.println(this.hash);
+        System.out.println(this.HASH);
     }
 
-    public BaseServer(String host, Integer PORT)
+    public BaseServer(final String HOST, final Integer PORT)
     {
-        if(host==null || PORT ==null) throw new SecurityException("//bodi/connect");
+        if(HOST==null || PORT ==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
-        this.HOST = host;
+        this.HOST = HOST;
 
         this.PORT = PORT;
+
+        this.SUPERCLASS = this;
+
+        this.SELF = this;
 
         this.setName("BasicServer");
 
         try
         {
-            this.ADDRESS = InetAddress.getByName(host);
+            this.ADDRESS = InetAddress.getByName(HOST);
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             this.RUNNING = false;
@@ -67,6 +81,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             // mark as not running so run() will not attempt accept on a null socket
@@ -80,9 +95,9 @@ public abstract class BaseServer extends Thread
         }
     }
 
-    public BaseServer(Integer PORT)
+    public BaseServer(final Integer PORT)
     {
-        if(PORT ==null) throw new SecurityException("//bodi/connect");
+        if(PORT ==null) throw new commons.security.BodiSecurityException("//bodi/connect", Thread.currentThread().getStackTrace()[1]);
 
         this.PORT = PORT;
 
@@ -94,6 +109,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             this.RUNNING = false;
@@ -107,6 +123,7 @@ public abstract class BaseServer extends Thread
         }
         catch(Exception e)
         {
+            ExceptionHandler.dispatch(e);
             e.printStackTrace(System.err);
 
             this.RUNNING = false;
@@ -138,26 +155,48 @@ public abstract class BaseServer extends Thread
 
                 connection = new Connection(this);
 
-                connection.socket = this.SERVER_SOCKET.accept();
+                connection.SOCKET = this.SERVER_SOCKET.accept();
 
-                connection.socket.setSoTimeout(BaseServer.BASE_CONNECTION_TIMEOUT);
+                connection.SOCKET.setSoTimeout(BaseServer.BASE_CONNECTION_TIMEOUT);
 
-                connection.remote_address = connection.socket.getRemoteSocketAddress().toString();
+                connection.remote_address = connection.SOCKET.getRemoteSocketAddress().toString();
 
-                connection.internet_address = connection.socket.getInetAddress();
+                connection.internet_address = connection.SOCKET.getInetAddress();
 
-                connection.server = this;
+                connection.SERVER = this;
+
+                // ── Heuristic classification ──────────────────────────────────
+                if (NitroWebExpressConfig.isEnabled("HeuristicClassifier"))
+                {
+                    String remoteIp = connection.SOCKET.getInetAddress().getHostAddress();
+                    HeuristicClassifier.ConnectionEvent event =
+                        new HeuristicClassifier.ConnectionEvent.Builder()
+                            .ip(remoteIp)
+                            .port(this.PORT)
+                            .build();
+                    HeuristicClassifier.Classification result = HEURISTIC.classify(event);
+                    CommonRails.printSystemComponent(this, this.hashCode(), result.summary());
+                    for (String finding : result.findings())
+                        CommonRails.printSystemComponent(HEURISTIC, HEURISTIC.hashCode(), finding);
+                    if (result.threat)
+                    {
+                        connection.SOCKET.close();
+                        continue;
+                    }
+                }
+                // ─────────────────────────────────────────────────────────────
 
                 CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress BaseServer] [New remote connection established [remote-ephemeral: "+connection.remote_address+" : local: "+this.PORT +"]]");
 
                 try
                 {
-                    connection.inputstream = connection.socket.getInputStream();
+                    connection.inputstream = connection.SOCKET.getInputStream();
 
                     connection.reader = new BufferedReader(new InputStreamReader(connection.inputstream));
                 }
                 catch(Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
 
                     return;
@@ -169,12 +208,13 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.outputstream = connection.socket.getOutputStream();
+                    connection.outputstream = connection.SOCKET.getOutputStream();
 
                     connection.writer = new BufferedWriter(new OutputStreamWriter(connection.outputstream));
                 }
                 catch(Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
 
                     return;
@@ -186,12 +226,13 @@ public abstract class BaseServer extends Thread
 
                 try
                 {
-                    connection.thread = new ConnectionPoller(null,this, this.HOST, this.PORT);
+                    connection.thread = new ConnectionPoller(this, this.HOST, this.PORT);
 
                     connection.thread.start();
                 }
                 catch(Exception e)
                 {
+                    ExceptionHandler.dispatch(e);
                     e.printStackTrace(System.err);
 
                     return;
@@ -201,15 +242,18 @@ public abstract class BaseServer extends Thread
                     CommonRails.printSystemComponent(this, this.hashCode(), "[WebExpress BaseServer] [Related I/O listener thread established ["+this.ADDRESS +":"+this.PORT +"]]");
                 }
 
-                this.current_connections.add(connection);
+                this.CURRENT_CONNECTIONS.add(connection);
 
-                this.recorded_connections.add(connection);
+                this.RECORDED_CONNECTIONS.add(connection);
 
-                this.international_connections.add(connection);
+                this.INTERNATIONAL_CONNECTIONS.add(connection);
+
+                database.N21Store.storeConnection(connection, this.PORT);
             }
         }
         catch(Exception se)
         {
+            ExceptionHandler.dispatch(se);
             se.printStackTrace(System.err);
         }
     }

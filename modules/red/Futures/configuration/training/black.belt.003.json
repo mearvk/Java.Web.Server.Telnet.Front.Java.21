@@ -1,0 +1,22 @@
+{
+  "id": "003",
+  "style": "Shotokan Karate",
+  "belt_level": "1st Dan",
+  "jurisdiction": "United States",
+  "legitimacy": "recognized_national_or_international",
+  "organization": "JKA / WKF",
+  "conduct_observations": [
+    "Maintains dojo etiquette",
+    "Corrects rough behavior in sparring"
+  ],
+  "ethical_responses": [
+    "Acknowledges duty to protect vulnerable students",
+    "Commits to non-discriminatory conduct"
+  ],
+  "audit_result": {
+    "conduct_score": "low",
+    "risk_rating": "low",
+    "closure_status": "closed",
+    "summary": "Practitioner maintains dojo standards, actively corrects unsafe behavior, and affirms ethical commitments. Clean audit."
+  }
+}

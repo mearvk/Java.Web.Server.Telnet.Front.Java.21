@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-name>Concord Main Post Office</office-name>
+    <office-type>USPS</office-type>
+    <county>Cabarrus</county>
+    <city>Concord</city>
+    <zip-code>28025</zip-code>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9013</socket-port>
+    <local-input-path>source-code/postal/concord/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/postal/concord</output-dir>
+</signal-processing-config>

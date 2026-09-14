@@ -1,0 +1,38 @@
+Name, Email
+John Albers,john.albers@senate.ga.gov
+Jason Anavitarte,jason.anavitarte@senate.ga.gov
+Tonya Anderson,tonya.anderson@senate.ga.gov
+Lee Anderson,lee.anderson@senate.ga.gov
+Timothy Bearden,tim.bearden@senate.ga.gov
+Matt Brass,matt.brass@senate.ga.gov
+Max Burns,max.burns@senate.ga.gov
+Bill Cowsert,bill.cowsert@senate.ga.gov
+Gail Davenport,gail.davenport@senate.ga.gov
+Jason T. Dickerson,jason.dickerson@senate.ga.gov
+Clint Dixon,clint.dixon@senate.ga.gov
+Greg Dolezal,greg.dolezal@senate.ga.gov
+Drew Echols,drew.echols@senate.ga.gov
+Frank Ginn,frank.ginn@senate.ga.gov
+Steve Gooch,steve.gooch@senate.ga.gov
+Russ Goodman,russ.goodman@senate.ga.gov
+Sonya Halpern,sonya.halpern@senate.ga.gov
+Marty Harbin,marty.harbin@senate.ga.gov
+Ed Harbison,ed.harbison@senate.ga.gov
+Sally Harrell,sally.harrell@senate.ga.gov
+Bo Hatchett,bo.hatchett@senate.ga.gov
+Billy Hickman,billy.hickman@senate.ga.gov
+Mike Hodges,mike.hodges@senate.ga.gov
+Chuck Hufstetler,chuck.hufstetler@senate.ga.gov
+Nabilah Islam Parkes,nabilah.parkes@senate.ga.gov
+Kim Jackson,kim.jackson@senate.ga.gov
+Donzella James,donzella.james@senate.ga.gov
+Emanuel Jones,emanuel.jones@senate.ga.gov
+Harold Jones II,harold.jones@senate.ga.gov
+John Kennedy,john.kennedy@senate.ga.gov
+Derek Mallow,derek.mallow@senate.ga.gov
+Elena Parent,elena.parent@senate.ga.gov
+Randy Robertson,randy.robertson@senate.ga.gov
+Ben Watson,ben.watson@senate.ga.gov
+Carden Summers,carden.summers@senate.ga.gov
+Shelly Echols,shelly.echols@senate.ga.gov
+

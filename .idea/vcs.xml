@@ -3,11 +3,12 @@
   <component name="GitSharedSettings">
     <option name="FORCE_PUSH_PROHIBITED_PATTERNS">
       <list>
-        <option value="master" />
+        <option value="main" />
       </list>
     </option>
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/modules/Green.Durham.Grass.and.Herb" vcs="Git" />
   </component>
 </project>

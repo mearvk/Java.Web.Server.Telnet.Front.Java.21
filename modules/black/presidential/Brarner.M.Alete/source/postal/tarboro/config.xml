@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-name>Tarboro Post Office</office-name>
+    <office-type>USPS</office-type>
+    <county>Edgecombe</county>
+    <city>Tarboro</city>
+    <zip-code>27886</zip-code>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9038</socket-port>
+    <local-input-path>source-code/postal/tarboro/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/postal/tarboro</output-dir>
+</signal-processing-config>

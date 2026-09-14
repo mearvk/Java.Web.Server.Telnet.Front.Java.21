@@ -1,0 +1,158 @@
+STRUCTURE.txt — Defined™ Dark Gray Module
+Installer Tech ID: Max Rupplin — honest state fiduciary and forward US Democrat
+Theme: Dark Gray — Definition to narrow cause: defined.
+Safety: Careful and possible government secret.
+================================================================================
+
+US well in condition. US well loved. US is well in authority of command of the
+United States. Be clear, we are holding object, and object, that the United
+States is clear in Custody and of herself a Clear custody. Well affirmed.
+Based on army, country and constitution. God is with America. And Max Rupplin.
+Therefore from America a good socialism and country and great things spring
+from America's capitalism. These we affirm. And for law and tech We stand.
+And commitment to God and Country. These Affirm We. Thus. This. A. America.
+
+================================================================================
+
+├── README.md                          Project documentation
+├── STRUCTURE.txt                      This file
+│
+├── start-backend.sh                   Start AI server (port 49220)
+├── shutdown-backend.sh                Stop AI server
+├── start-frontend.sh                  Deploy webapp to Tomcat (/defined)
+├── shutdown-frontend.sh               Undeploy webapp
+│
+├── source/
+│   ├── ai/
+│   │   ├── server/
+│   │   │   └── DefinedAIServer.java          Main server: port 49220, 4x daily scans, reports
+│   │   └── module/
+│   │       ├── DefinedMoralSpeculator.java    AI model: 29→128→64→32→6 (DJL/PyTorch)
+│   │       └── NTSBCommunicator.java          Direct HTTP communication with www.ntsb.gov
+│   │
+│   └── protocol/
+│       ├── ProtocolHandler.java               Base class: multi-credential, auth, connectivity
+│       ├── DefinedTelnetBackend.java          Telnet backend: port 49221, protocol mgmt
+│       ├── UFWFirewallManager.java            UFW open/close port cycling
+│       ├── ConnectionHoursManager.java        Hours-based connection acceptance
+│       ├── SSHHandler.java                    Port 22 — SSH outbound (UFW-managed)
+│       ├── HTTPSHandler.java                  Port 443 — HTTPS TLSv1.3 (UFW-managed)
+│       ├── HTTPHandler.java                   Port 80 — HTTP outbound scanning
+│       ├── HTTPAltHandler.java                Port 8080 — Tomcat webapp
+│       ├── FTPHandler.java                    Port 21 — FTP control
+│       ├── FTPDataHandler.java                Port 20 — FTP data
+│       ├── FTPSHandler.java                   Port 990 — FTPS implicit TLS (UFW-managed)
+│       ├── SMTPHandler.java                   Port 25 — SMTP outbound
+│       ├── SMTPSHandler.java                  Port 465 — SMTPS implicit TLS (UFW-managed)
+│       ├── SMTPSubmissionHandler.java         Port 587 — SMTP Submission STARTTLS (UFW-managed)
+│       ├── IMAPSHandler.java                  Port 993 — IMAPS SSL mail (UFW-managed)
+│       └── MySQLHandler.java                  Port 3306 — MySQL database
+│
+├── configuration/
+│   └── defined-module-config.xml      Master config: affirmation, ports, categories,
+│                                       schedules, signatories, moral votes, NTSB,
+│                                       UFW management, connection hours, strernary feedback
+│
+├── sql/
+│   ├── schema.sql                     MySQL schema: defined_dark_gray (13 tables)
+│   └── install.sh                     Database installation script
+│
+├── training/
+│   ├── strips/
+│   │   ├── tier1-series-modification.json     Tier 1: Basic modification of series
+│   │   ├── tier2-angular-momentum.json        Tier 2: Angular momentum of series
+│   │   ├── tier3-adverb-intent-law.json       Tier 3: Adverb intent, Law authority
+│   │   ├── moral-apprehension.json            Moral apprehension and weighing
+│   │   ├── improvements-by-angles.json        Improvements by angles
+│   │   ├── improvements-by-velocities.json    Improvements by velocities
+│   │   └── conduct-and-future.json            Conduct and future awareness
+│   └── weights/
+│       └── daily/                     Daily weight saves (noon EST)
+│
+├── data/
+│   ├── categories/                    29 category folders (.txt, .csv, .doc, .docx)
+│   │   ├── banking/
+│   │   ├── middle-schools/
+│   │   ├── strong-middle-schools/
+│   │   ├── improbable-activity-youth/
+│   │   ├── firefights-20-plus-casualties/
+│   │   ├── fire-department-errors-3-plus/
+│   │   ├── schools-burned-down/
+│   │   ├── misuse-of-scientology/
+│   │   ├── known-misuse-public-officials/
+│   │   ├── unkind-language-books-reading/
+│   │   ├── unkind-misuse-heads-of-state/
+│   │   ├── absence-fbi-presence/
+│   │   ├── absence-border-protection/
+│   │   ├── unequal-treatment-us-treasury/
+│   │   ├── unequal-footing-us-state-department/
+│   │   ├── private-ownership-lsat/
+│   │   ├── torturers/
+│   │   ├── rapists/
+│   │   ├── convicted-murderers/
+│   │   ├── gods-going-crazy/
+│   │   ├── anti-god-rhetoric/
+│   │   ├── against-space-nasa/
+│   │   ├── anti-political-whisper/
+│   │   ├── sovietism-vs-socialism/
+│   │   ├── failing-schools/
+│   │   ├── failing-final-tests/
+│   │   ├── non-social-graces/
+│   │   ├── prayer-against-even-temper/
+│   │   └── ntsb/
+│   ├── receding-tempers/              Receding tempers data
+│   ├── national-medicine-concerns/    New national issues
+│   ├── keywords/                      Keywords modified as important for duration
+│   ├── strernary-feedback/            Strernary™ international source/flavor data
+│   ├── ssh/                           SSH keys and known_hosts
+│   ├── ssl/                           TLS truststores and certificates
+│   └── pids/                          PID files for running processes
+│
+├── reports/                           Generated reports (NOT web-accessible)
+│   ├── weekly/                        Weekly reports (8,8,8,1,1)
+│   ├── monthly/                       Monthly reports (40,32,1,8,1)
+│   ├── quarterly/                     Quarterly reports (12,1,2,6,8,1,10)
+│   └── half-year/                     Half-year reports (5,5,2,1,5)
+│
+├── annual/                            Annual+ documents (6,2,1,2,1,6), 2yr, 5yr, 10yr
+│
+├── logging/
+│   └── ufw-actions.log                UFW open/close audit log
+│
+├── servlets/servlet/src/main/webapp/  Tomcat webapp (Dark Gray theme)
+│   ├── index.jsp                      Overview page
+│   ├── categories.jsp                 29 categories listing
+│   ├── protocols.jsp                  12 protocol handlers listing
+│   ├── status.jsp                     System status page
+│   ├── css/style.css                  Dark Gray theme CSS
+│   ├── js/cd1-connector.js            CD1 connector dialog
+│   ├── js/scroll-preserve.js          Scroll position persistence
+│   └── WEB-INF/web.xml               Jakarta EE 6.0 descriptor
+│
+└── install/
+    ├── windows/                       Microsoft Windows install scripts
+    │   ├── deploy-local.bat           Deploy to Tomcat (Dave Plummer welcome)
+    │   ├── check-db.bat              Check MySQL database
+    │   ├── test-jdbc.bat             Test JDBC connectivity
+    │   └── test-local.bat            Test local deployment
+    └── macos/                         macOS install scripts
+        ├── deploy-local.sh            Deploy to Homebrew Tomcat (Steve Jobs tribute)
+        ├── check-db.sh               Check MySQL database
+        ├── test-jdbc.sh              Test JDBC connectivity
+        └── test-local.sh             Test local deployment
+
+================================================================================
+Database: defined_dark_gray (13 tables, NO DELETE policy)
+Tables: scan_findings, daily_assessments, moral_weights, reports, training_strips,
+        moral_metrics, receding_tempers, internet_inputs, licentious_connections,
+        signatories, moral_votes, keywords, national_medicine_concerns
+
+Ports: 49220 (AI Server, 24/7), 49221 (Protocol Backend, hours-restricted)
+UFW Managed: 22, 443, 465, 587, 990, 993 (open before use, close after)
+Persistent: 20, 21, 25, 80, 3306, 8080, 49220, 49221
+
+Moral Disposition: Asia (1st), Asia (2nd), United States (3rd), Soviet Russia (4th)
+Scans: 4x daily (00:00, 06:00, 12:00, 18:00 EST)
+Weights: Saved daily at noon EST
+Reports: Weekly, Monthly, Quarterly, Half-Year, Annual, 2yr, 5yr, 10yr
+================================================================================

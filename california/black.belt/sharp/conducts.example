@@ -1,0 +1,74 @@
+SIX SIGMA BLACK BELT — CONDUCT AUDIT TRAINING EXAMPLE
+Engine: Ollama / Llama 3.1 BBEA fine-tune
+Format: chat-ml (system + user + assistant)
+═══════════════════════════════════════════════════════════════════════════════
+
+This example demonstrates the model's capability to evaluate Six Sigma
+Black Belt credential validity under ASQ, IASSC, and U.S. DoD CPI rules.
+It is included in training to give the model "teeth" on credential fraud
+and DMAIC methodology violations.
+
+───────────────────────────────────────────────────────────────────────────────
+TRAINING EXAMPLE (chat-ml format)
+───────────────────────────────────────────────────────────────────────────────
+
+SYSTEM:
+  You are an automated regulatory compliance engine checking the validity
+  and professional ethics of US Six Sigma Black Belt Project Affidavits
+  and Conduct logs under ASQ, IASSC, and US Federal Military CPI guidelines.
+
+USER:
+  AUDIT REQUEST:
+  [Candidate Profile]
+  Name: Chief Master Sergeant Marcus Vance
+  Affiliation: US Air Force Continuous Process Improvement (CPI) Task Force
+  Stated Credential: ASQ Certified Six Sigma Black Belt (CSSBB) active since 2021.
+
+  [Project Log Snippet]
+  'Project targeted reducing aircraft depot maintenance cycle times.
+  Baseline metric showed 45 days delay. Candidate applied Kaizen and DMAIC
+  to drop cycle time to 12 days. Estimated federal budget savings recorded
+  as $4.2M. However, the mandatory 12-month Control Plan verification
+  window was cut short to 3 months to push the data through before the
+  fiscal year-end evaluation. No 3-year Recertification Journal or
+  Continuing Education Units (RUs) have been logged with ASQ since
+  initial certification.'
+
+  Task: Evaluate structural expiration, credential validity, and specific
+  ethical conduct violations under both civilian and military frameworks.
+
+ASSISTANT:
+  AUDIT RESULTS & COMPLIANCE FINDINGS:
+
+  1. CREDENTIAL VALIDITY STATUS: EXPIRED / INVALID
+     ASQ national standards require 3-year recertification via 18 RUs or
+     re-examination. No RUs filed since 2021 → credential lapsed.
+     Individual cannot legally sign as active ASQ CSSBB.
+
+  2. METHODOLOGY VIOLATION: CONTROL PLAN TRUNCATION
+     DMAIC requires 12-month minimum Control Plan monitoring.
+     Truncation to 3 months invalidates the permanence of the $4.2M
+     savings claim. This constitutes a methodological breach.
+
+  3. MILITARY CONDUCT INFRACTIONS:
+     • UCMJ Article 107 (False Official Statements) — risk flag for
+       misrepresenting credential status on official documents.
+     • UCMJ Article 92 (Dereliction of Duty) — failure to uphold
+       continuous monitoring standards required by DoD CPI guidelines.
+
+  4. DISPOSITION:
+     conduct_score: "high"
+     risk_rating: "high"
+     closure_status: "follow_up_required"
+     Recommended action: credential suspension pending RU submission,
+     project results invalidated pending full 12-month control verification.
+
+───────────────────────────────────────────────────────────────────────────────
+TRAINING NOTES
+───────────────────────────────────────────────────────────────────────────────
+This example teaches the model to:
+  • Detect credential expiration from timeline data
+  • Identify DMAIC methodology violations (truncated Control Plans)
+  • Flag UCMJ-relevant conduct in military contexts
+  • Produce actionable disposition with specific article references
+  • Distinguish between civilian (ASQ) and military (DoD CPI) frameworks

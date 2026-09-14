@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Middle Director — Module-Level Configuration
+    =============================================
+    Local to source/middle/director/. Defines module-internal settings,
+    SSL checkin endpoints, server tier capacities, and occupy-writ modes.
+
+    Author: Max Rupplin — MEARVK LLC
+-->
+<middle-director-local>
+
+    <!-- Module edge weights (SHM → ACM → Strategic) -->
+    <edge-weights>
+        <module name="ShortHops" weight="1"/>
+        <module name="MediumHops" weight="4"/>
+        <module name="ThoughtsAsGoals" weight="6"/>
+        <module name="GamesAsGoals" weight="8"/>
+        <module name="AuditorContent" weight="19"/>
+        <module name="StrategicGoals" weight="20"/>
+    </edge-weights>
+
+    <!-- SSL Checkin parameters -->
+    <ssl-checkin>
+        <interval-seconds>60</interval-seconds>
+        <timeout-seconds>10</timeout-seconds>
+        <retry-count>3</retry-count>
+        <endpoint-path>/nwe/checkin</endpoint-path>
+        <verify-certificate>true</verify-certificate>
+    </ssl-checkin>
+
+    <!-- Server tier capacities (many-to-many) -->
+    <topology>
+        <tier name="main" max-servers="unbounded"
+              description="Core NWE installations — full authority, total oversight"/>
+        <tier name="middle" max-servers="unbounded"
+              description="Intermediate directors — synchronize goals between tiers"/>
+        <tier name="occupy-writ" max-servers="unbounded"
+              description="Occupy only a mode, not the whole scenario — partial modal servers"/>
+        <tier name="endpoint" max-servers="unbounded"
+              description="Terminal game servers — occupy total game"/>
+    </topology>
+
+    <!-- Occupy-writ mode definitions -->
+    <occupy-writ-modes>
+        <mode name="finance" port-range="49152-49199"
+              description="Financial mode only — trades, wallets, national ID"/>
+        <mode name="intelligence" port-range="49200-49210"
+              description="Signal/intelligence mode only — international feeds"/>
+        <mode name="inference" port-range="20000-20000"
+              description="Inference mode only — Strernary DJL queries"/>
+        <mode name="communication" port-range="49199-49199"
+              description="Communication mode only — messaging"/>
+        <mode name="security" port-range="5512-5512"
+              description="Encryption mode only — AES/DSA/RSA"/>
+    </occupy-writ-modes>
+
+    <!-- Strategic goal priority order (integrity + IQ highest) -->
+    <goal-priority>
+        <rank position="1" goal="IQ" rationale="Intelligence is foundational"/>
+        <rank position="2" goal="TotalIQWealth" rationale="Aggregate capital follows individual IQ"/>
+        <rank position="3" goal="Initiatives" rationale="Programs channel IQ into action"/>
+        <rank position="4" goal="StateSavings" rationale="Savings preserve initiative gains"/>
+        <rank position="5" goal="MainMoney" rationale="Presidential real-stats post-evaluation"/>
+        <rank position="6" goal="FeelingGood" rationale="Morale sustains all other goals"/>
+    </goal-priority>
+
+</middle-director-local>

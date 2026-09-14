@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>60</office-code>
+    <office-name>MERCED CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>3185 M ST</address-3>
+    <city>MERCED</city>
+    <state>CA</state>
+    <zip-code>95348</zip-code>
+    <phone>(888) 632-7069</phone>
+    <fax>(833) 950-2434</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9540</socket-port>
+    <local-input-path>source-code/ssa/ca/merced/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/merced</output-dir>
+</signal-processing-config>

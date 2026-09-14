@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>D12</office-code>
+    <office-name>GALLIPOLIS OH</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>2455 STATE ROUTE 160</address-3>
+    <city>GALLIPOLIS</city>
+    <state>OH</state>
+    <zip-code>45631</zip-code>
+    <phone>(888) 397-6343</phone>
+    <fax>(833) 580-0161</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9407</socket-port>
+    <local-input-path>source-code/ssa/oh/gallipolis/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/oh/gallipolis</output-dir>
+</signal-processing-config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>97</office-code>
+    <office-name>CHILLICOTHE MO</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1105 S MITCHELL AVE</address-3>
+    <city>CHILLICOTHE</city>
+    <state>MO</state>
+    <zip-code>64601</zip-code>
+    <phone>(877) 405-7668</phone>
+    <fax>(833) 950-3559</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9568</socket-port>
+    <local-input-path>source-code/ssa/mo/chillicothe/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mo/chillicothe</output-dir>
+</signal-processing-config>

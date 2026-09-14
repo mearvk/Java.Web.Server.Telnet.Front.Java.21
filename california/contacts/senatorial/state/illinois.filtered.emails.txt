@@ -1,0 +1,60 @@
+Name, Email
+Neil Anderson,anderson@senatedems.ilga.gov
+Omar Aquino,aquino@senatedems.ilga.gov
+Christopher Belt,belt@senatedems.ilga.gov
+Tom Bennett,senatorbennett@ilga.gov
+Terri Bryant,senatorbryant@ilga.gov
+Cristina Castro,castro@senatedems.ilga.gov
+Javier L. Cervantes,cervantes@senatedems.ilga.gov
+Andrew S. Chesney,chesney@senategop.ilga.gov
+Lakesia Collins,collins@senatedems.ilga.gov
+Bill Cunningham,cunningham@senatedems.ilga.gov
+John F. Curran,senatorcurran@senategop.ilga.gov
+Donald P. DeWitte,dewitte@senategop.ilga.gov
+Mary Edly-Allen,edlyallen@senatedems.ilga.gov
+Laura Ellman,ellman@senatedems.ilga.gov
+Paul Faraci,faraci@senatedems.ilga.gov
+Sara Feigenholtz,feigenholtz@senatedems.ilga.gov
+Laura Fine,fine@senatedems.ilga.gov
+Dale Fowler,fowler@senategop.ilga.gov
+Suzy Glowiak Hilton,glowiakhilton@senatedems.ilga.gov
+Michael W. Halpin,halpin@senatedems.ilga.gov
+Don Harmon,harmon@senatedems.ilga.gov
+Napoleon Harris,harris@senatedems.ilga.gov
+Erica Harriss,harriss@senategop.ilga.gov
+Michael E. Hastings,hastings@senatedems.ilga.gov
+Linda Holmes,holmes@senatedems.ilga.gov
+Mattie Hunter,hunter@senatedems.ilga.gov
+Adriane Johnson,johnson@senatedems.ilga.gov
+Emil Jones,jones@senatedems.ilga.gov
+Patrick J. Joyce,joyce@senatedems.ilga.gov
+David Koehler,koehler@senatedems.ilga.gov
+Seth Lewis,lewis@senategop.ilga.gov
+Kimberly A. Lightford,lightford@senatedems.ilga.gov
+Meg Loughran Cappel,loughrancappel@senatedems.ilga.gov
+Robert F. Martwick,martwick@senatedems.ilga.gov
+Steve McClure,mcclure@senategop.ilga.gov
+Dan McConchie,mcconchie@senategop.ilga.gov
+Julie A. Morrison,morrison@senatedems.ilga.gov
+Laura M. Murphy,murphy@senatedems.ilga.gov
+Robert Peters,peters@senatedems.ilga.gov
+Jason Plummer,plummer@senategop.ilga.gov
+Mike Porfirio,porfirio@senatedems.ilga.gov
+Willie Preston,preston@senatedems.ilga.gov
+Sue Rezin,rezin@senategop.ilga.gov
+Chapin Rose,rose@senategop.ilga.gov
+Mike Simmons,simmons@senatedems.ilga.gov
+Elgie R. Sims,sims@senatedems.ilga.gov
+Steve Stadelman,stadelman@senatedems.ilga.gov
+Win Stoller,stoller@senategop.ilga.gov
+Dave Syverson,syverson@senategop.ilga.gov
+Natalie Toro,toro@senatedems.ilga.gov
+Jil Tracy,tracy@senategop.ilga.gov
+Doris Turner,turner@senatedems.ilga.gov
+Sally J. Turner,sturner@senategop.ilga.gov
+Rachel Ventura,ventura@senatedems.ilga.gov
+Karina Villa,villa@senatedems.ilga.gov
+Celina Villanueva,villanueva@senatedems.ilga.gov
+Ram Villivalam,villivalam@senatedems.ilga.gov
+Mark L. Walker,walker@senatedems.ilga.gov
+Craig Wilcox,wilcox@senategop.ilga.gov

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>405</office-code>
+    <office-name>ATHENS OH</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>743A EAST STATE STREET</address-3>
+    <city>ATHENS</city>
+    <state>OH</state>
+    <zip-code>45701</zip-code>
+    <phone>(877) 840-7683</phone>
+    <fax>(833) 950-3427</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9846</socket-port>
+    <local-input-path>source-code/ssa/oh/athens/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/oh/athens</output-dir>
+</signal-processing-config>

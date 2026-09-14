@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>D77</office-code>
+    <office-name>SIKESTON MO</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>711 YORK DR</address-3>
+    <city>SIKESTON</city>
+    <state>MO</state>
+    <zip-code>63801</zip-code>
+    <phone>(866) 964-4261</phone>
+    <fax>(833) 950-2950</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9446</socket-port>
+    <local-input-path>source-code/ssa/mo/sikeston/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mo/sikeston</output-dir>
+</signal-processing-config>

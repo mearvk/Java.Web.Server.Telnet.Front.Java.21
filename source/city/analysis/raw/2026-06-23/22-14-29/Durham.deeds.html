@@ -1,0 +1,627 @@
+
+
+
+
+
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<script async type="text/javascript"> var id = ''; 
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<!-- Google Analytics -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+
+
+	<title>Self-Service</title>
+
+
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="apple-touch-icon" href="/web/resources/img/county-logo.png"> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" media="all" type="text/css" href="/web/resources/css/themes/self-service-jquery-mobile.css?v=2024.4.25"/>
+	<link rel="stylesheet" media="all" type="text/css" href="/web/resources/css/themes/jquery.mobile.icons-1.4.5.css"/>
+	<link rel="stylesheet" media="all" type="text/css" href="/web/resources/jquery.mobile.structure-1.4.5.css"/>
+	<link rel="stylesheet" media="all" type="text/css" href="/web/resources/jtsage-datebox-4.1.0.css"/>
+	<link rel="stylesheet" media="all" type="text/css" href="/web/resources/css/materialdesignicons.css?v=2024.4.25"/>
+	<link rel="stylesheet" media="all" type="text/css" href="/web/resources/css/context-menu-min.css"/>
+
+	<link rel="stylesheet" media="all" type="text/css" href="/web/controller/self.service.2024-4-25.css"/>
+	<link rel="stylesheet" media="all" type="text/css" href="/web/controller/self.service.responsive.2024-4-25.css"/>
+	<link rel="stylesheet" media="all" type="text/css" href="/web/controller/progress/circularG.2024-4-25.css"/>
+	<link rel="stylesheet" media="all" type="text/css" href="/web/controller/progress/tylerProgress.2024-4-25.css"/>
+
+	
+	<link rel="stylesheet" href="/web/controller/customColors.css?v=2024.4.25"/>
+	<link rel="stylesheet" href="/web/controller/customColors.responsive.css?v=2024.4.25"/>
+	<link rel="stylesheet" href="/web/controller/facetColors.css?v=2024.4.25"/>
+	<link rel="stylesheet" href="/web/controller/customColorsLoaders.css?v=2024.4.25"/>
+	<link rel="stylesheet" href="/web/resources/printjs/print.min.css?v=2024.4.25"/>
+	<script src="/web/resources/modernizr.custom.03363.js"></script>
+	<script src="/web/resources/jquery-1.11.0.js"></script>
+	<script src="/web/resources/js/moment.min.js"></script>
+	<script src='/web/controller/js/underscore.2024-4-25.js'></script>
+	<script src='/web/controller/js/snap.svg.2024-4-25.js'></script>
+	<script src='/web/controller/js/self.service.2024-4-25.js'></script>
+	<script src="/web/controllerjs/validator.2024-4-25.js"></script>
+	<script src="/web/controllerjs/util.2024-4-25.js"></script>
+	<script src="/web/resources/shoppingCart.js?v=2024.4.25"></script>	
+	<script src="/web/resources/printjs/print.min.js">	</script>
+	<script src="/web/resources/js/context-menu-min.js"></script>
+	
+	<script>
+	$(document).bind( 'mobileinit', function(){
+		$.mobile.loader.prototype.options.html = 	'<div class="cssload-container">\n' +
+			'			<ul class="cssload-loader">\n' +
+			'				<li></li><li></li><li></li><li></li><li></li><li></li>\n' +
+			'			</ul>\n' +
+			'		</div>\n' +
+			'		<div class="modal-overlay"></div>';
+	});
+	</script>
+<!--         When we upgrade to jqm 1.5 remove the jquery tabs override script -->
+	<script src="/web/resources/jquery.mobile-1.4.5.js"></script>
+<!-- 	The following script is to fix a bug with jquery mobile and should be removed when we upgrade to jquerymobile 1.5 -->
+	<script src="/web/resources/js/jqueryTabsOverride.js"></script>
+
+	
+	<script src="/web/controller/messageStrings.js?v=2024.4.25"></script>
+
+	<script src="/web/resources/jquery.mousewheel.js?v=2024.4.25"></script>
+	<script src="/web/resources/jtsage-datebox-4.1.0.js"></script>
+</head>
+<body>
+	<div class="ss-page ui-alt-icon ui-nodisc-icon" data-role="page" id="SelfService-1782267270892-page" data-dom-cache="false">
+		<script>
+		var selectedLanguage = 'en';
+		</script>
+		<!-- HEADER	-->
+		<div id="ss-header-box" class="ss-header" data-role="header" data-position="fixed" data-tap-toggle="false">
+			<div class="ss-header-stripe-top"></div>
+			<div class="ss-content">
+				
+				
+				<div class="ss-header-title">
+					<div class="ss-header-internal">
+						<h1>Sharon A. Davis
+<br />Durham County Register of Deeds</h1>
+						<h4 class="ss-header">Self Service Web</h4>
+					</div>
+				</div>
+				
+
+				<div class="ss-header-actions">
+					
+
+
+
+
+
+
+
+
+	<a href="#SelfService-1782267270892-languagePanel" class="ss-header-actions-language">
+		<span class="ss-header-labels" id="ss-general-label">Language</span>
+	</a>
+
+
+
+					<div class="ss-clear"></div>
+				</div>
+				<div class="ss-clear"></div>
+			</div>
+			<div class="ss-header-stripe-bottom">
+				<div class="ss-content">
+					<div id="ss-user-welcome" class="ss-footer-internal-small">
+						
+							
+							
+							
+							
+						
+						<span id="subscriptionTimer" class="ss-footer-internal-small-left-align"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- BODY -->
+		<div data-role="content">
+			<div class="ss-content">
+				
+
+
+
+
+<ul class="ss-listview ss-utility-box" data-role="listview" data-inset="true" data-theme="a" id="SelfService-1782267270892-disclaimerContent">
+	<li data-role="list-divider" data-theme="a" style="text-align: center;">Disclaimer Content</li>
+	<li class="ss-listview-internal" style="background: none; border: none;">
+		<p style="margin-top:0.1in;margin-right:0in;margin-bottom:0.1in;margin-left:0in;line-height:normal;background-color:white;background-repeat:repeat;background-attachment:scroll">
+<i><span style="background-color:white;font-size:14pt;color:#333333;background-repeat:repeat;background-attachment:scroll">This online database is provided by the Durham County Register of Deeds office, solely for the convenience of its public users. While every effort is made to ensure that this information is accurate and current, the certified record, including historical indexes can be found on site.</span></i>
+
+</p>
+
+<p style="margin-top:0.1in;margin-right:0in;margin-bottom:0.1in;margin-left:0in;line-height:normal;background-color:white;background-repeat:repeat;background-attachment:scroll">
+<i><span style="background-color:white;font-size:14pt;color:#333333;background-repeat:repeat;background-attachment:scroll"> </span></i>
+
+</p>
+
+<p style="margin-top:0.1in;margin-right:0in;margin-bottom:0.1in;margin-left:0in;line-height:normal;background-color:white;background-repeat:repeat;background-attachment:scroll">
+<b><span style="font-size:12pt">Upon creating an online profile <a href="https://rodweb.dconc.gov/web/user/register">here</a></span><span style="font-family:&#39;times new roman&#39; , serif;font-size:10pt;color:#333333">, </span><span style="font-size:12pt;color:#333333">users are users are able to search birth, death and marriage records online and print uncertified copies </span></b>
+
+</p>
+
+<p style="margin-top:0.1in;margin-right:0in;margin-bottom:0.1in;margin-left:39pt;line-height:normal;text-indent:-0.25in;background-color:white;background-repeat:repeat;background-attachment:scroll">
+ 
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-size:12pt">All real estate documents are accessible online with the following exceptions. </span></b>
+
+</p>
+
+<ul><li>
+<b>Historical Record</b>
+
+</li><li>
+<b>Condo Books</b>
+
+</li><li>
+<b>Corporate Books</b>
+
+</li><li>
+<b>Mortgage Books</b>
+
+</li><li>
+<b>Plat Books</b>
+
+</li></ul>
+<p>
+ 
+
+</p>
+
+<p>
+<b><span style="font-size:12pt">When conducting a search for historic plats or maps be advised that some of the historic plat books numbered 1-31 may be separated into “A” or “B” books. When searching, the letter “A” or “B” should be added to the following books:</span></b>
+
+</p>
+
+<p>
+<b><span style="font-size:12pt"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:8pt;margin-left:0in;line-height:106%">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt">Plat Books:</span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt">1A, 1B             Book 1A starts with page 1 and ends with page 130; 1B starts with page 131 and ends with page 261</span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt"> </span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt">3A, 3B             Book 3A starts with page 1 and ends with page 95; 3B starts with page 96 and ends with page 195</span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt"> </span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt">5A, 5B             Book 5A starts with page 1 and ends with page 100; 5B starts with page 101 and ends with page 195</span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt"> </span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt">6A, 6B             Book 6A starts with page 1 and ends with page 106; 6B starts with page 107 and ends with page 208</span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt"> </span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt">18A                 All entries for this book are under 18A, there is no Book 18B</span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt">                                                                                                 </span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt">28A, 28B         Book 28A starts with page 1 and ends with page 56;   28B starts with page 57 and ends with page 111</span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt"> </span><span style="color:#ff0000;font-size:12pt;font-family:&#39;times new roman&#39; , serif"> </span></b>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in">
+<b><span style="font-family:&#39;times new roman&#39; , serif;color:#ff0000;font-size:12pt">31A, 32B         Book 31A starts with page 1 and ends with page 56;   31B starts with page 57 and ends with page 112</span></b><span style="font-size:12pt"> </span>
+
+</p>
+
+<p style="margin-top:0in;margin-right:0in;margin-bottom:8pt;margin-left:0in;line-height:106%">
+<b><span style="font-size:12pt"> </span></b><span style="font-size:12pt"> </span>
+
+</p>
+
+<p style="margin-top:0.1in;margin-right:0in;margin-bottom:0.1in;margin-left:0in;line-height:normal;background-color:white;background-repeat:repeat;background-attachment:scroll">
+<i><span style="font-size:14pt">In some rare instances, images may be temporarily unavailable online while system backups are in progress. The Registrar will make every effort to provide public notice during these occasions. Please note, all N.C. General Statutes related to both the temporary and permanent indexes will be adhered to during these infrequent periods</span><span style="font-size:12pt">.</span></i>
+
+</p>
+
+<p style="margin-top:0.1in;margin-right:0in;margin-bottom:0.1in;margin-left:0in;line-height:normal;background-color:white;background-repeat:repeat;background-attachment:scroll">
+<i><span style="font-size:12pt"> </span></i>
+
+</p>
+
+<p style="margin-top:0.1in;margin-right:0in;margin-bottom:0.1in;margin-left:0in;line-height:normal;background-color:white;background-repeat:repeat;background-attachment:scroll">
+ 
+
+</p>
+
+
+	</li>
+</ul>
+
+<button id="submitDisclaimerAccept" type="submit" class="center" style="width:10em;">I Accept</button>
+<script>
+var disclaimerAcceptButton = $('#submitDisclaimerAccept');
+
+disclaimerAcceptButton.on('click', function(event) {
+	event.preventDefault();
+	disclaimerAcceptButton.prop('disabled', true);
+	disclaimerAcceptButton.html('Please wait...');
+	$('.ss-validation-messages').empty();
+	var submitUrl = $('#SelfService-1782267270892-disclaimerForm').attr('action');
+	
+		
+		
+			var redirectUrl = '/web/';
+		
+	
+	console.log("Redirect URL: " + redirectUrl);
+
+	$.ajax({
+		type: 'POST',
+		url: submitUrl,
+		dataType: 'json',
+		success: function (response) {
+			disclaimerAcceptButton.prop('disabled', false);
+			disclaimerAcceptButton.html('I Accept');
+			selfservice.redirect(redirectUrl, true);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {}
+	});
+});
+</script>
+			</div>
+		</div>
+
+		<!-- POPUPS	-->
+		
+
+
+
+
+
+
+
+	
+
+
+
+
+
+<div data-role="popup" id="SelfService-1782267270892-passwordChange-popup" class="ss-password-change-popup ui-content" data-history="false" data-position-to="window" data-transition="slide">
+	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	<div id="SelfService-1782267270892-passwordChangeInternal" class="ss-password-change-popup-internal"></div>
+</div>
+
+<script>
+
+var passwordChangeUrl = "/web/user/passwordChange";
+$("#SelfService-1782267270892-passwordChange-popup").on("popupbeforeposition", function() {
+	$("#SelfService-1782267270892-passwordChangeInternal").load(passwordChangeUrl, function() {
+		$("#SelfService-1782267270892-passwordChangeInternal").trigger("create");
+		$("#SelfService-1782267270892-passwordChange-popup").trigger("updatelayout");
+		$.mobile.activePage.trigger("pagecreate");
+	});
+});
+
+$("#SelfService-1782267270892-passwordChange-popup").on("popupafteropen", function() {	
+	$("#SelfService-1782267270892-passwordChange-popup").popup("reposition", "positionTo: window");
+});
+
+$("#SelfService-1782267270892-passwordChange-popup").on("popupafterclose", function() {
+	$("#field_OldPassword").val("");
+	$("#field_NewPassword").val("");
+	$("#field_ConfirmPassword").val("");
+});	
+</script>
+
+		
+		
+
+
+
+
+
+
+<div data-role="popup" id="SelfService-1782267270892-session-popup" data-dismissible="false" data-history="false" data-position-to="window" data-overlay-theme="a"
+		class="ui-page-theme-a ui-content ui-alt-icon ui-nodisc-icon" data-transition="slide" style="background: white;">
+	<div data-role="header" class="ss-receipt-width" style="background-color: #06c; line-height: 1.3; margin: 0.9em;">
+		<h1 style="font-size: 1.3em; padding: 1em 1.5em; color: white; font-weight: normal; text-overflow: inherit; overflow: visible;">Session about to time out</h1> 
+	</div>
+	<div style="padding: 10px; background-color: white;">
+		<h2>Do you need more time? <span id="remainingTime"></span></h2>
+		<button id="SelfService-1782267270892-session-continue" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">
+		Yes - Continue
+		</button>
+		<button id="SelfService-1782267270892-session-logout" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-delete">
+		No - Start Over
+		</button>
+	</div>
+</div>
+
+<script>
+
+selfservice.countdown.continueButton = $('#SelfService-1782267270892-session-continue');
+selfservice.countdown.element = $('#remainingTime');
+selfservice.countdown.logoutButton = $('#SelfService-1782267270892-session-logout');
+selfservice.pages.check = '/web/session/checkSession';
+selfservice.pages.home = '/web/';
+selfservice.pages.logout = '/web/user/logout';
+selfservice.pages.ping = '/web/session/pingSession';
+selfservice.session.logoutError = 'An error occurred while logging out. Please try again.';
+selfservice.session.timeoutElement = $('#SelfService-1782267270892-session-popup');
+
+
+selfservice.countdown.continueButton.on('click', function (event) {
+	selfservice.countdown.continueButton.prop('disabled', true);
+	selfservice.countdown.logoutButton.prop('disabled', true);
+
+	selfservice.session.continueSession();
+
+	selfservice.countdown.continueButton.prop('disabled', false);
+	selfservice.countdown.logoutButton.prop('disabled', false);
+
+	selfservice.session.timeoutElement.popup('close');
+});
+
+selfservice.countdown.logoutButton.on('click', function (event) {
+	
+	selfservice.countdown.logoutButton.prop('disabled', true);
+	selfservice.countdown.logoutButton.html('Logging out...');
+	selfservice.countdown.continueButton.prop('disabled', true);
+
+	selfservice.session.logout();
+
+	selfservice.countdown.continueButton.prop('disabled', false);
+	selfservice.countdown.logoutButton.html('No - Start Over');
+	selfservice.countdown.logoutButton.prop('disabled', false);
+});
+
+selfservice.session.timeoutElement.on('popupafterclose', function (event) {
+	
+	selfservice.countdown.endCount();
+});
+</script>
+
+		<!-- PANELS	-->
+		
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<div id="SelfService-1782267270892-cartPanel" class="ss-panel-cart" data-role="panel" data-position="right" data-display="overlay" data-position-fixed="true">
+	<div id="SelfService-1782267270892-cartPanelInternal" class="ss-panel-cart-internal" style="height:100%;"></div>
+</div>
+<script>
+
+$("#SelfService-1782267270892-cartPanel").on("panelcreate", function() {
+	$("#SelfService-1782267270892-cartPanelInternal").data("cartUrl", "/web/cart/embedded?includeButtons=true&request=" + new Date().getTime());
+	$("#SelfService-1782267270892-cartPanelInternal").css("max-height", $( window ).height() -20);
+	reloadShoppingCart($("#SelfService-1782267270892-cartPanelInternal"));
+});
+	
+$("#SelfService-1782267270892-cartPanel").on("panelbeforeopen", function() {
+	$("#SelfService-1782267270892-cartPanelInternal").data("cartUrl", "/web/cart/embedded?includeButtons=true&request=" + new Date().getTime());
+	reloadShoppingCart($("#SelfService-1782267270892-cartPanelInternal"));
+});
+	
+$("#SelfService-1782267270892-cartPanel").on("panelopen", function() {	
+	$("#shoppingCartProceedToCheckoutButton").focus();
+});	
+</script>
+  <br/>
+
+  
+
+
+
+
+
+
+<div id="SelfService-1782267270892-loginPanel" class="ss-panel-login" data-role="panel" data-position="right" data-display="overlay" data-position-fixed="true">
+	<div id="SelfService-1782267270892-loginPanelInternal" class="ss-panel-login-internal"></div>
+</div>
+
+<script>
+
+var loginUrl = "/web/user/login";
+$("#SelfService-1782267270892-loginPanel").on("panelbeforeopen", function() {
+	$("#SelfService-1782267270892-loginPanelInternal").load(loginUrl + "?request=" + new Date().getTime(), function() {
+		$("#SelfService-1782267270892-loginPanelInternal").trigger("create");
+		$("#SelfService-1782267270892-loginPanel").trigger("updatelayout");
+		$.mobile.activePage.trigger("pagecreate");
+		$("#field_ForceLogoff").parent().hide();
+	});
+}).on("panelopen", function() {
+	$("#field_UserId").focus();
+});
+</script>
+  <br/>
+
+  
+
+
+
+
+
+
+<div id="SelfService-1782267270892-languagePanel" class="ss-panel-language" data-role="panel" data-position="right" data-display="overlay" data-position-fixed="true">
+	<div id="SelfService-1782267270892-languagePanelInternal" class="ss-panel-language-internal"></div>
+</div>
+
+<script>
+
+var languageUrl = "/web/user/language";
+$("#SelfService-1782267270892-languagePanel").on("panelbeforeopen", function() {
+	$("#SelfService-1782267270892-languagePanelInternal").load(languageUrl + "?request=" + new Date().getTime(), function() {
+		$("#SelfService-1782267270892-languagePanelInternal").trigger("create");
+		$("#SelfService-1782267270892-languagePanel").trigger("updatelayout");
+		$.mobile.activePage.trigger("pagecreate");
+	});
+}).on("panelopen", function() {
+	$("#language-en").focus();
+});
+</script>
+  <br/>
+
+
+		<script>
+		
+		jQuery.cachedScript = function( url, options ) {
+			
+			options = $.extend( options || {}, {
+				dataType: 'script',
+				cache: true,
+				url: url
+			});
+
+			
+			return jQuery.ajax( options );
+		};
+
+		$('#SelfService-1782267270892-page').on('pageinit', function() {
+			
+			selfservice.countdown.timer();
+		});
+
+		$(document.body).on("blur", 'input[data-role="datebox"]', function(event){
+			selfservice.parseDate(event.target);
+		});
+		</script>
+
+		<!-- FOOTER -->
+		<div id="ss-footer-box" class="ss-footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+			
+<div class="ss-footer-stripe"></div>
+			<div class="ss-content">
+				<div class="ss-footer-internal-small">
+					&copy;&nbsp;Copyright 2014-2024 Tyler Technologies&nbsp;|&nbsp;Version 2024.4.25
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+	
+	function initializeSessionTimerChecks() {
+		if (selfservice.mode.kioskMode == undefined) {
+			var test = 'false';
+			if (!test) {
+				selfservice.mode.kioskMode = false;
+			} else {
+				selfservice.mode.kioskMode = booleanValue('false');
+			}
+		}
+
+		if (selfservice.session.userLoggedIn == undefined) {
+			selfservice.session.userLoggedIn = booleanValue('false');
+		}
+
+		if (selfservice.url.homePage == undefined) {
+			selfservice.url.homePage = window.location.origin + '/web/';
+		}
+		if(selfservice.setting.showDisclaimer == undefined){
+			selfservice.setting.showDisclaimer = booleanValue('true')
+		}
+	
+		if( selfservice.pages.disclaimer == undefined){
+			 selfservice.pages.disclaimer = '/web/user/disclaimer';
+		}
+	}
+
+	$(document).keydown(function(e) {
+		selfservice.maybeScrollScreen(e);
+	});
+
+	$(document).on('pageinit', function(event) {
+		initializeSessionTimerChecks();
+
+		
+		selfservice.session.continueSession();
+
+		
+			var subscriptionTimerId = $('#subscriptionTimer').attr('id');
+			selfservice.subscriptionTimer.setSubscriptionTime(subscriptionTimerId, '/web/subscription/getSubscriptionTime');
+		});
+
+	$( document ).ajaxComplete(function( event, request, settings ) {
+		if(request.getResponseHeader('isThresholdReached') === "true"){
+			location.reload();
+		}
+	});
+	
+	$.ajaxSetup({
+	    beforeSend: function(xhr) {
+	        xhr.setRequestHeader('ajaxRequest', true);
+	    }
+	});
+
+	function removeDisclaimerCookie(){
+		var context = "/web/";
+		context = context.split('/').join('')
+		document.cookie = "disclaimerAccepted=; Path=/" + context + "; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+	}
+	
+	</script>
+</body>
+</html>

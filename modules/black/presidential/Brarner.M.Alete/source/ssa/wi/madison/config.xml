@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>536</office-code>
+    <office-name>MADISON WI</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>6011 ODANA RD</address-3>
+    <city>MADISON</city>
+    <state>WI</state>
+    <zip-code>53719</zip-code>
+    <phone>(866) 770-2262</phone>
+    <fax>(833) 950-3737</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9965</socket-port>
+    <local-input-path>source-code/ssa/wi/madison/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/wi/madison</output-dir>
+</signal-processing-config>

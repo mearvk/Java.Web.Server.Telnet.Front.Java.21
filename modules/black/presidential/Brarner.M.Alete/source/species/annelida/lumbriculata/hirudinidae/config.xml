@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <kingdom>Animalia</kingdom>
+    <phylum>Annelida</phylum>
+    <subphylum></subphylum>
+    <class-name>Lumbriculata</class-name>
+    <subclass></subclass>
+    <order>Hirudiniformes</order>
+    <suborder></suborder>
+    <infraorder></infraorder>
+    <family>Hirudinidae</family>
+    <installer-tax-id>MEARVK-LLC-2026</installer-tax-id>
+    <brand>Brarner.M.Alete</brand>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>16604</socket-port>
+    <local-input-path>source-code/species/annelida/lumbriculata/hirudinidae/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/BrarnerScience</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/species/annelida/lumbriculata/hirudinidae</output-dir>
+</signal-processing-config>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knownServers>
+    <!-- Green.Durham.Grass.and.Herb servers accepting speculations on port 20000 -->
+    <server>
+        <name>Green Durham Primary</name>
+        <host>github.com/mearvk/Green.Durham.Grass.and.Herb</host>
+        <address>45.32.31.139</address>
+        <address>64.176.167.52</address>
+        <port>20000</port>
+        <protocol>TCP</protocol>
+        <enabled>true</enabled>
+    </server>
+</knownServers>

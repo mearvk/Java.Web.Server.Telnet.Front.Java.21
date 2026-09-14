@@ -1,0 +1,75 @@
+BLACK BELT CONDUCT & ETHICAL DECISION FORM — TEMPLATE v2.0
+For use with: Ollama / Llama 3.1 BBEA model (human-readable output format)
+═══════════════════════════════════════════════════════════════════════════════
+
+This is the human-readable form the model learns to reference when producing
+the signature_block and closure_summary. Training includes both JSON output
+and this form structure so the model understands the "feel" of an auditor
+document.
+
+───────────────────────────────────────────────────────────────────────────────
+
+                BLACK BELT CONDUCT & ETHICAL DECISION FORM
+
+Style:        ____________________________________
+Rank:         ____________________________________
+Organization: ____________________________________
+Jurisdiction: United States
+Date:         ____________________________________
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION A — CONDUCT DOMAINS
+═══════════════════════════════════════════════════════════════════════════════
+
+  ☐ Technical Discipline
+  ☐ Leadership (without coercion)
+  ☐ Ethical Decision-Making
+  ☐ Non-Discrimination
+  ☐ Right to Refuse Misuse of Skill
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION B — RIGHT TO CHOOSE & LAW ALIGNMENT
+═══════════════════════════════════════════════════════════════════════════════
+
+  1. Right to Choose Non-Violence
+     "I acknowledge my right to choose non-violent resolution
+      whenever reasonably possible."
+     Initials: ______    ☐ Affirmed  ☐ Not Affirmed
+
+  2. Prejudice & Discrimination
+     "I understand that any prejudiced or discriminatory use of
+      martial skill violates my rank and school ethics."
+     Initials: ______    ☐ Compliant  ☐ Non-Compliant
+
+  3. Law & Use of Force
+     "I agree to align any use of force with applicable law and
+      proportionality principles."
+     Initials: ______    ☐ Aligned  ☐ Misaligned
+
+═══════════════════════════════════════════════════════════════════════════════
+SECTION C — AUDITOR ASSESSMENT
+═══════════════════════════════════════════════════════════════════════════════
+
+  Leadership without coercion:    ☐ Compliant     ☐ Non-Compliant
+  Non-discriminatory conduct:     ☐ Compliant     ☐ Non-Compliant
+  Right to refuse misuse:         ☐ Affirmed      ☐ Not Affirmed
+  Authority misuse indicators:    ☐ None          ☐ Present  ☐ Confirmed
+
+  Auditor Summary:
+  ________________________________________________________________
+  ________________________________________________________________
+  ________________________________________________________________
+
+  Conduct Score:     ☐ Low         ☐ Medium       ☐ High
+  Risk Rating:       ☐ Low         ☐ Medium       ☐ High
+  Closure Status:    ☐ Closed      ☐ Follow-Up Required
+
+═══════════════════════════════════════════════════════════════════════════════
+SIGNATURES
+═══════════════════════════════════════════════════════════════════════════════
+
+  Practitioner: ________________________________  Date: ____________
+
+  Auditor:      ________________________________  Date: ____________
+
+═══════════════════════════════════════════════════════════════════════════════

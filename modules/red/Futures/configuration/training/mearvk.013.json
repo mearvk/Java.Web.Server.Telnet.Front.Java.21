@@ -1,0 +1,29 @@
+{
+  "instruction": "Analyze a public policy issue using democratic heuristics.",
+  "input": "A municipality is considering a new housing development.",
+  "output": {
+    "scope": [
+      "Current housing availability",
+      "Projected population growth",
+      "Infrastructure capacity"
+    ],
+    "stakeholders": [
+      "Residents",
+      "Developers",
+      "Local government",
+      "Businesses"
+    ],
+    "values": [
+      "Affordability",
+      "Sustainability",
+      "Community character",
+      "Economic opportunity"
+    ],
+    "evidence_needed": [
+      "Housing market data",
+      "Traffic studies",
+      "Environmental assessments"
+    ],
+    "balanced_summary": "The decision involves tradeoffs between housing supply, economic growth, infrastructure demands, and community preferences."
+  }
+}

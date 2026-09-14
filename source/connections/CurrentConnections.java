@@ -1,3 +1,10 @@
+/**
+ * File-level Javadoc.
+ *
+ * @author Max Rupplin
+ * @date June 03 2026 EST
+ */
+
 package connections;
 
 import server.base.BaseServer;
@@ -7,7 +14,7 @@ import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CurrentConnections
 {
@@ -29,35 +36,33 @@ public class CurrentConnections
 
     public ConnectionPoller thread;
 
-    public ArrayList<Connection> current_connections = new ArrayList<Connection>();
+    // CopyOnWriteArrayList: safe for concurrent add (BaseServer) + iterate/remove (ConnectionPoller)
+    public CopyOnWriteArrayList<Connection> CURRENT_CONNECTION = new CopyOnWriteArrayList<Connection>();
 
-    public void add(Connection connection)
+    public void add(final Connection CONNECTION)
     {
-        this.current_connections.add(connection);
+        this.CURRENT_CONNECTION.add(CONNECTION);
     }
 
-    public void remove(Socket socket)
+    public void remove(final Socket SOCKET)
     {
-        for(int i=0; i<this.current_connections.size(); i++)
+        for(int i = 0; i < this.CURRENT_CONNECTION.size(); i++)
         {
-            Socket _socket = this.current_connections.get(i).socket;
-
-            if(_socket==socket)
+            if(this.CURRENT_CONNECTION.get(i).SOCKET == SOCKET)
             {
-                Connection connection = this.current_connections.get(i);
-
-                this.current_connections.remove(connection);
+                this.CURRENT_CONNECTION.remove(i);
+                break; // remove only first match
             }
         }
     }
 
-    public void remove(Connection connection)
+    public void remove(final Connection CONNECTION)
     {
-        this.current_connections.remove(connection);
+        this.CURRENT_CONNECTION.remove(CONNECTION);
     }
 
     public Integer size()
     {
-        return this.current_connections.size();
+        return this.CURRENT_CONNECTION.size();
     }
 }

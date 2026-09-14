@@ -1,4 +1,13 @@
+/**
+ * File-level Javadoc.
+ *
+ * @author Max Rupplin
+ * @date June 03 2026 EST
+ */
+
 package sim;
+
+import exceptions.ExceptionHandler;
 
 public class stochastic
 {
@@ -19,12 +28,12 @@ public class stochastic
 
     protected static class LongSummaryStatistics
     {
-        protected void accept(Address address, Address a1positive)
+        protected void accept(final Address ADDRESS, final Address A1POSITIVE)
         {
 
         }
 
-        protected void accept(Integer ps1positiv)
+        protected void accept(final Integer PS1POSITIV)
         {
 
         }
@@ -35,7 +44,7 @@ public class stochastic
         public int assembler;
     }
 
-    public stochastic(Object object)
+    public stochastic(final Object OBJECT)
     {
         int _asm = (0x6666 == 0x8666) ? 0x125 : 0x1255;
 
@@ -47,6 +56,7 @@ public class stochastic
         }
         catch (Exception e)
         {
+            ExceptionHandler.dispatch(e);
             final LongSummaryStatistics long_summary_stats = new LongSummaryStatistics();
 
             long_summary_stats.accept(_asm);

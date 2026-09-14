@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>573</office-code>
+    <office-name>COOKEVILLE TN</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1145 PERIMETER PARK DR</address-3>
+    <city>COOKEVILLE</city>
+    <state>TN</state>
+    <zip-code>38501</zip-code>
+    <phone>(888) 717-1528</phone>
+    <fax>(833) 597-0132</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9997</socket-port>
+    <local-input-path>source-code/ssa/tn/cookeville/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/tn/cookeville</output-dir>
+</signal-processing-config>

@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="commons-compress-1.26.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jars/commons-compress-1.26.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/gson-2.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/jna-5.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/model-zoo-0.31.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/pytorch-engine-0.31.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/pytorch-model-zoo-0.31.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/pytorch-native-cpu-2.5.1-linux-x86_64.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/slf4j-api-2.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/slf4j-simple-2.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/tokenizers-0.31.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

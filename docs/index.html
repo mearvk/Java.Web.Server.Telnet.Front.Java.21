@@ -480,9 +480,9 @@
                 // draw cumulative line chart across all days
                 drawCumulativeLineChart(cumulative);
 
-                var totalCommits = cumulative.length ? cumulative[cumulative.length - 1] : 0;
+                var totalCommits = (cumulative && cumulative.length) ? (cumulative[cumulative.length - 1] || 0) : 0;
                 var updatedAt = new Date();
-                summaryEl.textContent = totalCommits + ' commits (cumulative, last 52 weeks) · updated ' + updatedAt.toLocaleString();
+                summaryEl.textContent = String(totalCommits) + ' commits (cumulative, last 52 weeks) · updated ' + updatedAt.toLocaleString();
                 noteEl.textContent = 'Additive cumulative chart (daily) from GitHub REST commits endpoint.';
             } catch (err) {
                 console.warn(err);
@@ -493,14 +493,17 @@
                     var repoRes = await fetch('https://api.github.com/repos/' + owner + '/' + repo, { headers: headers });
                     if (repoRes.ok) {
                         var repoJson = await repoRes.json();
-                        summaryEl.textContent = repoJson.full_name + ' · ' + (repoJson.stargazers_count || 0) + ' ★ · ' + (repoJson.forks_count || 0) + ' forks';
+                        var displayName = (repoJson && repoJson.full_name) ? String(repoJson.full_name) : (owner + '/' + repo);
+                        var stars = (repoJson && typeof repoJson.stargazers_count === 'number') ? repoJson.stargazers_count : 0;
+                        var forks = (repoJson && typeof repoJson.forks_count === 'number') ? repoJson.forks_count : 0;
+                        summaryEl.textContent = displayName + ' · ' + stars + ' ★ · ' + forks + ' forks';
                         noteEl.textContent = 'Weekly commit data unavailable; showing repo summary.';
                     } else {
-                        summaryEl.textContent = 'Stats unavailable';
-                        noteEl.textContent = 'Unable to fetch commit data. Check network or token.';
+                        summaryEl.textContent = owner + '/' + repo;
+                        noteEl.textContent = 'Unable to fetch commit data (HTTP ' + repoRes.status + '). Check network or token.';
                     }
                 } catch (e2) {
-                    summaryEl.textContent = 'Stats unavailable';
+                    summaryEl.textContent = owner + '/' + repo;
                     noteEl.textContent = 'Unable to fetch commit data. Check network or token.';
                 }
                 // placeholder drawing

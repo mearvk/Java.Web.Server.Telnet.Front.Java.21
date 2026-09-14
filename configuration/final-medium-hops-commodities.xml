@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Final Medium Hops Module — Commodities & Research Captures
+    ===========================================================
+    Science conclusions, postulates, explorations, and rich research
+    that form final commodities for grain review.
+
+    IQ is relevant as PhD-level structural method: exact understanding.
+-->
+<final-medium-hops>
+    <commodity name="ScienceConclusion" type="research"
+               description="Completed scientific conclusions ready for national delivery"/>
+    <commodity name="Postulate" type="research"
+               description="Formal postulates proposed from rich research exploration"/>
+    <commodity name="Exploration" type="research"
+               description="Deep exploratory research with novel findings"/>
+    <commodity name="RichResearch" type="research"
+               description="High-value research output from PhD-grade methodology"/>
+    <commodity name="GrainReview" type="commodity"
+               description="Final commodity grain review — last structural pass before delivery"/>
+    <commodity name="ExactUnderstanding" type="structural"
+               description="Exact structural methods verified at PhD-level comprehension"/>
+    <commodity name="IQForward" type="structural"
+               description="IQ-weighted forward propagation of conclusions to national modules"/>
+
+    <evaluation>
+        <!-- IQ threshold for PhD-level structural methods -->
+        <iq-threshold value="120" description="Minimum IQ for unassisted final-hop approval"/>
+        <education-minimum value="phd" description="PhD required for structural method sign-off"/>
+    </evaluation>
+</final-medium-hops>

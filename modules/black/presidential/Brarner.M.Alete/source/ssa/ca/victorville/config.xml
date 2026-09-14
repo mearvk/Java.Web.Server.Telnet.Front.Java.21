@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>A87</office-code>
+    <office-name>VICTORVILLE CA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>13955 PARK AVE</address-3>
+    <city>VICTORVILLE</city>
+    <state>CA</state>
+    <zip-code>92392</zip-code>
+    <phone>(877) 405-1435</phone>
+    <fax>(833) 950-3655</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9264</socket-port>
+    <local-input-path>source-code/ssa/ca/victorville/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ca/victorville</output-dir>
+</signal-processing-config>

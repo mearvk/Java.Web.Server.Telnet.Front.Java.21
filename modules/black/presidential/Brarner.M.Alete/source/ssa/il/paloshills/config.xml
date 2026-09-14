@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>A58</office-code>
+    <office-name>CHICAGO SW SUBU</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>10718 S ROBERTS RD</address-3>
+    <city>PALOS HILLS</city>
+    <state>IL</state>
+    <zip-code>60465</zip-code>
+    <phone>(877) 405-4568</phone>
+    <fax>(833) 950-3059</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9240</socket-port>
+    <local-input-path>source-code/ssa/il/paloshills/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/il/paloshills</output-dir>
+</signal-processing-config>

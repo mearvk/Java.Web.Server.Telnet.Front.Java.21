@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>E02</office-code>
+    <office-name>SAIPAN MP</office-name>
+    <address-1>SOCIAL SECURITY ADMINISTRATION</address-1>
+    <address-2>MH II BLDG SUITE 201</address-2>
+    <address-3>MARINA HEIGHTS BUSINESS PARK</address-3>
+    <city>SAIPAN</city>
+    <state>MP</state>
+    <zip-code>96950</zip-code>
+    <phone>(855) 616-6449</phone>
+    <fax>(833) 902-2610</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9453</socket-port>
+    <local-input-path>source-code/ssa/mp/saipan/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mp/saipan</output-dir>
+</signal-processing-config>

@@ -1,0 +1,6 @@
+{
+  "instruction": "Evaluate communication quality.",
+  "chosen": "The proposal depends on three assumptions. If assumption A fails, projected growth declines by approximately 15%. Alternative scenarios should therefore be modeled.",
+  "rejected": "The proposal is amazing and will definitely work because it is clearly the best option available.",
+  "preference": "chosen"
+}

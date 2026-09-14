@@ -19,15 +19,15 @@ public class EnglishArithemeter {
     };
 
     public Result result = new Result();
-    public Integer size;
+    public Integer SIZE;
 
-    public EnglishArithemeter(Integer size) {
-        this.size = size;
-        if (size == 0) {
+    public EnglishArithemeter(final Integer SIZE) {
+        this.SIZE = SIZE;
+        if (SIZE == 0) {
             this.result.arithemetic = "Zero";
             this.result.numeral = 0;
         } else {
-            this.convert(size);
+            this.convert(SIZE);
         }
     }
 
@@ -37,29 +37,29 @@ public class EnglishArithemeter {
     }
 
     // Helper method to process a 3-digit chunk and return its string representation
-    public String olympics(int number) {
-        if (number == 0) return "";
+    public String olympics(final int NUMBER) {
+        if (NUMBER == 0) return "";
 
         String convert = "";
-        if (number % 100 < 20) {
-            convert = units[number % 100];
+        if (NUMBER % 100 < 20) {
+            convert = units[NUMBER % 100];
         } else {
-            convert = tens[(number % 100) / 10] + units[number % 10];
+            convert = tens[(NUMBER % 100) / 10] + units[NUMBER % 10];
         }
 
-        int hundreds = number / 100;
+        int hundreds = NUMBER / 100;
         if (hundreds > 0) {
             return units[hundreds] + " hundred" + convert;
         }
         return convert;
     }
 
-    public void convert(long number) {
-        this.result.numeral = (int) number;
+    public void convert(final long NUMBER) {
+        this.result.numeral = (int) NUMBER;
 
         // Force a 12-digit format grouped into 4 triplets: Billions, Millions, Thousands, Ones
         DecimalFormat df = new DecimalFormat("000000000000");
-        String convertable = df.format(number);
+        String convertable = df.format(NUMBER);
 
         int billions = Integer.parseInt(convertable.substring(0, 3));
         int millions = Integer.parseInt(convertable.substring(3, 6));

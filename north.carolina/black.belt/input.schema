@@ -1,0 +1,9 @@
+{
+  "style": "string",
+  "belt_level": "string",
+  "jurisdiction": "United States",
+  "conduct_observations": [...],
+  "ethical_responses": [...],
+  "legal_context": "optional",
+  "auditor_notes": "optional"
+}

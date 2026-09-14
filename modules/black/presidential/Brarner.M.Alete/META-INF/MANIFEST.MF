@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: source-code/Main.java
+Class-Path: commons-math3-3.6.1.jar TarsosDSP-core-2.5.jar jscipy-3.1.7.
+ jar jdsp-3.1.1.jar TarsosDSP-jvm-2.5.jar
+

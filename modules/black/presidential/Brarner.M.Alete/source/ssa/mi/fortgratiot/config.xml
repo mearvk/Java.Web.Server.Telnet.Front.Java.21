@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>362</office-code>
+    <office-name>FORT GRATIOT</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>2620 KRAFFT RD</address-3>
+    <city>FORT GRATIOT</city>
+    <state>MI</state>
+    <zip-code>48059</zip-code>
+    <phone>(877) 895-0042</phone>
+    <fax>(833) 950-2468</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9809</socket-port>
+    <local-input-path>source-code/ssa/mi/fortgratiot/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mi/fortgratiot</output-dir>
+</signal-processing-config>

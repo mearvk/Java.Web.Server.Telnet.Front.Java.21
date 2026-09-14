@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>458</office-code>
+    <office-name>TERRE HAUTE IN</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>222 CHERRY ST</address-3>
+    <city>TERRE HAUTE</city>
+    <state>IN</state>
+    <zip-code>47807</zip-code>
+    <phone>(866) 635-0282</phone>
+    <fax>(833) 902-2672</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9895</socket-port>
+    <local-input-path>source-code/ssa/in/terrehaute/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/in/terrehaute</output-dir>
+</signal-processing-config>

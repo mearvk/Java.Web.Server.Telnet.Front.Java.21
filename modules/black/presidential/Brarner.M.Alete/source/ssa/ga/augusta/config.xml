@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>606</office-code>
+    <office-name>AUGUSTA GA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>115 ROBERT C DANIEL JR PKWY</address-3>
+    <city>AUGUSTA</city>
+    <state>GA</state>
+    <zip-code>30909</zip-code>
+    <phone>(877) 616-2523</phone>
+    <fax>(833) 950-2570</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10029</socket-port>
+    <local-input-path>source-code/ssa/ga/augusta/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ga/augusta</output-dir>
+</signal-processing-config>

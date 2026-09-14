@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>762</office-code>
+    <office-name>BLYTHEVILLE AR</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1403 S DIVISION ST</address-3>
+    <city>BLYTHEVILLE</city>
+    <state>AR</state>
+    <zip-code>72315</zip-code>
+    <phone>(866) 842-6638</phone>
+    <fax>(833) 950-2710</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10160</socket-port>
+    <local-input-path>source-code/ssa/ar/blytheville/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ar/blytheville</output-dir>
+</signal-processing-config>

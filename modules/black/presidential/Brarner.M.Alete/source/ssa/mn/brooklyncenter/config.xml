@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>C39</office-code>
+    <office-name>BROOKLYN CENTER</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>BROOKLYN XNG OFC PARK</address-2>
+    <address-3>3280 NORTHWAY DRIVE</address-3>
+    <city>BROOKLYN CENTER</city>
+    <state>MN</state>
+    <zip-code>55429</zip-code>
+    <phone>(866) 931-0341</phone>
+    <fax>(833) 950-3407</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9360</socket-port>
+    <local-input-path>source-code/ssa/mn/brooklyncenter/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mn/brooklyncenter</output-dir>
+</signal-processing-config>

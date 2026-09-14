@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>352</office-code>
+    <office-name>TRAVERSE CITY MI</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1329 S DIVISION ST</address-3>
+    <city>TRAVERSE CITY</city>
+    <state>MI</state>
+    <zip-code>49684</zip-code>
+    <phone>(866) 739-4802</phone>
+    <fax>(833) 950-2126</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9799</socket-port>
+    <local-input-path>source-code/ssa/mi/traversecity/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mi/traversecity</output-dir>
+</signal-processing-config>

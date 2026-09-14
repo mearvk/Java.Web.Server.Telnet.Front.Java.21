@@ -1,0 +1,117 @@
+/* CD1 Connector Dialog — uses button PNG images from resources */
+
+.cd1-button-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    position: relative;
+    z-index: 200;
+    width: 100%;
+    text-align: center;
+}
+.cd1-btn {
+    all: unset;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.42,-1.84,0.42,1.84), filter 0.3s ease;
+    padding: 0;
+    border: none;
+    background: transparent;
+    transform: scale(0.25);
+}
+.cd1-btn-img {
+    display: block;
+    border-radius: 50%;
+}
+.cd1-btn:hover {
+    transform: scale(0.27);
+    filter: brightness(1.2);
+}
+.cd1-btn:active {
+    transform: scale(0.22);
+}
+.cd1-btn[aria-pressed="true"] {
+    transform: scale(0.23);
+    filter: drop-shadow(0 0 8px rgba(59,130,246,0.6));
+}
+
+/* Overlay */
+.cd1-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 299;
+    background: transparent;
+}
+
+/* Floating dialog */
+.cd1-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 300;
+    background: var(--bg-section, #111118);
+    border: 1px solid var(--border, #27272a);
+    border-radius: 12px;
+    padding: 1.25rem;
+    width: 520px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.cd1-dialog-header {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.75rem;
+}
+.cd1-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+.cd1-controls select {
+    background: #1a1a24;
+    color: #fff;
+    border: 1px solid #27272a;
+    border-radius: 8px;
+    padding: 0.45rem 2rem 0.45rem 0.75rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a1a1aa' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+}
+.cd1-send, .cd1-ok {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.cd1-send:hover, .cd1-ok:hover { background: #2563eb; }
+.cd1-textarea {
+    width: 100%;
+    min-height: 140px;
+    background: #ffffff;
+    color: #111;
+    border: 1px solid #27272a;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    resize: vertical;
+}
+.cd1-commands {
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: #71717a;
+}
+.cd1-commands strong { color: #a1a1aa; }

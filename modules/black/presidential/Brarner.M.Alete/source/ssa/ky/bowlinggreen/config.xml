@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>443</office-code>
+    <office-name>BOWLING GREEN KY</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>2724 CHANDLER DRIVE</address-3>
+    <city>BOWLING GREEN</city>
+    <state>KY</state>
+    <zip-code>42104</zip-code>
+    <phone>(877) 801-0817</phone>
+    <fax>(833) 950-3477</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9880</socket-port>
+    <local-input-path>source-code/ssa/ky/bowlinggreen/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ky/bowlinggreen</output-dir>
+</signal-processing-config>

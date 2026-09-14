@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>305</office-code>
+    <office-name>CHARLESTON WV</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 300</address-2>
+    <address-3>500 QUARRIER STREET</address-3>
+    <city>CHARLESTON</city>
+    <state>WV</state>
+    <zip-code>25301</zip-code>
+    <phone>(888) 527-9305</phone>
+    <fax>(833) 912-2310</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9755</socket-port>
+    <local-input-path>source-code/ssa/wv/charleston/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/wv/charleston</output-dir>
+</signal-processing-config>

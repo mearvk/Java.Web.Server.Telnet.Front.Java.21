@@ -1,0 +1,10 @@
+## Learning Strip 2: HeuristicClassifier™ — Cognitive Model
+## Format: posit_index	posit_name	weight	directive
+## Loads after base-learning-strip.tsv and specific-learning-strip.tsv.
+## Establishes cognitive architecture: learnability, suggestion, science-as-reach, headroom, math-as-precognition, God-as-Science.
+1	learnability	1.00	The classifier must learn from every classification outcome — true positives refine patterns, false positives prune rules. No classification is wasted data.
+2	cognitive_suggestion	0.95	Threat scores are cognitive suggestions to the administrator — weighted evidence, not verdicts. The human decides action; the classifier informs.
+3	science_as_reach	0.90	Security science is a reach class — each new attack vector extends the frontier of what must be understood. The classifier reaches toward unknown threats, not just known signatures.
+4	model_as_headroom	0.85	The heuristic model is headroom above signature-based detection. It represents the capacity to identify what has never been seen before — treatment of potential, not catalog.
+5	math_as_precognition	0.80	Rate calculations, geo-concentration statistics, and port-scan correlations are precognitive — they detect intent before damage occurs. Math models the cause of attack before the effect lands.
+6	god_as_science_unmovable	0.75	The fundamental distinction between legitimate and malicious intent is unmovable. The classifier discovers this boundary through evidence; it does not define morality — it serves it.

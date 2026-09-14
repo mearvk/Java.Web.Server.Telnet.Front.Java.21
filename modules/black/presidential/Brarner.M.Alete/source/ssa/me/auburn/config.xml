@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>4</office-code>
+    <office-name>AUBURN ME</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 5</address-2>
+    <address-3>600 TURNER STREET</address-3>
+    <city>AUBURN</city>
+    <state>ME</state>
+    <zip-code>4210</zip-code>
+    <phone>(833) 388-6432</phone>
+    <fax>(833) 950-3581</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9493</socket-port>
+    <local-input-path>source-code/ssa/me/auburn/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/me/auburn</output-dir>
+</signal-processing-config>

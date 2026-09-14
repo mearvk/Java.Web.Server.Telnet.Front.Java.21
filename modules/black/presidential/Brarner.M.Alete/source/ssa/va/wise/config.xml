@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>299</office-code>
+    <office-name>WISE VA</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>253 RIDGEVIEW ROAD SW</address-3>
+    <city>WISE</city>
+    <state>VA</state>
+    <zip-code>24293</zip-code>
+    <phone>(877) 405-7843</phone>
+    <fax>(833) 950-2594</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9749</socket-port>
+    <local-input-path>source-code/ssa/va/wise/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/va/wise</output-dir>
+</signal-processing-config>

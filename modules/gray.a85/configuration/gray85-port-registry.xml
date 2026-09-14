@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Gray.85 Module — Crème Port Registry Configuration
+    ===================================================
+    Same architecture as Gray, but 15 out of every 100 ports are implicitly
+    and tightly locked under Crème — auditor control already clean, planetary.
+
+    Crème ports: Auditor-controlled, planetary clean. Locked by default.
+    Opened only for $1000 USD donations, for an hour or more.
+
+    Ratio: 85 open / 15 Crème-locked per 100 ports in every block.
+    Blocks: 30,000,000 ports each, 1000 blocks initially.
+    Crème-locked ports per block: 4,500,000 (15%)
+
+    Brand: Installer ID Tech™
+    Database: nwe_gray85_registry (MySQL)
+    Client port: 10085
+
+    Author: Max Rupplin — MEARVK LLC — Installer ID Tech™
+-->
+<gray85-port-registry>
+
+    <!-- Service configuration -->
+    <service port="10085" host="0.0.0.0" name="Installer ID Tech™ Gray.85 Crème Registry"
+             banner="Installer ID Tech™ Gray.85 — 85/100 open, 15/100 Crème-locked (planetary clean) — $1000 USD to unlock Crème"
+             enabled="true"/>
+
+    <!-- AI binary gate -->
+    <ai-gate enabled="true" class="modules.gray85.PortBindingGate85"
+             description="Binary 1/0 gate — enforces Crème lock on 15% ports"/>
+
+    <!-- Block configuration -->
+    <blocks>
+        <block-size>30000000</block-size>
+        <initial-blocks>1000</initial-blocks>
+        <total-ports>30000000000</total-ports>
+    </blocks>
+
+    <!-- Crème configuration — 15 of every 100 ports locked -->
+    <creme>
+        <ratio-locked>15</ratio-locked>
+        <ratio-open>85</ratio-open>
+        <ratio-base>100</ratio-base>
+        <locked-ports-per-block>4500000</locked-ports-per-block>
+        <nature>planetary-clean</nature>
+        <auditor-control>already-clean</auditor-control>
+        <description>Crème ports are auditor-controlled, planetary. Already clean. Implicitly tight-locked.</description>
+        <unlock-donation-usd>1000.00</unlock-donation-usd>
+        <unlock-minimum-duration-hours>1</unlock-minimum-duration-hours>
+        <unlock-terms>
+            <term name="hour" hours="1" price-usd="1000.00" price-btc="0.015"/>
+            <term name="day" hours="24" price-usd="5000.00" price-btc="0.075"/>
+            <term name="week" hours="168" price-usd="20000.00" price-btc="0.30"/>
+        </unlock-terms>
+    </creme>
+
+    <!-- Standard lease terms (for the 85% open ports) -->
+    <lease>
+        <default-term>month</default-term>
+        <terms>
+            <term name="month" days="30" price-btc="0.00015" price-usd="10.00"/>
+            <term name="year" days="365" price-btc="0.0015" price-usd="100.00"/>
+            <term name="multi-year" days="1095" price-btc="0.004" price-usd="250.00"/>
+        </terms>
+        <minimum-donation-usd>10.00</minimum-donation-usd>
+        <accepted-currencies>
+            <currency name="Bitcoin" symbol="BTC" primary="true"/>
+            <currency name="Dashcoin" symbol="DASH" primary="false"/>
+        </accepted-currencies>
+    </lease>
+
+    <!-- NIO binding: 127.0.X.X range -->
+    <nio-binding>
+        <ip-range-start>127.0.0.1</ip-range-start>
+        <ip-range-end>127.0.255.255</ip-range-end>
+        <ports-per-ip>65536</ports-per-ip>
+    </nio-binding>
+
+    <!-- MySQL database -->
+    <database>
+        <name>nwe_gray85_registry</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <user>nwe</user>
+        <tables>
+            <table name="leases" description="Standard port block leases (85% open)"/>
+            <table name="creme_unlocks" description="Crème unlock events — $1000+ donations"/>
+            <table name="connections" description="Client connection log — IP, domain, time, geo, bitcoin"/>
+            <table name="payments" description="Bitcoin/Dash transaction records"/>
+            <table name="blocks" description="Port block allocation and Crème status"/>
+        </tables>
+    </database>
+
+    <!-- Startup: enabled by default -->
+    <startup auto-start="true" priority="6"/>
+
+</gray85-port-registry>

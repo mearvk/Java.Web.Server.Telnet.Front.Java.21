@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>A75</office-code>
+    <office-name>KERRVILLE TX</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>1060 GUADALUPE ST</address-3>
+    <city>KERRVILLE</city>
+    <state>TX</state>
+    <zip-code>78028</zip-code>
+    <phone>(877) 895-0043</phone>
+    <fax>(833) 939-1985</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9256</socket-port>
+    <local-input-path>source-code/ssa/tx/kerrville/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/tx/kerrville</output-dir>
+</signal-processing-config>

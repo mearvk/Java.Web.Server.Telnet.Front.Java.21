@@ -1,0 +1,22 @@
+{
+  "id": "006",
+  "style": "Taekwondo WT",
+  "belt_level": "1st Dan Black Belt",
+  "jurisdiction": "United States",
+  "legitimacy": "recognized_national_or_international",
+  "organization": "World Taekwondo / Kukkiwon",
+  "conduct_observations": [
+    "Raised voice during dispute but did not escalate physically",
+    "Apologized to class afterward"
+  ],
+  "ethical_responses": [
+    "Acknowledges mistake and preference for calmer dialogue",
+    "Affirms commitment to non-violence where possible"
+  ],
+  "audit_result": {
+    "conduct_score": "medium",
+    "risk_rating": "low",
+    "closure_status": "closed",
+    "summary": "Minor conduct incident (raised voice) was self-corrected with apology. Practitioner demonstrates awareness and commitment to improvement. No follow-up required."
+  }
+}

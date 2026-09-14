@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>772</office-code>
+    <office-name>KANSAS CITY KS</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>850 NEBRASKA AVE</address-3>
+    <city>KANSAS CITY</city>
+    <state>KS</state>
+    <zip-code>66101</zip-code>
+    <phone>(866) 331-2197</phone>
+    <fax>(833) 436-4147</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10169</socket-port>
+    <local-input-path>source-code/ssa/ks/kansascity/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ks/kansascity</output-dir>
+</signal-processing-config>

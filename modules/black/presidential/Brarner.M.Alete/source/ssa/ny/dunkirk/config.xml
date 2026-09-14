@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>C72</office-code>
+    <office-name>DUNKIRK NY</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE 2</address-2>
+    <address-3>437 MAIN ST</address-3>
+    <city>DUNKIRK</city>
+    <state>NY</state>
+    <zip-code>14048</zip-code>
+    <phone>(888) 862-2139</phone>
+    <fax>(833) 950-3277</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9381</socket-port>
+    <local-input-path>source-code/ssa/ny/dunkirk/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/ny/dunkirk</output-dir>
+</signal-processing-config>

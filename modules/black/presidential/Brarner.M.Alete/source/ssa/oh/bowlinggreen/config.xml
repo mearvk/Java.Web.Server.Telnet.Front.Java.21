@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>B32</office-code>
+    <office-name>BOWLING GREEN OH</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>745 INNOVATION DRIVE</address-3>
+    <city>BOWLING GREEN</city>
+    <state>OH</state>
+    <zip-code>43402</zip-code>
+    <phone>(866) 931-7674</phone>
+    <fax>(833) 950-3403</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9299</socket-port>
+    <local-input-path>source-code/ssa/oh/bowlinggreen/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/oh/bowlinggreen</output-dir>
+</signal-processing-config>

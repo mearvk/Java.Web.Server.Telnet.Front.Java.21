@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>366</office-code>
+    <office-name>ANN ARBOR MI</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2>SUITE A</address-2>
+    <address-3>3971 RESEARCH PARK DR</address-3>
+    <city>ANN ARBOR</city>
+    <state>MI</state>
+    <zip-code>48108</zip-code>
+    <phone>(877) 402-0825</phone>
+    <fax>(734) 769-9916</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9813</socket-port>
+    <local-input-path>source-code/ssa/mi/annarbor/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/mi/annarbor</output-dir>
+</signal-processing-config>

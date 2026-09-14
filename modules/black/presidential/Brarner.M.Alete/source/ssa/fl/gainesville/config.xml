@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <office-code>663</office-code>
+    <office-name>GAINESVILLE FL</office-name>
+    <address-1>SOCIAL SECURITY</address-1>
+    <address-2></address-2>
+    <address-3>4562 NW 13 STREET</address-3>
+    <city>GAINESVILLE</city>
+    <state>FL</state>
+    <zip-code>32609</zip-code>
+    <phone>(877) 219-8323</phone>
+    <fax>(833) 710-0163</fax>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>10082</socket-port>
+    <local-input-path>source-code/ssa/fl/gainesville/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/ssa/fl/gainesville</output-dir>
+</signal-processing-config>

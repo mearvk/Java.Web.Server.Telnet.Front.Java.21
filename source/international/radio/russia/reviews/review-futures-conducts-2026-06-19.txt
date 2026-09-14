@@ -1,0 +1,36 @@
+==========================================================
+REVIEW OF FUTURES AND CONDUCTS
+Module: international.radio.russia
+Date: 2026-06-19
+Reviewer: AI_TRAINING_THREAD
+==========================================================
+
+SCORING SUMMARY
+
+Language Grade: 0.000 / 1.000 (awaiting first training cycle)
+Mortality Grade: 0.000 / 1.000 (awaiting first training cycle)
+Composite Score: 0.000 / 1.000 (awaiting first training cycle)
+
+LANGUAGE ASSESSMENT
+
+Pending first scouting and training cycle. Russian-language content from TASS,
+RIA, and RBC will be evaluated alongside English-language content from Interfax,
+MOEX, and RT.
+
+MORTALITY ASSESSMENT
+
+Pending. Gain control active. Special attention to conflict-related content
+and propaganda filtering via the moral classifier.
+
+FUTURES OUTLOOK
+
+The Russia module is initialized. MOEX market signals and CBR currency data
+provide financial training data. The information environment requires careful
+verdict sourcing — INTERNET trust remains at 0.40 with additional scrutiny.
+
+CONDUCT NOTES
+
+Channel usage configured with careful chapter guidelines. Gain control active.
+System in initialization state.
+
+END OF REVIEW

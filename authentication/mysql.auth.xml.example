@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copy this file to mysql.auth.xml and fill in your credentials. -->
+<!-- mysql.auth.xml is gitignored — never commit real credentials.  -->
+<mysql-auth>
+    <host>localhost</host>
+    <port>3306</port>
+    <username>YOUR_DB_USERNAME</username>
+    <password>YOUR_DB_PASSWORD</password>
+    <use-sudo>true</use-sudo>
+</mysql-auth>

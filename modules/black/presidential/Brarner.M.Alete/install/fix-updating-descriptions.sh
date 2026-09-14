@@ -1,0 +1,255 @@
+#!/bin/bash
+# ============================================================================
+# Brarner.M.Alete™ — Fix 'Updating' Placeholder Descriptions
+# Finds all taxonomy_descriptions rows where description = 'Updating' and
+# fetches real descriptions from GBIF Species API to replace them.
+# Safe to run multiple times — only touches rows with placeholder text.
+# ============================================================================
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+BMA_ROOT="$(dirname "$SCRIPT_DIR")"
+DB_PROPS="$BMA_ROOT/servlets/servlet/src/main/webapp/WEB-INF/db.properties"
+TMPFILE="/tmp/gbif-fix-response.json"
+
+echo "═══════════════════════════════════════════════════════════════"
+echo " Brarner.M.Alete™ — Fix 'Updating' Placeholder Descriptions"
+echo "═══════════════════════════════════════════════════════════════"
+
+# ─── Read DB credentials ───
+if [ -f "$DB_PROPS" ]; then
+    DEFAULT_USER=$(grep '^db.user=' "$DB_PROPS" | cut -d= -f2-)
+    DEFAULT_HOST=$(grep '^db.url=' "$DB_PROPS" | sed -n 's|.*://\([^:/]*\).*|\1|p')
+    DEFAULT_PORT=$(grep '^db.url=' "$DB_PROPS" | sed -n 's|.*:\([0-9]*\)/.*|\1|p')
+    DEFAULT_HOST="${DEFAULT_HOST:-127.0.0.1}"
+    DEFAULT_PORT="${DEFAULT_PORT:-3306}"
+else
+    DEFAULT_USER="root"
+    DEFAULT_HOST="127.0.0.1"
+    DEFAULT_PORT="3306"
+fi
+
+echo ""
+read -rp "  MySQL username [${DEFAULT_USER}]: " DB_USER
+DB_USER="${DB_USER:-$DEFAULT_USER}"
+read -srp "  MySQL password: " DB_PASS
+echo ""
+read -rp "  MySQL host [${DEFAULT_HOST}]: " DB_HOST
+DB_HOST="${DB_HOST:-$DEFAULT_HOST}"
+read -rp "  MySQL port [${DEFAULT_PORT}]: " DB_PORT
+DB_PORT="${DB_PORT:-$DEFAULT_PORT}"
+echo ""
+
+# ─── MySQL helper ───
+run_mysql() {
+    mysql --user="$DB_USER" --password="$DB_PASS" --host="$DB_HOST" --port="$DB_PORT" --database="BrarnerScience" "$@" 2>/dev/null
+}
+
+# ─── Verify connectivity ───
+echo "[*] Testing MySQL connection..."
+if ! run_mysql -e "SELECT 1;" >/dev/null 2>&1; then
+    echo "[!] Cannot connect to MySQL. Check credentials."
+    exit 1
+fi
+echo "[✓] MySQL connection OK"
+
+# ─── Count placeholder entries ───
+TOTAL_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions;")
+POPULATED_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description IS NOT NULL AND description!='Updating' AND TRIM(description)!='';")
+UPDATING_COUNT=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='';")
+
+echo ""
+echo "[*] Current state:"
+echo "     Total entries:             $TOTAL_COUNT"
+echo "     Already populated:         $POPULATED_COUNT"
+echo "     Needing fix ('Updating'):  $UPDATING_COUNT"
+echo ""
+echo "    Populated breakdown by rank:"
+run_mysql -N -B -e "SELECT CONCAT('      ', rank_level, ': ', COUNT(*)) FROM taxonomy_descriptions WHERE description IS NOT NULL AND description!='Updating' AND TRIM(description)!='' GROUP BY rank_level ORDER BY rank_level;"
+echo ""
+
+if [ "$UPDATING_COUNT" = "0" ]; then
+    echo "[✓] All descriptions are already populated. Nothing to fix."
+    exit 0
+fi
+
+# ─── Show breakdown of what needs fixing ───
+echo "    'Updating' breakdown by rank:"
+run_mysql -N -B -e "SELECT CONCAT('      ', rank_level, ': ', COUNT(*)) FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='' GROUP BY rank_level ORDER BY rank_level;"
+echo ""
+
+GBIF_API="https://api.gbif.org/v1"
+WIKI_API="https://en.wikipedia.org/api/rest_v1/page/summary"
+FIXED=0
+FAILED=0
+SKIPPED=0
+
+# ─── Fetch from Wikipedia + GBIF and update existing row ───
+fix_description() {
+    local rank_level="$1"
+    local taxon_name="$2"
+
+    # URL-encode the taxon name
+    local encoded
+    encoded=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "$taxon_name" 2>/dev/null)
+
+    if [ -z "$encoded" ]; then
+        FAILED=$((FAILED + 1))
+        return 1
+    fi
+
+    # Fetch from Wikipedia Summary API (primary source)
+    local wiki_tmp="/tmp/wiki-fix-response.json"
+    curl -s --max-time 10 -H "User-Agent: BrarnerMAlete/1.0 (taxonomy-descriptions)" \
+        "${WIKI_API}/${encoded}" -o "$wiki_tmp" 2>/dev/null
+
+    # Fetch from GBIF (for lineage/characteristics)
+    local gbif_rank
+    gbif_rank=$(echo "$rank_level" | tr '[:lower:]' '[:upper:]')
+    curl -s --max-time 10 "${GBIF_API}/species/search?q=${encoded}&rank=${gbif_rank}&limit=1" -o "$TMPFILE" 2>/dev/null
+
+    # Parse both and build UPDATE statement
+    local sql
+    sql=$(python3 - "$wiki_tmp" "$TMPFILE" "$rank_level" "$taxon_name" << 'PYEOF'
+import json, sys, os
+
+try:
+    wiki_file = sys.argv[1]
+    gbif_file = sys.argv[2]
+    rank_level = sys.argv[3]
+    taxon_name = sys.argv[4]
+
+    desc = ""
+    wiki_url = ""
+    characteristics = ""
+    gbif_key = 0
+
+    # ── Wikipedia: get the real English description ──
+    if os.path.exists(wiki_file) and os.path.getsize(wiki_file) > 0:
+        with open(wiki_file) as f:
+            try:
+                wd = json.load(f)
+                if wd.get("type") != "not_found" and wd.get("extract"):
+                    desc = wd["extract"]
+                    if len(desc) > 2000:
+                        cut = desc[:2000].rfind(". ")
+                        if cut > 200:
+                            desc = desc[:cut+1]
+                        else:
+                            desc = desc[:2000]
+                    wiki_url = wd.get("content_urls", {}).get("desktop", {}).get("page", "")
+                    if not wiki_url:
+                        wiki_url = f"https://en.wikipedia.org/wiki/{taxon_name.replace(' ', '_')}"
+            except (json.JSONDecodeError, KeyError):
+                pass
+
+    # ── GBIF: get lineage and key ──
+    if os.path.exists(gbif_file) and os.path.getsize(gbif_file) > 0:
+        with open(gbif_file) as f:
+            try:
+                gd = json.load(f)
+                results = gd.get("results", [])
+                if results:
+                    r = results[0]
+                    gbif_key = r.get("nubKey", r.get("key", 0))
+                    parts = []
+                    for k in ["kingdom", "phylum", "class", "order", "family"]:
+                        if r.get(k):
+                            parts.append(f"{k.title()}: {r[k]}")
+                    characteristics = ", ".join(parts)
+
+                    # Fallback: build basic desc from GBIF if Wikipedia had nothing
+                    if not desc:
+                        canonical = r.get("canonicalName", r.get("scientificName", taxon_name))
+                        rank_str = r.get("rank", "").lower()
+                        num_desc_count = r.get("numDescendants", 0)
+                        desc = f"{canonical} is a {rank_str}"
+                        if r.get("kingdom"):
+                            desc += f" in kingdom {r['kingdom']}"
+                        if r.get("phylum"):
+                            desc += f", phylum {r['phylum']}"
+                        if num_desc_count:
+                            desc += f". Contains approximately {num_desc_count:,} known descendant taxa"
+                        desc += "."
+                        wiki_url = f"https://en.wikipedia.org/wiki/{canonical.replace(' ', '_')}"
+            except (json.JSONDecodeError, KeyError):
+                pass
+
+    if not desc:
+        sys.exit(1)
+
+    # Escape for SQL
+    desc = desc.replace("\\", "\\\\").replace("'", "''")
+    characteristics = characteristics.replace("\\", "\\\\").replace("'", "''")[:500]
+    wiki_url = wiki_url.replace("'", "''")[:500]
+    safe_name = taxon_name.replace("\\", "\\\\").replace("'", "''")
+
+    print(f"UPDATE taxonomy_descriptions SET description='{desc}', characteristics='{characteristics}', wikipedia_url='{wiki_url}', gbif_key={gbif_key} WHERE rank_level='{rank_level}' AND taxon_name='{safe_name}';")
+except Exception:
+    sys.exit(1)
+PYEOF
+    )
+
+    rm -f "$wiki_tmp"
+
+    if [ -n "$sql" ]; then
+        if run_mysql -e "$sql"; then
+            FIXED=$((FIXED + 1))
+            return 0
+        else
+            FAILED=$((FAILED + 1))
+            return 1
+        fi
+    else
+        FAILED=$((FAILED + 1))
+        return 1
+    fi
+}
+
+# ─── Process all 'Updating' entries ───
+echo "[*] Fetching real descriptions from GBIF..."
+echo ""
+
+# Read entries as tab-separated rank_level and taxon_name
+ENTRIES=$(run_mysql -N -B -e "SELECT rank_level, taxon_name FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='' ORDER BY FIELD(rank_level,'kingdom','phylum','class','order','family'), taxon_name;")
+
+CURRENT=0
+while IFS=$'\t' read -r rank_level taxon_name; do
+    [ -z "$rank_level" ] && continue
+    [ -z "$taxon_name" ] && continue
+    CURRENT=$((CURRENT + 1))
+    printf "\r    [%d/%d] %-12s %-40s" "$CURRENT" "$UPDATING_COUNT" "$rank_level" "$taxon_name"
+    fix_description "$rank_level" "$taxon_name"
+    sleep 0.4  # Rate-limit GBIF API calls
+done <<< "$ENTRIES"
+
+echo ""
+echo ""
+
+# ─── Verify results ───
+REMAINING=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='';")
+POPULATED=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description!='Updating' AND description IS NOT NULL AND TRIM(description)!='';")
+
+echo "═══════════════════════════════════════════════════════════════"
+echo " [✓] Fix Complete"
+echo ""
+echo "     Fixed this run:       $FIXED"
+echo "     Failed (no GBIF hit): $FAILED"
+echo "     Total populated now:  $POPULATED / $TOTAL_COUNT"
+echo "     Still 'Updating':     $REMAINING"
+echo ""
+
+if [ "$REMAINING" -gt 0 ]; then
+    echo "     Remaining 'Updating' entries:"
+    run_mysql -N -B -e "SELECT CONCAT('       ', rank_level, ' — ', taxon_name) FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='' ORDER BY rank_level, taxon_name LIMIT 50;"
+    OVER50=$(run_mysql -N -B -e "SELECT COUNT(*) FROM taxonomy_descriptions WHERE description='Updating' OR description IS NULL OR TRIM(description)='';")
+    if [ "$OVER50" -gt 50 ]; then
+        echo "       ... and $((OVER50 - 50)) more"
+    fi
+    echo ""
+    echo "     These taxa may not exist in GBIF or have non-standard names."
+    echo "     Consider manually populating or checking taxon spelling."
+fi
+echo "═══════════════════════════════════════════════════════════════"
+
+# ─── Cleanup ───
+rm -f "$TMPFILE"

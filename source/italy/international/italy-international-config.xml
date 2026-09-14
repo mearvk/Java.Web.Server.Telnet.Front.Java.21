@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    ItalyInternationalSignalServer Configuration
+    =============================================
+    MEARVK LLC — NitroWebExpress™
+    Author: Max Rupplin
+
+    Italian and international news sources, signals, and media configuration.
+-->
+<italy-international-config>
+
+    <sources>
+        <source id="corriere" url="https://www.corriere.it" category="news" lang="it" />
+        <source id="repubblica" url="https://www.repubblica.it" category="news" lang="it" />
+        <source id="ansa" url="https://www.ansa.it/english" category="news" lang="en" />
+        <source id="ilsole24ore" url="https://www.ilsole24ore.com" category="finance" lang="it" />
+        <source id="reuters" url="https://www.reuters.com" category="news" lang="en" />
+        <source id="aljazeera" url="https://www.aljazeera.com" category="news" lang="en" />
+        <source id="bbc" url="https://www.bbc.com/news" category="news" lang="en" />
+        <source id="dw" url="https://www.dw.com/en" category="news" lang="en" />
+    </sources>
+
+    <signals>
+        <signal id="ftse_mib" url="https://www.borsaitaliana.it/borsa/indici/indici-in-tempo-reale/dettaglio.html?indexCode=FTSEMIB" type="market" />
+        <signal id="eurusd" url="https://www.ecb.europa.eu/stats/exchange/eurofxref" type="currency" />
+        <signal id="btp_spread" url="https://www.milanofinanza.it/quotazioni/dettaglio/spread-btp-bund" type="bond" />
+    </signals>
+
+    <acceptable-media>
+        <images>
+            <format>jpeg</format>
+            <format>png</format>
+            <format>webp</format>
+            <max-size-mb>25</max-size-mb>
+        </images>
+        <audio>
+            <format>mp3</format>
+            <format>wav</format>
+            <format>aac</format>
+            <stream-enabled>true</stream-enabled>
+        </audio>
+        <documents>
+            <format>pdf</format>
+            <format>xml</format>
+            <format>json</format>
+            <format>csv</format>
+        </documents>
+    </acceptable-media>
+
+    <database>
+        <name>nwe_italy_intl</name>
+        <host>localhost</host>
+        <port>3306</port>
+        <username>nwe</username>
+        <password>nwe_receiver_pass</password>
+    </database>
+
+</italy-international-config>

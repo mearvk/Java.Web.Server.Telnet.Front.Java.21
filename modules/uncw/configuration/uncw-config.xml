@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<uncw-config>
+    <server><port>49231</port><host>localhost</host><name>UNCW™</name><masquerade-aware>true</masquerade-aware></server>
+    <database><name>nwe_uncw</name><host>127.0.0.1</host><port>3306</port></database>
+    <webapp><context>/uncw</context><tomcat-port>8080</tomcat-port><theme>seacoast-teal-gold</theme></webapp>
+    <installer><tech-id>Max Rupplin</tech-id><installed>2026-07-16</installed></installer>
+    <file-transfer><enabled>true</enabled><max-size-mb>80</max-size-mb><audio-types>mp3,wav,ogg,flac,aac,m4a,opus,aiff,wma,mid</audio-types><storage-options>DATABASE,FOLDER</storage-options></file-transfer>
+    <chancellor><max-count>2000</max-count><current-and-past>true</current-and-past><status-indicators>10</status-indicators></chancellor>
+    <messaging><free-per-month>10</free-per-month><chancellor-unlimited>true</chancellor-unlimited></messaging>
+    <national-id><verification-enabled>true</verification-enabled><confirmed-by>NWE Server</confirmed-by></national-id>
+    <ai-module><enabled>true</enabled><inference-port>20000</inference-port></ai-module>
+</uncw-config>

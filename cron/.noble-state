@@ -1,0 +1,25 @@
+# Noble Registry State — saved at shutdown
+# Before we disconcern our noble brothers, we save their state
+timestamp=2026-07-01T01:55:20-04:00
+reset_interval_hours=48
+
+[jobs]
+AE6E66-Crawl.last=1782592091
+GitHubPullNewer.last=never
+SignalHealth.last=never
+MySQLBackup.last=never
+StrernaryLiveness.last=never
+GrayLeaseCheck.last=never
+
+[ports]
+49201=1
+49202=1
+49203=1
+49204=1
+20000=1
+9999=1
+10085=1
+5000=1
+
+[postfix]
+queue_count=0
