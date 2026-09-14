@@ -21,3 +21,15 @@ rwest@cityofchesapeake.net
 sparham@petersburg-va.org
 wadej@charlottesville.org
 ward5@morgantownwv.gov
+MayorandCouncil@fairfaxva.gov
+RVAMayor@rva.gov
+chornbaker@lovettsvilleva.gov
+countymanager@arlingtonva.us
+david.smith@winchesterva.gov
+dtuck@hampton.gov
+fairfield@henrico.us
+levar.stoney@richmondgov.com
+mayor@norfolk.gov
+mayor@portsmouthva.gov
+sherman.lea@roanokeva.gov
+wadej@charlottesville.gov
