@@ -1,0 +1,20 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Austria,Vienna,,,https://austria.tmembassy.gov.tm,http://www.wikidata.org/entity/Q55664147
+,embassy,Belarus,Minsk,,,https://belarus.tmembassy.gov.tm,http://www.wikidata.org/entity/Q18408335
+,embassy,Belgium,Ixelles - Elsene,,,,http://www.wikidata.org/entity/Q65160098
+,embassy,France,Paris,,,https://france.tmembassy.gov.tm/en,http://www.wikidata.org/entity/Q60852726
+,embassy,Georgia,Tbilisi,,,https://georgia.tmembassy.gov.tm,http://www.wikidata.org/entity/Q55664151
+,embassy,Germany,Berlin,,,https://germany.tmembassy.gov.tm/ru,http://www.wikidata.org/entity/Q55664150
+,embassy,India,New Delhi,,,https://india.tmembassy.gov.tm,http://www.wikidata.org/entity/Q112671241
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q55664152
+,embassy,Japan,Tokyo,,,https://japan.tmembassy.gov.tm/ja,http://www.wikidata.org/entity/Q55664157
+,embassy,Pakistan,Islamabad,,,,http://www.wikidata.org/entity/Q65172998
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q119256469
+,embassy,Romania,Bucharest,,,https://romania.tmembassy.gov.tm,http://www.wikidata.org/entity/Q106939017
+,embassy,Russia,Arbat District,,,http://russia.tmembassy.gov.tm/,http://www.wikidata.org/entity/Q4374063
+,embassy,Saudi Arabia,Riyadh,,,https://saudi.tmembassy.gov.tm,http://www.wikidata.org/entity/Q55664153
+,embassy,Switzerland,Geneva,,,https://switzerland.tmembassy.gov.tm,http://www.wikidata.org/entity/Q55664156
+,embassy,Turkey,Ankara,,,https://turkey.tmembassy.gov.tm,http://www.wikidata.org/entity/Q55664155
+embassy@ambturkm.org.ua,embassy,Ukraine,Kyiv,,+380-44-279-3449,https://ukraine.tmembassy.gov.tm/,http://www.wikidata.org/entity/Q12142682
+,embassy,United Kingdom,London,,,http://turkmenembassy.org.uk/,http://www.wikidata.org/entity/Q16973513
+,embassy,United States of America,"Washington, D.C.",,,https://usa.tmembassy.gov.tm,http://www.wikidata.org/entity/Q5369899

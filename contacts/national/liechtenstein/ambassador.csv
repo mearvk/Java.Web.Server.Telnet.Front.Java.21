@@ -1,0 +1,6 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+vienna@liv.li,embassy,Austria,Vienna,,+43-1-5359211,http://www.wien.liechtenstein.li,http://www.wikidata.org/entity/Q1824041
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69875635
+,embassy,Germany,Berlin,,,,http://www.wikidata.org/entity/Q1760465
+bern@llv.li,embassy,Switzerland,Bern,,+41-31-357-64-11,,http://www.wikidata.org/entity/Q26980142
+,embassy,United States of America,"Washington, D.C.",,,http://www.liechtensteinusa.org/,http://www.wikidata.org/entity/Q110185077

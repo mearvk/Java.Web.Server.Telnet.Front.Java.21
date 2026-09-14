@@ -1,0 +1,13 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69912615
+,embassy,France,Paris,,,,http://www.wikidata.org/entity/Q16303676
+,embassy,Germany,Berlin,,,,http://www.wikidata.org/entity/Q73270362
+,embassy,India,New Delhi,,,,http://www.wikidata.org/entity/Q112668097
+,embassy,Indonesia,Jakarta,,,,http://www.wikidata.org/entity/Q107636545
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103929362
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q100272886
+,embassy,Russia,Moscow,,,,http://www.wikidata.org/entity/Q4374055
+,embassy,Saudi Arabia,Riyadh,,,,http://www.wikidata.org/entity/Q68170102
+,embassy,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106704308
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q101016665
+,embassy,Turkey,Ankara,,,https://ankara.mfa.gov.so,http://www.wikidata.org/entity/Q111031062

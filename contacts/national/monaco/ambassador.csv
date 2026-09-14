@@ -1,0 +1,12 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69883673
+,embassy,France,,,,https://ambassade-en-france.gouv.mc/,http://www.wikidata.org/entity/Q2841821
+,honorary consulate,France,2nd arrondissement of Lyon,,,,http://www.wikidata.org/entity/Q62319261
+,embassy,Germany,Mitte,,,https://www.gouv.mc/Action-Gouvernementale/Monaco-a-l-International/La-Diplomatie-et-la-Presence-Internationale/Relations-bilaterales/Tous-les-Pays/Allemagne,http://www.wikidata.org/entity/Q2841819
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q60855269
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103852949
+,embassy,Portugal,Lisbon,,,,http://www.wikidata.org/entity/Q104251760
+,embassy,Spain,Madrid,,,https://ambassade-en-espagne.gouv.mc/,http://www.wikidata.org/entity/Q104252067
+ambassademonaco@bluewin.ch,embassy,Switzerland,Bern,,+41-31-356-28-58,,http://www.wikidata.org/entity/Q26995323
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16239477
+,embassy,United States of America,"Washington, D.C.",,,https://www.monacodc.org/,http://www.wikidata.org/entity/Q2841817

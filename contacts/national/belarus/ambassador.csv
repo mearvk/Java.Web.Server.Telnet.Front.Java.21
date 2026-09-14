@@ -1,0 +1,61 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,https://argentina.mfa.gov.by,http://www.wikidata.org/entity/Q110255487
+,embassy,Armenia,Yerevan,,,https://armenia.mfa.gov.by,http://www.wikidata.org/entity/Q111630548
+,embassy,Austria,Vienna,,,https://austria.mfa.gov.by,http://www.wikidata.org/entity/Q85213112
+,embassy,Azerbaijan,Baku,,,http://azerbaijan.mfa.gov.by,http://www.wikidata.org/entity/Q111636821
+,embassy,Belgium,Ixelles - Elsene,,,,http://www.wikidata.org/entity/Q67206827
+,embassy,Brazil,Brasília,,,http://brazil.mfa.gov.by,http://www.wikidata.org/entity/Q105682078
+,embassy,Bulgaria,Stolichna Municipality,,,https://bulgaria.mfa.gov.by,http://www.wikidata.org/entity/Q41589291
+,embassy,Colombia,Bogotá,,,https://colombia.mfa.gov.by,http://www.wikidata.org/entity/Q111635576
+,embassy,Cuba,Havana,,,http://cuba.mfa.gov.by,http://www.wikidata.org/entity/Q111635490
+,embassy,Czech Republic,Prague,,,https://czech.mfa.gov.by,http://www.wikidata.org/entity/Q107105241
+,embassy,Egypt,Giza,,,http://egypt.mfa.gov.by,http://www.wikidata.org/entity/Q111635288
+,embassy,Estonia,Tallinn City,,,https://estonia.mfa.gov.by,http://www.wikidata.org/entity/Q65262724
+,embassy,Finland,Helsinki,,,https://finland.mfa.gov.by,http://www.wikidata.org/entity/Q105979669
+,honorary consulate,France,2nd arrondissement of Lyon,,,,http://www.wikidata.org/entity/Q61023914
+,embassy,France,Paris,,,https://france.mfa.gov.by/fr/,http://www.wikidata.org/entity/Q20669701
+,embassy,Georgia,Tbilisi,,,http://georgia.mfa.gov.by,http://www.wikidata.org/entity/Q100325343
+,embassy,Germany,Berlin,,,http://germany.mfa.gov.by/be/,http://www.wikidata.org/entity/Q22250207
+,embassy,Hungary,Budapest District III,,,http://hungary.mfa.gov.by/,http://www.wikidata.org/entity/Q100325415
+,embassy,India,New Delhi,,,http://india.mfa.gov.by,http://www.wikidata.org/entity/Q111630489
+,embassy,Indonesia,Jakarta,,,https://indonesia.mfa.gov.by,http://www.wikidata.org/entity/Q107559333
+,embassy,Iran,Tehran,,,https://iran.mfa.gov.by,http://www.wikidata.org/entity/Q111630509
+,embassy,Israel,Tel Aviv,,,http://israel.mfa.gov.by,http://www.wikidata.org/entity/Q111630460
+,embassy,Italy,Rome,,,http://italy.mfa.gov.by,http://www.wikidata.org/entity/Q103218661
+,embassy,Japan,Tokyo,,,https://japan.mfa.gov.by,http://www.wikidata.org/entity/Q99600347
+kazakhstan@mfa.gov.by,embassy,Kazakhstan,Astana,,+7-7172-98-98-96,http://kazakhstan.mfa.gov.by,http://www.wikidata.org/entity/Q80166335
+,embassy,Kenya,Nairobi,,,http://kenya.mfa.gov.by,http://www.wikidata.org/entity/Q111635325
+,embassy,Kyrgyzstan,Bishkek,,,http://kyrgyzstan.mfa.gov.by,http://www.wikidata.org/entity/Q111630837
+,consulate,Latvia,,,,http://latvia.mfa.gov.by/ru/daugavpils/,http://www.wikidata.org/entity/Q63215966
+,embassy,Latvia,Riga,,,https://latvia.mfa.gov.by,http://www.wikidata.org/entity/Q100325340
+,embassy,Lithuania,Vilnius,,,https://lithuania.mfa.gov.by,http://www.wikidata.org/entity/Q76870718
+,embassy,Moldova,Chișinău,,,https://moldova.mfa.gov.by,http://www.wikidata.org/entity/Q106953350
+,embassy,Mongolia,Ulaanbaatar,,,http://mongolia.mfa.gov.by,http://www.wikidata.org/entity/Q111637184
+,embassy,Netherlands,The Hague,,,http://www.netherlands.mfa.gov.by,http://www.wikidata.org/entity/Q100541143
+,embassy,Nigeria,Abuja,,,http://nigeria.mfa.gov.by,http://www.wikidata.org/entity/Q111635392
+,embassy,Pakistan,Islamabad,,,http://pakistan.mfa.gov.by,http://www.wikidata.org/entity/Q111634857
+,embassy,People's Republic of China,Beijing,,,http://china.mfa.gov.by,http://www.wikidata.org/entity/Q111630782
+,consulate general,People's Republic of China,Chongqing,,,,http://www.wikidata.org/entity/Q109412665
+,consulate general,People's Republic of China,Guangzhou,,,,http://www.wikidata.org/entity/Q119315309
+poland.bialystok@mfa.gov.by,consulate general,Poland,Białystok,,,https://poland.mfa.gov.by/pl/kunsulaty/general/,http://www.wikidata.org/entity/Q60855406
+poland@belembassy.org,embassy,Poland,Warsaw,,+48-22-742-09-90,http://poland.mfa.gov.by/,http://www.wikidata.org/entity/Q9149465
+,embassy,Qatar,Doha,,,http://qatar.mfa.gov.by,http://www.wikidata.org/entity/Q111630716
+,embassy,Romania,Bucharest,,,https://romania.mfa.gov.by,http://www.wikidata.org/entity/Q106847672
+,embassy,Russia,Basmanny District,,,http://www.embassybel.ru/,http://www.wikidata.org/entity/Q3918724
+,embassy,Serbia,Belgrade,,,https://serbia.mfa.gov.by,http://www.wikidata.org/entity/Q108098704
+,embassy,Slovakia,Bratislava,,,http://slovakia.mfa.gov.by,http://www.wikidata.org/entity/Q111635683
+,embassy,South Africa,Pretoria,,,https://rsa.mfa.gov.by,http://www.wikidata.org/entity/Q106644359
+,embassy,South Korea,Seoul,,,http://korea.mfa.gov.by,http://www.wikidata.org/entity/Q111630805
+,embassy,Spain,Madrid,,,http://spain.mfa.gov.by,http://www.wikidata.org/entity/Q105169605
+,embassy,Sweden,Nacka Municipality,,,http://sweden.mfa.gov.by,http://www.wikidata.org/entity/Q18747080
+switzerland@mfa.gov.by,embassy,Switzerland,Muri bei Bern,,+41-31-952-79-14,http://switzerland.mfa.gov.by,http://www.wikidata.org/entity/Q26980098
+,embassy,Syria,Damascus,,,http://syria.mfa.gov.by,http://www.wikidata.org/entity/Q111634879
+,embassy,Tajikistan,Dushanbe,,,https://tajikistan.mfa.gov.by,http://www.wikidata.org/entity/Q107545589
+,embassy,Turkey,Ankara,,,https://turkey.mfa.gov.by,http://www.wikidata.org/entity/Q110966693
+,embassy,Turkmenistan,Ashgabat,,,https://turkmenistan.mfa.gov.by,http://www.wikidata.org/entity/Q111635091
+ukraine@mfa.gov.by,embassy,Ukraine,Kyiv,,+380-44-537-5200,http://ukraine.mfa.gov.by/,http://www.wikidata.org/entity/Q1532317
+,embassy,United Arab Emirates,Abu Dhabi,,,https://uae.mfa.gov.by,http://www.wikidata.org/entity/Q107545588
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16971417
+,embassy,United States of America,"Washington, D.C.",,,http://usa.mfa.gov.by/,http://www.wikidata.org/entity/Q5369567
+,embassy,Uzbekistan,Tashkent,,,http://uzbekistan.mfa.gov.by,http://www.wikidata.org/entity/Q111635102
+,embassy,Vietnam,Hanoi,,,http://vietnam.mfa.gov.by,http://www.wikidata.org/entity/Q111630325

@@ -1,0 +1,40 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Austria,Vienna,,,https://www.mfa.gov.lv/austria,http://www.wikidata.org/entity/Q104639045
+,embassy,Azerbaijan,Baku,,,https://www.mfa.gov.lv/azerbaijan,http://www.wikidata.org/entity/Q12841313
+embassy.belarus@mfa.gov.lv,embassy,Belarus,Minsk,,+375-17-211-30-33,https://www.mfa.gov.lv/by/,http://www.wikidata.org/entity/Q20051044
+,consulate,Belarus,Vitebsk,,,https://www.mfa.gov.lv/by/vitebsk,http://www.wikidata.org/entity/Q104527332
+,embassy,Belgium,City of Brussels,,,https://www.mfa.gov.lv/brussels,http://www.wikidata.org/entity/Q69871853
+,embassy,Canada,Ottawa,,,https://www.mfa.gov.lv/ottawa,http://www.wikidata.org/entity/Q5369767
+,embassy,Czech Republic,Vinohrady,,,https://www.mfa.gov.lv/prague,http://www.wikidata.org/entity/Q65465072
+,embassy,Egypt,Cairo,,,https://www.mfa.gov.lv/egypt,http://www.wikidata.org/entity/Q107266768
+,embassy,Estonia,,,,https://www.mfa.gov.lv/estonia,http://www.wikidata.org/entity/Q42313729
+,embassy,Finland,Helsinki,,,https://www.mfa.gov.lv/helsinki,http://www.wikidata.org/entity/Q106206131
+,embassy,France,Paris,,,https://www2.mfa.gov.lv/fr/paris/ambassade-de-lettonie-en-france,http://www.wikidata.org/entity/Q20669705
+,embassy,Georgia,Tbilisi,,,https://www.mfa.gov.lv/georgia,http://www.wikidata.org/entity/Q86678417
+,embassy,Germany,Berlin,,,http://www.mfa.gov.lv/de/berlin/,http://www.wikidata.org/entity/Q21041993
+,embassy,Greece,Athens,,,https://www.mfa.gov.lv/greece,http://www.wikidata.org/entity/Q107267783
+,embassy,Hungary,Budapest,,,https://www.mfa.gov.lv/en/hungary,http://www.wikidata.org/entity/Q86678423
+,embassy,India,New Delhi,,,https://www.mfa.gov.lv/india,http://www.wikidata.org/entity/Q107268142
+,embassy,Ireland,Dublin,,,https://www.mfa.gov.lv/ireland,http://www.wikidata.org/entity/Q104771669
+,embassy,Israel,Tel Aviv,,,https://www.mfa.gov.lv/israel,http://www.wikidata.org/entity/Q107268190
+,embassy,Italy,Rome,,,https://www.mfa.gov.lv/rome,http://www.wikidata.org/entity/Q103843369
+,embassy,Japan,Tokyo,,,https://www.mfa.gov.lv/japan,http://www.wikidata.org/entity/Q61911532
+,embassy,Kazakhstan,Astana,,,https://www.mfa.gov.lv/kazakhstan,http://www.wikidata.org/entity/Q107287418
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,https://www.mfa.gov.lv/copenhagen,http://www.wikidata.org/entity/Q106032497
+,embassy,Lithuania,Vilnius,,,https://www.mfa.gov.lv/vilnius,http://www.wikidata.org/entity/Q107288763
+,honorary consulate,Mexico,,,,,http://www.wikidata.org/entity/Q79862553
+,embassy,Moldova,Chișinău,,,https://www.mfa.gov.lv/moldova,http://www.wikidata.org/entity/Q106959823
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100575879
+,embassy,Norway,Oslo Municipality,,,https://www.mfa.gov.lv/norway,http://www.wikidata.org/entity/Q19379051
+,embassy,People's Republic of China,Beijing,,,https://www.mfa.gov.lv/china,http://www.wikidata.org/entity/Q100279097
+,embassy,Poland,Warsaw,,+48-22-617-11-05,http://www.mfa.gov.lv/poland/,http://www.wikidata.org/entity/Q9149637
+,embassy,Russia,Moscow,,,https://www.mfa.gov.lv/moscow,http://www.wikidata.org/entity/Q4374018
+,embassy,South Korea,Seoul,,,https://www.mfa.gov.lv/seoul,http://www.wikidata.org/entity/Q107287576
+,embassy,Spain,Madrid,,,https://www.mfa.gov.lv/spain,http://www.wikidata.org/entity/Q105301473
+,embassy,Sweden,Stockholm,,,https://www.mfa.gov.lv/stockholm,http://www.wikidata.org/entity/Q10559905
+,embassy,Turkey,Ankara,,,https://www.mfa.gov.lv/turkey,http://www.wikidata.org/entity/Q107289310
+embassy.ukraine@mfa.gov.lv,embassy,Ukraine,Kyiv,,+380-44-490-7030,http://www.am.gov.lv/ua/ukraine/,http://www.wikidata.org/entity/Q2383217
+,embassy,United Arab Emirates,Abu Dhabi,,,https://www.mfa.gov.lv/aae,http://www.wikidata.org/entity/Q107287728
+,embassy,United Kingdom,City of Westminster,,,,http://www.wikidata.org/entity/Q16835151
+,embassy,United States of America,"Washington, D.C.",,,https://www2.mfa.gov.lv/usa,http://www.wikidata.org/entity/Q12057117
+,embassy,Uzbekistan,Tashkent,,,https://www.mfa.gov.lv/uzbekistan,http://www.wikidata.org/entity/Q107288764

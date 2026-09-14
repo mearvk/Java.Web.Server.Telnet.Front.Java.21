@@ -1,0 +1,53 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Afghanistan,Kabul,,,https://www.pakembassykabul.org,http://www.wikidata.org/entity/Q60767380
+,embassy,Argentina,Buenos Aires,,,https://mofa.gov.pk/buenos-aires-argentina/,http://www.wikidata.org/entity/Q110290716
+,high commission,Australia,Canberra,,,https://www.pakistan.org.au/,http://www.wikidata.org/entity/Q106488580
+,high commission,Australia,Canberra,,,https://www.pakistan.org.au/,http://www.wikidata.org/entity/Q124363191
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104642029
+,embassy,Azerbaijan,Baku,,,,http://www.wikidata.org/entity/Q12843778
+,embassy,Bahrain,Manama,,,http://www.mofa.gov.pk/bahrain/,http://www.wikidata.org/entity/Q19321789
+,embassy,Belarus,Minsk,,,http://www.mofa.gov.pk/belarus/,http://www.wikidata.org/entity/Q107296904
+,embassy,Belgium,Watermael-Boitsfort / Watermaal-Bosvoorde,,,https://pakistanembassy.be/,http://www.wikidata.org/entity/Q69897894
+,embassy,Bosnia and Herzegovina,Centar Municipality,,,http://mofa.gov.pk/sarajevo-bosnia-herzegovina/,http://www.wikidata.org/entity/Q96003054
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105715985
+,embassy,Bulgaria,Stolichna Municipality,,,,http://www.wikidata.org/entity/Q41588845
+,high commission,Canada,Ottawa,,,https://mofa.gov.pk/ottawa-canada/,http://www.wikidata.org/entity/Q5755109
+,embassy,Czech Republic,Střešovice,,,http://mofa.gov.pk/prague-czech-republic/,http://www.wikidata.org/entity/Q65515150
+,embassy,France,,,,https://www.pakembparis.com/,http://www.wikidata.org/entity/Q2841877
+,embassy,Germany,Berlin,,,http://www.pakemb.de/,http://www.wikidata.org/entity/Q58808624
+,embassy,Greece,Filothei-Psychiko Municipality,,,https://www.pakistanembassy.gr/,http://www.wikidata.org/entity/Q109676369
+,embassy,Hungary,Budapest,,,http://mofa.gov.pk/budapest-hungary,http://www.wikidata.org/entity/Q108915875
+,high commission,India,New Delhi,,,http://pakhcnewdelhi.org.pk/,http://www.wikidata.org/entity/Q27031139
+,embassy,Indonesia,Jakarta,,,https://pakembjakarta.org,http://www.wikidata.org/entity/Q107622823
+,consulate general,Iran,Zahedan,,,,http://www.wikidata.org/entity/Q61064765
+,embassy,Ireland,Dublin,,,,http://www.wikidata.org/entity/Q104772484
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103868921
+,embassy,Japan,Minato,,,http://pakistanembassytokyo.com/ja,http://www.wikidata.org/entity/Q30402941
+,consulate,Japan,Osaka,,,,http://www.wikidata.org/entity/Q50319241
+,embassy,Kingdom of Denmark,,,,https://www.pakistanembassy.dk/,http://www.wikidata.org/entity/Q106067745
+,embassy,Lebanon,Beirut,,,,http://www.wikidata.org/entity/Q109783806
+,high commission,Maldives,Malé,,,,http://www.wikidata.org/entity/Q99620947
+,embassy,Mexico,Mexico City,,,https://mofa.gov.pk/mexico,http://www.wikidata.org/entity/Q111096450
+,embassy,Netherlands,The Hague,,,http://www.embassyofpakistan.com/,http://www.wikidata.org/entity/Q100532871
+,high commission,New Zealand,Wellington,,,https://www.pakistanhc.org.nz,http://www.wikidata.org/entity/Q111889122
+,embassy,North Korea,Pyongyang,,,,http://www.wikidata.org/entity/Q118920875
+,embassy,Norway,Oslo Municipality,,,,http://www.wikidata.org/entity/Q19385032
+,embassy,People's Republic of China,Beijing,,,http://www.pakbj.org/,http://www.wikidata.org/entity/Q100272569
+,embassy,Poland,Warsaw,,+48-22-849-48-08,http://mofa.gov.pk/warsaw-poland/,http://www.wikidata.org/entity/Q4374035
+,embassy,Portugal,Lisbon,,,http://mofa.gov.pk/lisbon-portugal/,http://www.wikidata.org/entity/Q105451926
+,embassy,Romania,Bucharest,,,http://mofa.gov.pk/bucharest-romania/,http://www.wikidata.org/entity/Q106949958
+,embassy,Russia,Moscow,,,http://parepmoscow.com/,http://www.wikidata.org/entity/Q110190060
+,embassy,Saudi Arabia,Riyadh,,,http://www.pakembassyksa.com/,http://www.wikidata.org/entity/Q68170080
+,embassy,Serbia,Belgrade,,,http://mofa.gov.pk/serbia,http://www.wikidata.org/entity/Q108261021
+,high commission,South Africa,Pretoria,,,http://mofa.gov.pk/pretoria-south-africa/,http://www.wikidata.org/entity/Q106692543
+,embassy,Spain,Madrid,,,http://www.embajada-pakistan.org,http://www.wikidata.org/entity/Q105336872
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q18454892
+parepberne@bluewin.ch,embassy,Switzerland,Bern,,+41-31-350-17-90,,http://www.wikidata.org/entity/Q26979929
+,embassy,Tunisia,Tunis,,,https://www.pakistanembassytunis.com,http://www.wikidata.org/entity/Q107736855
+,embassy,Turkey,Ankara,,,https://www.pakembassyankara.com/,http://www.wikidata.org/entity/Q111029398
+,honorary consulate,Uganda,Kampala,,,http://www.pakhc.or.ke/consulate.html,http://www.wikidata.org/entity/Q107420007
+parepkyiv@gmail.com,embassy,Ukraine,Kyiv,,+380-44-280-2577,http://mfa.gov.ua/ua/about-ukraine/dip-in-ukraine/missions-list/88,http://www.wikidata.org/entity/Q50842905
+,embassy,United Arab Emirates,Abu Dhabi,,,http://www.pakistanembassyuae.org/,http://www.wikidata.org/entity/Q21244762
+,consulate general,United Arab Emirates,Dubai,,,http://www.pakistanconsulate.ae/,http://www.wikidata.org/entity/Q21244944
+,high commission,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16843032
+,embassy,United States of America,"Washington, D.C.",,,http://www.embassyofpakistanusa.org/,http://www.wikidata.org/entity/Q3695648

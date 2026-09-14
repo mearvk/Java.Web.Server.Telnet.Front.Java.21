@@ -1,0 +1,177 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Abkhazia,Sukhumi,,,http://www.abkhazia.mid.ru/,http://www.wikidata.org/entity/Q4374039
+rusembafg@yandex.ru,embassy,Afghanistan,Kabul,,,http://www.afghanistan.mid.ru,http://www.wikidata.org/entity/Q16687384
+,embassy,Albania,Tirana,,,http://www.albania.mid.ru,http://www.wikidata.org/entity/Q16687405
+,embassy,Algeria,El Biar,,,http://www.algerie.mid.ru/,http://www.wikidata.org/entity/Q4436010
+,embassy,Angola,Luanda,,,https://angola.mid.ru/,http://www.wikidata.org/entity/Q106303333
+,embassy,Argentina,Buenos Aires,,,https://argentina.mid.ru,http://www.wikidata.org/entity/Q109922221
+,embassy,Armenia,Yerevan,,,https://armenia.mid.ru,http://www.wikidata.org/entity/Q28667078
+,embassy,Australia,Canberra,,,http://www.australia.mid.ru,http://www.wikidata.org/entity/Q16487654
+,embassy,Austria,Vienna,,,http://austria.mid.ru/,http://www.wikidata.org/entity/Q4555169
+,embassy,Azerbaijan,Baku,,,https://azerbaijan.mid.ru/,http://www.wikidata.org/entity/Q16416268
+,embassy,Bahrain,Manama,,,https://bahrain.mid.ru,http://www.wikidata.org/entity/Q68170343
+,embassy,Bangladesh,Dhaka,,,https://bangladesh.mid.ru,http://www.wikidata.org/entity/Q109923260
+rusemb-minsk@yandex.ru,embassy,Belarus,Minsk,,,http://www.belarus.mid.ru/,http://www.wikidata.org/entity/Q4374045
+,embassy,Belgium,Uccle - Ukkel,,,http://www.belgium.mid.ru/,http://www.wikidata.org/entity/Q16687387
+,embassy,Benin,Cotonou,,,https://benin.mid.ru,http://www.wikidata.org/entity/Q109923547
+,embassy,Bolivia,La Paz,,,https://bolivia.mid.ru,http://www.wikidata.org/entity/Q109923736
+,embassy,Bosnia and Herzegovina,Centar Municipality,,,https://sarajevo.mid.ru/ru/,http://www.wikidata.org/entity/Q27835115
+,embassy,Botswana,Gaborone,,,https://botswana.mid.ru,http://www.wikidata.org/entity/Q109923778
+,embassy,Brazil,Brasília,,,https://brazil.mid.ru,http://www.wikidata.org/entity/Q16687391
+,embassy,Brunei,Kampong Manggis,,,https://brunei.mid.ru,http://www.wikidata.org/entity/Q109923893
+,embassy,Bulgaria,Stolichna Municipality,,,https://bulgaria.mid.ru,http://www.wikidata.org/entity/Q16687389
+,embassy,Burundi,Bujumbura,,,https://burundi.mid.ru,http://www.wikidata.org/entity/Q109924068
+,embassy,Cambodia,Phnom Penh,,,http://embrusscambodia.mid.ru/,http://www.wikidata.org/entity/Q28666956
+,embassy,Cameroon,Yaoundé,,,https://cameroun.mid.ru,http://www.wikidata.org/entity/Q106452701
+,embassy,Canada,Ottawa,,,https://canada.mid.ru,http://www.wikidata.org/entity/Q5369847
+,embassy,Cape Verde,Praia,,,https://capeverde.mid.ru,http://www.wikidata.org/entity/Q109924093
+,embassy,Central African Republic,Bangui,,,https://rca.mid.ru,http://www.wikidata.org/entity/Q109925150
+,embassy,Chad,N'Djamena,,,https://tchad.mid.ru,http://www.wikidata.org/entity/Q109925236
+,embassy,Chile,Vitacura,,,https://chile.mid.ru,http://www.wikidata.org/entity/Q109925325
+,embassy,Colombia,Bogotá,,,https://colombia.mid.ru,http://www.wikidata.org/entity/Q109925433
+,embassy,Costa Rica,San José,,,https://costarica.mid.ru,http://www.wikidata.org/entity/Q109925734
+,embassy,Croatia,Zagreb,,,https://zagreb.mid.ru,http://www.wikidata.org/entity/Q107416217
+,embassy,Cuba,,,,https://cuba.mid.ru,http://www.wikidata.org/entity/Q2841838
+,embassy,Cyprus,Egkomi Lefkosias,,,https://cyprus.mid.ru/,http://www.wikidata.org/entity/Q109786960
+,embassy,Czech Republic,,,,https://czech.mid.ru/cs_CZ,http://www.wikidata.org/entity/Q4374049
+,consulate general,Czech Republic,Brno,,,https://brno.mid.ru/,http://www.wikidata.org/entity/Q104215740
+,embassy,Democratic Republic of the Congo,Kinshasa,,,https://drc.mid.ru,http://www.wikidata.org/entity/Q109925773
+,embassy,Djibouti,Djibouti,,,https://djibouti.mid.ru,http://www.wikidata.org/entity/Q109925844
+,embassy,Ecuador,Quito,,,https://ecuador.mid.ru,http://www.wikidata.org/entity/Q109930812
+,embassy,Egypt,Giza,,,https://egypt.mid.ru,http://www.wikidata.org/entity/Q28667008
+,embassy,Eritrea,Asmara,,,https://eritrea.mid.ru,http://www.wikidata.org/entity/Q109931298
+,consulate,Estonia,Narva City,,,,http://www.wikidata.org/entity/Q42298295
+,embassy,Estonia,Tallinn,,,https://estonia.mid.ru,http://www.wikidata.org/entity/Q12378450
+,embassy,Ethiopia,Addis Ababa,,,https://ethiopia.mid.ru,http://www.wikidata.org/entity/Q109931383
+,embassy,Finland,Helsinki,,,http://www.rusembassy.fi/,http://www.wikidata.org/entity/Q16687407
+,consulate,Finland,Mariehamn,,,https://konsaland.mid.ru/,http://www.wikidata.org/entity/Q4231590
+,honorary consulate,France,6th arrondissement of Lyon,,,,http://www.wikidata.org/entity/Q59685110
+,consulate general,France,Marseille,,,http://www.marseille.mid.ru/fr.html,http://www.wikidata.org/entity/Q16507607
+,embassy,France,Paris,,,https://france.mid.ru,http://www.wikidata.org/entity/Q2841832
+,consulate general,France,Strasbourg,,,https://strasbourg.mid.ru/,http://www.wikidata.org/entity/Q16507608
+,embassy,Gabon,Libreville,,,https://gabon.mid.ru,http://www.wikidata.org/entity/Q109931571
+,embassy,Germany,Mitte,,,https://russische-botschaft.ru/,http://www.wikidata.org/entity/Q836838
+,embassy,Ghana,La-Dade-Kotopon Municipal District,,,https://ghana.mid.ru,http://www.wikidata.org/entity/Q109931843
+,embassy,Greece,Psychiko,,,https://greece.mid.ru,http://www.wikidata.org/entity/Q109689843
+,consulate general,Greece,Thessaloniki,,,https://saloniki.mid.ru/ru/,http://www.wikidata.org/entity/Q20498084
+,embassy,Guatemala,Guatemala City,,,https://guat.mid.ru,http://www.wikidata.org/entity/Q109932013
+,embassy,Guinea,Conakry,,,https://guinea.mid.ru,http://www.wikidata.org/entity/Q109932427
+,embassy,Guinea-Bissau,Bissau,,,https://guinea-bissau.mid.ru/,http://www.wikidata.org/entity/Q107019153
+,embassy,Guyana,Georgetown,,,https://guyana.mid.ru,http://www.wikidata.org/entity/Q97480107
+,embassy,Hungary,Budapest District VI,,,https://hungary.mid.ru/,http://www.wikidata.org/entity/Q72541063
+,consulate general,Hungary,Debrecen,,,https://debrecen.mid.ru/,http://www.wikidata.org/entity/Q72438235
+,embassy,Iceland,Reykjavík,,,https://iceland.mid.ru,http://www.wikidata.org/entity/Q106097937
+,consulate general,India,Chennai,,,http://www.chennai.mid.ru/,http://www.wikidata.org/entity/Q5164569
+indconru@gmail.com,embassy,India,New Delhi,,,https://india.mid.ru,http://www.wikidata.org/entity/Q16687395
+,embassy,Indonesia,Jakarta,,,https://indonesia.mid.ru,http://www.wikidata.org/entity/Q107558160
+,embassy,Iran,District 12,,,https://iran.mid.ru,http://www.wikidata.org/entity/Q109932629
+,consulate,Iran,Isfahan,,,,http://www.wikidata.org/entity/Q5882843
+,embassy,Iraq,Baghdad,,,https://iraq.mid.ru,http://www.wikidata.org/entity/Q109933469
+,embassy,Ireland,Dublin,,,https://ireland.mid.ru,http://www.wikidata.org/entity/Q104773502
+,embassy,Israel,Tel Aviv,,,https://israel.mid.ru,http://www.wikidata.org/entity/Q109934120
+,embassy,Italy,Rome,,,https://roma.mid.ru/,http://www.wikidata.org/entity/Q4374042
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q16687393
+,embassy,Ivory Coast,Abidjan,,,https://cotedivoire.mid.ru,http://www.wikidata.org/entity/Q109923954
+,embassy,Jamaica,Kingston,,,https://jamaica.mid.ru,http://www.wikidata.org/entity/Q109922089
+,consular office,Japan,,,,,http://www.wikidata.org/entity/Q58333412
+,embassy,Japan,Azabudai,,,https://tokyo.mid.ru,http://www.wikidata.org/entity/Q4374046
+,consulate general,Japan,Niigata,,,,http://www.wikidata.org/entity/Q57714694
+,consulate general,Japan,Sapporo,,,,http://www.wikidata.org/entity/Q57596744
+,consulate general,Japan,Toyonaka,,,,http://www.wikidata.org/entity/Q57493152
+,embassy,Jordan,Amman,,,https://jordan.mid.ru,http://www.wikidata.org/entity/Q109934201
+,embassy,Kazakhstan,Astana,,,http://www.rfembassy.kz/,http://www.wikidata.org/entity/Q15845915
+,embassy,Kenya,Nairobi,,,https://russembkenya.mid.ru,http://www.wikidata.org/entity/Q109934844
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,,http://www.wikidata.org/entity/Q5369841
+,embassy,Kuwait,Kuwait City,,,https://kuwait.mid.ru,http://www.wikidata.org/entity/Q109936282
+,embassy,Kyrgyzstan,Bishkek,,,,http://www.wikidata.org/entity/Q104724273
+,embassy,Laos,Vientiane,,,https://laos.mid.ru,http://www.wikidata.org/entity/Q109936457
+,embassy,Latvia,Riga,,,https://latvia.mid.ru,http://www.wikidata.org/entity/Q107234019
+,embassy,Lebanon,Beirut,,,https://lebanon.mid.ru,http://www.wikidata.org/entity/Q4374040
+,embassy,Libya,Tripoli,,,,http://www.wikidata.org/entity/Q109936720
+,embassy,Lithuania,Vilnius,,,http://lithuania.mid.ru/,http://www.wikidata.org/entity/Q30888669
+,embassy,Luxembourg,Luxembourg,,,https://ambruslu.mid.ru,http://www.wikidata.org/entity/Q5369844
+,embassy,Madagascar,Antananarivo,,,https://madagascar.mid.ru,http://www.wikidata.org/entity/Q109925536
+,embassy,Malaysia,Kuala Lumpur,,,https://malaysia.mid.ru,http://www.wikidata.org/entity/Q109936992
+,embassy,Mali,Bamako,,,https://rusembmali.mid.ru,http://www.wikidata.org/entity/Q109953388
+,embassy,Malta,San Ġwann,,,https://malta.mid.ru,http://www.wikidata.org/entity/Q107737081
+,embassy,Mauritania,Nouakchott,,,https://mauritanie.mid.ru,http://www.wikidata.org/entity/Q109953553
+,embassy,Mauritius,Vacoas-Phoenix,,,https://mauritius.mid.ru,http://www.wikidata.org/entity/Q109954352
+,embassy,Mexico,Mexico City,,,https://mexico.mid.ru,http://www.wikidata.org/entity/Q109923479
+,embassy,Moldova,Chișinău,,,https://moldova.mid.ru,http://www.wikidata.org/entity/Q20430670
+,consulate general,Mongolia,Darkhan,,,http://www.darkhan.mid.ru,http://www.wikidata.org/entity/Q4135348
+,embassy,Mongolia,Ulaanbaatar,,,https://mongolia.mid.ru,http://www.wikidata.org/entity/Q16687397
+,embassy,Montenegro,Podgorica,,,https://montenegro.mid.ru,http://www.wikidata.org/entity/Q108916472
+,embassy,Morocco,Rabat,,,https://www.marocco.mid.ru/,http://www.wikidata.org/entity/Q48941696
+,embassy,Mozambique,Maputo,,,https://mozambik.mid.ru,http://www.wikidata.org/entity/Q104761714
+,embassy,Myanmar,Yangon,,,https://myanmar.mid.ru,http://www.wikidata.org/entity/Q109981340
+,embassy,Namibia,Windhoek,,,https://namibia.mid.ru,http://www.wikidata.org/entity/Q109981458
+,embassy,Nepal,Kathmandu,,,https://nepal.mid.ru,http://www.wikidata.org/entity/Q109981589
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q16687401
+,embassy,New Zealand,Wellington,,,https://newzealand.mid.ru,http://www.wikidata.org/entity/Q109981663
+,embassy,Nicaragua,Managua,,,https://nicaragua.mid.ru,http://www.wikidata.org/entity/Q109931001
+,embassy,Nigeria,central business district,,+234 812 139 3721,https://nigeria.mid.ru,http://www.wikidata.org/entity/Q109981954
+,consulate general,North Korea,Chongjin,,,,http://www.wikidata.org/entity/Q118927940
+,embassy,North Korea,Pyongyang,,,http://www.rusembdprk.ru,http://www.wikidata.org/entity/Q18408333
+,embassy,North Macedonia,Skopje,,,https://macedonia.mid.ru,http://www.wikidata.org/entity/Q109936898
+,embassy,Norway,Oslo Municipality,,,http://www.norway.mid.ru/,http://www.wikidata.org/entity/Q5369845
+,embassy,Oman,Muscat,,,https://oman.mid.ru,http://www.wikidata.org/entity/Q109982842
+,embassy,Pakistan,Islamabad,,,https://pakistan.mid.ru,http://www.wikidata.org/entity/Q65040994
+,embassy,Panama,Panama City,,,https://panama.mid.ru,http://www.wikidata.org/entity/Q110007371
+,embassy,Paraguay,Asunción,,,https://paraguay.mid.ru,http://www.wikidata.org/entity/Q110007444
+,embassy,People's Republic of China,Beixinqiao Subdistrict,,,https://beijing.mid.ru,http://www.wikidata.org/entity/Q4374043
+,consulate general,People's Republic of China,Harbin,,,,http://www.wikidata.org/entity/Q4231591
+,consulate general,People's Republic of China,Hong Kong,,,,http://www.wikidata.org/entity/Q110013585
+,consulate general,People's Republic of China,Shanghai,,,http://www.rusconshanghai.org.cn/,http://www.wikidata.org/entity/Q4135357
+,consulate general,People's Republic of China,Wuhan,,,,http://www.wikidata.org/entity/Q110027784
+,embassy,Peru,San Isidro,,,https://peru.mid.ru/es/,http://www.wikidata.org/entity/Q110007458
+,embassy,Philippines,Makati,,,https://philippines.mid.ru,http://www.wikidata.org/entity/Q110007357
+,consulate general,Poland,Gdańsk,,,https://gdansk.mid.ru/web/gdansk_pl,http://www.wikidata.org/entity/Q11743077
+,consulate general,Poland,Kraków,,,https://krakow.mid.ru,http://www.wikidata.org/entity/Q48851771
+,consulate,Poland,Poznań,,,,http://www.wikidata.org/entity/Q86680047
+,embassy,Poland,Warsaw,,,http://poland.mid.ru,http://www.wikidata.org/entity/Q570535
+,embassy,Portugal,Lisbon,,,https://portugal.mid.ru,http://www.wikidata.org/entity/Q4374044
+,embassy,Qatar,Doha,,,https://qatar.mid.ru,http://www.wikidata.org/entity/Q110007535
+,embassy,Republic of the Congo,Brazzaville,,,https://congo.mid.ru,http://www.wikidata.org/entity/Q109925593
+,embassy,Romania,Bucharest,,,https://romania.mid.ru/,http://www.wikidata.org/entity/Q86665107
+,embassy,Rwanda,Kigali,,,https://rwanda.mid.ru,http://www.wikidata.org/entity/Q104787060
+,embassy,Saudi Arabia,Riyadh,,,https://riyadh.mid.ru,http://www.wikidata.org/entity/Q68170090
+,embassy,Senegal,Dakar,,,https://senegal.mid.ru,http://www.wikidata.org/entity/Q109931652
+,embassy,Serbia,Belgrade,,,https://serbia.mid.ru,http://www.wikidata.org/entity/Q21644366
+,embassy,Seychelles,Beau Vallon,,,https://seychelles.mid.ru,http://www.wikidata.org/entity/Q110008085
+,embassy,Singapore,Singapore,,,https://singapore.mid.ru,http://www.wikidata.org/entity/Q110008174
+,embassy,Slovenia,Ljubljana,,,https://rus-slo.mid.ru,http://www.wikidata.org/entity/Q19937571
+,embassy,South Africa,Pretoria,,,https://russianembassyza.mid.ru,http://www.wikidata.org/entity/Q106695084
+,consulate general,South Korea,Busan,,,,http://www.wikidata.org/entity/Q99540269
+,embassy,South Korea,Seoul,,,,http://www.wikidata.org/entity/Q26691355
+,embassy,South Ossetia,Tskhinvali,,,https://rfsosetia.mid.ru,http://www.wikidata.org/entity/Q110007948
+,embassy,Spain,Madrid,,,https://spain.mid.ru/,http://www.wikidata.org/entity/Q4374041
+,consulate general,Spain,Pedralbes,,,https://barcelona.mid.ru/web/barcelona_esp/inicio,http://www.wikidata.org/entity/Q108700838
+,embassy,Sri Lanka,Colombo,,,https://sri-lanka.mid.ru,http://www.wikidata.org/entity/Q109952971
+,embassy,Sudan,Khartoum,,,https://sudan.mid.ru,http://www.wikidata.org/entity/Q110043361
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q10658328
+rusbotschaft@bluewin.ch,embassy,Switzerland,Bern,,+41-31-352-05-66,https://switzerland.mid.ru,http://www.wikidata.org/entity/Q16687409
+,embassy,Syria,Damascus,,,https://syria.mid.ru,http://www.wikidata.org/entity/Q5369842
+,de facto embassy,Taiwan,Taipei,,,https://moo-mtkk.ru/,http://www.wikidata.org/entity/Q17500676
+,embassy,Tajikistan,Dushanbe,,,https://dushanbe.mid.ru/,http://www.wikidata.org/entity/Q110043625
+,embassy,Tanzania,Dar es Salaam,,,http://www.tanzania.mid.ru/,http://www.wikidata.org/entity/Q16969074
+rusembbangkok@gmail.com,embassy,Thailand,Bangkok,,,https://thailand.mid.ru,http://www.wikidata.org/entity/Q48948312
+,embassy,Tunisia,Tunis,,,https://tunisie.mid.ru,http://www.wikidata.org/entity/Q110043830
+,embassy,Turkey,Ankara,,,https://turkey.mid.ru,http://www.wikidata.org/entity/Q28667003
+,embassy,Turkmenistan,Ashgabat,,,https://turkmenistan.mid.ru/,http://www.wikidata.org/entity/Q4374037
+,embassy,Uganda,Kampala,,,https://uganda.mid.ru,http://www.wikidata.org/entity/Q110044485
+rusemb@kv.ukrtel.net,embassy,Ukraine,Kyiv,,+380-44-244-0961,https://ukraine.mid.ru/,http://www.wikidata.org/entity/Q2063895
+,embassy,United Arab Emirates,Emirate of Abu Dhabi,,,https://uae.mid.ru,http://www.wikidata.org/entity/Q110044512
+,embassy,United Kingdom,London,,,http://www.rus.rusemb.org.uk/index,http://www.wikidata.org/entity/Q4374047
+,consulate general,United States of America,New York,,,http://newyork.mid.ru,http://www.wikidata.org/entity/Q5164557
+,consulate general,United States of America,Seattle,,,http://seattle.mid.ru/,http://www.wikidata.org/entity/Q19908634
+,consulate general,United States of America,Texas,,,http://www.rusconhouston.mid.ru,http://www.wikidata.org/entity/Q4135353
+,embassy,United States of America,"Washington, D.C.",,+1-202-939-8907,https://washington.mid.ru/en/,http://www.wikidata.org/entity/Q2841834
+,embassy,Uruguay,Montevideo,,,https://uruguay.mid.ru,http://www.wikidata.org/entity/Q110044552
+,embassy,Uzbekistan,Tashkent,,,https://uzbekistan.mid.ru,http://www.wikidata.org/entity/Q110044580
+,embassy,Venezuela,Caracas,,,https://venezuela.mid.ru,http://www.wikidata.org/entity/Q109925884
+,consulate general,Vietnam,Da Nang,,,,http://www.wikidata.org/entity/Q115113447
+,embassy,Vietnam,Hanoi,,,https://vietnam.mid.ru,http://www.wikidata.org/entity/Q110044614
+,consulate general,Vietnam,Ho Chi Minh City,,,,http://www.wikidata.org/entity/Q115113468
+,embassy,Yemen,Sanaa,,,https://yemen.mid.ru,http://www.wikidata.org/entity/Q110044655
+,embassy,Zambia,Lusaka,,,https://zambia.mid.ru,http://www.wikidata.org/entity/Q110044682
+,embassy,Zimbabwe,Harare,,,https://zimbabwe.mid.ru,http://www.wikidata.org/entity/Q109936950

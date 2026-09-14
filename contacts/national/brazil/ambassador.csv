@@ -1,0 +1,142 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Albania,Tirana,,,http://tirana.itamaraty.gov.br,http://www.wikidata.org/entity/Q105749123
+,embassy,Algeria,El Biar,,,http://argel.itamaraty.gov.br,http://www.wikidata.org/entity/Q105749668
+,embassy,Angola,Luanda,,,http://luanda.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272258
+,embassy,Antigua and Barbuda,Saint John's,,,,http://www.wikidata.org/entity/Q105749479
+,embassy,Argentina,Buenos Aires,,,http://buenosaires.itamaraty.gov.br,http://www.wikidata.org/entity/Q3817562
+,embassy,Armenia,Yerevan,,,http://ierevan.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272251
+,embassy,Australia,Canberra,,,http://camberra.itamaraty.gov.br,http://www.wikidata.org/entity/Q105756543
+,embassy,Austria,Vienna,,,http://viena.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272282
+,embassy,Azerbaijan,Baku,,,http://baku.itamaraty.gov.br,http://www.wikidata.org/entity/Q105756861
+,embassy,Bangladesh,Dhaka,,,http://daca.itamaraty.gov.br,http://www.wikidata.org/entity/Q105756994
+,embassy,Barbados,Christ Church,,,http://bridgetown.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272243
+,embassy,Belarus,Minsk,,,http://minsk.itamaraty.gov.br,http://www.wikidata.org/entity/Q105757427
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q25447453
+,embassy,Belize,Belmopan,,,http://belmopan.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272240
+,embassy,Benin,Cotonou,,,http://cotonou.itamaraty.gov.br,http://www.wikidata.org/entity/Q105757628
+,embassy,Bolivia,La Paz,,,http://lapaz.itamaraty.gov.br,http://www.wikidata.org/entity/Q105757689
+,embassy,Bosnia and Herzegovina,Sarajevo,,,http://sarajevo.itamaraty.gov.br/,http://www.wikidata.org/entity/Q95487177
+,embassy,Botswana,Gaborone,,,http://gaborone.itamaraty.gov.br,http://www.wikidata.org/entity/Q105764579
+,embassy,Bulgaria,Sofia,,,http://sofia.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272274
+,embassy,Burkina Faso,Ouagadougou,,,http://uagadugu.itamaraty.gov.br,http://www.wikidata.org/entity/Q105768322
+,embassy,Cameroon,Yaoundé,,,http://iaunde.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272284
+,consulate general,Canada,Montreal,,,https://www.gov.br/mre/pt-br/consulado-montreal,http://www.wikidata.org/entity/Q101756803
+,embassy,Canada,Ottawa,,,,http://www.wikidata.org/entity/Q5369581
+,embassy,Cape Verde,Praia,,,http://praia.itamaraty.gov.br,http://www.wikidata.org/entity/Q105769988
+,embassy,Chile,Las Condes,,,http://santiago.itamaraty.gov.br,http://www.wikidata.org/entity/Q105791722
+,embassy,Colombia,Bogotá,,,http://bogota.itamaraty.gov.br,http://www.wikidata.org/entity/Q105796852
+,embassy,Costa Rica,San José,,,http://saojose.itamaraty.gov.br,http://www.wikidata.org/entity/Q105799610
+,embassy,Croatia,Zagreb,,,http://zagreb.itamaraty.gov.br,http://www.wikidata.org/entity/Q105799756
+,embassy,Cuba,Havana,,,http://havana.itamaraty.gov.br,http://www.wikidata.org/entity/Q105799927
+,embassy,Czech Republic,Prague,,,http://praga.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272267
+,embassy,Democratic Republic of the Congo,Kinshasa,,,http://kinshasa.itamaraty.gov.br,http://www.wikidata.org/entity/Q105798448
+,embassy,Dominican Republic,Santo Domingo,,,http://saodomingos.itamaraty.gov.br,http://www.wikidata.org/entity/Q105894774
+,embassy,East Timor,Dili,,,http://dili.itamaraty.gov.br,http://www.wikidata.org/entity/Q105925689
+,embassy,Ecuador,Quito,,,http://quito.itamaraty.gov.br,http://www.wikidata.org/entity/Q105810351
+,embassy,Egypt,Cairo,,,https://www.gov.br/mre/pt-br/embaixada-cairo,http://www.wikidata.org/entity/Q105809391
+,embassy,El Salvador,San Salvador,,,http://saosalvador.itamaraty.gov.br,http://www.wikidata.org/entity/Q105809677
+,embassy,Equatorial Guinea,Malabo,,,http://malabo.itamaraty.gov.br,http://www.wikidata.org/entity/Q105944658
+,embassy,Estonia,Tallinn City,,,http://talin.itamaraty.gov.br,http://www.wikidata.org/entity/Q65261628
+,embassy,Ethiopia,Addis Ababa,,,http://adisabeba.itamaraty.gov.br,http://www.wikidata.org/entity/Q105808750
+,embassy,Finland,Helsinki,,,http://helsinque.itamaraty.gov.br,http://www.wikidata.org/entity/Q105811652
+,embassy,France,,,,https://www.gov.br/mre/pt-br/embaixada-paris,http://www.wikidata.org/entity/Q10272264
+,consulate general,France,,,,http://www.cgbresil.org,http://www.wikidata.org/entity/Q16507610
+,consulate general,France,Cayenne,,,http://caiena.itamaraty.gov.br/pt-br,http://www.wikidata.org/entity/Q16543729
+,embassy,Gabon,Libreville,,,http://libreville.itamaraty.gov.br,http://www.wikidata.org/entity/Q105812452
+,embassy,Georgia,Tbilisi,,,http://tbilisi.itamaraty.gov.br,http://www.wikidata.org/entity/Q105813228
+,embassy,Germany,Mitte,,,http://berlim.itamaraty.gov.br/,http://www.wikidata.org/entity/Q10272239
+,embassy,Ghana,Accra,,,http://acra.itamaraty.gov.br,http://www.wikidata.org/entity/Q105812760
+,embassy,Greece,Athens,,,http://atenas.itamaraty.gov.br,http://www.wikidata.org/entity/Q105813890
+,embassy,Grenada,St. George's,,,http://sgeorges.itamaraty.gov.br,http://www.wikidata.org/entity/Q105813508
+,embassy,Guatemala,Guatemala City,,,http://guatemala.itamaraty.gov.br,http://www.wikidata.org/entity/Q105815001
+,embassy,Guinea,Conakry,,,http://conacri.itamaraty.gov.br,http://www.wikidata.org/entity/Q105816229
+,embassy,Guinea-Bissau,Bissau,,,http://bissau.itamaraty.gov.br,http://www.wikidata.org/entity/Q105825979
+,embassy,Guyana,Georgetown,,,http://georgetown.itamaraty.gov.br,http://www.wikidata.org/entity/Q105815149
+,embassy,Haiti,Pétion-Ville,,,http://portoprincipe.itamaraty.gov.br,http://www.wikidata.org/entity/Q105826094
+,embassy,Honduras,Tegucigalpa,,,http://tegucigalpa.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272277
+,embassy,Hungary,Budapest,,,http://budapeste.itamaraty.gov.br,http://www.wikidata.org/entity/Q105828443
+cg.mumbai@itamaraty.gov.br,consulate,India,Mumbai,,+91-22-2283-4467,http://mumbai.itamaraty.gov.br/pt-br/,http://www.wikidata.org/entity/Q80654284
+,embassy,India,New Delhi,,,http://novadelhi.itamaraty.gov.br/,http://www.wikidata.org/entity/Q10272261
+,embassy,Indonesia,Jakarta,,,http://jacarta.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272255
+,embassy,Iran,Tehran,,,http://teera.itamaraty.gov.br,http://www.wikidata.org/entity/Q105838509
+,embassy,Iraq,Baghdad,,,http://bagda.itamaraty.gov.br,http://www.wikidata.org/entity/Q105839519
+,embassy,Ireland,Dublin,,,http://dublin.itamaraty.gov.br,http://www.wikidata.org/entity/Q104762413
+,embassy,Israel,Tel Aviv,,,http://telaviv.itamaraty.gov.br,http://www.wikidata.org/entity/Q105839610
+,embassy,Italy,Rome,,,http://vaticano.itamaraty.gov.br,http://www.wikidata.org/entity/Q56326456
+,embassy,Italy,Rome,,,http://roma.itamaraty.gov.br,http://www.wikidata.org/entity/Q103243310
+,embassy,Ivory Coast,Cocody,,,http://abidja.itamaraty.gov.br,http://www.wikidata.org/entity/Q105798982
+,embassy,Jamaica,Kingston,,,http://kingston.itamaraty.gov.br,http://www.wikidata.org/entity/Q105839704
+cg.hamamatsu@itamaraty.gov.br,consulate general,Japan,Hamamatsu,,+81-53-450-8191,http://hamamatsu.itamaraty.gov.br/pt-br/,http://www.wikidata.org/entity/Q63706523
+brasemb.toquio@itamaraty.gov.br,embassy,Japan,Minato,,+81-3-3404-5211,https://www.gov.br/mre/pt-br/embaixada-toquio/embassy-of-brazil-in-tokyo,http://www.wikidata.org/entity/Q10272279
+cg.nagoia@itamaraty.gov.br,consulate general,Japan,Nagoya,,+81-52-222-1077,http://nagoia.itamaraty.gov.br/pt-br/,http://www.wikidata.org/entity/Q63705691
+consbrastoquio@itamaraty.gov.br,consulate general,Japan,Shinagawa-ku,,+81-3-5488-5451,https://www.gov.br/mre/consulado-toquio/nihongo/,http://www.wikidata.org/entity/Q63750735
+,embassy,Jordan,Amman,,,http://ama.itamaraty.gov.br,http://www.wikidata.org/entity/Q105840017
+,embassy,Kazakhstan,Astana,,,http://astana.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272236
+,embassy,Kenya,Nairobi,,,http://nairobi.itamaraty.gov.br,http://www.wikidata.org/entity/Q105768483
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,http://copenhague.itamaraty.gov.br,http://www.wikidata.org/entity/Q105799999
+,embassy,Kuwait,Kuwait City,,,http://kuaite.itamaraty.gov.br,http://www.wikidata.org/entity/Q105757309
+,embassy,Lebanon,Beirut,,,http://beirute.itamaraty.gov.br,http://www.wikidata.org/entity/Q105840139
+,embassy,Malawi,Lilongwe,,,http://lilongue.itamaraty.gov.br,http://www.wikidata.org/entity/Q105871020
+,embassy,Malaysia,Kuala Lumpur,,,http://kualalumpur.itamaraty.gov.br,http://www.wikidata.org/entity/Q105765262
+,embassy,Mali,Bamako,,,http://bamako.itamaraty.gov.br,http://www.wikidata.org/entity/Q105871070
+,embassy,Mauritania,Nouakchott,,,http://nouakchott.itamaraty.gov.br,http://www.wikidata.org/entity/Q105871564
+,embassy,Mexico,Mexico City,,,http://mexico.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272287
+,embassy,Morocco,Rabat,,,http://rabat.itamaraty.gov.br,http://www.wikidata.org/entity/Q105871273
+,embassy,Mozambique,Maputo,,,http://maputo.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272260
+,embassy,Myanmar,Yangon,,,http://yangon.itamaraty.gov.br,http://www.wikidata.org/entity/Q105872071
+,embassy,Namibia,Windhoek,,,http://windhoek.itamaraty.gov.br,http://www.wikidata.org/entity/Q105872216
+,embassy,Nepal,Kathmandu,,,http://katmandu.itamaraty.gov.br,http://www.wikidata.org/entity/Q105890327
+,embassy,Netherlands,The Hague,,,http://haia.itamaraty.gov.br,http://www.wikidata.org/entity/Q100535262
+,embassy,New Zealand,Wellington,,,http://wellington.itamaraty.gov.br,http://www.wikidata.org/entity/Q105828700
+,embassy,Nicaragua,Managua,,,http://managua.itamaraty.gov.br,http://www.wikidata.org/entity/Q105890597
+,embassy,Nigeria,Abuja,,,http://abuja.itamaraty.gov.br,http://www.wikidata.org/entity/Q105890875
+brasemb.pyongyang@itamaraty.gov.br,embassy,North Korea,Taedonggang-guyok,,+850-2-381-7955,http://pyongyang.itamaraty.gov.br/,http://www.wikidata.org/entity/Q18246508
+,embassy,Northern Cyprus,Nicosia,,,http://nicosia.itamaraty.gov.br,http://www.wikidata.org/entity/Q105794693
+,embassy,Norway,Oslo Municipality,,,,http://www.wikidata.org/entity/Q17750852
+,embassy,Oman,Muscat,,,http://mascate.itamaraty.gov.br,http://www.wikidata.org/entity/Q105891740
+,embassy,Pakistan,Islamabad,,,http://islamabade.itamaraty.gov.br/,http://www.wikidata.org/entity/Q21244948
+,embassy,Panama,Panama City,,,http://panama.itamaraty.gov.br,http://www.wikidata.org/entity/Q105893543
+,embassy,Paraguay,Asunción,,,http://assuncao.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272235
+,embassy,People's Republic of China,Chaowai Subdistrict,,,http://pequim.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272266
+,embassy,Peru,Miraflores,,,http://lima.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272254
+,embassy,Philippines,Makati,,,http://manila.itamaraty.gov.br,http://www.wikidata.org/entity/Q105811469
+,embassy,Poland,Warsaw,,,http://varsovia.itamaraty.gov.br/pl/,http://www.wikidata.org/entity/Q94496103
+,embassy,Portugal,Lisbon,,,http://lisboa.itamaraty.gov.br/,http://www.wikidata.org/entity/Q56338849
+,embassy,Qatar,Doha,,,http://doha.itamaraty.gov.br,http://www.wikidata.org/entity/Q105786269
+,embassy,Republic of the Congo,Brazzaville,,,http://brazzaville.itamaraty.gov.br,http://www.wikidata.org/entity/Q105798801
+,embassy,Romania,Bucharest,,,http://bucareste.itamaraty.gov.br,http://www.wikidata.org/entity/Q105908667
+,embassy,Russia,Moscow,,,http://moscou.itamaraty.gov.br/,http://www.wikidata.org/entity/Q2067612
+,embassy,Saint Lucia,Gros Islet,,,http://castries.itamaraty.gov.br,http://www.wikidata.org/entity/Q105911961
+,embassy,Saudi Arabia,Riyadh,,,http://riade.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272270
+,embassy,Senegal,Dakar,,,,http://www.wikidata.org/entity/Q105812586
+,embassy,Serbia,Belgrade,,,http://belgrado.itamaraty.gov.br,http://www.wikidata.org/entity/Q105871909
+,embassy,Singapore,Singapore,,,http://cingapura.itamaraty.gov.br,http://www.wikidata.org/entity/Q105917519
+,embassy,Slovakia,Bratislava,,,http://bratislava.itamaraty.gov.br,http://www.wikidata.org/entity/Q105810547
+,embassy,Slovenia,Ljubljana,,,http://liubliana.itamaraty.gov.br,http://www.wikidata.org/entity/Q105810720
+,embassy,South Africa,Pretoria,,,http://pretoria.itamaraty.gov.br,http://www.wikidata.org/entity/Q105748568
+,embassy,South Korea,Seoul,,,http://seul.itamaraty.gov.br/,http://www.wikidata.org/entity/Q10272273
+,embassy,Spain,Madrid,,,http://madri.itamaraty.gov.br,http://www.wikidata.org/entity/Q10272257
+,embassy,Sri Lanka,Colombo,,,http://colombo.itamaraty.gov.br,http://www.wikidata.org/entity/Q105921474
+,embassy,Sudan,Khartoum,,,http://cartum.itamaraty.gov.br,http://www.wikidata.org/entity/Q105924552
+,embassy,Suriname,Paramaribo,,,http://paramaribo.itamaraty.gov.br,http://www.wikidata.org/entity/Q105924741
+,embassy,Sweden,Stockholm Municipality,,,,http://www.wikidata.org/entity/Q10272249
+brasemb.berna@itamaraty.gov.br,embassy,Switzerland,Bern,,+41-31-371-85-15,http://berna.itamaraty.gov.br/pt-br/Main.xml,http://www.wikidata.org/entity/Q26979988
+,embassy,Syria,Damascus,,,http://damasco.itamaraty.gov.br,http://www.wikidata.org/entity/Q105919593
+,embassy,São Tomé and Príncipe,São Tomé,,,http://saotome.itamaraty.gov.br,http://www.wikidata.org/entity/Q105914865
+,embassy,Tanzania,Dar es Salaam,,,http://daressalam.itamaraty.gov.br,http://www.wikidata.org/entity/Q105797459
+,embassy,Thailand,Bangkok,,,http://bangkok.itamaraty.gov.br,http://www.wikidata.org/entity/Q105784079
+,embassy,The Bahamas,Nassau,,,,http://www.wikidata.org/entity/Q105550709
+,embassy,Togo,Lomé,,,http://lome.itamaraty.gov.br,http://www.wikidata.org/entity/Q105929498
+,embassy,Trinidad and Tobago,Port of Spain,,,http://portofspain.itamaraty.gov.br,http://www.wikidata.org/entity/Q105809120
+,embassy,Tunisia,Tunis,,,http://tunis.itamaraty.gov.br,http://www.wikidata.org/entity/Q105870717
+,embassy,Turkey,Ankara,,,http://ancara.itamaraty.gov.br,http://www.wikidata.org/entity/Q105930333
+brasemb.kiev@itamaraty.gov.br,embassy,Ukraine,Kyiv,,+380-44-425-9373,http://kiev.itamaraty.gov.br/,http://www.wikidata.org/entity/Q50843115
+,embassy,United Arab Emirates,Abu Dhabi,,,http://abudhabi.itamaraty.gov.br,http://www.wikidata.org/entity/Q105810292
+,embassy,United Kingdom,City of Westminster,,,,http://www.wikidata.org/entity/Q10272256
+,consulate general,United States of America,Miami,,,https://www.gov.br/mre/pt-br/consulado-miami,http://www.wikidata.org/entity/Q115792861
+,embassy,United States of America,"Washington, D.C.",,,http://washington.itamaraty.gov.br/en-us/,http://www.wikidata.org/entity/Q1854623
+,embassy,Uruguay,Montevideo,,,http://montevideu.itamaraty.gov.br,http://www.wikidata.org/entity/Q105934746
+,embassy,Venezuela,Caracas,,,http://caracas.itamaraty.gov.br,http://www.wikidata.org/entity/Q105935984
+,embassy,Vietnam,Hanoi,,,http://hanoi.itamaraty.gov.br,http://www.wikidata.org/entity/Q105936880
+,embassy,Zambia,Lusaka,,,http://lusaca.itamaraty.gov.br,http://www.wikidata.org/entity/Q105937600
+,embassy,Zimbabwe,Harare,,,http://harare.itamaraty.gov.br,http://www.wikidata.org/entity/Q105938427

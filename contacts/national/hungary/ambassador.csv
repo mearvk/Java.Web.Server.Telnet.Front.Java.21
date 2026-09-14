@@ -1,0 +1,92 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Albania,Tirana,,+355-4-223-2238,https://tirana.mfa.gov.hu/,http://www.wikidata.org/entity/Q63750932
+,embassy,Algeria,Algiers,,,https://algir.mfa.gov.hu/,http://www.wikidata.org/entity/Q126722354
+,embassy,Angola,Luanda,,,https://luanda.mfa.gov.hu/,http://www.wikidata.org/entity/Q113025152
+mission.bue@mfa.gov.hu,embassy,Argentina,Buenos Aires,,+54 11 4312 6830,https://buenosaires.mfa.gov.hu/,http://www.wikidata.org/entity/Q108012536
+,embassy,Australia,Canberra,,,https://canberra.mfa.gov.hu,http://www.wikidata.org/entity/Q106463586
+,embassy,Austria,Innere Stadt,,+43-1-53780300,https://becs.mfa.gov.hu/,http://www.wikidata.org/entity/Q54168997
+,embassy,Azerbaijan,Baku,,,https://baku.mfa.gov.hu/,http://www.wikidata.org/entity/Q67796350
+,embassy,Belarus,Minsk,,+375-17-233-91-68,https://minszk.mfa.gov.hu/,http://www.wikidata.org/entity/Q33117413
+,embassy,Belgium,City of Brussels,,+32-2-348-18-00,https://brusszel.mfa.gov.hu/,http://www.wikidata.org/entity/Q63247384
+,embassy,Bosnia and Herzegovina,Sarajevo Canton,,,https://szarajevo.mfa.gov.hu/,http://www.wikidata.org/entity/Q63633740
+,embassy,Brazil,Brasília,,+55-61-3443-0836,https://braziliavaros.mfa.gov.hu/,http://www.wikidata.org/entity/Q64004410
+,consulate general,Brazil,São Paulo,,,https://saopaulo.mfa.gov.hu/,http://www.wikidata.org/entity/Q113025787
+,embassy,Bulgaria,Stolichna Municipality,,+359-2-963-1135,https://szofia.mfa.gov.hu/,http://www.wikidata.org/entity/Q41589158
+,embassy,Canada,Ottawa,,+1-613-230-2717,https://ottawa.mfa.gov.hu/,http://www.wikidata.org/entity/Q5369719
+,embassy,Chile,Providencia,,,https://santiago.mfa.gov.hu/,http://www.wikidata.org/entity/Q63616745
+,embassy,Colombia,Bogotá,,+57-1-5418465,https://bogota.mfa.gov.hu/,http://www.wikidata.org/entity/Q63852485
+,consulate general,Croatia,Osijek,,,https://eszek.mfa.gov.hu/,http://www.wikidata.org/entity/Q95204977
+,embassy,Croatia,Zagreb,,+385-1-4890-900,https://zagrab.mfa.gov.hu/,http://www.wikidata.org/entity/Q63638898
+,embassy,Cuba,Plaza de la Libertad,,+53-7-8333365,https://havanna.mfa.gov.hu/,http://www.wikidata.org/entity/Q63615431
+,embassy,Czech Republic,Prague,,,https://praga.mfa.gov.hu/,http://www.wikidata.org/entity/Q63639169
+,embassy,Ecuador,Quito,,,https://quito.mfa.gov.hu,http://www.wikidata.org/entity/Q110757436
+,embassy,Egypt,Cairo,,,https://kairo.mfa.gov.hu/,http://www.wikidata.org/entity/Q63637291
+,embassy,Estonia,Tallinn City,,+372 650 4300,https://tallinn.mfa.gov.hu/,http://www.wikidata.org/entity/Q67005648
+,embassy,Finland,Helsinki,,+358-9-43660700,https://helsinki.mfa.gov.hu/,http://www.wikidata.org/entity/Q63618088
+,embassy,France,Paris,,+33-1-45-00-94-97,https://parizs.mfa.gov.hu/,http://www.wikidata.org/entity/Q16010348
+,embassy,Georgia,Tbilisi,,,https://tbiliszi.mfa.gov.hu/,http://www.wikidata.org/entity/Q86668871
+,embassy,Germany,Berlin,,+49-30-203100,https://berlin.mfa.gov.hu/,http://www.wikidata.org/entity/Q2493389
+,consulate general,Germany,Munich,,,http://munchen.mfa.gov.hu,http://www.wikidata.org/entity/Q70000030
+,consulate general,Germany,Stuttgart,,,https://stuttgart.mfa.gov.hu/,http://www.wikidata.org/entity/Q87199108
+,embassy,Greece,Athens Municipality,,+30-21-0725-6800,https://athen.mfa.gov.hu/,http://www.wikidata.org/entity/Q63637262
+,embassy,India,New Delhi,,,https://newdelhi.mfa.gov.hu,http://www.wikidata.org/entity/Q112597474
+,embassy,Indonesia,Jakarta,,+62-21-5203459,https://jakarta.mfa.gov.hu/,http://www.wikidata.org/entity/Q63750070
+,embassy,Iraq,Baghdad,,+964-780-927-1105,https://bagdad.mfa.gov.hu/,http://www.wikidata.org/entity/Q63642409
+,embassy,Ireland,Dublin,,+353 661 2903,https://dublin.mfa.gov.hu,http://www.wikidata.org/entity/Q104771288
+,embassy,Israel,Tel Aviv,,,https://telaviv.mfa.gov.hu/isr,http://www.wikidata.org/entity/Q63789707
+,consulate general,Italy,Milan,,,,http://www.wikidata.org/entity/Q81564865
+,embassy,Italy,Rome,,+39-06-440-2167,,http://www.wikidata.org/entity/Q56326283
+,embassy,Italy,Rome,,,https://roma.mfa.gov.hu/,http://www.wikidata.org/entity/Q63616060
+,embassy,Japan,Tokyo,,+81-3-5730-7120,https://tokio.mfa.gov.hu/,http://www.wikidata.org/entity/Q61911520
+,embassy,Kenya,Nairobi,,,https://nairobi.mfa.gov.hu/,http://www.wikidata.org/entity/Q117321884
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,+45-39-63-16-88,https://koppenhaga.mfa.gov.hu/,http://www.wikidata.org/entity/Q63619630
+,honorary consulate,Kyrgyzstan,Bishkek,,,,http://www.wikidata.org/entity/Q79833140
+,embassy,Kyrgyzstan,Bishkek,,,https://biskek.mfa.gov.hu/,http://www.wikidata.org/entity/Q108801993
+,embassy,Latvia,Riga,,,https://riga.mfa.gov.hu,http://www.wikidata.org/entity/Q63639208
+tpi.missions@mfa.gov.hu,embassy,Libya,Tripoli,,+218-21-3618218,https://tripoli.mfa.gov.hu/,http://www.wikidata.org/entity/Q79853775
+,embassy,Lithuania,Vilnius,,,https://vilnius.mfa.gov.hu,http://www.wikidata.org/entity/Q107295038
+,embassy,Mexico,Mexico City,,,https://mexikovaros.mfa.gov.hu/,http://www.wikidata.org/entity/Q63644097
+,embassy,Moldova,Chișinău,,+373 22 227 714,https://chisinau.mfa.gov.hu/,http://www.wikidata.org/entity/Q5369717
+,embassy,Mongolia,Ulaanbaatar,,,https://ulanbator.mfa.gov.hu/,http://www.wikidata.org/entity/Q109123333
+,embassy,Montenegro,Podgorica,,,https://podgorica.mfa.gov.hu/,http://www.wikidata.org/entity/Q108911365
+,embassy,Netherlands,The Hague,,+31-70-222-3939,https://haga.mfa.gov.hu/,http://www.wikidata.org/entity/Q63313728
+,embassy,New Zealand,Wellington,,,https://wellington.mfa.gov.hu,http://www.wikidata.org/entity/Q111822707
+,embassy,Norway,Oslo Municipality,,+47 22 54 76 40,https://oslo.mfa.gov.hu/,http://www.wikidata.org/entity/Q16547827
+,embassy,People's Republic of China,Beijing,,+86-10-6532-1431,https://peking.mfa.gov.hu/,http://www.wikidata.org/entity/Q5369716
+,consulate general,People's Republic of China,Shanghai,,,https://sanghaj.mfa.gov.hu/,http://www.wikidata.org/entity/Q101802055
+,embassy,Peru,Lima,,+51-1-620-9520,https://lima.mfa.gov.hu/,http://www.wikidata.org/entity/Q107020363
+,embassy,Philippines,Manila,,,https://manila.mfa.gov.hu/,http://www.wikidata.org/entity/Q108806637
+,consulate general,Poland,Gdańsk,,,,http://www.wikidata.org/entity/Q100734675
+,consulate general,Poland,Kraków,,,https://krakko.mfa.gov.hu/,http://www.wikidata.org/entity/Q48853658
+,embassy,Poland,Warsaw,,+48-22-628-44-51,https://varso.mfa.gov.hu/,http://www.wikidata.org/entity/Q16494353
+,embassy,Portugal,Lisbon,,+351-21-364-5928,https://lisszabon.mfa.gov.hu/,http://www.wikidata.org/entity/Q66012252
+,embassy,Romania,Bucharest,,+40-31-620-4300,https://bukarest.mfa.gov.hu/,http://www.wikidata.org/entity/Q63762256
+,consulate general,Romania,Cluj-Napoca,,,https://kolozsvar.mfa.gov.hu/,http://www.wikidata.org/entity/Q63611219
+,consulate general,Romania,Miercurea Ciuc,,,https://csikszereda.mfa.gov.hu/,http://www.wikidata.org/entity/Q111889686
+,embassy,Russia,Moscow,,+7 495 641 7500,https://moszkva.mfa.gov.hu/,http://www.wikidata.org/entity/Q4373979
+,consulate general,Russia,Saint Petersburg,,,https://szentpetervar.mfa.gov.hu/,http://www.wikidata.org/entity/Q63633730
+,consulate general,Russia,Yekaterinburg,,,https://jekatyerinburg.mfa.gov.hu/,http://www.wikidata.org/entity/Q72941265
+,embassy,Saudi Arabia,Riyadh,,+966-11-454-6707,https://rijad.mfa.gov.hu/,http://www.wikidata.org/entity/Q68170004
+,embassy,Serbia,Belgrade,,+381-11-2443739,https://belgrad.mfa.gov.hu/,http://www.wikidata.org/entity/Q63751670
+,embassy,Slovakia,Bratislava,,,https://pozsony.mfa.gov.hu/,http://www.wikidata.org/entity/Q53205334
+,consulate general,Slovakia,Košice,,,https://kassa.mfa.gov.hu/,http://www.wikidata.org/entity/Q69569406
+,consulate general,Slovenia,Lendava,,,https://lendva.mfa.gov.hu/,http://www.wikidata.org/entity/Q113329045
+,embassy,Slovenia,Ljubljana City Municipality,,+386-1-583-04-00,https://ljubljana.mfa.gov.hu/,http://www.wikidata.org/entity/Q65007281
+,embassy,South Africa,Pretoria,,,https://pretoria.mfa.gov.hu,http://www.wikidata.org/entity/Q106676587
+,embassy,South Korea,Seoul,,,https://szoul.mfa.gov.hu/,http://www.wikidata.org/entity/Q113656207
+,embassy,Spain,Madrid,,,https://madrid.mfa.gov.hu/,http://www.wikidata.org/entity/Q63039319
+,embassy,Sweden,Östermalm city district,,+46-8-662-56-75,https://stockholm.mfa.gov.hu/,http://www.wikidata.org/entity/Q10709571
+mission.brn@kum.gov.hu,embassy,Switzerland,Bern,,+41-31-352-85-72,https://bern.mfa.gov.hu,http://www.wikidata.org/entity/Q26980203
+,consulate,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q100804698
+,embassy,Thailand,Bangkok,,,https://bangkok.mfa.gov.hu/,http://www.wikidata.org/entity/Q113940288
+,embassy,Turkey,Ankara,,+90-312-405-80-60,https://ankara.mfa.gov.hu/,http://www.wikidata.org/entity/Q63758966
+,consulate general,Turkey,Istanbul,,,https://isztambul.mfa.gov.hu/,http://www.wikidata.org/entity/Q113853840
+,consulate,Ukraine,Berehove,,,https://beregszasz.mfa.gov.hu/,http://www.wikidata.org/entity/Q63608004
+mission.kev@mfa.gov.hu,embassy,Ukraine,Kyiv,,+380-44-230-8001,https://kijev.mfa.gov.hu/,http://www.wikidata.org/entity/Q1532214
+,consulate general,Ukraine,Uzhhorod,,+380-312-616-179,https://ungvar.mfa.gov.hu/,http://www.wikidata.org/entity/Q69985172
+,embassy,United Kingdom,London,,,https://london.mfa.gov.hu/,http://www.wikidata.org/entity/Q16891034
+consulate.chi@mfa.gov.hu,consulate general,United States of America,Illinois,,+1 312 344 1290,https://chicago.mfa.gov.hu/,http://www.wikidata.org/entity/Q108756175
+,consulate general,United States of America,Los Angeles,,,https://losangeles.mfa.gov.hu/,http://www.wikidata.org/entity/Q69999995
+,consulate general,United States of America,New York City,,,https://newyork.mfa.gov.hu/,http://www.wikidata.org/entity/Q63616520
+,embassy,United States of America,"Washington, D.C.",,+1-202-362-6730,https://washington.mfa.gov.hu/,http://www.wikidata.org/entity/Q12057112
+,embassy,Vietnam,Hanoi,,+84-24-3771-5717,https://hanoi.mfa.gov.hu/,http://www.wikidata.org/entity/Q73230880

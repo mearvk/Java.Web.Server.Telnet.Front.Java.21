@@ -1,0 +1,77 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Afghanistan,Kabul,,,https://finlandabroad.fi/web/afg,http://www.wikidata.org/entity/Q106231709
+,embassy,Algeria,El Mouradia,,,https://finlandabroad.fi/web/dza,http://www.wikidata.org/entity/Q106232578
+,embassy,Argentina,Buenos Aires,,,https://finlandabroad.fi/web/arg,http://www.wikidata.org/entity/Q106232857
+,embassy,Australia,Canberra,,,https://finlandabroad.fi/web/aus/,http://www.wikidata.org/entity/Q1860493
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q54168819
+,embassy,Belgium,City of Brussels,,,https://finlandabroad.fi/web/bel/,http://www.wikidata.org/entity/Q69509054
+,embassy,Brazil,Brasília,,,http://finlandabroad.fi/brasilien,http://www.wikidata.org/entity/Q105695843
+,embassy,Bulgaria,Stolichna Municipality,,,https://finlandabroad.fi/web/bgr/,http://www.wikidata.org/entity/Q41589049
+,embassy,Canada,Ottawa,,,,http://www.wikidata.org/entity/Q5369682
+,embassy,Chile,Las Condes,,,https://finlandabroad.fi/web/chl,http://www.wikidata.org/entity/Q83170774
+,embassy,Colombia,Bogotá,,,https://finlandabroad.fi/web/col,http://www.wikidata.org/entity/Q106242526
+,embassy,Croatia,Zagreb,,,https://finlandabroad.fi/web/hrv,http://www.wikidata.org/entity/Q106241006
+,embassy,Czech Republic,Prague,,,https://finlandabroad.fi/web/cze,http://www.wikidata.org/entity/Q106315710
+,embassy,Egypt,Cairo,,,https://finlandabroad.fi/web/egy,http://www.wikidata.org/entity/Q106247726
+,embassy,Estonia,Tallinn City,,,https://finlandabroad.fi/web/est,http://www.wikidata.org/entity/Q5494715
+,embassy,Ethiopia,Addis Ababa,,,https://finlandabroad.fi/web/eth,http://www.wikidata.org/entity/Q106247661
+,honorary consulate,France,,,,,http://www.wikidata.org/entity/Q16507662
+,embassy,France,,,,https://finlandabroad.fi/web/fra/page-principale,http://www.wikidata.org/entity/Q2841610
+,embassy,Germany,Berlin,,,https://finlandabroad.fi,http://www.wikidata.org/entity/Q10495381
+,embassy,Greece,Athens,,,https://finlandabroad.fi/web/grc,http://www.wikidata.org/entity/Q106231737
+sanomat.HNG@formin.fi,consulate general,Hong Kong,,,+852-2525-5385,https://finlandabroad.fi/web/hkg/mission,http://www.wikidata.org/entity/Q107464982
+,embassy,Hungary,Budapest District XI,,+36-1-279-2500,https://finlandabroad.fi/web/hun/,http://www.wikidata.org/entity/Q1001543
+,embassy,Iceland,Reykjavík,,,https://finlandabroad.fi/web/isl,http://www.wikidata.org/entity/Q31886600
+,embassy,India,New Delhi,,,https://finlandabroad.fi/web/ind,http://www.wikidata.org/entity/Q106240409
+,embassy,Indonesia,Jakarta,,,https://finlandabroad.fi/web/idn,http://www.wikidata.org/entity/Q105959052
+,embassy,Iran,Tehran,,,https://finlandabroad.fi/web/irn,http://www.wikidata.org/entity/Q106261399
+,embassy,Iraq,Baghdad,,,https://finlandabroad.fi/web/irq,http://www.wikidata.org/entity/Q106261363
+,embassy,Ireland,Dublin,,,https://finlandabroad.fi/web/irl/,http://www.wikidata.org/entity/Q104768056
+,embassy,Israel,Tel Aviv,,,https://finlandabroad.fi/web/isr,http://www.wikidata.org/entity/Q106267250
+,embassy,Italy,Rome,,,https://www.finlandia.it,http://www.wikidata.org/entity/Q103822060
+,embassy,Japan,Tokyo,,,https://finlandabroad.fi/web/jpn,http://www.wikidata.org/entity/Q11668255
+,embassy,Kazakhstan,Astana,,,https://finlandabroad.fi/web/kaz,http://www.wikidata.org/entity/Q106291568
+,embassy,Kenya,Nairobi,,,https://finlandabroad.fi/web/ken,http://www.wikidata.org/entity/Q106247758
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,http://www.finland.dk,http://www.wikidata.org/entity/Q26256744
+,embassy,Latvia,Riga,,,https://finlandabroad.fi/web/lva,http://www.wikidata.org/entity/Q106292689
+,embassy,Lebanon,Beirut,,,https://finlandabroad.fi/web/lbn,http://www.wikidata.org/entity/Q106268072
+,embassy,Lithuania,Vilnius,,,https://finlandabroad.fi/web/ltu,http://www.wikidata.org/entity/Q17611452
+,embassy,Malaysia,Kuala Lumpur,,,https://finlandabroad.fi/web/mys,http://www.wikidata.org/entity/Q106241352
+,embassy,Mexico,Mexico City,,,https://finlandabroad.fi/web/mex,http://www.wikidata.org/entity/Q106240474
+,embassy,Morocco,Rabat,,,https://finlandabroad.fi/web/mar,http://www.wikidata.org/entity/Q106303613
+,embassy,Mozambique,Maputo,,,https://finlandabroad.fi/web/moz/etusivu,http://www.wikidata.org/entity/Q104759464
+,embassy,Myanmar,Yangon,,,https://finlandabroad.fi/web/mmr,http://www.wikidata.org/entity/Q106306781
+,embassy,Namibia,Windhoek,,,https://finlandabroad.fi/web/nam,http://www.wikidata.org/entity/Q18814997
+,embassy,Nepal,Kathmandu,,,https://finlandabroad.fi/web/npl,http://www.wikidata.org/entity/Q106306972
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q31885918
+,embassy,Nigeria,Abuja,,,https://finlandabroad.fi/web/nga,http://www.wikidata.org/entity/Q106240543
+,embassy,Northern Cyprus,Nicosia,,,https://finlandabroad.fi/web/cyp,http://www.wikidata.org/entity/Q106242650
+,embassy,Norway,Oslo Municipality,,,https://finlandabroad.fi/web/nor,http://www.wikidata.org/entity/Q15733483
+,embassy,People's Republic of China,Beijing,,,https://finlandabroad.fi/web/chn,http://www.wikidata.org/entity/Q106291907
+,consulate general,People's Republic of China,Shanghai,,,https://finlandabroad.fi/web/chn/zh-consulate-general,http://www.wikidata.org/entity/Q107464910
+,embassy,Peru,San Isidro,,,https://finlandabroad.fi/web/per/edustusto,http://www.wikidata.org/entity/Q31886601
+,embassy,Philippines,Makati,,,https://finlandabroad.fi/web/phl,http://www.wikidata.org/entity/Q106247915
+,embassy,Poland,Warsaw,,+48-22-598-95-00,https://finlandabroad.fi/web/pol/mission,http://www.wikidata.org/entity/Q9149494
+,embassy,Portugal,Lisbon,,,https://finlandabroad.fi/web/prt,http://www.wikidata.org/entity/Q105440974
+,embassy,Romania,Bucharest,,,https://finlandabroad.fi/web/rou,http://www.wikidata.org/entity/Q106303672
+,embassy,Russia,Khamovniki District,,,https://finlandabroad.fi/web/rus,http://www.wikidata.org/entity/Q4353589
+,consulate general,Russia,Saint Petersburg,,,,http://www.wikidata.org/entity/Q5164549
+,embassy,Saudi Arabia,Riyadh,,,https://finlandabroad.fi/web/sau/,http://www.wikidata.org/entity/Q31887298
+,embassy,Serbia,Belgrade,,,https://finlandabroad.fi/web/srb,http://www.wikidata.org/entity/Q106306645
+,embassy,Serbia,Pristina,,,https://finlandabroad.fi/web/xkv,http://www.wikidata.org/entity/Q106292173
+,embassy,Singapore,Singapore,,,https://finlandabroad.fi/web/sgp,http://www.wikidata.org/entity/Q106315657
+,embassy,South Africa,Pretoria,,,https://finlandabroad.fi/web/zaf,http://www.wikidata.org/entity/Q106241120
+,embassy,South Korea,Seoul,,,https://finlandabroad.fi/web/kor,http://www.wikidata.org/entity/Q106307074
+,embassy,Spain,Madrid,,,https://finlandabroad.fi/web/esp,http://www.wikidata.org/entity/Q105233106
+,embassy,Sweden,Stockholm,,,https://finlandabroad.fi/web/swe/startsida,http://www.wikidata.org/entity/Q10495384
+sanomat.brn@formin.fi,embassy,Switzerland,Bern,,+41-31-350-41-00,https://finlandabroad.fi/web/che,http://www.wikidata.org/entity/Q26980121
+,embassy,Tanzania,Dar es Salaam,,,https://finlandabroad.fi/web/tza,http://www.wikidata.org/entity/Q106241479
+,embassy,Thailand,Bangkok,,,https://finlandabroad.fi/web/tha,http://www.wikidata.org/entity/Q106291467
+,embassy,Tunisia,Tunis,,,https://finlandabroad.fi/web/tun,http://www.wikidata.org/entity/Q106292982
+,embassy,Turkey,Ankara,,,https://finlandabroad.fi/web/tur,http://www.wikidata.org/entity/Q106316609
+sanomat.kio@formin.fi,embassy,Ukraine,Kyiv,,+380-44-278-7049,http://www.finland.org.ua/public/default.aspx?culture=uk-UA&contentlan=37,http://www.wikidata.org/entity/Q2383254
+,embassy,United Arab Emirates,Abu Dhabi,,,https://finlandabroad.fi/web/are,http://www.wikidata.org/entity/Q106233764
+,embassy,United Kingdom,City of Westminster,,,,http://www.wikidata.org/entity/Q16891018
+,embassy,United States of America,"Washington, D.C.",,,https://finlandabroad.fi/web/usa,http://www.wikidata.org/entity/Q5369683
+,embassy,Vietnam,Hanoi,,,https://finlandabroad.fi/web/vnm,http://www.wikidata.org/entity/Q106292281
+,embassy,Zambia,Lusaka,,,https://finlandabroad.fi/web/zmb,http://www.wikidata.org/entity/Q106244177

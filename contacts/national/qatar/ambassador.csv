@@ -1,0 +1,50 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Albania,Tirana,,,https://tirana.embassy.qa/,http://www.wikidata.org/entity/Q113241243
+,embassy,Argentina,Buenos Aires,,,https://buenos-aires.embassy.qa/,http://www.wikidata.org/entity/Q110300880
+,embassy,Australia,Canberra,,,https://canberra.embassy.qa/,http://www.wikidata.org/entity/Q106489485
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q54168861
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q67205369
+,embassy,Bosnia and Herzegovina,Sarajevo,,,https://sarajevo.embassy.qa,http://www.wikidata.org/entity/Q108064384
+,embassy,Brazil,Brasília,,,https://brasilia.embassy.qa,http://www.wikidata.org/entity/Q105687815
+,embassy,Bulgaria,Stolichna Municipality,,,,http://www.wikidata.org/entity/Q41588772
+,embassy,Canada,Ottawa,,,https://ottawa.embassy.qa,http://www.wikidata.org/entity/Q106775233
+,embassy,Costa Rica,San José,,,https://san-jose.embassy.qa,http://www.wikidata.org/entity/Q111088088
+,embassy,Croatia,Zagreb,,,https://zagreb.embassy.qa/,http://www.wikidata.org/entity/Q104163620
+,embassy,Ecuador,Quito,,,https://quito.embassy.qa,http://www.wikidata.org/entity/Q110797483
+,embassy,Egypt,,,,,http://www.wikidata.org/entity/Q125496195
+,embassy,France,,,,,http://www.wikidata.org/entity/Q2841879
+,embassy,Germany,Berlin,,,https://berlin.embassy.qa,http://www.wikidata.org/entity/Q1604972
+,embassy,Greece,Psychiko,,,https://athens.embassy.qa,http://www.wikidata.org/entity/Q109689429
+,embassy,Guinea,Conakry,,,,http://www.wikidata.org/entity/Q114350159
+,embassy,Hungary,Budapest District VI,,+36 1 392-1010,https://budapest.embassy.qa/,http://www.wikidata.org/entity/Q108719252
+,embassy,India,New Delhi,,,https://new-delhi.embassy.qa,http://www.wikidata.org/entity/Q112663830
+,embassy,Indonesia,Jakarta,,,https://jakarta.embassy.qa,http://www.wikidata.org/entity/Q107636127
+,embassy,Iraq,,,,,http://www.wikidata.org/entity/Q25539549
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103904410
+,embassy,Japan,,,,,http://www.wikidata.org/entity/Q61925280
+,embassy,Malta,Swieqi,,,https://valletta.embassy.qa,http://www.wikidata.org/entity/Q107737026
+,embassy,Moldova,Chișinău,,,https://chisinau.embassy.qa/,http://www.wikidata.org/entity/Q106963491
+,embassy,Netherlands,The Hague,,,http://hague.embassy.qa/,http://www.wikidata.org/entity/Q100497683
+,embassy,Nigeria,Abuja,,,https://abuja.embassy.qa,http://www.wikidata.org/entity/Q111913386
+,embassy,Northern Cyprus,Nicosia,,,https://nicosia.embassy.qa,http://www.wikidata.org/entity/Q109784498
+,de facto embassy,Palestine,,,,,http://www.wikidata.org/entity/Q100260602
+,embassy,Panama,Panama City,,,https://panama-city.embassy.qa,http://www.wikidata.org/entity/Q111109692
+,embassy,Paraguay,Asunción,,,https://asuncion.embassy.qa,http://www.wikidata.org/entity/Q110573080
+,embassy,People's Republic of China,Beijing,,,https://beijing.embassy.qa,http://www.wikidata.org/entity/Q100276408
+,embassy,Peru,Miraflores,,,,http://www.wikidata.org/entity/Q110728758
+,embassy,Poland,Warsaw,,,https://warsaw.embassy.qa,http://www.wikidata.org/entity/Q9149518
+,embassy,Portugal,Lisbon,,,https://lisbon.embassy.qa,http://www.wikidata.org/entity/Q105461235
+,embassy,Romania,Bucharest,,,https://bucharest.embassy.qa/,http://www.wikidata.org/entity/Q106947492
+,embassy,Russia,Moscow,,,https://moscow.embassy.qa,http://www.wikidata.org/entity/Q107703865
+,embassy,Serbia,Belgrade,,,https://belgrade.embassy.qa,http://www.wikidata.org/entity/Q108275099
+,embassy,South Africa,Pretoria,,,https://pretoria.embassy.qa,http://www.wikidata.org/entity/Q106694989
+,consulate general,Spain,Barcelona,,,https://barcelona.consulate.qa/en,http://www.wikidata.org/entity/Q108718604
+,embassy,Spain,Madrid,,,https://madrid.embassy.qa/,http://www.wikidata.org/entity/Q105233387
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q31896755
+,embassy,Switzerland,Bern,,,,http://www.wikidata.org/entity/Q101067760
+,embassy,Turkey,Ankara,,,https://ankara.embassy.qa,http://www.wikidata.org/entity/Q111030262
+kiev@mofa.gov.qa,embassy,Ukraine,Kyiv,,+380-44-359-0666,http://kyiv.embassy.qa/en/home,http://www.wikidata.org/entity/Q30966402
+,embassy,United Kingdom,City of Westminster,,,http://www.qatarembassy.info,http://www.wikidata.org/entity/Q17010515
+,embassy,United States of America,"Washington, D.C.",,,https://washington.embassy.qa/en/home,http://www.wikidata.org/entity/Q5369836
+,embassy,Uruguay,Montevideo,,,,http://www.wikidata.org/entity/Q110493652
+,embassy,Venezuela,Caracas,,,https://caracas.embassy.qa,http://www.wikidata.org/entity/Q110892390

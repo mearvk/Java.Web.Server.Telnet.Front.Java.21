@@ -1,0 +1,46 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,https://www.kln.gov.my/web/arg_buenos-aires,http://www.wikidata.org/entity/Q110289284
+,high commission,Australia,Canberra,,,https://www.kln.gov.my/web/aus_canberra,http://www.wikidata.org/entity/Q106474409
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104640001
+,embassy,Bahrain,Manama,,,,http://www.wikidata.org/entity/Q68170692
+,embassy,Belgium,Woluwe-Saint-Pierre - Sint-Pieters-Woluwe,,,,http://www.wikidata.org/entity/Q69876977
+,embassy,Bosnia and Herzegovina,Centar Municipality,,,https://www.kln.gov.my/web/bih_sarajevo,http://www.wikidata.org/entity/Q95630585
+,embassy,Brazil,Brasília,,,https://www.kln.gov.my/web/bra_brasilia,http://www.wikidata.org/entity/Q105710825
+,high commission,Canada,Ottawa,,,https://www.kln.gov.my/web/can_ottawa,http://www.wikidata.org/entity/Q5755106
+,embassy,Chile,Las Condes,,,https://www.kln.gov.my/web/chl_santiago/home,http://www.wikidata.org/entity/Q110464182
+,embassy,Croatia,Zagreb,,,https://www.kln.gov.my/web/hrv_zagreb,http://www.wikidata.org/entity/Q106200981
+,embassy,Czech Republic,Prague,,,https://www.kln.gov.my/web/cze_prague,http://www.wikidata.org/entity/Q107126171
+,embassy,Egypt,,,,,http://www.wikidata.org/entity/Q125496188
+,embassy,Finland,Helsinki,,,,http://www.wikidata.org/entity/Q106207589
+,embassy,France,,,,http://www.kln.gov.my/web/fra_paris/home,http://www.wikidata.org/entity/Q20669708
+,embassy,Germany,Berlin,,,,http://www.wikidata.org/entity/Q73261290
+,embassy,Guinea,,,,,http://www.wikidata.org/entity/Q111207245
+,embassy,Hungary,Budapest District II,,,https://www.kln.gov.my/web/hun_budapest/,http://www.wikidata.org/entity/Q107350934
+,high commission,India,New Delhi,,,https://www.kln.gov.my/web/ind_new-delhi/home,http://www.wikidata.org/entity/Q112656985
+,embassy,Indonesia,Jakarta,,,https://www.kln.gov.my/web/idn_jakarta,http://www.wikidata.org/entity/Q107607172
+,embassy,Ireland,Dublin,,,https://www.kln.gov.my/web/irl_dublin,http://www.wikidata.org/entity/Q104771999
+,embassy,Italy,Rome,,,http://www.kln.gov.my/web/hls_holy-see/home,http://www.wikidata.org/entity/Q60855539
+,embassy,Italy,Rome,,,http://www.kln.gov.my/web/ita_rome,http://www.wikidata.org/entity/Q103847232
+,embassy,Japan,,,,http://www.embassyin.jp/malaysia/,http://www.wikidata.org/entity/Q61925610
+,embassy,Lebanon,Beirut,,,https://www.kln.gov.my/web/lbn_beirut,http://www.wikidata.org/entity/Q109781798
+,embassy,Mexico,Mexico City,,,https://www.kln.gov.my/web/mex_mexico-city,http://www.wikidata.org/entity/Q111094809
+,embassy,Netherlands,The Hague,,,http://www.kln.gov.my/web/nld_the-hague,http://www.wikidata.org/entity/Q18353377
+,high commission,New Zealand,Wellington,,,https://www.kln.gov.my/web/nzl_wellington,http://www.wikidata.org/entity/Q111888857
+,embassy,North Korea,Pyongyang,,,,http://www.wikidata.org/entity/Q110117685
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q100279184
+,embassy,Peru,San Isidro,,,https://www.kln.gov.my/web/per_lima,http://www.wikidata.org/entity/Q110701239
+,embassy,Poland,Warsaw,,,http://www.kln.gov.my/web/pol_warsaw/home,http://www.wikidata.org/entity/Q9149541
+,embassy,Romania,Bucharest,,,https://www.kln.gov.my/web/rou_bucharest/,http://www.wikidata.org/entity/Q106949714
+,embassy,Russia,Moscow,,,https://www.kln.gov.my/web/rus_moscow,http://www.wikidata.org/entity/Q110186590
+,embassy,Saudi Arabia,Riyadh,,,https://www.kln.gov.my/web/sau_riyadh,http://www.wikidata.org/entity/Q68170049
+,embassy,Serbia,Belgrade,,,https://www.kln.gov.my/web/srb_belgrade/,http://www.wikidata.org/entity/Q108159911
+,high commission,South Africa,Pretoria,,,https://www.kln.gov.my/web/zaf_pretoria,http://www.wikidata.org/entity/Q106684527
+,embassy,South Korea,Seoul,,,https://www.kln.gov.my/web/kor_seoul,http://www.wikidata.org/entity/Q106621570
+,embassy,Spain,Madrid,,,https://www.kln.gov.my/web/esp_madrid,http://www.wikidata.org/entity/Q105303844
+,embassy,Sweden,Stockholm,,,https://www.kln.gov.my/web/swe_stockholm,http://www.wikidata.org/entity/Q10575771
+,embassy,Switzerland,Bern,,,https://www.kln.gov.my/web/che_berne/home,http://www.wikidata.org/entity/Q5369779
+,embassy,Turkey,Ankara,,,https://www.kln.gov.my/web/tur_ankara,http://www.wikidata.org/entity/Q111027566
+mwkiev@kln.gov.my,embassy,Ukraine,Kyiv,,+380-44-286-8940,http://www.kln.gov.my/web/ukr_kiev/home,http://www.wikidata.org/entity/Q12142666
+,high commission,United Kingdom,,,,,http://www.wikidata.org/entity/Q15378923
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q5369780
+mwhanoi@kln.gov.my,embassy,Vietnam,Hanoi,,+8424-3734 3849,https://www.kln.gov.my/web/vnm_hanoi,http://www.wikidata.org/entity/Q118117547

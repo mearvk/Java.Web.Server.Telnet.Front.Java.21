@@ -1,0 +1,31 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Australia,Canberra,,,http://mongolianembassy.org.au,http://www.wikidata.org/entity/Q106477170
+,embassy,Austria,Vienna,,,http://vienna.embassy.mn/,http://www.wikidata.org/entity/Q104641579
+,embassy,Belgium,Forest,,,,http://www.wikidata.org/entity/Q69884406
+,embassy,Bulgaria,Stolichna Municipality,,,https://sofia.mfa.gov.mn,http://www.wikidata.org/entity/Q41589319
+,embassy,Canada,Ottawa,,,https://ottawa.embassy.mn/,http://www.wikidata.org/entity/Q5369794
+,embassy,Cuba,Havana,,,http://www.havana.embassy.mn,http://www.wikidata.org/entity/Q110477415
+,embassy,Czech Republic,Prague,,,,http://www.wikidata.org/entity/Q107118774
+,embassy,Egypt,Cairo,,,,http://www.wikidata.org/entity/Q106685468
+,embassy,France,Boulogne-Billancourt,,,https://paris.embassy.mn/,http://www.wikidata.org/entity/Q2841822
+berlin@mfa.gov.mn,embassy,Germany,Mitte,,,https://berlin.embassy.mn/,http://www.wikidata.org/entity/Q18180367
+,embassy,Hungary,Budapest District II,,,http://www.budapest.embassy.mn,http://www.wikidata.org/entity/Q108858956
+,embassy,India,New Delhi,,,https://embassymongolia.in/,http://www.wikidata.org/entity/Q112657182
+,embassy,Italy,Rome,,,https://www.monembrome.mn,http://www.wikidata.org/entity/Q103855326
+,embassy,Japan,,,,,http://www.wikidata.org/entity/Q45875126
+,consulate general,Japan,Osaka,,,http://www.osaka.mfa.gov.mn/index.php?lang=en,http://www.wikidata.org/entity/Q48200928
+,embassy,North Korea,Pyongyang,,,,http://www.wikidata.org/entity/Q118920821
+,embassy,People's Republic of China,Beijing,,,https://beijing.embassy.mn/,http://www.wikidata.org/entity/Q58924893
+,consulate,People's Republic of China,Hulunbuir,,,,http://www.wikidata.org/entity/Q109345566
+,consulate,People's Republic of China,Manzhouli,,,,http://www.wikidata.org/entity/Q109343392
+,consulate general,People's Republic of China,Pudong,,,,http://www.wikidata.org/entity/Q109345567
+,embassy,Poland,Warsaw,,+48-22-849-93-91,http://www.ambasadamongolii.pl/,http://www.wikidata.org/entity/Q15618184
+,embassy,Russia,Moscow,,,https://moscow.embassy.mn/,http://www.wikidata.org/entity/Q2841827
+,embassy,South Korea,Seoul,,,http://www.seoul.embassy.mn/,http://www.wikidata.org/entity/Q99619088
+,embassy,Sweden,Danderyd Municipality,,,http://stockholm.mfa.gov.mn/,http://www.wikidata.org/entity/Q18292359
+mongolie@bluewin.ch,embassy,Switzerland,Bellevue,,+41-22-774-19-74,https://www.geneva.embassy.mn,http://www.wikidata.org/entity/Q26995342
+,de facto embassy,Taiwan,,,,,http://www.wikidata.org/entity/Q23306164
+bangkok@mfa.gov.mn,embassy,Thailand,Bangkok,,,https://bangkok.embassy.mn,http://www.wikidata.org/entity/Q107608146
+,embassy,Turkey,Ankara,,,https://www.mongolianembassy.com.tr/,http://www.wikidata.org/entity/Q107630022
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16991729
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q4374028

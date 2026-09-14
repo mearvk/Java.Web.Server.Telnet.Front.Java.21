@@ -1,0 +1,34 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Albania,Tirana,,,,http://www.wikidata.org/entity/Q111539353
+,embassy,Australia,Canberra,,,http://www.ambasada-ks.net,http://www.wikidata.org/entity/Q106465152
+,embassy,Austria,Vienna,,,http://www.ambasada-ks.net/at,http://www.wikidata.org/entity/Q54168868
+,embassy,Bangladesh,Dhaka,,,,http://www.wikidata.org/entity/Q111539432
+,embassy,Belgium,Woluwe-Saint-Pierre - Sint-Pieters-Woluwe,,,,http://www.wikidata.org/entity/Q69700559
+,embassy,Bulgaria,Stolichna Municipality,,,https://www.ambasada-ks.net/bg/,http://www.wikidata.org/entity/Q41589011
+,embassy,Canada,Ottawa,,,http://www.ambasada-ks.net/ca,http://www.wikidata.org/entity/Q29561389
+,embassy,Croatia,Zagreb,,,https://www.ambasada-ks.net/hr,http://www.wikidata.org/entity/Q107412389
+,embassy,Czech Republic,Prague,,,,http://www.wikidata.org/entity/Q107123834
+,embassy,France,Paris,,,,http://www.wikidata.org/entity/Q20669719
+,embassy,Germany,Charlottenburg-Wilmersdorf,,,https://ambasadat.net/gjermani,http://www.wikidata.org/entity/Q48756394
+,embassy,Hungary,Budapest,,,https://ambasadat.net/hungari,http://www.wikidata.org/entity/Q110220117
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q65315068
+,embassy,Japan,Minato,,,http://www.ambasada-ks.net/jp/,http://www.wikidata.org/entity/Q100695987
+,embassy,Montenegro,Podgorica,,,https://ambasada-ks.net/me,http://www.wikidata.org/entity/Q108911220
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100574672
+,embassy,North Macedonia,Skopje,,,,http://www.wikidata.org/entity/Q111539161
+,embassy,Norway,Oslo Municipality,,,,http://www.wikidata.org/entity/Q97197144
+,embassy,Palestine,Jerusalem,,,,http://www.wikidata.org/entity/Q107476330
+,embassy,Panama,Panama City,,,,http://www.wikidata.org/entity/Q111109359
+,consulate general,Poland,Warsaw,,,,http://www.wikidata.org/entity/Q126974519
+,embassy,Portugal,Lisbon,,,,http://www.wikidata.org/entity/Q105444046
+,embassy,Qatar,Doha,,,,http://www.wikidata.org/entity/Q111539050
+,embassy,Saudi Arabia,Riyadh,,,,http://www.wikidata.org/entity/Q68170032
+,embassy,Senegal,Dakar,,,,http://www.wikidata.org/entity/Q111538823
+,embassy,Slovenia,Ljubljana,,,,http://www.wikidata.org/entity/Q107345974
+,embassy,Sweden,Stockholm,,,http://www.ambasada-ks.net/se/,http://www.wikidata.org/entity/Q10548359
+embassy.switzerland@rks-gov.net,embassy,Switzerland,Bern,,+41 (0) 31 310 06 93,,http://www.wikidata.org/entity/Q26980140
+,embassy,Thailand,Bangkok,,,,http://www.wikidata.org/entity/Q111539383
+,embassy,Turkey,Ankara,,,https://www.ambasada-ks.net/tr,http://www.wikidata.org/entity/Q110408822
+,embassy,United Arab Emirates,Abu Dhabi,,,,http://www.wikidata.org/entity/Q111538845
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16836824
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q5369944

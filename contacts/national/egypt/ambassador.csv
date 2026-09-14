@@ -1,0 +1,85 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Albania,Tirana,,,,http://www.wikidata.org/entity/Q113229108
+,embassy,Algeria,,,,,http://www.wikidata.org/entity/Q100259769
+,embassy,Argentina,Buenos Aires,,,,http://www.wikidata.org/entity/Q110271751
+,embassy,Australia,Canberra,,,,http://www.wikidata.org/entity/Q106462678
+,embassy,Austria,Vienna,,,http://www.egyptembassyvienna.at/,http://www.wikidata.org/entity/Q104602763
+,embassy,Azerbaijan,Baku,,,,http://www.wikidata.org/entity/Q20580907
+,embassy,Bahrain,Manama,,,,http://www.wikidata.org/entity/Q68170357
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69421965
+,embassy,Bolivia,La Paz,,,,http://www.wikidata.org/entity/Q110586879
+,embassy,Bosnia and Herzegovina,Centar Municipality,,,https://www.egyptembassy.org/location/bosnia-and-herzegovina/egypt-embassy-sarajevo/,http://www.wikidata.org/entity/Q96146845
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105694768
+,embassy,Bulgaria,Stolichna Municipality,,,,http://www.wikidata.org/entity/Q41589264
+,embassy,Canada,Ottawa,,,,http://www.wikidata.org/entity/Q5369672
+,embassy,Chile,Providencia,,,,http://www.wikidata.org/entity/Q110415631
+,embassy,Colombia,Bogotá,,,,http://www.wikidata.org/entity/Q110846568
+,embassy,Croatia,Zagreb,,,,http://www.wikidata.org/entity/Q107410998
+,embassy,Cyprus,Egkomi Lefkosias,,,,http://www.wikidata.org/entity/Q109717886
+,embassy,Czech Republic,Prague,,,,http://www.wikidata.org/entity/Q107111250
+,embassy,Djibouti,Djibouti,,,,http://www.wikidata.org/entity/Q106474211
+,embassy,Ecuador,Quito,,,,http://www.wikidata.org/entity/Q110748561
+,embassy,Finland,Helsinki,,,,http://www.wikidata.org/entity/Q106192212
+,embassy,France,,,,,http://www.wikidata.org/entity/Q30737434
+,consulate general,France,Marseille,,,,http://www.wikidata.org/entity/Q16507556
+,embassy,Germany,Mitte,,,http://www.egyptian-embassy.de/,http://www.wikidata.org/entity/Q253199
+,embassy,Greece,Athens Municipality,,,,http://www.wikidata.org/entity/Q31194717
+,embassy,Guinea,,,,,http://www.wikidata.org/entity/Q111207205
+,embassy,India,New Delhi,,,,http://www.wikidata.org/entity/Q112118179
+,embassy,Indonesia,Jakarta,,,,http://www.wikidata.org/entity/Q107568011
+,embassy,Iraq,Baghdad,,,,http://www.wikidata.org/entity/Q106474253
+,embassy,Ireland,Dublin,,,,http://www.wikidata.org/entity/Q104764393
+,honorary consulate,Israel,Eilat,,,,http://www.wikidata.org/entity/Q109895910
+,embassy,Israel,Tel Aviv,,,,http://www.wikidata.org/entity/Q101118074
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q60855295
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103813740
+,embassy,Ivory Coast,Abidjan,,,,http://www.wikidata.org/entity/Q112899249
+,embassy,Japan,Aobadai 1-chōme,,,https://egyptembassy.jp/,http://www.wikidata.org/entity/Q56664948
+,embassy,Jordan,Amman,,,,http://www.wikidata.org/entity/Q106474269
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,,http://www.wikidata.org/entity/Q105999329
+,embassy,Kuwait,Kuwait City,,,,http://www.wikidata.org/entity/Q106474249
+,embassy,Lebanon,Beirut,,,,http://www.wikidata.org/entity/Q106474170
+,embassy,Libya,Tripoli,,,,http://www.wikidata.org/entity/Q106474165
+,embassy,Malta,Ta' Xbiex,,,,http://www.wikidata.org/entity/Q107720812
+,embassy,Mauritania,Nouakchott,,,,http://www.wikidata.org/entity/Q106474158
+,embassy,Mexico,Mexico City,,,,http://www.wikidata.org/entity/Q111669108
+,embassy,Morocco,Rabat,,,,http://www.wikidata.org/entity/Q106474236
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100605195
+,embassy,New Zealand,Wellington,,,,http://www.wikidata.org/entity/Q111820891
+,embassy,Niger,Niamey III,,+227-20-73-33-55,http://www.mfa.gov.eg/french/embassies/Egyptian_Embassy_niger/Pages/default.aspx,http://www.wikidata.org/entity/Q28473741
+,embassy,North Korea,Pyongyang,,,,http://www.wikidata.org/entity/Q118918094
+,embassy,Norway,Oslo Municipality,,,,http://www.wikidata.org/entity/Q17194559
+,embassy,Oman,Muscat,,,,http://www.wikidata.org/entity/Q106474203
+,de facto embassy,Palestine,,,,,http://www.wikidata.org/entity/Q109259893
+,embassy,Panama,Panama City,,,,http://www.wikidata.org/entity/Q111088187
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q119727171
+,consulate general,People's Republic of China,Hong Kong,,,,http://www.wikidata.org/entity/Q119758548
+,embassy,Peru,San Isidro,,,,http://www.wikidata.org/entity/Q110667440
+,embassy,Poland,Warsaw,,+48-22-590-66-00,http://web.archive.org/web/20170720111728/http://www.mfa.gov.eg:80/english/embassies/Egyptian_Embassy_Poland/Pages/default.aspx,http://www.wikidata.org/entity/Q9149489
+,embassy,Portugal,Lisbon,,,,http://www.wikidata.org/entity/Q105415307
+,embassy,Qatar,Doha,,,,http://www.wikidata.org/entity/Q106474173
+,embassy,Romania,Bucharest,,,,http://www.wikidata.org/entity/Q106875173
+,embassy,Russia,Khamovniki District,,,,http://www.wikidata.org/entity/Q1770850
+,embassy,Saudi Arabia,Riyadh,,,,http://www.wikidata.org/entity/Q68169974
+,embassy,Serbia,Belgrade,,,,http://www.wikidata.org/entity/Q108119435
+,embassy,Slovakia,Bratislava,,,http://www.egypt-embassy.sk/,http://www.wikidata.org/entity/Q53195392
+,embassy,Slovenia,Ljubljana,,,,http://www.wikidata.org/entity/Q107344390
+,embassy,Somalia,Mogadishu,,,,http://www.wikidata.org/entity/Q106474256
+,embassy,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106673418
+,embassy,South Korea,Seoul,,,,http://www.wikidata.org/entity/Q106621575
+,embassy,South Sudan,,,,,http://www.wikidata.org/entity/Q12748296
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q105206135
+,embassy,Sudan,Khartoum,,,,http://www.wikidata.org/entity/Q106474261
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q10480315
+embassy.bern@mfa.gov.eg,embassy,Switzerland,Bern,,+41-31-352-80-12,,http://www.wikidata.org/entity/Q26979961
+,embassy,Syria,Damascus,,,,http://www.wikidata.org/entity/Q106474190
+,embassy,Togo,Lomé,,,,http://www.wikidata.org/entity/Q16526395
+,embassy,Tunisia,Tunis,,,,http://www.wikidata.org/entity/Q106474225
+,embassy,Turkey,Ankara,,,,http://www.wikidata.org/entity/Q110971046
+,consulate general,Turkey,Istanbul,,,,http://www.wikidata.org/entity/Q6008675
+eg.emb_kiev@mfa.gov.eg,embassy,Ukraine,Kyiv,,+380-44-272-1327,http://www.mfa.gov.eg/english/embassies/Egyptian_Embassy_Kiev/Pages/default.aspx,http://www.wikidata.org/entity/Q12142648
+,embassy,United Arab Emirates,Abu Dhabi,,,,http://www.wikidata.org/entity/Q106474266
+,embassy,United Kingdom,City of Westminster,,,,http://www.wikidata.org/entity/Q16974706
+,embassy,United States of America,"Washington, D.C.",,,http://www.egyptembassy.net/,http://www.wikidata.org/entity/Q1770807
+,embassy,Uruguay,Montevideo,,,,http://www.wikidata.org/entity/Q110492160
+,embassy,Yemen,Sanaa,,,,http://www.wikidata.org/entity/Q12216179

@@ -1,0 +1,43 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,https://www.mre.gov.py/embapar-argentina,http://www.wikidata.org/entity/Q110300739
+,embassy,Australia,Canberra,,,https://www.mre.gov.py/embapar-australia/,http://www.wikidata.org/entity/Q106489166
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104630574
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69901202
+,embassy,Bolivia,La Paz,,,,http://www.wikidata.org/entity/Q110509237
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105716030
+,embassy,Canada,Ottawa,,,https://www.mre.gov.py/Sitios/Home/Index/embapar-canada/,http://www.wikidata.org/entity/Q106776699
+,embassy,Chile,Las Condes,,,http://embajadadelparaguay.cl/,http://www.wikidata.org/entity/Q110483829
+,embassy,Colombia,Bogotá,,,,http://www.wikidata.org/entity/Q110509328
+,embassy,Costa Rica,San José,,,,http://www.wikidata.org/entity/Q110508982
+,embassy,Cuba,Havana,,,,http://www.wikidata.org/entity/Q110508588
+,embassy,Dominican Republic,Santo Domingo,,,,http://www.wikidata.org/entity/Q110508872
+,embassy,Ecuador,Quito,,,https://www.mre.gov.py/embapar-ecuador/,http://www.wikidata.org/entity/Q110509373
+,embassy,Egypt,Cairo,,,https://embajadas.paraguay.gov.py/egipto,http://www.wikidata.org/entity/Q110507434
+,embassy,France,Paris,,,,http://www.wikidata.org/entity/Q20669722
+,embassy,Germany,Berlin,,,http://embapar.de,http://www.wikidata.org/entity/Q11685576
+,embassy,India,New Delhi,,,https://paraguayembassy.in/,http://www.wikidata.org/entity/Q110524044
+,embassy,Israel,Herzliya,,,,http://www.wikidata.org/entity/Q110526988
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q60855268
+,embassy,Italy,Rome,,,https://www.mre.gov.py/embapar-italia/,http://www.wikidata.org/entity/Q103901669
+,embassy,Japan,Chiyoda-ku,,,https://www.embapar.jp,http://www.wikidata.org/entity/Q44193958
+,embassy,Lebanon,Hazmiyeh,,,,http://www.wikidata.org/entity/Q110527167
+,embassy,Mexico,Mexico City,,,,http://www.wikidata.org/entity/Q110508266
+,embassy,Morocco,Rabat,,,,http://www.wikidata.org/entity/Q110508006
+,embassy,Panama,Panama City,,,,http://www.wikidata.org/entity/Q110509116
+,embassy,Peru,San Isidro,,,,http://www.wikidata.org/entity/Q110509523
+,consulate general,Poland,Warsaw,,,,http://www.wikidata.org/entity/Q122452240
+,embassy,Portugal,Lisbon,,,http://embaixadadoparaguai.pt/,http://www.wikidata.org/entity/Q105460339
+,embassy,Qatar,Doha,,,,http://www.wikidata.org/entity/Q110527187
+,embassy,Russia,Moscow,,,http://www.embapar.ru,http://www.wikidata.org/entity/Q4374031
+,embassy,South Africa,Pretoria,,,https://www.paraguayembassy.co.za,http://www.wikidata.org/entity/Q106692552
+,embassy,South Korea,Seoul,,,http://www.embaparcorea.org,http://www.wikidata.org/entity/Q110523356
+,consulate general,Spain,L'Antiga Esquerra de l'Eixample,,,https://www.consuladopybcn.com/,http://www.wikidata.org/entity/Q108733895
+,embassy,Spain,Madrid,,,http://www.embajadadelparaguay.es/,http://www.wikidata.org/entity/Q105336968
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q19978361
+suizaembaparsc@mre.gov.py,embassy,Switzerland,Bern,,+41-31-312-32-22,,http://www.wikidata.org/entity/Q26980015
+,embassy,Taiwan,Taipei,,,https://www.embapartwroc.com.tw/,http://www.wikidata.org/entity/Q54831433
+,embassy,Turkey,Ankara,,,https://www.mre.gov.py/embapar-turquia,http://www.wikidata.org/entity/Q110526610
+,embassy,United Kingdom,London,,,http://www.paraguayembassy.co.uk/,http://www.wikidata.org/entity/Q15378884
+,embassy,United States of America,"Washington, D.C.",,,http://www.mre.gov.py/embaparusa/,http://www.wikidata.org/entity/Q5369817
+,embassy,Uruguay,Montevideo,,,,http://www.wikidata.org/entity/Q110493470
+,embassy,Venezuela,Caracas,,,,http://www.wikidata.org/entity/Q110509609

@@ -1,0 +1,42 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Australia,Canberra,,,http://www.ambasadat.gov.al/australia/,http://www.wikidata.org/entity/Q106450455
+,embassy,Austria,Vienna,,,http://www.ambasadat.gov.al/austria/,http://www.wikidata.org/entity/Q51711009
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q68190170
+,embassy,Brazil,Brasília,,,http://www.ambasadat.gov.al/brazil/,http://www.wikidata.org/entity/Q105668037
+,embassy,Bulgaria,Sofia,,,http://www.ambasadat.gov.al/bulgaria,http://www.wikidata.org/entity/Q106847242
+,embassy,Canada,Ottawa,,,http://www.ambasadat.gov.al/canada,http://www.wikidata.org/entity/Q106765725
+,embassy,Croatia,Zagreb,,,http://www.ambasadat.gov.al/croatia,http://www.wikidata.org/entity/Q107400962
+,embassy,Czech Republic,Prague,,,http://www.ambasadat.gov.al/czech-republic,http://www.wikidata.org/entity/Q107104273
+,embassy,Egypt,Cairo,,,http://www.ambasadat.gov.al/egypt,http://www.wikidata.org/entity/Q113250320
+,embassy,France,Paris,,,https://ambasadat.gov.al/france/fr,http://www.wikidata.org/entity/Q20669698
+,embassy,Germany,Berlin,,,http://www.ambasadat.gov.al/germany/,http://www.wikidata.org/entity/Q73141849
+,embassy,Greece,Filothei-Psychiko Municipality,,,http://www.ambasadat.gov.al/greece/,http://www.wikidata.org/entity/Q109531030
+embassy.budapest@mfa.gov.al,embassy,Hungary,Budapest District VI,,,http://www.ambasadat.gov.al/hungary/,http://www.wikidata.org/entity/Q108710194
+,embassy,Israel,Ramat Gan,,,http://www.ambasadat.gov.al/israel,http://www.wikidata.org/entity/Q112035002
+,embassy,Italy,Rome,,,http://www.ambasadat.gov.al/vatican-city,http://www.wikidata.org/entity/Q56326894
+,embassy,Italy,Rome,,,http://www.ambasadat.gov.al/italy/,http://www.wikidata.org/entity/Q102867257
+,embassy,Japan,Tokyo,,,http://www.ambasadat.gov.al/japan,http://www.wikidata.org/entity/Q61877397
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,http://www.ambasadat.gov.al/denmark,http://www.wikidata.org/entity/Q105979126
+,embassy,Kuwait,Kuwait City,,,http://www.ambasadat.gov.al/kuwait,http://www.wikidata.org/entity/Q113258882
+,embassy,Malaysia,Kuala Lumpur,,,http://www.ambasadat.gov.al/malaysia,http://www.wikidata.org/entity/Q108028126
+,embassy,Montenegro,Podgorica,,,http://www.ambasadat.gov.al/montenegro/,http://www.wikidata.org/entity/Q108886330
+,embassy,Netherlands,The Hague,,,http://www.ambasadat.gov.al/netherlands,http://www.wikidata.org/entity/Q5369538
+,embassy,North Macedonia,Skopje,,,http://www.ambasadat.gov.al/republic-of-north-macedonia,http://www.wikidata.org/entity/Q113259051
+,consulate,Pakistan,Karachi,,+92-21358869012,,http://www.wikidata.org/entity/Q27867678
+,embassy,People's Republic of China,Beijing,,,http://www.ambasadat.gov.al/china,http://www.wikidata.org/entity/Q113259330
+,embassy,Poland,Warsaw,,+48-22-824-14-27,http://ambasadat.gov.al/poland,http://www.wikidata.org/entity/Q9149446
+,embassy,Qatar,Doha,,,http://www.ambasadat.gov.al/qatar,http://www.wikidata.org/entity/Q113253727
+,embassy,Romania,Bucharest,,,http://www.ambasadat.gov.al/romania,http://www.wikidata.org/entity/Q113259531
+,embassy,Russia,Moscow,,,http://www.ambasadat.gov.al/russia/,http://www.wikidata.org/entity/Q4373962
+,embassy,Saudi Arabia,Riyadh,,,http://www.ambasadat.gov.al/saudi-arabia/,http://www.wikidata.org/entity/Q68169922
+,embassy,Serbia,Belgrade,,,http://www.ambasadat.gov.al/serbia/,http://www.wikidata.org/entity/Q67193149
+,embassy,Serbia,Pristina,,,http://www.ambasadat.gov.al/kosovo,http://www.wikidata.org/entity/Q113253845
+,embassy,Slovakia,Bratislava,,,http://www.ambasadat.gov.al/slovakia,http://www.wikidata.org/entity/Q113260765
+,embassy,Slovenia,Ljubljana,,,http://www.ambasadat.gov.al/slovenia,http://www.wikidata.org/entity/Q107330264
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q105161248
+,embassy,Sweden,Lidingö Municipality,,,,http://www.wikidata.org/entity/Q10404284
+embassy.bern@mfa.gov.al,embassy,Switzerland,Muri bei Bern,,+41-31-952-60-10,http://www.ambasadat.gov.al/switzerland,http://www.wikidata.org/entity/Q26980073
+,embassy,Turkey,Ankara,,,http://www.ambasadat.gov.al/turkey,http://www.wikidata.org/entity/Q110966229
+,embassy,United Arab Emirates,Abu Dhabi,,,http://www.ambasadat.gov.al/united-arab-emirates,http://www.wikidata.org/entity/Q113250624
+embassy.london@mfa.gov.al,embassy,United Kingdom,City of Westminster,,,http://www.ambasadat.gov.al/united-kingdom/,http://www.wikidata.org/entity/Q13036975
+,embassy,United States of America,"Washington, D.C.",,,http://www.ambasadat.gov.al/usa/,http://www.wikidata.org/entity/Q5369539

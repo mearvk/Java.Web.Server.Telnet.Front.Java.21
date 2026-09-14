@@ -1,0 +1,34 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,honorary consulate,Armenia,Yerevan,,,,http://www.wikidata.org/entity/Q120188529
+,embassy,Austria,Vienna,,,https://vienne.mae.lu,http://www.wikidata.org/entity/Q104639806
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69876238
+,embassy,Brazil,Brasília,,,https://brasilia.mae.lu,http://www.wikidata.org/entity/Q104836508
+,embassy,Cape Verde,Praia,,,https://praia.mae.lu,http://www.wikidata.org/entity/Q104891218
+,embassy,Czech Republic,,,,,http://www.wikidata.org/entity/Q126509622
+,embassy,Czech Republic,Prague,,,https://prague.mae.lu,http://www.wikidata.org/entity/Q104904761
+,embassy,Ethiopia,Addis Ababa,,,https://unionafricainerp.mae.lu,http://www.wikidata.org/entity/Q104904928
+,embassy,France,,,,https://paris.mae.lu/fr.html,http://www.wikidata.org/entity/Q19843704
+,honorary consulate,France,2nd arrondissement of Lyon,,,,http://www.wikidata.org/entity/Q62351261
+,consulate general,France,Strasbourg,,,,http://www.wikidata.org/entity/Q16507623
+,embassy,Germany,Berlin,,,http://berlin.mae.lu/ge,http://www.wikidata.org/entity/Q48756399
+,embassy,Greece,Athens,,,https://athenes.mae.lu,http://www.wikidata.org/entity/Q104904617
+,embassy,India,New Delhi,,,https://newdelhi.mae.lu,http://www.wikidata.org/entity/Q104905081
+,embassy,Italy,Rome,,,https://maee.gouvernement.lu/,http://www.wikidata.org/entity/Q60855291
+,embassy,Italy,Rome,,,https://rome.mae.lu,http://www.wikidata.org/entity/Q103845277
+,embassy,Japan,Tokyo,,,,http://www.wikidata.org/entity/Q61923107
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,https://copenhague.mae.lu/,http://www.wikidata.org/entity/Q104904708
+,embassy,Netherlands,The Hague,,,https://lahaye.mae.lu,http://www.wikidata.org/entity/Q100700005
+,embassy,Nicaragua,Managua,,,https://managua.mae.lu,http://www.wikidata.org/entity/Q110816925
+,embassy,People's Republic of China,Beijing,,,https://pekin.mae.lu,http://www.wikidata.org/entity/Q104891405
+,embassy,Poland,Warsaw,,+48-22-507-86-50,http://varsovie.mae.lu/,http://www.wikidata.org/entity/Q9149536
+,embassy,Portugal,Lisbon,,,https://lisbonne.mae.lu/,http://www.wikidata.org/entity/Q104905674
+,embassy,Russia,Moscow,,,https://moscou.mae.lu,http://www.wikidata.org/entity/Q4374017
+,embassy,Senegal,Dakar,,,https://dakar.mae.lu,http://www.wikidata.org/entity/Q101444757
+,embassy,Serbia,Pristina,,,https://pristina.mae.lu/,http://www.wikidata.org/entity/Q104905137
+,embassy,Spain,Madrid,,,https://madrid.mae.lu,http://www.wikidata.org/entity/Q104891167
+berne.amb@mae.etat.lu,embassy,Switzerland,Bern,,+41-31-311-47-32,,http://www.wikidata.org/entity/Q26980145
+bangkok.amb@mae.etat.lu,embassy,Thailand,Bangkok,,,https://bangkok.mae.lu,http://www.wikidata.org/entity/Q104905097
+,embassy,Turkey,Ankara,,,https://ankara.mae.lu,http://www.wikidata.org/entity/Q104906186
+,embassy,United Arab Emirates,Abu Dhabi,,,https://abudhabi.mae.lu,http://www.wikidata.org/entity/Q104904743
+,embassy,United Kingdom,London,,,http://londres.mae.lu,http://www.wikidata.org/entity/Q16991727
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q5369776

@@ -1,0 +1,16 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,high commission,Australia,Canberra,,,,http://www.wikidata.org/entity/Q67908850
+,embassy,Belgium,Etterbeek,,,,http://www.wikidata.org/entity/Q69879433
+vladimir@dc-service.com,consulate,Czech Republic,Old Town,,,,http://www.wikidata.org/entity/Q106885496
+,embassy,France,,,,,http://www.wikidata.org/entity/Q2841815
+,embassy,Germany,Mitte,,,https://mauritius-berlin.govmu.org,http://www.wikidata.org/entity/Q49959002
+,high commission,India,New Delhi,,,https://mauritius-newdelhi.govmu.org,http://www.wikidata.org/entity/Q112657161
+,high commission,Malaysia,Kuala Lumpur,,,,http://www.wikidata.org/entity/Q107607920
+,consulate,Monaco,Monte Carlo,,,,http://www.wikidata.org/entity/Q109686796
+,embassy,People's Republic of China,Beijing,,,https://mauritius-beijing.govmu.org/Pages/index.aspx,http://www.wikidata.org/entity/Q104740017
+,embassy,Russia,Moscow,,,https://mauritius-moscow.govmu.org,http://www.wikidata.org/entity/Q108858985
+emb.riyadh@govmu.org,embassy,Saudi Arabia,Riyadh,,,https://mauritius-riyadh.govmu.org,http://www.wikidata.org/entity/Q101071436
+,high commission,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106684530
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q101012522
+,high commission,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16843015
+,embassy,United States of America,"Washington, D.C.",,,https://mauritius-washington.govmu.org,http://www.wikidata.org/entity/Q106786358

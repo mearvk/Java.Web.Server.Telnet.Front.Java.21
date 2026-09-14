@@ -1,0 +1,30 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,,http://www.wikidata.org/entity/Q110271955
+,embassy,Belgium,Saint-Gilles - Sint-Gillis,,,,http://www.wikidata.org/entity/Q69523079
+,embassy,Brazil,Brasília,,,http://ambassadehaitibresil.org,http://www.wikidata.org/entity/Q105703875
+,embassy,Canada,Ottawa,,,http://ambassade-haiti.ca/,http://www.wikidata.org/entity/Q106776589
+,embassy,Chile,Santiago commune,,,https://embajadahaiti.cl/,http://www.wikidata.org/entity/Q109350338
+,embassy,Colombia,Bogotá,,,,http://www.wikidata.org/entity/Q110755865
+,embassy,Cuba,Havana,,,,http://www.wikidata.org/entity/Q110751175
+,embassy,Dominican Republic,Santo Domingo,,,,http://www.wikidata.org/entity/Q110754843
+,embassy,Ecuador,Quito,,,,http://www.wikidata.org/entity/Q79593957
+,embassy,France,,,,,http://www.wikidata.org/entity/Q20051092
+,consulate general,France,Cayenne,,,,http://www.wikidata.org/entity/Q16543684
+,consulate general,France,Paris,,,,http://www.wikidata.org/entity/Q16507558
+,consulate general,France,Pointe-à-Pitre,,,,http://www.wikidata.org/entity/Q16543688
+,embassy,Germany,Berlin,,,,http://www.wikidata.org/entity/Q25409440
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q60855299
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103831937
+,embassy,Japan,Minato,,+81-3-3486-7096,,http://www.wikidata.org/entity/Q61911666
+,embassy,Mexico,Mexico City,,,,http://www.wikidata.org/entity/Q110754652
+,embassy,Morocco,Rabat,,,,http://www.wikidata.org/entity/Q110756871
+,embassy,Panama,Panama City,,,,http://www.wikidata.org/entity/Q110756050
+,embassy,Qatar,Doha,,,,http://www.wikidata.org/entity/Q110756847
+,embassy,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106675008
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q105233394
+,consulate,Suriname,Paramaribo,,,,http://www.wikidata.org/entity/Q109887336
+,embassy,Taiwan,Taipei,,,,http://www.wikidata.org/entity/Q89392028
+,embassy,The Bahamas,Nassau,,,,http://www.wikidata.org/entity/Q110751098
+,embassy,United Kingdom,London,,,https://www.haitianembassy.co.uk/,http://www.wikidata.org/entity/Q16983076
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q12057110
+,embassy,Venezuela,Caracas,,,http://www.ambassadehaitivenezuela.org/,http://www.wikidata.org/entity/Q110755471

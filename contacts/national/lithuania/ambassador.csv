@@ -1,0 +1,44 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Armenia,Yerevan,,,http://am.mfa.lt,http://www.wikidata.org/entity/Q107300034
+,embassy,Australia,Canberra,,,http://au.mfa.lt,http://www.wikidata.org/entity/Q111888120
+,embassy,Austria,Vienna,,,http://at.mfa.lt,http://www.wikidata.org/entity/Q1620570
+,embassy,Azerbaijan,Baku,,,http://az.mfa.lt/,http://www.wikidata.org/entity/Q107300160
+,embassy,Belarus,Minsk,,,http://by.mfa.lt,http://www.wikidata.org/entity/Q33118789
+,embassy,Belgium,City of Brussels,,,http://be.mfa.lt,http://www.wikidata.org/entity/Q16931124
+,embassy,Canada,Ottawa,,,http://ca.mfa.lt,http://www.wikidata.org/entity/Q106775120
+,embassy,Croatia,Zagreb,,,http://hr.mfa.lt,http://www.wikidata.org/entity/Q107300710
+,embassy,Czech Republic,Prague,,,https://cz.mfa.lt/,http://www.wikidata.org/entity/Q69782235
+,embassy,Egypt,Cairo,,,http://eg.mfa.lt,http://www.wikidata.org/entity/Q107299938
+,embassy,Estonia,,,,http://ee.mfa.lt,http://www.wikidata.org/entity/Q42313736
+,embassy,Finland,Helsinki,,,http://fi.mfa.lt,http://www.wikidata.org/entity/Q106206389
+,embassy,France,,,,https://fr.mfa.lt/,http://www.wikidata.org/entity/Q20669706
+,embassy,Georgia,Tbilisi,,,http://ge.mfa.lt,http://www.wikidata.org/entity/Q65288299
+,embassy,Germany,Mitte,,,http://de.mfa.lt/,http://www.wikidata.org/entity/Q21041989
+,embassy,Greece,Athens,,,http://gr.mfa.lt,http://www.wikidata.org/entity/Q107299890
+,embassy,Hungary,Budapest District V,,,http://hu.mfa.lt,http://www.wikidata.org/entity/Q107300538
+,embassy,India,New Delhi,,,http://in.mfa.lt,http://www.wikidata.org/entity/Q107300369
+,embassy,Ireland,Dublin,,,http://ie.mfa.lt/,http://www.wikidata.org/entity/Q104771707
+,embassy,Israel,Ramat Gan,,,http://il.mfa.lt,http://www.wikidata.org/entity/Q107301187
+,embassy,Italy,Rome,,,http://va.mfa.lt/,http://www.wikidata.org/entity/Q65166817
+,embassy,Italy,Rome,,,http://it.mfa.lt,http://www.wikidata.org/entity/Q103844418
+,embassy,Japan,Tokyo,,,https://jp.mfa.lt/,http://www.wikidata.org/entity/Q61911536
+,embassy,Kazakhstan,Astana,,,http://kz.mfa.lt,http://www.wikidata.org/entity/Q105790105
+,embassy,Kingdom of Denmark,Gentofte Municipality,,,http://dk.urm.lt/,http://www.wikidata.org/entity/Q106033514
+,embassy,Latvia,Riga,,,http://lv.mfa.lt/,http://www.wikidata.org/entity/Q107217308
+,embassy,Moldova,Chișinău,,,https://md.mfa.lt,http://www.wikidata.org/entity/Q106960000
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100491671
+,embassy,Norway,Oslo Municipality,,,http://no.mfa.lt,http://www.wikidata.org/entity/Q19379974
+,embassy,People's Republic of China,Beijing,,,http://cn.mfa.lt,http://www.wikidata.org/entity/Q107300597
+kons.seinai@urm.lt,consulate,Poland,Sejny,,,https://consulate-sejny.mfa.lt/sejny/pl/,http://www.wikidata.org/entity/Q110387988
+,embassy,Poland,Warsaw,,+48-22-625-33-68,http://pl.mfa.lt,http://www.wikidata.org/entity/Q9149535
+,embassy,Romania,Bucharest,,,http://ro.mfa.lt,http://www.wikidata.org/entity/Q106857884
+,embassy,Russia,Moscow,,,http://ru.mfa.lt/,http://www.wikidata.org/entity/Q4374015
+,embassy,South Africa,Pretoria,,,http://za.mfa.lt,http://www.wikidata.org/entity/Q106684099
+,embassy,Spain,Madrid,,,http://es.mfa.lt/,http://www.wikidata.org/entity/Q105301970
+,embassy,Sweden,Stockholm,,,https://se.mfa.lt/,http://www.wikidata.org/entity/Q18291971
+,embassy,Turkey,Ankara,,,http://tr.mfa.lt,http://www.wikidata.org/entity/Q107300870
+,consulate,Turkey,Istanbul,,+90 212 970 2530,,http://www.wikidata.org/entity/Q111590066
+amb.ua@urm.lt,embassy,Ukraine,Kyiv,,+380-44-254-0920,http://ua.mfa.lt/,http://www.wikidata.org/entity/Q2383268
+,embassy,United Arab Emirates,Abu Dhabi,,,https://uae.mfa.lt,http://www.wikidata.org/entity/Q107300199
+,embassy,United Kingdom,London,,,https://uk.mfa.lt/,http://www.wikidata.org/entity/Q16891016
+,embassy,United States of America,"Washington, D.C.",,,http://usa.mfa.lt/,http://www.wikidata.org/entity/Q12057120

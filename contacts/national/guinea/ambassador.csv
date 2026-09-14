@@ -1,0 +1,43 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Algeria,Algiers,,,,http://www.wikidata.org/entity/Q109016758
+,embassy,Angola,,,,,http://www.wikidata.org/entity/Q111207227
+,embassy,Belgium,Schaerbeek,,,,http://www.wikidata.org/entity/Q69519834
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105703260
+,embassy,Canada,Ottawa,,,https://ambaguinee-ca.com,http://www.wikidata.org/entity/Q106776533
+,embassy,Cuba,Playa,,,,http://www.wikidata.org/entity/Q109178411
+,embassy,Democratic Republic of the Congo,,,,,http://www.wikidata.org/entity/Q125175877
+,embassy,Egypt,Giza,,,,http://www.wikidata.org/entity/Q109780484
+,embassy,Equatorial Guinea,,,,,http://www.wikidata.org/entity/Q111207231
+,embassy,Ethiopia,,,,,http://www.wikidata.org/entity/Q111207229
+,embassy,France,,,,https://fr.ambaguinee.org/,http://www.wikidata.org/entity/Q16303658
+,embassy,Germany,Berlin,,,http://www.amba-guinee.de/,http://www.wikidata.org/entity/Q60855260
+,embassy,Ghana,,,,,http://www.wikidata.org/entity/Q111207210
+,embassy,Guinea-Bissau,,,,,http://www.wikidata.org/entity/Q111207233
+,embassy,India,New Delhi,,,https://www.ambaguineedelhi.com/,http://www.wikidata.org/entity/Q111207235
+,embassy,Iran,Tehran,,,,http://www.wikidata.org/entity/Q111207237
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103831026
+,embassy,Ivory Coast,Abidjan,,,,http://www.wikidata.org/entity/Q110712665
+,embassy,Japan,Tokyo,,,,http://www.wikidata.org/entity/Q61877262
+,embassy,Kuwait,,,,,http://www.wikidata.org/entity/Q111207215
+,embassy,Liberia,Monrovia,,,,http://www.wikidata.org/entity/Q110843600
+,embassy,Libya,Tripoli,,,,http://www.wikidata.org/entity/Q107735965
+,embassy,Malaysia,Kuala Lumpur,,,,http://www.wikidata.org/entity/Q107578986
+,embassy,Mali,Bamako,,,,http://www.wikidata.org/entity/Q110710334
+,embassy,Morocco,,,,,http://www.wikidata.org/entity/Q110694909
+,embassy,Nigeria,,,,,http://www.wikidata.org/entity/Q111207219
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q100278111
+,embassy,Portugal,,,,,http://www.wikidata.org/entity/Q107050310
+,embassy,Qatar,,,,,http://www.wikidata.org/entity/Q111207223
+,embassy,Russia,Moscow,,,,http://www.wikidata.org/entity/Q4373988
+,embassy,Rwanda,Kigali,,,,http://www.wikidata.org/entity/Q124301764
+,embassy,Saudi Arabia,Riyadh,,,,http://www.wikidata.org/entity/Q68170003
+,embassy,Senegal,,,,,http://www.wikidata.org/entity/Q111207225
+,embassy,Serbia,Belgrade,,,,http://www.wikidata.org/entity/Q106875940
+,embassy,Sierra Leone,,,,,http://www.wikidata.org/entity/Q111207239
+,embassy,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106674065
+,embassy,Spain,Madrid,,,https://guineamadrid.es/,http://www.wikidata.org/entity/Q105241304
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q100983657
+,embassy,Turkey,Ankara,,,,http://www.wikidata.org/entity/Q110820392
+,embassy,United Arab Emirates,,,,,http://www.wikidata.org/entity/Q127414363
+,embassy,United Kingdom,London,,,https://embassyofguinea.org.uk/,http://www.wikidata.org/entity/Q16964416
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q5369709

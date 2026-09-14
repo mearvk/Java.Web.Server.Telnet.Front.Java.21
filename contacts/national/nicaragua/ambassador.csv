@@ -1,0 +1,30 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,,http://www.wikidata.org/entity/Q110289831
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q54168895
+,embassy,Belgium,Uccle - Ukkel,,,,http://www.wikidata.org/entity/Q69896079
+,embassy,Bolivia,La Paz,,,,http://www.wikidata.org/entity/Q110589649
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105673104
+,embassy,Canada,Ottawa,,,,http://www.wikidata.org/entity/Q106813231
+,embassy,Chile,Las Condes,,,https://www.embanicch.cl/,http://www.wikidata.org/entity/Q110478168
+,embassy,Colombia,Bogotá,,,,http://www.wikidata.org/entity/Q110874717
+,embassy,Costa Rica,San José,,,,http://www.wikidata.org/entity/Q111095731
+,embassy,Cuba,Havana,,,,http://www.wikidata.org/entity/Q79951789
+,embassy,Ecuador,,,,,http://www.wikidata.org/entity/Q79863310
+,embassy,Finland,Helsinki,,,,http://www.wikidata.org/entity/Q106065550
+,embassy,France,,,,,http://www.wikidata.org/entity/Q20669721
+,embassy,Germany,Mitte,,,http://www.nicaraguaportal.de/,http://www.wikidata.org/entity/Q9149555
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q56337792
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103861723
+,embassy,Japan,Shinjuku,,,,http://www.wikidata.org/entity/Q61911629
+,embassy,Mexico,Mexico City,,,,http://www.wikidata.org/entity/Q111698246
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100494416
+,de facto embassy,Palestine,,,,,http://www.wikidata.org/entity/Q125496148
+,embassy,Panama,Panama City,,,,http://www.wikidata.org/entity/Q111107357
+,embassy,Peru,San Isidro,,,,http://www.wikidata.org/entity/Q22092329
+,embassy,Russia,Moscow,,,,http://www.wikidata.org/entity/Q110186744
+,embassy,South Korea,Seoul,,,,http://www.wikidata.org/entity/Q106486520
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q105325121
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q101024286
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16891021
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q5369807
+,embassy,Uruguay,Montevideo,,,,http://www.wikidata.org/entity/Q110493101

@@ -1,0 +1,20 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69882987
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105711069
+,embassy,France,Paris,,,https://ambarimparis.fr/,http://www.wikidata.org/entity/Q2425395
+,embassy,Germany,Berlin,,,http://www.mauretanien-embassy.de,http://www.wikidata.org/entity/Q1769743
+,embassy,Iraq,Baghdad,,,,http://www.wikidata.org/entity/Q120780186
+,embassy,Italy,Rome,,,https://www.ambamauritanieitaly.it/,http://www.wikidata.org/entity/Q103849863
+,embassy,Ivory Coast,Abidjan,,,,http://www.wikidata.org/entity/Q112876676
+,embassy,Japan,Goppongi 1-chome,,,http://www.amba-mauritania.jp,http://www.wikidata.org/entity/Q61877285
+,embassy,Kuwait,Kuwait City,,,,http://www.wikidata.org/entity/Q107607831
+,embassy,Niger,Niamey,,,https://ambarimniamey.com,http://www.wikidata.org/entity/Q79940364
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q100276138
+,embassy,Russia,Moscow,,,,http://www.wikidata.org/entity/Q110188095
+,embassy,Saudi Arabia,Riyadh,,,,http://www.wikidata.org/entity/Q68170059
+,embassy,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106684534
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q105323545
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q100985286
+,embassy,Turkey,Ankara,,,,http://www.wikidata.org/entity/Q111027969
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16948493
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q5369783

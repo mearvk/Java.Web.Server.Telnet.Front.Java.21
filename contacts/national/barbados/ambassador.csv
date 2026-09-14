@@ -1,0 +1,11 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q68195320
+,honorary consulate,Belize,Belize City,,,,http://www.wikidata.org/entity/Q107427294
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105681426
+,high commission,Canada,Ottawa,,,,http://www.wikidata.org/entity/Q5755069
+,embassy,Cuba,Havana,,,,http://www.wikidata.org/entity/Q105681971
+,embassy,Panama,Panama City,,,,http://www.wikidata.org/entity/Q105681988
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q105681882
+,high commission,United Kingdom,London Borough of Camden,,,http://foreign.gov.bb/,http://www.wikidata.org/entity/Q5755055
+,embassy,United States of America,"Washington, D.C.",,,http://www.foreign.gov.bb/,http://www.wikidata.org/entity/Q5369565
+,embassy,Venezuela,Caracas,,,,http://www.wikidata.org/entity/Q105681987

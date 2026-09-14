@@ -1,0 +1,43 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,high commission,Australia,Canberra,,,http://www.mfa.gov.cy/mfa/highcom/highcomcanberra.nsf,http://www.wikidata.org/entity/Q106457505
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q54169013
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105688937
+,embassy,Bulgaria,Sofia,,,http://www.mfa.gov.cy/mfa/embassies/embassy_sofia.nsf,http://www.wikidata.org/entity/Q108979151
+,high commission,Canada,Ottawa,,,,http://www.wikidata.org/entity/Q106768624
+,embassy,Cuba,Havana,,,,http://www.wikidata.org/entity/Q109861590
+,embassy,Czech Republic,Prague,,,,http://www.wikidata.org/entity/Q107124467
+,embassy,Egypt,Cairo,,,http://www.mfa.gov.cy/mfa/Embassies/Embassy_Cairo.nsf,http://www.wikidata.org/entity/Q109860293
+,embassy,Finland,Helsinki,,,https://cyprusembassy.fi,http://www.wikidata.org/entity/Q106191367
+,embassy,France,,,,,http://www.wikidata.org/entity/Q2841602
+,embassy,Germany,Berlin,,,http://www.mfa.gov.cy/embassyberlin,http://www.wikidata.org/entity/Q31887317
+,embassy,Greece,Athens Municipality,,,http://www.mfa.gov.cy/mfa/Embassies/Embassy_Athens.nsf,http://www.wikidata.org/entity/Q109658538
+,embassy,Hungary,Budapest,,,http://www.mfa.gov.cy/mfa/embassies/embassy_budapest.nsf,http://www.wikidata.org/entity/Q108040976
+,high commission,India,New Delhi,,,http://www.mfa.gov.cy/mfa/highcom/highcom_newdelhi.nsf,http://www.wikidata.org/entity/Q109793306
+,embassy,Iran,Tehran,,,http://www.mfa.gov.cy/mfa/embassies/embassy_Tehran.nsf,http://www.wikidata.org/entity/Q109860246
+,embassy,Ireland,Dublin,,,http://www.mfa.gov.cy/mfa/embassies/embassy_dublin.nsf,http://www.wikidata.org/entity/Q104764200
+,embassy,Israel,Tel Aviv,,,http://www.mfa.gov.cy/mfa/Embassies/Embassy_telaviv.nsf,http://www.wikidata.org/entity/Q109862404
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q56326759
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q100957465
+,embassy,Japan,Minato,,,,http://www.wikidata.org/entity/Q91673990
+,embassy,Jordan,Amman,,,,http://www.wikidata.org/entity/Q109862035
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,http://www.mfa.gov.cy/mfa/embassies/embassy_copenhagen.nsf,http://www.wikidata.org/entity/Q105998974
+,embassy,Kuwait,Kuwait City,,,,http://www.wikidata.org/entity/Q109862863
+,embassy,Lebanon,Baabda,,,,http://www.wikidata.org/entity/Q109907987
+,embassy,Mexico,Mexico City,,,http://www.mfa.gov.cy/mfa/embassies/embassy_mexico.nsf,http://www.wikidata.org/entity/Q111660573
+,embassy,Netherlands,The Hague,,,http://www.mfa.gov.cy/mfa/Embassies/embassy_thehague.nsf,http://www.wikidata.org/entity/Q100565960
+,embassy,Oman,Muscat,,,,http://www.wikidata.org/entity/Q109908044
+,embassy,People's Republic of China,Beijing,,,http://www.mfa.gov.cy/mfa/embassies/embassy_beijing.nsf,http://www.wikidata.org/entity/Q49482974
+,embassy,Poland,Warsaw,,+48-22-844-45-77,http://www.mfa.gov.cy/mfa/Embassies/Embassy_Warsaw.nsf/DMLindex_en/DMLindex_en?OpenDocument,http://www.wikidata.org/entity/Q11685562
+,embassy,Portugal,Lisbon,,,http://www.mfa.gov.cy/mfa/embassies/embassy_Lisbon.nsf,http://www.wikidata.org/entity/Q109795525
+,embassy,Qatar,Doha,,,http://www.mfa.gov.cy/mfa/embassies/embassy_doha.nsf,http://www.wikidata.org/entity/Q109793688
+,embassy,Romania,Bucharest,,,,http://www.wikidata.org/entity/Q106848949
+,embassy,Russia,Arbat District,,,,http://www.wikidata.org/entity/Q2066103
+,embassy,Serbia,Belgrade,,,http://www.mfa.gov.cy/mfa/embassies/Embassy_Belgrade.nsf,http://www.wikidata.org/entity/Q108107391
+,embassy,Slovakia,Bratislava,,,,http://www.wikidata.org/entity/Q53205376
+,high commission,South Africa,Pretoria,,,http://www.mfa.gov.cy/mfa/highcom/highcom_pretoria.nsf,http://www.wikidata.org/entity/Q106662373
+,embassy,Spain,Madrid,,,http://www.mfa.gov.cy/mfa/Embassies/Embassy_Madrid.nsf,http://www.wikidata.org/entity/Q105178215
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q18287587
+embassykiev@mfa.gov.cy,embassy,Ukraine,Kyiv,,+380-44-499-6450,http://www.mfa.gov.cy/embassykiev,http://www.wikidata.org/entity/Q12142664
+,embassy,United Arab Emirates,Abu Dhabi,,,http://www.mfa.gov.cy/mfa/embassies/embassy_abuDhabi.nsf,http://www.wikidata.org/entity/Q109791918
+,high commission,United Kingdom,London,,,https://cyprusinuk.com/,http://www.wikidata.org/entity/Q5755085
+info@cyprusembassy.net,embassy,United States of America,"Washington, D.C.",,,https://www.cyprusembassy.net/,http://www.wikidata.org/entity/Q5369663

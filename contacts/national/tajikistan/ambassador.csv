@@ -1,0 +1,18 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104648150
+,embassy,Belarus,Ždanovičy,,,http://www.tajembassy.by/,http://www.wikidata.org/entity/Q106216074
+,embassy,Belgium,Ixelles - Elsene,,,,http://www.wikidata.org/entity/Q69978027
+,embassy,France,Paris,,,https://mfa.tj/paris,http://www.wikidata.org/entity/Q20669724
+,embassy,Germany,Mitte,,,https://mfa.tj/berlin,http://www.wikidata.org/entity/Q56338684
+,embassy,India,New Delhi,,,https://mfa.tj/newdelhi,http://www.wikidata.org/entity/Q112670868
+,embassy,Japan,,,,,http://www.wikidata.org/entity/Q61925753
+,embassy,Kyrgyzstan,Bishkek,,,https://mfa.tj/ru/bishkek,http://www.wikidata.org/entity/Q104768901
+,embassy,Pakistan,Islamabad,,,,http://www.wikidata.org/entity/Q79578756
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q119257795
+,embassy,Russia,Presnensky District,,,https://mfa.tj/moscow,http://www.wikidata.org/entity/Q4374058
+,embassy,Saudi Arabia,Riyadh,,,https://mfa.tj/saudi,http://www.wikidata.org/entity/Q68170119
+,embassy,Switzerland,Pregny-Chambésy,,,https://www.tajikistanmission.ch/,http://www.wikidata.org/entity/Q101069815
+,embassy,Turkey,Ankara,,,http://www.tajembankara.org,http://www.wikidata.org/entity/Q111031195
+tajembkyiv@mfa.tj,embassy,Ukraine,Kyiv,,+380-44-280-5200,http://tajemb.kiev.ua/,http://www.wikidata.org/entity/Q12142680
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16991741
+,embassy,United States of America,"Washington, D.C.",,,http://www.tajemb.us,http://www.wikidata.org/entity/Q5369886

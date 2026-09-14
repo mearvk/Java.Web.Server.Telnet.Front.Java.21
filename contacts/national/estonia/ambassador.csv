@@ -1,0 +1,46 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Australia,Canberra,,,http://canberra.mfa.ee/,http://www.wikidata.org/entity/Q23042543
+,embassy,Austria,Vienna,,,http://vienna.mfa.ee,http://www.wikidata.org/entity/Q83407475
+,embassy,Belarus,Minsk,,,https://minsk.mfa.ee/,http://www.wikidata.org/entity/Q20813615
+,embassy,Belgium,City of Brussels,,,http://www.estemb.be/,http://www.wikidata.org/entity/Q65261864
+,embassy,Canada,Ottawa,,,https://ottawa.mfa.ee,http://www.wikidata.org/entity/Q65261893
+,honorary consulate,Czech Republic,Brno,,,,http://www.wikidata.org/entity/Q111699182
+,embassy,Czech Republic,Prague,,,https://prague.mfa.ee/,http://www.wikidata.org/entity/Q42313682
+,embassy,Egypt,Cairo,,,https://cairo.mfa.ee/,http://www.wikidata.org/entity/Q65261879
+,embassy,Finland,Helsinki,,,https://helsinki.mfa.ee/,http://www.wikidata.org/entity/Q18662891
+,embassy,France,,,,https://paris.mfa.ee,http://www.wikidata.org/entity/Q20669699
+,embassy,Georgia,Tbilisi,,,https://tbilisi.mfa.ee/,http://www.wikidata.org/entity/Q65261914
+,embassy,Germany,Berlin,,,https://berlin.mfa.ee/,http://www.wikidata.org/entity/Q1370279
+,embassy,Greece,Athens Municipality,,,https://athens.mfa.ee/,http://www.wikidata.org/entity/Q65261858
+,embassy,Hungary,Budapest District II,,,https://budapest.mfa.ee/,http://www.wikidata.org/entity/Q42313823
+,embassy,India,New Delhi,,,https://newdelhi.mfa.ee/,http://www.wikidata.org/entity/Q107310028
+,embassy,Ireland,Dublin,,,https://dublin.mfa.ee/,http://www.wikidata.org/entity/Q65261872
+,embassy,Israel,Tel Aviv,,,https://telaviv.mfa.ee,http://www.wikidata.org/entity/Q65261911
+,embassy,Italy,Rome,,,https://rome.mfa.ee,http://www.wikidata.org/entity/Q65261904
+,embassy,Japan,Shibuya-ku,,,https://tokyo.mfa.ee/,http://www.wikidata.org/entity/Q61877445
+,embassy,Kazakhstan,Astana,,,https://nursultan.mfa.ee,http://www.wikidata.org/entity/Q65261853
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,https://copenhagen.mfa.ee/,http://www.wikidata.org/entity/Q65261883
+,embassy,Latvia,Riga,,,https://riga.mfa.ee/,http://www.wikidata.org/entity/Q65261900
+,embassy,Lithuania,Vilnius,,,https://vilnius.mfa.ee/,http://www.wikidata.org/entity/Q65261918
+,honorary consulate,Luxembourg,,,,,http://www.wikidata.org/entity/Q65548975
+,embassy,Netherlands,The Hague,,,https://hague.mfa.ee/,http://www.wikidata.org/entity/Q65261875
+,embassy,Norway,Oslo Municipality,,,https://oslo.mfa.ee/,http://www.wikidata.org/entity/Q17634303
+,honorary consulate,People's Republic of China,,,,,http://www.wikidata.org/entity/Q114234993
+,embassy,People's Republic of China,Beijing,,,https://beijing.mfa.ee/,http://www.wikidata.org/entity/Q65261897
+,consulate general,People's Republic of China,Shanghai,,,,http://www.wikidata.org/entity/Q119314287
+,embassy,Poland,Warsaw,,,https://warsaw.mfa.ee,http://www.wikidata.org/entity/Q18913125
+,embassy,Portugal,Lisbon,,,https://lisbon.mfa.ee,http://www.wikidata.org/entity/Q65261886
+,embassy,Romania,Bucharest,,,https://bucharest.mfa.ee,http://www.wikidata.org/entity/Q65261868
+,embassy,Russia,Presnensky District,,,https://moscow.mfa.ee,http://www.wikidata.org/entity/Q4374095
+,consulate general,Russia,Saint Petersburg,,,,http://www.wikidata.org/entity/Q18623055
+,embassy,Singapore,Singapore,,,https://singapore.mfa.ee,http://www.wikidata.org/entity/Q107643333
+,honorary consulate,Spain,Dreta de l'Eixample,,,,http://www.wikidata.org/entity/Q108731793
+,embassy,Spain,Madrid,,,https://madrid.mfa.ee,http://www.wikidata.org/entity/Q65261890
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q10489226
+,embassy,Turkey,Ankara,,,https://ankara.mfa.ee/,http://www.wikidata.org/entity/Q64786422
+embassy.kiev@mfa.ee,embassy,Ukraine,Kyiv,,+380-44-590-0780,http://www.estemb.kiev.ua/ukr,http://www.wikidata.org/entity/Q12142658
+,embassy,United Arab Emirates,Abu Dhabi,,,https://abudhabi.mfa.ee/,http://www.wikidata.org/entity/Q107309728
+,embassy,United Kingdom,London,,,https://london.mfa.ee/,http://www.wikidata.org/entity/Q16974714
+,consulate general,United States of America,Manhattan,,,,http://www.wikidata.org/entity/Q65258818
+,consulate general,United States of America,San Francisco,,,,http://www.wikidata.org/entity/Q114233989
+,embassy,United States of America,"Washington, D.C.",,,https://washington.mfa.ee/,http://www.wikidata.org/entity/Q4374093

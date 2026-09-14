@@ -1,0 +1,46 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Armenia,Yerevan,,,,http://www.wikidata.org/entity/Q31194700
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104635304
+,embassy,Azerbaijan,Baku,,,,http://www.wikidata.org/entity/Q20583072
+,embassy,Belarus,Minsk,,,,http://www.wikidata.org/entity/Q33113719
+,embassy,Belgium,Uccle - Ukkel,,,,http://www.wikidata.org/entity/Q69699326
+,embassy,Brazil,Brasília,,,http://mfa.gov.kz/brazil,http://www.wikidata.org/entity/Q105687860
+,embassy,Bulgaria,Sofia,,,https://www.gov.kz/memleket/entities/mfa-sofia,http://www.wikidata.org/entity/Q109289673
+,embassy,Canada,Ottawa,,,https://www.gov.kz/memleket/entities/mfa-ottawa,http://www.wikidata.org/entity/Q5369759
+,embassy,Croatia,Zagreb,,,https://www.gov.kz/memleket/entities/mfa-zagreb,http://www.wikidata.org/entity/Q107412388
+,embassy,Czech Republic,Prague,,,https://www.gov.kz/memleket/entities/mfa-prague,http://www.wikidata.org/entity/Q107119264
+,embassy,Estonia,Tallinn City,,,https://www.gov.kz/memleket/entities/mfa-tallin,http://www.wikidata.org/entity/Q107672853
+,embassy,Finland,Helsinki,,,https://www.gov.kz/memleket/entities/mfa-helsinki,http://www.wikidata.org/entity/Q106202667
+,embassy,France,,,,http://www.amb-kazakhstan.fr/,http://www.wikidata.org/entity/Q20669717
+,honorary consulate,France,3rd arrondissement of Lyon,,,,http://www.wikidata.org/entity/Q63341764
+,embassy,Germany,Berlin,,,http://www.botschaft-kasachstan.de/,http://www.wikidata.org/entity/Q23786646
+,embassy,Greece,Psychiko,,,https://www.gov.kz/memleket/entities/mfa-athens,http://www.wikidata.org/entity/Q109662681
+,embassy,India,New Delhi,,,https://www.gov.kz/memleket/entities/mfa-delhi,http://www.wikidata.org/entity/Q112633704
+,embassy,Indonesia,Jakarta,,,https://www.gov.kz/memleket/entities/mfa-jakarta,http://www.wikidata.org/entity/Q107595751
+,embassy,Israel,Tel Aviv,,,https://www.gov.kz/memleket/entities/mfa-tel-aviv,http://www.wikidata.org/entity/Q109781234
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103842835
+,embassy,Japan,,,,,http://www.wikidata.org/entity/Q61925337
+,embassy,Latvia,Riga,,,https://www.gov.kz/memleket/entities/mfa-riga,http://www.wikidata.org/entity/Q107216696
+,embassy,Lithuania,Vilnius,,,https://www.gov.kz/memleket/entities/mfa-vilnius,http://www.wikidata.org/entity/Q107295314
+,embassy,Mexico,Mexico City,,,https://www.gov.kz/memleket/entities/mfa-mexico,http://www.wikidata.org/entity/Q111130702
+,embassy,Mongolia,Ulaanbaatar,,+976-11-34-5408,https://www.gov.kz/memleket/entities/mfa-ulaanbaatar,http://www.wikidata.org/entity/Q33309414
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100605217
+,embassy,Norway,Oslo Municipality,,,https://www.gov.kz/memleket/entities/mfa-oslo,http://www.wikidata.org/entity/Q19377010
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q100272954
+,consulate general,People's Republic of China,Xi'an,,,,http://www.wikidata.org/entity/Q119269921
+,embassy,Poland,Warsaw,,,http://www.mfa.gov.kz/pl/warsaw,http://www.wikidata.org/entity/Q9149521
+,embassy,Portugal,Lisbon,,,,http://www.wikidata.org/entity/Q105374847
+,embassy,Romania,Bucharest,,,https://kazembro.kz,http://www.wikidata.org/entity/Q106938636
+,embassy,Russia,Moscow,,,https://www.gov.kz/memleket/entities/mfa-moscow,http://www.wikidata.org/entity/Q4374007
+,embassy,Saudi Arabia,Riyadh,,,https://www.gov.kz/memleket/entities/mfa-riyadh,http://www.wikidata.org/entity/Q68170026
+,embassy,Serbia,Belgrade,,,https://www.gov.kz/memleket/entities/mfa-belgrad,http://www.wikidata.org/entity/Q108129213
+,embassy,Singapore,Singapore,,,https://www.gov.kz/memleket/entities/mfa-singapore,http://www.wikidata.org/entity/Q106450902
+,embassy,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106683149
+,embassy,South Korea,Seoul,,,http://mfa.gov.kz/en/seoul,http://www.wikidata.org/entity/Q66911594
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q104771150
+,embassy,Sweden,Stockholm Municipality,,,,http://www.wikidata.org/entity/Q101628105
+bern@mfa.kz,embassy,Switzerland,Bern,,+41-31-351-79-69,,http://www.wikidata.org/entity/Q26979900
+,embassy,Turkey,Ankara,,,https://www.gov.kz/memleket/entities/mfa-ankara,http://www.wikidata.org/entity/Q110973414
+kiev@mfa.kz,embassy,Ukraine,Kyiv,,+380-44-489-1596,http://www.mfa.kz/en/kiev,http://www.wikidata.org/entity/Q96140144
+,embassy,United Kingdom,City of Westminster,,,https://www.gov.kz/memleket/entities/mfa-london,http://www.wikidata.org/entity/Q16867391
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q5369760

@@ -1,0 +1,6 @@
+email
+# No openly-licensed dataset of individual head-of-state / head-of-government email addresses is
+# available for this country. Names of current office-holders are public
+# (see REFERENCES.md); official contact is typically via an office/ministry
+# contact form rather than a published personal email. Add verified
+# addresses here with a source in REFERENCES.md; do not invent addresses.

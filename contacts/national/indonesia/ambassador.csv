@@ -1,0 +1,110 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Afghanistan,Kabul,,,https://kemlu.go.id/kabul,http://www.wikidata.org/entity/Q107517128
+,embassy,Algeria,El Mouradia,,,https://kemlu.go.id/algiers,http://www.wikidata.org/entity/Q107521109
+,embassy,Argentina,Buenos Aires,,,https://kemlu.go.id/buenosaires,http://www.wikidata.org/entity/Q74151151
+,embassy,Australia,Canberra,,,https://kemlu.go.id/canberra,http://www.wikidata.org/entity/Q48816312
+,consulate general,Australia,City of Perth,,,,http://www.wikidata.org/entity/Q111047776
+,consulate general,Australia,Melbourne,,,,http://www.wikidata.org/entity/Q111047743
+,embassy,Austria,Vienna,,,https://kemlu.go.id/vienna,http://www.wikidata.org/entity/Q104634176
+,embassy,Azerbaijan,Baku,,,https://kemlu.go.id/baku,http://www.wikidata.org/entity/Q107521316
+,embassy,Bahrain,Manama,,,,http://www.wikidata.org/entity/Q68170703
+,embassy,Bangladesh,Dhaka,,,https://kemlu.go.id/dhaka,http://www.wikidata.org/entity/Q107526574
+,embassy,Belgium,Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe,,,https://www.kemlu.go.id/brussels​,http://www.wikidata.org/entity/Q69523812
+,embassy,Bosnia and Herzegovina,Centar Municipality,,,https://kemlu.go.id/sarajevo/en,http://www.wikidata.org/entity/Q95630193
+,embassy,Brazil,Brasília,,,https://kemlu.go.id/brasilia/,http://www.wikidata.org/entity/Q76380784
+,embassy,Brunei,Bandar Seri Begawan,,,https://www.kemlu.go.id/bandarseribegawan,http://www.wikidata.org/entity/Q75776673
+,embassy,Bulgaria,Stolichna Municipality,,,https://kemlu.go.id/sofia,http://www.wikidata.org/entity/Q41588872
+,embassy,Cambodia,Phnom Penh,,,https://kemlu.go.id/phnompenh,http://www.wikidata.org/entity/Q107527067
+,embassy,Canada,Ottawa,,,https://kemlu.go.id/ottawa,http://www.wikidata.org/entity/Q5369729
+,embassy,Chile,Providencia,,,https://kemlu.go.id/santiago,http://www.wikidata.org/entity/Q107529064
+,embassy,Colombia,Bogotá,,,https://kemlu.go.id/bogota,http://www.wikidata.org/entity/Q73962992
+,embassy,Croatia,Zagreb,,,https://kemlu.go.id/zagreb,http://www.wikidata.org/entity/Q107411000
+,embassy,Cuba,Havana,,,https://kemlu.go.id/havana,http://www.wikidata.org/entity/Q107521361
+,embassy,Czech Republic,Smíchov,,,,http://www.wikidata.org/entity/Q65464931
+,embassy,East Timor,Dili,,,https://kemlu.go.id/dili,http://www.wikidata.org/entity/Q107553039
+,embassy,Ecuador,Quito,,,https://kemlu.go.id/quito,http://www.wikidata.org/entity/Q107529687
+,embassy,Egypt,Cairo,,,https://kemlu.go.id/cairo,http://www.wikidata.org/entity/Q12490407
+,embassy,Ethiopia,Addis Ababa,,,https://kemlu.go.id/addisababa,http://www.wikidata.org/entity/Q75070819
+,embassy,Fiji,Suva,,,https://kemlu.go.id/suva,http://www.wikidata.org/entity/Q107529929
+,embassy,Finland,Helsinki,,,https://kemlu.go.id/helsinki,http://www.wikidata.org/entity/Q106194136
+,embassy,France,,,,https://kemlu.go.id/paris/,http://www.wikidata.org/entity/Q2841589
+,consulate general,France,Marseille,,,http://consulat.indonesie.pagesperso-orange.fr,http://www.wikidata.org/entity/Q16507543
+,consulate general,France,Noumea,,,,http://www.wikidata.org/entity/Q16507544
+,embassy,Germany,Berlin,,,https://kemlu.go.id/berlin,http://www.wikidata.org/entity/Q31172970
+,embassy,Greece,Psychiko,,,https://kemlu.go.id/athens,http://www.wikidata.org/entity/Q75401840
+,embassy,Guinea,Conakry,,,,http://www.wikidata.org/entity/Q114350157
+,embassy,Hungary,Budapest District VI,,+36-1-413-3800,https://kemlu.go.id/budapest/,http://www.wikidata.org/entity/Q74464631
+,embassy,India,New Delhi,,,https://kemlu.go.id/newdelhi,http://www.wikidata.org/entity/Q107530767
+,embassy,Iran,Tehran,,,https://kemlu.go.id/tehran,http://www.wikidata.org/entity/Q107530829
+baghdad.kbri@kemlu.go.id,embassy,Iraq,Baghdad,,+964-538-2828,https://kemlu.go.id/baghdad/id,http://www.wikidata.org/entity/Q84758425
+,embassy,Italy,Rome,,,https://www.kemlu.go.id/vatican/,http://www.wikidata.org/entity/Q56326678
+,embassy,Italy,Rome,,,https://kemlu.go.id/rome,http://www.wikidata.org/entity/Q103832567
+,consulate general,Japan,Osaka,,,http://www.indonesia-osaka.org/ja/,http://www.wikidata.org/entity/Q50344678
+,embassy,Japan,Shinagawa-ku,,,https://kemlu.go.id/tokyo,http://www.wikidata.org/entity/Q45380967
+,embassy,Jordan,Amman,,,https://kemlu.go.id/amman,http://www.wikidata.org/entity/Q75201413
+,embassy,Kazakhstan,Astana,,,https://kemlu.go.id/nur-sultan,http://www.wikidata.org/entity/Q107530991
+,embassy,Kenya,Nairobi,,,https://kemlu.go.id/nairobi,http://www.wikidata.org/entity/Q107529294
+,embassy,Kingdom of Denmark,Gentofte Municipality,,,https://kemlu.go.id/copenhagen,http://www.wikidata.org/entity/Q97236218
+,embassy,Kuwait,Kuwait City,,,https://kemlu.go.id/kuwaitcity,http://www.wikidata.org/entity/Q107531153
+,embassy,Laos,Vientiane,,,https://kemlu.go.id/vientiane,http://www.wikidata.org/entity/Q107531468
+,embassy,Lebanon,Baabda,,,https://kemlu.go.id/beirut,http://www.wikidata.org/entity/Q107550120
+,embassy,Libya,Tripoli,,,https://kemlu.go.id/tripoli,http://www.wikidata.org/entity/Q107550215
+,embassy,Madagascar,Antananarivo,,,https://kemlu.go.id/antananarivo,http://www.wikidata.org/entity/Q107550259
+,consulate general,Malaysia,George Town,,,,http://www.wikidata.org/entity/Q111017655
+,consulate general,Malaysia,Johor Bahru,,,,http://www.wikidata.org/entity/Q111017633
+,consulate general,Malaysia,Kota Kinabalu District,,,,http://www.wikidata.org/entity/Q122909195
+,embassy,Malaysia,Kuala Lumpur,,,https://kemlu.go.id/kualalumpur,http://www.wikidata.org/entity/Q60742403
+kuching.kjri@kemlu.go.id,consulate general,Malaysia,Kuching,,+60-82-461734,https://kemlu.go.id/kuching/id,http://www.wikidata.org/entity/Q105972134
+,embassy,Mexico,Mexico City,,,https://kemlu.go.id/mexicocity,http://www.wikidata.org/entity/Q107530241
+,embassy,Morocco,Rabat,,,https://kemlu.go.id/rabat,http://www.wikidata.org/entity/Q107551836
+,embassy,Mozambique,Maputo,,,https://kemlu.go.id/maputo,http://www.wikidata.org/entity/Q107550334
+,embassy,Myanmar,Yangon,,,https://kemlu.go.id/yangon,http://www.wikidata.org/entity/Q107552117
+,embassy,Namibia,Windhoek,,,https://kemlu.go.id/windhoek,http://www.wikidata.org/entity/Q5369942
+,embassy,Netherlands,The Hague,,,https://www.indonesia.nl/,http://www.wikidata.org/entity/Q100544238
+,embassy,New Zealand,Wellington,,,https://kemlu.go.id/wellington,http://www.wikidata.org/entity/Q107552643
+kbri.abuja@gmail.com,embassy,Nigeria,Abuja,,,https://kemlu.go.id/abuja,http://www.wikidata.org/entity/Q75054770
+,embassy,North Korea,Taedonggang-guyok,,,https://kemlu.go.id/pyongyang,http://www.wikidata.org/entity/Q61612861
+,embassy,Norway,Oslo Municipality,,,,http://www.wikidata.org/entity/Q19375552
+,embassy,Oman,Muscat,,,https://kemlu.go.id/muscat,http://www.wikidata.org/entity/Q107549742
+,embassy,Pakistan,Islamabad,,,https://kemlu.go.id/islamabad,http://www.wikidata.org/entity/Q107519159
+,consulate general,Pakistan,Karachi,,,,http://www.wikidata.org/entity/Q111016941
+,embassy,Panama,Panama City,,,https://kemlu.go.id/panama,http://www.wikidata.org/entity/Q107529369
+,embassy,Papua New Guinea,Port Moresby,,,https://kemlu.go.id/portmoresby,http://www.wikidata.org/entity/Q107549701
+,embassy,People's Republic of China,Beijing,,,https://kemlu.go.id/beijing,http://www.wikidata.org/entity/Q76009888
+,consulate general,People's Republic of China,Shanghai,,,,http://www.wikidata.org/entity/Q109414062
+,embassy,Peru,San Isidro,,,https://kemlu.go.id/lima,http://www.wikidata.org/entity/Q107526909
+,embassy,Philippines,Makati,,,https://kemlu.go.id/manila,http://www.wikidata.org/entity/Q107549775
+info@indonesianembassy.pl,embassy,Poland,Warsaw,,+48-22-617-51-08,https://kemlu.go.id/warsaw,http://www.wikidata.org/entity/Q11685566
+,embassy,Portugal,Lisbon,,,https://kemlu.go.id/lisbon,http://www.wikidata.org/entity/Q104649271
+doha.kbri@kemlu.go.id,embassy,Qatar,Doha,,+974-446-57945,https://kemlu.go.id/doha,http://www.wikidata.org/entity/Q107428794
+,embassy,Romania,Bucharest,,,https://kemlu.go.id/bucharest,http://www.wikidata.org/entity/Q76439810
+,embassy,Russia,Moscow,,,https://kemlu.go.id/moscow,http://www.wikidata.org/entity/Q4374002
+,consulate general,Saudi Arabia,Jeddah,,,,http://www.wikidata.org/entity/Q111016902
+,embassy,Saudi Arabia,Riyadh,,,https://kemlu.go.id/riyadh,http://www.wikidata.org/entity/Q68170009
+,embassy,Senegal,Dakar,,,https://kemlu.go.id/dakar,http://www.wikidata.org/entity/Q107528892
+,embassy,Serbia,Belgrade,,,https://kemlu.go.id/belgrade,http://www.wikidata.org/entity/Q107552754
+,embassy,Singapore,Singapore,,,https://kemlu.go.id/singapore/,http://www.wikidata.org/entity/Q65214063
+,embassy,Slovakia,Bratislava,,,https://kemlu.go.id/bratislava,http://www.wikidata.org/entity/Q107552834
+,embassy,South Africa,Pretoria,,,https://kemlu.go.id/pretoria,http://www.wikidata.org/entity/Q74316703
+,embassy,South Korea,Seoul,,,https://kemlu.go.id/seoul/,http://www.wikidata.org/entity/Q79831435
+,embassy,Spain,Madrid,,,https://kemlu.go.id/madrid/,http://www.wikidata.org/entity/Q105279781
+,embassy,Sri Lanka,Colombo,,,https://kemlu.go.id/colombo,http://www.wikidata.org/entity/Q76483098
+,embassy,Sudan,Khartoum,,,https://kemlu.go.id/khartoum,http://www.wikidata.org/entity/Q107529855
+,embassy,Suriname,Paramaribo,,,https://kemlu.go.id/paramaribo,http://www.wikidata.org/entity/Q107530652
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q18290928
+bern.kbri@kemlu.go.id,embassy,Switzerland,Bern,,+41-31-352-09-83,,http://www.wikidata.org/entity/Q26979890
+,embassy,Syria,Damascus,,,https://kemlu.go.id/damascus,http://www.wikidata.org/entity/Q107552993
+,embassy,Tanzania,Dar es Salaam,,,https://kemlu.go.id/daressalaam,http://www.wikidata.org/entity/Q95384954
+,embassy,Thailand,Bangkok,,,http://www.kemlu.go.id/Bangkok/,http://www.wikidata.org/entity/Q23974995
+,embassy,Tunisia,Tunis,,,https://kemlu.go.id/tunis,http://www.wikidata.org/entity/Q107553184
+,embassy,Turkey,Ankara,,,https://kemlu.go.id/ankara,http://www.wikidata.org/entity/Q75334780
+kbri@indo.ru.kiev.ua,embassy,Ukraine,Kyiv,,+380-44-206-5446,https://www.kemlu.go.id/kyiv,http://www.wikidata.org/entity/Q12142651
+,embassy,United Arab Emirates,Abu Dhabi,,,https://kemlu.go.id/abudhabi,http://www.wikidata.org/entity/Q74971000
+,consulate general,United Arab Emirates,Dubai,,,,http://www.wikidata.org/entity/Q111016930
+,embassy,United Kingdom,Westminster,,,,http://www.wikidata.org/entity/Q5369728
+,consulate general,United States of America,Texas,,,,http://www.wikidata.org/entity/Q5164552
+,embassy,United States of America,"Washington, D.C.",,,http://www.embassyofindonesia.org/,http://www.wikidata.org/entity/Q5369730
+,embassy,Uzbekistan,Tashkent,,,https://kemlu.go.id/tashkent,http://www.wikidata.org/entity/Q107531237
+,embassy,Venezuela,Municipio Baruta,,,https://kemlu.go.id/caracas,http://www.wikidata.org/entity/Q76472706
+hanoi.kbri@kemlu.go.id,embassy,Vietnam,Hanoi,,+84-24-3825-3353,https://kemlu.go.id/hanoi,http://www.wikidata.org/entity/Q76401908
+,embassy,Zimbabwe,Harare,,,https://kemlu.go.id/harare,http://www.wikidata.org/entity/Q107553352

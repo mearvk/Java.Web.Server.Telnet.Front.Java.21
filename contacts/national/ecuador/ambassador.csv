@@ -1,0 +1,50 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,https://www.cancilleria.gob.ec/argentina,http://www.wikidata.org/entity/Q110271709
+,embassy,Australia,Canberra,,,,http://www.wikidata.org/entity/Q106462461
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104632690
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69424134
+,embassy,Bolivia,La Paz,,,,http://www.wikidata.org/entity/Q110585389
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105695152
+,embassy,Canada,Ottawa,,,https://embassyecuador.ca,http://www.wikidata.org/entity/Q106775322
+,embassy,Chile,Providencia,,,https://www.cancilleria.gob.ec/chile,http://www.wikidata.org/entity/Q110415455
+,embassy,Colombia,Bogotá,,,,http://www.wikidata.org/entity/Q110817062
+,embassy,Costa Rica,San José,,,,http://www.wikidata.org/entity/Q110816201
+,embassy,Cuba,Havana,,,,http://www.wikidata.org/entity/Q110816492
+,embassy,Dominican Republic,Santo Domingo,,,,http://www.wikidata.org/entity/Q110816594
+,embassy,Egypt,Cairo,,,,http://www.wikidata.org/entity/Q110817289
+,consulate,El Salvador,,,,,http://www.wikidata.org/entity/Q72538881
+,embassy,El Salvador,San Salvador,,,,http://www.wikidata.org/entity/Q110816386
+,embassy,Ethiopia,Addis Ababa,,,,http://www.wikidata.org/entity/Q110817248
+,embassy,France,,,,,http://www.wikidata.org/entity/Q16020983
+,embassy,Germany,Berlin,,,http://alemania.embajada.gob.ec,http://www.wikidata.org/entity/Q9149490
+,embassy,Guatemala,Guatemala City,,,,http://www.wikidata.org/entity/Q110816586
+,embassy,Honduras,Tegucigalpa,,,,http://www.wikidata.org/entity/Q110816675
+,embassy,Hungary,Budapest District VI,,,,http://www.wikidata.org/entity/Q106890212
+,embassy,India,New Delhi,,,,http://www.wikidata.org/entity/Q110820903
+,embassy,Indonesia,Jakarta,,,https://www.cancilleria.gob.ec/indonesia,http://www.wikidata.org/entity/Q107568016
+,embassy,Iran,Tehran,,,,http://www.wikidata.org/entity/Q110820987
+,embassy,Israel,Tel Aviv,,,,http://www.wikidata.org/entity/Q109717809
+,embassy,Italy,Rome,,,http://santasede.embajada.gob.ec,http://www.wikidata.org/entity/Q56326327
+,embassy,Italy,Rome,,,https://italia.embajada.gob.ec/,http://www.wikidata.org/entity/Q103813729
+,consulate,Jamaica,Kingston,,,,http://www.wikidata.org/entity/Q110816815
+,embassy,Japan,Minato,,,,http://www.wikidata.org/entity/Q61877364
+,embassy,Malaysia,Kuala Lumpur,,,,http://www.wikidata.org/entity/Q110820656
+,embassy,Mexico,Mexico City,,,,http://www.wikidata.org/entity/Q110816465
+,embassy,Netherlands,The Hague,,,http://www.embassyecuador.eu/,http://www.wikidata.org/entity/Q100573802
+,embassy,Nicaragua,Managua,,,,http://www.wikidata.org/entity/Q110816929
+,embassy,Panama,Panama City,,,,http://www.wikidata.org/entity/Q110817028
+,embassy,Paraguay,Asunción,,,https://www.cancilleria.gob.ec/paraguay,http://www.wikidata.org/entity/Q110540303
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q110820737
+,embassy,Peru,San Isidro,,,https://www.cancilleria.gob.ec/peru/,http://www.wikidata.org/entity/Q110667359
+,embassy,Poland,,,,,http://www.wikidata.org/entity/Q115198364
+,embassy,Qatar,Doha,,,,http://www.wikidata.org/entity/Q110821003
+,embassy,Russia,Moscow,,,,http://www.wikidata.org/entity/Q4374086
+,embassy,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106673320
+,embassy,South Korea,Jongno District,,,,http://www.wikidata.org/entity/Q110820849
+,embassy,Spain,Madrid,,,https://espana.embajada.gob.ec,http://www.wikidata.org/entity/Q105205857
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q18288782
+embecusuiza@bluewin.ch,embassy,Switzerland,Bern,,+41-31-351-62-54,,http://www.wikidata.org/entity/Q26980000
+,embassy,Turkey,Ankara,,,,http://www.wikidata.org/entity/Q110821126
+,embassy,United Kingdom,,,,http://reinounido.embajada.gob.ec/,http://www.wikidata.org/entity/Q1803773
+,embassy,United States of America,"Washington, D.C.",,,https://www.ecuador.org/,http://www.wikidata.org/entity/Q5369671
+,embassy,Uruguay,Montevideo,,,,http://www.wikidata.org/entity/Q110492091

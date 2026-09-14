@@ -1,0 +1,50 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,http://embajadaargentina.rree.gob.sv/,http://www.wikidata.org/entity/Q73439378
+,embassy,Australia,Kingston,,,http://embajadaaustralia.rree.gob.sv/,http://www.wikidata.org/entity/Q73423979
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q54168815
+,embassy,Belgium,City of Brussels,,,http://embajadabruselas.rree.gob.sv/,http://www.wikidata.org/entity/Q69423053
+,embassy,Belize,Belmopan,,,http://embajadabelice.rree.gob.sv/,http://www.wikidata.org/entity/Q73458173
+,embassy,Bolivia,La Paz,,,http://embajadabolivia.rree.gob.sv/,http://www.wikidata.org/entity/Q73439838
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q73438721
+,embassy,Canada,Ottawa,,,http://embajadacanada.rree.gob.sv,http://www.wikidata.org/entity/Q73432193
+,embassy,Chile,Providencia,,,http://embajadachile.rree.gob.sv,http://www.wikidata.org/entity/Q73437401
+,embassy,Colombia,Bogotá,,,,http://www.wikidata.org/entity/Q73436843
+,embassy,Costa Rica,Curridabat,,,http://embajadacostarica.rree.gob.sv/,http://www.wikidata.org/entity/Q73457719
+,embassy,Cuba,Miramar,,,http://embajadacuba.rree.gob.sv/,http://www.wikidata.org/entity/Q73454645
+,embassy,Dominican Republic,Los Cacicazgos,,,http://embajadadominicana.rree.gob.sv,http://www.wikidata.org/entity/Q73453071
+,embassy,Ecuador,Quito,,,http://embajadaecuador.rree.gob.sv,http://www.wikidata.org/entity/Q73436065
+,embassy,France,Paris,,,,http://www.wikidata.org/entity/Q73428076
+,embassy,Germany,Mitte,,,http://embajadaalemania.rree.gob.sv/,http://www.wikidata.org/entity/Q9149593
+,embassy,Guatemala,Guatemala City,,,http://embajadaguatemala.rree.gob.sv/,http://www.wikidata.org/entity/Q73457088
+,embassy,Honduras,Tegucigalpa,,,http://embajadahonduras.rree.gob.sv/,http://www.wikidata.org/entity/Q73456786
+elsalvador-india@rree.gob.sv,embassy,India,Vasant Vihar,,+91-11-4608-8400,http://embajadaindia.rree.gob.sv,http://www.wikidata.org/entity/Q73418880
+,embassy,Israel,Herzliya,,,http://embajadaisrael.rree.gob.sv,http://www.wikidata.org/entity/Q73422034
+,embassy,Italy,Rome,,,http://embajadasantasede.rree.gob.sv/,http://www.wikidata.org/entity/Q56326432
+,embassy,Italy,Rome,,,http://embajadaitalia.rree.gob.sv/,http://www.wikidata.org/entity/Q73427578
+,consulate,Italy,Rome,,,,http://www.wikidata.org/entity/Q75664119
+,embassy,Japan,Tokyo,,,,http://www.wikidata.org/entity/Q61911684
+,embassy,Mexico,Polanco,,,,http://www.wikidata.org/entity/Q73438295
+,consulate,Netherlands,Amsterdam,,,,http://www.wikidata.org/entity/Q94977118
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q73429434
+,embassy,Nicaragua,Managua,,,http://embajadanicaragua.rree.gob.sv/,http://www.wikidata.org/entity/Q73456218
+,embassy,Norway,Oslo,,,,http://www.wikidata.org/entity/Q117835535
+,embassy,Panama,Panama City,,,,http://www.wikidata.org/entity/Q73455177
+,embassy,Peru,San Isidro,,,,http://www.wikidata.org/entity/Q73434230
+,consulate,Poland,Warsaw,,,,http://www.wikidata.org/entity/Q122452190
+,embassy,Qatar,West Bay Lagoon,,,http://embajadaqatar.rree.gob.sv,http://www.wikidata.org/entity/Q73422877
+,embassy,Russia,Moscow,,,http://embajadarusia.rree.gob.sv/,http://www.wikidata.org/entity/Q73426971
+,embassy,South Korea,Jung District,,,http://embajadacorea.rree.gob.sv/,http://www.wikidata.org/entity/Q73420609
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q73428752
+,embassy,Sweden,Lidingö Municipality,,,http://embajadasuecia.rree.gob.sv/,http://www.wikidata.org/entity/Q18288935
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q73426142
+,embassy,Trinidad and Tobago,Port of Spain,,,,http://www.wikidata.org/entity/Q73440587
+,embassy,Turkey,Ankara,,,,http://www.wikidata.org/entity/Q110971130
+,embassy,United Kingdom,London,,,http://embajadareinounido.rree.gob.sv/,http://www.wikidata.org/entity/Q15216562
+,consulate general,United States of America,Los Angeles,,,http://consuladolosangeles.rree.gob.sv/,http://www.wikidata.org/entity/Q73460158
+,consulate,United States of America,Los Angeles,,,,http://www.wikidata.org/entity/Q74534833
+,consulate,United States of America,New Orleans,,,,http://www.wikidata.org/entity/Q121728102
+,consulate general,United States of America,San Francisco,,,http://consuladosanfrancisco.rree.gob.sv/,http://www.wikidata.org/entity/Q67223790
+,embassy,United States of America,"Washington, D.C.",,,http://www.elsalvador.org/,http://www.wikidata.org/entity/Q5369674
+,diplomatic mission of El Salvador,Uruguay,Montevideo,,,,http://www.wikidata.org/entity/Q95178249
+,embassy,Uruguay,Punta Gorda,,,http://embajadauruguay.rree.gob.sv/,http://www.wikidata.org/entity/Q73432833
+,embassy,Venezuela,Caracas,,,http://embajadavenezuela.rree.gob.sv/,http://www.wikidata.org/entity/Q73431575

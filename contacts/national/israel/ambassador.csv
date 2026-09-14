@@ -1,0 +1,91 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Albania,Tirana,,,https://embassies.gov.il/tirana,http://www.wikidata.org/entity/Q108063962
+,embassy,Angola,Luanda,,,https://embassies.gov.il/luanda,http://www.wikidata.org/entity/Q106462761
+,embassy,Argentina,Buenos Aires,,,https://embassies.gov.il/buenos-aires,http://www.wikidata.org/entity/Q110272072
+,embassy,Australia,Canberra,,,https://embassies.gov.il/canberra/Pages/default.aspx,http://www.wikidata.org/entity/Q106464125
+,embassy,Austria,Vienna,,,https://embassies.gov.il/vienna,http://www.wikidata.org/entity/Q104634640
+,embassy,Azerbaijan,Baku,,,http://embassies.gov.il/baku/,http://www.wikidata.org/entity/Q12849277
+,embassy,Bahrain,Manama,,,,http://www.wikidata.org/entity/Q102071573
+,embassy,Belarus,Minsk,,,https://embassies.gov.il/minsk,http://www.wikidata.org/entity/Q33117905
+,embassy,Belgium,Uccle - Ukkel,,,https://embassies.gov.il/Brussels,http://www.wikidata.org/entity/Q69523965
+,embassy,Brazil,Brasília,,,https://embassies.gov.il/brasilia,http://www.wikidata.org/entity/Q105705907
+,embassy,Bulgaria,Stolichna Municipality,,,https://embassies.gov.il/sofia,http://www.wikidata.org/entity/Q41588803
+,embassy,Cameroon,Yaoundé,,,https://embassies.gov.il/yaounde,http://www.wikidata.org/entity/Q111908369
+,embassy,Canada,Ottawa,,,http://embassies.gov.il/ottawa/,http://www.wikidata.org/entity/Q5369742
+,consulate general,Canada,Westmount,,,,http://www.wikidata.org/entity/Q123004025
+,embassy,Chile,Las Condes,,,https://embassies.gov.il/santiago,http://www.wikidata.org/entity/Q110430853
+,embassy,Colombia,Bogotá,,,https://embassies.gov.il/bogota,http://www.wikidata.org/entity/Q110887179
+,embassy,Costa Rica,San José,,,http://embassies.gov.il/san-jose,http://www.wikidata.org/entity/Q111091808
+,embassy,Croatia,Zagreb,,,https://embassies.gov.il/Zagreb,http://www.wikidata.org/entity/Q107412387
+,embassy,Czech Republic,Prague,,,https://embassies.gov.il/Praha,http://www.wikidata.org/entity/Q107117625
+,embassy,Dominican Republic,Santo Domingo,,,https://embassies.gov.il/santo-domingo,http://www.wikidata.org/entity/Q111988836
+,embassy,Ecuador,Quito,,,https://embassies.gov.il/quito,http://www.wikidata.org/entity/Q110769743
+,embassy,Egypt,Cairo,,,https://embassies.gov.il/cairo,http://www.wikidata.org/entity/Q86696872
+,embassy,El Salvador,San Salvador,,,https://embassies.gov.il/san-salvador,http://www.wikidata.org/entity/Q111987295
+,embassy,Ethiopia,Addis Ababa,,,https://embassies.gov.il/addis_ababa,http://www.wikidata.org/entity/Q111907783
+,embassy,Finland,Helsinki,,,https://embassies.gov.il/helsinki,http://www.wikidata.org/entity/Q106194848
+,embassy,France,,,,https://embassies.gov.il/paris/,http://www.wikidata.org/entity/Q2841593
+,consulate general,France,Marseille,,,http://embassies.gov.il/marseille/Pages/default.aspx,http://www.wikidata.org/entity/Q16543692
+,embassy,Georgia,Tbilisi,,,https://embassies.gov.il/tbilisi,http://www.wikidata.org/entity/Q111954668
+,embassy,Germany,Berlin,,,http://embassies.gov.il/berlin/,http://www.wikidata.org/entity/Q1674638
+,consulate general,Germany,Maxvorstadt,,,http://embassies.gov.il/munchen/Pages/default.aspx,http://www.wikidata.org/entity/Q25393756
+,embassy,Ghana,Accra,,,https://embassies.gov.il/accra,http://www.wikidata.org/entity/Q111908455
+,embassy,Greece,Psychiko,,,http://embassies.gov.il/athens/,http://www.wikidata.org/entity/Q5369738
+,embassy,Guatemala,Guatemala City,,,https://embassies.gov.il/guatemala,http://www.wikidata.org/entity/Q111977441
+,embassy,Hungary,Budapest District II,,,https://embassies.gov.il/budapest/,http://www.wikidata.org/entity/Q68604418
+,embassy,India,New Delhi,,,https://embassies.gov.il/delhi,http://www.wikidata.org/entity/Q111955838
+,embassy,Ireland,Dublin,,,https://embassies.gov.il/dublin,http://www.wikidata.org/entity/Q104771394
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q60855537
+,embassy,Italy,Rome,,,https://embassies.gov.il/roma-he/Pages/Home.aspx,http://www.wikidata.org/entity/Q103834085
+,embassy,Ivory Coast,Abidjan,,,https://embassies.gov.il/abidjan,http://www.wikidata.org/entity/Q111907349
+,embassy,Japan,Chiyoda-ku,,,http://embassies.gov.il/tokyo,http://www.wikidata.org/entity/Q43378645
+,embassy,Jordan,Amman,,,https://embassies.gov.il/amman,http://www.wikidata.org/entity/Q108068482
+,embassy,Kazakhstan,Astana,,,https://embassies.gov.il/astana,http://www.wikidata.org/entity/Q111908476
+,embassy,Kenya,Nairobi,,,https://embassies.gov.il/nairobi,http://www.wikidata.org/entity/Q111908345
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,https://embassies.gov.il/copenhagen,http://www.wikidata.org/entity/Q106032040
+,embassy,Latvia,Riga,,,https://embassies.gov.il/riga,http://www.wikidata.org/entity/Q107209180
+,embassy,Lithuania,Vilnius,,,https://embassies.gov.il/Vilnius,http://www.wikidata.org/entity/Q107295282
+,embassy,Mauritania,,,,,http://www.wikidata.org/entity/Q115177946
+,embassy,Mexico,Mexico City,,,https://new.embassies.gov.il/mexico,http://www.wikidata.org/entity/Q111689579
+,embassy,Myanmar,Yangon,,,https://embassies.gov.il/yangon,http://www.wikidata.org/entity/Q111977347
+,embassy,Nepal,Kathmandu,,,http://embassies.gov.il/kathmandu/,http://www.wikidata.org/entity/Q5369739
+,embassy,Netherlands,The Hague,,,https://embassies.gov.il/hague,http://www.wikidata.org/entity/Q86680932
+,embassy,New Zealand,Wellington,,,https://embassies.gov.il/wellington,http://www.wikidata.org/entity/Q111883240
+,embassy,Nigeria,Abuja,,,https://embassies.gov.il/abuja,http://www.wikidata.org/entity/Q111907745
+,embassy,Northern Cyprus,Nicosia,,,https://embassies.gov.il/nicosia,http://www.wikidata.org/entity/Q109780855
+,embassy,Norway,Oslo Municipality,,,https://embassies.gov.il/oslo,http://www.wikidata.org/entity/Q11977611
+,embassy,Panama,Panama City,,,,http://www.wikidata.org/entity/Q111109616
+,consulate general,People's Republic of China,Hong Kong,,,https://embassies.gov.il/hong-kong/Pages/default.aspx,http://www.wikidata.org/entity/Q24835226
+,embassy,People's Republic of China,Maizidian Subdistrict,,,http://embassies.gov.il/beijing,http://www.wikidata.org/entity/Q27862556
+,embassy,Peru,San Isidro,,,https://embassies.gov.il/lima/Pages/default.aspx,http://www.wikidata.org/entity/Q110687290
+,embassy,Philippines,Taguig,,,http://embassies.gov.il/manila/,http://www.wikidata.org/entity/Q16246277
+,embassy,Poland,Warsaw,,+48-22-597-05-00,http://embassies.gov.il/warsaw,http://www.wikidata.org/entity/Q9149512
+,embassy,Portugal,Lisbon,,,https://embassies.gov.il/lisboa,http://www.wikidata.org/entity/Q105443835
+,embassy,Romania,Bucharest,,,https://embassies.gov.il/bucharest,http://www.wikidata.org/entity/Q106940307
+,embassy,Russia,Moscow,,,https://embassies.gov.il/moscow-he/Pages/default.aspx,http://www.wikidata.org/entity/Q2894508
+,embassy,Senegal,Dakar,,,https://embassies.gov.il/dakar,http://www.wikidata.org/entity/Q108063960
+,embassy,Serbia,Belgrade,,,https://embassies.gov.il/beograd/,http://www.wikidata.org/entity/Q108121231
+,embassy,Singapore,Singapore,,,https://embassies.gov.il/singapore,http://www.wikidata.org/entity/Q111976679
+,embassy,Slovakia,Bratislava,,,https://embassies.gov.il/bratislava,http://www.wikidata.org/entity/Q111907238
+,embassy,South Africa,Pretoria,,,https://embassies.gov.il/pretoria,http://www.wikidata.org/entity/Q106676950
+,embassy,South Korea,Jongno District,,,https://embassies.gov.il/seoul,http://www.wikidata.org/entity/Q106151598
+,honorary consulate,Spain,Les Corts,,,,http://www.wikidata.org/entity/Q108837847
+,embassy,Spain,Madrid,,,https://embassies.gov.il/madrid,http://www.wikidata.org/entity/Q105280729
+,embassy,Sweden,Stockholm,,,http://embassies.gov.il/stockholm/,http://www.wikidata.org/entity/Q10538001
+ambassador-sec@bern.mfa.gov.il,embassy,Switzerland,Bern,,+41-31-356-35-00,https://embassies.gov.il/bern,http://www.wikidata.org/entity/Q26979895
+,de facto embassy,Taiwan,Xinyi District,,,https://embassies.gov.il/taipei/Pages/default.aspx,http://www.wikidata.org/entity/Q115693089
+,embassy,Thailand,Bangkok,,,https://embassies.gov.il/bangkok,http://www.wikidata.org/entity/Q111956230
+,embassy,Turkey,Ankara,,,https://embassies.gov.il/ankara,http://www.wikidata.org/entity/Q110973308
+info@kiev.mfa.gov.il,embassy,Ukraine,Kyiv,,+380-44-586-1500,http://embassies.gov.il/kiev,http://www.wikidata.org/entity/Q800049
+,embassy,United Arab Emirates,Abu Dhabi,,,,http://www.wikidata.org/entity/Q107377578
+,embassy,United Kingdom,London,,,http://embassies.gov.il/london/,http://www.wikidata.org/entity/Q5369740
+,consulate general,United States of America,,,,https://embassies.gov.il/chicago-he/Pages/default.aspx,http://www.wikidata.org/entity/Q123419252
+,consulate general,United States of America,,,,https://embassies.gov.il/miami-he/Pages/default.aspx,http://www.wikidata.org/entity/Q123419416
+,consulate general,United States of America,,,,https://embassies.gov.il/boston-he/Pages/default.aspx,http://www.wikidata.org/entity/Q123419509
+,consulate general,United States of America,Houston,,,https://embassies.gov.il/houston/Pages/Home.aspx,http://www.wikidata.org/entity/Q115765041
+,consulate general,United States of America,Manhattan,,,https://embassies.gov.il/new-york/Pages/default.aspx,http://www.wikidata.org/entity/Q115760763
+,consulate general,United States of America,San Francisco,,,,http://www.wikidata.org/entity/Q14681777
+,embassy,United States of America,"Washington, D.C.",,,http://embassies.gov.il/washington/,http://www.wikidata.org/entity/Q5369744
+,embassy,Uruguay,Montevideo,,,https://embassies.gov.il/montevideo,http://www.wikidata.org/entity/Q110492656
+,embassy,Uzbekistan,Tashkent,,,https://embassies.gov.il/tashkent,http://www.wikidata.org/entity/Q111977360
+,embassy,Vietnam,Hanoi,,,https://embassies.gov.il/hanoi,http://www.wikidata.org/entity/Q111977311

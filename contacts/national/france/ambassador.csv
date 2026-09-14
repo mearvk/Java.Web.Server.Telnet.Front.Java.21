@@ -1,0 +1,258 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Afghanistan,,,,https://af.ambafrance.org/,http://www.wikidata.org/entity/Q1860539
+,embassy,Albania,,,,https://al.ambafrance.org/,http://www.wikidata.org/entity/Q2841711
+,embassy,Algeria,,,,https://dz.ambafrance.org/,http://www.wikidata.org/entity/Q17490933
+,consulate general,Algeria,,,,,http://www.wikidata.org/entity/Q73418263
+,consulate general,Algeria,Annaba,,,,http://www.wikidata.org/entity/Q73417634
+,consulate general,Algeria,Oran,,,,http://www.wikidata.org/entity/Q73384161
+,embassy,Andorra,,,,https://ad.ambafrance.org,http://www.wikidata.org/entity/Q2841713
+,embassy,Angola,,,,https://ao.ambafrance.org/,http://www.wikidata.org/entity/Q2841716
+,embassy,Argentina,,,,https://ar.ambafrance.org/,http://www.wikidata.org/entity/Q2841720
+,consulate general,Argentina,,,,,http://www.wikidata.org/entity/Q73414361
+,embassy,Armenia,,,,https://am.ambafrance.org/,http://www.wikidata.org/entity/Q2841724
+,embassy,Australia,,,,https://au.ambafrance.org,http://www.wikidata.org/entity/Q2841721
+,consulate,Australia,Melbourne,,,,http://www.wikidata.org/entity/Q87193304
+,consulate general,Australia,New South Wales,,,http://www.ambafrance-au.org/-Consulat-general-a-Sydney-,http://www.wikidata.org/entity/Q16507587
+,embassy,Austria,Vienna,,,https://at.ambafrance.org/,http://www.wikidata.org/entity/Q572567
+,embassy,Azerbaijan,,,,https://az.ambafrance.org,http://www.wikidata.org/entity/Q2841725
+,embassy,Bahrain,,,,https://bh.ambafrance.org/,http://www.wikidata.org/entity/Q2841797
+,embassy,Bangladesh,,,+880-2-55668600,https://bd.ambafrance.org/,http://www.wikidata.org/entity/Q2841612
+,embassy,Belarus,,,,https://by.ambafrance.org,http://www.wikidata.org/entity/Q2841734
+,embassy,Belgium,,,,http://www.ambafrance-be.org/,http://www.wikidata.org/entity/Q17490956
+,consulate general,Belgium,,,,,http://www.wikidata.org/entity/Q16507576
+,consulate general,Belgium,Antwerp,,,,http://www.wikidata.org/entity/Q116336798
+,embassy,Benin,,,,https://bj.ambafrance.org/,http://www.wikidata.org/entity/Q2841624
+,embassy,Bolivia,,,,https://bo.ambafrance.org/,http://www.wikidata.org/entity/Q2841726
+,embassy,Bosnia and Herzegovina,,,,https://ba.ambafrance.org/,http://www.wikidata.org/entity/Q2841730
+,embassy,Botswana,,,,https://bw.ambafrance.org,http://www.wikidata.org/entity/Q2841614
+,embassy,Brazil,,,,https://br.ambafrance.org,http://www.wikidata.org/entity/Q2841625
+,consulate general,Brazil,Recife,,,http://recife.ambafrance-br.org,http://www.wikidata.org/entity/Q16507588
+,consulate general,Brazil,Rio de Janeiro,,,https://riodejaneiro.ambafrance-br.org,http://www.wikidata.org/entity/Q16507589
+,consulate general,Brazil,São Paulo,,,https://saopaulo.consulfrance.org/-Portugues-,http://www.wikidata.org/entity/Q16507590
+,embassy,Brunei,,,,http://www.ambafrance-bn.org/,http://www.wikidata.org/entity/Q2841618
+,embassy,Bulgaria,,,,https://bg.ambafrance.org/,http://www.wikidata.org/entity/Q2841733
+,embassy,Burkina Faso,,,,https://bf.ambafrance.org/,http://www.wikidata.org/entity/Q2841621
+,consulate general,Burkina Faso,,,,,http://www.wikidata.org/entity/Q73384009
+,embassy,Burundi,,,,https://bi.ambafrance.org/,http://www.wikidata.org/entity/Q2841622
+,embassy,Cambodia,,,,https://kh.ambafrance.org/,http://www.wikidata.org/entity/Q2841626
+,embassy,Cameroon,,,,https://cm.ambafrance.org/,http://www.wikidata.org/entity/Q2841629
+,consulate general,Cameroon,Douala,,,https://douala.consulfrance.org/,http://www.wikidata.org/entity/Q73402379
+,embassy,Canada,,,,https://ca.ambafrance.org/,http://www.wikidata.org/entity/Q653784
+,consulate general,Canada,Moncton,,,http://www.consulfrance-moncton.org,http://www.wikidata.org/entity/Q16507596
+,consulate general,Canada,Montreal,,,http://www.consulfrance-montreal.org,http://www.wikidata.org/entity/Q16507591
+,consulate general,Canada,Quebec City,,,http://www.consulfrance-quebec.org,http://www.wikidata.org/entity/Q2995341
+,consulate general,Canada,Toronto,,,http://www.consulfrance-toronto.org,http://www.wikidata.org/entity/Q16507593
+,consulate general,Canada,Vancouver,,,http://www.consulfrance-vancouver.org,http://www.wikidata.org/entity/Q16507594
+,embassy,Cape Verde,,,,https://cv.ambafrance.org/,http://www.wikidata.org/entity/Q2841632
+,embassy,Central African Republic,,,,https://cf.ambafrance.org/,http://www.wikidata.org/entity/Q2841776
+,embassy,Chad,,,,https://td.ambafrance.org/,http://www.wikidata.org/entity/Q2841689
+,embassy,Chile,,,,https://cl.ambafrance.org/,http://www.wikidata.org/entity/Q2841631
+,embassy,Colombia,,,,https://co.ambafrance.org/,http://www.wikidata.org/entity/Q2841736
+,embassy,Comoros,,,,https://km.ambafrance.org,http://www.wikidata.org/entity/Q2841702
+,embassy,Costa Rica,,,,https://cr.ambafrance.org,http://www.wikidata.org/entity/Q2841634
+,embassy,Croatia,,,,http://www.ambafrance-hr.org/,http://www.wikidata.org/entity/Q2841739
+,embassy,Cuba,,,,https://cu.ambafrance.org,http://www.wikidata.org/entity/Q2841799
+,embassy,Cyprus,,,,https://cy.ambafrance.org/,http://www.wikidata.org/entity/Q2841798
+,embassy,Czech Republic,,,,https://cz.ambafrance.org/,http://www.wikidata.org/entity/Q2841783
+,embassy,Democratic Republic of the Congo,,,,https://cd.ambafrance.org/,http://www.wikidata.org/entity/Q2841779
+,embassy,Djibouti,,,,https://dj.ambafrance.org,http://www.wikidata.org/entity/Q2841801
+,embassy,Dominican Republic,,,,https://do.ambafrance.org/,http://www.wikidata.org/entity/Q2841778
+,embassy,Ecuador,,,,http://www.ambafrance-ec.org/,http://www.wikidata.org/entity/Q1601734
+,embassy,Egypt,,,,https://eg.ambafrance.org,http://www.wikidata.org/entity/Q2841791
+,consulate general,Egypt,Alexandria,,+20 3 48 47 950,https://eg.ambafrance.org/-النسخة-العربية-Arabe-,http://www.wikidata.org/entity/Q16507529
+,consulate general,Egypt,Cairo,,,,http://www.wikidata.org/entity/Q73414042
+,embassy,El Salvador,,,,https://sv.ambafrance.org,http://www.wikidata.org/entity/Q2841679
+,embassy,Equatorial Guinea,,,,https://gq.ambafrance.org,http://www.wikidata.org/entity/Q2841744
+,embassy,Eritrea,,,,https://er.ambafrance.org,http://www.wikidata.org/entity/Q2841792
+,embassy,Estonia,,,,https://ee.ambafrance.org/,http://www.wikidata.org/entity/Q2841741
+,embassy,Ethiopia,,,,https://et.ambafrance.org,http://www.wikidata.org/entity/Q2841793
+,embassy,Fiji,,,,http://www.ambafrance-fj.org/,http://www.wikidata.org/entity/Q2841703
+,embassy,Finland,,,,https://fi.ambafrance.org/,http://www.wikidata.org/entity/Q17490969
+,embassy,Gabon,,,,https://ga.ambafrance.org/,http://www.wikidata.org/entity/Q2841636
+,consulate general,Gabon,,,,,http://www.wikidata.org/entity/Q73395714
+,embassy,Georgia,,,,https://ge.ambafrance.org,http://www.wikidata.org/entity/Q2841746
+,embassy,Germany,,,,https://de.ambafrance.org,http://www.wikidata.org/entity/Q554046
+,consulate general,Germany,Düsseldorf,,,,http://www.wikidata.org/entity/Q73402008
+,consulate general,Germany,Frankfurt,,,,http://www.wikidata.org/entity/Q73398930
+,consulate general,Germany,Hamburg,,,,http://www.wikidata.org/entity/Q73398139
+,consulate general,Germany,Munich,,,https://de.ambafrance.org/-Munich-Consulat-,http://www.wikidata.org/entity/Q73384758
+,consulate general,Germany,Saarbrücken,,,https://de.ambafrance.org/-Sarrebruck-Consulat-,http://www.wikidata.org/entity/Q73382705
+,consulate general,Germany,Stuttgart,,,https://de.ambafrance.org/Consulat-general-de-France-a-Stuttgart,http://www.wikidata.org/entity/Q62887992
+,embassy,Ghana,,,,https://gh.ambafrance.org/,http://www.wikidata.org/entity/Q2841638
+,embassy,Greece,,,,https://gr.ambafrance.org/,http://www.wikidata.org/entity/Q17490944
+,consulate general,Greece,Thessaloniki,,,https://gr.ambafrance.org/-Consulat-general-a-Thessalonique-,http://www.wikidata.org/entity/Q61666676
+,embassy,Guatemala,,,,https://gt.ambafrance.org/,http://www.wikidata.org/entity/Q1408691
+,embassy,Guinea,,,,https://gn.ambafrance.org/,http://www.wikidata.org/entity/Q2841743
+,embassy,Guinea-Bissau,,,,https://gw.ambafrance.org,http://www.wikidata.org/entity/Q2841745
+,embassy,Haiti,,,,https://ht.ambafrance.org/,http://www.wikidata.org/entity/Q2841747
+,embassy,Honduras,,,,https://hn.ambafrance.org,http://www.wikidata.org/entity/Q2841641
+,embassy,Hungary,Budapest District V,,,https://hu.ambafrance.org/,http://www.wikidata.org/entity/Q2841748
+,embassy,Iceland,,,,https://is.ambafrance.org,http://www.wikidata.org/entity/Q2841753
+,embassy,India,,,,https://in.ambafrance.org/,http://www.wikidata.org/entity/Q2841749
+,consulate general,India,Bengaluru,,,http://www.ambafrance-in.org/-Bangalore,http://www.wikidata.org/entity/Q16543697
+,consulate general,India,Mumbai,,,http://www.ambafrance-in.org/-Bombay,http://www.wikidata.org/entity/Q16628097
+,consulate general,India,Pondicherry,,,https://in.ambafrance.org/-Consulate-in-Pondichery-,http://www.wikidata.org/entity/Q16507605
+,embassy,Indonesia,,,,https://id.ambafrance.org/,http://www.wikidata.org/entity/Q2841750
+,embassy,Iran,District 11,,,https://ir.ambafrance.org/,http://www.wikidata.org/entity/Q1348843
+,embassy,Iraq,,,,https://iq.ambafrance.org/,http://www.wikidata.org/entity/Q2841751
+consulat.erbil-fslt@diplomatie.gouv.fr,consulate general,Iraq,Erbil,,+964-750-816-1000,https://iq.ambafrance.org/-Consulat-General-de-France-a-Erbil-,http://www.wikidata.org/entity/Q73400606
+,embassy,Ireland,,,,http://www.ambafrance-ie.org/,http://www.wikidata.org/entity/Q2841752
+,embassy,Israel,,,,https://il.ambafrance.org,http://www.wikidata.org/entity/Q28065377
+,consulate,Israel,Haifa,,,,http://www.wikidata.org/entity/Q62846836
+,consulate general,Israel,Tel Aviv,,,,http://www.wikidata.org/entity/Q73380791
+,embassy,Italy,,,,http://www.ambafrance-it.org/,http://www.wikidata.org/entity/Q2841759
+,embassy,Italy,,,,http://www.france-vatican.org/,http://www.wikidata.org/entity/Q2841796
+,consulate general,Italy,Milan,,,http://www.ambafrance-it.org/spip.php?rubrique355,http://www.wikidata.org/entity/Q16507597
+,consulate general,Italy,Naples,,,http://www.ambafrance-it.org/spip.php?rubrique205,http://www.wikidata.org/entity/Q16507598
+,consulate general,Italy,Turin,,,http://www.ambafrance-it.org/spip.php?rubrique353,http://www.wikidata.org/entity/Q16507606
+,embassy,Ivory Coast,,,,https://ci.ambafrance.org,http://www.wikidata.org/entity/Q2378933
+,consulate general,Ivory Coast,Abidjan,,,https://ci.ambafrance.org/-consulat-,http://www.wikidata.org/entity/Q73231023
+,embassy,Jamaica,,,,https://jm.ambafrance.org,http://www.wikidata.org/entity/Q2841755
+,embassy,Japan,,,,http://www.ambafrance-jp.org/,http://www.wikidata.org/entity/Q2841652
+,consulate general,Japan,Sakyō-ku,,,https://jp.ambafrance.org/Consulat-general-de-France-a-Kyoto-13380,http://www.wikidata.org/entity/Q16543710
+,embassy,Jordan,,,,https://jo.ambafrance.org/,http://www.wikidata.org/entity/Q2841756
+,embassy,Kazakhstan,,,,http://www.ambafrance-kz.org/,http://www.wikidata.org/entity/Q2841645
+,consulate general,Kazakhstan,Almaty,,,https://kz.ambafrance.org/-Le-Consulat-general-,http://www.wikidata.org/entity/Q55670190
+,embassy,Kenya,,,,https://ke.ambafrance.org/,http://www.wikidata.org/entity/Q2841647
+,embassy,Kingdom of Denmark,,,,http://www.ambafrance-dk.org/,http://www.wikidata.org/entity/Q2841644
+,embassy,Kosovo,,,,https://kosovo.ambafrance.org/,http://www.wikidata.org/entity/Q2841650
+,embassy,Kuwait,,,,https://kw.ambafrance.org/,http://www.wikidata.org/entity/Q2841653
+,embassy,Kyrgyzstan,,,,https://kg.ambafrance.org,http://www.wikidata.org/entity/Q2841649
+,embassy,Laos,,,,https://la.ambafrance.org/,http://www.wikidata.org/entity/Q2841654
+,embassy,Latvia,,,,https://lv.ambafrance.org/,http://www.wikidata.org/entity/Q2841757
+,embassy,Lebanon,,,,http://ambafrance-lb.org/,http://www.wikidata.org/entity/Q2841655
+,consulate general,Lebanon,,,,https://lb.ambafrance.org/-Consulat-general-de-France-a-Beyrouth-,http://www.wikidata.org/entity/Q73415309
+,embassy,Liberia,,,,https://lr.ambafrance.org,http://www.wikidata.org/entity/Q2841656
+,embassy,Libya,,,,https://ly.ambafrance.org,http://www.wikidata.org/entity/Q2841760
+,embassy,Lithuania,,,,https://lt.ambafrance.org/,http://www.wikidata.org/entity/Q2841761
+,embassy,Luxembourg,,,,http://www.ambafrance-lu.org/,http://www.wikidata.org/entity/Q2841659
+,embassy,Madagascar,,,,https://mg.ambafrance.org/,http://www.wikidata.org/entity/Q2841800
+,consulate general,Madagascar,Antananarivo,,,,http://www.wikidata.org/entity/Q73381591
+,embassy,Malaysia,,,,https://my.ambafrance.org/,http://www.wikidata.org/entity/Q2841763
+,embassy,Mali,,,,https://ml.ambafrance.org/,http://www.wikidata.org/entity/Q2841660
+,consulate general,Mali,,,,,http://www.wikidata.org/entity/Q73416803
+,embassy,Malta,,,,https://mt.ambafrance.org/,http://www.wikidata.org/entity/Q2841802
+admin-francais.nouakchott-amba@diplomatie.gouv.fr,embassy,Mauritania,,,,https://mr.ambafrance.org/,http://www.wikidata.org/entity/Q2841764
+,embassy,Mauritius,,,,https://mu.ambafrance.org/,http://www.wikidata.org/entity/Q2841803
+,embassy,Mexico,,,,https://mx.ambafrance.org/,http://www.wikidata.org/entity/Q610193
+,consulate general,Mexico,Mexico City,,,,http://www.wikidata.org/entity/Q73393961
+,embassy,Moldova,,,,https://md.ambafrance.org,http://www.wikidata.org/entity/Q2841768
+,embassy,Monaco,,,,http://www.ambafrance-mc.org/,http://www.wikidata.org/entity/Q2841804
+,embassy,Mongolia,,,,https://mn.ambafrance.org/,http://www.wikidata.org/entity/Q2841766
+,embassy,Montenegro,,,,https://me.ambafrance.org,http://www.wikidata.org/entity/Q2841662
+,embassy,Morocco,,,,https://ma.ambafrance.org/,http://www.wikidata.org/entity/Q2841661
+,consulate general,Morocco,,,,,http://www.wikidata.org/entity/Q73383469
+,consulate general,Morocco,Agadir,,,,http://www.wikidata.org/entity/Q73418695
+,consulate general,Morocco,Casablanca,,,,http://www.wikidata.org/entity/Q66123270
+,consulate general,Morocco,Fez,,,,http://www.wikidata.org/entity/Q73399555
+,consulate general,Morocco,Marrakesh,,,,http://www.wikidata.org/entity/Q73394233
+,consulate general,Morocco,Tangier,,,,http://www.wikidata.org/entity/Q73381275
+,consulate,Morocco,Tangier,,,,http://www.wikidata.org/entity/Q111937933
+,embassy,Mozambique,,,,https://mz.ambafrance.org/,http://www.wikidata.org/entity/Q2841663
+,embassy,Myanmar,,,,https://mm.ambafrance.org/,http://www.wikidata.org/entity/Q2841729
+,embassy,Namibia,,,,https://na.ambafrance.org,http://www.wikidata.org/entity/Q2841767
+,embassy,Nepal,,,,https://np.ambafrance.org,http://www.wikidata.org/entity/Q2841669
+,embassy,Netherlands,,,,http://nl.ambafrance.org,http://www.wikidata.org/entity/Q2841704
+,consulate general,Netherlands,Amsterdam,,,http://www.consulfrance-amsterdam.org,http://www.wikidata.org/entity/Q16507535
+,embassy,New Zealand,,,,https://nz.ambafrance.org,http://www.wikidata.org/entity/Q2841770
+,embassy,Nicaragua,,,,https://ni.ambafrance.org/,http://www.wikidata.org/entity/Q2841665
+,embassy,Niger,,,+227-20-72-24-31,http://www.ambafrance-ne.org/,http://www.wikidata.org/entity/Q2841666
+,embassy,Nigeria,,,,https://ng.ambafrance.org/,http://www.wikidata.org/entity/Q2841668
+,consulate general,Nigeria,,,,,http://www.wikidata.org/entity/Q73396038
+,de facto embassy,North Korea,,,,,http://www.wikidata.org/entity/Q30754364
+,embassy,North Macedonia,,,,https://mk.ambafrance.org,http://www.wikidata.org/entity/Q2841762
+,consulate,North Macedonia,Bitola,,,,http://www.wikidata.org/entity/Q107556769
+,embassy,Norway,,,,http://www.ambafrance-no.org/,http://www.wikidata.org/entity/Q1555163
+,embassy,Oman,,,,https://om.ambafrance.org/,http://www.wikidata.org/entity/Q2841769
+,embassy,Pakistan,,,,https://pk.ambafrance.org/,http://www.wikidata.org/entity/Q2841673
+,consulate general,Pakistan,Karachi,,,https://pk.ambafrance.org/-Consulat-general-de-France-a-,http://www.wikidata.org/entity/Q62818123
+,consulate general,Palestine,,,,https://jerusalem.consulfrance.org,http://www.wikidata.org/entity/Q1845899
+,embassy,Panama,,,,https://pa.ambafrance.org/,http://www.wikidata.org/entity/Q2841672
+,embassy,Papua New Guinea,Port Moresby,,,https://pg.ambafrance.org,http://www.wikidata.org/entity/Q89894962
+,embassy,Paraguay,,,,https://py.ambafrance.org,http://www.wikidata.org/entity/Q2841674
+,embassy,People's Republic of China,,,,https://cn.ambafrance.org/,http://www.wikidata.org/entity/Q2841735
+,consulate general,People's Republic of China,Chengdu,,,http://www.consulfrance-chengdu.org,http://www.wikidata.org/entity/Q16507537
+,consulate general,People's Republic of China,Guangzhou,,,http://www.consulfrance-canton.org,http://www.wikidata.org/entity/Q16543706
+,consulate general,People's Republic of China,Hong Kong,,,http://www.consulfrance-hongkong.org/,http://www.wikidata.org/entity/Q16507539
+,consulate general,People's Republic of China,Shanghai,,,http://www.consulfrance-shanghai.org,http://www.wikidata.org/entity/Q16628100
+,consulate general,People's Republic of China,Shenyang,,,http://www.consulfrance-shenyang.org,http://www.wikidata.org/entity/Q16507603
+,consulate general,People's Republic of China,Wuhan,,,http://www.consulfrance-wuhan.org,http://www.wikidata.org/entity/Q11143465
+,embassy,Peru,,,,https://pe.ambafrance.org/,http://www.wikidata.org/entity/Q89894742
+,embassy,Philippines,,,,https://ph.ambafrance.org/,http://www.wikidata.org/entity/Q2841706
+,embassy,Poland,,,+48-22-529-30-00,https://pl.ambafrance.org/,http://www.wikidata.org/entity/Q2841777
+,honorary consulate,Poland,Gdańsk,,,,http://www.wikidata.org/entity/Q2995338
+,consulate general,Poland,Kraków,,,https://pl.ambafrance.org/-Consulat-general-de-France-a-Cracovie-,http://www.wikidata.org/entity/Q2995340
+,embassy,Portugal,,,,http://www.ambafrance-pt.org/,http://www.wikidata.org/entity/Q2841675
+,embassy,Qatar,,,,https://qa.ambafrance.org/,http://www.wikidata.org/entity/Q2841676
+,embassy,Republic of the Congo,,,,https://cg.ambafrance.org/,http://www.wikidata.org/entity/Q2395433
+,consulate general,Republic of the Congo,Pointe-Noire,,,https://pointe-noire.consulfrance.org/,http://www.wikidata.org/entity/Q62919454
+,embassy,Romania,,,,https://ro.ambafrance.org/,http://www.wikidata.org/entity/Q2841775
+,embassy,Russia,,,,https://ru.ambafrance.org/,http://www.wikidata.org/entity/Q16687413
+,consulate general,Russia,,,,,http://www.wikidata.org/entity/Q73385046
+,consulate general,Russia,Saint Petersburg,,,http://www.ambafrance-ru.org/-Saint-Petersbourg-,http://www.wikidata.org/entity/Q2995349
+,consulate general,Russia,Yekaterinburg,,,,http://www.wikidata.org/entity/Q73400819
+,embassy,Rwanda,,,,https://rw.ambafrance.org/,http://www.wikidata.org/entity/Q2841678
+,embassy,Saint Lucia,,,,https://lc.ambafrance.org/,http://www.wikidata.org/entity/Q84423115
+,embassy,Saudi Arabia,,,,https://sa.ambafrance.org/,http://www.wikidata.org/entity/Q2841714
+,consulate general,Saudi Arabia,Jeddah,,,https://djeddah.consulfrance.org/,http://www.wikidata.org/entity/Q61595580
+,embassy,Senegal,,,,https://sn.ambafrance.org/,http://www.wikidata.org/entity/Q2841686
+,consulate general,Senegal,,,,,http://www.wikidata.org/entity/Q73412090
+,embassy,Serbia,,,,https://rs.ambafrance.org/,http://www.wikidata.org/entity/Q17490951
+,embassy,Seychelles,,,,https://sc.ambafrance.org,http://www.wikidata.org/entity/Q2841707
+,embassy,Singapore,,,,https://sg.ambafrance.org/,http://www.wikidata.org/entity/Q2841807
+,embassy,Slovakia,,,,https://sk.ambafrance.org/,http://www.wikidata.org/entity/Q2841780
+,embassy,Slovenia,Ljubljana,,,https://si.ambafrance.org/,http://www.wikidata.org/entity/Q2841781
+,embassy,South Africa,,,,https://za.ambafrance.org/,http://www.wikidata.org/entity/Q2841709
+,consulate general,South Africa,Cape Town,,,http://www.consulfrance-lecap.org,http://www.wikidata.org/entity/Q16507533
+,consulate general,South Africa,Johannesburg,,,http://www.consulfrance-jhb.org,http://www.wikidata.org/entity/Q16507534
+,embassy,South Korea,,,,https://kr.ambafrance.org/,http://www.wikidata.org/entity/Q21484897
+,embassy,South Sudan,,,,https://ssd.ambafrance.org,http://www.wikidata.org/entity/Q2841683
+,embassy,Spain,,,,https://es.ambafrance.org/,http://www.wikidata.org/entity/Q1129830
+,consulate general,Spain,,,,,http://www.wikidata.org/entity/Q73394602
+,consulate general,Spain,Barcelona,,,https://barcelone.consulfrance.org/,http://www.wikidata.org/entity/Q73415500
+,consulate general,Spain,Bilbao,,,,http://www.wikidata.org/entity/Q73415058
+,consulate general,Spain,Seville,,,,http://www.wikidata.org/entity/Q73382561
+,embassy,Sri Lanka,Colombo,,,https://lk.ambafrance.org/,http://www.wikidata.org/entity/Q2841684
+,embassy,Sudan,,,,https://sd.ambafrance.org/,http://www.wikidata.org/entity/Q2841681
+,embassy,Suriname,,,,http://www.ambafrance-sr.org/,http://www.wikidata.org/entity/Q2841685
+,embassy,Sweden,,,+46-8-459-53-00,http://www.ambafrance-se.org/,http://www.wikidata.org/entity/Q2841786
+,embassy,Switzerland,,,+41-31-359-21-11,https://ch.ambafrance.org/,http://www.wikidata.org/entity/Q26971244
+,consulate general,Switzerland,Geneva,,+41 22 56 79 559,https://geneve.consulfrance.org,http://www.wikidata.org/entity/Q73398462
+,consulate general,Switzerland,Zürich,,,,http://www.wikidata.org/entity/Q55618898
+,de facto embassy,Taiwan,,,,https://france-taipei.org/-中文-,http://www.wikidata.org/entity/Q2928409
+,embassy,Tajikistan,,,,https://tj.ambafrance.org,http://www.wikidata.org/entity/Q2841687
+,embassy,Tanzania,,,,https://tz.ambafrance.org/,http://www.wikidata.org/entity/Q2841784
+,embassy,Thailand,,,,https://th.ambafrance.org/,http://www.wikidata.org/entity/Q13021889
+,embassy,Togo,,,,https://tg.ambafrance.org/,http://www.wikidata.org/entity/Q2841690
+,embassy,Trinidad and Tobago,,,,https://tt.ambafrance.org,http://www.wikidata.org/entity/Q2841808
+,embassy,Tunisia,,,,https://tn.ambafrance.org/,http://www.wikidata.org/entity/Q2841790
+,consulate general,Tunisia,Tunis,,,,http://www.wikidata.org/entity/Q73355860
+,embassy,Turkey,,,,https://tr.ambafrance.org/,http://www.wikidata.org/entity/Q5369685
+,embassy,Turkmenistan,,,,https://tm.ambafrance.org,http://www.wikidata.org/entity/Q2841692
+,embassy,Uganda,,,,https://ug.ambafrance.org/,http://www.wikidata.org/entity/Q2841772
+visas.accueil@diplomatie.gouv.fr,embassy,Ukraine,,,+380-44-590-3600,https://ua.ambafrance.org,http://www.wikidata.org/entity/Q2841795
+,honorary consulate,Ukraine,Lviv,,,,http://www.wikidata.org/entity/Q75709999
+,embassy,United Arab Emirates,,,,https://ae.ambafrance.org/,http://www.wikidata.org/entity/Q2841708
+,consulate general,United Arab Emirates,Dubai,,,https://dubai.consulfrance.org/,http://www.wikidata.org/entity/Q73402151
+,embassy,United Kingdom,,,,http://www.ambafrance-uk.org/,http://www.wikidata.org/entity/Q15623567
+,consulate general,United Kingdom,,,,,http://www.wikidata.org/entity/Q73395200
+,consulate general,United Kingdom,Edinburgh,,,https://uk.ambafrance.org/-Consulat-general-Edimbourg-,http://www.wikidata.org/entity/Q73228601
+,embassy,United States of America,,,+1-202-944-6000,https://franceintheus.org/,http://www.wikidata.org/entity/Q2841718
+,consulate general,United States of America,,,,http://www.consulfrance-washington.org,http://www.wikidata.org/entity/Q16507585
+,consulate general,United States of America,Atlanta,,,http://www.consulfrance-atlanta.org,http://www.wikidata.org/entity/Q2995345
+,consulate general,United States of America,Boston,,,https://boston.consulfrance.org/,http://www.wikidata.org/entity/Q16507532
+,consulate general,United States of America,Houston,,,https://houston.consulfrance.org/,http://www.wikidata.org/entity/Q16507531
+contact@consulfrance-chicago.org,consulate general,United States of America,Illinois,,,http://www.consulfrance-chicago.org,http://www.wikidata.org/entity/Q16025005
+,consulate general,United States of America,Los Angeles,,,http://www.consulfrance-losangeles.org,http://www.wikidata.org/entity/Q16507584
+,consulate general,United States of America,Miami,,,http://www.consulfrance-miami.org,http://www.wikidata.org/entity/Q2995348
+,consulate general,United States of America,New Orleans,,,https://nouvelleorleans.consulfrance.org/,http://www.wikidata.org/entity/Q16507586
+,consulate general,United States of America,New York City,,,https://newyork.consulfrance.org,http://www.wikidata.org/entity/Q2995343
+,consulate general,United States of America,San Francisco,,,http://www.consulfrance-sanfrancisco.org,http://www.wikidata.org/entity/Q2995346
+,embassy,Uruguay,Montevideo,,,https://uy.ambafrance.org/,http://www.wikidata.org/entity/Q2841789
+,embassy,Uzbekistan,,,+998-71-232-81-00,https://uz.ambafrance.org/,http://www.wikidata.org/entity/Q2841773
+,embassy,Vanuatu,,,,https://vu.ambafrance.org/,http://www.wikidata.org/entity/Q2841694
+,embassy,Venezuela,,,,https://ve.ambafrance.org/,http://www.wikidata.org/entity/Q2841696
+,embassy,Vietnam,,,,https://vn.ambafrance.org/,http://www.wikidata.org/entity/Q2841697
+,consulate general,Vietnam,Ho Chi Minh City,,,https://ho-chi-minh-ville.consulfrance.org,http://www.wikidata.org/entity/Q62574273
+lusaka@ambafrance-zm.org,embassy,Zambia,,,+260-97-7110020,http://www.ambafrance-zm.org/,http://www.wikidata.org/entity/Q2841787
+,embassy,Zimbabwe,,,+263-776118,http://www.ambafrance-zw.org/,http://www.wikidata.org/entity/Q2841699

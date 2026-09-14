@@ -1,0 +1,14 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Angola,Luanda,,,https://embaixada-de-cabo-verde-em-angola.odoo.com/,http://www.wikidata.org/entity/Q106211764
+,embassy,Belgium,Ixelles - Elsene,,,,http://www.wikidata.org/entity/Q68668310
+,embassy,Brazil,Brasília,,,http://www.embcv.org.br,http://www.wikidata.org/entity/Q104787105
+,embassy,France,,,,,http://www.wikidata.org/entity/Q2841861
+,embassy,Germany,Berlin,,,http://www.embassy-capeverde.de/index.html,http://www.wikidata.org/entity/Q56339955
+,embassy,Guinea-Bissau,Bissau,,,,http://www.wikidata.org/entity/Q106314436
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103261341
+,embassy,Luxembourg,Luxembourg,,,,http://www.wikidata.org/entity/Q100783458
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q104759643
+,embassy,Portugal,Lisbon,,,https://embaixadadecaboverde.pt/,http://www.wikidata.org/entity/Q104040129
+,embassy,Spain,Madrid,,,http://embcv.es/,http://www.wikidata.org/entity/Q105175918
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q104630116
+,embassy,United States of America,"Washington, D.C.",,,https://www.embcv-usa.gov.cv/,http://www.wikidata.org/entity/Q5369602
