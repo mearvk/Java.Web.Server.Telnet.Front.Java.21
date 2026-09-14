@@ -1,0 +1,37 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,high commission,Australia,Canberra,,,https://www.mfa.gov.sg/canberra,http://www.wikidata.org/entity/Q97575950
+,embassy,Belgium,City of Brussels,,,http://www.mfa.gov.sg/brussels,http://www.wikidata.org/entity/Q67205326
+,embassy,Brazil,Brasília,,,https://www.mfa.gov.sg,http://www.wikidata.org/entity/Q105725183
+,high commission,Brunei,Bandar Seri Begawan,,,https://www.mfa.gov.sg/Brunei,http://www.wikidata.org/entity/Q111550657
+,embassy,Cambodia,Phnom Penh,,,https://www.mfa.gov.sg/Phnompenh,http://www.wikidata.org/entity/Q111550600
+,embassy,Egypt,Giza,,,https://www.mfa.gov.sg/Cairo,http://www.wikidata.org/entity/Q111552250
+,embassy,France,,,,https://www.mfa.gov.sg/paris,http://www.wikidata.org/entity/Q2841835
+,embassy,Germany,Berlin,,,https://www.mfa.gov.sg/berlin,http://www.wikidata.org/entity/Q73269700
+,high commission,India,New Delhi,,,https://www.mfa.gov.sg/New-Delhi,http://www.wikidata.org/entity/Q111550602
+,embassy,Indonesia,Jakarta,,,https://www.mfa.gov.sg/jkt,http://www.wikidata.org/entity/Q107595041
+,embassy,Japan,Minato,,,https://www.mfa.gov.sg/Tokyo,http://www.wikidata.org/entity/Q52213051
+,consulate general,Japan,Osaka,,,,http://www.wikidata.org/entity/Q114798748
+,honorary consulate,Kazakhstan,Astana,,,https://www.mfa.gov.sg/nur%20sultan,http://www.wikidata.org/entity/Q106450841
+,embassy,Laos,Vientiane,,,https://www.mfa.gov.sg/Vientiane,http://www.wikidata.org/entity/Q111552273
+,high commission,Malaysia,Kuala Lumpur,,,https://www.mfa.gov.sg/KualaLumpur,http://www.wikidata.org/entity/Q111552296
+,embassy,Myanmar,Yangon,,,https://www.mfa.gov.sg/Yangon,http://www.wikidata.org/entity/Q111552369
+,high commission,New Zealand,Wellington,,,https://www.mfa.gov.sg/Wellington,http://www.wikidata.org/entity/Q111552475
+,consulate general,People's Republic of China,Changning District,,,https://www.mfa.gov.sg/shanghai-chinese,http://www.wikidata.org/entity/Q97695746
+,embassy,People's Republic of China,Chaoyang District,,,https://www.mfa.gov.sg/beijing,http://www.wikidata.org/entity/Q97654531
+,consulate general,People's Republic of China,Chengdu,,,,http://www.wikidata.org/entity/Q97695748
+,consulate general,People's Republic of China,Hong Kong,,,,http://www.wikidata.org/entity/Q97695749
+singcg_gzu@mfa.sg,consulate general,People's Republic of China,Tianhe District,,+86-20-3891-2345,https://www.mfa.gov.sg/guangzhou-chinese,http://www.wikidata.org/entity/Q97695747
+,consulate general,People's Republic of China,Xiamen,,,,http://www.wikidata.org/entity/Q97668744
+,embassy,Philippines,Taguig,,,https://www.mfa.gov.sg/Manila,http://www.wikidata.org/entity/Q28419198
+,embassy,Qatar,Doha,,,https://www.mfa.gov.sg/Doha,http://www.wikidata.org/entity/Q111552610
+,embassy,Russia,Moscow,,,https://www.mfa.gov.sg/moscow,http://www.wikidata.org/entity/Q109326165
+,embassy,Saudi Arabia,Riyadh,,,https://www.mfa.gov.sg/Overseas-Mission/Riyadh,http://www.wikidata.org/entity/Q68170099
+,high commission,South Africa,Pretoria,,,https://www.mfa.gov.sg/pretoria,http://www.wikidata.org/entity/Q106704319
+,embassy,South Korea,Seoul,,,https://www.mfa.gov.sg/Seoul,http://www.wikidata.org/entity/Q111552194
+,de facto embassy,Taiwan,,,,http://www.singaporetradeoffice.gov.sg/content/singaporetradeoffice/taipei.html,http://www.wikidata.org/entity/Q17610527
+,embassy,Thailand,Bangkok,,,https://www.mfa.gov.sg/Bangkok,http://www.wikidata.org/entity/Q16307744
+,embassy,Turkey,Ankara,,,,http://www.wikidata.org/entity/Q111030752
+,embassy,United Arab Emirates,Abu Dhabi,,,https://www.mfa.gov.sg/Abu-Dhabi,http://www.wikidata.org/entity/Q111553322
+,high commission,United Kingdom,London,,,https://www.mfa.gov.sg/london,http://www.wikidata.org/entity/Q16843056
+,embassy,United States of America,"Washington, D.C.",,,https://www.mfa.gov.sg/washington/,http://www.wikidata.org/entity/Q5369862
+,embassy,Vietnam,Hanoi,,,https://www.mfa.gov.sg/Hanoi,http://www.wikidata.org/entity/Q111554847

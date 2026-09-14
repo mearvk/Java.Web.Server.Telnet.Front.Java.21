@@ -1,0 +1,44 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Albania,Tirana,,,https://tirana.mfa.gov.mk,http://www.wikidata.org/entity/Q106961311
+,embassy,Australia,Canberra,,,https://canberra.mfa.gov.mk,http://www.wikidata.org/entity/Q106487985
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104641947
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69876468
+,embassy,Bosnia and Herzegovina,Centar Municipality,,,,http://www.wikidata.org/entity/Q96147761
+,embassy,Brazil,Brasília,,,https://brasilia.mfa.gov.mk,http://www.wikidata.org/entity/Q105710752
+,embassy,Bulgaria,Stolichna Municipality,,,,http://www.wikidata.org/entity/Q41588616
+,embassy,Canada,Ottawa,,,https://ottawa.mfa.gov.mk,http://www.wikidata.org/entity/Q106776696
+,embassy,Croatia,Zagreb,,,https://zagreb.mfa.gov.mk,http://www.wikidata.org/entity/Q106962982
+,embassy,Czech Republic,Veleslavín,,,https://prague.mfa.gov.mk,http://www.wikidata.org/entity/Q98756118
+,embassy,Egypt,Cairo,,,https://kairo.mfa.gov.mk,http://www.wikidata.org/entity/Q106960263
+,embassy,Estonia,Tallinn City,,,,http://www.wikidata.org/entity/Q65262406
+,embassy,France,Paris,,,https://paris.mfa.gov.mk,http://www.wikidata.org/entity/Q20669707
+,embassy,Germany,Berlin,,,,http://www.wikidata.org/entity/Q73266810
+,embassy,Greece,Filothei-Psychiko Municipality,,,https://athens.mfa.gov.mk,http://www.wikidata.org/entity/Q106961496
+,embassy,Hungary,Budapest District VI,,,https://budapest.mfa.gov.mk,http://www.wikidata.org/entity/Q106962952
+,embassy,India,New Delhi,,,https://delhi.mfa.gov.mk,http://www.wikidata.org/entity/Q106960384
+,embassy,Israel,Ramat Gan,,,https://telaviv.mfa.gov.mk,http://www.wikidata.org/entity/Q106960322
+,embassy,Italy,Rome,,,https://vatican.mfa.gov.mk,http://www.wikidata.org/entity/Q56326324
+,embassy,Italy,Rome,,,https://rome.mfa.gov.mk,http://www.wikidata.org/entity/Q103846274
+,embassy,Japan,Tokyo,,,,http://www.wikidata.org/entity/Q61923555
+,embassy,Kazakhstan,Astana,,,https://astana.mfa.gov.mk,http://www.wikidata.org/entity/Q106960433
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,https://copenhagen.mfa.gov.mk,http://www.wikidata.org/entity/Q106066609
+,embassy,Montenegro,Podgorica Municipality,,,https://podgorica.mfa.gov.mk,http://www.wikidata.org/entity/Q106962998
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100553146
+,embassy,Norway,Oslo Municipality,,,,http://www.wikidata.org/entity/Q19380893
+,embassy,People's Republic of China,Beijing,,,https://beijing.mfa.gov.mk,http://www.wikidata.org/entity/Q106960840
+,embassy,Poland,Warsaw,,,https://warsaw.mfa.gov.mk,http://www.wikidata.org/entity/Q11685572
+,embassy,Qatar,Doha,,,https://doha.mfa.gov.mk,http://www.wikidata.org/entity/Q106960805
+,embassy,Romania,Bucharest,,,https://bucharest.mfa.gov.mk,http://www.wikidata.org/entity/Q106858083
+,embassy,Russia,Moscow,,,,http://www.wikidata.org/entity/Q4374019
+,embassy,Serbia,Belgrade,,,https://belgrade.mfa.gov.mk,http://www.wikidata.org/entity/Q106962891
+,embassy,Serbia,Pristina,,,https://prishtina.mfa.gov.mk,http://www.wikidata.org/entity/Q106962243
+,embassy,Slovenia,Ljubljana,,,https://ljubljana.mfa.gov.mk,http://www.wikidata.org/entity/Q106962572
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q105303445
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q10575548
+bern@mfa.gov.mk,embassy,Switzerland,Bern,,+41-31-352-00-02,,http://www.wikidata.org/entity/Q26980147
+,embassy,Turkey,Ankara,,,https://ankara.mfa.gov.mk,http://www.wikidata.org/entity/Q106962918
+,consulate general,Turkey,Istanbul,,,,http://www.wikidata.org/entity/Q111584931
+dkpkiev@mfa.gov,embassy,Ukraine,Kyiv,,+380-44-287-7882,http://www.missions.gov.mk/kiev,http://www.wikidata.org/entity/Q1767954
+,embassy,United Arab Emirates,Abu Dhabi,,,https://abudabi.mfa.gov.mk,http://www.wikidata.org/entity/Q106960983
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16836829
+,embassy,United States of America,"Washington, D.C.",,,https://washington.mfa.gov.mk,http://www.wikidata.org/entity/Q5369945

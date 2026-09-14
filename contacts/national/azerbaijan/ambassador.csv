@@ -1,0 +1,57 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,https://www.buenosaires.mfa.gov.az,http://www.wikidata.org/entity/Q110255466
+,embassy,Australia,Canberra,,,https://canberra.mfa.gov.az/,http://www.wikidata.org/entity/Q106451196
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q12836873
+,embassy,Belarus,Minsk,,,,http://www.wikidata.org/entity/Q12836871
+,embassy,Belgium,Woluwe-Saint-Pierre - Sint-Pieters-Woluwe,,,,http://www.wikidata.org/entity/Q12836872
+,embassy,Bosnia and Herzegovina,Centar Municipality,,,https://sarajevo.mfa.gov.az/,http://www.wikidata.org/entity/Q96216530
+,embassy,Brazil,Brasília,,,https://brasilia.mfa.gov.az,http://www.wikidata.org/entity/Q105678446
+,embassy,Bulgaria,Stolichna Municipality,,,https://sofia.mfa.gov.az,http://www.wikidata.org/entity/Q12836876
+,embassy,Canada,Ottawa,,,https://ottawa.mfa.gov.az,http://www.wikidata.org/entity/Q5369560
+,embassy,Colombia,Bogotá,,,,http://www.wikidata.org/entity/Q110845115
+,embassy,Croatia,Zagreb,,,https://zagreb.mfa.gov.az,http://www.wikidata.org/entity/Q107406612
+,embassy,Czech Republic,Prague,,,https://prague.mfa.gov.az,http://www.wikidata.org/entity/Q12836907
+embassy.azerbaijan.cairo@gmail.com,embassy,Egypt,Cairo,,,https://cairo.mfa.gov.az/en,http://www.wikidata.org/entity/Q16418143
+,embassy,Estonia,Tallinn City,,,https://tallinn.mfa.gov.az/,http://www.wikidata.org/entity/Q65261591
+,embassy,France,Paris,,,https://paris.mfa.gov.az,http://www.wikidata.org/entity/Q2841586
+,embassy,Georgia,Tbilisi,,,,http://www.wikidata.org/entity/Q12836879
+,embassy,Germany,Berlin,,,http://www.berlin.mfa.gov.az/de,http://www.wikidata.org/entity/Q724015
+,embassy,Greece,Psychiko,,,https://athens.mfa.gov.az,http://www.wikidata.org/entity/Q16418280
+,embassy,Hungary,Budapest District VI,,,http://budapest.mfa.gov.az/,http://www.wikidata.org/entity/Q20580549
+newdelhi@mission.mfa.gov.az,embassy,India,New Delhi,,+91-26152228,,http://www.wikidata.org/entity/Q12836878
+jakarta@mission.mfa.gov.az,embassy,Indonesia,Jakarta,,,https://jakarta.mfa.gov.az,http://www.wikidata.org/entity/Q12836909
+,consulate general,Iran,Tabriz,,,,http://www.wikidata.org/entity/Q5740059
+,embassy,Iran,Tehran,,,http://tehran.mfa.gov.az/,http://www.wikidata.org/entity/Q12836903
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q12836911
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q124395725
+,embassy,Japan,Higashigaoka 1-chome,,,http://www.azembassy.jp/English/,http://www.wikidata.org/entity/Q16417892
+,embassy,Jordan,Amman,,,,http://www.wikidata.org/entity/Q12836905
+,embassy,Kazakhstan,Astana,,,,http://www.wikidata.org/entity/Q12836888
+,embassy,Latvia,Riga,,,https://riga.mfa.gov.az,http://www.wikidata.org/entity/Q107208647
+,embassy,Lithuania,Vilnius,,,,http://www.wikidata.org/entity/Q20580338
+,embassy,Malaysia,Kuala Lumpur,,,,http://www.wikidata.org/entity/Q20580579
+,embassy,Mexico,Mexico City,,,https://mexico.mfa.gov.az,http://www.wikidata.org/entity/Q111083630
+,embassy,Moldova,Chișinău,,,https://chisinau.mfa.gov.az,http://www.wikidata.org/entity/Q12836884
+azembma@menara.ma,embassy,Morocco,Rabat,,,,http://www.wikidata.org/entity/Q16418706
+,embassy,Netherlands,The Hague,,,http://hague.mfa.gov.az/,http://www.wikidata.org/entity/Q12836886
+,embassy,Pakistan,Islamabad,,,http://islamabad.mfa.gov.az,http://www.wikidata.org/entity/Q16414377
+,de facto embassy,Palestine,,,,,http://www.wikidata.org/entity/Q125497399
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q12836908
+,embassy,Peru,Miraflores,,,,http://www.wikidata.org/entity/Q110658487
+,embassy,Poland,Warsaw,,+48-22-616-21-88,http://azembassy.pl/pl/index.php?section=11,http://www.wikidata.org/entity/Q9149463
+,embassy,Qatar,Doha,,,,http://www.wikidata.org/entity/Q12836889
+,embassy,Romania,Bucharest,,,https://bucharest.mfa.gov.az,http://www.wikidata.org/entity/Q106938057
+,embassy,Russia,Presnensky District,,,http://www.azembassy.msk.ru/,http://www.wikidata.org/entity/Q2561806
+,embassy,Saudi Arabia,Riyadh,,,https://riyadh.mfa.gov.az,http://www.wikidata.org/entity/Q16417375
+,embassy,Serbia,Belgrade,,,http://belgrade.mfa.gov.az/,http://www.wikidata.org/entity/Q16416671
+,embassy,South Africa,Pretoria,,,https://pretoria.mfa.gov.az,http://www.wikidata.org/entity/Q106642750
+,embassy,South Korea,Seoul,,,http://www.azembassy.co.kr,http://www.wikidata.org/entity/Q12836874
+,embassy,Spain,Madrid,,,https://madrid.mfa.gov.az,http://www.wikidata.org/entity/Q12836910
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q13487914
+bern@mission.mfa.gov.az,embassy,Switzerland,Bern,,+41-31-350-50-40,http://bern.mfa.gov.az/,http://www.wikidata.org/entity/Q12836562
+,embassy,Turkey,Ankara,,,https://ankara.mfa.gov.az,http://www.wikidata.org/entity/Q12836547
+kiev@mission.mfa.gov.az,embassy,Ukraine,Kyiv,,+380-44-484-6940,http://kiev.mfa.gov.az/,http://www.wikidata.org/entity/Q5369559
+,embassy,United Arab Emirates,,,,,http://www.wikidata.org/entity/Q12836877
+,embassy,United Kingdom,London,,,http://london.mfa.gov.az,http://www.wikidata.org/entity/Q16971199
+,embassy,United States of America,"Washington, D.C.",,,http://www.azembassy.us/,http://www.wikidata.org/entity/Q5369561
+,embassy,Uzbekistan,,,,,http://www.wikidata.org/entity/Q12836906

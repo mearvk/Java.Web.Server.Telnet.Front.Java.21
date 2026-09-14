@@ -1,0 +1,15 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Belgium,Etterbeek,,,,http://www.wikidata.org/entity/Q69915530
+,consulate,Bulgaria,Sofia,,,,http://www.wikidata.org/entity/Q106441217
+,embassy,Cuba,Havana,,,,http://www.wikidata.org/entity/Q104165545
+,embassy,Egypt,,,,,http://www.wikidata.org/entity/Q125496194
+,embassy,Ethiopia,Addis Ababa,,,,http://www.wikidata.org/entity/Q104165742
+,embassy,France,Paris,,,,http://www.wikidata.org/entity/Q16303679
+,high commission,India,New Delhi,,,,http://www.wikidata.org/entity/Q104165764
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q104165445
+,consulate general,People's Republic of China,Shanghai,,,,http://www.wikidata.org/entity/Q119315896
+,high commission,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q104165892
+,high commission,Sri Lanka,Colombo,,,,http://www.wikidata.org/entity/Q104165908
+,embassy,United Arab Emirates,Abu Dhabi,,,,http://www.wikidata.org/entity/Q104165916
+,high commission,United Kingdom,London,,,http://www.mfa.gov.sc/static.php?content_id=24,http://www.wikidata.org/entity/Q16843135
+,embassy,United States of America,New York City,,,,http://www.wikidata.org/entity/Q104165933

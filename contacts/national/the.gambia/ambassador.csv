@@ -1,0 +1,13 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Belgium,City of Brussels,,,http://gambiaembassy.eu/,http://www.wikidata.org/entity/Q1492967
+,embassy,France,Paris,,,,http://www.wikidata.org/entity/Q16303656
+,high commission,India,New Delhi,,,,http://www.wikidata.org/entity/Q112134592
+,embassy,Russia,Moscow,,,http://gambiaembassy.ru/,http://www.wikidata.org/entity/Q110141448
+,embassy,Saudi Arabia,Riyadh,,,,http://www.wikidata.org/entity/Q68169987
+,embassy,Senegal,Dakar,,,,http://www.wikidata.org/entity/Q28499763
+,high commission,South Africa,Pretoria,,,http://gambiahighcommissionsa.co.za,http://www.wikidata.org/entity/Q106674941
+,embassy,Spain,Madrid,,,https://www.gambiaembassy.es,http://www.wikidata.org/entity/Q103822259
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q100983510
+,embassy,Turkey,Ankara,,,,http://www.wikidata.org/entity/Q110972316
+,high commission,United Kingdom,London,,,https://gambiahc.org.uk/,http://www.wikidata.org/entity/Q16981614
+,embassy,United States of America,"Washington, D.C.",,,https://gambiaembassydc.us,http://www.wikidata.org/entity/Q107787918

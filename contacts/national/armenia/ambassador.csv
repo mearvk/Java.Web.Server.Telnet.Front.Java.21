@@ -1,0 +1,36 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,https://argentina.mfa.am,http://www.wikidata.org/entity/Q110254753
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q51722415
+,embassy,Belarus,Minsk,,,,http://www.wikidata.org/entity/Q33116785
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q68193262
+,embassy,Brazil,Brasília,,,https://brazil.mfa.am,http://www.wikidata.org/entity/Q105668770
+,embassy,Bulgaria,Stolichna Municipality,,,https://bulgaria.mfa.am,http://www.wikidata.org/entity/Q31194238
+,embassy,Canada,Ottawa,,,https://canada.mfa.am,http://www.wikidata.org/entity/Q5369550
+,embassy,Czech Republic,Prague,,,,http://www.wikidata.org/entity/Q31194240
+,embassy,Egypt,Cairo,,,,http://www.wikidata.org/entity/Q5369548
+,consulate general,France,3rd arrondissement of Lyon,,,http://www.france.mfa.am/fr/contact/,http://www.wikidata.org/entity/Q55555245
+,consulate general,France,Marseille,,,,http://www.wikidata.org/entity/Q8298044
+,embassy,France,Paris,,,https://france.mfa.am/fr,http://www.wikidata.org/entity/Q2841584
+,embassy,Germany,Berlin,,,http://www.germany.mfa.am/en/,http://www.wikidata.org/entity/Q22344384
+,embassy,Greece,Chalandri,,,https://greece.mfa.am,http://www.wikidata.org/entity/Q108028158
+,embassy,India,New Delhi,,,https://india.mfa.am,http://www.wikidata.org/entity/Q112110453
+,embassy,Indonesia,Jakarta,,,,http://www.wikidata.org/entity/Q107558126
+,embassy,Iran,Tehran,,,https://iran.mfa.am,http://www.wikidata.org/entity/Q22351159
+,embassy,Iraq,Baghdad,,,https://iraq.mfa.am,http://www.wikidata.org/entity/Q48988957
+,embassy,Israel,Tel Aviv,,,https://israel.mfa.am,http://www.wikidata.org/entity/Q112035131
+,embassy,Italy,Rome,,,http://vatican.mfa.am/,http://www.wikidata.org/entity/Q56326147
+,embassy,Italy,Rome,,,https://italy.mfa.am,http://www.wikidata.org/entity/Q102880261
+,embassy,Japan,Minato,,,https://japan.mfa.am/,http://www.wikidata.org/entity/Q105539155
+,embassy,Lithuania,Vilnius,,,https://lithuania.mfa.am,http://www.wikidata.org/entity/Q106937988
+,embassy,Mexico,Mexico City,,,https://mexico.mfa.am,http://www.wikidata.org/entity/Q111083569
+,embassy,Netherlands,The Hague,,,https://netherlands.mfa.am,http://www.wikidata.org/entity/Q100552798
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q119141446
+,embassy,Poland,Warsaw,,+48-22-899-09-40,https://poland.mfa.am/,http://www.wikidata.org/entity/Q9149455
+,embassy,Russia,Moscow,,,https://russia.mfa.am,http://www.wikidata.org/entity/Q4373965
+,consulate general,Russia,Saint Petersburg,,,,http://www.wikidata.org/entity/Q113516926
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q105168604
+,embassy,Sweden,Stockholm,,,http://www.sweden.mfa.am/,http://www.wikidata.org/entity/Q18287079
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q100906222
+armukraineembassy@mfa.am,embassy,Ukraine,Kyiv,,+380-44-234-9005,http://ukraine.mfa.am,http://www.wikidata.org/entity/Q12142657
+,embassy,United Kingdom,London,,,https://uk.mfa.am,http://www.wikidata.org/entity/Q16891023
+,embassy,United States of America,"Washington, D.C.",,,https://usa.mfa.am/en,http://www.wikidata.org/entity/Q5369552

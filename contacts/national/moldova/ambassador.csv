@@ -1,0 +1,35 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Austria,Vienna,,,https://austria.mfa.gov.md,http://www.wikidata.org/entity/Q54168942
+,embassy,Azerbaijan,Baku,,,https://azerbaidjan.mfa.gov.md,http://www.wikidata.org/entity/Q106965301
+,embassy,Belarus,Minsk,,,https://belarus.mfa.gov.md,http://www.wikidata.org/entity/Q33113941
+,embassy,Belgium,City of Brussels,,,https://belgia.mfa.gov.md/,http://www.wikidata.org/entity/Q69883377
+,embassy,Bulgaria,Sofia,,,https://bulgaria.mfa.gov.md,http://www.wikidata.org/entity/Q106966114
+,embassy,Canada,Ottawa,,,https://canada.mfa.gov.md,http://www.wikidata.org/entity/Q106786416
+,embassy,Czech Republic,Prague,,,,http://www.wikidata.org/entity/Q2317967
+,embassy,Estonia,Tallinn City,,,https://estonia.mfa.gov.md,http://www.wikidata.org/entity/Q106977947
+,embassy,France,Paris,,,https://franta.mfa.gov.md/,http://www.wikidata.org/entity/Q2841816
+,embassy,Germany,Berlin,,,http://www.germania.mfa.md/,http://www.wikidata.org/entity/Q5369790
+,consulate general,Germany,Frankfurt,,,https://frankfurt.mfa.gov.md/de,http://www.wikidata.org/entity/Q116206714
+,embassy,Greece,Athens,,,https://grecia.mfa.gov.md,http://www.wikidata.org/entity/Q6895817
+,embassy,Hungary,Budapest District II,,,https://ungaria.mfa.gov.md,http://www.wikidata.org/entity/Q106964141
+,embassy,Ireland,Dublin,,,https://irlanda.mfa.gov.md/,http://www.wikidata.org/entity/Q104772152
+,embassy,Israel,Tel Aviv,,,https://israel.mfa.gov.md,http://www.wikidata.org/entity/Q106979016
+,embassy,Italy,Rome,,,https://italia.mfa.gov.md,http://www.wikidata.org/entity/Q103852387
+,embassy,Japan,Tokyo,,,https://japonia.mfa.gov.md,http://www.wikidata.org/entity/Q100695295
+,embassy,Latvia,Riga,,,https://letonia.mfa.gov.md/,http://www.wikidata.org/entity/Q106978077
+,embassy,Lithuania,Vilnius,,,https://lituania.mfa.gov.md,http://www.wikidata.org/entity/Q106978183
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100700935
+,embassy,People's Republic of China,Beijing,,,https://china.mfa.gov.md,http://www.wikidata.org/entity/Q106965075
+,embassy,Poland,Warsaw,,,https://polonia.mfa.gov.md,http://www.wikidata.org/entity/Q9149550
+,embassy,Portugal,Lisbon,,,https://portugalia.mfa.gov.md,http://www.wikidata.org/entity/Q105444169
+,embassy,Qatar,Doha,,,https://qatar.mfa.gov.md,http://www.wikidata.org/entity/Q106979045
+,embassy,Romania,Bucharest,,,https://romania.mfa.gov.md/,http://www.wikidata.org/entity/Q15254751
+,embassy,Russia,Moscow,,,https://www.rusia.mfa.md/,http://www.wikidata.org/entity/Q4374024
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q105240064
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q18292355
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q100908361
+,embassy,Turkey,Ankara,,,https://turcia.mfa.gov.md,http://www.wikidata.org/entity/Q106978209
+kiev@mfa.md,embassy,Ukraine,Kyiv,,+380-44-521-2280,https://ucraina.mfa.gov.md,http://www.wikidata.org/entity/Q1532187
+,embassy,United Arab Emirates,Abu Dhabi,,,https://uae.mfa.gov.md,http://www.wikidata.org/entity/Q106979078
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16891025
+,embassy,United States of America,"Washington, D.C.",,,https://sua.mfa.gov.md,http://www.wikidata.org/entity/Q5369791

@@ -1,0 +1,56 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Algeria,Hydra,,,https://algiers.mfa.gov.gh,http://www.wikidata.org/entity/Q112900532
+,embassy,Angola,Luanda,,,https://ghanaembassy-angola.com/,http://www.wikidata.org/entity/Q112900859
+,high commission,Australia,Canberra,,,https://ghanahighcom.org.au/,http://www.wikidata.org/entity/Q106463362
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104634012
+,embassy,Belgium,Schaerbeek,,,https://brussels.mfa.gov.gh,http://www.wikidata.org/entity/Q69514841
+,embassy,Benin,Cotonou,,,https://www.ghanaembassy-benin.com/,http://www.wikidata.org/entity/Q112901067
+,embassy,Brazil,Brasília,,,http://ghanaembassybrazil.com.br/,http://www.wikidata.org/entity/Q105702412
+,embassy,Burkina Faso,Ouagadougou,,,https://ouagadougou.mfa.gov.gh/,http://www.wikidata.org/entity/Q112945892
+,consulate general,Canada,Markham,,,,http://www.wikidata.org/entity/Q125733134
+,high commission,Canada,Ottawa,,,https://ghanahighcommission.ca/,http://www.wikidata.org/entity/Q106776336
+,embassy,Cuba,Havana,,,https://www.ghanaembassy-cuba.com/,http://www.wikidata.org/entity/Q111080054
+,embassy,Czech Republic,Prague,,,https://prague.mfa.gov.gh,http://www.wikidata.org/entity/Q106875670
+,embassy,Democratic Republic of the Congo,Kinshasa,,,https://ghanaembassy-drc.com/,http://www.wikidata.org/entity/Q26185901
+,embassy,Egypt,Giza,,,https://ghanaembassy-egypt.com,http://www.wikidata.org/entity/Q112946328
+,embassy,Equatorial Guinea,Malabo,,,https://www.ghanaembassy-equatorialguinea.com,http://www.wikidata.org/entity/Q112946733
+,embassy,Ethiopia,Addis Ababa,,,https://addisababa.mfa.gov.gh/,http://www.wikidata.org/entity/Q112947082
+,embassy,France,,,,https://paris.mfa.gov.gh,http://www.wikidata.org/entity/Q16303690
+,embassy,Germany,Berlin,,,http://www.ghanaemberlin.de/,http://www.wikidata.org/entity/Q1521377
+,embassy,Guinea,Dixinn,,,https://www.ghanaembassy-guinea.com,http://www.wikidata.org/entity/Q111207250
+,high commission,India,New Delhi,,,https://ghana-mission.co.in,http://www.wikidata.org/entity/Q112426933
+,embassy,Iran,Tehran,,,http://ghanaembassyiran.com,http://www.wikidata.org/entity/Q113018332
+,embassy,Israel,Herzliya,,,https://telaviv.mfa.gov.gh/,http://www.wikidata.org/entity/Q109735739
+,embassy,Italy,Rome,,,https://www.ghanaembassyholysee.it/,http://www.wikidata.org/entity/Q65168018
+,embassy,Italy,Rome,,,https://ghanaembassy.it/,http://www.wikidata.org/entity/Q103827401
+,embassy,Ivory Coast,Abidjan,,,https://abidjan.mfa.gov.gh,http://www.wikidata.org/entity/Q112900126
+,embassy,Japan,Minato,,,https://tokyo.mfa.gov.gh,http://www.wikidata.org/entity/Q61877237
+,high commission,Kenya,Nairobi,,,https://nairobi.mfa.gov.gh,http://www.wikidata.org/entity/Q113003774
+,embassy,Kingdom of Denmark,Gentofte Municipality,,,https://ghanaembassy.dk/,http://www.wikidata.org/entity/Q101848135
+,embassy,Kuwait,Kuwait City,,,https://ghanaembassy-kuwait.com/,http://www.wikidata.org/entity/Q113030916
+,embassy,Liberia,Monrovia,,,https://monrovia.mfa.gov.gh,http://www.wikidata.org/entity/Q113003806
+,high commission,Malaysia,Kuala Lumpur,,,https://ghanacom.org.my,http://www.wikidata.org/entity/Q107568406
+,embassy,Mali,Bamako,,,https://bamako.mfa.gov.gh/,http://www.wikidata.org/entity/Q26185945
+,high commission,Malta,Ta' Xbiex,,,https://ghanahighcommission-malta.com/,http://www.wikidata.org/entity/Q107735877
+,embassy,Morocco,Rabat,,,https://ghanaembassy-morocco.com,http://www.wikidata.org/entity/Q113030556
+,high commission,Namibia,Windhoek,,,https://ghanahighcommission-namibia.com,http://www.wikidata.org/entity/Q113003866
+,embassy,Netherlands,The Hague,,,https://thehague.mfa.gov.gh,http://www.wikidata.org/entity/Q100569430
+,high commission,Nigeria,Abuja,,,https://ghanahighcommission-nigeria.com/,http://www.wikidata.org/entity/Q111441813
+,embassy,Norway,Oslo Municipality,,,https://ghanaembassyoslo.no/,http://www.wikidata.org/entity/Q64728933
+,embassy,People's Republic of China,Beijing,,,https://ghanaembassy-china.com,http://www.wikidata.org/entity/Q100272757
+,embassy,Qatar,Doha,,,,http://www.wikidata.org/entity/Q113031168
+,embassy,Russia,Moscow,,,https://ghanaembassy-russia.com,http://www.wikidata.org/entity/Q4373986
+,embassy,Saudi Arabia,Riyadh,,,https://ghanaembassy-saudiarabia.com/,http://www.wikidata.org/entity/Q68169998
+,embassy,Senegal,Dakar,,,https://dakar.mfa.gov.gh/,http://www.wikidata.org/entity/Q113004081
+,high commission,Sierra Leone,Freetown,,,https://freetown.mfa.gov.gh,http://www.wikidata.org/entity/Q113003922
+,high commission,South Africa,Pretoria,,,https://pretoria.ghanahighcommission.co.za/,http://www.wikidata.org/entity/Q106675003
+,embassy,South Korea,Seoul,,,https://ghanaembassy-southkorea.com,http://www.wikidata.org/entity/Q106621574
+,embassy,Spain,Madrid,,,https://madrid.mfa.gov.gh,http://www.wikidata.org/entity/Q105236676
+ghanaemb@tcnet.ch,embassy,Switzerland,Bern,,+41-31-381-78-52,https://berne.mfa.gov.gh,http://www.wikidata.org/entity/Q26979966
+,embassy,Togo,Lomé,,,https://ghanaembassy-togo.com/,http://www.wikidata.org/entity/Q113004133
+,embassy,Turkey,Ankara,,,https://ghanaembassy-turkey.com/,http://www.wikidata.org/entity/Q108041772
+,embassy,United Arab Emirates,Abu Dhabi,,,https://abudhabi.mfa.gov.gh,http://www.wikidata.org/entity/Q113018542
+,high commission,United Kingdom,London,,,https://www.ghanahighcommissionuk.com/,http://www.wikidata.org/entity/Q16733625
+,embassy,United States of America,"Washington, D.C.",,,http://ghanaembassydc.org,http://www.wikidata.org/entity/Q5369703
+,high commission,Zambia,Lusaka,,,https://ghanahighcommission-zambia.com/,http://www.wikidata.org/entity/Q113004158
+,embassy,Zimbabwe,Harare,,,https://ghanaembassy-zimbabwe.com,http://www.wikidata.org/entity/Q113004186

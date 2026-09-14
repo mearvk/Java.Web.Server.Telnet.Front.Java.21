@@ -1,0 +1,88 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Afghanistan,Kabul,,+47-23-95-00-00,https://www.norway.no/afghanistan,http://www.wikidata.org/entity/Q19383572
+,embassy,Algeria,Ben Aknoun,,,https://www.norway.no/fr/algeria/,http://www.wikidata.org/entity/Q19383547
+emb.luanda@mfa.no,embassy,Angola,Luanda,,,https://norway.no/en/angola,http://www.wikidata.org/entity/Q19383583
+,embassy,Argentina,Buenos Aires,,,https://www.norway.no/es/argentina,http://www.wikidata.org/entity/Q19383562
+emb.canberra@mfa.no,embassy,Australia,Yarralumla,,+61-2-6270-5700,https://www.norway.no/en/australia/,http://www.wikidata.org/entity/Q19383563
+,embassy,Austria,Vienna,,,https://www.norway.no/de/austria/,http://www.wikidata.org/entity/Q19383605
+emb.dhaka@mfa.no,embassy,Bangladesh,Dhaka,,+880 2-55668570,https://www.norway.no/en/bangladesh,http://www.wikidata.org/entity/Q19383566
+emb.brussels@mfa.no,embassy,Belgium,City of Brussels,,+32-2-238-73-00,https://www.norway.no/en/belgium,http://www.wikidata.org/entity/Q19383559
+,embassy,Bosnia and Herzegovina,Sarajevo,,,https://www.norway.no/en/bosnia-herzegovina,http://www.wikidata.org/entity/Q106335998
+,embassy,Brazil,Brasília,,,https://www.norway.no/pt/brasil/,http://www.wikidata.org/entity/Q19383557
+,embassy,Canada,Ottawa,,,https://www.norway.no/en/canada/,http://www.wikidata.org/entity/Q19383591
+,embassy,Chile,Las Condes,,,https://www.norway.no/es/chile/,http://www.wikidata.org/entity/Q19383597
+,embassy,Colombia,Bogotá,,,https://www.norway.no/colombia,http://www.wikidata.org/entity/Q106353162
+,embassy,Croatia,Zagreb,,,https://www.norway.no/croatia,http://www.wikidata.org/entity/Q106353661
+,embassy,Cuba,Havana,,,https://www.norway.no/es/cuba/,http://www.wikidata.org/entity/Q19383571
+,embassy,Czech Republic,Prague,,,https://www.norway.no/cs/Czech-Republic/,http://www.wikidata.org/entity/Q19383592
+,embassy,Democratic Republic of the Congo,Kinshasa,,,https://www.norway.no/fr/democratic-republic-of-congo/,http://www.wikidata.org/entity/Q106354140
+,embassy,Egypt,Cairo,,,https://www.norway.no/en/egypt/,http://www.wikidata.org/entity/Q19383573
+,embassy,Estonia,Tallinn City,,,,http://www.wikidata.org/entity/Q17634309
+,embassy,Ethiopia,Addis Ababa,,,https://www.norway.no/en/ethiopia,http://www.wikidata.org/entity/Q19383546
+,embassy,Finland,Helsinki,,,https://www.norway.no/finland,http://www.wikidata.org/entity/Q15233677
+,embassy,France,,,,https://www.norway.no/fr/france/,http://www.wikidata.org/entity/Q2841823
+,embassy,Georgia,Tbilisi,,,https://www.norway.no/georgia,http://www.wikidata.org/entity/Q106355483
+,embassy,Germany,Berlin,,,https://www.norway.no/de/germany/,http://www.wikidata.org/entity/Q19383554
+,embassy,Ghana,Accra,,,https://www.norway.no/en/ghana/,http://www.wikidata.org/entity/Q19383545
+,embassy,Greece,Athens,,,,http://www.wikidata.org/entity/Q19383550
+,embassy,Guinea,Conakry,,,,http://www.wikidata.org/entity/Q120550779
+,embassy,Hungary,Budapest District I,,,https://www.norway.no/hungary/,http://www.wikidata.org/entity/Q19383561
+,embassy,Iceland,Reykjavík,,,https://www.norway.no/no/Iceland/,http://www.wikidata.org/entity/Q19383596
+,embassy,India,New Delhi,,,https://www.norway.no/en/india/,http://www.wikidata.org/entity/Q19383589
+,embassy,Indonesia,Jakarta,,,https://www.norway.no/en/indonesia,http://www.wikidata.org/entity/Q106357020
+,embassy,Iran,Tehran,,,https://www.norway.no/en/iran/,http://www.wikidata.org/entity/Q19383601
+,embassy,Ireland,Dublin,,,https://www.norway.no/en/ireland/,http://www.wikidata.org/entity/Q48816232
+,embassy,Israel,Tel Aviv,,,https://www.norway.no/en/israel/,http://www.wikidata.org/entity/Q19383602
+,embassy,Italy,Rome,,,https://www.norway.no/it/italy/,http://www.wikidata.org/entity/Q14089919
+,embassy,Japan,Minato,,+81-3-5422-1200,https://www.norway.no/ja/japan/,http://www.wikidata.org/entity/Q19383603
+,embassy,Jordan,Amman,,,https://www.norway.no/en/jordan/,http://www.wikidata.org/entity/Q102077967
+,embassy,Kenya,Nairobi,,,https://www.norway.no/en/kenya/,http://www.wikidata.org/entity/Q19383588
+emb.copenhagen@mfa.no,embassy,Kingdom of Denmark,Copenhagen Municipality,,+45-72-11-19-00,https://www.norway.no/denmark,http://www.wikidata.org/entity/Q19383580
+,consulate general,Kingdom of Denmark,Sermersooq,,,,http://www.wikidata.org/entity/Q25431157
+,embassy,Latvia,Riga,,,https://www.norway.no/en/latvia/,http://www.wikidata.org/entity/Q106358243
+,embassy,Lebanon,Beirut,,,https://www.norway.no/en/lebanon,http://www.wikidata.org/entity/Q18647716
+emb.vilnius@mfa.no,embassy,Lithuania,Vilnius,,+370 5 261 00 00,https://www.norway.no/en/lithuania,http://www.wikidata.org/entity/Q25434681
+,embassy,Malawi,Lilongwe,,,https://www.norway.no/en/malawi/,http://www.wikidata.org/entity/Q106358772
+,embassy,Malaysia,Kuala Lumpur,,,https://www.norway.no/en/malaysia,http://www.wikidata.org/entity/Q19383577
+,embassy,Mali,Bamako,,,https://www.norway.no/mali/,http://www.wikidata.org/entity/Q106337708
+,embassy,Mexico,Mexico City,,,https://www.norway.no/es/mexico/,http://www.wikidata.org/entity/Q19383587
+,embassy,Morocco,Rabat,,,https://www.norway.no/morocco/,http://www.wikidata.org/entity/Q19383595
+,embassy,Mozambique,Maputo,,,,http://www.wikidata.org/entity/Q19383586
+,embassy,Myanmar,Yangon,,,https://www.norway.no/en/myanmar,http://www.wikidata.org/entity/Q105969140
+,embassy,Nepal,Lalitpur,,,https://www.norway.no/nepal/,http://www.wikidata.org/entity/Q19383575
+,embassy,Netherlands,The Hague,,,https://www.norway.no/en/netherlands,http://www.wikidata.org/entity/Q19383568
+emb.abuja@mfa.no,embassy,Nigeria,Abuja,,+234 813 989 0050,https://www.norway.no/nigeria,http://www.wikidata.org/entity/Q19383544
+,embassy,Northern Cyprus,Nicosia,,,,http://www.wikidata.org/entity/Q19383590
+,embassy,Pakistan,Islamabad,,,https://www.norway.no/en/pakistan/,http://www.wikidata.org/entity/Q106359092
+,embassy,People's Republic of China,Beijing,,,https://www.norway.no/china/,http://www.wikidata.org/entity/Q11992092
+,consulate general,People's Republic of China,Tianhe District,,,https://www.norway.no/zh/china/norway-china/guangzhou/,http://www.wikidata.org/entity/Q3435605
+,embassy,Philippines,Taguig,,,https://www.norway.no/en/philippines/,http://www.wikidata.org/entity/Q19383585
+,embassy,Poland,Warsaw,,,https://www.norway.no/poland/,http://www.wikidata.org/entity/Q11685574
+emb.lisbon@mfa.no,embassy,Portugal,Lisbon,,+351 21 300 9100,https://www.norway.no/pt/portugal,http://www.wikidata.org/entity/Q19383581
+,embassy,Romania,Bucharest,,,https://www.norway.no/en/romania/,http://www.wikidata.org/entity/Q19383560
+,embassy,Russia,Arbat District,,,https://www.norway.no/ru/russia/,http://www.wikidata.org/entity/Q3433356
+,embassy,Saudi Arabia,Riyadh,,,https://www.norway.no/en/Saudi-Arabia/,http://www.wikidata.org/entity/Q68170077
+,embassy,Serbia,Belgrade,,,https://www.norway.no/serbia/,http://www.wikidata.org/entity/Q19383553
+,embassy,Serbia,Pristina,,,https://www.norway.no/en/kosovo/,http://www.wikidata.org/entity/Q106317196
+,embassy,Singapore,Singapore,,,https://www.norway.no/singapore,http://www.wikidata.org/entity/Q19383599
+,embassy,Slovakia,Bratislava,,,https://www.norway.no/slovakia,http://www.wikidata.org/entity/Q106364022
+,embassy,South Africa,Pretoria,,,https://www.norway.no/en/south-africa/,http://www.wikidata.org/entity/Q19383594
+,embassy,South Korea,Seoul,,,https://www.norway.no/south-korea/,http://www.wikidata.org/entity/Q19383598
+,embassy,South Sudan,Juba,,,https://www.norway.no/en/south-sudan/,http://www.wikidata.org/entity/Q16083419
+,embassy,Spain,Madrid,,,https://www.norway.no/es/spain/,http://www.wikidata.org/entity/Q19383584
+,embassy,Sri Lanka,Colombo,,,https://www.norway.no/en/sri-lanka/,http://www.wikidata.org/entity/Q106358817
+,embassy,Sudan,Khartoum,,,https://www.norway.no/en/sudan,http://www.wikidata.org/entity/Q19383576
+,embassy,Sweden,Stockholm Municipality,,,https://www.norway.no/no/sweden/,http://www.wikidata.org/entity/Q2841829
+emb.bern@mfa.no,embassy,Switzerland,Bern,,+41-31-310-55-55,https://www.norway.no/de/switzerland,http://www.wikidata.org/entity/Q19383555
+,embassy,Tanzania,Dar es Salaam,,,https://www.norway.no/tanzania,http://www.wikidata.org/entity/Q19383565
+,embassy,Thailand,Bangkok,,,https://www.norway.no/en/thailand,http://www.wikidata.org/entity/Q18647714
+emb.ankara@mfa.no,embassy,Turkey,Ankara,,,https://www.norway.no/en/turkiye/,http://www.wikidata.org/entity/Q19383548
+,embassy,Uganda,Kampala,,,https://www.norway.no/en/uganda,http://www.wikidata.org/entity/Q19383574
+emb.kyiv@mfa.no,embassy,Ukraine,Kyiv,,+380-44-281-2200,https://www.norway.no/en/ukraine/,http://www.wikidata.org/entity/Q2511037
+,embassy,United Arab Emirates,Emirate of Abu Dhabi,,,https://www.norway.no/en/united-arab-emirates,http://www.wikidata.org/entity/Q106357333
+emb.london@mfa.no,embassy,United Kingdom,London,,+44 207 591 5500,https://www.norway.no/uk/,http://www.wikidata.org/entity/Q16891033
+,consulate general,United States of America,Houston,,,,http://www.wikidata.org/entity/Q49166337
+,consulate general,United States of America,New York City,,,,http://www.wikidata.org/entity/Q49167127
+,consulate general,United States of America,San Francisco,,,,http://www.wikidata.org/entity/Q28719616
+,embassy,United States of America,"Washington, D.C.",,,https://www.norway.no/en/usa/,http://www.wikidata.org/entity/Q5369813
+,embassy,Vietnam,Hanoi,,,https://www.norway.no/en/vietnam/,http://www.wikidata.org/entity/Q19383570

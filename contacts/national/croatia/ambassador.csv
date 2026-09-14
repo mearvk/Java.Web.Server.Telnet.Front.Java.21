@@ -1,0 +1,60 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Albania,Tirana,,,https://mvep.gov.hr/al/en,http://www.wikidata.org/entity/Q107356005
+,embassy,Algeria,Hydra,,,,http://www.wikidata.org/entity/Q107356057
+,embassy,Argentina,Buenos Aires,,,http://ar.mvep.hr,http://www.wikidata.org/entity/Q107356084
+,embassy,Australia,Canberra,,,http://au.mvep.hr,http://www.wikidata.org/entity/Q106457301
+,embassy,Austria,Vienna,,,http://at.mfa.hr/,http://www.wikidata.org/entity/Q54168873
+,embassy,Azerbaijan,Baku,,,,http://www.wikidata.org/entity/Q107356421
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q67319185
+,consulate general,Bosnia and Herzegovina,Mostar,,,,http://www.wikidata.org/entity/Q104531667
+,embassy,Bosnia and Herzegovina,Sarajevo,,,http://ba.mvep.hr/,http://www.wikidata.org/entity/Q92206337
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105693289
+,embassy,Bulgaria,Stolichna Municipality,,,http://bg.mvep.hr,http://www.wikidata.org/entity/Q107356829
+con.ottawa@mvep.hr,embassy,Canada,Ottawa,,+1-613-562-7824,http://ca.mfa.hr/,http://www.wikidata.org/entity/Q5369660
+,embassy,Chile,Providencia,,,http://cl.mvep.hr,http://www.wikidata.org/entity/Q107356692
+,embassy,Czech Republic,Prague,,,http://cz.mvep.hr,http://www.wikidata.org/entity/Q107116406
+,embassy,Egypt,Cairo,,,http://eg.mvep.hr,http://www.wikidata.org/entity/Q107358724
+,embassy,Finland,Helsinki,,,http://fi.mvep.hr,http://www.wikidata.org/entity/Q106205553
+,embassy,France,,,,https://mvep.gov.hr/fr/fr,http://www.wikidata.org/entity/Q20669703
+,embassy,Germany,Berlin,,,http://de.mfa.hr,http://www.wikidata.org/entity/Q20184415
+,embassy,Greece,Filothei-Psychiko Municipality,,,http://gr.mvep.hr,http://www.wikidata.org/entity/Q107356119
+,embassy,Hungary,Budapest District VI,,,http://hu.mvep.hr/,http://www.wikidata.org/entity/Q65502845
+,embassy,India,New Delhi,,,,http://www.wikidata.org/entity/Q107356524
+,embassy,Indonesia,Jakarta,,,http://id.mvep.hr,http://www.wikidata.org/entity/Q107358778
+,embassy,Iran,Tehran,,,,http://www.wikidata.org/entity/Q107358867
+,embassy,Iraq,Baghdad,,,,http://www.wikidata.org/entity/Q107370940
+,embassy,Ireland,Dublin,,,http://ie.mvep.hr/,http://www.wikidata.org/entity/Q104764007
+,embassy,Israel,Tel Aviv,,,http://il.mvep.hr,http://www.wikidata.org/entity/Q107371001
+,embassy,Italy,Rome,,,http://va.mvep.hr/,http://www.wikidata.org/entity/Q56326190
+,embassy,Italy,Rome,,,http://www.mvep.hr/it/,http://www.wikidata.org/entity/Q103813588
+,embassy,Japan,Shibuya-ku,,,http://jp.mvep.hr/,http://www.wikidata.org/entity/Q55190063
+,embassy,Kazakhstan,Astana,,,,http://www.wikidata.org/entity/Q107371068
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,http://dk.mvep.hr,http://www.wikidata.org/entity/Q105998332
+,embassy,Kuwait,Kuwait City,,,,http://www.wikidata.org/entity/Q107356498
+,embassy,Lithuania,Vilnius,,,http://lt.mvep.hr,http://www.wikidata.org/entity/Q107294549
+,embassy,Malaysia,Kuala Lumpur,,,,http://www.wikidata.org/entity/Q107356808
+croemb.podgorica@mvep.hr,embassy,Montenegro,Podgorica,,+382-20-212-055,http://me.mvep.hr/,http://www.wikidata.org/entity/Q80115868
+,embassy,Morocco,Rabat,,,http://ma.mvep.hr,http://www.wikidata.org/entity/Q107356962
+,embassy,Netherlands,The Hague,,,http://nl.mvep.hr/,http://www.wikidata.org/entity/Q98454890
+,embassy,North Macedonia,Skopje,,,http://mk.mvep.hr,http://www.wikidata.org/entity/Q107382730
+,embassy,Norway,Oslo Municipality,,,,http://www.wikidata.org/entity/Q17194813
+,embassy,People's Republic of China,Beijing,,,http://cn.mvep.hr,http://www.wikidata.org/entity/Q107357089
+,embassy,Poland,Warsaw,,,http://pl.mvep.hr/pl/,http://www.wikidata.org/entity/Q11685561
+,embassy,Portugal,Lisbon,,,http://pt.mvep.hr/,http://www.wikidata.org/entity/Q105395972
+,embassy,Qatar,Doha,,,http://qa.mvep.hr,http://www.wikidata.org/entity/Q107382771
+,embassy,Romania,Bucharest,,,https://rumaenien.um.dk,http://www.wikidata.org/entity/Q105945877
+,embassy,Russia,Moscow,,+7-495-637-40-33,http://ru.mvep.hr,http://www.wikidata.org/entity/Q4374080
+,embassy,Serbia,Belgrade,,,http://rs.mvep.hr,http://www.wikidata.org/entity/Q107383520
+,embassy,Serbia,Pristina,,,http://ks.mvep.hr,http://www.wikidata.org/entity/Q107371127
+,embassy,Slovakia,Bratislava,,,http://sk.mvep.hr,http://www.wikidata.org/entity/Q107383681
+,embassy,Slovenia,Ljubljana,,,http://si.mvep.hr,http://www.wikidata.org/entity/Q107339634
+,embassy,South Africa,Pretoria,,,http://za.mvep.hr,http://www.wikidata.org/entity/Q106672498
+,embassy,South Korea,Seoul,,,,http://www.wikidata.org/entity/Q107382969
+,honorary consulate,Spain,Barcelona,,,,http://www.wikidata.org/entity/Q108847225
+,embassy,Spain,Madrid,,,http://es.mvep.hr,http://www.wikidata.org/entity/Q105204457
+,embassy,Sweden,Stockholm,,,http://se.mvep.hr/,http://www.wikidata.org/entity/Q10549333
+vrhbern@mvep.hr,embassy,Switzerland,Bern,,+41-31-352-02-75,,http://www.wikidata.org/entity/Q26980141
+,embassy,Turkey,Ankara,,,http://tr.mvep.hr,http://www.wikidata.org/entity/Q107355956
+croemb.ukraine@mvpei.hr,embassy,Ukraine,Kyiv,,+380-44-486-2122,http://ua.mfa.hr/,http://www.wikidata.org/entity/Q56716820
+,embassy,United Kingdom,London,,,http://uk.mvep.hr,http://www.wikidata.org/entity/Q16891005
+,embassy,United States of America,"Washington, D.C.",,,http://www.croatiaemb.org/,http://www.wikidata.org/entity/Q5369661

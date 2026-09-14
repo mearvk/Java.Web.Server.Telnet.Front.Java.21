@@ -1,0 +1,51 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Angola,Luanda,,,,http://www.wikidata.org/entity/Q106211760
+,embassy,Argentina,Buenos Aires,,,,http://www.wikidata.org/entity/Q110302189
+,embassy,Australia,Canberra,,,https://vietnamembassy.org.au/,http://www.wikidata.org/entity/Q106512423
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104649237
+,embassy,Belarus,Minsk,,,https://vnembassy-minsk.mofa.gov.vn,http://www.wikidata.org/entity/Q104813195
+,embassy,Belgium,Ixelles - Elsene,,,,http://www.wikidata.org/entity/Q70004825
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105736303
+,embassy,Bulgaria,Stolichna Municipality,,,https://vnembassy-sofia.mofa.gov.vn/vi-vn/Trang/default.aspx,http://www.wikidata.org/entity/Q41589129
+,consulate general,Cambodia,Battambang,,+855-97-332-1188,https://vnconsulate-battambang.mofa.gov.vn/en-us,http://www.wikidata.org/entity/Q63170794
+,embassy,Canada,Ottawa,,,https://vietnamembassy.ca,http://www.wikidata.org/entity/Q106824139
+,embassy,Chile,Providencia,,,https://vnembassy-santiago.mofa.gov.vn,http://www.wikidata.org/entity/Q110485345
+,embassy,Cuba,Havana,,,,http://www.wikidata.org/entity/Q110816000
+,embassy,Czech Republic,Prague,,,https://vnembassy-praha.mofa.gov.vn,http://www.wikidata.org/entity/Q107141742
+,embassy,Egypt,,,,,http://www.wikidata.org/entity/Q125496182
+,embassy,Finland,Helsinki,,,https://vnembassy-helsinki.mofa.gov.vn/,http://www.wikidata.org/entity/Q106231357
+,embassy,France,8th arrondissement of Paris,,,https://ambassade-vietnam.com/,http://www.wikidata.org/entity/Q20127469
+,embassy,Germany,Berlin,,,,http://www.wikidata.org/entity/Q2523850
+,embassy,Greece,Psychiko,,,,http://www.wikidata.org/entity/Q109690784
+,embassy,Hungary,Zugló,,,https://vnembassy-budapest.mofa.gov.vn/,http://www.wikidata.org/entity/Q105672291
+,embassy,India,New Delhi,,,http://vietnamembassydelhi.in/,http://www.wikidata.org/entity/Q112671313
+,embassy,Indonesia,Jakarta,,,https://vietnamembassy-indonesia.org/,http://www.wikidata.org/entity/Q107642397
+,embassy,Israel,Tel Aviv,,,https://vnembassy-telaviv.mofa.gov.vn,http://www.wikidata.org/entity/Q112110103
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103950148
+,consulate general,Japan,Fukuoka,,,https://vnconsulate-fukuoka.org/vi/,http://www.wikidata.org/entity/Q53112476
+,consulate general,Japan,Sakai,,,https://vnconsulate-osaka.mofa.gov.vn/en-us/Pages/default.aspx,http://www.wikidata.org/entity/Q52951921
+,embassy,Japan,Shibuya-ku,,,http://www.vnembassy-jp.org/,http://www.wikidata.org/entity/Q52853599
+,embassy,Kingdom of Denmark,Gentofte Municipality,,,,http://www.wikidata.org/entity/Q106087975
+,embassy,Mexico,Mexico City,,,,http://www.wikidata.org/entity/Q111699036
+,embassy,Mongolia,Ulaanbaatar,,,https://vnembassy-ulaanbaatar.mofa.gov.vn​,http://www.wikidata.org/entity/Q33309489
+,embassy,Netherlands,The Hague,,,https://vnembassy-thehague.mofa.gov.vn,http://www.wikidata.org/entity/Q100557097
+,embassy,New Zealand,Wellington,,,https://vnembassy-wellington.mofa.gov.vn,http://www.wikidata.org/entity/Q111900769
+,embassy,North Korea,Pyongyang,,,,http://www.wikidata.org/entity/Q64785541
+,embassy,Norway,,,,,http://www.wikidata.org/entity/Q19398055
+,embassy,Panama,Panama City,,,https://vnembassy-panama.mofa.gov.vn,http://www.wikidata.org/entity/Q111103168
+,embassy,People's Republic of China,Jianwai Subdistrict,,,http://www.vnemba.org.cn/zh,http://www.wikidata.org/entity/Q24258901
+,embassy,Poland,Warsaw,,+48-22-651-60-98,https://vnembassy-warsaw.mofa.gov.vn/en-us/Pages/default.aspx,http://www.wikidata.org/entity/Q9149630
+,embassy,Romania,Bucharest,,,https://vnembassy-bucharest.mofa.gov.vn,http://www.wikidata.org/entity/Q106950304
+,embassy,Russia,Khamovniki District,,,https://vnembassy-moscow.mofa.gov.vn,http://www.wikidata.org/entity/Q4373989
+,embassy,Saudi Arabia,Riyadh,,,https://vnembassy-riyadh.mofa.gov.vn,http://www.wikidata.org/entity/Q68170148
+,embassy,South Africa,Pretoria,,,https://www.vietnam.co.za/,http://www.wikidata.org/entity/Q106730790
+,embassy,South Korea,Seoul,,,https://vnembassy-seoul.mofa.gov.vn,http://www.wikidata.org/entity/Q102171898
+,embassy,Spain,Madrid,,,,http://www.wikidata.org/entity/Q46918989
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q10715165
+vietsuisse@bluewin.ch,embassy,Switzerland,Bern,,+41-31-388-78-72,,http://www.wikidata.org/entity/Q26979960
+,de facto embassy,Taiwan,Taipei,,,https://vnoffice-taipei.mofa.gov.vn/vi-vn/Trang/default.aspx,http://www.wikidata.org/entity/Q24013557
+,embassy,Tanzania,,,,https://vnembassy-daressalaam.mofa.gov.vn,http://www.wikidata.org/entity/Q129150668
+,embassy,Turkey,Ankara,,,https://vnembassy-ankara.mofa.gov.vn,http://www.wikidata.org/entity/Q111039185
+vnemb.ua@mofa.gov.vn,embassy,Ukraine,Kyiv,,+380-44-284-5740,http://www.vietnamembassy-ukraine.org,http://www.wikidata.org/entity/Q12142656
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q16991750
+,embassy,United States of America,"Washington, D.C.",,,http://vietnamembassy-usa.org/vi,http://www.wikidata.org/entity/Q24258894

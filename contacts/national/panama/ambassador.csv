@@ -1,0 +1,65 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+embpanamaargentina@mire.gob.pa,embassy,Argentina,Buenos Aires,,,https://mire.gob.pa/ministerio/embajada-y-consulado/buenos-aires/,http://www.wikidata.org/entity/Q110300519
+,embassy,Argentina,San Isidro,,,http://www.panaembaperu.com.pe,http://www.wikidata.org/entity/Q110728720
+,embassy,Australia,Canberra,,,https://mire.gob.pa/ministerio/embajada-y-consulado/camberra/,http://www.wikidata.org/entity/Q106488680
+,embassy,Australia,Canberra,,,,http://www.wikidata.org/entity/Q112972384
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104642086
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69900872
+,embassy,Belize,Belize City,,,,http://www.wikidata.org/entity/Q111132303
+,embassy,Bolivia,La Paz,,,https://mire.gob.pa/ministerio/embajada-y-consulado/bolivia-embajada-y-seccion-consular/,http://www.wikidata.org/entity/Q110589661
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105715949
+,embassy,Canada,Ottawa,,,https://embassyofpanama.ca/,http://www.wikidata.org/entity/Q106776698
+,embassy,Chile,Las Condes,,,https://mire.gob.pa/ministerio/embajada-y-consulado/santiago-embajada-de-panama/,http://www.wikidata.org/entity/Q110482820
+,embassy,Colombia,Bogotá,,,,http://www.wikidata.org/entity/Q110890856
+,embassy,Costa Rica,San José,,,,http://www.wikidata.org/entity/Q111103006
+,embassy,Cuba,Havana,,,,http://www.wikidata.org/entity/Q111133501
+,embassy,Dominican Republic,Santo Domingo,,,,http://www.wikidata.org/entity/Q111134299
+,embassy,Ecuador,Quito,,,,http://www.wikidata.org/entity/Q110796691
+,embassy,Egypt,Cairo,,,,http://www.wikidata.org/entity/Q111133541
+,embassy,El Salvador,San Salvador,,,,http://www.wikidata.org/entity/Q111133596
+,embassy,France,,,,https://embajadadepanamaenfrancia.fr,http://www.wikidata.org/entity/Q20127467
+,consulate general,France,Marseille,,,,http://www.wikidata.org/entity/Q16507628
+,embassy,Germany,Berlin,,,http://botschaft-panama.de,http://www.wikidata.org/entity/Q72627170
+,embassy,Greece,Piraeus,,,https://www.panamaconsulate.gr,http://www.wikidata.org/entity/Q106937553
+,embassy,Guatemala,Guatemala City,,,,http://www.wikidata.org/entity/Q111133860
+,embassy,Haiti,Pétion-Ville,,,,http://www.wikidata.org/entity/Q111133873
+,embassy,Honduras,Tegucigalpa,,,,http://www.wikidata.org/entity/Q111133897
+,embassy,India,New Delhi,,,,http://www.wikidata.org/entity/Q111133912
+,embassy,Indonesia,Jakarta,,,,http://www.wikidata.org/entity/Q107625798
+,embassy,Israel,Tel Aviv,,,,http://www.wikidata.org/entity/Q111133923
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q56326899
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103869127
+,embassy,Jamaica,Kingston,,,,http://www.wikidata.org/entity/Q111133937
+,consulate general,Japan,Kobe,,,http://www.embassyofpanamainjapan.org/,http://www.wikidata.org/entity/Q62026142
+,embassy,Japan,Minato,,,,http://www.wikidata.org/entity/Q62025616
+,consulate general,Japan,Tokyo,,,,http://www.wikidata.org/entity/Q105363523
+,embassy,Jordan,Amman,,,,http://www.wikidata.org/entity/Q111133961
+,embassy,Mexico,Mexico City,,,,http://www.wikidata.org/entity/Q111134198
+,embassy,Morocco,Rabat,,,,http://www.wikidata.org/entity/Q111133984
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100533174
+,embassy,Nicaragua,Managua,,,,http://www.wikidata.org/entity/Q111134223
+,embassy,Paraguay,Asunción,,,https://mire.gob.pa/ministerio/embajada-y-consulado/asuncion-embajada-y-seccion-consular-de-panama/,http://www.wikidata.org/entity/Q110571154
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q111132759
+,consulate general,People's Republic of China,Shanghai,,,,http://www.wikidata.org/entity/Q109347182
+,consulate general,People's Republic of China,Tianhe District,,,https://mire.gob.pa/ministerio/embajada-y-consulado/guangzhou-consulado-general-de-marina-mercante-de-panama/,http://www.wikidata.org/entity/Q108570920
+,embassy,Philippines,Makati,,,,http://www.wikidata.org/entity/Q111133827
+,embassy,Poland,Warsaw,,+48-22-642-21-43,https://www.mire.gob.pa/index.php/en/embajada-de-polonia,http://www.wikidata.org/entity/Q9149563
+,embassy,Portugal,Lisbon,,,http://www.embaixadadopanama.pt/,http://www.wikidata.org/entity/Q105459827
+,embassy,Qatar,Doha,,,,http://www.wikidata.org/entity/Q111132687
+,embassy,Russia,Moscow,,,http://www.embapanamarusia.ru,http://www.wikidata.org/entity/Q110190411
+,embassy,Singapore,Singapore,,,,http://www.wikidata.org/entity/Q111134757
+,embassy,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106692548
+,embassy,South Korea,Seoul,,,http://panama.embaseoul.kr/,http://www.wikidata.org/entity/Q104213921
+,embassy,Spain,,,,https://mire.gob.pa/ministerio/embajada-y-consulado/madrid/,http://www.wikidata.org/entity/Q5830354
+,consulate general,Spain,Las Palmas de Gran Canaria,,,,http://www.wikidata.org/entity/Q79605024
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q10615774
+,embassy,Switzerland,Geneva,,,,http://www.wikidata.org/entity/Q101024329
+consular@panathai.com,embassy,Thailand,Bangkok,,,http://panathai.com/,http://www.wikidata.org/entity/Q110746023
+,embassy,Trinidad and Tobago,Port of Spain,,,,http://www.wikidata.org/entity/Q111134859
+,embassy,Turkey,Ankara,,,,http://www.wikidata.org/entity/Q111029948
+,embassy,United Arab Emirates,Abu Dhabi,,,,http://www.wikidata.org/entity/Q111133679
+,embassy,United Kingdom,Mayfair,,,,http://www.wikidata.org/entity/Q16891008
+,embassy,United States of America,"Washington, D.C.",,,https://www.embassyofpanama.org,http://www.wikidata.org/entity/Q111132608
+,embassy,Uruguay,Montevideo,,,https://mire.gob.pa/ministerio/embajada-y-consulado/montevideo/,http://www.wikidata.org/entity/Q110493393
+,embassy,Venezuela,Caracas,,,,http://www.wikidata.org/entity/Q111134879
+,embassy,Vietnam,Hanoi,,,,http://www.wikidata.org/entity/Q111134894

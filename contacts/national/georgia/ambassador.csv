@@ -1,0 +1,50 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,http://argentina.mfa.gov.ge,http://www.wikidata.org/entity/Q110271892
+,embassy,Armenia,Yerevan,,,,http://www.wikidata.org/entity/Q31194208
+,embassy,Australia,Canberra,,,http://australia.mfa.gov.ge,http://www.wikidata.org/entity/Q106463198
+,embassy,Austria,Vienna,,,,http://www.wikidata.org/entity/Q104633956
+,embassy,Azerbaijan,Baku,,,,http://www.wikidata.org/entity/Q12840039
+,embassy,Belarus,Minsk,,,,http://www.wikidata.org/entity/Q33113443
+,embassy,Belgium,Woluwe-Saint-Pierre - Sint-Pieters-Woluwe,,,,http://www.wikidata.org/entity/Q69512339
+,embassy,Brazil,Brasília,,,http://www.brazil.mfa.gov.ge,http://www.wikidata.org/entity/Q105702458
+,embassy,Bulgaria,Stolichna Municipality,,,https://bulgaria.mfa.gov.ge/,http://www.wikidata.org/entity/Q109039214
+,embassy,Canada,Ottawa,,,http://canada.mfa.gov.ge,http://www.wikidata.org/entity/Q106775920
+,embassy,Czech Republic,Prague,,,http://www.czech.mfa.gov.ge/,http://www.wikidata.org/entity/Q107114008
+,embassy,Estonia,Tallinn City,,,http://www.estonia.mfa.gov.ge,http://www.wikidata.org/entity/Q65261984
+helsinki.emb@mfa.gov.ge,embassy,Finland,Helsinki,,+358-9-2783031,https://finland.mfa.gov.ge/,http://www.wikidata.org/entity/Q106193225
+,embassy,France,,,,https://france.mfa.gov.ge,http://www.wikidata.org/entity/Q20127463
+,embassy,Germany,Berlin,,,http://www.germany.mfa.gov.ge/default.aspx?sec_id=415&lang=7,http://www.wikidata.org/entity/Q58880049
+,embassy,Greece,Chalandri,,,http://www.greece.mfa.gov.ge,http://www.wikidata.org/entity/Q108119555
+budapest.emb@mfa.gov.ge,embassy,Hungary,Budapest District XII,,,http://www.hungary.mfa.gov.ge/,http://www.wikidata.org/entity/Q66314550
+,embassy,India,New Delhi,,,https://india.mfa.gov.ge,http://www.wikidata.org/entity/Q112134721
+,embassy,Indonesia,Jakarta,,,http://indonesia.mfa.gov.ge,http://www.wikidata.org/entity/Q107568318
+,embassy,Ireland,Dublin,,,,http://www.wikidata.org/entity/Q104769601
+,embassy,Israel,Tel Aviv,,,http://www.israel.mfa.gov.ge,http://www.wikidata.org/entity/Q105121361
+,embassy,Italy,Rome,,,http://www.vatican.mfa.gov.ge,http://www.wikidata.org/entity/Q56326446
+,embassy,Italy,Rome,,,http://italy.mfa.gov.ge,http://www.wikidata.org/entity/Q103822639
+,embassy,Japan,Minato,,,,http://www.wikidata.org/entity/Q52388399
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,http://denmark.mfa.gov.ge/,http://www.wikidata.org/entity/Q105999693
+,embassy,Latvia,Riga,,,http://www.latvia.mfa.gov.ge,http://www.wikidata.org/entity/Q86680578
+,embassy,Lithuania,Vilnius,,,http://www.lithuania.mfa.gov.ge,http://www.wikidata.org/entity/Q107294731
+,embassy,Mexico,Mexico City,,,http://mexico.mfa.gov.ge,http://www.wikidata.org/entity/Q111088893
+,embassy,Moldova,Chișinău,,,http://moldova.mfa.gov.ge,http://www.wikidata.org/entity/Q106956249
+,embassy,Netherlands,The Hague,,,http://www.netherlands.mfa.gov.ge,http://www.wikidata.org/entity/Q96377187
+,embassy,Northern Cyprus,Nicosia,,,http://www.cyprus.mfa.gov.ge,http://www.wikidata.org/entity/Q109735270
+,embassy,Norway,Oslo Municipality,,,http://norway.mfa.gov.ge,http://www.wikidata.org/entity/Q17776070
+china.emb@mfa.gov.ge,embassy,People's Republic of China,Chaoyang District,,+ 86 10 6468 1203,https://china.mfa.gov.ge/default.aspx?sec_id=399&lang=2,http://www.wikidata.org/entity/Q16375367
+,embassy,Poland,Warsaw,,+48-22-616-62-21,http://www.poland.mfa.gov.ge,http://www.wikidata.org/entity/Q11685563
+,embassy,Portugal,Lisbon,,,http://portugal.mfa.gov.ge,http://www.wikidata.org/entity/Q105441850
+,embassy,Romania,Bucharest,,,http://romania.mfa.gov.ge,http://www.wikidata.org/entity/Q106938324
+,embassy,Saudi Arabia,Riyadh,,,,http://www.wikidata.org/entity/Q68169990
+,embassy,Slovakia,Bratislava,,,,http://www.wikidata.org/entity/Q53205402
+,embassy,Slovenia,Ljubljana,,,http://www.slovenia.mfa.gov.ge,http://www.wikidata.org/entity/Q107344606
+,embassy,South Africa,Pretoria,,,http://rsa.mfa.gov.ge,http://www.wikidata.org/entity/Q106675005
+,consulate general,Spain,Dreta de l'Eixample,,,,http://www.wikidata.org/entity/Q108741341
+,embassy,Spain,Madrid,,,http://spain.mfa.gov.ge,http://www.wikidata.org/entity/Q105235732
+,embassy,Sweden,Stockholm,,+46-72-282-62-47,,http://www.wikidata.org/entity/Q10504206
+Bernemb@mfa.gov.ge,embassy,Switzerland,Bern,,+41-31-351-58-55,,http://www.wikidata.org/entity/Q26980123
+,embassy,Turkey,Ankara,,,http://turkey.mfa.gov.ge,http://www.wikidata.org/entity/Q108041169
+kyiv.emb@mfa.gov.ge,embassy,Ukraine,Kyiv,,+380-44-220-0340,http://ukraine.mfa.gov.ge/,http://www.wikidata.org/entity/Q1532202
+,embassy,United Arab Emirates,,,,,http://www.wikidata.org/entity/Q110387406
+,embassy,United Kingdom,Royal Borough of Kensington and Chelsea,,+44-20-7348-1942,http://uk.mfa.gov.ge/index.php?lang_id=ENG&sec_id=42&lang_id=GEOsec_id=42,http://www.wikidata.org/entity/Q16891022
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q5369690

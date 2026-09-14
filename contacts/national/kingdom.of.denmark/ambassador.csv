@@ -1,0 +1,72 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Algeria,Ben Aknoun,,,https://algeriet.um.dk,http://www.wikidata.org/entity/Q105947338
+,embassy,Australia,Canberra,,,https://australien.um.dk,http://www.wikidata.org/entity/Q105947396
+,embassy,Austria,Vienna,,,https://oestrig.um.dk,http://www.wikidata.org/entity/Q104630248
+,embassy,Bangladesh,Dhaka,,,https://bangladesh.um.dk/,http://www.wikidata.org/entity/Q28426671
+,embassy,Belgium,City of Brussels,,,https://belgien.um.dk/nl,http://www.wikidata.org/entity/Q67320909
+,embassy,Bosnia and Herzegovina,,,,,http://www.wikidata.org/entity/Q123466602
+,embassy,Brazil,Brasília,,,https://brasilien.um.dk/,http://www.wikidata.org/entity/Q105694067
+,embassy,Bulgaria,Stolichna Municipality,,,https://bulgarien.um.dk,http://www.wikidata.org/entity/Q108984511
+,embassy,Burkina Faso,Ouagadougou,,,https://burkinafaso.um.dk,http://www.wikidata.org/entity/Q105947629
+,embassy,Canada,Ottawa,,,http://canada.um.dk/,http://www.wikidata.org/entity/Q5369665
+sclamb@um.dk,embassy,Chile,Vitacura,,+56-2-2941-5100,http://chile.um.dk/,http://www.wikidata.org/entity/Q5369668
+,embassy,Colombia,Bogotá,,,https://colombia.um.dk/,http://www.wikidata.org/entity/Q105947744
+,embassy,Croatia,Donji grad,,,https://kroatien.um.dk,http://www.wikidata.org/entity/Q105968568
+,embassy,Czech Republic,Prague,,,https://tjekkiet.um.dk/,http://www.wikidata.org/entity/Q5369666
+,embassy,Egypt,Cairo,,,https://egypten.um.dk,http://www.wikidata.org/entity/Q105956188
+,embassy,Estonia,Tallinn City,,,https://estland.um.dk,http://www.wikidata.org/entity/Q65262573
+,embassy,Ethiopia,Addis Ababa,,,https://etiopien.um.dk,http://www.wikidata.org/entity/Q105955067
+,embassy,Finland,Helsinki,,,https://finland.um.dk,http://www.wikidata.org/entity/Q105956990
+,embassy,France,,,,https://frankrig.um.dk/,http://www.wikidata.org/entity/Q2841863
+,embassy,Georgia,Tbilisi,,,,http://www.wikidata.org/entity/Q123056253
+,embassy,Germany,Berlin,,,https://tyskland.um.dk,http://www.wikidata.org/entity/Q10466596
+,embassy,Ghana,Accra,,,https://ghana.um.dk,http://www.wikidata.org/entity/Q105956376
+,embassy,Greece,Athens,,,https://graekenland.um.dk,http://www.wikidata.org/entity/Q105814708
+,embassy,Hungary,Budapest District XII,,,https://ungarn.um.dk/,http://www.wikidata.org/entity/Q96245404
+,embassy,Iceland,Reykjavík,,,https://island.um.dk,http://www.wikidata.org/entity/Q105967616
+,embassy,India,New Delhi,,,https://indien.um.dk,http://www.wikidata.org/entity/Q105947663
+,embassy,Indonesia,Jakarta,,,https://indonesien.um.dk,http://www.wikidata.org/entity/Q105959028
+,embassy,Iran,Tehran,,,http://iran.um.dk/,http://www.wikidata.org/entity/Q5921229
+,embassy,Iraq,,,,,http://www.wikidata.org/entity/Q123056065
+,embassy,Ireland,Dublin,,,https://irland.um.dk/,http://www.wikidata.org/entity/Q104764355
+,embassy,Israel,Tel Aviv,,,https://israel.um.dk,http://www.wikidata.org/entity/Q105967714
+,embassy,Italy,Rome,,,https://italien.um.dk,http://www.wikidata.org/entity/Q103813705
+,embassy,Japan,Shibuya-ku,,,https://japan.um.dk/,http://www.wikidata.org/entity/Q61877440
+,embassy,Kenya,Nairobi,,,https://kenya.um.dk,http://www.wikidata.org/entity/Q105956512
+,embassy,Latvia,Riga,,,https://letland.um.dk/,http://www.wikidata.org/entity/Q105968736
+,embassy,Lebanon,Beirut,,,https://libanon.um.dk,http://www.wikidata.org/entity/Q105967800
+,embassy,Lithuania,Vilnius,,,https://litauen.um.dk,http://www.wikidata.org/entity/Q105968106
+,embassy,Malaysia,,,,,http://www.wikidata.org/entity/Q123466637
+,embassy,Mali,Bamako,,,https://mali.um.dk,http://www.wikidata.org/entity/Q105958784
+,embassy,Mexico,Mexico City,,,https://mexico.um.dk,http://www.wikidata.org/entity/Q105947505
+,embassy,Moldova,,,,,http://www.wikidata.org/entity/Q123466620
+,embassy,Morocco,Rabat,,,https://marokko.um.dk,http://www.wikidata.org/entity/Q105967823
+,embassy,Myanmar,Yangon,,,https://myanmar.um.dk,http://www.wikidata.org/entity/Q105969264
+,embassy,Netherlands,The Hague,,,https://nederlandene.um.dk/,http://www.wikidata.org/entity/Q100575419
+,embassy,Nigeria,Abuja,,,https://nigeria.um.dk,http://www.wikidata.org/entity/Q105954415
+,embassy,Norway,Oslo Municipality,,,http://norge.um.dk/,http://www.wikidata.org/entity/Q7374094
+,embassy,Pakistan,Islamabad,,,https://pakistan.um.dk,http://www.wikidata.org/entity/Q105969445
+,embassy,People's Republic of China,Beijing,,,https://kina.um.dk/,http://www.wikidata.org/entity/Q17002516
+,embassy,Peru,Lima,,,https://peru.um.dk,http://www.wikidata.org/entity/Q122207864
+,embassy,Philippines,Manila,,,https://filippinerne.um.dk,http://www.wikidata.org/entity/Q105956778
+,embassy,Poland,Warsaw,,+48-22-565-29-00,http://polen.um.dk/,http://www.wikidata.org/entity/Q9149486
+,embassy,Portugal,Campo de Ourique,,,https://portugal.um.dk/,http://www.wikidata.org/entity/Q105414511
+,embassy,Romania,Bucharest,,,https://rumaenien.um.dk/,http://www.wikidata.org/entity/Q96460332
+,embassy,Russia,Khamovniki District,,,http://rusland.um.dk/,http://www.wikidata.org/entity/Q4373993
+,embassy,Saudi Arabia,Riyadh,,,https://saudiarabien.um.dk,http://www.wikidata.org/entity/Q68169970
+,embassy,Serbia,Belgrade,,,https://serbien.um.dk,http://www.wikidata.org/entity/Q105947905
+,embassy,Singapore,Singapore,,,https://singapore.um.dk,http://www.wikidata.org/entity/Q105947911
+,embassy,South Africa,Pretoria,,,https://sydafrika.um.dk/,http://www.wikidata.org/entity/Q104761604
+,embassy,South Korea,Jongno District,,,https://sydkorea.um.dk,http://www.wikidata.org/entity/Q113613757
+,embassy,Spain,Madrid,,,https://spanien.um.dk/,http://www.wikidata.org/entity/Q105205315
+,embassy,Sweden,Norrmalm city district,,,http://sverige.um.dk/,http://www.wikidata.org/entity/Q2841870
+,embassy,Syria,Damascus,,,https://syrien.um.dk/,http://www.wikidata.org/entity/Q105978230
+,embassy,Tanzania,Dar es Salaam,,,https://tanzania.um.dk,http://www.wikidata.org/entity/Q105954843
+bkkamb@um.dk,embassy,Thailand,Bangkok,,,https://thailand.um.dk,http://www.wikidata.org/entity/Q105954352
+,embassy,Turkey,Ankara,,,https://tyrkiet.um.dk,http://www.wikidata.org/entity/Q28427281
+,embassy,Uganda,Kampala,,,https://uganda.um.dk,http://www.wikidata.org/entity/Q105954229
+ievamb@um.dk,embassy,Ukraine,Kyiv,,+380-44-200-1260,http://ukraine.um.dk/,http://www.wikidata.org/entity/Q1592026
+,embassy,United Arab Emirates,Abu Dhabi,,,https://fae.um.dk,http://www.wikidata.org/entity/Q105958709
+,embassy,United Kingdom,Kensington,,,http://storbritannien.um.dk/,http://www.wikidata.org/entity/Q1270081
+,embassy,United States of America,"Washington, D.C.",,,http://usa.um.dk/,http://www.wikidata.org/entity/Q5369669
+,embassy,Vietnam,Hanoi,,,https://vietnam.um.dk,http://www.wikidata.org/entity/Q105968704

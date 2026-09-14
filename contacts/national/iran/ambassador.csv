@@ -1,0 +1,61 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Albania,Tirana,,,https://albania.mfa.gov.ir,http://www.wikidata.org/entity/Q113232351
+,embassy,Argentina,Buenos Aires,,,https://argentina.mfa.gov.ir,http://www.wikidata.org/entity/Q110272058
+,embassy,Armenia,Yerevan,,,https://armenia.mfa.gov.ir,http://www.wikidata.org/entity/Q109561205
+,embassy,Australia,Canberra,,,https://australia.mfa.gov.ir,http://www.wikidata.org/entity/Q106463928
+,embassy,Austria,Vienna,,,https://austria.mfa.gov.ir/,http://www.wikidata.org/entity/Q15820387
+,embassy,Azerbaijan,Baku,,,,http://www.wikidata.org/entity/Q12849136
+,embassy,Belarus,Minsk,,,,http://www.wikidata.org/entity/Q33116997
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69523839
+,embassy,Bolivia,La Paz,,,https://bolivia.mfa.gov.ir/,http://www.wikidata.org/entity/Q110588156
+,embassy,Bosnia and Herzegovina,Sarajevo,,,https://bosniaherzegovina.mfa.gov.ir/,http://www.wikidata.org/entity/Q92074548
+,embassy,Brazil,Brasília,,,https://brazil.mfa.gov.ir/,http://www.wikidata.org/entity/Q105704584
+,embassy,Bulgaria,Stolichna Municipality,,,,http://www.wikidata.org/entity/Q41589202
+,embassy,Canada,Ottawa,,,,http://www.wikidata.org/entity/Q94502707
+,embassy,Chile,Las Condes,,,https://chile.mfa.gov.ir,http://www.wikidata.org/entity/Q110429643
+,embassy,Colombia,Bogotá,,,https://colombia.mfa.gov.ir/,http://www.wikidata.org/entity/Q110874954
+,embassy,Croatia,Zagreb,,,https://croatia.mfa.gov.ir,http://www.wikidata.org/entity/Q107412385
+,embassy,Cyprus,Strovolos,,,https://nicosia.mfa.ir/,http://www.wikidata.org/entity/Q109780720
+,embassy,Czech Republic,Prague,,,https://czech.mfa.gov.ir,http://www.wikidata.org/entity/Q107119058
+,embassy,Ecuador,Quito,,,https://quito.mfa.ir/,http://www.wikidata.org/entity/Q110735661
+,embassy,Finland,Helsinki,,,https://finland.mfa.gov.ir,http://www.wikidata.org/entity/Q106194789
+,embassy,France,,,,https://paris.mfa.gov.ir/fr,http://www.wikidata.org/entity/Q30055556
+,embassy,Germany,Steglitz-Zehlendorf,,,http://de.berlin.mfa.ir/,http://www.wikidata.org/entity/Q1672381
+,embassy,Greece,Psychiko,,,https://greece.mfa.gov.ir,http://www.wikidata.org/entity/Q109660379
+,embassy,Guinea,Dixinn,,,https://conakry.mfa.ir/,http://www.wikidata.org/entity/Q111207207
+iranemb.bud@mfa.gov.ir,embassy,Hungary,Zugló,,+36-1 460-9260,https://hungary.mfa.gov.ir/,http://www.wikidata.org/entity/Q104617636
+,embassy,India,New Delhi,,,https://india.mfa.ir,http://www.wikidata.org/entity/Q112597874
+,embassy,Indonesia,Jakarta,,,https://indonesia.mfa.gov.ir,http://www.wikidata.org/entity/Q107579223
+,embassy,Ireland,Blackrock,,,https://dublin.mfa.gov.ir/,http://www.wikidata.org/entity/Q104771345
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q96435839
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103832762
+,embassy,Ivory Coast,Abidjan,,,https://cotedivoire.mfa.gov.ir,http://www.wikidata.org/entity/Q112876515
+,embassy,Japan,,,,https://japan.mfa.gov.ir/jp,http://www.wikidata.org/entity/Q46994693
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,https://denmark.mfa.gov.ir,http://www.wikidata.org/entity/Q106030992
+,embassy,Mexico,Mexico City,,,https://mexico.mfa.gov.ir,http://www.wikidata.org/entity/Q111669581
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100605241
+,embassy,New Zealand,Wellington,,,https://newzealand.mfa.ir,http://www.wikidata.org/entity/Q111835509
+,embassy,Niger,Niamey,,+227-20-72-21-98,,http://www.wikidata.org/entity/Q28473909
+,embassy,North Korea,Pyongyang,,,,http://www.wikidata.org/entity/Q28778773
+,embassy,Norway,Oslo Municipality,,,http://www.iranembassy.no/,http://www.wikidata.org/entity/Q19375815
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q100272893
+,embassy,Poland,Warsaw,,+48-22-617-15-85,https://warsaw.mfa.ir/,http://www.wikidata.org/entity/Q11685567
+,embassy,Portugal,Lisbon,,,https://lisbon.mfa.ir,http://www.wikidata.org/entity/Q105395887
+iranembassyro@gmail.com,embassy,Romania,Bucharest,,+40-21-312-0493,,http://www.wikidata.org/entity/Q88958563
+,embassy,Russia,Moscow,,,https://russia.mfa.gov.ir,http://www.wikidata.org/entity/Q5369733
+,embassy,Serbia,Belgrade,,,https://serbia.mfa.gov.ir,http://www.wikidata.org/entity/Q108121135
+,embassy,Slovenia,Ljubljana,,,https://slovenia.mfa.gov.ir,http://www.wikidata.org/entity/Q107345892
+,embassy,South Africa,Pretoria,,,https://southafrica.mfa.gov.ir,http://www.wikidata.org/entity/Q106676937
+,embassy,Spain,Madrid,,,https://spain.mfa.gov.ir,http://www.wikidata.org/entity/Q105277435
+,embassy,Sweden,Lidingö Municipality,,+46-8-636-36-00,https://sweden.mfa.gov.ir/,http://www.wikidata.org/entity/Q5369732
+secretariat@iranembassy.ch,embassy,Switzerland,Bern,,+41-31-351-08-01,https://switzerland.mfa.gov.ir/en,http://www.wikidata.org/entity/Q26979894
+iranemb.bkk@mfa.gov.ir,embassy,Thailand,Bangkok,,,http://bangkok.mfa.ir,http://www.wikidata.org/entity/Q110624977
+,embassy,Turkey,Ankara,,,https://turkey.mfa.gov.ir,http://www.wikidata.org/entity/Q110972915
+,consulate general,Turkey,Istanbul,,,,http://www.wikidata.org/entity/Q111584950
+iranemb.kiev@mfa.gov.ir,embassy,Ukraine,Kyiv,,+380-44-253-8543,http://kiev.mfa.ir,http://www.wikidata.org/entity/Q12142652
+,embassy,United Arab Emirates,Abu Dhabi,,,http://abudhabi.mfa.gov.ir/,http://www.wikidata.org/entity/Q20987721
+,embassy,United Kingdom,London,,,,http://www.wikidata.org/entity/Q15378797
+,consulate,United States of America,San Francisco,,,,http://www.wikidata.org/entity/Q110706088
+,Interests Section,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q6046241
+,embassy,Uruguay,Montevideo,,,https://uruguay.mfa.gov.ir,http://www.wikidata.org/entity/Q110492581
+,embassy,Yemen,Sanaa,,,,http://www.wikidata.org/entity/Q79576378

@@ -1,0 +1,153 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+embassy.kabul@mfa.gov.tr,embassy,Afghanistan,Kabul,,+93-20-210-1581,http://kabul.emb.mfa.gov.tr/Mission,http://www.wikidata.org/entity/Q81528107
+,embassy,Albania,Tirana,,,http://tirana.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q1320314
+,embassy,Algeria,El Biar,,,http://cezayir.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110894552
+,embassy,Angola,Luanda,,,http://luanda.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110955679
+,embassy,Argentina,Buenos Aires,,,http://buenosaires.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q1752608
+,embassy,Australia,Canberra,,,http://kanberra.be.mfa.gov.tr,http://www.wikidata.org/entity/Q106511555
+,embassy,Austria,Vienna,,,http://www.vienna.emb.mfa.gov.tr/,http://www.wikidata.org/entity/Q2464773
+,embassy,Azerbaijan,Baku,,,http://baku.be.mfa.gov.tr,http://www.wikidata.org/entity/Q16417782
+,embassy,Bahrain,Manama,,,http://manama.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q19611772
+embassy.dhaka@mfa.gov.tr,embassy,Bangladesh,Dhaka,,+880-960-4800100,http://dhaka.emb.mfa.gov.tr/,http://www.wikidata.org/entity/Q107452809
+,embassy,Belarus,Minsk,,,http://minsk.be.mfa.gov.tr,http://www.wikidata.org/entity/Q107003183
+,embassy,Belgium,City of Brussels,,,http://bruksel-be.mfa.gov.tr,http://www.wikidata.org/entity/Q2464729
+,embassy,Benin,Cotonou,,,http://kotonu.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110899117
+,consulate general,Bosnia and Herzegovina,City of Mostar,,,http://mostar.bk.mfa.gov.tr/,http://www.wikidata.org/entity/Q99481345
+,embassy,Bosnia and Herzegovina,Sarajevo,,,http://sarajevo.emb.mfa.gov.tr/,http://www.wikidata.org/entity/Q93501596
+,embassy,Botswana,Gaborone,,,http://gaboron.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110899306
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q7855266
+,embassy,Brunei,Bandar Seri Begawan,,,http://bandar.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110899344
+,embassy,Bulgaria,Sofia,,,http://sofia.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q109327434
+,embassy,Burkina Faso,Ouagadougou,,,http://ugudugu.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110899419
+,embassy,Cambodia,Phnom Penh,,,http://punompen.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110906097
+,embassy,Cameroon,Yaoundé,,,http://yaounde.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110906129
+,embassy,Canada,Ottawa,,,,http://www.wikidata.org/entity/Q5369896
+,embassy,Chad,N'Djamena,,,http://encemine.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110907703
+,embassy,Chile,Providencia,,,http://santiago.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q109536041
+,embassy,Colombia,Bogotá,,,http://bogota.be.mfa.gov.tr,http://www.wikidata.org/entity/Q109534212
+,embassy,Costa Rica,San José,,,http://sanjose.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110907823
+,embassy,Croatia,Zagreb,,,http://zagreb.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q2464779
+,embassy,Cuba,Havana,,,http://havana.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110898598
+,embassy,Czech Republic,Prague,,,http://prag.be.mfa.gov.tr,http://www.wikidata.org/entity/Q2464755
+,embassy,Democratic Republic of the Congo,Kinshasa,,,http://kinsasa.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110907682
+,embassy,Djibouti,Djibouti,,,http://cibuti.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110908196
+,embassy,Dominican Republic,Santo Domingo,,,http://santodomingo.be.mfa.gov.tr,http://www.wikidata.org/entity/Q109535752
+,embassy,Ecuador,Quito,,,http://kito.be.mfa.gov.tr,http://www.wikidata.org/entity/Q109534213
+consulate.alexandria@mfa.gov.tr,consulate general,Egypt,Alexandria,,+20 3 399 07 00,http://iskenderiye.bk.mfa.gov.tr/,http://www.wikidata.org/entity/Q112630514
+,embassy,Egypt,Cairo,,,http://cairo.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110894621
+,embassy,Eritrea,Asmara,,,http://asmara.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110917465
+,embassy,Estonia,Tallinn City,,,http://tallin.be.mfa.gov.tr,http://www.wikidata.org/entity/Q65262669
+,embassy,Ethiopia,Addis Ababa,,,http://addisababa.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110908868
+,embassy,Finland,Helsinki,,,http://helsinki.be.mfa.gov.tr,http://www.wikidata.org/entity/Q1657302
+,embassy,France,,,,http://paris.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q2464752
+,consulate general,France,6th arrondissement of Lyon,,,https://lyon-bk.mfa.gov.tr/Mission,http://www.wikidata.org/entity/Q16507639
+,consulate general,France,Bordeaux,,,http://bordo.bk.mfa.gov.tr,http://www.wikidata.org/entity/Q16507641
+,consulate general,France,Boulogne-Billancourt,,,http://www.paris.cg.mfa.gov.tr,http://www.wikidata.org/entity/Q16507643
+,consulate general,France,Marseille,,,http://marsilya.cg.mfa.gov.tr,http://www.wikidata.org/entity/Q16507638
+,consulate general,France,Nantes,,,http://nant.bk.mfa.gov.tr,http://www.wikidata.org/entity/Q16507635
+,consulate general,France,Strasbourg,,,http://strazburg.bk.mfa.gov.tr,http://www.wikidata.org/entity/Q16507642
+,embassy,Gabon,Libreville,,,http://librevil.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110908878
+,embassy,Georgia,Tbilisi,,,http://tiflis.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110894529
+,embassy,Germany,Berlin,,,http://berlin.be.mfa.gov.tr,http://www.wikidata.org/entity/Q826763
+,embassy,Ghana,Greater Accra Region,,,http://akra.be.mfa.gov.tr,http://www.wikidata.org/entity/Q2464712
+,embassy,Greece,Athens,,,http://atina.be.mfa.gov.tr/,http://www.wikidata.org/entity/Q1311065
+,embassy,Guatemala,Guatemala City,,,http://guatemala.be.mfa.gov.tr,http://www.wikidata.org/entity/Q109536047
+,embassy,Guinea,Conakry,,,http://konakri.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110908893
+embassy.budapest@mfa.gov.tr,embassy,Hungary,Budapest,,,http://budapeste.be.mfa.gov.tr/,http://www.wikidata.org/entity/Q2464733
+embassy.newdelhi@mfa.gov.tr,embassy,India,New Delhi,,+91-11-2688-9053,http://newdelhi.emb.mfa.gov.tr/Mission/,http://www.wikidata.org/entity/Q79849073
+,embassy,Indonesia,Jakarta,,,http://jakarta.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q79611181
+,consulate general,Iran,Tabriz,,,http://tebriz.bk.mfa.gov.tr,http://www.wikidata.org/entity/Q11248812
+,embassy,Iran,Tehran,,,http://tehran.emb.mfa.gov.tr/Mission,http://www.wikidata.org/entity/Q25425131
+,embassy,Iraq,Baghdad,,,http://baghdad.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110898290
+,embassy,Ireland,Dublin,,,http://dublin.be.mfa.gov.tr,http://www.wikidata.org/entity/Q104781057
+,embassy,Israel,Tel Aviv,,,http://telaviv.be.mfa.gov.tr,http://www.wikidata.org/entity/Q19611777
+,embassy,Italy,Rome,,,http://vatikan.be.mfa.gov.tr,http://www.wikidata.org/entity/Q2464765
+,embassy,Italy,Rome,,,http://roma.be.mfa.gov.tr,http://www.wikidata.org/entity/Q94234549
+,embassy,Ivory Coast,Abidjan,,,http://abidjan.be.mfa.gov.tr,http://www.wikidata.org/entity/Q2464705
+,consulate general,Japan,Nagoya,,,,http://www.wikidata.org/entity/Q76435148
+,embassy,Japan,Shibuya-ku,,,http://tokyo.be.mfa.gov.tr,http://www.wikidata.org/entity/Q26326681
+,embassy,Jordan,Amman,,,http://amman.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110909863
+,embassy,Kazakhstan,Astana,,,http://astana.be.mfa.gov.tr,http://www.wikidata.org/entity/Q1773042
+,embassy,Kenya,Nairobi,,,http://nairobi.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110910041
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,http://copenhagen.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q106085605
+,embassy,Kuwait,Kuwait City,,,http://kuwait.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110910092
+,embassy,Kyrgyzstan,Bishkek,,,http://bishkek.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q19611768
+,embassy,Laos,Vientiane,,,,http://www.wikidata.org/entity/Q110957404
+,embassy,Latvia,Riga,,,http://riga.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q107251434
+,embassy,Lebanon,Matn District,,,http://beirut.be.mfa.gov.tr,http://www.wikidata.org/entity/Q105540803
+,embassy,Libya,Tripoli,,,http://trablus.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110917351
+,embassy,Lithuania,Vilnius,,,http://vilnius.be.mfa.gov.tr,http://www.wikidata.org/entity/Q107297188
+,embassy,Luxembourg,Luxembourg,,,http://luksemburg.be.mfa.gov.tr,http://www.wikidata.org/entity/Q100791962
+,embassy,Madagascar,Antananarivo,,,http://antananarivo.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110907750
+,embassy,Malaysia,Kuala Lumpur,,,http://kualalumpur.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110917984
+,embassy,Mali,Bamako,,,http://bamako.be.mfa.gov.tr,http://www.wikidata.org/entity/Q2464722
+,embassy,Malta,Floriana,,,http://valetta.be.mfa.gov.tr,http://www.wikidata.org/entity/Q107789334
+,embassy,Mauritania,Nouakchott,,,http://nuaksot.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110909497
+,embassy,Mexico,Mexico City,,,http://meksika.be.mfa.gov.tr,http://www.wikidata.org/entity/Q109534216
+,embassy,Moldova,Chișinău,,,http://kisinev.be.mfa.gov.tr,http://www.wikidata.org/entity/Q106963763
+,embassy,Mongolia,Ulaanbaatar,,+976 11 329 545,http://ulaanbaatar.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q33309468
+,embassy,Montenegro,Podgorica,,,http://podgorica.be.mfa.gov.tr,http://www.wikidata.org/entity/Q108916652
+,embassy,Morocco,Rabat,,,http://rabat.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110930032
+,embassy,Mozambique,Maputo,,,http://maputo.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110930075
+,embassy,Myanmar,Yangon,,,http://nepido.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110930148
+,embassy,Namibia,Windhoek,,,http://windhoek.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110930213
+,embassy,Netherlands,The Hague,,,http://lahey.be.mfa.gov.tr,http://www.wikidata.org/entity/Q100742282
+,embassy,New Zealand,Wellington,,,http://wellington.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q109539003
+,embassy,Niger,Niamey,,,http://niamey.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110955740
+,embassy,Nigeria,Abuja,,,http://abuja.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q1148225
+,embassy,North Macedonia,Skopje,,,http://uskup.be.mfa.gov.tr,http://www.wikidata.org/entity/Q2464760
+,embassy,Northern Cyprus,North Nicosia,,,http://nicosia.emb.mfa.gov.tr/,http://www.wikidata.org/entity/Q5369898
+,embassy,Norway,Oslo Municipality,,,,http://www.wikidata.org/entity/Q2464742
+,embassy,Oman,Muscat,,,http://muskat.be.mfa.gov.tr,http://www.wikidata.org/entity/Q19611773
+,embassy,Pakistan,Islamabad,,,http://islamabad.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q19611779
+,embassy,Panama,Panama City,,,http://panama.be.mfa.gov.tr,http://www.wikidata.org/entity/Q109536045
+,embassy,Paraguay,Asunción,,,,http://www.wikidata.org/entity/Q110576225
+,embassy,People's Republic of China,Beijing,,+86 10 6532 1715,http://beijing.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q2464749
+,embassy,Peru,San Isidro,,,http://lima.be.mfa.gov.tr,http://www.wikidata.org/entity/Q109534215
+,embassy,Philippines,Makati,,,http://manila.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110948668
+,embassy,Poland,Warsaw,,,http://warsaw.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q1791649
+,embassy,Portugal,Lisbon,,,http://lizbon.be.mfa.gov.tr,http://www.wikidata.org/entity/Q57198483
+embassy.doha@mfa.gov.tr,embassy,Qatar,Doha,,+974-44-951300,http://doha.be.mfa.gov.tr,http://www.wikidata.org/entity/Q19611771
+,embassy,Republic of the Congo,Brazzaville,,,http://kotonu.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110948713
+,embassy,Romania,Bucharest,,,,http://www.wikidata.org/entity/Q2464736
+,embassy,Russia,Khamovniki District,,,http://moskova.be.mfa.gov.tr,http://www.wikidata.org/entity/Q1567851
+,embassy,Rwanda,Kigali,,,http://kigali.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110948757
+,embassy,Saudi Arabia,Riyadh,,,http://riyadh.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q68170129
+,embassy,Senegal,Dakar,,,http://dakar.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110907185
+,embassy,Serbia,Belgrade,,+381-11-3332410,http://belgrade.emb.mfa.gov.tr/,http://www.wikidata.org/entity/Q1727314
+,embassy,Serbia,Pristina,,,http://pristine.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110894380
+,embassy,Singapore,Singapore,,,http://singapur.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110948795
+,embassy,Slovakia,Bratislava,,,http://bratislava.be.mfa.gov.tr,http://www.wikidata.org/entity/Q1668449
+,embassy,Slovenia,Ljubljana,,,http://ljubljana.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q107353441
+,embassy,Somalia,Mogadishu,,,http://mogadishu.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110955567
+,embassy,South Africa,Pretoria,,,http://pretoria.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q2464756
+,embassy,South Korea,Seoul,,,http://seoul.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q72157695
+,embassy,South Sudan,Juba,,,http://juba.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110955585
+,consulate general,Spain,Barcelona,,,http://barcelona.cg.mfa.gov.tr/Mission,http://www.wikidata.org/entity/Q28514934
+,embassy,Spain,Madrid,,,http://madrid.be.mfa.gov.tr,http://www.wikidata.org/entity/Q105357457
+,embassy,Sri Lanka,Colombo,,,http://kolombo.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110955658
+,embassy,Sudan,Khartoum,,,http://khartoum.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110955671
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q10706566
+botschaft.bern@mfa.gov.tr,embassy,Switzerland,Bern,,+41-31-359-70-70,http://www.bern.emb.mfa.gov.tr/,http://www.wikidata.org/entity/Q2464725
+,consulate general,Switzerland,Geneva,,,http://cenevre.bk.mfa.gov.tr,http://www.wikidata.org/entity/Q19611770
+,de facto embassy,Taiwan,,,,http://www.taipei.to.mfa.gov.tr/,http://www.wikidata.org/entity/Q24025407
+,embassy,Tajikistan,Dushanbe,,,http://dushanbe.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110954650
+,embassy,Tanzania,Dar es Salaam,,,http://darusselam.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110954844
+,embassy,Thailand,Bangkok,,,http://bangkok.emb.mfa.gov.tr/,http://www.wikidata.org/entity/Q23954950
+,embassy,The Gambia,Banjul,,,http://banjul.be.mfa.gov.tr,http://www.wikidata.org/entity/Q31837594
+,embassy,Trinidad and Tobago,Port of Spain,,,,http://www.wikidata.org/entity/Q109535753
+,embassy,Tunisia,Tunis,,,http://tunis.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q43032949
+,embassy,Turkmenistan,Ashgabat,,,http://ashgabat.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110955018
+,embassy,Uganda,Kampala,,,http://kampala.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110899445
+embassy.kiev@mfa.gov.tr,embassy,Ukraine,Kyiv,,+380-44-281-0750,http://kiev.be.mfa.gov.tr/,http://www.wikidata.org/entity/Q50842805
+,embassy,United Arab Emirates,Abu Dhabi,,,http://abudhabi.be.mfa.gov.tr,http://www.wikidata.org/entity/Q19611765
+,consulate general,United Kingdom,Edinburgh,,,https://edinburg-bk.mfa.gov.tr/,http://www.wikidata.org/entity/Q128189889
+,embassy,United Kingdom,London,,,http://londra.be.mfa.gov.tr,http://www.wikidata.org/entity/Q15378816
+,consulate general,United Kingdom,London,,,,http://www.wikidata.org/entity/Q128191822
+,embassy,United States of America,"Washington, D.C.",,,http://www.washington.emb.mfa.gov.tr/,http://www.wikidata.org/entity/Q2464775
+,embassy,Uruguay,Montevideo,,,http://montevideo.emb.mfa.gov.tr/,http://www.wikidata.org/entity/Q109536043
+,embassy,Uzbekistan,Tashkent,,,http://tashkent.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110955240
+,embassy,Venezuela,Caracas,,,http://caracas.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q109536042
+,embassy,Vietnam,Hanoi,,,http://hanoi.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110955362
+,embassy,Zambia,Lusaka,,,http://lusaka.be.mfa.gov.tr,http://www.wikidata.org/entity/Q110917925
+,embassy,Zimbabwe,Harare,,,http://harare.emb.mfa.gov.tr,http://www.wikidata.org/entity/Q110955391

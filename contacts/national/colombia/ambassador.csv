@@ -1,0 +1,65 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Algeria,Hydra,,,https://argelia.embajada.gov.co/,http://www.wikidata.org/entity/Q110821558
+,embassy,Argentina,,,,https://argentina.embajada.gov.co/,http://www.wikidata.org/entity/Q5369617
+,embassy,Australia,Canberra,,,http://australia.embajada.gov.co/,http://www.wikidata.org/entity/Q106454427
+,embassy,Austria,,,,http://austria.embajada.gov.co/,http://www.wikidata.org/entity/Q5369655
+,embassy,Azerbaijan,Baku,,,http://azerbaiyan.embajada.gov.co/,http://www.wikidata.org/entity/Q103561353
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69313292
+,embassy,Bolivia,La Paz,,,https://bolivia.embajada.gov.co,http://www.wikidata.org/entity/Q110576984
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q5369615
+,embassy,Canada,Ottawa,,,http://canada.embajada.gov.co/,http://www.wikidata.org/entity/Q5369637
+,embassy,Chile,Las Condes,,,https://chile.embajada.gov.co/,http://www.wikidata.org/entity/Q5369647
+,embassy,Costa Rica,San José,,,https://costarica.embajada.gov.co,http://www.wikidata.org/entity/Q110822357
+,embassy,Cuba,Havana,,,https://cuba.embajada.gov.co,http://www.wikidata.org/entity/Q110822388
+,embassy,Dominican Republic,Santo Domingo,,,https://republicadominicana.embajada.gov.co,http://www.wikidata.org/entity/Q110829714
+,embassy,Ecuador,Quito,,,https://ecuador.embajada.gov.co/,http://www.wikidata.org/entity/Q5369643
+,embassy,Egypt,Cairo,,,https://egipto.embajada.gov.co,http://www.wikidata.org/entity/Q110822400
+,embassy,El Salvador,San Salvador,,,https://elsalvador.embajada.gov.co,http://www.wikidata.org/entity/Q5369645
+,embassy,Finland,Helsinki,,,http://finlandia.embajada.gov.co/,http://www.wikidata.org/entity/Q103552161
+,embassy,France,,,,https://francia.embajada.gov.co/,http://www.wikidata.org/entity/Q5369639
+,consulate general,France,Paris,,,http://www.consulatcolombie.com,http://www.wikidata.org/entity/Q16507557
+,embassy,Germany,Mitte,,,https://alemania.embajada.gov.co/,http://www.wikidata.org/entity/Q5369613
+,embassy,Ghana,Accra,,,https://ghana.embajada.gov.co,http://www.wikidata.org/entity/Q110822477
+,embassy,Guatemala,Guatemala City,,,https://guatemala.embajada.gov.co,http://www.wikidata.org/entity/Q5369621
+,embassy,Honduras,Tegucigalpa,,,https://honduras.embajada.gov.co,http://www.wikidata.org/entity/Q5369650
+,embassy,Hungary,Budapest District XIII,,+36 1 617-7041,http://hungria.embajada.gov.co/,http://www.wikidata.org/entity/Q102005281
+,embassy,India,New Delhi,,,https://india.embajada.gov.co,http://www.wikidata.org/entity/Q110822522
+,embassy,Indonesia,Jakarta,,,https://indonesia.embajada.gov.co,http://www.wikidata.org/entity/Q107560270
+,embassy,Ireland,Dublin,,,http://irlanda.embajada.gov.co/,http://www.wikidata.org/entity/Q103553826
+,embassy,Israel,Ramat Gan,,,https://israel.embajada.gov.co,http://www.wikidata.org/entity/Q110826717
+,embassy,Italy,Rome,,,http://santasede.embajada.gov.co/,http://www.wikidata.org/entity/Q5369623
+,embassy,Italy,Rome,,,http://italia.embajada.gov.co/,http://www.wikidata.org/entity/Q103548666
+,embassy,Jamaica,Kingston,,,https://jamaica.embajada.gov.co,http://www.wikidata.org/entity/Q110826805
+,embassy,Japan,,,,https://japon.embajada.gov.co/,http://www.wikidata.org/entity/Q28057259
+,embassy,Kenya,Nairobi,,,https://kenia.embajada.gov.co,http://www.wikidata.org/entity/Q110826907
+,embassy,Lebanon,Beirut,,,https://libano.embajada.gov.co,http://www.wikidata.org/entity/Q110828325
+,embassy,Malaysia,Kuala Lumpur,,,https://malasia.embajada.gov.co,http://www.wikidata.org/entity/Q110829059
+,embassy,Mexico,Mexico City,,,https://mexico.embajada.gov.co/,http://www.wikidata.org/entity/Q5369633
+,embassy,Morocco,Rabat,,,https://marruecos.embajada.gov.co,http://www.wikidata.org/entity/Q110829443
+,embassy,Netherlands,The Hague,,,http://paisesbajos.embajada.gov.co/,http://www.wikidata.org/entity/Q100540183
+,embassy,Nicaragua,Managua,,,https://nicaragua.embajada.gov.co,http://www.wikidata.org/entity/Q110829589
+,embassy,Norway,Oslo Municipality,,,https://noruega.embajada.gov.co,http://www.wikidata.org/entity/Q17762617
+,embassy,Panama,Panama City,,,https://panama.embajada.gov.co,http://www.wikidata.org/entity/Q5369638
+,embassy,Paraguay,Asunción,,,,http://www.wikidata.org/entity/Q5369609
+,embassy,People's Republic of China,Beijing,,,https://china.embajada.gov.co,http://www.wikidata.org/entity/Q110822155
+,consulate general,People's Republic of China,Shanghai,,,,http://www.wikidata.org/entity/Q119328877
+,embassy,Peru,Lima,,,https://peru.embajada.gov.co/,http://www.wikidata.org/entity/Q5369628
+,embassy,Philippines,Taguig,,,https://filipinas.embajada.gov.co,http://www.wikidata.org/entity/Q110831547
+,embassy,Poland,Warsaw,,+48-22-617-09-73,https://polonia.embajada.gov.co/,http://www.wikidata.org/entity/Q9149525
+,embassy,Portugal,Lisbon,,,http://portugal.embajada.gov.co/,http://www.wikidata.org/entity/Q103555919
+,embassy,Russia,Moscow,,,https://rusia.embajada.gov.co,http://www.wikidata.org/entity/Q1661969
+,embassy,Singapore,Singapore,,,https://singapur.embajada.gov.co,http://www.wikidata.org/entity/Q110829825
+,embassy,South Africa,Pretoria,,,http://sudafrica.embajada.gov.co,http://www.wikidata.org/entity/Q106663792
+,embassy,South Korea,Seoul,,,https://corea.embajada.gov.co,http://www.wikidata.org/entity/Q110822299
+,embassy,Spain,Madrid,,,http://espana.embajada.gov.co/,http://www.wikidata.org/entity/Q5369631
+,embassy,Sweden,Stockholm,,,,http://www.wikidata.org/entity/Q10457172
+eberna@cancilleria.gov.co,embassy,Switzerland,Bern,,+41-31-350-14-05,http://suiza.embajada.gov.co/,http://www.wikidata.org/entity/Q26979991
+,embassy,Thailand,Bangkok,,,https://tailandia.embajada.gov.co,http://www.wikidata.org/entity/Q110830051
+,embassy,Trinidad and Tobago,Port of Spain,,,https://trinidadytobago.embajada.gov.co,http://www.wikidata.org/entity/Q5369640
+,embassy,Turkey,Ankara,,,http://turquia.embajada.gov.co/,http://www.wikidata.org/entity/Q103558132
+,embassy,United Arab Emirates,Abu Dhabi,,,,http://www.wikidata.org/entity/Q5369607
+,embassy,United Kingdom,London,,,https://reinounido.embajada.gov.co,http://www.wikidata.org/entity/Q5369630
+,embassy,United States of America,,,,http://estadosunidos.embajada.gov.co/,http://www.wikidata.org/entity/Q1156636
+,embassy,Uruguay,Montevideo,,,https://uruguay.embajada.gov.co,http://www.wikidata.org/entity/Q5369634
+,embassy,Venezuela,,,,https://venezuela.embajada.gov.co,http://www.wikidata.org/entity/Q5369620
+,embassy,Vietnam,Hanoi,,,https://vietnam.embajada.gov.co,http://www.wikidata.org/entity/Q110831329

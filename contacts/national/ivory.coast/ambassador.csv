@@ -1,0 +1,48 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Algeria,Hydra,,,https://www.algerie.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112827451
+,embassy,Angola,Luanda,,,https://www.angola.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q112874177
+,embassy,Australia,Canberra,,,http://www.australie.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q106457187
+,embassy,Austria,Vienna,,,http://autriche.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q104630193
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69390212
+,embassy,Brazil,Brasília,,,http://bresil.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q105693063
+,embassy,Burkina Faso,Ouagadougou,,,https://www.burkinafaso.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112827601
+,embassy,Cameroon,Yaoundé,,,https://www.cameroun.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q106604494
+,embassy,Canada,Ottawa,,,http://www.canada.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q5369750
+,embassy,Chad,N'Djamena,,,https://www.tchad.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112874235
+,embassy,Democratic Republic of the Congo,Kinshasa,,,https://www.rdcongo.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q112845393
+,embassy,Egypt,Cairo,,,https://www.egypte.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112845487
+,embassy,Equatorial Guinea,Malabo,,,,http://www.wikidata.org/entity/Q112865616
+,embassy,Ethiopia,Addis Ababa,,,https://www.ethiopie.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112845562
+,embassy,France,,,,https://france.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q15639479
+,embassy,Gabon,Libreville,,,https://www.gabon.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q112865220
+,embassy,Germany,Berlin,,,http://allemagne.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q56329081
+,embassy,Ghana,Accra,,,https://www.ghana.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q112865344
+,embassy,Guinea,Kaloum,,,https://www.guinee.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q110712666
+,embassy,India,New Delhi,,,https://inde.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q112112656
+,embassy,Iran,Tehran,,,https://www.iran.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112874427
+,embassy,Israel,Ramat Gan,,,https://israel.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q112035892
+,embassy,Italy,Rome,,,https://www.vatican.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q56326527
+,embassy,Italy,Rome,,,https://www.italie.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q103585057
+,embassy,Japan,Tokyo,,,https://japon.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q61877162
+,embassy,Kingdom of Denmark,Gentofte Municipality,,,http://www.danemark.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q105997811
+,embassy,Lebanon,Beirut,,,https://www.liban.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112874516
+,embassy,Liberia,Monrovia,,,https://www.liberia.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q112865631
+,embassy,Mali,Bamako,,,http://mali.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q106622508
+,embassy,Mexico,Mexico City,,,http://www.mexique.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q111660604
+,embassy,Morocco,Rabat,,,https://www.maroc.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112873840
+,embassy,Netherlands,The Hague,,,,http://www.wikidata.org/entity/Q100491584
+,embassy,Nigeria,Abuja,,,https://www.nigeria.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112873958
+,embassy,People's Republic of China,Beijing,,,https://www.chine.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q100276872
+,embassy,Portugal,Lisbon,,,http://www.portugal.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q105395673
+,embassy,Republic of the Congo,Brazzaville,,,https://www.congo.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112874878
+,embassy,Russia,Moscow,,,https://www.russie.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q110111936
+,embassy,Saudi Arabia,Riyadh,,,https://arabiesaoudite.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q68169961
+,embassy,Senegal,Dakar,,,https://www.senegal.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112874055
+,embassy,South Africa,Pretoria,,,http://www.afriquedusud.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q106672416
+,embassy,South Korea,Seoul,,,https://www.coreedusud.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112874398
+,embassy,Spain,Madrid,,,http://www.espagne.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q105203272
+acibe-sp1@acibe.org,embassy,Switzerland,Bern,,+41-31-350-80-80,https://www.suisse.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q26979964
+,embassy,Tunisia,Aryanah,,,https://www.tunisie.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q112873750
+,embassy,Turkey,Ankara,,,https://www.turquie.diplomatie.gouv.ci,http://www.wikidata.org/entity/Q110969705
+,embassy,United Kingdom,London,,,https://www.royaumeuni.diplomatie.gouv.ci/,http://www.wikidata.org/entity/Q16891020
+,embassy,United States of America,"Washington, D.C.",,,,http://www.wikidata.org/entity/Q5369659

@@ -1,0 +1,29 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Argentina,Buenos Aires,,,,http://www.wikidata.org/entity/Q110270771
+,embassy,Belgium,City of Brussels,,,,http://www.wikidata.org/entity/Q69389534
+,embassy,Brazil,Brasília,,,,http://www.wikidata.org/entity/Q105690917
+,embassy,Canada,Ottawa,,,http://www.ambardcongocanada.ca,http://www.wikidata.org/entity/Q20651278
+,embassy,Czech Republic,Prague,,,http://www.ambardcprague.com,http://www.wikidata.org/entity/Q107123508
+,embassy,France,Paris,,,https://www.ambardcparis.com/,http://www.wikidata.org/entity/Q16303664
+,embassy,Germany,Berlin,,,https://www.ambardc.de/,http://www.wikidata.org/entity/Q16740965
+,embassy,Greece,Psychiko,,,,http://www.wikidata.org/entity/Q109658635
+,embassy,India,New Delhi,,,https://www.ambardc-india.com/,http://www.wikidata.org/entity/Q107560313
+,embassy,Israel,Tel Aviv,,,,http://www.wikidata.org/entity/Q112035800
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q65168013
+,embassy,Italy,Rome,,,,http://www.wikidata.org/entity/Q103575944
+,embassy,Ivory Coast,Abidjan,,,,http://www.wikidata.org/entity/Q112876443
+,embassy,Japan,,,,,http://www.wikidata.org/entity/Q61877091
+,embassy,People's Republic of China,Beijing,,,,http://www.wikidata.org/entity/Q100272608
+,embassy,Poland,Warsaw,,,https://www.ambassaderdcpologne.com/,http://www.wikidata.org/entity/Q9149483
+,embassy,Portugal,Lisbon,,,,http://www.wikidata.org/entity/Q105395492
+,embassy,Romania,Bucharest,,,,http://www.wikidata.org/entity/Q106875126
+,embassy,Russia,Moscow,,,,http://www.wikidata.org/entity/Q4373992
+,embassy,Saudi Arabia,Riyadh,,,,http://www.wikidata.org/entity/Q68170158
+,embassy,Senegal,Dakar,,,,http://www.wikidata.org/entity/Q110907187
+,embassy,Serbia,Belgrade,,,http://drcongo-embassy.rs,http://www.wikidata.org/entity/Q108119268
+,embassy,South Africa,Pretoria,,,,http://www.wikidata.org/entity/Q106666239
+,embassy,Spain,Madrid,,,http://ambardcmadrid.com/,http://www.wikidata.org/entity/Q105179047
+,embassy,Sweden,Lidingö Municipality,,,https://www.ambardcstockholm.com,http://www.wikidata.org/entity/Q19977602
+rdcambassy@bluewin.ch,embassy,Switzerland,Bern,,+41-31-371-35-38,,http://www.wikidata.org/entity/Q26979967
+,embassy,Turkey,Ankara,,,,http://www.wikidata.org/entity/Q110970554
+,embassy,United Kingdom,London,,,https://www.ambardc.london,http://www.wikidata.org/entity/Q16891009

@@ -1,0 +1,93 @@
+email,mission_type,host_country,city,address,phone,website,wikidata_qid
+,embassy,Afghanistan,Kabul,,,https://www.mzv.cz/kabul,http://www.wikidata.org/entity/Q107028839
+,embassy,Albania,Tirana,,,https://www.mzv.cz/tirana,http://www.wikidata.org/entity/Q107029337
+,embassy,Algeria,Algiers,,,https://www.mzv.cz/algiers,http://www.wikidata.org/entity/Q107029422
+,embassy,Argentina,Buenos Aires,,,https://www.mzv.cz/buenosaires,http://www.wikidata.org/entity/Q107029871
+,embassy,Armenia,Yerevan,,,https://www.mzv.cz/yerevan,http://www.wikidata.org/entity/Q31194204
+,embassy,Australia,Canberra,,,https://www.mzv.cz/canberra,http://www.wikidata.org/entity/Q106457574
+,embassy,Austria,Vienna,,,https://www.mzv.cz/vienna,http://www.wikidata.org/entity/Q54168990
+,embassy,Azerbaijan,Baku,,,https://www.mzv.cz/baku,http://www.wikidata.org/entity/Q107030058
+,embassy,Belarus,Minsk,,,https://www.mzv.cz/minsk,http://www.wikidata.org/entity/Q33113431
+,embassy,Belgium,Ixelles - Elsene,,,https://www.mzv.cz/brussels,http://www.wikidata.org/entity/Q67204994
+,embassy,Bosnia and Herzegovina,Sarajevo,,,https://www.mzv.cz/sarajevo/cz/index.html,http://www.wikidata.org/entity/Q93500120
+,embassy,Brazil,Brasília,,,https://www.mzv.cz/brasilia,http://www.wikidata.org/entity/Q105716528
+,embassy,Bulgaria,Stolichna Municipality,,,https://www.mzv.cz/sofia,http://www.wikidata.org/entity/Q41588706
+,embassy,Canada,Ottawa,,,https://www.mzv.cz/ottawa,http://www.wikidata.org/entity/Q5369927
+,embassy,Chile,Las Condes,,,https://www.mzv.cz/santiago,http://www.wikidata.org/entity/Q107033705
+,embassy,Colombia,Bogotá,,,https://www.mzv.cz/bogota,http://www.wikidata.org/entity/Q107030760
+,embassy,Croatia,Zagreb,,,https://www.mzv.cz/zagreb,http://www.wikidata.org/entity/Q107036117
+,embassy,Cuba,Havana,,,https://www.mzv.cz/havana,http://www.wikidata.org/entity/Q107030513
+,embassy,Egypt,Giza,,,https://www.mzv.cz/cairo,http://www.wikidata.org/entity/Q107051207
+,embassy,Estonia,Tallinn City,,,https://www.mzv.cz/tallinn,http://www.wikidata.org/entity/Q65262675
+,embassy,Ethiopia,Addis Ababa,,,https://www.mzv.cz/addisabeba,http://www.wikidata.org/entity/Q107050821
+,embassy,Finland,Helsinki,,,https://www.mzv.cz/helsinki,http://www.wikidata.org/entity/Q106230801
+,embassy,France,,,,https://www.mzv.cz/paris,http://www.wikidata.org/entity/Q11879193
+,consulate,France,,,,,http://www.wikidata.org/entity/Q124326957
+,embassy,Georgia,Tbilisi,,,https://www.mzv.cz/tbilisi,http://www.wikidata.org/entity/Q107051381
+,embassy,Germany,Mitte,,,http://www.mzv.cz/berlin/de/,http://www.wikidata.org/entity/Q2457582
+,embassy,Ghana,Accra,,,https://www.mzv.cz/accra,http://www.wikidata.org/entity/Q107035545
+,embassy,Greece,Filothei-Psychiko Municipality,,,https://www.mzv.cz/athens,http://www.wikidata.org/entity/Q107014133
+,embassy,Guinea,Conakry,,,,http://www.wikidata.org/entity/Q120550788
+,embassy,Hungary,Budapest District VI,,,https://www.mzv.cz/budapest/,http://www.wikidata.org/entity/Q66341093
+,embassy,India,New Delhi,,,https://www.mzv.cz/newdelhi,http://www.wikidata.org/entity/Q107014421
+,embassy,Indonesia,Jakarta,,,https://www.mzv.cz/jakarta,http://www.wikidata.org/entity/Q107033727
+,embassy,Iran,Tehran,,,https://www.mzv.cz/teheran,http://www.wikidata.org/entity/Q107051970
+,embassy,Iraq,Baghdad,,,https://www.mzv.cz/baghdad,http://www.wikidata.org/entity/Q107052792
+,embassy,Ireland,Dublin,,,,http://www.wikidata.org/entity/Q104764290
+,embassy,Israel,Tel Aviv,,,https://www.mzv.cz/telaviv,http://www.wikidata.org/entity/Q106041076
+,embassy,Italy,Rome,,,https://www.mzv.cz/vatican,http://www.wikidata.org/entity/Q11879195
+,embassy,Italy,Rome,,,https://www.mzv.cz/rome/,http://www.wikidata.org/entity/Q103905094
+,embassy,Japan,Tokyo,,,,http://www.wikidata.org/entity/Q61877435
+,embassy,Jordan,Amman,,,https://www.mzv.cz/amman,http://www.wikidata.org/entity/Q107063934
+,embassy,Kazakhstan,Astana,,,https://www.mzv.cz/nur-sultan,http://www.wikidata.org/entity/Q107064017
+,embassy,Kenya,Nairobi,,,https://www.mzv.cz/nairobi,http://www.wikidata.org/entity/Q107035966
+,embassy,Kingdom of Denmark,Copenhagen Municipality,,,https://www.mzv.cz/copenhagen,http://www.wikidata.org/entity/Q105999272
+,embassy,Kuwait,Kuwait City,,,https://www.mzv.cz/kuwait,http://www.wikidata.org/entity/Q107066645
+,embassy,Latvia,Riga,,,https://www.mzv.cz/riga,http://www.wikidata.org/entity/Q107066818
+,embassy,Lebanon,Baabda,,,https://www.mzv.cz/beirut,http://www.wikidata.org/entity/Q107066909
+,embassy,Lithuania,Vilnius,,,https://www.mzv.cz/vilnius,http://www.wikidata.org/entity/Q107067066
+,embassy,Luxembourg,Luxembourg,,,https://www.mzv.cz/luxembourg,http://www.wikidata.org/entity/Q100791425
+,embassy,Malaysia,Kuala Lumpur,,,https://www.mzv.cz/kualalumpur,http://www.wikidata.org/entity/Q107079813
+,embassy,Mali,Bamako,,,https://www.mzv.cz/bamako,http://www.wikidata.org/entity/Q107079955
+,embassy,Mexico,Mexico City,,,https://www.mzv.cz/mexico,http://www.wikidata.org/entity/Q107032363
+,embassy,Moldova,Chișinău,,,https://www.mzv.cz/chisinau/,http://www.wikidata.org/entity/Q5369924
+,embassy,Mongolia,Ulaanbaatar,,+976-11-32-1886,http://www.mzv.cz/ulaanbaatar,http://www.wikidata.org/entity/Q33309276
+,embassy,Montenegro,Podgorica,,,https://www.mzv.cz/podgorica,http://www.wikidata.org/entity/Q107084351
+,embassy,Morocco,Rabat,,,https://www.mzv.cz/rabat,http://www.wikidata.org/entity/Q107084014
+,embassy,Myanmar,Yangon,,,https://www.mzv.cz/yangon,http://www.wikidata.org/entity/Q107093453
+,embassy,Netherlands,The Hague,,,https://www.mzv.cz/hague,http://www.wikidata.org/entity/Q100534218
+,embassy,Nigeria,Abuja,,,https://www.mzv.cz/abuja,http://www.wikidata.org/entity/Q107033552
+,embassy,North Korea,Pyongyang,,,https://www.mzv.cz/pyongyang,http://www.wikidata.org/entity/Q107064321
+,embassy,North Macedonia,Skopje,,,https://www.mzv.cz/skopje,http://www.wikidata.org/entity/Q107093642
+,embassy,Northern Cyprus,Nicosia,,,https://www.mzv.cz/nicosia,http://www.wikidata.org/entity/Q107036185
+,embassy,Norway,Oslo Municipality,,,https://www.mzv.cz/oslo,http://www.wikidata.org/entity/Q19393445
+,embassy,Pakistan,Islamabad,,,https://www.mzv.cz/islamabad,http://www.wikidata.org/entity/Q107094458
+,embassy,People's Republic of China,Beijing,,,https://www.mzv.cz/beijing,http://www.wikidata.org/entity/Q107036221
+,embassy,Peru,San Isidro,,,https://www.mzv.cz/lima,http://www.wikidata.org/entity/Q107051165
+,embassy,Philippines,Makati,,,https://www.mzv.cz/manila,http://www.wikidata.org/entity/Q107080003
+,embassy,Poland,Warsaw,,,http://www.mzv.cz/warsaw,http://www.wikidata.org/entity/Q9149481
+,embassy,Portugal,Lisbon,,,https://www.mzv.cz/lisbon,http://www.wikidata.org/entity/Q105375781
+,embassy,Romania,Bucharest,,,https://www.mzv.cz/bucharest,http://www.wikidata.org/entity/Q106848690
+,embassy,Russia,Moscow,,,https://www.mzv.cz/moscow,http://www.wikidata.org/entity/Q4374083
+,embassy,Saudi Arabia,Riyadh,,,https://www.mzv.cz/riyadh,http://www.wikidata.org/entity/Q68169969
+,embassy,Senegal,Dakar,,,https://www.mzv.cz/dakar,http://www.wikidata.org/entity/Q107051449
+,embassy,Serbia,Belgrade,,,https://www.mzv.cz/belgrade,http://www.wikidata.org/entity/Q107094493
+,embassy,Serbia,Pristina,,,https://www.mzv.cz/pristina,http://www.wikidata.org/entity/Q107066207
+,embassy,Slovakia,Bratislava,,,https://www.mzv.cz/bratislava,http://www.wikidata.org/entity/Q53205327
+,embassy,Slovenia,Ljubljana,,,https://www.mzv.cz/ljubljana,http://www.wikidata.org/entity/Q107094508
+,embassy,South Africa,Pretoria,,,https://www.mzv.cz/pretoria,http://www.wikidata.org/entity/Q56242990
+,embassy,South Korea,Seoul,,,https://www.mzv.cz/seoul,http://www.wikidata.org/entity/Q107064410
+,embassy,Spain,Madrid,,,https://www.mzv.cz/madrid,http://www.wikidata.org/entity/Q84611280
+,embassy,Sweden,Stockholm,,,https://www.mzv.cz/stockholm,http://www.wikidata.org/entity/Q10698872
+bern@embassy.mzv.cz,embassy,Switzerland,Bern,,+41-31-350-40-70,https://www.mzv.cz/bern,http://www.wikidata.org/entity/Q26980196
+,embassy,Syria,Damascus,,,https://www.mzv.cz/damascus,http://www.wikidata.org/entity/Q107098278
+consular_bangkok@mzv.cz,embassy,Thailand,Bangkok,,,https://www.mzv.cz/bangkok,http://www.wikidata.org/entity/Q107036035
+,embassy,Tunisia,Tunis,,,https://www.mzv.cz/tunis,http://www.wikidata.org/entity/Q107066983
+,embassy,Turkey,Ankara,,,https://www.mzv.cz/ankara,http://www.wikidata.org/entity/Q107025021
+kyiv@embassy.mzv.cz,embassy,Ukraine,Kyiv,,+380-44-272-2110,https://www.mzv.cz/kiev,http://www.wikidata.org/entity/Q12142747
+,embassy,United Arab Emirates,Abu Dhabi,,,https://www.mzv.cz/abudhabi,http://www.wikidata.org/entity/Q107098473
+,embassy,United Kingdom,London,,,https://www.mzv.cz/london,http://www.wikidata.org/entity/Q16973171
+,embassy,United States of America,"Washington, D.C.",,,https://www.mzv.cz/washington/en/index.html,http://www.wikidata.org/entity/Q5369928
+,embassy,Uzbekistan,Tashkent,,,https://www.mzv.cz/tashkent,http://www.wikidata.org/entity/Q107098347
+,embassy,Vietnam,Hanoi,,,https://www.mzv.cz/hanoi,http://www.wikidata.org/entity/Q107098568
+,embassy,Zambia,Lusaka,,,https://www.mzv.cz/lusaka,http://www.wikidata.org/entity/Q107079031
