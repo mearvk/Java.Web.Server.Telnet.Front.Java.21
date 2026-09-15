@@ -6,6 +6,8 @@
 Author: Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
 License: LICENSE.md
 
+**AE6E66 Public Email Levy Position:** We expect **$300,000,000.00 USD Tax Levy for every Round Public email.** This is a project-level stated position and does not by itself create or impose a governmental tax, assessment, or legally enforceable obligation.
+
 A multi-module Java 21 telnet/TCP server platform with NIO masquerade routing, AI inference (Strernary™), encrypted chat, fiduciary services, and Tomcat-deployed web frontends. All modules share a common startup/shutdown orchestration system.
 
 ## Bitcoin Conjegeum
@@ -164,7 +166,7 @@ bash scripts/status.sh
 ## Configuration
 
 | File | Purpose |
-|------|---------|
+|--------|---------|
 | `configuration/nwe-config.xml` | Master config: ports, admin, servers, scheduling |
 | `configuration/masquerade-modules.xml` | NIO masquerade module registry + auto-discover |
 | `configuration/print-method.xml` | Output formatting, capitalization, color, trademarks |
@@ -281,77 +283,32 @@ Java.Web.Server.Telnet.Front.Java.21/
 │   ├── emeter/                Emeter (port 49216)
 │   ├── spectrum-tandem/       SpectrumTandem (port 49222)
 │   ├── tandem-equals/         TandemEquals (port 49223)
-│   ├── chat/                  NWE Chat (port 49230)
-│   ├── uncw/                  UNCW Wilmington (port 49231)
+│   ├── chat/                  Chat (port 49230)
+│   ├── uncw/                  UNCW (port 49231)
 │   ├── armorer/               ArmorerSteve (port 49235)
 │   ├── fiduciary/             Fiduciary (port 49240)
 │   ├── gray/                  GrayPortRegistry (port 9999)
-│   ├── gray.a85/              Gray85Crème (port 10085)
-│   ├── AE6E66/                UK Parliament contact
-│   ├── Green.Durham.Grass.and.Herb/   Labor/ethics (port 20000)
-│   ├── red/Futures/           Democratic AI (port 5000)
-│   ├── Defined/               Dark Gray moral surveillance (port 49220)
-│   ├── bitcoin/               Bitcoin wallet frontend
-│   ├── dictionary/            Dictionary (DB-only)
-│   ├── calendar/              Calendar (webapp)
-│   ├── analytics/             Analytics (DB-only, passive)
-│   ├── black-belt/            Black Belt (webapp only)
-│   ├── languages/             Language packs (webapp only)
-│   ├── daemon/                ModuleLoaderDaemon (port 49188)
-│   └── black/presidential/    Brarner.M.Alete
-├── configuration/             XML config files
-├── scripts/                   Orchestration, deploy, test scripts
-│   └── mail/                  Postfix + Dovecot mail system
-├── jars/                      Dependencies (MySQL connector, Lanterna, DJL)
-├── out/                       Compiled .class files
-├── logging/                   NWE main logs
-└── data/                      PID files, runtime data
+│   ├── gray/a85/               Gray85Crème (port 10085)
+│   ├── AE6E66/                AE6E66 (UK Parliament contact module)
+│   ├── Green.Durham.Grass.and.Herb/ Green Durham module (port 20000)
+│   ├── red/Futures/            Futures/DemocraticAI (port 5000)
+│   ├── Defined/                Defined AI (port 49220)
+│   ├── bitcoin/                Bitcoin webapp
+│   ├── dictionary/             Dictionary webapp
+│   ├── calendar/               Calendar webapp
+│   ├── analytics/              Analytics webapp
+│   ├── black-belt/             Black Belt webapp
+│   ├── languages/              Languages webapp
+│   └── daemon/                 Module loader daemon (port 49188)
+├── configuration/             XML configuration files
+├── scripts/                    Build, startup, deployment, mail, integrity
+├── deploy-all-modules.sh      Deploy all enabled webapps
+├── out/                       Compiled classes (generated)
+└── README.md
 ```
 
 ---
 
-## Ports Summary
+## License
 
-| Range | Services |
-|-------|----------|
-| 2000 | StrernaryDirectory |
-| 5000 | Futures (DemocraticAI) |
-| 5512 | AES encryption |
-| 6682 | Bitcoin |
-| 7743–7744 | RSA, DSA |
-| 8080 | Tomcat (all web frontends) |
-| 9999 | Gray Port Registry |
-| 10085 | Gray85 Crème Registry |
-| 20000 | Strernary AI inference |
-| 49111–49216 | NWE core + signal + modules |
-| 49220–49223 | Defined, SpectrumTandem, TandemEquals |
-| 49230–49231 | NWE Chat, UNCW |
-| 49235 | ArmorerSteve (knowledge Q&A) |
-| 49240 | Fiduciary (ACH transfer) |
-
-**Open all ports:** `sudo bash scripts/ufw-allow-all.sh`
-
----
-
-## Ubuntu Alpha Restricted Integration
-
-This project is bundled as userland in the [Ubuntu.Determinant.Alpha.Restricted](https://github.com/mearvk/Ubuntu.Determinant.Alpha.Restricted) distribution at `userland/java-web-server/`. The OS also provides native C tools:
-
-| Tool | Location (in Ubuntu repo) | Purpose |
-|------|---------------------------|---------|
-| `fiduciary.c` | `tools/fiduciary/` | Native ACH transfer engine |
-| `ach_transfer.c` | `tools/fiduciary/` | ACH transfer C implementation |
-| `armorer.c` | `tools/armorer/` | Native armorer knowledge engine |
-| `configure-mail.sh` | `tools/postfix/` | Full Postfix/Dovecot mail configuration |
-| `install_postfix.sh` | `tools/postfix/` | Postfix MTA installer |
-| `install_dovecot.sh` | `tools/dovecot/` | Dovecot IMAP/POP3 installer |
-
-These native sources are also kept locally in the corresponding `modules/*/source/` directories.
-
----
-
-## Contact
-
-- GitHub: https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/discussions
-- Email: mearvk@mearvk.us | mearvk@outlook.com
-- Phone: 1.919.923.4239 (USA)
+See `LICENSE.md` for project licensing terms.
