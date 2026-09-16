@@ -9,12 +9,13 @@ MODEL_CONFIG ?= .blackbelt-model
 DEFAULT_MODEL ?= llama3.2:latest
 SAVE_DIR ?= $(HOME)/.local/state/blackbelt/responses
 
-.PHONY: all c cpp java clean install models select-model doctor config show-config run run-c run-cpp run-java save-help transport-help
+.PHONY: all c cpp no-save java clean install models select-model doctor config show-config run run-c run-cpp run-2 run-java save-help transport-help chmod-scripts
 
-all: c cpp java
+all: c cpp no-save java
 
 c: blackbelt-c
 cpp: blackbelt-cpp
+no-save: blackbelt-2
 java: BlackBeltCLI.class
 
 blackbelt-c: blackbelt-c.c
@@ -23,8 +24,14 @@ blackbelt-c: blackbelt-c.c
 blackbelt-cpp: blackbelt.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
+blackbelt-2: blackbelt-2.c blackbelt-c
+	$(CC) $(CFLAGS) -o $@ blackbelt-2.c
+
 BlackBeltCLI.class: BlackBeltCLI.java
 	$(JAVAC) --release 21 -d . $<
+
+chmod-scripts:
+	@find . -maxdepth 1 -type f -name '*.sh' -exec chmod +x {} +
 
 models:
 	@command -v $(OLLAMA) >/dev/null 2>&1 || { echo "Ollama not found in PATH."; exit 2; }
@@ -91,12 +98,16 @@ run-c: blackbelt-c
 run-cpp: blackbelt-cpp
 	@./blackbelt-cpp
 
+run-2: blackbelt-2
+	@./blackbelt-2
+
 run-java: BlackBeltCLI.class
 	@java BlackBeltCLI
 
-install: all
+install: all chmod-scripts
 	install -Dm755 blackbelt-c $(DESTDIR)$(PREFIX)/blackbelt-c
 	install -Dm755 blackbelt-cpp $(DESTDIR)$(PREFIX)/blackbelt-cpp
+	install -Dm755 blackbelt-2 $(DESTDIR)$(PREFIX)/blackbelt-2
 	install -Dm755 blackbelt-engine.sh $(DESTDIR)$(PREFIX)/blackbelt-engine.sh
 	install -Dm755 blackbelt-output.sh $(DESTDIR)$(PREFIX)/blackbelt-output.sh
 	install -Dm644 BlackBeltCLI.class $(DESTDIR)$(PREFIX)/BlackBeltCLI.class
@@ -104,4 +115,7 @@ install: all
 	install -Dm644 ../black.belt/sharp/system.prompt $(DESTDIR)/usr/share/blackbelt/sharp/system.prompt
 
 clean:
-	rm -f blackbelt-c blackbelt-cpp BlackBeltCLI.class
+	rm -f blackbelt-c blackbelt-cpp blackbelt-2 BlackBeltCLI.class
+
+# Every standard build normalizes local shell-script execute bits first.
+blackbelt-c blackbelt-cpp blackbelt-2: | chmod-scripts
