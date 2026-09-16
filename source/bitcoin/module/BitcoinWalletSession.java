@@ -3,30 +3,37 @@ package bitcoin.module;
 import connections.Connection;
 import national.NationalFinanceID;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
- * BitcoinWalletSession — handles telnet commands for browsing/selecting/trading BTC wallets.
+ * BitcoinWalletSession — handles telnet commands for browsing/selecting BTC wallets.
  *
  * Commands:
  *   bitcoin                 — show available versions (24-30)
- *   bitcoin <version>       — list wallets for that version
- *   set wallet.name <name>  — select wallet for session (persists to DB)
+ *   bitcoin <version>       — list wallet metadata for that version
+ *   set wallet.name <name>  — select wallet for session
  *   unset wallet.name       — deselect wallet
- *   trade btc <amount>      — trade BTC from selected wallet (recorded in trades table)
+ *   trade btc <amount>      — record a trade event; DOES NOT submit a blockchain transaction
+ *   show wallet             — show the selected wallet
  *
- * Original wallet data in bitcoin_wallets_v{N} is NEVER modified.
- * Trades are recorded in bitcoin_trades_v{N} tables.
+ * Financial balances are never inferred from wallet filenames or file sizes.
+ * Bitcoin Core RPC is the authoritative source for an actual wallet balance.
  */
 public class BitcoinWalletSession
 {
-    private static final String AUTHOR = "Max Ruppln - Clear 21 Branch US Military";
+    private static final int MIN_VERSION = 24;
+    private static final int MAX_VERSION = 30;
+    private static final long SATOSHIS_PER_BTC = 100_000_000L;
+    private static final int MAX_TRADE_SCALE = 8;
 
     /** Handle a bitcoin-related command. Returns response string. */
     public static String handle(String cmd, Connection conn, NationalFinanceID nfid)
     {
+        if (cmd == null) return null;
         String lower = cmd.trim().toLowerCase();
 
         if (lower.equals("bitcoin"))
@@ -42,12 +49,12 @@ public class BitcoinWalletSession
         else if (lower.equals("show wallet"))
             return showWallet(conn);
 
-        return null; // not a bitcoin command
+        return null;
     }
 
-    /** Check if input is a bitcoin command. */
     public static boolean isBitcoinCommand(String cmd)
     {
+        if (cmd == null) return false;
         String l = cmd.trim().toLowerCase();
         return l.equals("bitcoin") || l.startsWith("bitcoin ") ||
                l.startsWith("set wallet.name ") || l.equals("unset wallet.name") ||
@@ -63,75 +70,78 @@ public class BitcoinWalletSession
             java.sql.Connection db = database.N21DataSource.get();
             if (db == null) return "  [DB unavailable]";
 
-            for (int v = 24; v <= 30; v++)
+            for (int v = MIN_VERSION; v <= MAX_VERSION; v++)
             {
-                Statement st = db.createStatement();
-                ResultSet rs = st.executeQuery("SELECT COUNT(*) as c, IFNULL(SUM(btc_value),0) as btc FROM bitcoin_wallets_v" + v);
-                if (rs.next())
-                    sb.append("  v").append(v).append("  — ").append(rs.getInt("c")).append(" wallets, ").append(rs.getLong("btc")).append(" BTC\r\n");
-                rs.close(); st.close();
+                String table = walletTable(v);
+                try (Statement st = db.createStatement();
+                     ResultSet rs = st.executeQuery("SELECT COUNT(*) AS c FROM " + table))
+                {
+                    if (rs.next())
+                        sb.append("  v").append(v).append("  — ").append(rs.getInt("c")).append(" wallet records\r\n");
+                }
             }
             sb.append("\r\n  Usage: bitcoin <version>  (e.g. bitcoin 24)");
             if (conn.btcWallet != null)
                 sb.append("\r\n  Active wallet: ").append(conn.btcWallet).append(" (v").append(conn.btcVersion).append(")");
         }
-        catch (Exception e) { return "  [Error querying wallets]"; }
+        catch (Exception e) { return "  [Error querying wallet metadata]"; }
         return sb.toString();
     }
 
     private static String listWallets(String versionStr, Connection conn)
     {
-        int version;
+        final int version;
         try { version = Integer.parseInt(versionStr); }
         catch (NumberFormatException e) { return "  Usage: bitcoin <24|25|26|27|28|29|30>"; }
-        if (version < 24 || version > 30) return "  Invalid version. Use 24–30.";
+        if (!validVersion(version)) return "  Invalid version. Use 24–30.";
 
         StringBuilder sb = new StringBuilder();
-        sb.append("\r\n  Wallets — v").append(version).append("\r\n  ─────────────────────────\r\n");
+        sb.append("\r\n  Wallet Metadata — v").append(version).append("\r\n  ─────────────────────────\r\n");
         try
         {
             java.sql.Connection db = database.N21DataSource.get();
-            Statement st = db.createStatement();
-            ResultSet rs = st.executeQuery(
-                "SELECT wallet_name, file_size_bytes, btc_value, usd_value FROM bitcoin_wallets_v" + version +
-                " ORDER BY btc_value DESC LIMIT 25");
-            int i = 1;
-            while (rs.next())
+            if (db == null) return "  [DB unavailable]";
+            String table = walletTable(version);
+            String query = "SELECT wallet_name, file_size_bytes FROM " + table + " ORDER BY wallet_name LIMIT 25";
+            try (Statement st = db.createStatement(); ResultSet rs = st.executeQuery(query))
             {
-                sb.append(String.format("  %2d. %-30s %,12d bytes  %,8d BTC\r\n",
-                    i++, rs.getString("wallet_name"), rs.getLong("file_size_bytes"), rs.getLong("btc_value")));
+                int i = 1;
+                while (rs.next())
+                {
+                    sb.append(String.format("  %2d. %-30s %,12d bytes\r\n",
+                        i++, rs.getString("wallet_name"), rs.getLong("file_size_bytes")));
+                }
             }
-            rs.close(); st.close();
+            sb.append("\r\n  NOTE: file size is metadata, not a BTC balance.");
+            sb.append("\r\n  Use authenticated Bitcoin Core RPC for authoritative balances.");
             sb.append("\r\n  Use: set wallet.name <name>  to select a wallet.");
-
-            // Remember version selection in session
             conn.btcVersion = version;
         }
-        catch (Exception e) { return "  [Error listing wallets]"; }
+        catch (Exception e) { return "  [Error listing wallet metadata]"; }
         return sb.toString();
     }
 
     private static String setWallet(String name, Connection conn, NationalFinanceID nfid)
     {
         if (conn.btcVersion == 0) return "  Select a version first: bitcoin <24-30>";
-        if (name.isEmpty()) return "  Usage: set wallet.name <wallet_name>";
+        if (name.isEmpty() || name.length() > 512) return "  Usage: set wallet.name <wallet_name>";
 
-        // Verify wallet exists
         try
         {
             java.sql.Connection db = database.N21DataSource.get();
-            PreparedStatement ps = db.prepareStatement(
-                "SELECT wallet_name FROM bitcoin_wallets_v" + conn.btcVersion + " WHERE wallet_name = ?");
-            ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
-            if (!rs.next()) { rs.close(); ps.close(); return "  Wallet '" + name + "' not found in v" + conn.btcVersion + "."; }
-            rs.close(); ps.close();
+            if (db == null) return "  [DB unavailable]";
+            String table = walletTable(conn.btcVersion);
+            try (PreparedStatement ps = db.prepareStatement("SELECT wallet_name FROM " + table + " WHERE wallet_name = ?"))
+            {
+                ps.setString(1, name);
+                try (ResultSet rs = ps.executeQuery())
+                {
+                    if (!rs.next()) return "  Wallet '" + name + "' not found in v" + conn.btcVersion + ".";
+                }
+            }
 
             conn.btcWallet = name;
-
-            // Persist session to DB
             saveSession(nfid.nationalId, conn.btcVersion, name);
-
             return "  ✔  Wallet set: " + name + " (v" + conn.btcVersion + ")";
         }
         catch (Exception e) { return "  [Error setting wallet]"; }
@@ -151,49 +161,107 @@ public class BitcoinWalletSession
         return "  Active wallet: " + conn.btcWallet + " (v" + conn.btcVersion + ")";
     }
 
+    /**
+     * Records a trade event only. This method never broadcasts or submits a transaction.
+     * Amounts are stored as exact satoshis and optional fiat valuation is operator supplied.
+     */
     private static String tradeBtc(String amountStr, Connection conn, NationalFinanceID nfid)
     {
         if (conn.btcWallet == null) return "  No wallet selected. Use: set wallet.name <name>";
+        if (amountStr.isEmpty()) return "  Usage: trade btc <amount>";
 
-        long amount;
-        try { amount = Long.parseLong(amountStr); }
-        catch (NumberFormatException e) { return "  Usage: trade btc <amount>"; }
-        if (amount <= 0) return "  Amount must be positive.";
+        final long satoshis;
+        try
+        {
+            BigDecimal btc = new BigDecimal(amountStr).setScale(MAX_TRADE_SCALE, RoundingMode.UNNECESSARY);
+            if (btc.signum() <= 0) return "  Amount must be positive.";
+            BigDecimal satoshiDecimal = btc.movePointRight(MAX_TRADE_SCALE);
+            if (satoshiDecimal.compareTo(BigDecimal.valueOf(Long.MAX_VALUE)) > 0)
+                return "  Amount is too large.";
+            satoshis = satoshiDecimal.longValueExact();
+            if (satoshis <= 0) return "  Amount must be positive.";
+        }
+        catch (ArithmeticException | NumberFormatException e)
+        {
+            return "  Amount must be a positive BTC decimal with at most 8 decimal places.";
+        }
 
         try
         {
             java.sql.Connection db = database.N21DataSource.get();
+            if (db == null) return "  [DB unavailable]";
 
-            // Create trades table if not exists
-            String tradesTable = "bitcoin_trades_v" + conn.btcVersion;
-            Statement st = db.createStatement();
-            st.executeUpdate(
-                "CREATE TABLE IF NOT EXISTS " + tradesTable + " (" +
-                "  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
-                "  national_id BIGINT UNSIGNED NOT NULL," +
-                "  wallet_name VARCHAR(512) NOT NULL," +
-                "  btc_amount BIGINT NOT NULL," +
-                "  usd_value DOUBLE NOT NULL," +
-                "  trade_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-                "  author VARCHAR(256) NOT NULL" +
-                ") ENGINE=InnoDB");
-            st.close();
+            String table = tradeTable(conn.btcVersion);
+            try (Statement st = db.createStatement())
+            {
+                st.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS " + table + " (" +
+                    "  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+                    "  national_id BIGINT UNSIGNED NOT NULL," +
+                    "  wallet_name VARCHAR(512) NOT NULL," +
+                    "  amount_satoshis BIGINT UNSIGNED NOT NULL," +
+                    "  btc_price_usd DECIMAL(38,8) NULL," +
+                    "  usd_value DECIMAL(38,8) NULL," +
+                    "  trade_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                    "  event_state VARCHAR(32) NOT NULL DEFAULT 'RECORDED'," +
+                    "  author VARCHAR(256) NOT NULL" +
+                    ") ENGINE=InnoDB");
+            }
 
-            double usd = amount * 20_000_000_000_000.0;
+            BigDecimal price = readOptionalPrice();
+            BigDecimal usd = price == null ? null : BigDecimal.valueOf(satoshis)
+                .divide(BigDecimal.valueOf(SATOSHIS_PER_BTC), 8, RoundingMode.HALF_UP)
+                .multiply(price).setScale(8, RoundingMode.HALF_UP);
 
-            PreparedStatement ps = db.prepareStatement(
-                "INSERT INTO " + tradesTable + " (national_id, wallet_name, btc_amount, usd_value, author) VALUES (?,?,?,?,?)");
-            ps.setLong(1, nfid.nationalId);
-            ps.setString(2, conn.btcWallet);
-            ps.setLong(3, amount);
-            ps.setDouble(4, usd);
-            ps.setString(5, AUTHOR);
-            ps.executeUpdate();
-            ps.close();
+            String sql = "INSERT INTO " + table +
+                " (national_id, wallet_name, amount_satoshis, btc_price_usd, usd_value, event_state, author) VALUES (?,?,?,?,?,?,?)";
+            try (PreparedStatement ps = db.prepareStatement(sql))
+            {
+                ps.setLong(1, nfid.nationalId);
+                ps.setString(2, conn.btcWallet);
+                ps.setLong(3, satoshis);
+                if (price == null) ps.setNull(4, java.sql.Types.DECIMAL); else ps.setBigDecimal(4, price);
+                if (usd == null) ps.setNull(5, java.sql.Types.DECIMAL); else ps.setBigDecimal(5, usd);
+                ps.setString(6, "RECORDED");
+                ps.setString(7, "JWSTF BitcoinWalletSession");
+                ps.executeUpdate();
+            }
 
-            return "  ✔  Trade recorded: " + amount + " BTC from " + conn.btcWallet + " (v" + conn.btcVersion + ") = $" + String.format("%.2e", usd) + " USD";
+            String btc = BigDecimal.valueOf(satoshis).movePointLeft(MAX_TRADE_SCALE).stripTrailingZeros().toPlainString();
+            return price == null
+                ? "  ✔  Trade event recorded: " + btc + " BTC (" + satoshis + " satoshis). No blockchain transaction was submitted."
+                : "  ✔  Trade event recorded: " + btc + " BTC (" + satoshis + " satoshis), valuation $" + usd.toPlainString() + ". No blockchain transaction was submitted.";
         }
-        catch (Exception e) { return "  [Error recording trade: " + e.getMessage() + "]"; }
+        catch (Exception e) { return "  [Error recording trade event]"; }
+    }
+
+    private static BigDecimal readOptionalPrice()
+    {
+        String value = System.getenv("BTC_PRICE_USD");
+        if (value == null || value.trim().isEmpty()) return null;
+        try
+        {
+            BigDecimal price = new BigDecimal(value.trim()).setScale(8, RoundingMode.HALF_UP);
+            return price.signum() >= 0 ? price : null;
+        }
+        catch (NumberFormatException e) { return null; }
+    }
+
+    private static boolean validVersion(int version)
+    {
+        return version >= MIN_VERSION && version <= MAX_VERSION;
+    }
+
+    private static String walletTable(int version)
+    {
+        if (!validVersion(version)) throw new IllegalArgumentException("Unsupported Bitcoin version");
+        return "bitcoin_wallets_v" + version;
+    }
+
+    private static String tradeTable(int version)
+    {
+        if (!validVersion(version)) throw new IllegalArgumentException("Unsupported Bitcoin version");
+        return "bitcoin_trade_events_v" + version;
     }
 
     private static void saveSession(long nationalId, int version, String wallet)
@@ -202,25 +270,25 @@ public class BitcoinWalletSession
         {
             java.sql.Connection db = database.N21DataSource.get();
             if (db == null) return;
-
-            Statement st = db.createStatement();
-            st.executeUpdate(
-                "CREATE TABLE IF NOT EXISTS bitcoin_wallet_sessions (" +
-                "  national_id BIGINT UNSIGNED PRIMARY KEY," +
-                "  btc_version INT NOT NULL," +
-                "  wallet_name VARCHAR(512) NOT NULL," +
-                "  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" +
-                ") ENGINE=InnoDB");
-            st.close();
-
-            PreparedStatement ps = db.prepareStatement(
+            try (Statement st = db.createStatement())
+            {
+                st.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS bitcoin_wallet_sessions (" +
+                    "  national_id BIGINT UNSIGNED PRIMARY KEY," +
+                    "  btc_version INT NOT NULL," +
+                    "  wallet_name VARCHAR(512) NOT NULL," +
+                    "  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" +
+                    ") ENGINE=InnoDB");
+            }
+            try (PreparedStatement ps = db.prepareStatement(
                 "INSERT INTO bitcoin_wallet_sessions (national_id, btc_version, wallet_name) VALUES (?,?,?) " +
-                "ON DUPLICATE KEY UPDATE btc_version=VALUES(btc_version), wallet_name=VALUES(wallet_name)");
-            ps.setLong(1, nationalId);
-            ps.setInt(2, version);
-            ps.setString(3, wallet);
-            ps.executeUpdate();
-            ps.close();
+                "ON DUPLICATE KEY UPDATE btc_version=VALUES(btc_version), wallet_name=VALUES(wallet_name)"))
+            {
+                ps.setLong(1, nationalId);
+                ps.setInt(2, version);
+                ps.setString(3, wallet);
+                ps.executeUpdate();
+            }
         }
         catch (Exception ignored) {}
     }
@@ -231,10 +299,11 @@ public class BitcoinWalletSession
         {
             java.sql.Connection db = database.N21DataSource.get();
             if (db == null) return;
-            PreparedStatement ps = db.prepareStatement("DELETE FROM bitcoin_wallet_sessions WHERE national_id=?");
-            ps.setLong(1, nationalId);
-            ps.executeUpdate();
-            ps.close();
+            try (PreparedStatement ps = db.prepareStatement("DELETE FROM bitcoin_wallet_sessions WHERE national_id=?"))
+            {
+                ps.setLong(1, nationalId);
+                ps.executeUpdate();
+            }
         }
         catch (Exception ignored) {}
     }
