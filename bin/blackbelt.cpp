@@ -27,13 +27,13 @@ static std::string engineCommand() {
     const char* env = std::getenv("BBEA_ENGINE_CMD"); if (env && *env) return env;
     char exe[4096]; ssize_t n = readlink("/proc/self/exe", exe, sizeof(exe) - 1);
     if (n > 0) { exe[n] = '\0'; std::string path(exe); auto slash = path.find_last_of('/'); if (slash != std::string::npos) return path.substr(0, slash + 1) + "blackbelt-engine.sh"; }
-    return "bin/blackbelt-engine.sh";
+    return "modules/black-belt/bin/blackbelt-engine.sh";
 }
 
 static std::string outputHelper() {
     char exe[4096]; ssize_t n = readlink("/proc/self/exe", exe, sizeof(exe) - 1);
     if (n > 0) { exe[n] = '\0'; std::string path(exe); auto slash = path.find_last_of('/'); if (slash != std::string::npos) return path.substr(0, slash + 1) + "blackbelt-output.sh"; }
-    return "bin/blackbelt-output.sh";
+    return "modules/black-belt/bin/blackbelt-output.sh";
 }
 
 static bool copyExact(const std::string& src, const std::string& dst) {
