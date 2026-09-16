@@ -13,6 +13,13 @@ static int copy_argument(char **dst, int *outc, int max, const char *arg) {
 }
 
 int main(int argc, char **argv) {
+    for (int i = 1; i < argc; ++i) {
+        if (!strcmp(argv[i], "--version")) {
+            puts("blackbelt-2 1.0 (BBEA no-save)");
+            return 0;
+        }
+    }
+
     char executable[PATH_MAX];
     ssize_t n = readlink("/proc/self/exe", executable, sizeof(executable) - 1);
     if (n < 0 || (size_t)n >= sizeof(executable) - 1) {
