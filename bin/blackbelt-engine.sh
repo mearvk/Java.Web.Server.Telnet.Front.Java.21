@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Shared Black Belt AI transport. The CLI front ends send canonical JSON here.
-# Default engine: Ollama on localhost. Override with BBEA_ENGINE_URL and BBEA_MODEL.
+# Shared Black Belt AI transport. CLI front ends send canonical JSON here.
 ENGINE_URL="${BBEA_ENGINE_URL:-http://127.0.0.1:11434/api/generate}"
 MODEL="${BBEA_MODEL:-llama3.1:8b}"
 PROMPT_FILE="${BBEA_SYSTEM_PROMPT:-black.belt/sharp/system.prompt}"
@@ -24,18 +23,22 @@ fi
 
 INPUT="$(cat)"
 if [[ -z "${INPUT//[[:space:]]/}" ]]; then
-  echo "No JSON audit input received." >&2
+  echo "No audit input received." >&2
   exit 2
 fi
 
 python3 - "$PROMPT_FILE" "$MODEL" "$INPUT" <<'PY' | curl --fail-with-body -sS "$ENGINE_URL" -H 'Content-Type: application/json' --data-binary @-
 import json, pathlib, sys
-prompt_path, model, audit_input = sys.argv[1], sys.argv[2], sys.argv[3]
-system_prompt = pathlib.Path(prompt_path).read_text(encoding='utf-8')
+prompt_path, model, raw_input = sys.argv[1], sys.argv[2], sys.argv[3]
+system_prompt = pathlib.Path(prompt_path).read_text(encoding="utf-8")
+
 try:
-    parsed = json.loads(audit_input)
-except json.JSONDecodeError as exc:
-    raise SystemExit(f"Invalid audit JSON: {exc}")
+    parsed = json.loads(raw_input)
+except json.JSONDecodeError:
+    # Interactive natural-language questions are represented explicitly while
+    # canonical JSON audit objects remain unchanged.
+    parsed = {"question": raw_input.strip()}
+
 request = {
     "model": model,
     "system": system_prompt,
