@@ -1,5 +1,8 @@
 # Black Belt Linux Command-Line Interface
 
+**Introduced:** 2026-09-16 relocation/CLI consolidation  
+**Documentation Updated:** 2026-09-16
+
 This directory adds a Linux terminal interface for the Black Belt Ethical Auditor (BBEA) without requiring the JSP/Tomcat front end. It is a front-end transport layer: the existing Black Belt `sharp` schemas, system prompt, and AI engine remain authoritative.
 
 ## Implementations
