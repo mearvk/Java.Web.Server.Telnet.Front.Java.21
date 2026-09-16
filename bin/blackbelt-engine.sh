@@ -13,6 +13,10 @@ if [[ ! -f "$PROMPT_FILE" ]]; then
   PROMPT_FILE="$ROOT/black.belt/sharp/system.prompt"
 fi
 
+if [[ ! -f "$PROMPT_FILE" && -f "/usr/share/blackbelt/sharp/system.prompt" ]]; then
+  PROMPT_FILE="/usr/share/blackbelt/sharp/system.prompt"
+fi
+
 if [[ ! -f "$PROMPT_FILE" ]]; then
   echo "Black Belt system prompt not found: $PROMPT_FILE" >&2
   exit 2
