@@ -29,7 +29,7 @@ static const char *engine_command(char *buffer, size_t size) {
             return buffer;
         }
     }
-    return "bin/blackbelt-engine.sh";
+    return "modules/black-belt/bin/blackbelt-engine.sh";
 }
 
 static const char *output_helper(char *buffer, size_t size) {
@@ -42,7 +42,7 @@ static const char *output_helper(char *buffer, size_t size) {
             return buffer;
         }
     }
-    return "bin/blackbelt-output.sh";
+    return "modules/black-belt/bin/blackbelt-output.sh";
 }
 
 static void shell_quote(const char *src, char *dst, size_t size) {
