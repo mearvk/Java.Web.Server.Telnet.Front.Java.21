@@ -15,9 +15,9 @@ public final class BitcoinRpcPolicyTest
         assertRejected("0.000000001");
         assertRejected("not-a-number");
         assertRejected("92233720368");
+        assertAddressRejected("not-a-bitcoin-address");
         if (!BitcoinRpcPolicy.isAllowed("getbalance")) throw new AssertionError("getbalance must be allowed");
         if (BitcoinRpcPolicy.isAllowed("importprivkey")) throw new AssertionError("importprivkey must remain outside the server RPC surface");
-        BitcoinRpcPolicy.requireAddress("bcrt1qexampleaddressmuststillfail");
     }
 
     private static void assertRejected(final String value)
@@ -26,6 +26,16 @@ public final class BitcoinRpcPolicyTest
         {
             BitcoinRpcPolicy.requireSatoshis(value);
             throw new AssertionError("Expected rejection: " + value);
+        }
+        catch (IllegalArgumentException expected) { }
+    }
+
+    private static void assertAddressRejected(final String value)
+    {
+        try
+        {
+            BitcoinRpcPolicy.requireAddress(value);
+            throw new AssertionError("Expected address rejection: " + value);
         }
         catch (IllegalArgumentException expected) { }
     }
