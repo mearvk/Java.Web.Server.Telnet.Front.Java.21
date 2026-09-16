@@ -1,3 +1,8 @@
+/**
+ * JWSTF Local Administration console.
+ * Descriptor introduced: 2026-08-24.
+ * Descriptor updated: 2026-09-16.
+ */
 package us.house.admin;
 
 import javafx.application.Application;
