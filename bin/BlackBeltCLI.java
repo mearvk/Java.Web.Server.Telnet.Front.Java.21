@@ -5,6 +5,8 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 /** Linux-friendly Java 21 Black Belt Ethical Auditor CLI. */
 public final class BlackBeltCLI {
@@ -41,28 +43,7 @@ public final class BlackBeltCLI {
         return Path.of("/usr/share/blackbelt/sharp/system.prompt");
     }
 
-    public static void main(String[] args) throws Exception {
-        String file = null;
-        for (int i = 0; i < args.length; i++) {
-            switch (args[i]) {
-                case "--help", "-h" -> { usage(); return; }
-                case "--version" -> { System.out.println("blackbelt-java 1.0 (BBEA CLI v2 transport)"); return; }
-                case "--file" -> {
-                    if (++i >= args.length) { usage(); System.exit(2); }
-                    file = args[i];
-                }
-                default -> { System.err.println("Unknown argument: " + args[i]); usage(); System.exit(2); }
-            }
-        }
-
-        String input = file == null
-                ? new String(System.in.readAllBytes(), StandardCharsets.UTF_8)
-                : Files.readString(Path.of(file), StandardCharsets.UTF_8);
-        if (input.trim().isEmpty()) { System.err.println("No JSON audit input received."); System.exit(2); }
-        if (!input.trim().startsWith("{") || !input.trim().endsWith("}")) {
-            System.err.println("Audit input must be a JSON object."); System.exit(2);
-        }
-
+    private static int runEngine(String input) throws Exception {
         String prompt = Files.readString(resolvePrompt(), StandardCharsets.UTF_8);
         String model = System.getenv().getOrDefault("BBEA_MODEL", "llama3.1:8b");
         String url = System.getenv().getOrDefault("BBEA_ENGINE_URL", "http://127.0.0.1:11434/api/generate");
@@ -82,8 +63,64 @@ public final class BlackBeltCLI {
         if (response.statusCode() < 200 || response.statusCode() >= 300) {
             System.err.println("AI engine HTTP " + response.statusCode());
             System.err.println(response.body());
-            System.exit(3);
+            return 3;
         }
         System.out.println(response.body());
+        return 0;
+    }
+
+    private static int interactive() throws Exception {
+        System.out.println("Black Belt Ethical Auditor");
+        System.out.println("Enter a JSON audit object, or type 'help' or 'quit'.");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
+        for (;;) {
+            System.out.print("black-belt> ");
+            System.out.flush();
+            String line = reader.readLine();
+            if (line == null) break;
+            if (line.isBlank()) continue;
+            if (line.equals("quit") || line.equals("exit")) break;
+            if (line.equals("help")) {
+                System.out.println("Paste a complete BBEA JSON audit object at the prompt.");
+                System.out.println("Commands: help, quit, exit");
+                continue;
+            }
+            if (!line.trim().startsWith("{") || !line.trim().endsWith("}")) {
+                System.err.println("Audit input must be a JSON object.");
+                continue;
+            }
+            int rc = runEngine(line);
+            if (rc != 0) System.err.println("Audit failed (exit " + rc + ").");
+        }
+        System.out.println();
+        return 0;
+    }
+
+    public static void main(String[] args) throws Exception {
+        String file = null;
+        for (int i = 0; i < args.length; i++) {
+            switch (args[i]) {
+                case "--help", "-h" -> { usage(); return; }
+                case "--version" -> { System.out.println("blackbelt-java 1.1 (BBEA CLI v2 transport)"); return; }
+                case "--file" -> {
+                    if (++i >= args.length) { usage(); System.exit(2); }
+                    file = args[i];
+                }
+                default -> { System.err.println("Unknown argument: " + args[i]); usage(); System.exit(2); }
+            }
+        }
+
+        if (file == null && System.console() != null) {
+            System.exit(interactive());
+        }
+
+        String input = file == null
+                ? new String(System.in.readAllBytes(), StandardCharsets.UTF_8)
+                : Files.readString(Path.of(file), StandardCharsets.UTF_8);
+        if (input.trim().isEmpty()) { System.err.println("No JSON audit input received."); System.exit(2); }
+        if (!input.trim().startsWith("{") || !input.trim().endsWith("}")) {
+            System.err.println("Audit input must be a JSON object."); System.exit(2);
+        }
+        System.exit(runEngine(input));
     }
 }
