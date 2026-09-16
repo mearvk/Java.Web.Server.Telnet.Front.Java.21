@@ -1,3 +1,8 @@
+/*
+ * JWSTF Local Administration CLI (C++17).
+ * Descriptor introduced: 2026-09-16.
+ * Descriptor updated: 2026-09-16.
+ */
 #include <iostream>
 #include <string>
 #include <vector>
