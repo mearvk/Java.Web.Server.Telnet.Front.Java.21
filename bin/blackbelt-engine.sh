@@ -13,10 +13,10 @@ else
   MODEL="${BBEA_MODEL:-llama3.2:latest}"
 fi
 
-PROMPT_FILE="${BBEA_SYSTEM_PROMPT:-black.belt/sharp/system.prompt}"
+PROMPT_FILE="${BBEA_SYSTEM_PROMPT:-../../../black.belt/sharp/system.prompt}"
 
 if [[ ! -f "$PROMPT_FILE" ]]; then
-  PROMPT_FILE="$ROOT/black.belt/sharp/system.prompt"
+  PROMPT_FILE="$ROOT/../../black.belt/sharp/system.prompt"
 fi
 
 if [[ ! -f "$PROMPT_FILE" && -f "/usr/share/blackbelt/sharp/system.prompt" ]]; then
@@ -58,7 +58,7 @@ if json_mode:
     }
 else:
     # Natural-language questions are intentionally not sent through Ollama's
-    # JSON-output constraint.  The CLI advertises question mode, so the model
+    # JSON-output constraint. The CLI advertises question mode, so the model
     # should receive the question as ordinary text and answer it directly.
     question_system = system_prompt + "\n\nQUESTION MODE\nThe user has entered a natural-language question rather than a structured audit object. Answer the question directly and concisely. Do not manufacture an audit report or JSON object unless the user explicitly asks for one."
     request = {
