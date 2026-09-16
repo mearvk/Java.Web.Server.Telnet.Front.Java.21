@@ -10,9 +10,9 @@ This directory adds a Linux terminal interface for the Black Belt Ethical Audito
 - `blackbelt-engine.sh` — shared Ollama-compatible engine transport.
 - `Makefile` — build/install targets.
 
-The existing BBEA input schema requires `style`, `belt_level`, `jurisdiction`, `conduct_observations`, and `ethical_responses`; optional fields include `legitimacy_hint`, `legal_context`, and `auditor_notes`. The CLI therefore accepts the same structured JSON rather than inventing a second input format. fileciteturn18file0
+The existing BBEA input schema requires `style`, `belt_level`, `jurisdiction`, `conduct_observations`, and `ethical_responses`; optional fields include `legitimacy_hint`, `legal_context`, and `auditor_notes`. The CLI therefore accepts the same structured JSON rather than inventing a second input format.
 
-The existing model output contract includes `legitimacy_assessment`, `ethical_risk_profile`, `legal_alignment`, `conduct_score`, and `risk_rating`, with closure fields in the established output schema. fileciteturn17file3
+The existing model output contract includes `legitimacy_assessment`, `ethical_risk_profile`, `legal_alignment`, `conduct_score`, and `risk_rating`, with closure fields in the established output schema.
 
 ## Build
 
@@ -22,17 +22,11 @@ From this directory:
 make
 ```
 
-This produces:
-
-```text
-bin/blackbelt-c
-bin/blackbelt-cpp
-bin/BlackBeltCLI.class
-```
+This produces the C/C++ executables and the Java 21 class.
 
 ## Use
 
-Interactive/pipe mode:
+Pipe mode:
 
 ```bash
 cat audit.json | ./blackbelt-c
@@ -73,6 +67,8 @@ By default the engine adapter loads:
 black.belt/sharp/system.prompt
 ```
 
+A system-wide installation also places the prompt at `/usr/share/blackbelt/sharp/system.prompt`.
+
 Override it with:
 
 ```bash
@@ -81,19 +77,20 @@ export BBEA_SYSTEM_PROMPT=/path/to/system.prompt
 
 ## Installation
 
-For a system-wide Linux installation, from `bin/`:
+For the requested `/bin` installation:
 
 ```bash
+cd bin
 sudo make install PREFIX=/bin
 ```
 
-For a conventional local installation instead:
+For a conventional local executable directory instead:
 
 ```bash
 sudo make install PREFIX=/usr/local/bin
 ```
 
-The repository keeps the implementation under `/bin` as requested; the installation prefix remains configurable so distributions can choose their normal executable location.
+The repository implementation remains under `/bin`; the installation prefix is configurable for Linux distributions and packaging systems.
 
 ## Architecture
 
@@ -116,6 +113,4 @@ The repository keeps the implementation under `/bin` as requested; the installat
 +------------+
 ```
 
-The current Black Belt repository already contains the web module's startup/shutdown scripts and the `sharp` model artifacts. fileciteturn14file0 fileciteturn15file0
-
-The CLI intentionally does not duplicate the model prompt or create a second scoring system. It feeds the existing BBEA contract so the terminal and web interfaces can converge on the same AI evaluation path.
+The existing web module and `sharp` model artifacts remain in place. The CLI intentionally does not duplicate the model prompt or create a second scoring system. It feeds the existing BBEA contract so the terminal and web interfaces can converge on the same AI evaluation path.
