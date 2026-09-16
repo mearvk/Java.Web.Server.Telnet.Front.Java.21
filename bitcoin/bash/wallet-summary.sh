@@ -1,52 +1,45 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # wallet-summary.sh
-# Scans /bitcoin/XX wallet directories, extracts BTC amounts from filenames,
-# and writes summary.txt in each /bitcoin/XX folder.
-# BTC price: $20,000,000,000,000 USD (20 trillion)
+# Scans bitcoin/<version>/wallets for wallet.*.dat files and writes metadata.
+# This script never treats wallet-file size as a Bitcoin balance.
+# Optional valuation: BTC_PRICE_USD=<price> ./wallet-summary.sh
+set -euo pipefail
 
-BITCOIN_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
-BTC_PRICE=20000000000000
+BITCOIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BTC_PRICE_USD="${BTC_PRICE_USD:-}"
 
 for version_dir in "$BITCOIN_DIR"/[0-9]*/; do
-    version=$(basename "$version_dir")
+    [[ -d "$version_dir" ]] || continue
+    version="$(basename "$version_dir")"
     summary_file="$version_dir/summary.txt"
-    total_btc=0
-    lines=()
-
-    while IFS= read -r -d '' file; do
-        filename=$(basename "$file")
-        # Extract BTC amount from pattern: wallet.AMOUNT.DATE.dat or wallet.AMOUNT.dat
-        btc=$(echo "$filename" | grep -oP '(?<=wallet\.)\d+\.\d+(?=\.)' | head -1)
-        [[ -z "$btc" ]] && continue
-
-        # Add to total using awk for float math
-        total_btc=$(awk "BEGIN {printf \"%.8f\", $total_btc + $btc}")
-
-        note=""
-        int_btc=$(awk "BEGIN {printf \"%d\", $btc}")
-        (( int_btc > 100 )) && note=" *** HIGH VALUE: over 100 BTC ***"
-
-        lines+=("  $btc BTC  |  ${file#$BITCOIN_DIR/}$note")
-    done < <(find "$version_dir" -type f -name "wallet.*.*.dat" -print0)
 
     {
         echo "========================================"
-        echo "  Bitcoin Wallet Summary - Version $version"
+        echo "  Bitcoin Wallet Metadata - Version $version"
         echo "========================================"
-        echo "  BTC Price: \$20,000,000,000,000 USD (20 Trillion)"
+        if [[ -n "$BTC_PRICE_USD" ]]; then
+            echo "  Valuation price: $$BTC_PRICE_USD USD/BTC (operator supplied)"
+        else
+            echo "  Valuation price: NOT SET"
+        fi
         echo ""
-        echo "  Wallets found:"
-        for line in "${lines[@]}"; do
-            echo "$line"
-        done
+        echo "  Wallet files:"
+        found=0
+        while IFS= read -r -d '' file; do
+            found=1
+            filename="$(basename "$file")"
+            size="$(stat -c '%s' "$file")"
+            digest="$(sha256sum "$file" | awk '{print $1}')"
+            echo "  $filename | bytes=$size | sha256=$digest"
+        done < <(find "$version_dir/wallets" -type f -name 'wallet.*.dat' -print0 2>/dev/null | sort -z)
+
+        [[ "$found" -eq 1 ]] || echo "  (none found)"
         echo ""
-        usd_value=$(awk "BEGIN {printf \"%.2f\", $total_btc * $BTC_PRICE}")
-        echo "  Total BTC : $total_btc"
-        echo "  Total USD : \$$usd_value"
-        echo "========================================"
-        echo "  Generated: $(date)"
+        echo "  IMPORTANT: file size and filename are not wallet balances."
+        echo "  Use Bitcoin Core RPC (getbalances/getwalletinfo) for authoritative balances."
+        echo "  Generated: $(date --iso-8601=seconds)"
         echo "========================================"
     } > "$summary_file"
 
-    echo "Written: $summary_file (total: $total_btc BTC)"
+    echo "Written: $summary_file"
 done
