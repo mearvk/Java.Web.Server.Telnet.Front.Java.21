@@ -37,8 +37,11 @@ static std::string outputHelper() {
 }
 
 static bool copyExact(const std::string& src, const std::string& dst) {
-    std::ifstream in(src, std::ios::binary); std::ofstream out(dst, std::ios::binary);
-    if (!in || !out) return false; out << in.rdbuf(); return static_cast<bool>(out);
+    std::ifstream in(src, std::ios::binary);
+    std::ofstream out(dst, std::ios::binary);
+    if (!in || !out) return false;
+    out << in.rdbuf();
+    return static_cast<bool>(out);
 }
 
 static std::string defaultSavePath() {
