@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -7,9 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-/** Linux-friendly Java 21 Black Belt Ethical Auditor CLI.
- * Uses the same Ollama-compatible engine contract as the C/C++ clients.
- */
+/** Linux-friendly Java 21 Black Belt Ethical Auditor CLI. */
 public final class BlackBeltCLI {
     private static void usage() {
         System.out.println("Usage: java BlackBeltCLI [--file FILE] [--version] [--help]");
@@ -18,8 +15,7 @@ public final class BlackBeltCLI {
     }
 
     private static String quoteJson(String s) {
-        StringBuilder b = new StringBuilder(s.length() + 16);
-        b.append('"');
+        StringBuilder b = new StringBuilder(s.length() + 16).append('"');
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             switch (c) {
@@ -35,6 +31,14 @@ public final class BlackBeltCLI {
             }
         }
         return b.append('"').toString();
+    }
+
+    private static Path resolvePrompt() {
+        String configured = System.getenv("BBEA_SYSTEM_PROMPT");
+        if (configured != null && !configured.isBlank()) return Path.of(configured);
+        Path repo = Path.of("black.belt/sharp/system.prompt");
+        if (Files.isRegularFile(repo)) return repo;
+        return Path.of("/usr/share/blackbelt/sharp/system.prompt");
     }
 
     public static void main(String[] args) throws Exception {
@@ -55,24 +59,19 @@ public final class BlackBeltCLI {
                 ? new String(System.in.readAllBytes(), StandardCharsets.UTF_8)
                 : Files.readString(Path.of(file), StandardCharsets.UTF_8);
         if (input.trim().isEmpty()) { System.err.println("No JSON audit input received."); System.exit(2); }
-
-        // Validate that the front-end received a JSON object without adding a third-party JSON dependency.
         if (!input.trim().startsWith("{") || !input.trim().endsWith("}")) {
             System.err.println("Audit input must be a JSON object."); System.exit(2);
         }
 
-        String promptFile = System.getenv().getOrDefault("BBEA_SYSTEM_PROMPT", "black.belt/sharp/system.prompt");
-        String prompt = Files.readString(Path.of(promptFile), StandardCharsets.UTF_8);
+        String prompt = Files.readString(resolvePrompt(), StandardCharsets.UTF_8);
         String model = System.getenv().getOrDefault("BBEA_MODEL", "llama3.1:8b");
         String url = System.getenv().getOrDefault("BBEA_ENGINE_URL", "http://127.0.0.1:11434/api/generate");
-
         String requestJson = "{" +
                 "\"model\":" + quoteJson(model) + "," +
                 "\"system\":" + quoteJson(prompt) + "," +
                 "\"prompt\":" + quoteJson(input.trim()) + "," +
                 "\"stream\":false," +
-                "\"format\":\"json\"" +
-                "}";
+                "\"format\":\"json\"}";
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))
