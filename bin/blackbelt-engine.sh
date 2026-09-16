@@ -3,12 +3,19 @@ set -euo pipefail
 
 # Shared Black Belt AI transport. CLI front ends send canonical JSON here.
 ENGINE_URL="${BBEA_ENGINE_URL:-http://127.0.0.1:11434/api/generate}"
-MODEL="${BBEA_MODEL:-llama3.2:latest}"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+MODEL_CONFIG="${BBEA_MODEL_CONFIG:-$SCRIPT_DIR/.blackbelt-model}"
+
+if [[ -z "${BBEA_MODEL:-}" && -f "$MODEL_CONFIG" ]]; then
+  MODEL="$(head -n 1 "$MODEL_CONFIG")"
+else
+  MODEL="${BBEA_MODEL:-llama3.2:latest}"
+fi
+
 PROMPT_FILE="${BBEA_SYSTEM_PROMPT:-black.belt/sharp/system.prompt}"
 
 if [[ ! -f "$PROMPT_FILE" ]]; then
-  SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-  ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
   PROMPT_FILE="$ROOT/black.belt/sharp/system.prompt"
 fi
 
@@ -26,6 +33,8 @@ if [[ -z "${INPUT//[[:space:]]/}" ]]; then
   echo "No audit input received." >&2
   exit 2
 fi
+
+echo "[Black Belt] model=$MODEL" >&2
 
 python3 - "$PROMPT_FILE" "$MODEL" "$INPUT" <<'PY' | curl --fail-with-body -sS "$ENGINE_URL" -H 'Content-Type: application/json' --data-binary @-
 import json, pathlib, sys
