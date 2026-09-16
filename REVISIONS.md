@@ -43,13 +43,9 @@ The Black Belt CLI layer is documented under `modules/black-belt/bin/` with C11,
 
 ### Bitcoin
 
-The repository contains Bitcoin material at multiple architectural levels, including the top-level `bitcoin/` area and `modules/bitcoin/`. The current `bitcoin/bash/wallet-summary.sh` scans version-numbered wallet directories, extracts BTC quantities from wallet filenames, produces summaries, calculates aggregate BTC quantities, and applies a configured USD conversion.
+The repository contains Bitcoin material at multiple architectural levels, including the top-level `bitcoin/` area and `modules/bitcoin/`. The current wallet tooling treats wallet files as metadata artifacts and directs authoritative balance queries to Bitcoin Core RPC.
 
-**Engineering note:** the $20,000,000,000,000 BTC price in that script must be treated as a configured/test valuation, not a live market quotation. A future revision should make the valuation source explicit and preferably accept the price as an argument or configuration value.
-
-Bitcoin Core is security-critical and its upstream project emphasizes unit tests, functional tests, cross-platform CI, and independent QA. JWSTF Bitcoin tooling should move toward an equally explicit verification model where applicable. citeturn0search1turn0search11
-
-Bitcoin Core also documents platform-specific data directories and wallet/data-storage conventions. JWSTF wallet tooling should preserve those boundaries and avoid treating a filename alone as authoritative wallet state. citeturn0search4
+Bitcoin Core is security-critical and its upstream project emphasizes unit tests, functional tests, cross-platform CI, and independent QA. JWSTF Bitcoin tooling should move toward an equally explicit verification model where applicable.
 
 ## Improvements Completed
 
@@ -73,10 +69,8 @@ Bitcoin Core also documents platform-specific data directories and wallet/data-s
 
 ### Priority 2 — Bitcoin hardening
 
-- Replace the hard-coded BTC valuation with an explicit configured/test price.
-- Add `bitcoin/DESCRIPTOR.md`.
-- Add `bitcoin/SECURITY.md`.
-- Add deterministic tests for wallet-summary parsing.
+- Replace legacy balance inference with authenticated Bitcoin Core balance observations.
+- Add deterministic wallet-summary and BTC parsing tests.
 - Validate filenames before numerical aggregation.
 - Prefer fixed-point integer satoshi accounting where monetary arithmetic is required.
 - Add checksum/signature verification for downloaded Bitcoin Core releases.
@@ -135,9 +129,8 @@ No numerical performance rating should be treated as established until these mea
 - Recorded Bitcoin valuation and verification concerns.
 - Added prioritized engineering roadmap.
 - Established this file as the persistent revision record.
-## 2026-09-16 — Bitcoin Design Hardening
 
-Completed a focused Bitcoin subsystem design review and applied several safety/correctness improvements.
+### 2026-09-16 — Bitcoin Design Hardening
 
 - Removed embedded Bitcoin RPC password material from `BitcoinBase.java`.
 - Changed Bitcoin RPC design toward Bitcoin Core cookie authentication.
@@ -150,12 +143,28 @@ Completed a focused Bitcoin subsystem design review and applied several safety/c
 - Added `bitcoin/DESIGN.md` describing the target architecture and migration plan.
 - Added `bitcoin/SECURITY.md` documenting the security model and remaining work.
 
+### 2026-09-16 — Bitcoin Wallet Session Hardening
+
+- Removed `btc_value` from wallet-session balance displays.
+- Changed wallet listings to metadata-only output.
+- Added strict Bitcoin version validation before dynamic table-name construction.
+- Added null/DB availability handling to session commands.
+- Added exact BTC decimal parsing with an eight-decimal-place limit.
+- Converted recorded BTC amounts to exact satoshis before database persistence.
+- Replaced legacy `bitcoin_trades_v{N}` event storage with `bitcoin_trade_events_v{N}`.
+- Added explicit `RECORDED` trade-event state.
+- Made `trade btc` explicitly non-broadcasting and non-submitting.
+- Made optional fiat valuation use `BTC_PRICE_USD` and `BigDecimal` rather than floating-point multiplication.
+- Reduced user-facing database errors to generic operational messages.
+- Updated `bitcoin/DESIGN.md` with the new session/accounting model.
+
 ### Newly Identified High-Priority Bitcoin Work
 
-1. Migrate away from storing complete wallet database blobs in MySQL.
-2. Replace inferred `btc_value` fields with authenticated Bitcoin Core balance observations.
-3. Introduce satoshi-based monetary storage and decimal fiat valuation.
-4. Add RPC command allowlisting and address/amount validation.
+1. Introduce normalized wallet artifact/balance/trade tables.
+2. Replace remaining inferred `btc_value` database fields with authenticated Bitcoin Core observations.
+3. Add RPC command allowlisting.
+4. Add address and amount validation when actual transaction submission is implemented.
 5. Add CSRF/session/rate-limit controls to the Bitcoin web administration surface.
-6. Add deterministic wallet-indexing tests and idempotent database constraints.
+6. Add deterministic wallet-indexing and monetary-parsing tests.
 7. Verify Bitcoin Core binaries by checksum/signature before execution.
+8. Migrate any remaining wallet-blob storage toward metadata/reference storage.
