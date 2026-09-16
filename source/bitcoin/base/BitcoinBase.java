@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
  *
  * RPC config mirrors /bitcoin/bash/btc24-query.sh:
  *   port     2222
- *   user     root
- *   password 5n5SgKPNPvO0WGr5XcKETuJYydwkXPkdtjNFjJ8bc7s=
+ *   authentication: Bitcoin Core cookie authentication (no password in source)
  *   network  regtest
  *   wallet   "United States"
  *
@@ -37,8 +36,6 @@ public class BitcoinBase
     protected static final String BITCOIN_CLI      = "bitcoin-cli";
     protected static final String BITCOIND         = "bitcoind";
     protected static final String RPC_PORT         = "2222";
-    protected static final String RPC_USER         = "root";
-    protected static final String RPC_PASSWORD     = "5n5SgKPNPvO0WGr5XcKETuJYydwkXPkdtjNFjJ8bc7s=";
     protected static final String NETWORK          = "-regtest";
     protected static final String WALLET_NAME      = "United States";
 
@@ -46,8 +43,6 @@ public class BitcoinBase
     private static final String[] RPC_FLAGS = {
         NETWORK,
         "-rpcport="    + RPC_PORT,
-        "-rpcuser="    + RPC_USER,
-        "-rpcpassword="+ RPC_PASSWORD
     };
 
     protected MessageOrderer bitcoin_message_orderer = new MessageOrderer(this);
@@ -74,8 +69,7 @@ public class BitcoinBase
     {
         String result = exec(new String[]{ BITCOIND, NETWORK, "-daemon",
             "-rpcport="    + RPC_PORT,
-            "-rpcuser="    + RPC_USER,
-            "-rpcpassword="+ RPC_PASSWORD });
+            });
         database.N21Store.storeBitcoinTrade("start_bitcoind", "", "", result);
         return result;
     }
@@ -209,7 +203,7 @@ public class BitcoinBase
             p.waitFor();
             String result = out.isBlank() ? err : out;
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". BitcoinBase >> " + cmd[0] + " " + (cmd.length > 1 ? cmd[cmd.length - 1] : "") + " >> " + result + " .");
+                ". BitcoinBase >> " + cmd[0] + " " + (cmd.length > 1 ? cmd[cmd.length - 1] : "") + " >> exit=" + p.exitValue() + " .");
             return result;
         }
         catch (Exception e)
