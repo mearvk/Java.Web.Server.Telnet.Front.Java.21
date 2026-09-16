@@ -25,9 +25,8 @@ public class TraderModule
 
     protected final String BITCOIND = "bitcoind";
     
-    protected final String BITCOIN_ROOT_PASSWORD = "";
-    
-    protected final String BITCOIN_PORT = "";
+    /** RPC port for local regtest; authentication uses Bitcoin Core cookie auth. */
+    protected final String BITCOIN_PORT = System.getenv().getOrDefault("BITCOIN_RPC_PORT", "2222");
 
     protected final String BITCOIND_START_ARGS = "-regtest -daemon -rpcpassword=\""+BITCOIN_ROOT_PASSWORD+"\" -rpcport=\""+BITCOIN_PORT+"\"";
 
@@ -150,36 +149,8 @@ public class TraderModule
 
     public void delete_wallet(final String URL) throws IOException
     {
-        final String SEPARATOR = "/";
-
-        final String SPACE = " ";
-
-        final String VERSION = "24";
-
-        final String DIR = "/mnt/blockstorage";
-
-        final String SPECIFIC_DIR = DIR+SEPARATOR+VERSION;
-
-        final String REGTEST = "/regtest/wallets";
-
-        final String WALLET_DIR = SPECIFIC_DIR+SEPARATOR+REGTEST;
-
-        final String WALLET_NAME = this.get_wallet_name(URL);
-
-        final String COMPLETE_URL = WALLET_DIR+SEPARATOR+WALLET_NAME;
-
-        try
-        {
-            Process process = Runtime.getRuntime().exec(BITCOIN_CLI_DELETE_WALLET_CMD + SPACE+WALLET_DIR);
-
-            CommonRails.printSystemComponent(this, this.hashCode(), "0x8766Ea");
-        }
-        catch (Exception e)
-        {
-            ExceptionHandler.dispatch(e);
-
-            CommonRails.printSystemComponent(this, this.hashCode(), "0x8A66Ea");
-        }
+        CommonRails.printSystemComponent(this, this.hashCode(),
+            "Bitcoin wallet deletion refused: destructive filesystem operation disabled. Use an explicit, operator-controlled Bitcoin Core procedure after verified backup.");
     }
 
     public void unload_wallet(final String URL) throws IOException
