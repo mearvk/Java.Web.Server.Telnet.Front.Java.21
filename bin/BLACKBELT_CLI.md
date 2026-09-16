@@ -8,6 +8,8 @@ This directory adds a Linux terminal interface for the Black Belt Ethical Audito
 - `blackbelt.cpp` — C++17 client.
 - `BlackBeltCLI.java` — Java 21 client.
 - `blackbelt-engine.sh` — shared Ollama-compatible engine transport.
+- `blackbelt-output.sh` — exact-response output/transport helper.
+- `blackbelt-2.c` — alternate C client with local response saving disabled.
 - `Makefile` — build/install targets.
 
 The existing BBEA input schema requires `style`, `belt_level`, `jurisdiction`, `conduct_observations`, and `ethical_responses`; optional fields include `legitimacy_hint`, `legal_context`, and `auditor_notes`. The CLI therefore accepts the same structured JSON rather than inventing a second input format.
@@ -22,7 +24,7 @@ From this directory:
 make
 ```
 
-This produces the C/C++ executables and the Java 21 class.
+This produces the C/C++ executables and the Java 21 class. The standard build also normalizes the shell scripts in this directory to executable permissions.
 
 ## Use
 
@@ -32,6 +34,14 @@ Pipe mode:
 cat audit.json | ./blackbelt-c
 cat audit.json | ./blackbelt-cpp
 cat audit.json | java BlackBeltCLI
+```
+
+Interactive C/C++ mode accepts either a natural-language question or a JSON audit object:
+
+```text
+Black Belt Ethical Auditor
+Ask a question or enter a JSON audit object. Type 'help' or 'quit'.
+black-belt>
 ```
 
 File mode:
@@ -50,24 +60,24 @@ The default transport targets an Ollama-compatible service at:
 http://127.0.0.1:11434/api/generate
 ```
 
-The default model is `llama3.1:8b`. Override either without recompiling:
+The default model is `llama3.2:latest`. Override either without recompiling:
 
 ```bash
 export BBEA_ENGINE_URL=http://127.0.0.1:11434/api/generate
-export BBEA_MODEL=llama3.1:8b
+export BBEA_MODEL=llama3.2:latest
 ```
 
-The Java client connects directly to the engine. The C and C++ clients use the shared `blackbelt-engine.sh` adapter, which packages the canonical JSON request and sends it to the same engine endpoint. This gives all three front ends one engine contract and permits the transport to evolve later into a local Unix socket, TCP service, or direct native library without changing the audit input format.
+The C and C++ clients use the shared `blackbelt-engine.sh` adapter, which packages the request and sends it to the same engine endpoint. Natural-language questions are sent without Ollama's JSON-output constraint; structured audit objects retain the established JSON output contract.
 
 ## Prompt selection
 
-By default the engine adapter loads:
+The repository prompt remains at:
 
 ```text
-black.belt/sharp/system.prompt
+../../../black.belt/sharp/system.prompt
 ```
 
-A system-wide installation also places the prompt at `/usr/share/blackbelt/sharp/system.prompt`.
+when running from this directory. A system-wide installation also places the prompt at `/usr/share/blackbelt/sharp/system.prompt`.
 
 Override it with:
 
@@ -77,10 +87,16 @@ export BBEA_SYSTEM_PROMPT=/path/to/system.prompt
 
 ## Installation
 
-For the requested `/bin` installation:
+The CLI source now lives under:
+
+```text
+modules/black-belt/bin/
+```
+
+From this directory:
 
 ```bash
-cd bin
+make
 sudo make install PREFIX=/bin
 ```
 
@@ -90,27 +106,40 @@ For a conventional local executable directory instead:
 sudo make install PREFIX=/usr/local/bin
 ```
 
-The repository implementation remains under `/bin`; the installation prefix is configurable for Linux distributions and packaging systems.
+The installation prefix is configurable for Linux distributions and packaging systems.
+
+## Output and transport
+
+C and C++ save the exact engine stdout response bytes by default under:
+
+```text
+~/.local/state/blackbelt/responses/
+```
+
+Use `--save FILE` for an explicit output path or `--no-save` to disable the default local save. `blackbelt-2` is the alternate no-save binary.
+
+Optional network transport is controlled with `BBEA_TRANSPORT`. HTTPS and SSH are supported directly; plaintext HTTP, Telnet, and raw TCP require explicit `BBEA_ALLOW_INSECURE=1`. Encrypted authenticated channels are recommended for network output.
 
 ## Architecture
 
 ```text
-                 +----------------------+
-                 | Black Belt Web/JSP   |
-                 +----------+-----------+
-                            |
-                            v
-+------------+    +----------------------+    +-------------------+
-| C CLI      |--->|                      |--->| Ollama / Llama    |
-+------------+    | BBEA Engine Contract |    | BBEA model        |
-                  |                      |    +-------------------+
-+------------+    | JSON in / JSON out   |
-| C++17 CLI  |--->|                      |
-+------------+    +----------------------+
+                         +----------------------+
+                         | Black Belt Web/JSP   |
+                         +----------+-----------+
+                                    |
+                                    v
++----------------+       +----------------------+       +-------------------+
+| C CLI          |------>|                      |------>| Ollama / Llama    |
++----------------+       | BBEA Engine Contract |       | BBEA model        |
+| C++17 CLI      |------>|                      |       +-------------------+
++----------------+       | JSON audit /        |
+| blackbelt-2    |------>| natural language    |
++----------------+       | question modes      |
+| Java 21 CLI    |------>|                      |
++----------------+       +----------------------+
 
-+------------+
-| Java 21 CLI|---------------------------> same engine endpoint
-+------------+
+Repository location:
+modules/black-belt/bin/
 ```
 
-The existing web module and `sharp` model artifacts remain in place. The CLI intentionally does not duplicate the model prompt or create a second scoring system. It feeds the existing BBEA contract so the terminal and web interfaces can converge on the same AI evaluation path.
+The existing web module and `sharp` model artifacts remain authoritative. The CLI does not duplicate the model prompt or create a second scoring system. It feeds the existing BBEA contract so the terminal and web interfaces can converge on the same AI evaluation path.
