@@ -1,3 +1,8 @@
+/*
+ * JWSTF Local Administration CLI (C11).
+ * Descriptor introduced: 2026-09-16.
+ * Descriptor updated: 2026-09-16.
+ */
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
