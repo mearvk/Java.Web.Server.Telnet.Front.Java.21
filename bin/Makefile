@@ -70,15 +70,17 @@ save-help:
 	@echo "Local responses are saved by default to: $(SAVE_DIR)"
 	@echo "Override with BBEA_SAVE_DIR=/path or disable with BBEA_NO_SAVE=1."
 	@echo "A specific output file can be selected with --save FILE."
+	@echo "The saved file contains the exact Black Belt engine stdout bytes."
 
 transport-help:
 	@echo "BBEA_TRANSPORT examples:"
 	@echo "  https://host.example/upload     HTTPS"
-	@echo "  ssh://user@host/path            SSH/SFTP-style destination"
+	@echo "  ssh://user@host/path            SSH/SCP"
 	@echo "  telnet://host:23                Telnet (plaintext; discouraged)"
 	@echo "  raw://host:9000                 Raw TCP (plaintext; discouraged)"
 	@echo "Network output should use HTTPS, SSH, or another authenticated encrypted channel."
-	@echo "For public-key protection use an RSA-2048+ or equivalent recipient key with the transport layer."
+	@echo "RSA-2048+ or an equivalent modern public-key security level is recommended for recipient infrastructure."
+	@echo "Plain HTTP/Telnet/Raw require BBEA_ALLOW_INSECURE=1 explicitly."
 
 run: all
 	@./blackbelt-c
@@ -96,6 +98,7 @@ install: all
 	install -Dm755 blackbelt-c $(DESTDIR)$(PREFIX)/blackbelt-c
 	install -Dm755 blackbelt-cpp $(DESTDIR)$(PREFIX)/blackbelt-cpp
 	install -Dm755 blackbelt-engine.sh $(DESTDIR)$(PREFIX)/blackbelt-engine.sh
+	install -Dm755 blackbelt-output.sh $(DESTDIR)$(PREFIX)/blackbelt-output.sh
 	install -Dm644 BlackBeltCLI.class $(DESTDIR)$(PREFIX)/BlackBeltCLI.class
 	install -Dm644 BlackBeltCLI.java $(DESTDIR)$(PREFIX)/BlackBeltCLI.java
 	install -Dm644 ../black.belt/sharp/system.prompt $(DESTDIR)/usr/share/blackbelt/sharp/system.prompt
