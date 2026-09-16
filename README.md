@@ -1,5 +1,7 @@
 # NitroWebExpress™
 
+**Documentation Update:** 2026-09-16
+
 # NitroWebExpress @ At $200,000,000,000+ Dollars
 
 **National Finance Engine v2811.1**
@@ -102,7 +104,7 @@ bash scripts/status.sh
 | Dictionary | `modules/dictionary` | — | `/dictionary` | (DB-only) | Dictionary lookup, MySQL `nwe_dictionary` |
 | Calendar | `modules/calendar` | — | `/calendar` | (webapp only) | Calendar and scheduling webapp |
 | Analytics | `modules/analytics` | — | `/analytics` | (DB-only) | Passive analytics tracking via JSP includes |
-| Black Belt | `modules/black-belt` | — | `/blackbelt` | (webapp only) | Black belt rank module |
+| Black Belt | `modules/black-belt` | — | `/blackbelt` | (webapp + CLI) | Black Belt Ethical Auditor web/terminal module; C11, C++17, Java 21 clients; shared engine transport; exact-response output and no-save variant |
 | Languages | `modules/languages` | — | `/languages` | (webapp only) | Language pack management |
 | Daemon | `modules/daemon` | 49188 | — | `ModuleLoaderDaemon` | Standalone module loader service |
 | Brarner.M.Alete | `modules/black/presidential/Brarner.M.Alete` | 49152 | `/brarner.m.alete` | `source-code.Main` | Presidential species/postal/art/science |
@@ -300,6 +302,7 @@ Java.Web.Server.Telnet.Front.Java.21/
 │   ├── black-belt/             Black Belt webapp
 │   ├── languages/              Languages webapp
 │   └── daemon/                 Module loader daemon (port 49188)
+├── admin/                     Local JavaFX + C/C++ administration layer
 ├── configuration/             XML configuration files
 ├── scripts/                    Build, startup, deployment, mail, integrity
 ├── deploy-all-modules.sh      Deploy all enabled webapps
