@@ -1,152 +1,110 @@
 #!/bin/bash
 # scripts/bash/bitcoin/install-crypto-binaries.sh
-# Downloads and installs Bitcoin Core (v24–31), Dashcoin, Starcoin, and Litecoin
-# Reads version/coin config from configuration/nwe-config.xml <crypto-binaries> block
-# Installs to scripts/bash/bitcoin/{version}/ and symlinks to /usr/local/bin/
-#
-# Usage: sudo bash scripts/bash/bitcoin/install-crypto-binaries.sh [btc|dash|star|ltc|all]
+# Downloads and installs Bitcoin Core (v24–31), Dashcoin, Starcoin, and Litecoin.
+# Bitcoin Core installation is fail-closed on missing or invalid SHA-256 checksums.
 
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 INSTALL_BASE="${SCRIPT_DIR}"
 TARGET="${1:-all}"
-
-# Bitcoin Core URLs (v24–31)
 BTC_BASE="https://bitcoincore.org/bin/bitcoin-core-"
 BTC_VERSIONS=(24.2 25.2 26.2 27.1 28.1 29.0 30.0 31.0)
-
-# Altcoin URLs
 DASH_VERSION="21.1.1"
 DASH_URL="https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz"
-
 LITECOIN_VERSION="0.21.3"
 LITECOIN_URL="https://download.litecoin.org/litecoin-${LITECOIN_VERSION}/linux/litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz"
-
 STARCOIN_VERSION="1.13.7"
 STARCOIN_URL="https://github.com/starcoinorg/starcoin/releases/download/v${STARCOIN_VERSION}/starcoin-ubuntu-v${STARCOIN_VERSION}.zip"
 
+verify_bitcoin_checksum() {
+    local tarball="$1"
+    local sums="$2"
+    local expected
+    expected="$(awk -v f="$tarball" '$2 == f || $2 == "*" f {print $1; exit}' "$sums")"
+    if [[ ! "$expected" =~ ^[0-9a-fA-F]{64}$ ]]; then
+        echo "FAIL: no trusted SHA-256 entry for ${tarball}" >&2
+        return 1
+    fi
+    printf '%s  %s\n' "$expected" "$tarball" | sha256sum -c -
+}
+
 install_bitcoin() {
     local VER="$1"
-    local MAJOR=$(echo "$VER" | cut -d. -f1)
+    local MAJOR="${VER%%.*}"
     local DIR="${INSTALL_BASE}/${MAJOR}"
     local TARBALL="bitcoin-${VER}-x86_64-linux-gnu.tar.gz"
     local URL="${BTC_BASE}${VER}/${TARBALL}"
     local CHECKSUM_URL="${BTC_BASE}${VER}/SHA256SUMS"
+    local WORK="$(mktemp -d -t bitcoin-core-${MAJOR}-XXXXXX)"
+    trap 'rm -rf "$WORK"' RETURN
 
     mkdir -p "$DIR"
     echo "-- : [crypto] Installing Bitcoin Core v${VER} to ${DIR}"
-
-    cd /tmp
-    echo -n "    Downloading ${TARBALL}... "
-    curl -# -fL "$URL" -o "$TARBALL" 2>&1 || { echo "SKIP v${VER} (download failed)"; return; }
-    echo "    ✓ $(du -h "$TARBALL" | cut -f1)"
-    curl -sfL "$CHECKSUM_URL" -o SHA256SUMS 2>/dev/null || true
-
-    # Verify if checksum available
-    if [ -f SHA256SUMS ]; then
-        grep "$TARBALL" SHA256SUMS | sha256sum -c - || { echo "WARN: checksum mismatch v${VER}"; }
-    fi
+    cd "$WORK"
+    curl -# -fL "$URL" -o "$TARBALL"
+    curl -# -fL "$CHECKSUM_URL" -o SHA256SUMS
+    echo "    Verifying SHA-256 checksum..."
+    verify_bitcoin_checksum "$TARBALL" SHA256SUMS
+    echo "    ✓ checksum verified"
 
     tar -xzf "$TARBALL"
-    cp "bitcoin-${VER}/bin/bitcoind" "$DIR/"
-    cp "bitcoin-${VER}/bin/bitcoin-cli" "$DIR/"
-    chmod +x "$DIR/bitcoind" "$DIR/bitcoin-cli"
-
-    # Symlink latest version
+    install -m 0755 "bitcoin-${VER}/bin/bitcoind" "$DIR/bitcoind"
+    install -m 0755 "bitcoin-${VER}/bin/bitcoin-cli" "$DIR/bitcoin-cli"
     sudo ln -sf "$DIR/bitcoind" /usr/local/bin/bitcoind
     sudo ln -sf "$DIR/bitcoin-cli" /usr/local/bin/bitcoin-cli
-
-    rm -rf "$TARBALL" SHA256SUMS "bitcoin-${VER}"
-    echo "-- : [crypto] Bitcoin Core v${VER} OK"
+    echo "-- : [crypto] Bitcoin Core v${VER} verified and installed"
 }
 
 install_dash() {
     local DIR="${INSTALL_BASE}/dash"
     mkdir -p "$DIR"
-    echo "-- : [crypto] Installing Dash Core v${DASH_VERSION}"
-
     cd /tmp
-    echo -n "    Downloading Dash Core v${DASH_VERSION}... "
-    curl -# -fL "$DASH_URL" -o "dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz" 2>&1 || { echo "FAIL: Dash download"; return; }
-    echo "    ✓ $(du -h "dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz" | cut -f1)"
-    echo -n "    Extracting... "
+    curl -# -fL "$DASH_URL" -o "dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz"
     tar -xzf "dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz"
-    echo "✓"
-    cp dashcore-${DASH_VERSION}/bin/dashd "$DIR/"
-    cp dashcore-${DASH_VERSION}/bin/dash-cli "$DIR/"
-    chmod +x "$DIR/dashd" "$DIR/dash-cli"
+    install -m 0755 "dashcore-${DASH_VERSION}/bin/dashd" "$DIR/dashd"
+    install -m 0755 "dashcore-${DASH_VERSION}/bin/dash-cli" "$DIR/dash-cli"
     sudo ln -sf "$DIR/dashd" /usr/local/bin/dashd
     sudo ln -sf "$DIR/dash-cli" /usr/local/bin/dash-cli
     rm -rf "dashcore-${DASH_VERSION}"* 
-    echo "-- : [crypto] Dash Core v${DASH_VERSION} OK"
 }
 
 install_litecoin() {
     local DIR="${INSTALL_BASE}/litecoin"
     mkdir -p "$DIR"
-    echo "-- : [crypto] Installing Litecoin Core v${LITECOIN_VERSION}"
-
     cd /tmp
-    echo -n "    Downloading Litecoin Core v${LITECOIN_VERSION}... "
-    curl -# -fL "$LITECOIN_URL" -o "litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz" 2>&1 || { echo "FAIL: Litecoin download"; return; }
-    echo "    ✓ $(du -h "litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz" | cut -f1)"
-    echo -n "    Extracting... "
+    curl -# -fL "$LITECOIN_URL" -o "litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz"
     tar -xzf "litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz"
-    echo "✓"
-    cp litecoin-${LITECOIN_VERSION}/bin/litecoind "$DIR/"
-    cp litecoin-${LITECOIN_VERSION}/bin/litecoin-cli "$DIR/"
-    chmod +x "$DIR/litecoind" "$DIR/litecoin-cli"
+    install -m 0755 "litecoin-${LITECOIN_VERSION}/bin/litecoind" "$DIR/litecoind"
+    install -m 0755 "litecoin-${LITECOIN_VERSION}/bin/litecoin-cli" "$DIR/litecoin-cli"
     sudo ln -sf "$DIR/litecoind" /usr/local/bin/litecoind
     sudo ln -sf "$DIR/litecoin-cli" /usr/local/bin/litecoin-cli
     rm -rf "litecoin-${LITECOIN_VERSION}"*
-    echo "-- : [crypto] Litecoin Core v${LITECOIN_VERSION} OK"
 }
 
 install_starcoin() {
     local DIR="${INSTALL_BASE}/starcoin"
     mkdir -p "$DIR"
-    echo "-- : [crypto] Installing Starcoin v${STARCOIN_VERSION}"
-
     cd /tmp
-    echo -n "    Downloading Starcoin v${STARCOIN_VERSION}... "
-    curl -# -fL "$STARCOIN_URL" -o "starcoin-ubuntu-v${STARCOIN_VERSION}.zip" 2>&1 || { echo "FAIL: Starcoin download"; return; }
-    echo "    ✓ $(du -h "starcoin-ubuntu-v${STARCOIN_VERSION}.zip" | cut -f1)"
-    echo -n "    Extracting... "
-    unzip -qo "starcoin-ubuntu-v${STARCOIN_VERSION}.zip" -d starcoin-extract || true
-    echo "✓"
-    cp starcoin-extract/starcoin "$DIR/" 2>/dev/null || cp starcoin-extract/*/starcoin "$DIR/" 2>/dev/null || true
-    chmod +x "$DIR/starcoin" 2>/dev/null
-    sudo ln -sf "$DIR/starcoin" /usr/local/bin/starcoin 2>/dev/null
+    curl -# -fL "$STARCOIN_URL" -o "starcoin-ubuntu-v${STARCOIN_VERSION}.zip"
+    unzip -qo "starcoin-ubuntu-v${STARCOIN_VERSION}.zip" -d starcoin-extract
+    install -m 0755 starcoin-extract/starcoin "$DIR/starcoin" 2>/dev/null || install -m 0755 starcoin-extract/*/starcoin "$DIR/starcoin"
+    sudo ln -sf "$DIR/starcoin" /usr/local/bin/starcoin
     rm -rf starcoin-extract "starcoin-ubuntu-v${STARCOIN_VERSION}.zip"
-    echo "-- : [crypto] Starcoin v${STARCOIN_VERSION} OK"
 }
 
-# Main
 case "$TARGET" in
-    btc)
-        for ver in "${BTC_VERSIONS[@]}"; do install_bitcoin "$ver"; done
-        ;;
-    dash)
-        install_dash
-        ;;
-    ltc)
-        install_litecoin
-        ;;
-    star)
-        install_starcoin
-        ;;
+    btc) for ver in "${BTC_VERSIONS[@]}"; do install_bitcoin "$ver"; done ;;
+    dash) install_dash ;;
+    ltc) install_litecoin ;;
+    star) install_starcoin ;;
     all)
         for ver in "${BTC_VERSIONS[@]}"; do install_bitcoin "$ver"; done
         install_dash
         install_litecoin
         install_starcoin
         ;;
-    *)
-        echo "Usage: $0 [btc|dash|star|ltc|all]"
-        exit 1
-        ;;
+    *) echo "Usage: $0 [btc|dash|star|ltc|all]"; exit 1 ;;
 esac
 
 echo "-- : [crypto] Installation complete. Binaries in ${INSTALL_BASE}/"
