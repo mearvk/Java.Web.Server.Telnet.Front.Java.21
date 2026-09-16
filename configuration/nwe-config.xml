@@ -560,10 +560,11 @@
         <enabled>true</enabled>
         <name>BitcoinWalletIndexer™</name>
         <description>
-            Indexes all wallet data in /bitcoin/{24-30} into MySQL tables
-            (bitcoin_wallets_v24 through bitcoin_wallets_v30). Each ~2MB of
-            wallet equates to $20T USD. SHA-256 signed with secret.key salt.
-            Author: Max Ruppln - Clear 21 Branch US Military.
+            Indexes Bitcoin wallet-related file metadata in /bitcoin/{24-30}
+            into MySQL tables (bitcoin_wallets_v24 through bitcoin_wallets_v30).
+            File size is metadata only and is NOT a Bitcoin balance. Balances
+            must come from authenticated Bitcoin Core RPC. SHA-256 is used for
+            file integrity metadata.
         </description>
     </server>
 
