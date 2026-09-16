@@ -1,205 +1,168 @@
 package bitcoin.module;
 
-import java.io.*;
-import java.nio.file.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.MessageDigest;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.SQLException;
+import java.time.Instant;
 import java.util.HexFormat;
+import java.util.stream.Stream;
 
 /**
- * BitcoinWalletIndexer — scans /bitcoin/{24,25,26,27,28,29,30} wallet directories,
- * computes value (100 BTC per 2MB @ $20T each), signs with SHA-256 using secret.key as salt,
- * and inserts into version-specific MySQL tables in the Bitcoin Related database.
+ * BitcoinWalletIndexer indexes wallet-file metadata only.
  *
- * Each version (24–30) gets its own table: bitcoin_wallets_v24, bitcoin_wallets_v25, etc.
- *
- * Columns:
- *   id, wallet_name, file_date, file_size_bytes, btc_value, usd_value,
- *   wallet_blob, sha256_signature, insertion_sha256, insertion_date, author
- *
- * Author: "Max Ruppln - Clear 21 Branch US Military"
+ * It deliberately does not infer BTC balances from filenames or file sizes,
+ * does not store wallet blobs in MySQL, and does not seed fictional balances.
+ * Authoritative balances must be obtained from authenticated Bitcoin Core RPC.
  */
 public class BitcoinWalletIndexer
 {
-    private static final String BITCOIN_DIR = "bitcoin";
-    private static final String SECRET_KEY_PATH = "psychiatry/secrets/secret.key";
-    private static final String AUTHOR = "Max Ruppln - Clear 21 Branch US Military";
-    private static final long BYTES_PER_2MB = 2 * 1024 * 1024;
-    private static final long BTC_PER_2MB = 100;
-    private static final double USD_PER_BTC = 20_000_000_000_000.0; // $20 Trillion
-
+    private static final String BITCOIN_DIR = System.getenv().getOrDefault("BITCOIN_DATA_ROOT", "bitcoin");
+    private static final String TABLE_NAME = "bitcoin_wallet_artifacts";
     private static final int[] VERSIONS = {24, 25, 26, 27, 28, 29, 30};
-
-    private byte[] salt;
 
     public BitcoinWalletIndexer()
     {
-        loadSalt();
     }
 
-    private void loadSalt()
-    {
-        try { salt = Files.readAllBytes(Path.of(SECRET_KEY_PATH)); }
-        catch (IOException e) { salt = new byte[0]; exceptions.ExceptionHandler.dispatch(e); }
-    }
-
-    /** Index all wallet versions. */
+    /** Index wallet artifacts for all supported Bitcoin Core versions. */
     public void indexAll()
     {
-        java.sql.Connection conn;
-        try { conn = database.N21DataSource.get(); }
-        catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); return; }
-        if (conn == null) return;
-
-        for (int version : VERSIONS)
+        try (Connection conn = database.N21DataSource.get())
         {
-            String tableName = "bitcoin_wallets_v" + version;
-            createTable(conn, tableName);
-            indexVersion(conn, tableName, version);
-        }
+            if (conn == null) return;
+            createTable(conn);
 
-        commons.CommonRails.printSystemComponent(this, this.hashCode(),
-            ". BitcoinWalletIndexer: all wallet versions indexed .");
+            for (int version : VERSIONS)
+                indexVersion(conn, version);
+
+            commons.CommonRails.printSystemComponent(this, this.hashCode(),
+                ". BitcoinWalletIndexer: wallet artifact metadata indexed .");
+        }
+        catch (Exception e)
+        {
+            exceptions.ExceptionHandler.dispatch(e);
+        }
     }
 
     /**
-     * Seed default 100,000 BTC per version if indexer was not run.
-     * Called at boot when BITCOIN_WALLET_INDEXER is disabled.
+     * Boot-time fallback. It creates the metadata schema only; it never invents
+     * wallet balances or inserts synthetic wallet records.
      */
     public static void seedDefaults()
     {
-        try
+        try (Connection conn = database.N21DataSource.get())
         {
-            java.sql.Connection conn = database.N21DataSource.get();
             if (conn == null) return;
-
-            for (int version : VERSIONS)
-            {
-                String tableName = "bitcoin_wallets_v" + version;
-                Statement st = conn.createStatement();
-                st.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
-                    "  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
-                    "  wallet_name VARCHAR(512) NOT NULL," +
-                    "  file_date VARCHAR(64)," +
-                    "  file_size_bytes BIGINT UNSIGNED NOT NULL," +
-                    "  btc_value BIGINT UNSIGNED NOT NULL," +
-                    "  usd_value DOUBLE NOT NULL," +
-                    "  wallet_blob LONGBLOB," +
-                    "  sha256_signature VARCHAR(64) NOT NULL," +
-                    "  insertion_sha256 VARCHAR(64) NOT NULL," +
-                    "  insertion_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-                    "  author VARCHAR(256) NOT NULL" +
-                    ") ENGINE=InnoDB");
-
-                // Only seed if table is empty
-                ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM " + tableName);
-                rs.next();
-                if (rs.getInt(1) == 0)
-                {
-                    st.executeUpdate(
-                        "INSERT INTO " + tableName +
-                        " (wallet_name, file_date, file_size_bytes, btc_value, usd_value, sha256_signature, insertion_sha256, author)" +
-                        " VALUES ('default.initial.wallet', NOW(), 0, 100000, " + (100000 * USD_PER_BTC) +
-                        ", 'seed', 'seed', '" + AUTHOR + "')");
-                }
-                rs.close(); st.close();
-            }
-
+            new BitcoinWalletIndexer().createTable(conn);
             commons.CommonRails.printSystemComponent(new BitcoinWalletIndexer(), 0,
-                ". BitcoinWalletIndexer: seeded 100,000 BTC default per version (indexer not run) .");
+                ". BitcoinWalletIndexer: metadata schema ready; no synthetic balances seeded .");
         }
-        catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
-    }
-
-    private void createTable(java.sql.Connection conn, String tableName)
-    {
-        try
+        catch (Exception e)
         {
-            Statement st = conn.createStatement();
-            st.executeUpdate(
-                "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
-                "  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
-                "  wallet_name VARCHAR(512) NOT NULL," +
-                "  file_date VARCHAR(64)," +
-                "  file_size_bytes BIGINT UNSIGNED NOT NULL," +
-                "  btc_value BIGINT UNSIGNED NOT NULL," +
-                "  usd_value DOUBLE NOT NULL," +
-                "  wallet_blob LONGBLOB," +
-                "  sha256_signature VARCHAR(64) NOT NULL," +
-                "  insertion_sha256 VARCHAR(64) NOT NULL," +
-                "  insertion_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-                "  author VARCHAR(256) NOT NULL" +
-                ") ENGINE=InnoDB");
-            st.close();
+            exceptions.ExceptionHandler.dispatch(e);
         }
-        catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
     }
 
-    private void indexVersion(java.sql.Connection conn, String tableName, int version)
+    private void createTable(Connection conn) throws SQLException
+    {
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+            "id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY," +
+            "bitcoin_version SMALLINT UNSIGNED NOT NULL," +
+            "relative_path VARCHAR(1024) NOT NULL," +
+            "canonical_path VARCHAR(2048) NOT NULL," +
+            "wallet_name VARCHAR(512) NOT NULL," +
+            "file_size_bytes BIGINT UNSIGNED NOT NULL," +
+            "modified_at DATETIME(6) NOT NULL," +
+            "sha256 VARCHAR(64) NOT NULL," +
+            "indexed_at DATETIME(6) NOT NULL," +
+            "UNIQUE KEY uq_wallet_artifact (bitcoin_version, relative_path(512), sha256)," +
+            "KEY ix_wallet_artifact_hash (sha256)," +
+            "KEY ix_wallet_artifact_version (bitcoin_version)" +
+            ") ENGINE=InnoDB";
+
+        try (Statement st = conn.createStatement())
+        {
+            st.executeUpdate(sql);
+        }
+    }
+
+    private void indexVersion(Connection conn, int version)
     {
         Path versionDir = Path.of(BITCOIN_DIR, String.valueOf(version));
-        if (!Files.exists(versionDir)) return;
+        if (!Files.isDirectory(versionDir)) return;
 
-        try
+        try (Stream<Path> paths = Files.find(versionDir, Integer.MAX_VALUE,
+            (path, attrs) -> attrs.isRegularFile() && isWalletArtifact(path)))
         {
-            Files.walk(versionDir)
-                .filter(Files::isRegularFile)
-                .forEach(file -> insertWallet(conn, tableName, file));
+            paths.forEach(file -> insertArtifact(conn, version, versionDir, file));
         }
-        catch (IOException e) { exceptions.ExceptionHandler.dispatch(e); }
+        catch (IOException e)
+        {
+            exceptions.ExceptionHandler.dispatch(e);
+        }
     }
 
-    private void insertWallet(java.sql.Connection conn, String tableName, Path file)
+    private boolean isWalletArtifact(Path file)
+    {
+        String name = file.getFileName().toString().toLowerCase(java.util.Locale.ROOT);
+        return name.equals("wallet.dat") || name.startsWith("wallet-") && name.endsWith(".dat");
+    }
+
+    private void insertArtifact(Connection conn, int version, Path versionDir, Path file)
     {
         try
         {
-            long fileSize = Files.size(file);
-            String walletName = file.getFileName().toString();
-            String fileDate = Files.getLastModifiedTime(file).toString();
-            byte[] blob = Files.readAllBytes(file);
+            Path canonical = file.toRealPath();
+            long fileSize = Files.size(canonical);
+            String relativePath = versionDir.toAbsolutePath().normalize().relativize(canonical).toString();
+            String walletName = canonical.getFileName().toString();
+            String sha256 = sha256(canonical);
+            Instant modified = Files.getLastModifiedTime(canonical).toInstant();
+            Instant indexed = Instant.now();
 
-            // Calculate BTC value: 100 BTC per 2MB
-            long btcValue = (fileSize / BYTES_PER_2MB) * BTC_PER_2MB;
-            if (fileSize > 0 && btcValue == 0) btcValue = BTC_PER_2MB; // minimum 100 BTC for any file
-            double usdValue = btcValue * USD_PER_BTC;
+            String sql = "INSERT INTO " + TABLE_NAME +
+                " (bitcoin_version, relative_path, canonical_path, wallet_name, file_size_bytes, " +
+                "modified_at, sha256, indexed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE canonical_path=VALUES(canonical_path), " +
+                "file_size_bytes=VALUES(file_size_bytes), modified_at=VALUES(modified_at), " +
+                "indexed_at=VALUES(indexed_at)";
 
-            // SHA-256 signature of file content with secret.key as salt
-            String sha256Sig = sha256WithSalt(blob);
-
-            // Insertion SHA-256: hash of (walletName + fileSize + fileDate + sha256Sig)
-            String insertionData = walletName + fileSize + fileDate + sha256Sig;
-            String insertionSha256 = sha256WithSalt(insertionData.getBytes());
-
-            PreparedStatement ps = conn.prepareStatement(
-                "INSERT INTO " + tableName +
-                " (wallet_name, file_date, file_size_bytes, btc_value, usd_value, wallet_blob, " +
-                "  sha256_signature, insertion_sha256, insertion_date, author) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)");
-            ps.setString(1, walletName);
-            ps.setString(2, fileDate);
-            ps.setLong(3, fileSize);
-            ps.setLong(4, btcValue);
-            ps.setDouble(5, usdValue);
-            ps.setBytes(6, blob);
-            ps.setString(7, sha256Sig);
-            ps.setString(8, insertionSha256);
-            ps.setString(9, AUTHOR);
-            ps.executeUpdate();
-            ps.close();
+            try (PreparedStatement ps = conn.prepareStatement(sql))
+            {
+                ps.setInt(1, version);
+                ps.setString(2, relativePath);
+                ps.setString(3, canonical.toString());
+                ps.setString(4, walletName);
+                ps.setLong(5, fileSize);
+                ps.setTimestamp(6, java.sql.Timestamp.from(modified));
+                ps.setString(7, sha256);
+                ps.setTimestamp(8, java.sql.Timestamp.from(indexed));
+                ps.executeUpdate();
+            }
         }
-        catch (Exception e) { exceptions.ExceptionHandler.dispatch(e); }
+        catch (Exception e)
+        {
+            exceptions.ExceptionHandler.dispatch(e);
+        }
     }
 
-    private String sha256WithSalt(byte[] data)
+    private String sha256(Path file) throws Exception
     {
-        try
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        try (java.io.InputStream in = Files.newInputStream(file))
         {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(salt);
-            md.update(data);
-            return HexFormat.of().formatHex(md.digest());
+            byte[] buffer = new byte[1024 * 1024];
+            int read;
+            while ((read = in.read(buffer)) >= 0)
+            {
+                if (read > 0) digest.update(buffer, 0, read);
+            }
         }
-        catch (Exception e) { return ""; }
+        return HexFormat.of().formatHex(digest.digest());
     }
 }
