@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Shared Black Belt AI transport. CLI front ends send canonical JSON here.
 ENGINE_URL="${BBEA_ENGINE_URL:-http://127.0.0.1:11434/api/generate}"
-MODEL="${BBEA_MODEL:-llama3.1:8b}"
+MODEL="${BBEA_MODEL:-llama3.2:latest}"
 PROMPT_FILE="${BBEA_SYSTEM_PROMPT:-black.belt/sharp/system.prompt}"
 
 if [[ ! -f "$PROMPT_FILE" ]]; then
@@ -35,8 +35,6 @@ system_prompt = pathlib.Path(prompt_path).read_text(encoding="utf-8")
 try:
     parsed = json.loads(raw_input)
 except json.JSONDecodeError:
-    # Interactive natural-language questions are represented explicitly while
-    # canonical JSON audit objects remain unchanged.
     parsed = {"question": raw_input.strip()}
 
 request = {
