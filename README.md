@@ -310,6 +310,11 @@ Java.Web.Server.Telnet.Front.Java.21/
 └── README.md
 ```
 
+
+## Engineering Revisions
+
+The current system-wide engineering review, qualitative maturity assessment, and prioritized improvement roadmap are maintained in [`REVISIONS.md`](./REVISIONS.md). The latest review is dated **2026-09-16**.
+
 ---
 
 ## License
