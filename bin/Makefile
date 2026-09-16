@@ -7,8 +7,9 @@ PREFIX ?= /bin
 OLLAMA ?= ollama
 MODEL_CONFIG ?= .blackbelt-model
 DEFAULT_MODEL ?= llama3.2:latest
+SAVE_DIR ?= $(HOME)/.local/state/blackbelt/responses
 
-.PHONY: all c cpp java clean install models select-model doctor config show-config run run-c run-cpp run-java
+.PHONY: all c cpp java clean install models select-model doctor config show-config run run-c run-cpp run-java save-help transport-help
 
 all: c cpp java
 
@@ -52,6 +53,8 @@ show-config: config
 	@echo "BBEA_MODEL override: $${BBEA_MODEL:-<not set>}"
 	@echo "Engine URL: $${BBEA_ENGINE_URL:-http://127.0.0.1:11434/api/generate}"
 	@echo "Prompt: $${BBEA_SYSTEM_PROMPT:-black.belt/sharp/system.prompt}"
+	@echo "Response directory: $${BBEA_SAVE_DIR:-$(SAVE_DIR)}"
+	@echo "Network transport: $${BBEA_TRANSPORT:-<disabled>}"
 
 # Validate Ollama connectivity and verify that the selected model exists.
 doctor: config
@@ -62,6 +65,20 @@ doctor: config
 	echo "OK: Ollama model '$$model' is available."; \
 	curl --fail --silent --show-error "$${BBEA_ENGINE_URL:-http://127.0.0.1:11434/api/tags}" >/dev/null || { echo "FAIL: Ollama HTTP endpoint is unavailable."; exit 4; }; \
 	echo "OK: Ollama HTTP endpoint is reachable."
+
+save-help:
+	@echo "Local responses are saved by default to: $(SAVE_DIR)"
+	@echo "Override with BBEA_SAVE_DIR=/path or disable with BBEA_NO_SAVE=1."
+	@echo "A specific output file can be selected with --save FILE."
+
+transport-help:
+	@echo "BBEA_TRANSPORT examples:"
+	@echo "  https://host.example/upload     HTTPS"
+	@echo "  ssh://user@host/path            SSH/SFTP-style destination"
+	@echo "  telnet://host:23                Telnet (plaintext; discouraged)"
+	@echo "  raw://host:9000                 Raw TCP (plaintext; discouraged)"
+	@echo "Network output should use HTTPS, SSH, or another authenticated encrypted channel."
+	@echo "For public-key protection use an RSA-2048+ or equivalent recipient key with the transport layer."
 
 run: all
 	@./blackbelt-c
