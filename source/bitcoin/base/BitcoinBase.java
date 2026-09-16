@@ -9,50 +9,38 @@ import server.nitro.NitroWebExpress;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * BitcoinBase — wraps a local bitcoind instance.
+ * BitcoinBase — controlled wrapper around a local bitcoind instance.
  *
- * RPC config mirrors /bitcoin/bash/btc24-query.sh:
- *   port     2222
- *   authentication: Bitcoin Core cookie authentication (no password in source)
- *   network  regtest
- *   wallet   "United States"
- *
- * All mutating operations (start, stop, load/unload wallet, send) persist a
- * trade/action record to the MySQL N21 instance via db.N21Store.storeBitcoinTrade().
- *
- * @author Max Rupplin
- * @date June 08 2026
+ * RPC authentication is delegated to Bitcoin Core cookie authentication.
+ * The server never accepts arbitrary bitcoin-cli method names and never places
+ * RPC credentials in source code or command arguments.
  */
 public class BitcoinBase
 {
     protected String hash = "0xDA717018470E213F";
-
     protected NitroWebExpress.Aspect ASPECT;
 
-    // ── RPC constants (from btc24-query.sh) ──────────────────────────────────
-    protected static final String BITCOIN_CLI      = "bitcoin-cli";
-    protected static final String BITCOIND         = "bitcoind";
-    protected static final String RPC_PORT         = "2222";
-    protected static final String NETWORK          = "-regtest";
-    protected static final String WALLET_NAME      = "United States";
-
-    // ── Shared RPC flag array (prepended to every bitcoin-cli call) ───────────
-    private static final String[] RPC_FLAGS = {
-        NETWORK,
-        "-rpcport="    + RPC_PORT,
-    };
+    protected static final String BITCOIN_CLI = "bitcoin-cli";
+    protected static final String BITCOIND = "bitcoind";
+    protected static final String RPC_PORT = configuredRpcPort();
+    protected static final String NETWORK = "-regtest";
+    protected static final String WALLET_NAME = "United States";
+    private static final Duration RPC_TIMEOUT = Duration.ofSeconds(30);
 
     protected MessageOrderer bitcoin_message_orderer = new MessageOrderer(this);
 
     public BitcoinBase(final NitroWebExpress.Aspect ASPECT)
     {
         this.ASPECT = ASPECT;
-
-        BitcoinAsiaAndTokyoDate    JAPANDate = new BitcoinAsiaAndTokyoDate();
-        BitcoinAmericaAndNewYorkDate ESTDate  = new BitcoinAmericaAndNewYorkDate();
+        BitcoinAsiaAndTokyoDate JAPANDate = new BitcoinAsiaAndTokyoDate();
+        BitcoinAmericaAndNewYorkDate ESTDate = new BitcoinAmericaAndNewYorkDate();
 
         CommonRails.printSystemComponent(this, this.hashCode(),
             ". WebExpress Bitcoin >> opens in North Carolina on Date " + ESTDate.EST_Time + " . ");
@@ -62,19 +50,13 @@ public class BitcoinBase
         database.N21Store.createBitcoinTradesTable();
     }
 
-    // ── Daemon lifecycle ──────────────────────────────────────────────────────
-
-    /** Start local bitcoind in regtest+daemon mode. */
     public String start_bitcoind()
     {
-        String result = exec(new String[]{ BITCOIND, NETWORK, "-daemon",
-            "-rpcport="    + RPC_PORT,
-            });
+        String result = exec(List.of(BITCOIND, NETWORK, "-daemon", "-rpcport=" + RPC_PORT), false);
         database.N21Store.storeBitcoinTrade("start_bitcoind", "", "", result);
         return result;
     }
 
-    /** Stop local bitcoind via RPC stop. */
     public String stop_bitcoind()
     {
         String result = cli("stop");
@@ -82,10 +64,9 @@ public class BitcoinBase
         return result;
     }
 
-    // ── Wallet management ─────────────────────────────────────────────────────
-
     public String load_wallet()
     {
+        BitcoinRpcPolicy.requireWalletName(WALLET_NAME);
         String result = cli("loadwallet", WALLET_NAME);
         database.N21Store.storeBitcoinTrade("load_wallet", WALLET_NAME, "", result);
         return result;
@@ -93,6 +74,7 @@ public class BitcoinBase
 
     public String unload_wallet()
     {
+        BitcoinRpcPolicy.requireWalletName(WALLET_NAME);
         String result = cli("unloadwallet", WALLET_NAME);
         database.N21Store.storeBitcoinTrade("unload_wallet", WALLET_NAME, "", result);
         return result;
@@ -100,116 +82,106 @@ public class BitcoinBase
 
     public String create_wallet(final String name)
     {
+        BitcoinRpcPolicy.requireWalletName(name);
         String result = cli("createwallet", name);
         database.N21Store.storeBitcoinTrade("create_wallet", name, "", result);
         return result;
     }
 
-    /** Returns raw JSON from getwalletinfo for the default wallet. */
-    public String get_wallet_info()
-    {
-        return walletCli("getwalletinfo");
-    }
-
-    /** Returns raw balance string for the default wallet. */
-    public String get_balance()
-    {
-        return walletCli("getbalance");
-    }
-
-    /** Returns a new address for the default wallet. */
-    public String get_new_address()
-    {
-        return walletCli("getnewaddress");
-    }
-
-    // ── Node status ───────────────────────────────────────────────────────────
-
-    public String get_blockchain_info()
-    {
-        return cli("getblockchaininfo");
-    }
-
-    public String get_block_count()
-    {
-        return cli("getblockcount");
-    }
-
-    // ── Trade / send ──────────────────────────────────────────────────────────
+    public String get_wallet_info() { return walletCli("getwalletinfo"); }
+    public String get_balance() { return walletCli("getbalance"); }
+    public String get_new_address() { return walletCli("getnewaddress"); }
+    public String get_blockchain_info() { return cli("getblockchaininfo"); }
+    public String get_block_count() { return cli("getblockcount"); }
 
     /**
-     * Send BTC from the default wallet to a destination address.
-     * Records the trade to MySQL regardless of outcome.
-     *
-     * @param toAddress  destination Bitcoin address
-     * @param amount     amount in BTC (e.g. "0.001")
-     * @return txid on success, error string on failure
+     * Broadcast a transaction only after strict address and amount validation.
+     * Bitcoin Core remains the authority for transaction acceptance.
      */
     public String send(final String toAddress, final String amount)
     {
-        String result = walletCli("sendtoaddress", toAddress, amount);
-        database.N21Store.storeBitcoinTrade("send", WALLET_NAME, toAddress + " " + amount + " BTC", result);
+        BitcoinRpcPolicy.requireAddress(toAddress);
+        long satoshis = BitcoinRpcPolicy.requireSatoshis(amount);
+        String normalizedAmount = BigDecimal.valueOf(satoshis, 8).toPlainString();
+        String result = walletCli("sendtoaddress", toAddress, normalizedAmount);
+        database.N21Store.storeBitcoinTrade("send", WALLET_NAME,
+            "address=" + toAddress + " satoshis=" + satoshis, result);
         return result;
     }
 
-    // ── Message pass-through ──────────────────────────────────────────────────
-
     public void send_message(final StringBuffer BUFFER) {}
-    public void send_message(final String MESSAGE)      {}
+    public void send_message(final String MESSAGE) {}
 
-    // ── Process helpers ───────────────────────────────────────────────────────
-
-    /**
-     * Run bitcoin-cli with the shared RPC flags, no wallet suffix.
-     * Additional args are appended after the RPC flags.
-     */
     protected String cli(final String... args)
     {
-        String[] cmd = buildCmd(false, args);
-        return exec(cmd);
+        if (args.length == 0) throw new IllegalArgumentException("Bitcoin RPC method is required");
+        BitcoinRpcPolicy.requireAllowed(args[0]);
+        return exec(buildCmd(false, args), true);
     }
 
-    /**
-     * Run bitcoin-cli with -rpcwallet=WALLET_NAME prepended to args.
-     */
     protected String walletCli(final String... args)
     {
-        String[] cmd = buildCmd(true, args);
-        return exec(cmd);
+        if (args.length == 0) throw new IllegalArgumentException("Bitcoin RPC method is required");
+        BitcoinRpcPolicy.requireAllowed(args[0]);
+        return exec(buildCmd(true, args), true);
     }
 
-    private String[] buildCmd(final boolean withWallet, final String... args)
+    private List<String> buildCmd(final boolean withWallet, final String... args)
     {
-        int base = 1 + RPC_FLAGS.length + (withWallet ? 1 : 0);
-        String[] cmd = new String[base + args.length];
-        cmd[0] = BITCOIN_CLI;
-        System.arraycopy(RPC_FLAGS, 0, cmd, 1, RPC_FLAGS.length);
-        int off = 1 + RPC_FLAGS.length;
-        if (withWallet) { cmd[off] = "-rpcwallet=" + WALLET_NAME; off++; }
-        System.arraycopy(args, 0, cmd, off, args.length);
+        List<String> cmd = new ArrayList<>();
+        cmd.add(BITCOIN_CLI);
+        cmd.add(NETWORK);
+        cmd.add("-rpcport=" + RPC_PORT);
+        if (withWallet) cmd.add("-rpcwallet=" + WALLET_NAME);
+        for (String arg : args) cmd.add(arg);
         return cmd;
     }
 
-    /** Execute a command, capture stdout+stderr, return combined output. */
-    private String exec(final String[] cmd)
+    private String exec(final List<String> cmd, final boolean rpc)
     {
         try
         {
-            Process p = Runtime.getRuntime().exec(cmd);
-            String out = new BufferedReader(new InputStreamReader(p.getInputStream()))
-                .lines().collect(Collectors.joining("\n"));
-            String err = new BufferedReader(new InputStreamReader(p.getErrorStream()))
-                .lines().collect(Collectors.joining("\n"));
-            p.waitFor();
-            String result = out.isBlank() ? err : out;
+            ProcessBuilder builder = new ProcessBuilder(cmd);
+            builder.redirectErrorStream(true);
+            Process process = builder.start();
+
+            String result;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream())))
+            {
+                result = reader.lines().collect(Collectors.joining("\n"));
+            }
+
+            if (!process.waitFor(RPC_TIMEOUT.toMillis(), java.util.concurrent.TimeUnit.MILLISECONDS))
+            {
+                process.destroyForcibly();
+                return "ERROR: Bitcoin process timed out";
+            }
+
+            int exit = process.exitValue();
+            String method = cmd.size() > 3 ? cmd.get(cmd.size() - (rpc ? Math.min(1, cmd.size() - 1) : 1)) : "process";
             CommonRails.printSystemComponent(this, this.hashCode(),
-                ". BitcoinBase >> " + cmd[0] + " " + (cmd.length > 1 ? cmd[cmd.length - 1] : "") + " >> exit=" + p.exitValue() + " .");
-            return result;
+                ". BitcoinBase >> controlled RPC invocation exit=" + exit + " method=" + (cmd.size() > 3 ? cmd.get(3) : method) + " .");
+            return result == null ? "" : result;
         }
         catch (Exception e)
         {
             ExceptionHandler.dispatch(e);
-            return "ERROR: " + e.getMessage();
+            return "ERROR: Bitcoin RPC operation failed";
+        }
+    }
+
+    private static String configuredRpcPort()
+    {
+        String value = System.getenv().getOrDefault("BITCOIN_RPC_PORT", "2222");
+        try
+        {
+            int port = Integer.parseInt(value);
+            if (port < 1 || port > 65535) throw new NumberFormatException();
+            return Integer.toString(port);
+        }
+        catch (NumberFormatException e)
+        {
+            return "2222";
         }
     }
 }
