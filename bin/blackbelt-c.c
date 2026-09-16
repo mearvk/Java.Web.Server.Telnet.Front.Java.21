@@ -2,6 +2,7 @@
  * Reads canonical BBEA JSON from --file or stdin and sends it to the
  * shared Black Belt engine transport. The AI engine remains external.
  */
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,7 +40,6 @@ int main(int argc, char **argv) {
         usage(argv[0]); return 2;
     }
 
-    /* Materialize input to a pipe so the shared engine receives exactly one JSON document. */
     FILE *in = stdin;
     if (file) {
         in = fopen(file, "rb");
