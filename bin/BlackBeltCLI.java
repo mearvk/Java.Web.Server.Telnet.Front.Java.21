@@ -45,7 +45,7 @@ public final class BlackBeltCLI {
 
     private static int runEngine(String input) throws Exception {
         String prompt = Files.readString(resolvePrompt(), StandardCharsets.UTF_8);
-        String model = System.getenv().getOrDefault("BBEA_MODEL", "llama3.1:8b");
+        String model = System.getenv().getOrDefault("BBEA_MODEL", "llama3.2:latest");
         String url = System.getenv().getOrDefault("BBEA_ENGINE_URL", "http://127.0.0.1:11434/api/generate");
         String requestJson = "{" +
                 "\"model\":" + quoteJson(model) + "," +
@@ -85,10 +85,6 @@ public final class BlackBeltCLI {
                 System.out.println("Commands: help, quit, exit");
                 continue;
             }
-            if (!line.trim().startsWith("{") || !line.trim().endsWith("}")) {
-                System.err.println("Audit input must be a JSON object.");
-                continue;
-            }
             int rc = runEngine(line);
             if (rc != 0) System.err.println("Audit failed (exit " + rc + ").");
         }
@@ -101,7 +97,7 @@ public final class BlackBeltCLI {
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "--help", "-h" -> { usage(); return; }
-                case "--version" -> { System.out.println("blackbelt-java 1.1 (BBEA CLI v2 transport)"); return; }
+                case "--version" -> { System.out.println("blackbelt-java 1.2 (BBEA CLI v2 transport)"); return; }
                 case "--file" -> {
                     if (++i >= args.length) { usage(); System.exit(2); }
                     file = args[i];
@@ -119,8 +115,7 @@ public final class BlackBeltCLI {
                 : Files.readString(Path.of(file), StandardCharsets.UTF_8);
         if (input.trim().isEmpty()) { System.err.println("No JSON audit input received."); System.exit(2); }
         if (!input.trim().startsWith("{") || !input.trim().endsWith("}")) {
-            System.err.println("Audit input must be a JSON object."); System.exit(2);
-        }
+            System.err.println("Audit input must be a JSON object."); System.exit(2); }
         System.exit(runEngine(input));
     }
 }
