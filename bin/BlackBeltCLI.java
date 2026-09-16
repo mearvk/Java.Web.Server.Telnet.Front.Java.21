@@ -38,7 +38,7 @@ public final class BlackBeltCLI {
     private static Path resolvePrompt() {
         String configured = System.getenv("BBEA_SYSTEM_PROMPT");
         if (configured != null && !configured.isBlank()) return Path.of(configured);
-        Path repo = Path.of("black.belt/sharp/system.prompt");
+        Path repo = Path.of("../../../black.belt/sharp/system.prompt");
         if (Files.isRegularFile(repo)) return repo;
         return Path.of("/usr/share/blackbelt/sharp/system.prompt");
     }
