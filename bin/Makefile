@@ -28,6 +28,7 @@ install: all
 	install -Dm755 blackbelt-engine.sh $(DESTDIR)$(PREFIX)/blackbelt-engine.sh
 	install -Dm644 BlackBeltCLI.class $(DESTDIR)$(PREFIX)/BlackBeltCLI.class
 	install -Dm644 BlackBeltCLI.java $(DESTDIR)$(PREFIX)/BlackBeltCLI.java
+	install -Dm644 ../black.belt/sharp/system.prompt $(DESTDIR)/usr/share/blackbelt/sharp/system.prompt
 
 clean:
 	rm -f blackbelt-c blackbelt-cpp BlackBeltCLI.class
