@@ -59,11 +59,10 @@ config:
 show-config: config
 	@echo "BBEA_MODEL override: $${BBEA_MODEL:-<not set>}"
 	@echo "Engine URL: $${BBEA_ENGINE_URL:-http://127.0.0.1:11434/api/generate}"
-	@echo "Prompt: $${BBEA_SYSTEM_PROMPT:-black.belt/sharp/system.prompt}"
+	@echo "Prompt: $${BBEA_SYSTEM_PROMPT:-../../../black.belt/sharp/system.prompt}"
 	@echo "Response directory: $${BBEA_SAVE_DIR:-$(SAVE_DIR)}"
 	@echo "Network transport: $${BBEA_TRANSPORT:-<disabled>}"
 
-# Validate Ollama connectivity and verify that the selected model exists.
 doctor: config
 	@command -v $(OLLAMA) >/dev/null 2>&1 || { echo "FAIL: Ollama executable not found."; exit 2; }
 	@model="$${BBEA_MODEL:-$$(cat $(MODEL_CONFIG))}"; \
@@ -112,7 +111,7 @@ install: all chmod-scripts
 	install -Dm755 blackbelt-output.sh $(DESTDIR)$(PREFIX)/blackbelt-output.sh
 	install -Dm644 BlackBeltCLI.class $(DESTDIR)$(PREFIX)/BlackBeltCLI.class
 	install -Dm644 BlackBeltCLI.java $(DESTDIR)$(PREFIX)/BlackBeltCLI.java
-	install -Dm644 ../black.belt/sharp/system.prompt $(DESTDIR)/usr/share/blackbelt/sharp/system.prompt
+	install -Dm644 ../../../black.belt/sharp/system.prompt $(DESTDIR)/usr/share/blackbelt/sharp/system.prompt
 
 clean:
 	rm -f blackbelt-c blackbelt-cpp blackbelt-2 BlackBeltCLI.class
