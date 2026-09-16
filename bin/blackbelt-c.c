@@ -59,7 +59,7 @@ static void shell_quote(const char *src, char *dst, size_t size) {
 static int save_and_transport(const char *response_path, const char *requested_path) {
     if (getenv("BBEA_NO_SAVE") && !strcmp(getenv("BBEA_NO_SAVE"), "1") && !requested_path) return 0;
 
-    char helper[4096], quoted[8192], command[12288];
+    char helper[4096], quoted[8192], command[24576];
     const char *helper_path = output_helper(helper, sizeof(helper));
     shell_quote(helper_path, quoted, sizeof(quoted));
 
@@ -97,8 +97,14 @@ static int save_and_transport(const char *response_path, const char *requested_p
     }
 
     if (getenv("BBEA_TRANSPORT") && *getenv("BBEA_TRANSPORT")) {
-        char qpath[8192]; shell_quote(requested_path ? requested_path : response_path, qpath, sizeof(qpath));
-        snprintf(command, sizeof(command), "bash %s %s", quoted, qpath);
+        const char *transport_path = requested_path ? requested_path : response_path;
+        char qpath[8192];
+        shell_quote(transport_path, qpath, sizeof(qpath));
+        int written = snprintf(command, sizeof(command), "bash %s %s", quoted, qpath);
+        if (written < 0 || (size_t)written >= sizeof(command)) {
+            fprintf(stderr, "Transport command is too long.\n");
+            return 6;
+        }
         if (system(command) != 0) return 6;
     }
     return 0;
