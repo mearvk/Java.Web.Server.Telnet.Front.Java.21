@@ -1,5 +1,8 @@
 # JWSTF Local Administration
 
+**Introduced:** 2026-08-24  
+**Documentation Updated:** 2026-09-16
+
 A polished JavaFX local administration console for Java 21.
 
 ## Design
@@ -33,3 +36,17 @@ Removal applies to installed/generated artifacts and does not silently delete re
 ## Build integration
 
 The class is `us.house.admin.LocalAdmin`. The release build should package it with the repository's JavaFX 21 / Java 21 configuration and produce native artifacts with `jpackage` on the corresponding OS.
+
+## Administration Descriptors
+
+The administration layer is documented as local software, not as a governmental or external-authority interface. Its controls are review-first and privileged execution remains subject to host authorization.
+
+| Program | Descriptor Date | Current Status |
+|---|---|---|
+| `LocalAdmin` | 2026-08-24 | JavaFX local administration console |
+| `RoyalsUSGuardIAdmin` | 2026-08-24 | Defensive local administration profile |
+| `StateSecurityDownIAdmin` | 2026-08-24 | Intentional failed-state test fixture |
+| `jwstf-admin-c` | 2026-09-16 | Native C local administration CLI |
+| `jwstf-admin-cpp` | 2026-09-16 | Native C++17 local administration CLI |
+
+**Current revision date:** 2026-09-16.
