@@ -135,3 +135,27 @@ No numerical performance rating should be treated as established until these mea
 - Recorded Bitcoin valuation and verification concerns.
 - Added prioritized engineering roadmap.
 - Established this file as the persistent revision record.
+## 2026-09-16 — Bitcoin Design Hardening
+
+Completed a focused Bitcoin subsystem design review and applied several safety/correctness improvements.
+
+- Removed embedded Bitcoin RPC password material from `BitcoinBase.java`.
+- Changed Bitcoin RPC design toward Bitcoin Core cookie authentication.
+- Made the Bitcoin RPC port configurable with `BITCOIN_RPC_PORT`.
+- Disabled the legacy `rm -r` wallet deletion path in `TraderModule`.
+- Removed file-size-as-BTC valuation from `wallet-summary.sh`.
+- Made fiat valuation optional and explicitly operator supplied through `BTC_PRICE_USD`.
+- Added SHA-256 metadata output to wallet summaries.
+- Corrected the central Bitcoin indexer description so file size is explicitly metadata rather than balance.
+- Added `bitcoin/DESIGN.md` describing the target architecture and migration plan.
+- Added `bitcoin/SECURITY.md` documenting the security model and remaining work.
+
+### Newly Identified High-Priority Bitcoin Work
+
+1. Migrate away from storing complete wallet database blobs in MySQL.
+2. Replace inferred `btc_value` fields with authenticated Bitcoin Core balance observations.
+3. Introduce satoshi-based monetary storage and decimal fiat valuation.
+4. Add RPC command allowlisting and address/amount validation.
+5. Add CSRF/session/rate-limit controls to the Bitcoin web administration surface.
+6. Add deterministic wallet-indexing tests and idempotent database constraints.
+7. Verify Bitcoin Core binaries by checksum/signature before execution.
