@@ -43,15 +43,30 @@ system_prompt = pathlib.Path(prompt_path).read_text(encoding="utf-8")
 
 try:
     parsed = json.loads(raw_input)
+    json_mode = True
 except json.JSONDecodeError:
-    parsed = {"question": raw_input.strip()}
+    parsed = raw_input.strip()
+    json_mode = False
 
-request = {
-    "model": model,
-    "system": system_prompt,
-    "prompt": json.dumps(parsed, ensure_ascii=False, separators=(",", ":")),
-    "stream": False,
-    "format": "json"
-}
+if json_mode:
+    request = {
+        "model": model,
+        "system": system_prompt,
+        "prompt": json.dumps(parsed, ensure_ascii=False, separators=(",", ":")),
+        "stream": False,
+        "format": "json"
+    }
+else:
+    # Natural-language questions are intentionally not sent through Ollama's
+    # JSON-output constraint.  The CLI advertises question mode, so the model
+    # should receive the question as ordinary text and answer it directly.
+    question_system = system_prompt + "\n\nQUESTION MODE\nThe user has entered a natural-language question rather than a structured audit object. Answer the question directly and concisely. Do not manufacture an audit report or JSON object unless the user explicitly asks for one."
+    request = {
+        "model": model,
+        "system": question_system,
+        "prompt": parsed,
+        "stream": False
+    }
+
 print(json.dumps(request, ensure_ascii=False))
 PY
