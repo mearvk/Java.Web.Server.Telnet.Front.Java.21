@@ -1,3 +1,5 @@
+<img align="right" width="75" height="75" src="https://raw.githubusercontent.com/mearvk/SLeeLa/master/images/debian-logo.png" alt="Debian logo">
+
 # JWSTF Administration CLI
 
 The `admin/bin` directory contains native C and C++ command-line front ends for the local JWSTF administration layer.
