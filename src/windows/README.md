@@ -1,3 +1,5 @@
+<img align="right" width="75" height="75" src="https://raw.githubusercontent.com/mearvk/SLeeLa/master/images/debian-logo.png" alt="Debian logo">
+
 # Windows Execution Model
 
 This package provides the Windows-side execution vocabulary for the Java 21 server/frontend reference architecture.
