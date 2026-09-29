@@ -1,3 +1,5 @@
+<img align="right" width="75" height="75" src="https://raw.githubusercontent.com/mearvk/SLeeLa/master/images/debian-logo.png" alt="Debian logo">
+
 # Aptitude Module
 
 The JWSTF Aptitude module is the Linux package-management integration for the Ubuntu Grand / US House software lifecycle.
