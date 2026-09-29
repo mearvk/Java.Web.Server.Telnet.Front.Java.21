@@ -1,3 +1,5 @@
+<img align="right" width="75" height="75" src="https://raw.githubusercontent.com/mearvk/SLeeLa/master/images/debian-logo.png" alt="Debian logo">
+
 # TandemEquals™
 
 **Human Intellect Modulator Simplex & Control Curve**
