@@ -1,3 +1,5 @@
+<img align="right" width="75" height="75" src="https://raw.githubusercontent.com/mearvk/SLeeLa/master/images/debian-logo.png" alt="Debian logo">
+
 # Cron — Noble Registry
 
 Reliable cron services for NitroWebExpress™ — a Noble Mear before Noble Ministries.
