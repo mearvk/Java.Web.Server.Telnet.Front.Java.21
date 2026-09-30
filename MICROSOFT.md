@@ -1,6 +1,6 @@
 # Microsoft
 
-<img align="right" width="75" height="75" src="https://cdn.simpleicons.org/microsoft" alt="Microsoft logo">
+<img align="right" width="75" height="75" src="images/microsoft-logo.svg" alt="Microsoft logo">
 
 **Microsoft Corporation** is a major American technology company whose work spans personal computing, operating systems, productivity software, cloud computing, developer tools, gaming, enterprise services, and artificial intelligence. This document records Microsoft's historical and corporate context for the project.
 
