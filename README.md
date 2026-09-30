@@ -1,4 +1,4 @@
-<img align="right" width="75" height="75" src="https://raw.githubusercontent.com/mearvk/SLeeLa/master/images/debian-logo.png" alt="Debian logo">
+<img align="right" width="75" height="75" src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" alt="Debian logo">
 
 # NitroWebExpress™
 
@@ -16,7 +16,7 @@ A multi-module Java 21 telnet/TCP server platform with NIO masquerade routing, A
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> I. ArmorerSteve™ — Knowledge Q&A (Port 49235)
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> I. ArmorerSteve™ — Knowledge Q&A (Port 49235)
 
 TCP Q&A interface with a fulltext-searchable knowledge base. Hybrid C/Java implementation with native `armorer.c` compiled via Makefile alongside `ArmorerSteveServer.java`.
 
@@ -24,7 +24,7 @@ TCP Q&A interface with a fulltext-searchable knowledge base. Hybrid C/Java imple
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> II. Bitcoin Conjegeum
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> II. Bitcoin Conjegeum
 
 ![CremeOak](https://github.com/mearvk/Ubuntu.Determinant.Beta.Restricted/blob/main/images/Bitcoin_and_wallet_in_slots_2K_202609042306%20(1).jpeg)
 
@@ -34,7 +34,7 @@ US Democratic and US Policy.
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> III. Communicator™ — Encrypted Chat (Port 49199)
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> III. Communicator™ — Encrypted Chat (Port 49199)
 
 Persistent 1-hour telnet chat server with end-to-end encryption negotiation.
 
@@ -62,7 +62,7 @@ profile cipher 6                 ← save ChaCha20 as default
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> IV. Configuration
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> IV. Configuration
 
 | File | Purpose |
 |--------|---------|
@@ -76,7 +76,7 @@ profile cipher 6                 ← save ChaCha20 as default
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> V. Directory Layout
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> V. Directory Layout
 
 ```
 Java.Web.Server.Telnet.Front.Java.21/
@@ -118,13 +118,13 @@ Java.Web.Server.Telnet.Front.Java.21/
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> VI. Engineering Revisions
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> VI. Engineering Revisions
 
 The current system-wide engineering review, qualitative maturity assessment, and prioritized improvement roadmap are maintained in [`REVISIONS.md`](./REVISIONS.md). The latest review is dated **2026-09-16**.
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> VII. Fiduciary™ — ACH Transfer Service (Port 49240)
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> VII. Fiduciary™ — ACH Transfer Service (Port 49240)
 
 TCP server for fiduciary outbound connections and ACH transfer processing. Hybrid C/Java implementation with native `fiduciary.c` and `ach_transfer.c` compiled via Makefile alongside Java `FiduciaryServicesServer` and `FiduciaryOutboundConnector`.
 
@@ -134,7 +134,7 @@ TCP server for fiduciary outbound connections and ACH transfer processing. Hybri
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> VIII. Integrity System
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> VIII. Integrity System
 
 Post-install SHA-256 file verification. Non-blocking — program continues regardless of findings.
 
@@ -157,13 +157,13 @@ Post-install SHA-256 file verification. Non-blocking — program continues regar
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> IX. License
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> IX. License
 
 See `LICENSE.md` for project licensing terms.
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> X. Module Registry
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> X. Module Registry
 
 ### Core Servers (always started by Main.java)
 
@@ -230,7 +230,7 @@ See `LICENSE.md` for project licensing terms.
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> XI. Quick Start
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> XI. Quick Start
 
 ```bash
 # First-time install (handles Java, MySQL, Tomcat, firewall, databases, deploy)
@@ -252,7 +252,7 @@ bash scripts/status.sh
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> XII. Script Reference
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> XII. Script Reference
 
 ### Deployment
 
@@ -306,7 +306,7 @@ bash scripts/status.sh
 
 ---
 
-## <img src="https://raw.githubusercontent.com/mearvk/SLeeLa/raw/master/images/debian-logo.png" width="25" height="25" alt="Debian"> XIII. TandemEquals™ — Human Intellect Modulator (Port 49223)
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> XIII. TandemEquals™ — Human Intellect Modulator (Port 49223)
 
 Four-layer simplex control curve system for perception → cognition → modulation → expression.
 
