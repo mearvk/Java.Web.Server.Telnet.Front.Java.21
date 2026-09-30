@@ -1,4 +1,4 @@
-<img align="right" width="75" height="75" src="https://github.com/mearvk/SLeeLa/blob/master/images/oracle-001.png?raw=true" alt="Oracle logo">
+<img align="right" width="75" height="75" src="https://github.com/mearvk/SLeeLa/blob/master/images/oracle-002.png?raw=true" alt="Oracle logo">
 
 # Oracle
 
