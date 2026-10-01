@@ -32,6 +32,8 @@ TCP Q&A interface with a fulltext-searchable knowledge base. Hybrid C/Java imple
 
 bc1qs6v4q9zsw70t0umk3m0quhvf9dr6cdeskl28dh
 
+bc1qx33vma553gddsjkq372l3xlm8e8huv2vzad3cc
+
 US Democratic and US Policy.
 
 ---
