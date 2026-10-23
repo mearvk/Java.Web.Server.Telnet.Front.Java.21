@@ -28,7 +28,7 @@ TCP Q&A interface with a fulltext-searchable knowledge base. Hybrid C/Java imple
 
 ## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> II. Bitcoin Conjegeum
 
-![CremeOak](https://github.com/mearvk/Ubuntu.Determinant.Beta.Restricted/blob/main/images/Bitcoin_and_wallet_in_slots_2K_202609042306%20(1).jpeg)
+![CremeOak](https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/blob/main/images/national-bitcoin-icc-logo-005.jpg)
 
 bc1qs6v4q9zsw70t0umk3m0quhvf9dr6cdeskl28dh
 
