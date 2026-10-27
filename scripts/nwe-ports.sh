@@ -10,11 +10,20 @@
 #
 # Capitalization reference: configuration/print-method.xml §script-descriptors
 
-# ═══════════════════════════════════════════════════════════════════════════════
+nwe_is_linux() {
+    uname -s 2>/dev/null | grep -qi '^linux$'
+}
+
+# ════════════════════════════════════════════════════════════════════════════════
 # nwe_ensure_ufw — Install and enable UFW if not present (Linux only)
 # Called before open/close operations to guarantee firewall availability.
-# ═══════════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════════════
 nwe_ensure_ufw() {
+    if ! nwe_is_linux; then
+        echo "  [--] Firewall automation skipped on non-Linux host"
+        return 0
+    fi
+
     if command -v ufw &>/dev/null; then
         # UFW installed — ensure it's enabled
         if ! sudo ufw status 2>/dev/null | grep -q "Status: active"; then
@@ -54,47 +63,45 @@ nwe_ensure_ufw() {
     fi
 }
 
-# ── Port List (authoritative — matches ufw-allow-all.sh and nwe-config.xml) ──
 NWE_PORTS=(
-    2000    # StrernaryDirectory
-    5000    # Futures (DemocraticAI)
-    5512    # AES Encryption
-    6682    # Bitcoin
-    7743    # RSA Encryption
-    7744    # DSA Encryption
-    8080    # Tomcat (all web frontends)
-    8888    # Reserved
-    9999    # Gray Port Registry
-    10085   # Gray85 Crème Registry
-    20000   # Strernary AI Inference
-    49111   # Reserved
-    49133   # WeatherServer
-    49144   # BinaryHttp
-    49152   # NitroWebExpress Main
-    49155   # ConnectionStatus
-    49166   # ModuleInstallation
-    49177   # AsciiCreator
-    49188   # ModuleLoaderDaemon
-    49199   # Communicator
-    49200   # CalendarD44
-    49201   # JapanSignal
-    49202   # RussiaSignal
-    49203   # MexicoSignal
-    49204   # GreeceInternational
-    49210   # California FBI
-    49211   # California CIA
-    49212   # California NSA
-    49213   # Duke University
-    49214   # Stanford Library
-    49215   # Vietnam
-    49216   # Emeter
-    49220   # Defined
-    49222   # SpectrumTandem
-    49230   # NWE Chat
-    49231   # UNCW
+    2000
+    5000
+    5512
+    6682
+    7743
+    7744
+    8080
+    8888
+    9999
+    10085
+    20000
+    49111
+    49133
+    49144
+    49152
+    49155
+    49166
+    49177
+    49188
+    49199
+    49200
+    49201
+    49202
+    49203
+    49204
+    49210
+    49211
+    49212
+    49213
+    49214
+    49215
+    49216
+    49220
+    49222
+    49230
+    49231
 )
 
-# Port → service name mapping for display
 declare -A NWE_PORT_NAMES=(
     [2000]="StrernaryDirectory"
     [5000]="Futures (DemocraticAI)"
@@ -134,22 +141,19 @@ declare -A NWE_PORT_NAMES=(
     [49231]="UNCW"
 )
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# nwe_open_ports — Open all NWE ports in the system firewall
-# Called by: start-all.sh, start-backends.sh, post-clone.sh
-# ═══════════════════════════════════════════════════════════════════════════════
 nwe_open_ports() {
     local OPENED=0 FAILED=0 SKIPPED=0
 
-    # SECURITY: Set NWE_TRUSTED_IP to restrict access to a specific IP.
-    # Without it, ports are open to ALL sources (0.0.0.0).
+    if ! nwe_is_linux; then
+        echo "  [--] Firewall automation skipped on non-Linux host"
+        return 0
+    fi
+
     if [ -z "${NWE_TRUSTED_IP:-}" ]; then
         echo "[WARN] NWE_TRUSTED_IP not set — opening ports to ALL sources. Set NWE_TRUSTED_IP for production."
     fi
 
     echo "  [*] Opening NWE service ports..."
-
-    # Ensure UFW is installed and active
     nwe_ensure_ufw
 
     if command -v ufw &>/dev/null; then
@@ -209,16 +213,15 @@ nwe_open_ports() {
     return 0
 }
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# nwe_close_ports — Close all NWE ports in the system firewall
-# Called by: shutdown-all.sh, shutdown-backends.sh
-# ═══════════════════════════════════════════════════════════════════════════════
 nwe_close_ports() {
     local CLOSED=0 SKIPPED=0 FAILED=0
 
-    echo "  [*] Closing NWE service ports..."
+    if ! nwe_is_linux; then
+        echo "  [--] Firewall automation skipped on non-Linux host"
+        return 0
+    fi
 
-    # Ensure UFW is available before attempting close
+    echo "  [*] Closing NWE service ports..."
     nwe_ensure_ufw
 
     if command -v ufw &>/dev/null; then
@@ -266,12 +269,13 @@ nwe_close_ports() {
     return 0
 }
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# nwe_port_status — Show which NWE ports are currently open/closed
-# Called by: status.sh
-# ═══════════════════════════════════════════════════════════════════════════════
 nwe_port_status() {
     local OPEN=0 CLOSED=0
+
+    if ! nwe_is_linux; then
+        echo "  Firewall Port Status: not applicable on non-Linux host"
+        return 0
+    fi
 
     echo "  Firewall Port Status:"
 
@@ -303,7 +307,6 @@ nwe_port_status() {
     return 0
 }
 
-# If run directly (not sourced), show usage
 if [ "${BASH_SOURCE[0]}" = "$0" ]; then
     case "${1:-}" in
         open)   nwe_open_ports ;;

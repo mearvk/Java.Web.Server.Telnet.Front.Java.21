@@ -1,14 +1,48 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════════════
 # NitroWebExpress™ — Start All Frontend Modules
 # Deploys all module webapps to Tomcat and verifies HTTP endpoints.
 # Skips modules already deployed (fast re-run after git pull).
 # Usage: bash scripts/start-frontends.sh [tomcat_home]
-# ═══════════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════════════
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
+
+resolve_tomcat_home() {
+    local requested="${1:-${CATALINA_HOME:-}}"
+    if [ -n "$requested" ] && [ -d "$requested/webapps" ]; then
+        printf '%s\n' "$requested"
+        return 0
+    fi
+
+    if uname -s | grep -qi 'darwin'; then
+        for candidate in \
+            "/opt/homebrew/opt/tomcat/libexec" \
+            "/usr/local/opt/tomcat/libexec" \
+            "/Applications/Tomcat/apache-tomcat-11.0.2"; do
+            if [ -d "$candidate/webapps" ]; then
+                printf '%s\n' "$candidate"
+                return 0
+            fi
+        done
+    else
+        for candidate in \
+            "/opt/apache-tomcat-11.0.2" \
+            "/opt/tomcat" \
+            "/var/lib/tomcat9" \
+            "/usr/share/tomcat"; do
+            if [ -d "$candidate/webapps" ]; then
+                printf '%s\n' "$candidate"
+                return 0
+            fi
+        done
+    fi
+
+    printf '%s\n' "${requested:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
+}
+
+TOMCAT_HOME="$(resolve_tomcat_home "${1:-}")"
 
 source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 
@@ -27,38 +61,52 @@ MODULES=(
 )
 
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  NitroWebExpress™ — Start All Frontend Modules                          ║"
-echo "║  Tomcat:  $TOMCAT_HOME                                                  ║"
-echo "║  Modules: ${#MODULES[@]}                                                         ║"
+echo "║  NitroWebExpress™ — Start All Frontend Modules                        ║"
+echo "║  Tomcat:  $TOMCAT_HOME                                                ║"
+echo "║  Modules: ${#MODULES[@]}                                               ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
-# ── Validate Tomcat ───────────────────────────────────────────────────────────
+# ── Validate Tomcat ─────────────────────────────────────────────────────────────
 if [ ! -d "$TOMCAT_HOME/webapps" ]; then
     echo "  [ERROR] Tomcat not found at: $TOMCAT_HOME"
     echo "          Set CATALINA_HOME or pass as argument."
     exit 1
 fi
 
-# ── Start Tomcat (once) ───────────────────────────────────────────────────────
-echo -n "  [*] Tomcat: "
-if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/ 2>/dev/null | grep -q "200\|302\|401\|403"; then
-    echo "already running"
-else
+start_tomcat_if_needed() {
+    if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/ 2>/dev/null | grep -q "200\|302\|401\|403"; then
+        echo "already running"
+        return 0
+    fi
+
     echo -n "starting... "
+
     if [ -x "$TOMCAT_HOME/bin/startup.sh" ]; then
         "$TOMCAT_HOME/bin/startup.sh" > /dev/null 2>&1
-    else
+    elif uname -s | grep -qi 'darwin'; then
+        if command -v brew >/dev/null 2>&1; then
+            brew services start tomcat 2>/dev/null || true
+        fi
+    elif command -v systemctl >/dev/null 2>&1; then
         sudo systemctl start tomcat 2>/dev/null || true
     fi
+
     sleep 3
     if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/ 2>/dev/null | grep -q "200\|302\|401\|403"; then
         echo "up"
+        return 0
     else
         echo "waiting..."
         sleep 5
+        return 0
     fi
-fi
+}
+
+# ── Start Tomcat (once) ───────────────────────────────────────────────────────
+echo -n "  [*] Tomcat: "
+start_tomcat_if_needed
+
 echo ""
 
 # ── Check which modules are already deployed ─────────────────────────────────
@@ -154,7 +202,11 @@ if [ "$NEEDS_RELOAD" -eq 1 ]; then
         "$TOMCAT_HOME/bin/shutdown.sh" >/dev/null 2>&1 || true
         sleep 3
         "$TOMCAT_HOME/bin/startup.sh" >/dev/null 2>&1
-    else
+    elif uname -s | grep -qi 'darwin'; then
+        if command -v brew >/dev/null 2>&1; then
+            brew services restart tomcat 2>/dev/null || true
+        fi
+    elif command -v systemctl >/dev/null 2>&1; then
         sudo systemctl restart tomcat 2>/dev/null || true
     fi
     echo "  [*] Waiting for Tomcat to load webapps (8s)..."
@@ -179,7 +231,6 @@ for MODULE_SPEC in "${MODULES[@]}"; do
     fi
 done
 
-# Futures
 HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 "http://localhost:8080/futures/" 2>/dev/null || echo "000")
 if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
     echo "  [✓] /futures (HTTP $HTTP_CODE)"
@@ -187,14 +238,13 @@ else
     echo "  [--] /futures (HTTP $HTTP_CODE)"
 fi
 
-# ── Summary ───────────────────────────────────────────────────────────────────
 TOTAL=$(( ${#MODULES[@]} + 1 ))
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
 echo "║  Frontend Deployment Summary                                            ║"
-echo "║  Deployed: ${#SUCCESS[@]} / $TOTAL                                                      ║"
+echo "║  Deployed: ${#SUCCESS[@]} / $TOTAL                                      ║"
 if [ ${#FAILED[@]} -gt 0 ]; then
-    echo "║  Failed:   ${#FAILED[@]}                                                       ║"
+    echo "║  Failed:   ${#FAILED[@]}                                               ║"
 fi
 if [ ${#MISSING[@]} -eq 0 ]; then
     echo "║  Status:   All already deployed (fast path)                             ║"

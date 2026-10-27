@@ -91,7 +91,6 @@ if not exist "%STAGING%\META-INF" mkdir "%STAGING%\META-INF"
 (
   echo Manifest-Version: 1.0
   echo Main-Class: Main
-  echo Class-Path: jars/djl/pytorch-native-cpu-2.5.1-linux-x86_64.jar
 ) > "%STAGING%\META-INF\MANIFEST.MF"
 
 echo [3/3] Creating %JAR_OUT%...

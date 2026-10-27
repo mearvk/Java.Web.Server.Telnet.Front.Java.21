@@ -1,5 +1,5 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════════════
 # NitroWebExpress™ — Start All Services
 # Orchestrates complete startup sequence:
 #   1. MySQL
@@ -8,29 +8,62 @@
 #   4. Frontend modules (Tomcat webapps)
 #
 # Usage: bash scripts/start-all.sh [tomcat_home]
-# ═══════════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════════════
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
+
+resolve_tomcat_home() {
+    local requested="${1:-${CATALINA_HOME:-}}"
+    if [ -n "$requested" ] && [ -d "$requested/webapps" ]; then
+        printf '%s\n' "$requested"
+        return 0
+    fi
+
+    if uname -s | grep -qi 'darwin'; then
+        for candidate in \
+            "/opt/homebrew/opt/tomcat/libexec" \
+            "/usr/local/opt/tomcat/libexec" \
+            "/Applications/Tomcat/apache-tomcat-11.0.2"; do
+            if [ -d "$candidate/webapps" ]; then
+                printf '%s\n' "$candidate"
+                return 0
+            fi
+        done
+    else
+        for candidate in \
+            "/opt/apache-tomcat-11.0.2" \
+            "/opt/tomcat" \
+            "/var/lib/tomcat9" \
+            "/usr/share/tomcat"; do
+            if [ -d "$candidate/webapps" ]; then
+                printf '%s\n' "$candidate"
+                return 0
+            fi
+        done
+    fi
+
+    printf '%s\n' "${requested:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
+}
+
+TOMCAT_HOME="$(resolve_tomcat_home "${1:-}")"
 
 source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
 
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║                                                                           ║"
-echo "║   NitroWebExpress™ — Complete System Startup                              ║"
-echo "║   Sequence: MySQL → Compile → Backends → Frontends                        ║"
-echo "║   Log all commands with: tee start-all.log                                ║"
-echo "║                                                                           ║"
+echo "║   NitroWebExpress™ — Complete System Startup                          ║"
+echo "║   Sequence: MySQL → Compile → Backends → Frontends                    ║"
+echo "║   Log all commands with: tee start-all.log                            ║"
+echo "║   Tomcat: $TOMCAT_HOME                                              ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
 # ── Phase 0: Stop existing services if running ────────────────────────────────
 echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo "Pre-flight: Checking for running services..."
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo ""
 
 NEED_STOP=0
@@ -60,9 +93,8 @@ if [ "$NEED_STOP" -eq 1 ]; then
     echo ""
     echo "  [*] Stopping existing services first..."
     if [ -f "$PROJECT_ROOT/scripts/shutdown-all.sh" ]; then
-        bash "$PROJECT_ROOT/scripts/shutdown-all.sh" 2>/dev/null || true
+        bash "$PROJECT_ROOT/scripts/shutdown-all.sh" "$TOMCAT_HOME" 2>/dev/null || true
     else
-        # Manual shutdown
         if [ -x "$TOMCAT_HOME/bin/shutdown.sh" ]; then
             "$TOMCAT_HOME/bin/shutdown.sh" >/dev/null 2>&1 || true
         fi
@@ -77,11 +109,11 @@ else
     echo "  [✓] No running services detected — clean start"
 fi
 
-# ── Phase 1: MySQL ────────────────────────────────────────────────────────────
+# ── Phase 1: MySQL ───────────────────────────────────────────────────────────
 echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo "Phase 1/4: Starting MySQL..."
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo ""
 
 if bash "$PROJECT_ROOT/scripts/start-mysql.sh"; then
@@ -96,21 +128,23 @@ sleep 2
 
 # ── Open Firewall Ports ───────────────────────────────────────────────────────
 echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo "Opening Firewall Ports..."
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo ""
 
 source "$PROJECT_ROOT/scripts/nwe-ports.sh"
-nwe_open_ports
+if ! nwe_open_ports; then
+    echo "  [!] Firewall setup skipped or failed (non-Linux or unsupported host)"
+fi
 
 sleep 1
 
 # ── Phase 2: Compile All Modules ──────────────────────────────────────────────
 echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo "Phase 2/4: Compiling All Modules..."
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo ""
 
 if bash "$PROJECT_ROOT/scripts/compile-all-modules.sh"; then
@@ -123,9 +157,9 @@ fi
 
 # ── Phase 3: Backend Modules ──────────────────────────────────────────────────
 echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo "Phase 3/4: Starting Backend Modules..."
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo ""
 
 if bash "$PROJECT_ROOT/scripts/start-backends.sh"; then
@@ -140,9 +174,9 @@ sleep 3
 
 # ── Phase 4: Frontend Modules ─────────────────────────────────────────────────
 echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo "Phase 4/4: Starting Frontend Modules..."
-echo "───────────────────────────────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────────────"
 echo ""
 
 if bash "$PROJECT_ROOT/scripts/start-frontends.sh" "$TOMCAT_HOME"; then
@@ -153,22 +187,19 @@ else
     echo "  [!] Some frontends failed to start"
 fi
 
-# ── Summary ───────────────────────────────────────────────────────────────────
+# ── Summary ────────────────────────────────────────────────────────────────
 echo ""
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║                                                                           ║"
-echo "║   ✓ NitroWebExpress™ System Startup Complete!                             ║"
-echo "║                                                                           ║"
-echo "║   NEXT STEPS:                                                             ║"
-echo "║   • Verify services:  bash scripts/status.sh                              ║"
-echo "║   • View logs:        tail -f logging/*.log                               ║"
-echo "║   • Test endpoints:   curl http://localhost:8080/ae6e66/                   ║"
-echo "║   • Shutdown all:     bash scripts/shutdown-all.sh                         ║"
-echo "║                                                                           ║"
-echo "║   Tomcat:   $TOMCAT_HOME                                        ║"
-echo "║   Project:  $PROJECT_ROOT ║"
-echo "║                                                                           ║"
+echo "║   ✓ NitroWebExpress™ System Startup Complete!                         ║"
+echo "║                                                                       ║"
+echo "║   NEXT STEPS:                                                         ║"
+echo "║   • Verify services:  bash scripts/status.sh                          ║"
+echo "║   • View logs:        tail -f logging/*.log                           ║"
+echo "║   • Test endpoints:   curl http://localhost:8080/ae6e66/               ║"
+echo "║   • Shutdown all:     bash scripts/shutdown-all.sh                   ║"
+echo "║                                                                       ║"
+echo "║   Tomcat:   $TOMCAT_HOME                                              ║"
+echo "║   Project:  $PROJECT_ROOT                                             ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
-

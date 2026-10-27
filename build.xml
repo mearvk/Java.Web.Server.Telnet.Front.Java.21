@@ -20,7 +20,6 @@
 -->
 <project name="NitroWebExpress" default="compile" basedir=".">
 
-    <!-- Properties -->
     <property name="src.dir" value="source"/>
     <property name="out.dir" value="out"/>
     <property name="jar.file" value="nwe.jar"/>
@@ -29,10 +28,9 @@
     <property name="mysql.jar" value="${jars.dir}/mysql/mysql-connector-j-9.7.0.jar"/>
     <property name="lanterna.jar" value="${jars.dir}/lanterna-3.1.5.jar"/>
     <property name="jpcap.dir" value="${jars.dir}/jpcap"/>
-    <property name="java.release" value="25"/>
+    <property name="java.release" value="21"/>
     <property name="repo.url" value="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21"/>
 
-    <!-- Classpath -->
     <path id="compile.classpath">
         <fileset dir="${djl.dir}" includes="*.jar" erroronmissingdir="false"/>
         <fileset dir="${jpcap.dir}" includes="*.jar" erroronmissingdir="false"/>
@@ -41,33 +39,29 @@
         <pathelement location="${out.dir}"/>
     </path>
 
-    <!-- ═══ CLEAN ═══════════════════════════════════════════════════════════ -->
     <target name="clean" description="Remove compiled output and JAR">
         <delete dir="${out.dir}" quiet="true"/>
         <delete file="${jar.file}" quiet="true"/>
         <echo message="Cleaned."/>
     </target>
 
-    <!-- ═══ COMPILE ═════════════════════════════════════════════════════════ -->
     <target name="compile" depends="structure" description="Compile all Java sources">
         <mkdir dir="${out.dir}"/>
         <javac srcdir="${src.dir}"
-               destdir="${out.dir}"
-               release="${java.release}"
-               includeantruntime="false"
-               fork="true"
-               failonerror="true">
+                destdir="${out.dir}"
+                release="${java.release}"
+                includeantruntime="false"
+                fork="true"
+                failonerror="true">
             <classpath refid="compile.classpath"/>
         </javac>
         <echo message="Compilation successful."/>
     </target>
 
-    <!-- ═══ JAR ═════════════════════════════════════════════════════════════ -->
     <target name="jar" depends="compile" description="Build fat JAR">
         <jar destfile="${jar.file}" basedir="${out.dir}">
             <manifest>
                 <attribute name="Main-Class" value="Main"/>
-                <attribute name="Class-Path" value="jars/djl/pytorch-native-cpu-2.5.1-linux-x86_64.jar"/>
             </manifest>
             <zipgroupfileset dir="${jars.dir}/mysql" includes="mysql-connector-j-9.7.0.jar"/>
             <zipgroupfileset file="${lanterna.jar}"/>
@@ -77,7 +71,6 @@
         <echo message="Built ${jar.file} (${jar.file})"/>
     </target>
 
-    <!-- ═══ RUN ═════════════════════════════════════════════════════════════ -->
     <target name="run" depends="compile" description="Run from compiled classes">
         <java classname="Main" fork="true" failonerror="true">
             <classpath refid="compile.classpath"/>
@@ -87,7 +80,6 @@
         </java>
     </target>
 
-    <!-- ═══ RUN-JAR ═════════════════════════════════════════════════════════ -->
     <target name="run-jar" description="Run from nwe.jar">
         <java jar="${jar.file}" fork="true" failonerror="true">
             <jvmarg value="-Dnwe.root=${basedir}"/>
@@ -98,7 +90,6 @@
         </java>
     </target>
 
-    <!-- ═══ UPDATE ══════════════════════════════════════════════════════════ -->
     <target name="update" description="Pull latest, recompile, rebuild JAR">
         <echo message="Pulling latest from GitHub..."/>
         <exec executable="git" failonerror="true">
@@ -112,7 +103,6 @@
         <echo message="Update complete. Scripts, sources, and JAR rebuilt."/>
     </target>
 
-    <!-- ═══ TEST ════════════════════════════════════════════════════════════ -->
     <target name="test" description="Run port connectivity tests">
         <exec executable="bash" failonerror="false">
             <arg value="scripts/bash/49111/test.49111.check.sh"/>
@@ -123,14 +113,12 @@
         <echo message="Tests complete."/>
     </target>
 
-    <!-- ═══ STRUCTURE ═══════════════════════════════════════════════════════ -->
     <target name="structure" description="Regenerate STRUCTURE.txt from codebase scan">
         <exec executable="bash" failonerror="false">
             <arg value="scripts/generate-structure.sh"/>
         </exec>
     </target>
 
-    <!-- ═══ STRIPS ══════════════════════════════════════════════════════════ -->
     <target name="strips" description="Validate AI learning strips exist">
 
         <available file="source/strernary/strips/base-learning-strip.tsv" property="strip.strernary"/>

@@ -82,7 +82,6 @@ mkdir -p "$STAGING/META-INF"
 cat > "$STAGING/META-INF/MANIFEST.MF" <<'EOF'
 Manifest-Version: 1.0
 Main-Class: Main
-Class-Path: jars/djl/pytorch-native-cpu-2.5.1-linux-x86_64.jar
 EOF
 
 echo "[3/3] Creating $JAR_OUT..."

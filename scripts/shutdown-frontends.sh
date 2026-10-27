@@ -1,14 +1,48 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════════════
 # NitroWebExpress™ — Shutdown All Frontend Modules
 # Undeploys all module webapps from Tomcat.
 # Usage: bash scripts/shutdown-frontends.sh [tomcat_home] [--stop-tomcat]
-# ═══════════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════════════
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+resolve_tomcat_home() {
+    local requested="${1:-${CATALINA_HOME:-}}"
+    if [ -n "$requested" ] && [ -d "$requested/webapps" ]; then
+        printf '%s\n' "$requested"
+        return 0
+    fi
+
+    if uname -s | grep -qi 'darwin'; then
+        for candidate in \
+            "/opt/homebrew/opt/tomcat/libexec" \
+            "/usr/local/opt/tomcat/libexec" \
+            "/Applications/Tomcat/apache-tomcat-11.0.2"; do
+            if [ -d "$candidate/webapps" ]; then
+                printf '%s\n' "$candidate"
+                return 0
+            fi
+        done
+    else
+        for candidate in \
+            "/opt/apache-tomcat-11.0.2" \
+            "/opt/tomcat" \
+            "/var/lib/tomcat9" \
+            "/usr/share/tomcat"; do
+            if [ -d "$candidate/webapps" ]; then
+                printf '%s\n' "$candidate"
+                return 0
+            fi
+        done
+    fi
+
+    printf '%s\n' "${requested:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
+}
+
+TOMCAT_HOME="$(resolve_tomcat_home "${1:-}")"
 source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 STOP_TOMCAT=false
 
 # Check for --stop-tomcat flag
@@ -35,10 +69,10 @@ MODULES=(
 FUTURES_SHUTDOWN="red/Futures/shutdown-frontend.sh"
 
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  NitroWebExpress™ — Shutdown All Frontend Modules                        ║"
-echo "║  Tomcat: $TOMCAT_HOME                                                     ║"
+echo "║  NitroWebExpress™ — Shutdown All Frontend Modules                      ║"
+echo "║  Tomcat: $TOMCAT_HOME                                                 ║"
 if [ "$STOP_TOMCAT" = true ]; then
-    echo "║  Will STOP Tomcat after undeploying modules                              ║"
+    echo "║  Will STOP Tomcat after undeploying modules                            ║"
 fi
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
@@ -91,21 +125,30 @@ if [ "$STOP_TOMCAT" = true ]; then
         "$TOMCAT_HOME/bin/shutdown.sh" > /dev/null 2>&1 || true
         sleep 2
         echo "  [✓] Tomcat stopped"
-    else
+    elif uname -s | grep -qi 'darwin'; then
+        if command -v brew >/dev/null 2>&1; then
+            brew services stop tomcat 2>/dev/null || true
+            sleep 2
+            echo "  [✓] Tomcat stopped"
+        else
+            echo "  [!] Tomcat stop script unavailable on this host"
+        fi
+    elif command -v systemctl >/dev/null 2>&1; then
         sudo systemctl stop tomcat 2>/dev/null || true
         sleep 2
         echo "  [✓] Tomcat stopped"
+    else
+        echo "  [!] Tomcat stop script unavailable on this host"
     fi
 fi
 
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  Frontend Shutdown Summary                                                ║"
-echo "║  Undeployed: ${#SUCCESS[@]} / $(( ${#MODULES[@]} + 1 ))                    ║"
+echo "║  Frontend Shutdown Summary                                            ║"
+echo "║  Undeployed: ${#SUCCESS[@]} / $(( ${#MODULES[@]} + 1 ))                  ║"
 if [ ${#FAILED[@]} -gt 0 ]; then
-    echo "║  Failed:     ${#FAILED[@]}                                              ║"
+    echo "║  Failed:     ${#FAILED[@]}                                            ║"
 fi
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 
 [ ${#FAILED[@]} -eq 0 ]
-

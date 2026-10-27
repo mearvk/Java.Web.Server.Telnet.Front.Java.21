@@ -1,8 +1,20 @@
-CC = gcc
-CFLAGS = -std=c11 -O2 -Wall -Wextra -I.
+# Cross-platform C build for Linux, macOS, and Windows (MinGW/MSYS2)
+# Supports a GNU-like make environment. On Windows, use a shell such as Git Bash,
+# MSYS2, or a MinGW toolchain where `gcc`, `ar`, and `find` are available.
 
-# find all .c files recursively under this directory
-SRCS := $(shell find . -name '*.c')
+CC ?= gcc
+AR ?= ar
+RM ?= rm -f
+CPPFLAGS ?= -I.
+CFLAGS ?= -std=c11 -O2 -Wall -Wextra
+
+UNAME_S := $(shell uname -s 2>/dev/null)
+ifeq ($(OS),Windows_NT)
+  SRCS := $(shell dir /s /b *.c 2>nul)
+else
+  SRCS := $(shell find . -name '*.c' -print)
+endif
+
 OBJS := $(SRCS:.c=.o)
 LIB := libconverted.a
 APP := app
@@ -11,19 +23,14 @@ APP := app
 
 all: $(LIB) $(APP)
 
-# archive library of all objects
 $(LIB): $(OBJS)
-ar rcs $@ $(OBJS)
+	$(AR) rcs $@ $(OBJS)
 
-# example executable linking Main.c and the library
-# If Main.c does not exist, this target will still attempt to build (no-op)
 $(APP): $(LIB) ./Main.o
-$(CC) $(CFLAGS) -o $@ ./Main.o $(LIB)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ ./Main.o $(LIB)
 
-# generic rule to compile .c -> .o
 %.o: %.c
-$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 clean:
-rm -f $(OBJS) $(LIB) $(APP)
-
+	$(RM) $(OBJS) $(LIB) $(APP)
