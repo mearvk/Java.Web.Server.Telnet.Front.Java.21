@@ -1,91 +1,148 @@
-#!/usr/bin/env bash
-# build-jar.sh — Build a runnable fat JAR for NitroWebExpress quick deployment.
-# The script is location-independent: it may be invoked from any working directory.
-set -euo pipefail
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  build.xml — ANT build script for NitroWebExpress™ (JWSTFJ21)
+  Author: Max Rupplin — MEARVK LLC
 
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd -P)"
-SRC="$ROOT/source"
-OUT="$ROOT/out"
-JAR_OUT="$ROOT/nwe.jar"
-MYSQL_JAR="$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar"
-LANTERNA_JAR="$ROOT/jars/lanterna-3.1.5.jar"
-DJL_DIR="$ROOT/jars/djl"
-JPCAP_DIR="$ROOT/jars/jpcap"
+  Targets:
+    compile     — Compile all source/*.java
+    jar         — Build fat JAR (nwe.jar)
+    run         — Launch from compiled classes
+    run-jar     — Launch from nwe.jar
+    update      — Pull latest from GitHub + recompile + rebuild JAR
+    clean       — Remove out/ and nwe.jar
+    test        — Run port connectivity tests
+    strips      — Validate learning strip TSV files exist
 
-require_command() {
-    command -v "$1" >/dev/null 2>&1 || {
-        echo "[FAIL] Required command not found: $1" >&2
-        exit 1
-    }
-}
+  Usage:
+    ant compile
+    ant update
+    ant jar run-jar
+-->
+<project name="NitroWebExpress" default="compile" basedir=".">
 
-require_command javac
-require_command jar
-require_command unzip
+    <!-- Properties -->
+    <property name="src.dir" value="source"/>
+    <property name="out.dir" value="out"/>
+    <property name="jar.file" value="nwe.jar"/>
+    <property name="jars.dir" value="jars"/>
+    <property name="djl.dir" value="${jars.dir}/djl"/>
+    <property name="mysql.jar" value="${jars.dir}/mysql/mysql-connector-j-9.7.0.jar"/>
+    <property name="lanterna.jar" value="${jars.dir}/lanterna-3.1.5.jar"/>
+    <property name="jpcap.dir" value="${jars.dir}/jpcap"/>
+    <property name="java.release" value="21"/>
+    <property name="repo.url" value="https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21"/>
 
-[[ -d "$SRC" ]] || { echo "[FAIL] Source directory missing: $SRC" >&2; exit 1; }
-[[ -f "$MYSQL_JAR" ]] || { echo "[FAIL] Missing dependency: $MYSQL_JAR" >&2; exit 1; }
-[[ -f "$LANTERNA_JAR" ]] || { echo "[FAIL] Missing dependency: $LANTERNA_JAR" >&2; exit 1; }
+    <!-- Classpath -->
+    <path id="compile.classpath">
+        <fileset dir="${djl.dir}" includes="*.jar" erroronmissingdir="false"/>
+        <fileset dir="${jpcap.dir}" includes="*.jar" erroronmissingdir="false"/>
+        <pathelement location="${mysql.jar}"/>
+        <pathelement location="${lanterna.jar}"/>
+        <pathelement location="${out.dir}"/>
+    </path>
 
-if [[ -n "${JAVA_HOME:-}" && -x "$JAVA_HOME/bin/javac" ]]; then
-    export PATH="$JAVA_HOME/bin:$PATH"
-fi
+    <!-- ═══ CLEAN ════════════════════════════════════════════════════════════════════ -->
+    <target name="clean" description="Remove compiled output and JAR">
+        <delete dir="${out.dir}" quiet="true"/>
+        <delete file="${jar.file}" quiet="true"/>
+        <echo message="Cleaned."/>
+    </target>
 
-CP="$OUT:$MYSQL_JAR:$LANTERNA_JAR"
-if [[ -d "$DJL_DIR" ]]; then
-    while IFS= read -r -d '' dep; do CP+="${CP:+:}$dep"; done < <(find "$DJL_DIR" -type f -name '*.jar' -print0)
-fi
-if [[ -d "$JPCAP_DIR" ]]; then
-    while IFS= read -r -d '' dep; do CP+="${CP:+:}$dep"; done < <(find "$JPCAP_DIR" -type f -name '*.jar' -print0)
-fi
+    <!-- ═══ COMPILE ════════════════════════════════════════════════════════════════ -->
+    <target name="compile" depends="structure" description="Compile all Java sources">
+        <mkdir dir="${out.dir}"/>
+        <javac srcdir="${src.dir}"
+                destdir="${out.dir}"
+                release="${java.release}"
+                includeantruntime="false"
+                fork="true"
+                failonerror="true">
+            <classpath refid="compile.classpath"/>
+        </javac>
+        <echo message="Compilation successful."/>
+    </target>
 
-TMP_ROOT="${TMPDIR:-/tmp}"
-SOURCE_LIST="$(mktemp "$TMP_ROOT/nwe-sources.XXXXXX")"
-STAGING="$(mktemp -d "$TMP_ROOT/nwe-jar-staging.XXXXXX")"
-cleanup() { rm -f "$SOURCE_LIST"; rm -rf "$STAGING"; }
-trap cleanup EXIT
+    <!-- ═══ JAR ════════════════════════════════════════════════════════════════════ -->
+    <target name="jar" depends="compile" description="Build fat JAR">
+        <jar destfile="${jar.file}" basedir="${out.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="Main"/>
+            </manifest>
+            <zipgroupfileset dir="${jars.dir}/mysql" includes="mysql-connector-j-9.7.0.jar"/>
+            <zipgroupfileset file="${lanterna.jar}"/>
+            <zipgroupfileset dir="${djl.dir}" includes="*.jar" excludes="*native*"/>
+            <zipgroupfileset dir="${jpcap.dir}" includes="*.jar" erroronmissingdir="false"/>
+        </jar>
+        <echo message="Built ${jar.file} (${jar.file})"/>
+    </target>
 
-echo "=== NitroWebExpress — JAR Builder ==="
-echo "ROOT: $ROOT"
+    <!-- ═══ RUN ════════════════════════════════════════════════════════════════════ -->
+    <target name="run" depends="compile" description="Run from compiled classes">
+        <java classname="Main" fork="true" failonerror="true">
+            <classpath refid="compile.classpath"/>
+            <jvmarg value="-Xms256m"/>
+            <jvmarg value="-Xmx1024m"/>
+            <jvmarg value="-XX:+UseZGC"/>
+        </java>
+    </target>
 
-echo "[1/3] Compiling sources..."
-mkdir -p "$OUT"
-find "$SRC" -type f -name '*.java' -print > "$SOURCE_LIST"
-[[ -s "$SOURCE_LIST" ]] || { echo "[FAIL] No Java sources found under $SRC" >&2; exit 1; }
-javac --release 21 -cp "$CP" -sourcepath "$SRC" -d "$OUT" "@$SOURCE_LIST"
-echo "      Compiled."
+    <!-- ═══ RUN-JAR ═══════════════════════════════════════════════════════════════ -->
+    <target name="run-jar" description="Run from nwe.jar">
+        <java jar="${jar.file}" fork="true" failonerror="true">
+            <jvmarg value="-Dnwe.root=${basedir}"/>
+            <jvmarg value="-Xms512m"/>
+            <jvmarg value="-Xmx4g"/>
+            <jvmarg value="-XX:+UseG1GC"/>
+            <jvmarg value="-XX:MaxGCPauseMillis=100"/>
+        </java>
+    </target>
 
-echo "[2/3] Assembling fat JAR..."
-cp -a "$OUT"/. "$STAGING/"
+    <!-- ═══ UPDATE ═══════════════════════════════════════════════════════════════ -->
+    <target name="update" description="Pull latest, recompile, rebuild JAR">
+        <echo message="Pulling latest from GitHub..."/>
+        <exec executable="git" failonerror="true">
+            <arg value="pull"/>
+            <arg value="--rebase"/>
+        </exec>
 
-extract_jar() {
-    local dep="$1"
-    [[ -f "$dep" ]] || return 0
-    unzip -qo "$dep" -d "$STAGING" \
-        -x 'META-INF/MANIFEST.MF' 'META-INF/*.SF' 'META-INF/*.RSA' 'META-INF/*.DSA'
-}
+        <antcall target="clean"/>
+        <antcall target="jar"/>
 
-extract_jar "$MYSQL_JAR"
-extract_jar "$LANTERNA_JAR"
-if [[ -d "$DJL_DIR" ]]; then
-    while IFS= read -r -d '' dep; do
-        [[ "$dep" == *native* ]] && continue
-        extract_jar "$dep"
-    done < <(find "$DJL_DIR" -type f -name '*.jar' -print0)
-fi
-if [[ -d "$JPCAP_DIR" ]]; then
-    while IFS= read -r -d '' dep; do extract_jar "$dep"; done < <(find "$JPCAP_DIR" -type f -name '*.jar' -print0)
-fi
+        <echo message="Update complete. Scripts, sources, and JAR rebuilt."/>
+    </target>
 
-mkdir -p "$STAGING/META-INF"
-cat > "$STAGING/META-INF/MANIFEST.MF" <<'EOF'
-Manifest-Version: 1.0
-Main-Class: Main
-Class-Path: jars/djl/pytorch-native-cpu-2.5.1-linux-x86_64.jar
-EOF
+    <!-- ═══ TEST ═══════════════════════════════════════════════════════════════════ -->
+    <target name="test" description="Run port connectivity tests">
+        <exec executable="bash" failonerror="false">
+            <arg value="scripts/bash/49111/test.49111.check.sh"/>
+        </exec>
+        <exec executable="bash" failonerror="false">
+            <arg value="scripts/bash/strernary/test.20000.check.sh"/>
+        </exec>
+        <echo message="Tests complete."/>
+    </target>
 
-echo "[3/3] Creating $JAR_OUT..."
-jar cfm "$JAR_OUT" "$STAGING/META-INF/MANIFEST.MF" -C "$STAGING" .
-echo "      Done. Size: $(du -h "$JAR_OUT" | cut -f1)"
-echo "=== Run with: java -jar nwe.jar ==="
+    <!-- ═══ STRUCTURE ═════════════════════════════════════════════════════════════ -->
+    <target name="structure" description="Regenerate STRUCTURE.txt from codebase scan">
+        <exec executable="bash" failonerror="false">
+            <arg value="scripts/generate-structure.sh"/>
+        </exec>
+    </target>
+
+    <!-- ═══ STRIPS ═══════════════════════════════════════════════════════════════ -->
+    <target name="strips" description="Validate AI learning strips exist">
+
+        <available file="source/strernary/strips/base-learning-strip.tsv" property="strip.strernary"/>
+        <available file="source/ai/strips/base-learning-strip.tsv" property="strip.ai"/>
+        <available file="source/international/radio/strips/base-learning-strip.tsv" property="strip.radio"/>
+        <available file="source/city/analysis/strips/base-learning-strip.tsv" property="strip.city"/>
+        <available file="source/heuristics/strips/base-learning-strip.tsv" property="strip.heuristics"/>
+        <fail unless="strip.strernary" message="Missing: source/strernary/strips/"/>
+        <fail unless="strip.ai" message="Missing: source/ai/strips/"/>
+        <fail unless="strip.radio" message="Missing: source/international/radio/strips/"/>
+        <fail unless="strip.city" message="Missing: source/city/analysis/strips/"/>
+        <fail unless="strip.heuristics" message="Missing: source/heuristics/strips/"/>
+        <echo message="All learning strips present."/>
+    </target>
+
+</project>
