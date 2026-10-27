@@ -1,16 +1,56 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════════════════════
-# NitroWebExpress™ — Start All Frontend Modules
-# Deploys all module webapps to Tomcat and verifies HTTP endpoints.
-# Skips modules already deployed (fast re-run after git pull).
-# Usage: bash scripts/start-frontends.sh [tomcat_home]
-# ═══════════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════════════
+# NitroWebExpress™ — Shutdown All Frontend Modules
+# Undeploys all module webapps from Tomcat.
+# Usage: bash scripts/shutdown-frontends.sh [tomcat_home] [--stop-tomcat]
+# ════════════════════════════════════════════════════════════════════════════════
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
 
+resolve_tomcat_home() {
+    local requested="${1:-${CATALINA_HOME:-}}"
+    if [ -n "$requested" ] && [ -d "$requested/webapps" ]; then
+        printf '%s\n' "$requested"
+        return 0
+    fi
+
+    if uname -s | grep -qi 'darwin'; then
+        for candidate in \
+            "/opt/homebrew/opt/tomcat/libexec" \
+            "/usr/local/opt/tomcat/libexec" \
+            "/Applications/Tomcat/apache-tomcat-11.0.2"; do
+            if [ -d "$candidate/webapps" ]; then
+                printf '%s\n' "$candidate"
+                return 0
+            fi
+        done
+    else
+        for candidate in \
+            "/opt/apache-tomcat-11.0.2" \
+            "/opt/tomcat" \
+            "/var/lib/tomcat9" \
+            "/usr/share/tomcat"; do
+            if [ -d "$candidate/webapps" ]; then
+                printf '%s\n' "$candidate"
+                return 0
+            fi
+        done
+    fi
+
+    printf '%s\n' "${requested:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
+}
+
+TOMCAT_HOME="$(resolve_tomcat_home "${1:-}")"
 source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
+STOP_TOMCAT=false
+
+# Check for --stop-tomcat flag
+for arg in "$@"; do
+    if [ "$arg" = "--stop-tomcat" ]; then
+        STOP_TOMCAT=true
+    fi
+done
 
 MODULES=(
     "AE6E66:ae6e66"
@@ -26,180 +66,213 @@ MODULES=(
     "nsa:california-nsa"
 )
 
+FUTURES_SHUTDOWN="red/Futures/shutdown-frontend.sh"
+
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  NitroWebExpress™ — Start All Frontend Modules                          ║"
-echo "║  Tomcat:  $TOMCAT_HOME                                                  ║"
-echo "║  Modules: ${#MODULES[@]}                                                         ║"
+echo "║  NitroWebExpress™ — Shutdown All Frontend Modules                      ║"
+echo "║  Tomcat: $TOMCAT_HOME                                                 ║"
+if [ "$STOP_TOMCAT" = true ]; then
+    echo "║  Will STOP Tomcat after undeploying modules                            ║"
+fi
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 echo ""
 
-# ── Validate Tomcat ───────────────────────────────────────────────────────────
-if [ ! -d "$TOMCAT_HOME/webapps" ]; then
-    echo "  [ERROR] Tomcat not found at: $TOMCAT_HOME"
-    echo "          Set CATALINA_HOME or pass as argument."
-    exit 1
-fi
-
-# ── Start Tomcat (once) ───────────────────────────────────────────────────────
-echo -n "  [*] Tomcat: "
-if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/ 2>/dev/null | grep -q "200\|302\|401\|403"; then
-    echo "already running"
-else
-    echo -n "starting... "
-    if [ -x "$TOMCAT_HOME/bin/startup.sh" ]; then
-        "$TOMCAT_HOME/bin/startup.sh" > /dev/null 2>&1
-    else
-        sudo systemctl start tomcat 2>/dev/null || true
-    fi
-    sleep 3
-    if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/ 2>/dev/null | grep -q "200\|302\|401\|403"; then
-        echo "up"
-    else
-        echo "waiting..."
-        sleep 5
-    fi
-fi
-echo ""
-
-# ── Check which modules are already deployed ─────────────────────────────────
-echo "  [*] Checking deployed webapps..."
-DEPLOYED=()
-MISSING=()
-for MODULE_SPEC in "${MODULES[@]}"; do
-    IFS=':' read -r MOD_DIR CONTEXT <<< "$MODULE_SPEC"
-    if [ -d "$TOMCAT_HOME/webapps/$CONTEXT" ] && [ -f "$TOMCAT_HOME/webapps/$CONTEXT/WEB-INF/web.xml" ]; then
-        DEPLOYED+=("$MOD_DIR:$CONTEXT")
-    else
-        MISSING+=("$MOD_DIR:$CONTEXT")
-    fi
-done
-
-# Check Futures
-if [ -d "$TOMCAT_HOME/webapps/futures" ] && [ -f "$TOMCAT_HOME/webapps/futures/WEB-INF/web.xml" ]; then
-    DEPLOYED+=("Futures:futures")
-else
-    MISSING+=("Futures:futures")
-fi
-
-echo "      Already deployed: ${#DEPLOYED[@]}"
-echo "      Need deployment:  ${#MISSING[@]}"
-echo ""
-
-# ── Deploy only missing modules ──────────────────────────────────────────────
 SUCCESS=()
 FAILED=()
 
-if [ ${#MISSING[@]} -eq 0 ]; then
-    echo "  [✓] All modules already deployed — nothing to do"
-    SUCCESS=("${DEPLOYED[@]}")
-else
-    echo "  [*] Deploying ${#MISSING[@]} module(s)..."
-    echo ""
-
-    for MODULE_SPEC in "${MISSING[@]}"; do
-        IFS=':' read -r MOD_DIR CONTEXT <<< "$MODULE_SPEC"
-
-        # Find the deploy script
-        DEPLOY_SCRIPT=""
-        if [ "$MOD_DIR" = "Futures" ]; then
-            DEPLOY_SCRIPT="$PROJECT_ROOT/modules/red/Futures/servlets/deploy-local.sh"
-        elif [ -f "$PROJECT_ROOT/modules/$MOD_DIR/servlets/deploy-local.sh" ]; then
-            DEPLOY_SCRIPT="$PROJECT_ROOT/modules/$MOD_DIR/servlets/deploy-local.sh"
-        fi
-
-        if [ -z "$DEPLOY_SCRIPT" ] || [ ! -f "$DEPLOY_SCRIPT" ]; then
-            echo "  [SKIP] $MOD_DIR — no deploy-local.sh found"
-            continue
-        fi
-
-        echo -n "  [*] Deploying $MOD_DIR ($CONTEXT)... "
-        if bash "$DEPLOY_SCRIPT" "$TOMCAT_HOME" > /dev/null 2>&1; then
-            echo "✓"
-            SUCCESS+=("$MOD_DIR:$CONTEXT")
-        else
-            echo "✗"
-            FAILED+=("$MOD_DIR:$CONTEXT")
-        fi
-    done
-
-    # Count already-deployed as successes too
-    for SPEC in "${DEPLOYED[@]}"; do
-        SUCCESS+=("$SPEC")
-    done
-fi
-
-# ── Quick stabilization (only if we deployed something) ──────────────────────
-if [ ${#MISSING[@]} -gt 0 ]; then
-    echo ""
-    echo "  [*] Waiting for webapps to stabilize (3s)..."
-    sleep 3
-fi
-
-# ── Force Tomcat to reload all contexts if any show 404 ──────────────────────
-echo ""
-echo "  [*] Checking Tomcat webapp loading..."
-NEEDS_RELOAD=0
+# Undeploy standard modules
 for MODULE_SPEC in "${MODULES[@]}"; do
     IFS=':' read -r MOD_DIR CONTEXT <<< "$MODULE_SPEC"
-    HC=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 "http://localhost:8080/$CONTEXT/" 2>/dev/null || echo "000")
-    if [ "$HC" = "404" ] || [ "$HC" = "000" ]; then
-        NEEDS_RELOAD=1
-        break
+    MOD_PATH="$PROJECT_ROOT/modules/$MOD_DIR"
+
+    if [ ! -d "$MOD_PATH" ]; then
+        continue
+    fi
+
+    if [ ! -f "$MOD_PATH/shutdown.sh" ]; then
+        continue
+    fi
+
+    echo -n "  [*] Undeploying $MOD_DIR ($CONTEXT)... "
+
+    if cd "$MOD_PATH" && bash shutdown.sh "$TOMCAT_HOME" > /dev/null 2>&1; then
+        echo "✓"
+        SUCCESS+=("$MOD_DIR:$CONTEXT")
+    else
+        echo "✗"
+        FAILED+=("$MOD_DIR:$CONTEXT")
     fi
 done
 
-if [ "$NEEDS_RELOAD" -eq 1 ]; then
-    echo "  [*] Some webapps returning 404 — restarting Tomcat to force reload..."
+# Undeploy Futures frontend (special convention: -frontend)
+if [ -f "$PROJECT_ROOT/modules/$FUTURES_SHUTDOWN" ]; then
+    echo -n "  [*] Undeploying Futures (frontend)... "
+    if cd "$PROJECT_ROOT/modules/red/Futures" && bash shutdown-frontend.sh "$TOMCAT_HOME" > /dev/null 2>&1; then
+        echo "✓"
+        SUCCESS+=("Futures:frontend")
+    else
+        echo "✗"
+        FAILED+=("Futures:frontend")
+    fi
+fi
+
+echo ""
+
+# Optionally stop Tomcat
+if [ "$STOP_TOMCAT" = true ]; then
+    echo "  [*] Stopping Tomcat..."
     if [ -x "$TOMCAT_HOME/bin/shutdown.sh" ]; then
-        "$TOMCAT_HOME/bin/shutdown.sh" >/dev/null 2>&1 || true
-        sleep 3
-        "$TOMCAT_HOME/bin/startup.sh" >/dev/null 2>&1
+        "$TOMCAT_HOME/bin/shutdown.sh" > /dev/null 2>&1 || true
+        sleep 2
+        echo "  [✓] Tomcat stopped"
+    elif uname -s | grep -qi 'darwin'; then
+        if command -v brew >/dev/null 2>&1; then
+            brew services stop tomcat 2>/dev/null || true
+            sleep 2
+            echo "  [✓] Tomcat stopped"
+        else
+            echo "  [!] Tomcat stop script unavailable on this host"
+        fi
+    elif command -v systemctl >/dev/null 2>&1; then
+        sudo systemctl stop tomcat 2>/dev/null || true
+        sleep 2
+        echo "  [✓] Tomcat stopped"
     else
-        sudo systemctl restart tomcat 2>/dev/null || true
+        echo "  [!] Tomcat stop script unavailable on this host"
     fi
-    echo "  [*] Waiting for Tomcat to load webapps (8s)..."
-    sleep 8
-else
-    echo "  [✓] All webapps loaded — no restart needed"
 fi
 
-# ── Verify HTTP endpoints ─────────────────────────────────────────────────────
-echo ""
-echo "  [*] Verifying HTTP endpoints..."
-echo ""
-
-for MODULE_SPEC in "${MODULES[@]}"; do
-    IFS=':' read -r MOD_DIR CONTEXT <<< "$MODULE_SPEC"
-    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 "http://localhost:8080/$CONTEXT/" 2>/dev/null || echo "000")
-
-    if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
-        echo "  [✓] /$CONTEXT (HTTP $HTTP_CODE)"
-    else
-        echo "  [--] /$CONTEXT (HTTP $HTTP_CODE)"
-    fi
-done
-
-# Futures
-HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 "http://localhost:8080/futures/" 2>/dev/null || echo "000")
-if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
-    echo "  [✓] /futures (HTTP $HTTP_CODE)"
-else
-    echo "  [--] /futures (HTTP $HTTP_CODE)"
-fi
-
-# ── Summary ───────────────────────────────────────────────────────────────────
-TOTAL=$(( ${#MODULES[@]} + 1 ))
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║  Frontend Deployment Summary                                            ║"
-echo "║  Deployed: ${#SUCCESS[@]} / $TOTAL                                                      ║"
+echo "║  Frontend Shutdown Summary                                            ║"
+echo "║  Undeployed: ${#SUCCESS[@]} / $(( ${#MODULES[@]} + 1 ))                  ║"
 if [ ${#FAILED[@]} -gt 0 ]; then
-    echo "║  Failed:   ${#FAILED[@]}                                                       ║"
+    echo "║  Failed:     ${#FAILED[@]}                                            ║"
 fi
-if [ ${#MISSING[@]} -eq 0 ]; then
-    echo "║  Status:   All already deployed (fast path)                             ║"
-fi
-echo "║  Tomcat:   http://localhost:8080                                        ║"
 echo "╚═══════════════════════════════════════════════════════════════════════════╝"
 
 [ ${#FAILED[@]} -eq 0 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
