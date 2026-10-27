@@ -1,174 +1,688 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════════════════════
-# NitroWebExpress™ — Start All Services
-# Orchestrates complete startup sequence:
-#   1. MySQL
-#   2. Compile all modules
-#   3. Backend modules (TCP servers)
-#   4. Frontend modules (Tomcat webapps)
+# scripts/nwe-ports.sh — NWE Port Open/Close Functions
+# Source from start/shutdown scripts:
+#   source "$PROJECT_ROOT/scripts/nwe-ports.sh"
 #
-# Usage: bash scripts/start-all.sh [tomcat_home]
-# ═══════════════════════════════════════════════════════════════════════════════
-set -uo pipefail
+# Functions:
+#   nwe_open_ports   — Opens all NWE service ports in the firewall
+#   nwe_close_ports  — Closes all NWE service ports in the firewall
+#   nwe_port_status  — Shows which NWE ports are currently allowed/denied
+#
+# Capitalization reference: configuration/print-method.xml §script-descriptors
 
-PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-TOMCAT_HOME="${1:-${CATALINA_HOME:-/opt/apache-tomcat-11.0.2}}"
+nwe_is_linux() {
+    uname -s 2>/dev/null | grep -qi '^linux$'
+}
 
-source "$PROJECT_ROOT/scripts/print-descriptor.sh" 2>/dev/null || true
-
-echo ""
-echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║                                                                           ║"
-echo "║   NitroWebExpress™ — Complete System Startup                              ║"
-echo "║   Sequence: MySQL → Compile → Backends → Frontends                        ║"
-echo "║   Log all commands with: tee start-all.log                                ║"
-echo "║                                                                           ║"
-echo "╚═══════════════════════════════════════════════════════════════════════════╝"
-echo ""
-
-# ── Phase 0: Stop existing services if running ────────────────────────────────
-echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo "Pre-flight: Checking for running services..."
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo ""
-
-NEED_STOP=0
-
-# Check if Tomcat is running
-if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/ 2>/dev/null | grep -q "200\|302\|401\|403"; then
-    echo "  [*] Tomcat is running — will shut down before redeploy"
-    NEED_STOP=1
-fi
-
-# Check if Main.java / backends are running
-if [ -f "$PROJECT_ROOT/data/nwe-main.pid" ] && kill -0 "$(cat "$PROJECT_ROOT/data/nwe-main.pid" 2>/dev/null)" 2>/dev/null; then
-    echo "  [*] NWE Main process running (PID $(cat "$PROJECT_ROOT/data/nwe-main.pid")) — will shut down"
-    NEED_STOP=1
-fi
-
-# Check if any NWE backend ports are active
-for PORT in 49152 20000 2000 49199 5512 6682; do
-    if timeout 1 bash -c "echo >/dev/tcp/localhost/$PORT" 2>/dev/null; then
-        echo "  [*] Port $PORT is active — existing backends detected"
-        NEED_STOP=1
-        break
+# ════════════════════════════════════════════════════════════════════════════════
+# nwe_ensure_ufw — Install and enable UFW if not present (Linux only)
+# Called before open/close operations to guarantee firewall availability.
+# ════════════════════════════════════════════════════════════════════════════════
+nwe_ensure_ufw() {
+    if ! nwe_is_linux; then
+        echo "  [--] Firewall automation skipped on non-Linux host"
+        return 0
     fi
-done
 
-if [ "$NEED_STOP" -eq 1 ]; then
-    echo ""
-    echo "  [*] Stopping existing services first..."
-    if [ -f "$PROJECT_ROOT/scripts/shutdown-all.sh" ]; then
-        bash "$PROJECT_ROOT/scripts/shutdown-all.sh" 2>/dev/null || true
+    if command -v ufw &>/dev/null; then
+        # UFW installed — ensure it's enabled
+        if ! sudo ufw status 2>/dev/null | grep -q "Status: active"; then
+            echo "  [*] UFW installed but inactive — enabling..."
+            sudo ufw --force enable >/dev/null 2>&1
+            echo "  [✓] UFW enabled"
+        fi
+        return 0
+    fi
+
+    # Not installed — try to install
+    echo "  [*] UFW not found — installing..."
+    if command -v apt-get &>/dev/null; then
+        sudo apt-get update -qq >/dev/null 2>&1
+        sudo apt-get install -y -qq ufw >/dev/null 2>&1
+    elif command -v dnf &>/dev/null; then
+        sudo dnf install -y -q ufw >/dev/null 2>&1
+    elif command -v yum &>/dev/null; then
+        sudo yum install -y -q ufw >/dev/null 2>&1
+    elif command -v pacman &>/dev/null; then
+        sudo pacman -S --noconfirm ufw >/dev/null 2>&1
     else
-        # Manual shutdown
-        if [ -x "$TOMCAT_HOME/bin/shutdown.sh" ]; then
-            "$TOMCAT_HOME/bin/shutdown.sh" >/dev/null 2>&1 || true
-        fi
-        if [ -f "$PROJECT_ROOT/data/nwe-main.pid" ]; then
-            kill "$(cat "$PROJECT_ROOT/data/nwe-main.pid" 2>/dev/null)" 2>/dev/null || true
-        fi
-        bash "$PROJECT_ROOT/scripts/shutdown-backends.sh" 2>/dev/null || true
+        echo "  [!] Cannot install UFW — no supported package manager found"
+        echo "      Install manually: apt install ufw / dnf install ufw"
+        return 1
     fi
-    sleep 3
-    echo "  [✓] Existing services stopped"
-else
-    echo "  [✓] No running services detected — clean start"
+
+    if command -v ufw &>/dev/null; then
+        # Allow SSH first to avoid lockout
+        sudo ufw allow 22/tcp >/dev/null 2>&1
+        sudo ufw --force enable >/dev/null 2>&1
+        echo "  [✓] UFW installed and enabled (SSH port 22 pre-allowed)"
+        return 0
+    else
+        echo "  [!] UFW installation failed"
+        return 1
+    fi
+}
+
+# ── Port List (authoritative — matches ufw-allow-all.sh and nwe-config.xml) ──
+NWE_PORTS=(
+    2000    # StrernaryDirectory
+    5000    # Futures (DemocraticAI)
+    5512    # AES Encryption
+    6682    # Bitcoin
+    7743    # RSA Encryption
+    7744    # DSA Encryption
+    8080    # Tomcat (all web frontends)
+    8888    # Reserved
+    9999    # Gray Port Registry
+    10085   # Gray85 Crème Registry
+    20000   # Strernary AI Inference
+    49111   # Reserved
+    49133   # WeatherServer
+    49144   # BinaryHttp
+    49152   # NitroWebExpress Main
+    49155   # ConnectionStatus
+    49166   # ModuleInstallation
+    49177   # AsciiCreator
+    49188   # ModuleLoaderDaemon
+    49199   # Communicator
+    49200   # CalendarD44
+    49201   # JapanSignal
+    49202   # RussiaSignal
+    49203   # MexicoSignal
+    49204   # GreeceInternational
+    49210   # California FBI
+    49211   # California CIA
+    49212   # California NSA
+    49213   # Duke University
+    49214   # Stanford Library
+    49215   # Vietnam
+    49216   # Emeter
+    49220   # Defined
+    49222   # SpectrumTandem
+    49230   # NWE Chat
+    49231   # UNCW
+)
+
+# Port → service name mapping for display
+declare -A NWE_PORT_NAMES=(
+    [2000]="StrernaryDirectory"
+    [5000]="Futures (DemocraticAI)"
+    [5512]="AES Encryption"
+    [6682]="Bitcoin"
+    [7743]="RSA Encryption"
+    [7744]="DSA Encryption"
+    [8080]="Tomcat"
+    [8888]="Reserved"
+    [9999]="Gray Port Registry"
+    [10085]="Gray85 Crème"
+    [20000]="Strernary AI"
+    [49111]="Reserved"
+    [49133]="WeatherServer"
+    [49144]="BinaryHttp"
+    [49152]="NitroWebExpress"
+    [49155]="ConnectionStatus"
+    [49166]="ModuleInstallation"
+    [49177]="AsciiCreator"
+    [49188]="ModuleLoaderDaemon"
+    [49199]="Communicator"
+    [49200]="CalendarD44"
+    [49201]="JapanSignal"
+    [49202]="RussiaSignal"
+    [49203]="MexicoSignal"
+    [49204]="GreeceInternational"
+    [49210]="California FBI"
+    [49211]="California CIA"
+    [49212]="California NSA"
+    [49213]="Duke University"
+    [49214]="Stanford Library"
+    [49215]="Vietnam"
+    [49216]="Emeter"
+    [49220]="Defined"
+    [49222]="SpectrumTandem"
+    [49230]="NWE Chat"
+    [49231]="UNCW"
+)
+
+# ════════════════════════════════════════════════════════════════════════════════
+# nwe_open_ports — Open all NWE ports in the system firewall
+# Called by: start-all.sh, start-backends.sh, post-clone.sh
+# ════════════════════════════════════════════════════════════════════════════════
+nwe_open_ports() {
+    local OPENED=0 FAILED=0 SKIPPED=0
+
+    if ! nwe_is_linux; then
+        echo "  [--] Firewall automation skipped on non-Linux host"
+        return 0
+    fi
+
+    # SECURITY: Set NWE_TRUSTED_IP to restrict access to a specific IP.
+    # Without it, ports are open to ALL sources (0.0.0.0).
+    if [ -z "${NWE_TRUSTED_IP:-}" ]; then
+        echo "[WARN] NWE_TRUSTED_IP not set — opening ports to ALL sources. Set NWE_TRUSTED_IP for production."
+    fi
+
+    echo "  [*] Opening NWE service ports..."
+
+    # Ensure UFW is installed and active
+    nwe_ensure_ufw
+
+    if command -v ufw &>/dev/null; then
+        for PORT in "${NWE_PORTS[@]}"; do
+            local SVCNAME="${NWE_PORT_NAMES[$PORT]:-unknown}"
+            if ufw status | grep -q "$PORT/tcp.*ALLOW" 2>/dev/null; then
+                SKIPPED=$((SKIPPED + 1))
+            elif [ -n "${NWE_TRUSTED_IP:-}" ]; then
+                if sudo ufw allow from "$NWE_TRUSTED_IP" to any port "$PORT" proto tcp comment "NWE: $PORT" 2>/dev/null; then
+                    printf "      %-5s  %-25s  ✓ (restricted to %s)\n" "$PORT" "$SVCNAME" "$NWE_TRUSTED_IP"
+                    OPENED=$((OPENED + 1))
+                else
+                    FAILED=$((FAILED + 1))
+                fi
+            else
+                if sudo ufw allow "$PORT/tcp" comment "NWE: $PORT" 2>/dev/null; then
+                    printf "      %-5s  %-25s  ✓\n" "$PORT" "$SVCNAME"
+                    OPENED=$((OPENED + 1))
+                else
+                    FAILED=$((FAILED + 1))
+                fi
+            fi
+        done
+        sudo ufw --force enable >/dev/null 2>&1
+        echo "  [✓] UFW: $OPENED opened, $SKIPPED already open, $FAILED failed"
+
+    elif command -v firewall-cmd &>/dev/null; then
+        for PORT in "${NWE_PORTS[@]}"; do
+            if firewall-cmd --query-port="$PORT/tcp" >/dev/null 2>&1; then
+                SKIPPED=$((SKIPPED + 1))
+            elif sudo firewall-cmd --permanent --add-port="$PORT/tcp" >/dev/null 2>&1; then
+                OPENED=$((OPENED + 1))
+            else
+                FAILED=$((FAILED + 1))
+            fi
+        done
+        sudo firewall-cmd --reload >/dev/null 2>&1
+        echo "  [✓] firewalld: $OPENED opened, $SKIPPED already open, $FAILED failed"
+
+    elif command -v iptables &>/dev/null; then
+        for PORT in "${NWE_PORTS[@]}"; do
+            if sudo iptables -C INPUT -p tcp --dport "$PORT" -j ACCEPT 2>/dev/null; then
+                SKIPPED=$((SKIPPED + 1))
+            elif sudo iptables -A INPUT -p tcp --dport "$PORT" -j ACCEPT 2>/dev/null; then
+                OPENED=$((OPENED + 1))
+            else
+                FAILED=$((FAILED + 1))
+            fi
+        done
+        echo "  [✓] iptables: $OPENED opened, $SKIPPED already open, $FAILED failed"
+
+    else
+        echo "  [--] No firewall tool found (ufw, firewalld, iptables) — ports not managed"
+        return 1
+    fi
+
+    return 0
+}
+
+# ════════════════════════════════════════════════════════════════════════════════
+# nwe_close_ports — Close all NWE ports in the system firewall
+# Called by: shutdown-all.sh, shutdown-backends.sh
+# ════════════════════════════════════════════════════════════════════════════════
+nwe_close_ports() {
+    local CLOSED=0 SKIPPED=0 FAILED=0
+
+    if ! nwe_is_linux; then
+        echo "  [--] Firewall automation skipped on non-Linux host"
+        return 0
+    fi
+
+    echo "  [*] Closing NWE service ports..."
+
+    # Ensure UFW is available before attempting close
+    nwe_ensure_ufw
+
+    if command -v ufw &>/dev/null; then
+        for PORT in "${NWE_PORTS[@]}"; do
+            if ! ufw status | grep -q "$PORT/tcp.*ALLOW" 2>/dev/null; then
+                SKIPPED=$((SKIPPED + 1))
+            elif sudo ufw delete allow "$PORT/tcp" >/dev/null 2>&1; then
+                CLOSED=$((CLOSED + 1))
+            else
+                FAILED=$((FAILED + 1))
+            fi
+        done
+        echo "  [✓] UFW: $CLOSED closed, $SKIPPED already closed, $FAILED failed"
+
+    elif command -v firewall-cmd &>/dev/null; then
+        for PORT in "${NWE_PORTS[@]}"; do
+            if ! firewall-cmd --query-port="$PORT/tcp" >/dev/null 2>&1; then
+                SKIPPED=$((SKIPPED + 1))
+            elif sudo firewall-cmd --permanent --remove-port="$PORT/tcp" >/dev/null 2>&1; then
+                CLOSED=$((CLOSED + 1))
+            else
+                FAILED=$((FAILED + 1))
+            fi
+        done
+        sudo firewall-cmd --reload >/dev/null 2>&1
+        echo "  [✓] firewalld: $CLOSED closed, $SKIPPED already closed, $FAILED failed"
+
+    elif command -v iptables &>/dev/null; then
+        for PORT in "${NWE_PORTS[@]}"; do
+            if ! sudo iptables -C INPUT -p tcp --dport "$PORT" -j ACCEPT 2>/dev/null; then
+                SKIPPED=$((SKIPPED + 1))
+            elif sudo iptables -D INPUT -p tcp --dport "$PORT" -j ACCEPT 2>/dev/null; then
+                CLOSED=$((CLOSED + 1))
+            else
+                FAILED=$((FAILED + 1))
+            fi
+        done
+        echo "  [✓] iptables: $CLOSED closed, $SKIPPED already closed, $FAILED failed"
+
+    else
+        echo "  [--] No firewall tool found (ufw, firewalld, iptables) — ports not managed"
+        return 1
+    fi
+
+    return 0
+}
+
+# ════════════════════════════════════════════════════════════════════════════════
+# nwe_port_status — Show which NWE ports are currently open/closed
+# Called by: status.sh
+# ════════════════════════════════════════════════════════════════════════════════
+nwe_port_status() {
+    local OPEN=0 CLOSED=0
+
+    if ! nwe_is_linux; then
+        echo "  Firewall Port Status: not applicable on non-Linux host"
+        return 0
+    fi
+
+    echo "  Firewall Port Status:"
+
+    if command -v ufw &>/dev/null; then
+        for PORT in "${NWE_PORTS[@]}"; do
+            if ufw status | grep -q "$PORT/tcp.*ALLOW" 2>/dev/null; then
+                OPEN=$((OPEN + 1))
+            else
+                CLOSED=$((CLOSED + 1))
+            fi
+        done
+    elif command -v firewall-cmd &>/dev/null; then
+        for PORT in "${NWE_PORTS[@]}"; do
+            if firewall-cmd --query-port="$PORT/tcp" >/dev/null 2>&1; then
+                OPEN=$((OPEN + 1))
+            else
+                CLOSED=$((CLOSED + 1))
+            fi
+        done
+    else
+        echo "    No firewall tool detected"
+        return 1
+    fi
+
+    echo "    Open: $OPEN / ${#NWE_PORTS[@]}"
+    if [ $CLOSED -gt 0 ]; then
+        echo "    Closed: $CLOSED"
+    fi
+    return 0
+}
+
+# If run directly (not sourced), show usage
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+    case "${1:-}" in
+        open)   nwe_open_ports ;;
+        close)  nwe_close_ports ;;
+        status) nwe_port_status ;;
+        *)
+            echo "NWE Port Manager — ${#NWE_PORTS[@]} service ports"
+            echo ""
+            echo "Usage:"
+            echo "  bash scripts/nwe-ports.sh open     Open all NWE ports"
+            echo "  bash scripts/nwe-ports.sh close    Close all NWE ports"
+            echo "  bash scripts/nwe-ports.sh status   Show port firewall status"
+            echo ""
+            echo "Or source from another script:"
+            echo "  source \"\$PROJECT_ROOT/scripts/nwe-ports.sh\""
+            echo "  nwe_open_ports"
+            echo "  nwe_close_ports"
+            ;;
+    esac
 fi
 
-# ── Phase 1: MySQL ────────────────────────────────────────────────────────────
-echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo "Phase 1/4: Starting MySQL..."
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo ""
 
-if bash "$PROJECT_ROOT/scripts/start-mysql.sh"; then
-    echo ""
-    echo "  [✓] MySQL startup complete"
-else
-    echo ""
-    echo "  [!] MySQL startup had issues (continuing anyway)"
-fi
 
-sleep 2
 
-# ── Open Firewall Ports ───────────────────────────────────────────────────────
-echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo "Opening Firewall Ports..."
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo ""
 
-source "$PROJECT_ROOT/scripts/nwe-ports.sh"
-nwe_open_ports
 
-sleep 1
 
-# ── Phase 2: Compile All Modules ──────────────────────────────────────────────
-echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo "Phase 2/4: Compiling All Modules..."
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo ""
 
-if bash "$PROJECT_ROOT/scripts/compile-all-modules.sh"; then
-    echo ""
-    echo "  [✓] Compilation complete"
-else
-    echo ""
-    echo "  [!] Compilation had errors (backends may fail — check out/ directory)"
-fi
 
-# ── Phase 3: Backend Modules ──────────────────────────────────────────────────
-echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo "Phase 3/4: Starting Backend Modules..."
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo ""
 
-if bash "$PROJECT_ROOT/scripts/start-backends.sh"; then
-    echo ""
-    echo "  [✓] Backend startup complete"
-else
-    echo ""
-    echo "  [!] Some backends failed to start (continuing anyway)"
-fi
 
-sleep 3
 
-# ── Phase 4: Frontend Modules ─────────────────────────────────────────────────
-echo ""
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo "Phase 4/4: Starting Frontend Modules..."
-echo "───────────────────────────────────────────────────────────────────────────────"
-echo ""
 
-if bash "$PROJECT_ROOT/scripts/start-frontends.sh" "$TOMCAT_HOME"; then
-    echo ""
-    echo "  [✓] Frontend startup complete"
-else
-    echo ""
-    echo "  [!] Some frontends failed to start"
-fi
 
-# ── Summary ───────────────────────────────────────────────────────────────────
-echo ""
-echo ""
-echo "╔═══════════════════════════════════════════════════════════════════════════╗"
-echo "║                                                                           ║"
-echo "║   ✓ NitroWebExpress™ System Startup Complete!                             ║"
-echo "║                                                                           ║"
-echo "║   NEXT STEPS:                                                             ║"
-echo "║   • Verify services:  bash scripts/status.sh                              ║"
-echo "║   • View logs:        tail -f logging/*.log                               ║"
-echo "║   • Test endpoints:   curl http://localhost:8080/ae6e66/                   ║"
-echo "║   • Shutdown all:     bash scripts/shutdown-all.sh                         ║"
-echo "║                                                                           ║"
-echo "║   Tomcat:   $TOMCAT_HOME                                        ║"
-echo "║   Project:  $PROJECT_ROOT ║"
-echo "║                                                                           ║"
-echo "╚═══════════════════════════════════════════════════════════════════════════╝"
-echo ""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
