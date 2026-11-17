@@ -58,15 +58,15 @@ echo "[4/7] Java..."
 if command -v java &>/dev/null; then
     JAVA_VER=$(java -version 2>&1 | head -1)
     MAJOR=$(java -version 2>&1 | head -1 | grep -oP '(?<=version ")(\d+)' || echo "0")
-    if [[ "$MAJOR" -ge 21 ]]; then
-        ok "Java installed: $JAVA_VER (>= 21 required)"
+    if [[ "$MAJOR" -ge 25 ]]; then
+        ok "Java installed: $JAVA_VER (>= 25 required)"
     else
-        fail "Java version too old: $JAVA_VER (need >= 21)"
-        echo "        Install: sudo apt install openjdk-21-jdk"
+        fail "Java version too old: $JAVA_VER (need >= 25)"
+        echo "        Install: sudo apt install openjdk-25-jdk"
     fi
 else
     fail "Java not installed"
-    echo "        Install: sudo apt install openjdk-21-jdk"
+    echo "        Install: sudo apt install openjdk-25-jdk"
 fi
 
 # ── 5. javac (JDK, not just JRE) ─────────────────────────────────────────────
@@ -75,13 +75,13 @@ if command -v javac &>/dev/null; then
     ok "javac found: $(javac -version 2>&1)"
 else
     fail "javac not found — full JDK required (not just JRE)"
-    echo "        Install: sudo apt install openjdk-21-jdk"
+    echo "        Install: sudo apt install openjdk-25-jdk"
 fi
 
 # ── 6. Java license acceptance ────────────────────────────────────────────────
 echo "[6/7] Java license..."
 echo ""
-echo "  NitroWebExpress requires OpenJDK 21+."
+echo "  NitroWebExpress requires OpenJDK 25+."
 echo "  OpenJDK is licensed under the GNU General Public License v2 with Classpath Exception."
 echo ""
 read -rp "  Do you accept the Java OpenJDK license? [y/N]: " ACCEPT

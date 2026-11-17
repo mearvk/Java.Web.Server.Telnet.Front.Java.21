@@ -10,21 +10,17 @@ SRC="$ROOT/source"
 OUT="$ROOT/out"
 JAR="$ROOT/jars/mysql/mysql-connector-j-9.7.0.jar"
 DJL_JARS=$(find "$ROOT/jars/djl" -name "*.jar" 2>/dev/null | tr '\n' ':')
-CP="$OUT:$JAR:${DJL_JARS}$ROOT/jars/lanterna-3.1.5.jar"
+JPCAP_JARS=$(find "$ROOT/jars/jpcap" -name "*.jar" 2>/dev/null | tr '\n' ':')
+CP="$OUT:$JAR:${DJL_JARS}${JPCAP_JARS}$ROOT/jars/lanterna-3.1.5.jar"
 FORCE=0
 [[ "${1:-}" == "--force" ]] && FORCE=1
 
-# Module source directories to compile alongside core source/
-MODULE_SOURCES=(
-    "$ROOT/modules/fbi/source"
-    "$ROOT/modules/cia/source"
-    "$ROOT/modules/nsa/source"
-    "$ROOT/modules/duke/source"
-    "$ROOT/modules/library/source"
-    "$ROOT/modules/AE6E66/source"
-    "$ROOT/modules/gray/source"
-    "$ROOT/modules/gray.a85/source"
-)
+# Module source directories to compile alongside core source/.
+# pom.xml (build-helper add-source) is the single source of truth for this list.
+MODULE_SOURCES=()
+while IFS= read -r d; do MODULE_SOURCES+=("$ROOT/$d"); done \
+    < <(grep -oP '(?<=\$\{project\.basedir\}/)modules/[^<]+/source' "$ROOT/pom.xml")
+JAVA_RELEASE=25   # out/ is class-file version 69; the source needs Java 25 (flexible constructors)
 
 echo ""
 echo "=== NitroWebExpress Installer ==="
@@ -121,13 +117,18 @@ else
     if [[ $NEEDS_COMPILE -eq 1 ]]; then
         echo "      Compiling ${#SOURCES[@]} source files..."
         mkdir -p "$OUT"
+        JAVA_MAJOR=$(javac -version 2>&1 | grep -oP '(?<=javac )\d+' || echo 0)
+        if [[ "$JAVA_MAJOR" -lt "$JAVA_RELEASE" ]]; then
+            echo "      ERROR: javac $JAVA_MAJOR found; JDK $JAVA_RELEASE+ is required to compile."
+            exit 1
+        fi
 
         # Build source-path list for javac
         SOURCE_LIST=$(mktemp)
         printf '%s\n' "${SOURCES[@]}" > "$SOURCE_LIST"
 
-        javac \
-            --release 21 \
+        javac -nowarn \
+            --release "$JAVA_RELEASE" \
             -cp "$CP" \
             -sourcepath "$SRC" \
             -d "$OUT" \

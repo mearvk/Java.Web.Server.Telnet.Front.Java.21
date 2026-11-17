@@ -8,7 +8,7 @@
 Author: Maximilian Eric Alexander Rupplin von Keffikon — MEARVK LLC
 License: LICENSE.md
 
-A multi-module Java 21 telnet/TCP server platform with NIO masquerade routing, AI inference (Strernary™), encrypted chat, fiduciary services, and Tomcat-deployed web frontends. All modules share a common startup/shutdown orchestration system.
+A multi-module Java 25 telnet/TCP server platform with NIO masquerade routing, AI inference (Strernary™), encrypted chat, fiduciary services, and Tomcat-deployed web frontends. All modules share a common startup/shutdown orchestration system.
 
 ## Bitcoin Conjegeum
 

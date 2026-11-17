@@ -978,7 +978,7 @@
            3. Fallback (system fonts if remote fonts unavailable)
 
          Modules include fonts via <link> in their JSP <head> sections.
-         CSS var(--font) and var(--font-mono) reference these families.
+         The CSS custom properties named font and font-mono reference these families.
     ═══════════════════════════════════════════════════════════════════════════ -->
     <fonts>
         <enabled>true</enabled>
