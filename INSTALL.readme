@@ -6,7 +6,7 @@ MEARVK LLC — Author: Max Rupplin
 REQUIREMENTS
 ------------
   - Linux (Ubuntu 22.04+ recommended)
-  - Java 21 JDK          (javac and java on PATH)
+  - Java 25 JDK          (javac and java on PATH; the shipped out/ classes are Java 25 bytecode)
   - sudo access          (for MySQL install only)
   - Internet access      (for apt package download)
 
@@ -139,3 +139,10 @@ UBUNTU SERVER INSTALL (existing Apache2 / Tomcat aware)
   Existing Tomcat contexts, Apache paths and listening ports are detected and
   left alone; clashes are reported and skipped. Needs JDK 25 (the shipped
   out/ classes are Java 25 bytecode). Run with --help for all options.
+
+  Extra options: --rebuild (compile out/ from source with JDK 25 and install
+  that), --grant-apache-root (ACL for the service user on an existing
+  <apache-root> directory), --context-prefix, --tomcat-base, --no-apache.
+  The service runs as user "jwstf" with ProtectSystem=full; out/ and jars/ are
+  read-only, other files under /opt/jwstf are writable, and
+  /etc/jwstf/nwe-credentials (DB password) is linked in as ./.nwe-credentials.

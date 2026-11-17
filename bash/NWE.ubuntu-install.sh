@@ -54,7 +54,11 @@
 #   --restart-tomcat             restart Tomcat if it cannot hot-deploy
 #   --no-start                   metal: install the unit but do not start it
 #   --ignore-port-conflicts      metal: continue even if a port is taken
-#   --rebuild                    metal: recompile out/ from source (JDK 25)
+#   --rebuild                    metal: compile out/ from source with JDK 25 and
+#                                install that instead of the shipped out/
+#   --grant-apache-root          metal: if the <apache-root> dir from nwe-config.xml
+#                                already exists and the service user cannot write
+#                                to it, add an ACL for that user on that one dir
 #   --install-deps               apt-get install missing Java 25 / Tomcat 10 /
 #                                Apache2 (default: report only)
 #   --dry-run                    print actions, change nothing (same as `plan`)
@@ -91,6 +95,7 @@ RESTART_TOMCAT=0
 NO_START=0
 IGNORE_PORTS=0
 REBUILD=0
+GRANT_APACHE_ROOT=0
 INSTALL_DEPS=0
 DRY_RUN=0
 PURGE=0
@@ -172,6 +177,7 @@ while [[ $# -gt 0 ]]; do
         --no-start)           NO_START=1 ;;
         --ignore-port-conflicts) IGNORE_PORTS=1 ;;
         --rebuild)            REBUILD=1 ;;
+        --grant-apache-root)  GRANT_APACHE_ROOT=1 ;;
         --install-deps)       INSTALL_DEPS=1 ;;
         --dry-run)            DRY_RUN=1 ;;
         --purge)              PURGE=1 ;;
@@ -480,10 +486,10 @@ install_metal() {
 
     # application tree (code + jars only; mutable data is linked in below)
     info "Staging application files…"
-    if [[ $DRY_RUN -eq 1 ]]; then dry "copy out/ jars/ scripts/ bash/ modules/ resources/ languages/ config/ → $new"
+    if [[ $DRY_RUN -eq 1 ]]; then dry "copy out/ jars/ scripts/ bash/ modules/ resources/ languages/ config/ training/ math/ downloads/ → $new"
     else
         rm -rf "$new"; mkdir -p "$new"
-        local items=(out scripts bash resources languages config modules
+        local items=(out scripts bash resources languages config modules training math downloads
                      jars/mysql/mysql-connector-j-9.7.0.jar jars/lanterna-3.1.5.jar)
         [[ -d "$REPO_ROOT/jars/djl"   ]] && items+=(jars/djl)
         [[ -d "$REPO_ROOT/jars/jpcap" ]] && items+=(jars/jpcap)
@@ -492,6 +498,7 @@ install_metal() {
         tar -C "$REPO_ROOT" \
             --exclude='modules/*/servlets' --exclude='modules/*/source' \
             -cf - "${present[@]}" | tar -C "$new" -xf -
+        if [[ -n "$REBUILT_OUT" ]]; then rm -rf "$new/out"; cp -a "$REBUILT_OUT" "$new/out"; fi
     fi
 
     # mutable state lives outside the app tree
@@ -502,8 +509,10 @@ install_metal() {
                  logging:"$LOG_DIR" data:"$STATE_DIR/data" database:"$STATE_DIR/database"; do
             ln -s "${d#*:}" "$new/${d%%:*}"
         done
+        # Chat/Emeter read ./.nwe-credentials from the working directory
+        ln -s "$CONF_DIR/nwe-credentials" "$new/.nwe-credentials"
     else
-        dry "symlink configuration, authentication, logging, data, database → /etc|/var/lib|/var/log/jwstf"
+        dry "symlink configuration, authentication, logging, data, database, .nwe-credentials → /etc|/var/lib|/var/log/jwstf"
     fi
 
     # classpath (absolute, systemd does not expand globs)
@@ -536,6 +545,13 @@ LimitNOFILE=65536
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectHome=true
+ProtectSystem=full
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+# the app writes relative to its working directory; code and libraries stay read-only
+ReadOnlyPaths=$PREFIX/out $PREFIX/jars
+ReadWritePaths=$PREFIX $STATE_DIR $LOG_DIR
 
 [Install]
 WantedBy=multi-user.target
@@ -550,8 +566,23 @@ EOF
     fi
     [[ $was_active -eq 1 ]] && systemctl stop "$UNIT_NAME"
     if [[ -e "$PREFIX" ]]; then rm -rf "$PREFIX.prev"; mv "$PREFIX" "$PREFIX.prev"; fi
+    # runtime output written under the app dir survives an upgrade (no-clobber:
+    # freshly shipped files win, generated files are kept)
+    if [[ -d "$PREFIX.prev" ]]; then
+        local rp
+        for rp in nwe-files exception.log models reports lockouts training math downloads \
+                  modules/AE6E66/portraits modules/AE6E66/marrister modules/AE6E66/sent modules/AE6E66/personal; do
+            [[ -e "$PREFIX.prev/$rp" ]] || continue
+            mkdir -p "$new/$(dirname "$rp")"
+            cp -an "$PREFIX.prev/$rp" "$new/$(dirname "$rp")/" 2>/dev/null || true
+        done
+    fi
     mv "$new" "$PREFIX"; NEW_DIR=""
-    chown -R root:root "$PREFIX"
+    # Service user owns the tree (the app writes next to its code); the compiled
+    # classes and libraries stay root-owned and are also mounted read-only.
+    chown -hR "$SVC_USER:$SVC_USER" "$PREFIX"
+    chown -hR root:root "$PREFIX/out" "$PREFIX/jars"
+    chmod -R go-w "$PREFIX/out" "$PREFIX/jars"
     install -m 0644 "$unit" "$UNIT_FILE"
     systemctl daemon-reload
     systemctl enable "$UNIT_NAME" >/dev/null 2>&1
@@ -594,6 +625,10 @@ setup_state_dirs() {
     done
     [[ -e "$CONF_DIR/authentication/mysql.auth.xml" ]] || \
         warn "No $CONF_DIR/authentication/mysql.auth.xml. Copy mysql.auth.xml.example there and fill it in (mode 0640, group $SVC_USER). Credentials from the checkout are deliberately NOT copied."
+    if [[ ! -e "$CONF_DIR/nwe-credentials" ]]; then
+        install -o root -g "$SVC_USER" -m 0640 "$REPO_ROOT/.nwe-credentials.example" "$CONF_DIR/nwe-credentials"
+        warn "Edit $CONF_DIR/nwe-credentials (NWE_DB_PASS=CHANGE_ME). Chat and Emeter read it."
+    fi
     [[ -f "$STATE_DIR/data/distribution-edition.txt" ]] || echo free > "$STATE_DIR/data/distribution-edition.txt"
     # seed bulk data once
     if [[ -d "$REPO_ROOT/data" ]]; then
@@ -601,23 +636,30 @@ setup_state_dirs() {
             [[ -e "$STATE_DIR/data/$f" ]] || install -D -o "$SVC_USER" -g "$SVC_USER" -m 0640 "$REPO_ROOT/data/$f" "$STATE_DIR/data/$f"
         done
     fi
-    chown -R "$SVC_USER:$SVC_USER" "$STATE_DIR" "$LOG_DIR"
+    chown -hR "$SVC_USER:$SVC_USER" "$STATE_DIR" "$LOG_DIR"
 
     # Apache-served output dir named in nwe-config.xml
     if [[ -n "$apache_root" && "$apache_root" == /var/www/* ]]; then
         if [[ ! -e "$apache_root" ]]; then
             if install -d -o "$SVC_USER" -g "$SVC_USER" -m 0755 "$apache_root"; then ok "Created $apache_root for $SVC_USER"; else warn "Could not create $apache_root; NWE will not be able to publish there."; fi
         elif ! runuser -u "$SVC_USER" -- test -w "$apache_root" 2>/dev/null; then
-            warn "$apache_root exists and $SVC_USER cannot write to it; left untouched. Grant access (e.g. setfacl -m u:$SVC_USER:rwx $apache_root) if NWE should publish there."
+            if [[ $GRANT_APACHE_ROOT -eq 1 ]] && command -v setfacl >/dev/null; then
+                setfacl -m "u:$SVC_USER:rwx" "$apache_root" && setfacl -d -m "u:$SVC_USER:rwx" "$apache_root" \
+                    && ok "Granted $SVC_USER rwx on $apache_root (ACL, this directory only)." \
+                    || warn "setfacl failed on $apache_root."
+            else
+                info "$apache_root exists and $SVC_USER cannot write to it; left untouched. NWE falls back to $PREFIX/nwe-files for published files. Add --grant-apache-root to give it an ACL on that one directory."
+            fi
         fi
     fi
 }
 
+REBUILT_OUT=""
 rebuild_classes() {
     step "Rebuild classes (JDK $JAVA_MIN)"
     local jc="$JAVA_HOME_USE/bin/javac" out="$TMP/out" list="$TMP/sources.txt" d cp
+    if [[ $DRY_RUN -eq 1 ]]; then dry "javac --release $JAVA_MIN (sources listed in pom.xml) → used instead of out/"; return 0; fi
     [[ -x "$jc" ]] || die "javac not found in $JAVA_HOME_USE"
-    if [[ $DRY_RUN -eq 1 ]]; then dry "javac --release $JAVA_MIN … → staged out/"; return 0; fi
     mkdir -p "$out"
     { find "$REPO_ROOT/source" -name '*.java'
       for d in $(grep -oP '(?<=\$\{project\.basedir\}/)modules/[^<]+/source' "$REPO_ROOT/pom.xml"); do
@@ -625,13 +667,11 @@ rebuild_classes() {
       done; } | sort -u > "$list"
     cp="$(find "$REPO_ROOT/jars/djl" "$REPO_ROOT/jars/jpcap" -name '*.jar' 2>/dev/null | tr '\n' ':')$REPO_ROOT/jars/mysql/mysql-connector-j-9.7.0.jar:$REPO_ROOT/jars/lanterna-3.1.5.jar"
     if "$jc" --release "$JAVA_MIN" -nowarn -cp "$cp" -d "$out" "@$list" 2> "$TMP/javac.log" && [[ -f "$out/Main.class" ]]; then
-        rm -rf "$REPO_ROOT/out.rebuilt"; mv "$out" "$REPO_ROOT/out.rebuilt"
-        ok "Compiled to $REPO_ROOT/out.rebuilt (not installed automatically; the shipped out/ is used)."
-        warn "Copy out.rebuilt over out/ yourself if you want the rebuilt classes installed."
+        REBUILT_OUT="$out"
+        ok "Compiled $(find "$out" -name '*.class' | wc -l) classes from $(wc -l < "$list") sources."
     else
-        grep -c 'error:' "$TMP/javac.log" | sed 's/^/   javac errors: /'
-        tail -n 8 "$TMP/javac.log" >&2 || true
-        warn "Rebuild failed with the pom.xml source list; continuing with the shipped out/ classes (version 69)."
+        grep 'error:' "$TMP/javac.log" | head -10 >&2 || true
+        die "Rebuild failed (see errors above). Nothing was installed. Drop --rebuild to use the shipped out/ classes."
     fi
 }
 

@@ -148,7 +148,7 @@ XML FORWARDING PROTOCOL
 
 DEPENDENCIES
 ------------
-  None beyond standard JDK 21+ (java.nio.channels, javax.xml.parsers).
+  None beyond standard JDK 25+ (java.nio.channels, javax.xml.parsers).
   No additional jars required for this module.
 
 

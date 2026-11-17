@@ -137,6 +137,7 @@
                                 <source>${project.basedir}/modules/duke/source</source>
                                 <source>${project.basedir}/modules/library/source</source>
                                 <source>${project.basedir}/modules/gray/source</source>
+                                <source>${project.basedir}/modules/gray.a85/source</source>
                                 <source>${project.basedir}/modules/red/Futures/source</source>
                                 <source>${project.basedir}/modules/AE6E66/source</source>
                                 <source>${project.basedir}/modules/Green.Durham.Grass.and.Herb/source</source>

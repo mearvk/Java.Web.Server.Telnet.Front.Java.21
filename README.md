@@ -14,7 +14,7 @@ License: LICENSE.md
 
 **AE6E66 Public Email Levy Position:** We expect **$300,000,000.00 USD Tax Levy for every Round Public email.** This is a project-level stated position and does not by itself create or impose a governmental tax, assessment, or legally enforceable obligation.
 
-A multi-module Java 21 telnet/TCP server platform with NIO masquerade routing, AI inference (Strernary™), encrypted chat, fiduciary services, and Tomcat-deployed web frontends. All modules share a common startup/shutdown orchestration system.
+A multi-module Java 25 telnet/TCP server platform with NIO masquerade routing, AI inference (Strernary™), encrypted chat, fiduciary services, and Tomcat-deployed web frontends. All modules share a common startup/shutdown orchestration system.
 
 ---
 

@@ -99,7 +99,7 @@ public class TraderModule
     }
 
     /** Create the configured wallet through Bitcoin Core RPC. */
-    public void add_new_wallet(final String URL)
+    public void add_new_wallet(final String URL) throws IOException
     {
         executeAndReport(BITCOIN_CLI, "-" + BITCOIN_NETWORK, "-rpcport=" + BITCOIN_PORT,
             "-named", "createwallet", "wallet_name=" + BITCOIN_WALLET);
