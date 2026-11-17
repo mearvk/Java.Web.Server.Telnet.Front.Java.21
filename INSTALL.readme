@@ -121,3 +121,21 @@ LOGS
 ----
   logging/exceptions.log          Runtime exception log.
   database/fallback/                    XML fallback records when MySQL is unavailable.
+
+
+UBUNTU SERVER INSTALL (existing Apache2 / Tomcat aware)
+-------------------------------------------------------
+  sudo bash bash/NWE.ubuntu-install.sh plan                 # read-only report
+  sudo bash bash/NWE.ubuntu-install.sh install --mode both  # metal + webapps
+  sudo bash bash/NWE.ubuntu-install.sh status
+  sudo bash bash/NWE.ubuntu-install.sh uninstall [--purge]
+
+  --mode metal    systemd service "jwstf" from /opt/jwstf (config /etc/jwstf,
+                  state /var/lib/jwstf, logs /var/log/jwstf)
+  --mode webapp   WARs into an existing Tomcat 10+ and an Apache2 proxy file
+                  (conf-available/jwstf-proxy.conf)
+  --mode both     default
+
+  Existing Tomcat contexts, Apache paths and listening ports are detected and
+  left alone; clashes are reported and skipped. Needs JDK 25 (the shipped
+  out/ classes are Java 25 bytecode). Run with --help for all options.
