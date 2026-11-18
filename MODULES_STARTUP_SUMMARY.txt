@@ -3,7 +3,7 @@
 ║   NitroWebExpress™ MODULE STARTUP SCRIPT STANDARDIZATION                  ║
 ║   Completed: July 3, 2026                                                  ║
 ║                                                                            ║
-║   Project: Java.Web.Server.Telnet.Front.Java.21 (Java 21 / Tomcat 11)    ║
+║   Project: Java.Web.Server.Telnet.Front.Java.21 (Java 25 / Tomcat 11)    ║
 ║   Task: Standardize all module startup/shutdown scripts following BMA     ║
 ║         (Brarner.M.Alete) prototype                                       ║
 ║                                                                            ║

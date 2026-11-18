@@ -170,7 +170,7 @@ Students:   Available on the 8th Floor after 8
             <div class="title-divider" aria-hidden="true"></div>
           </div>
 
-          <p class="subtitle">Modular Java web server and Telnet front end for Java 21. Virtual threads, NIO file handling, and a command‑driven Telnet shell with a centralized <code>Main.java</code> entry point.</p>
+          <p class="subtitle">Modular Java web server and Telnet front end for Java 25. Virtual threads, NIO file handling, and a command‑driven Telnet shell with a centralized <code>Main.java</code> entry point.</p>
         </header>
 
         <!-- Progress / commits additive line chart card -->

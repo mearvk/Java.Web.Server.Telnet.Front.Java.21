@@ -16,7 +16,7 @@ The requested qualitative scale is used as a software maturity/code-quality desc
 |---|---|---|
 | Overall system architecture | **Great** | Broad modular architecture with server, module, administration, deployment, and configuration layers. |
 | Code organization | **Better** | Strong separation exists, but the repository remains large and contains legacy/parallel implementation paths. |
-| Java 21 integration | **Great** | Java 21 is the declared primary platform with a coherent Java server/module model. |
+| Java 25 integration | **Great** | Java 25 is the declared primary platform with a coherent Java server/module model. |
 | Administration layer | **Great** | Local JavaFX plus C/C++ administrative tooling is documented and separated from privileged host authority. |
 | Black Belt subsystem | **Great** | Web and CLI surfaces are documented with C11/C++17/Java 21 clients and explicit transport/output behavior. |
 | Bitcoin subsystem | **Better** | Substantial functionality exists, but descriptor, verification, and testing discipline should be strengthened. |
@@ -31,7 +31,7 @@ The requested qualitative scale is used as a software maturity/code-quality desc
 
 ## Current System State
 
-The project is a multi-module Java 21 server platform with NIO/TCP and Telnet-oriented services, Tomcat web frontends, Java/C/C++ components, centralized orchestration, XML configuration, MySQL-backed modules, administrative tooling, integrity verification, AI/inference components, cryptographic communication, and Bitcoin-related services.
+The project is a multi-module Java 25 server platform with NIO/TCP and Telnet-oriented services, Tomcat web frontends, Java/C/C++ components, centralized orchestration, XML configuration, MySQL-backed modules, administrative tooling, integrity verification, AI/inference components, cryptographic communication, and Bitcoin-related services.
 
 ### Administration
 

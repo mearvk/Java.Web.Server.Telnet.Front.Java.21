@@ -20,9 +20,9 @@ invested, and its connections to other systems.
 
 ## Source
 
-- **Primary language:** Java 21 (dominant), with HTML, Shell, JavaScript, C,
+- **Primary language:** Java 25 (dominant), with HTML, Shell, JavaScript, C,
   Batchfile, CSS, Python, PowerShell also present.
-- **What it is:** a multi-module **Java 21 telnet/TCP server platform** —
+- **What it is:** a multi-module **Java 25 telnet/TCP server platform** —
   NIO masquerade routing, AI inference (**Strernary™**, DJL/PyTorch), encrypted
   chat (DH/ECDH), fiduciary/crypto-compliance services, and Tomcat-deployed web
   frontends, all sharing a common startup/shutdown orchestration system.

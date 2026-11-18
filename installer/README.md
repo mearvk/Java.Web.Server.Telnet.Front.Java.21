@@ -30,7 +30,7 @@ The installer should expose these options before execution:
 - Linux / Windows / macOS target
 - Distribution-managed or manually managed Tomcat on Linux
 - Apache integration where available
-- Java 21 prerequisite handling
+- Java 25 prerequisite handling
 - JWSTF application, configuration, state, and log paths
 - Start/stop service after operation
 - Dry-run / review changes

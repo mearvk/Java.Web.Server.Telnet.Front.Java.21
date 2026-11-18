@@ -54,8 +54,9 @@
 #   --restart-tomcat             restart Tomcat if it cannot hot-deploy
 #   --no-start                   metal: install the unit but do not start it
 #   --ignore-port-conflicts      metal: continue even if a port is taken
-#   --rebuild                    metal: compile out/ from source with JDK 25 and
-#                                install that instead of the shipped out/
+#   --rebuild                    metal: compile from source with JDK 25 and install
+#                                that, even if a local out/ exists (done automatically
+#                                when out/Main.class is missing)
 #   --grant-apache-root          metal: if the <apache-root> dir from nwe-config.xml
 #                                already exists and the service user cannot write
 #                                to it, add an ACL for that user on that one dir
@@ -415,10 +416,36 @@ ensure_java() {
             JAVA_HOME_USE="$(find_java)" || die "Installed $pkg but could not locate it under /usr/lib/jvm."
             return 0
         fi
-        die "No $pkg candidate in your apt sources. Install a JDK $JAVA_MIN+ (e.g. from Temurin) and pass --java-home DIR."
+        die "No $pkg candidate in your apt sources. On Ubuntu 22.04/24.04 it lives in 'universe' (sudo add-apt-repository universe && sudo apt-get update). Otherwise install a JDK $JAVA_MIN+ (e.g. Temurin) and pass --java-home DIR."
     fi
     if [[ $DRY_RUN -eq 1 ]]; then warn "No JDK $JAVA_MIN+ found (needed by the metal service). Pass --java-home DIR or --install-deps."; JAVA_HOME_USE=""; return 0; fi
     die "No JDK $JAVA_MIN+ found. The compiled classes are Java $JAVA_MIN bytecode. Pass --java-home DIR or --install-deps."
+}
+
+# Point the app's own <web-servers><tomcat> block at the Tomcat we found, but
+# only while it still holds the shipped defaults (a local edit always wins).
+sync_tomcat_config() {
+    local cfg="$CONF_DIR/configuration/nwe-config.xml"
+    [[ $DRY_RUN -eq 1 ]] && { dry "set <tomcat><install-dir>=$TOMCAT_HOME and <service-name>=${TOMCAT_SVC:-unchanged} in $cfg if still at shipped defaults"; return 0; }
+    [[ -f "$cfg" ]] || { info "No $cfg yet (metal not installed here); app Tomcat settings unchanged."; return 0; }
+    command -v python3 >/dev/null || { warn "python3 missing; set <web-servers><tomcat><install-dir> in $cfg to $TOMCAT_HOME yourself."; return 0; }
+    python3 - "$cfg" "$TOMCAT_HOME" "$TOMCAT_SVC" <<'PY' && ok "App config now points at Tomcat $TOMCAT_HOME" || true
+import re, sys
+path, home, svc = sys.argv[1:4]
+txt = open(path, encoding="utf-8").read()
+m = re.search(r"(<tomcat>)(.*?)(</tomcat>)", txt, re.S)
+if not m:
+    sys.exit(1)
+blk = m.group(2)
+changed = False
+if "<install-dir>/opt/apache-tomcat-11.0.2</install-dir>" in blk and home != "/opt/apache-tomcat-11.0.2":
+    blk = blk.replace("<install-dir>/opt/apache-tomcat-11.0.2</install-dir>", "<install-dir>%s</install-dir>" % home); changed = True
+if svc and "<service-name>tomcat</service-name>" in blk and svc != "tomcat":
+    blk = blk.replace("<service-name>tomcat</service-name>", "<service-name>%s</service-name>" % svc); changed = True
+if not changed:
+    sys.exit(1)
+open(path, "w", encoding="utf-8").write(txt[:m.start(2)] + blk + txt[m.end(2):])
+PY
 }
 
 # ── port check (metal) ──────────────────────────────────────────────────────
@@ -464,7 +491,10 @@ check_ports() {
 # ── metal install ───────────────────────────────────────────────────────────
 install_metal() {
     step "Metal install → $PREFIX"
-    [[ -f "$REPO_ROOT/out/Main.class" || $REBUILD -eq 1 ]] || die "$REPO_ROOT/out/Main.class missing; re-run with --rebuild."
+    if [[ ! -f "$REPO_ROOT/out/Main.class" && $REBUILD -eq 0 ]]; then
+        info "No compiled classes in $REPO_ROOT/out (the repo no longer tracks them); building from source."
+        REBUILD=1
+    fi
     [[ -n "$JAVA_HOME_USE" || $DRY_RUN -eq 1 ]] || die "No JDK available."
 
     if [[ -e "$UNIT_FILE" ]] && ! grep -qF "$UNIT_MARK" "$UNIT_FILE"; then
@@ -489,11 +519,12 @@ install_metal() {
     if [[ $DRY_RUN -eq 1 ]]; then dry "copy out/ jars/ scripts/ bash/ modules/ resources/ languages/ config/ training/ math/ downloads/ → $new"
     else
         rm -rf "$new"; mkdir -p "$new"
-        local items=(out scripts bash resources languages config modules training math downloads
+        local items=(scripts bash resources languages config modules training math downloads
                      jars/mysql/mysql-connector-j-9.7.0.jar jars/lanterna-3.1.5.jar)
         [[ -d "$REPO_ROOT/jars/djl"   ]] && items+=(jars/djl)
         [[ -d "$REPO_ROOT/jars/jpcap" ]] && items+=(jars/jpcap)
         local present=() it
+        [[ -z "$REBUILT_OUT" ]] && items+=(out)
         for it in "${items[@]}"; do [[ -e "$REPO_ROOT/$it" ]] && present+=("$it") || warn "Not in checkout, skipped: $it"; done
         tar -C "$REPO_ROOT" \
             --exclude='modules/*/servlets' --exclude='modules/*/source' \
@@ -671,7 +702,7 @@ rebuild_classes() {
         ok "Compiled $(find "$out" -name '*.class' | wc -l) classes from $(wc -l < "$list") sources."
     else
         grep 'error:' "$TMP/javac.log" | head -10 >&2 || true
-        die "Rebuild failed (see errors above). Nothing was installed. Drop --rebuild to use the shipped out/ classes."
+        die "Rebuild failed (see errors above). Nothing was installed. Fix the compile errors, or build out/ yourself (bash bash/NWE.install.sh) and drop --rebuild."
     fi
 }
 
@@ -714,6 +745,7 @@ build_war() {   # $1 src webapp dir  $2 war out path  $3 ctx label
 install_webapps() {
     if ! select_tomcat; then SKIPPED_CTX+=("(all: no usable Tomcat)"); return 0; fi
     TMP="${TMP:-$(mktemp -d)}"
+    sync_tomcat_config
 
     # tools to build WARs: any JDK will do
     local jh; jh="$(find_java || true)"
@@ -861,7 +893,7 @@ write_manifest() {
 cmd_install() {
     need_root
     command -v systemctl >/dev/null || die "systemd is required."
-    [[ -d "$REPO_ROOT/modules" && -d "$REPO_ROOT/out" ]] || die "Run this from a full checkout (expected $REPO_ROOT/modules and out/)."
+    [[ -d "$REPO_ROOT/modules" && -d "$REPO_ROOT/source" ]] || die "Run this from a full checkout (expected $REPO_ROOT/modules and source/)."
     [[ -r /etc/os-release ]] && . /etc/os-release
     info "Host: ${PRETTY_NAME:-unknown}   Mode: $MODE   $([[ $DRY_RUN -eq 1 ]] && echo '(PLAN ONLY, nothing is changed)')"
     [[ "${ID:-}" == ubuntu || "${ID_LIKE:-}" == *debian* ]] || warn "Not Ubuntu/Debian; paths and apt assumptions may be wrong."

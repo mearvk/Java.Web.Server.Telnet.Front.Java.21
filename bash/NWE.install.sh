@@ -105,8 +105,11 @@ else
     if [[ $NEEDS_COMPILE -eq 0 ]]; then
         # Check if any .java is newer than its corresponding .class in out/
         for java_file in "${SOURCES[@]}"; do
-            rel="${java_file#$SRC/}"
-            class_file="$OUT/${rel%.java}.class"
+            # class path comes from the package declaration (module sources do not
+            # sit under a directory tree that mirrors their package)
+            pkg=$(sed -n 's/^[[:space:]]*package[[:space:]]\+\([A-Za-z0-9_.]*\)[[:space:]]*;.*/\1/p' "$java_file" | head -1)
+            base="$(basename "$java_file" .java)"
+            class_file="$OUT/${pkg//.//}${pkg:+/}$base.class"
             if [[ ! -f "$class_file" || "$java_file" -nt "$class_file" ]]; then
                 NEEDS_COMPILE=1
                 break

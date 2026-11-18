@@ -46,3 +46,10 @@ Wallet file size is no longer interpreted as BTC balance. The indexer should use
 6. Add audit records containing actor, action, result, timestamp, and transaction ID where applicable.
 7. Add checksum/signature verification to Bitcoin Core installation/update workflows.
 8. Add automated secret scanning to CI.
+## Repository hygiene (2026-11-18)
+
+Wallet databases, chainstate and block indexes under `bitcoin/*/wallets/`, and
+`authentication/mysql.auth.xml`, are no longer tracked and are git-ignored. They
+remain in earlier commits. If any wallet ever held real funds, treat its keys as
+exposed and move the funds; rotate the MySQL password in any case. The
+`secret-guard` workflow fails a push that tracks such files again.

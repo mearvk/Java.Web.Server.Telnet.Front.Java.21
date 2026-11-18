@@ -17,7 +17,7 @@ The purpose is to make a large repository understandable without reducing it to 
 
 ## 1.1 Core Server Platform
 
-The project is a Java 21 multi-module server platform centered on **NitroWebExpress™**.
+The project is a Java 25 multi-module server platform centered on **NitroWebExpress™**.
 
 The core architecture combines:
 
@@ -317,7 +317,7 @@ Give the reader one clear sentence describing the software category.
 
 For this project:
 
-> A multi-module Java 21 server platform combining TCP/Telnet services, NIO routing, Tomcat web applications, databases, native components, and operational tooling.
+> A multi-module Java 25 server platform combining TCP/Telnet services, NIO routing, Tomcat web applications, databases, native components, and operational tooling.
 
 That sentence establishes the architectural shape before details begin.
 
@@ -385,7 +385,7 @@ PIXEL should describe the architecture accurately without turning the existence 
 For a large project, show how the pieces connect:
 
 ```
-Java 21 services
+Java 25 services
       |
       +---- TCP / Telnet
       |
@@ -499,7 +499,7 @@ How PIXEL stays synchronized.
 |---|---|
 | Primary project | Java.Web.Server.Telnet.Front.Java.21 |
 | Project name | NitroWebExpress™ |
-| Primary language/runtime | Java 21 |
+| Primary language/runtime | Java 25 |
 | Network model | TCP / Telnet / HTTP-oriented services |
 | Routing | Java NIO / NioMasquerade |
 | Web deployment | Apache Tomcat |
