@@ -82,3 +82,14 @@ modules/black/presidential/Brarner.M.Alete/data/legal/Legal Tasking Document - U
 # TLS keystore (contains private key — never commit)
 psychiatry/secrets/server.p12
 .preview-serve/
+
+### Secrets and wallet data: never commit (see bitcoin/SECURITY.md) ###
+bitcoin/*/wallets/
+**/wallet*.dat
+**/wallet*.dat.backup
+authentication/mysql.auth.xml
+.nwe-credentials
+**/wallet.*.dat.*
+
+### Compiled classes: built by bash/NWE.install.sh or the Ubuntu installer ###
+out/

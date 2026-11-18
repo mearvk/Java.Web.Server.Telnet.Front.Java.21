@@ -150,3 +150,11 @@ Response within 48 hours. Critical vulnerabilities patched within 24 hours of co
 ## Trust Ratings
 
 All modules authored by Max Rupplin rated **9.5+/10**. Masquerade routing enabled globally.
+
+## Repository hygiene (2026-11-18)
+
+Wallet databases under `bitcoin/*/wallets/` and `authentication/mysql.auth.xml`
+are no longer tracked and are git-ignored; compiled classes (`out/`) are not
+tracked either. Earlier commits still contain them. If any wallet ever held real
+funds, treat its keys as exposed and move the funds, and rotate the MySQL
+password. The `secret-guard` workflow fails a push that tracks such files again.

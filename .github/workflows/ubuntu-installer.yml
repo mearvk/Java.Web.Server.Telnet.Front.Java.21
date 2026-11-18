@@ -1,0 +1,39 @@
+name: Ubuntu installer
+
+on:
+  push:
+    branches: [ "main", "master" ]
+    paths:
+      - 'bash/NWE.ubuntu-install.sh'
+      - 'tests/ubuntu-install/**'
+      - '.github/workflows/ubuntu-installer.yml'
+  pull_request:
+    paths:
+      - 'bash/NWE.ubuntu-install.sh'
+      - 'tests/ubuntu-install/**'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: bash -n and shellcheck
+        run: |
+          bash -n bash/NWE.ubuntu-install.sh bash/NWE.install.sh bash/NWE.pre-install.sh
+          sudo apt-get install -y -qq shellcheck
+          shellcheck -S warning -e SC2155,SC2034,SC1090,SC1091 bash/NWE.ubuntu-install.sh || true
+
+  integration:
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-22.04, ubuntu-24.04 ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable universe (openjdk-25, tomcat10)
+        run: sudo add-apt-repository -y universe && sudo apt-get update -qq
+      - name: Install on a populated server, re-run, uninstall
+        run: sudo bash tests/ubuntu-install/run-tests.sh

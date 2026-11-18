@@ -6,7 +6,7 @@ MEARVK LLC — Author: Max Rupplin
 REQUIREMENTS
 ------------
   - Linux (Ubuntu 22.04+ recommended)
-  - Java 25 JDK          (javac and java on PATH; the shipped out/ classes are Java 25 bytecode)
+  - Java 25 JDK          (javac and java on PATH; on Ubuntu 22.04/24.04: openjdk-25-jdk, from 'universe')
   - sudo access          (for MySQL install only)
   - Internet access      (for apt package download)
 
@@ -137,12 +137,17 @@ UBUNTU SERVER INSTALL (existing Apache2 / Tomcat aware)
   --mode both     default
 
   Existing Tomcat contexts, Apache paths and listening ports are detected and
-  left alone; clashes are reported and skipped. Needs JDK 25 (the shipped
-  out/ classes are Java 25 bytecode). Run with --help for all options.
+  left alone; clashes are reported and skipped. Needs JDK 25. The repo no longer
+  tracks compiled classes (out/); the installer builds them from source.
+  Ubuntu 22.04/24.04 only package Tomcat 10 (jakarta.*), which the modules work
+  on; Tomcat 11 from apache.org works too (--tomcat-base). Run with --help.
 
-  Extra options: --rebuild (compile out/ from source with JDK 25 and install
-  that), --grant-apache-root (ACL for the service user on an existing
+  Extra options: --rebuild (force a fresh compile with JDK 25), --grant-apache-root (ACL for the service user on an existing
   <apache-root> directory), --context-prefix, --tomcat-base, --no-apache.
   The service runs as user "jwstf" with ProtectSystem=full; out/ and jars/ are
   read-only, other files under /opt/jwstf are writable, and
   /etc/jwstf/nwe-credentials (DB password) is linked in as ./.nwe-credentials.
+
+  Tests: sudo bash tests/ubuntu-install/run-tests.sh  (real Ubuntu host), or
+  bash tests/ubuntu-install/docker-run.sh 24.04  (systemd container). CI runs
+  it on Ubuntu 22.04 and 24.04 (.github/workflows/ubuntu-installer.yml).

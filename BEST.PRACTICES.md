@@ -127,7 +127,7 @@ Every new module MUST have:
 
 1. **Self-sovereign infrastructure** — All services run on owned hardware at known IPs
 2. **Bitcoin-native settlement** — GrayPortRegistry™ accepts Bitcoin/Dashcoin for port leases
-3. **No recurring SaaS dependency** — All software is self-hosted Java 21 + MySQL + Tomcat
+3. **No recurring SaaS dependency** — All software is self-hosted Java 25 + MySQL + Tomcat
 4. **SHA-256 audit trail** — Every financial transaction produces a cryptographic receipt
 5. **Public authorization** — The public.key on GitHub is the single point of truth for operational authority
 6. **Graceful degradation** — If public.key is removed, all systems halt cleanly; no orphaned processes
